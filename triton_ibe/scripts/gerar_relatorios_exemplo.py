@@ -125,14 +125,14 @@ def _gravar(caminho: Path, html: str, cidade: str):
 
 
 def _conferir_pdf(caminho: Path, cidade: str) -> list:
-    texto = _texto_do_pdf(caminho)
+    texto = " ".join(_texto_do_pdf(caminho).split())      # quebras de linha do PDF não contam
     if cidade.lower() not in texto.lower():
         raise RuntimeError(f"{caminho.name}: o relatório não cita {cidade}")
     if not re.search(r"[1-9]\d*[.,]\d+\s*%", texto):
         raise RuntimeError(f"{caminho.name}: nenhum percentual diferente de zero")
     # Funchal usa série ERA5 própria (crédito CC BY); os concelhos da base levam a licença da E-OBS e o nível.
     exigidos = EXIGIDOS + (("Open-Meteo",) if cidade == "Funchal" else
-                           ("não comerciais", "Qualidade da chuva") if EDICAO == "IBE" else ())
+                           ("não comerciais", "Qualidade da chuva", "NÃO PODE SER USADA COMERCIALMENTE") if EDICAO == "IBE" else ())
     em_falta = [t for t in exigidos if t not in texto]
     if em_falta:
         raise RuntimeError(f"{caminho.name}: falta no rodapé: {', '.join(em_falta)}")

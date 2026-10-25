@@ -60,26 +60,21 @@ def generate_report_html(
         if lang:
             set_current_lang(lang)
         try:
-            if canonical == "environmental":
-                return generate_environmental_html_report(
-                    project_data,
-                    sim_result=sim_result,
-                    econ_result=econ_result,
-                    lca_result=lca_result,
-                    esg_result=esg_result,
-                )
-            if canonical == "research":
-                return generate_research_html_report(
-                    project_data,
-                    sim_result=sim_result,
-                    econ_result=econ_result,
-                    lca_result=lca_result,
-                )
-            return generate_executive_html_report(
-                project_data,
-                sim_result=sim_result,
-                econ_result=econ_result,
-            )
+            from triton.core.licenca_eobs import inserir_aviso_vermelho
+            return inserir_aviso_vermelho(
+                _gerar_html(canonical, project_data, sim_result, econ_result, lca_result, esg_result),
+                (project_data or {}).get("audit_context") or {}, get_current_lang() == "en")
         finally:
             if lang:
                 set_current_lang(previous_lang)
+
+
+def _gerar_html(canonical, project_data, sim_result, econ_result, lca_result, esg_result) -> str:
+    if canonical == "environmental":
+        return generate_environmental_html_report(
+            project_data, sim_result=sim_result, econ_result=econ_result,
+            lca_result=lca_result, esg_result=esg_result)
+    if canonical == "research":
+        return generate_research_html_report(
+            project_data, sim_result=sim_result, econ_result=econ_result, lca_result=lca_result)
+    return generate_executive_html_report(project_data, sim_result=sim_result, econ_result=econ_result)

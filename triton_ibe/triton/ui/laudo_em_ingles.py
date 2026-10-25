@@ -255,8 +255,59 @@ _LAUDO_PT_PT = (
     ("Tubulação", "Tubagem"), ("tubulação", "tubagem"),
     ("Motobomba", "Eletrobomba"), ("motobomba", "eletrobomba"),
     ("Reúso", "Reutilização"), ("reúso", "reutilização"),
+    ("Vazões", "Caudais"), ("vazões", "caudais"),
+    ("Edificações", "Edifícios"), ("edificações", "edifícios"),
 )
 _LAUDO_PT_PT_ORDENADO = tuple(sorted(_LAUDO_PT_PT, key=lambda par: len(par[0]), reverse=True))
+
+#: Palavras que mudam de género ao passar para Portugal (premissa → pressuposto, vazão → caudal,
+#: edificação → edifício; reúso → reutilização): o artigo e o adjetivo que as acompanham têm de mudar também.
+_NOMES_FEM_PARA_MASC = r"premissas?|vazões|vazão|edificações|edificação"
+_NOMES_MASC_PARA_FEM = r"reúso"
+_ARTIGOS_FEM_PARA_MASC = {
+    "a": "o", "as": "os", "da": "do", "das": "dos", "na": "no", "nas": "nos", "à": "ao", "às": "aos",
+    "pela": "pelo", "pelas": "pelos", "essa": "esse", "essas": "esses", "dessa": "desse", "dessas": "desses",
+    "esta": "este", "estas": "estes", "desta": "deste", "destas": "destes", "nesta": "neste", "nestas": "nestes",
+    "uma": "um", "numa": "num", "umas": "uns",
+}
+_ARTIGOS_MASC_PARA_FEM = {
+    "o": "a", "os": "as", "do": "da", "dos": "das", "no": "na", "nos": "nas", "ao": "à", "aos": "às",
+    "pelo": "pela", "pelos": "pelas", "esse": "essa", "esses": "essas", "este": "esta", "estes": "estas",
+    "um": "uma", "num": "numa", "uns": "umas",
+}
+#: Particípios que acompanham essas palavras com frequência nos laudos (radical → feminino, plural).
+_PARTICIPIOS = r"registrad|executiv|adotad|utilizad|assumid|informad|simulad|definid|calculad|declarad|aplicad|considerad|fixad|usad|implementad|especificad|estabelecid|previst|ajustad|inserid|descrit|apresentad|configurad|mostrad|listad|indicad|selecionad|escolhid|validad|verificad|financeir|físic|econômic|técnic|hídric|climátic"
+
+
+def _caixa_do_artigo(original: str, novo: str) -> str:
+    return novo.capitalize() if original[:1].isupper() else novo
+
+
+def _concordancia_pt_pt(texto: str) -> str:
+    """Acerta artigo e particípio de «as premissas registradas» → «os pressupostos registados»."""
+    def f_para_m(m):
+        artigo = _ARTIGOS_FEM_PARA_MASC[m.group(1).lower()]
+        particípio = ""
+        if m.group(3):
+            radical = "registad" if m.group(3).lower() == "registrad" else m.group(3)
+            particípio = " " + radical + ("os" if m.group(4) == "as" else "o")
+        return _caixa_do_artigo(m.group(1), artigo) + " " + m.group(2) + particípio
+
+    def m_para_f(m):
+        return _caixa_do_artigo(m.group(1), _ARTIGOS_MASC_PARA_FEM[m.group(1).lower()]) + " " + m.group(2)
+
+    chaves_f = "|".join(sorted(_ARTIGOS_FEM_PARA_MASC, key=len, reverse=True))
+    chaves_m = "|".join(sorted(_ARTIGOS_MASC_PARA_FEM, key=len, reverse=True))
+    texto = re.sub(r"(?<![\w])(" + chaves_f + r")\s+(" + _NOMES_FEM_PARA_MASC + r")(?![\w])(?:\s+((?:" + _PARTICIPIOS + r"))(as|a)(?![\w]))?",
+                   f_para_m, texto, flags=re.I)
+    def so_participio(m):
+        radical = "registad" if m.group(2).lower() == "registrad" else m.group(2)
+        return m.group(1) + " " + radical + ("os" if m.group(3) == "as" else "o")
+
+    texto = re.sub(r"(?<![\w])(" + _NOMES_FEM_PARA_MASC + r")\s+(" + _PARTICIPIOS + r")(as|a)(?![\w])",
+                   so_participio, texto, flags=re.I)
+    texto = re.sub(r"(?<![\w])(" + chaves_m + r")\s+(" + _NOMES_MASC_PARA_FEM + r")(?![\w])", m_para_f, texto, flags=re.I)
+    return texto
 
 
 def laudo_em_portugal(html: str) -> str:
@@ -267,7 +318,7 @@ def laudo_em_portugal(html: str) -> str:
             continue
 
         def troca(m):
-            texto = m.group(1)
+            texto = _concordancia_pt_pt(m.group(1))
             for fonte, alvo in _LAUDO_PT_PT_ORDENADO:
                 texto = re.sub(r"(?<![\w])" + re.escape(fonte) + r"(?![\w])", alvo, texto)
             return ">" + texto + "<"

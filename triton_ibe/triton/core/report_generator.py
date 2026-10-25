@@ -2678,6 +2678,8 @@ def _save_pdf_report_with_webengine(file_path: str, html_content: str) -> bool:
     if QApplication.instance() is None:
         return False
 
+    from triton.core.licenca_eobs import marca_dagua_html
+    html_content = marca_dagua_html(html_content)       # marca d'água «NÃO COMERCIAL» nos laudos com a E-OBS
     page = QWebEnginePage()
     page.settings().setAttribute(QWebEngineSettings.JavascriptEnabled, False)
     page.settings().setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, False)

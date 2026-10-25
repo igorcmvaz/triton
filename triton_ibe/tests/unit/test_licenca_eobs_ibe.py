@@ -34,8 +34,8 @@ def uso(monkeypatch):
     return fixar
 
 
-def test_caminho_padrao_uso_comercial_nao_bloqueia_a_base(uso):
-    assert L.BLOQUEAR_E_OBS_EM_USO_COMERCIAL is False
+def test_caminho_com_o_bloqueio_desligado_uso_comercial_nao_bloqueia_a_base(uso, monkeypatch):
+    monkeypatch.setattr(L, "BLOQUEAR_E_OBS_EM_USO_COMERCIAL", False)
     uso("comercial")
     assert pt.disponivel() is True
     serie = pt.carregar_serie("Lisboa", "01/01/2001", "31/12/2002")[0]

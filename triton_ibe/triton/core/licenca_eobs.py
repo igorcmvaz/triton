@@ -6,18 +6,20 @@ educação. A licença não trata da redistribuição de produtos derivados (``L
 o aviso diz ao utilizador o que a licença pede, e o laudo repete a restrição e a citação. Nada aqui é
 parecer jurídico: o texto precisa de revisão da UFSC antes da primeira distribuição (D5).
 
-O que NÃO acontece por defeito: o programa não bloqueia a E-OBS. O bloqueio (E-OBS desligada, com o
-caminho ``custom_file`` da série própria) existe, mas fica atrás de ``BLOQUEAR_E_OBS_EM_USO_COMERCIAL``.
+Decisão do titular (25/10/2026): a E-OBS fica disponível, mas todo relatório que a usa traz, bem grande e em
+vermelho, que ela «não pode ser usada comercialmente» (``aviso_vermelho``), e quem declara uso comercial neste
+computador a tem desligada (``BLOQUEAR_E_OBS_EM_USO_COMERCIAL``; o caminho é a série própria, ``custom_file``).
+Quem usa assume o uso não comercial; o titular do programa não responde por uso comercial.
 """
 
 from __future__ import annotations
 
 from typing import Any, Dict, Optional
 
-# decisão do usuário pendente (D1)
-#: Bloquear a E-OBS quando o utilizador declara uso comercial? False (padrão): só avisa, regista a declaração no laudo e segue. True: a E-OBS fica indisponível
-#: e o programa pede a série própria (``climate_source_mode = "custom_file"``).
-BLOQUEAR_E_OBS_EM_USO_COMERCIAL = False
+# decisão do usuário (D1, 25/10/2026): ligado
+#: Bloquear a E-OBS quando o utilizador declara uso comercial? True (padrão): a E-OBS fica indisponível e o programa pede a série
+#: própria (``climate_source_mode = "custom_file"``). False: só avisa, regista a declaração no laudo e segue.
+BLOQUEAR_E_OBS_EM_USO_COMERCIAL = True
 
 USO_PESQUISA = "pesquisa"
 USO_COMERCIAL = "comercial"
@@ -35,7 +37,7 @@ TEXTO_DO_AVISO = (
     "Os dados de chuva desta edição vêm da E-OBS, de uso estritamente não comercial em pesquisa e educação. "
     "A E-OBS é um produto do projeto ECA&D e do serviço Copernicus (versão {versao}). "
     "Se o seu projeto é profissional ou pago, carregue a sua própria série de chuva ou obtenha autorização "
-    "dos titulares dos dados. O programa não verifica o uso; a responsabilidade é de quem o declara. "
+    "dos titulares dos dados. O programa não verifica o uso: quem o utiliza assume o uso não comercial, e o titular do programa não responde por uso comercial. "
     "Este aviso não é parecer jurídico. Escolha o uso que se aplica a este computador."
 )
 
@@ -139,6 +141,55 @@ def credito_da_serie_de_exemplo(auditoria: Optional[Dict[str, Any]] = None, ingl
                 "Climate Change Service (Hersbach et al., 2020).")
     return ("Chuva: dados meteorológicos de Open-Meteo.com (CC BY 4.0), a partir da reanálise ERA5 do Copernicus "
             "Climate Change Service (Hersbach et al., 2020).")
+
+
+AVISO_VERMELHO_PT = "ATENÇÃO: a série de chuva deste relatório (E-OBS) NÃO PODE SER USADA COMERCIALMENTE."
+AVISO_VERMELHO_EN = "WARNING: the rainfall series in this report (E-OBS) MUST NOT BE USED COMMERCIALLY."
+AVISO_VERMELHO_NOTA_PT = ("Uso restrito a pesquisa e educação não comerciais (licença da E-OBS). Quem utiliza este relatório assume o uso "
+                          "não comercial; o titular do programa não responde por uso comercial.")
+AVISO_VERMELHO_NOTA_EN = ("Use restricted to non-commercial research and education (E-OBS licence). Whoever uses this report assumes "
+                          "non-commercial use; the owner of the programme is not liable for commercial use.")
+
+
+def aviso_vermelho(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = False) -> str:
+    """O aviso grande e vermelho dos relatórios que usam a E-OBS (vazio fora da IBE e com série própria do utilizador).
+
+    Leva a marca d'água diagonal «NÃO COMERCIAL» (aplicada só no PDF gerado pelo Chromium, que honra ``position: fixed``).
+    """
+    from html import escape
+    from triton.core.edition import usa_dados_de_portugal
+    if not usa_dados_de_portugal() or (auditoria or {}).get("chuva_serie_propria"):
+        return ""
+    titulo, nota = (AVISO_VERMELHO_EN, AVISO_VERMELHO_NOTA_EN) if ingles else (AVISO_VERMELHO_PT, AVISO_VERMELHO_NOTA_PT)
+    marca = "NON-COMMERCIAL" if ingles else "NÃO COMERCIAL"
+    return (f"<div class='aviso-eobs' data-marca='{marca}' style='border:3px solid #b91c1c;background:#fef2f2;color:#b91c1c;"
+            f"padding:10px 14px;margin:0 0 10px 0;text-align:center;'>"
+            f"<div style='font-size:17pt;font-weight:800;line-height:1.2;'>{escape(titulo)}</div>"
+            f"<div style='font-size:9pt;font-weight:600;margin-top:4px;'>{escape(nota)}</div></div>")
+
+
+def inserir_aviso_vermelho(html: str, auditoria: Optional[Dict[str, Any]] = None, ingles: bool = False) -> str:
+    """O mesmo HTML com o aviso vermelho logo depois de ``<body>`` (ou no começo, se não houver)."""
+    import re
+    aviso = aviso_vermelho(auditoria, ingles)
+    if not aviso or "class='aviso-eobs'" in html:
+        return html
+    achado = re.search(r"<body[^>]*>", html, re.IGNORECASE)
+    if achado:
+        return html[:achado.end()] + aviso + html[achado.end():]
+    return aviso + html
+
+
+def marca_dagua_html(html: str) -> str:
+    """Acrescenta a marca d'água diagonal, discreta, se o HTML traz o aviso vermelho (para o PDF do Chromium)."""
+    import re
+    achado = re.search(r"class='aviso-eobs' data-marca='([^']+)'", html)
+    if not achado or "class='marca-eobs'" in html:
+        return html
+    marca = (f"<div class='marca-eobs' style='position:fixed;top:42%;left:0;width:100%;text-align:center;"
+             f"transform:rotate(-28deg);font-size:72pt;font-weight:800;color:rgba(185,28,28,0.07);z-index:-1;'>{achado.group(1)}</div>")
+    corpo = re.search(r"<body[^>]*>", html, re.IGNORECASE)
+    return html[:corpo.end()] + marca + html[corpo.end():] if corpo else marca + html
 
 
 def rodape_do_laudo(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = False) -> str:
