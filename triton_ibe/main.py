@@ -17,6 +17,15 @@ if sys.platform.startswith("win"):
     except Exception:
         pass
 
+# `Triton.exe cli <comando>` (ou `python main.py cli <comando>`) roda a linha de comando do pacote, sem abrir a
+# janela: o executável instalado não traz o comando `triton`. Com o exe sem console, a saída só aparece se
+# redirecionada (`> saida.txt`).
+if len(sys.argv) > 1 and sys.argv[1] == "cli":
+    from triton.cli import main as _main_cli
+    sys.argv = [sys.argv[0] + " cli"] + sys.argv[2:]
+    _main_cli()
+    sys.exit(0)
+
 from PySide6.QtCore import Qt, QCoreApplication
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QProxyStyle, QStyle, QAbstractSpinBox
