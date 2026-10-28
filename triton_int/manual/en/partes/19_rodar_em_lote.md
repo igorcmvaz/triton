@@ -142,6 +142,7 @@ command itself documents the assumptions changed.
 | `uncertainty` | propagates uncertainties by Monte Carlo for one tank volume |
 | `series-length` | answers how many years of rain the project needs, by the method of Geraldi and Ghisi |
 | `stochastic-demand` | draws the daily consumption at random and returns the performance as a range, not as a single number |
+| `estudo` | organises, runs and reports batch studies from JSON (`estudo.json`): many buildings per typology, with paper-ready tables |
 
 The subcommands `run`, `analyze` and `econ` accept the same options: `--analysis` chooses the
 analysis (`technical`, `economic`, `environmental`, `topsis` or `all`); `--volume` fixes the
@@ -201,3 +202,37 @@ more than they would help.
 > The subcommands `compare-mass` and `run-vaz-study` run research studies of the group on climate
 > databases of tens of thousands of series, and require the files of those databases; they are not
 > part of the everyday use of the program.
+
+---
+
+## Batch studies from JSON
+
+When the comparison is by **typology** (schools, commercial buildings, single-family and multi-family housing, hospitals, airports) and the result goes into a paper or a conference abstract, keeping one saved project per case and building the spreadsheet by hand stops paying off. The `estudo` subcommand of the command line organises the study in an `estudo.json` file: the base project, the cases, what changes from one case to the next, the analysis and the outputs. The program runs every case in a stable order and writes ready tables.
+
+```powershell
+# 1. A skeleton study, with the labels of the typology and no value filled in.
+triton estudo init .\schools --tipologia escolar
+
+# 2. Fill in schools\estudo.json (the «XX» and null entries) and put the .triton files and series in schools\casos.
+triton estudo validate .\schools\estudo.json
+
+# 3. Run every case (in a stable order); --paralelo N uses N processes and does not change the result.
+triton estudo run .\schools\estudo.json --saida .\out\schools --paralelo 4
+
+# 4. Rebuild the tables without recomputing (for example after changing metrics or decimal places).
+triton estudo resumo .\out\schools
+
+# 5. Fill the conference abstract template with the real numbers.
+triton estudo texto .\out\schools --modelo .\schools\modelo_texto.md
+
+# 6. Several studies (a folder with estudo*.json files), with the comparison between typologies.
+triton estudo lote .\studies --saida .\out\comparison
+```
+
+The typologies (`escolar` school, `comercial` commercial, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar` hospital, `aeroportuario` airport) are structure and labels only: `estudo init --tipologia` writes the label, the `grupo` of the cases and, in a comment, what `usuarios` means in that typology. No number comes with the typology: area, demand, users and share come from your cases, with the source of each.
+
+What each section of `estudo.json` contains, the aliases of the substitutions (catchment area, demand, users, share, tank volume and others) and the output files are in the appendix «Files, folders and formats». The example `examples/estudos/residencial-unifamiliar-exemplo/` runs the tutorial house in New York, London and Cape Town (`new_york.triton`, `london.triton`, `cape_town.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida out\example`.
+
+The ERA5 example series carry the Open-Meteo/Copernicus credit (CC BY 4.0), which the outputs inherit from `analyze` and repeat in the summary, in the tables and in `resultados.json`. Record the source, period and treatment of any series of your own in the protocol of the study.
+
+> **The program organises; the analyst decides.** No field of the skeleton comes filled in, and an «XX» or a `null` stops the run. The area, demand, number of users and eligible share of each building must come from a source that the study cites. The summary warns when the costs were not entered (CAPEX equal to zero), because then the net present value and the payback are not results.

@@ -1,0 +1,23 @@
+{
+  "esquema": {"nome": "triton-estudo", "versao": 1},
+  "estudo": {
+    "id": "residencial-unifamiliar-exemplo",
+    "titulo": "Example study: the tutorial house in three cities",
+    "tipologia": "residencial-unifamiliar",
+    "autores": [],
+    "nota": "Worked example shipped with the program; illustrative tariffs, costs not set (see examples/LEIA.md)."
+  },
+  "padroes": {"substituicoes": {}, "clima": {}},
+  "casos": [
+    {"id": "new_york", "nome": "New York", "grupo": "residencial-unifamiliar", "projeto": "../../new_york.triton"},
+    {"id": "london", "nome": "London", "grupo": "residencial-unifamiliar", "projeto": "../../london.triton"},
+    {"id": "cape_town", "nome": "Cape Town", "grupo": "residencial-unifamiliar", "projeto": "../../cape_town.triton"}
+  ],
+  "analise": {"tipo": "economic", "volume": "otimo_tecnico", "semente": 42},
+  "saidas": {
+    "formatos": ["csv", "json", "md", "tex"],
+    "metricas": ["volume_l", "economia_agua_potavel_pct", "agua_pluvial_m3_ano", "extravasamento_m3_ano", "economia_anual_agua"],
+    "casas_decimais": {"padrao": 1, "volume_l": 0, "economia_anual_agua": 0},
+    "idioma": "auto"
+  }
+}

@@ -137,6 +137,7 @@ A instalação do programa como pacote Python registra o comando `triton`, que e
 | `uncertainty` | propaga incertezas por Monte Carlo para um volume de reservatório |
 | `series-length` | responde de quantos anos de chuva o projeto precisa, pelo método de Geraldi e Ghisi |
 | `stochastic-demand` | sorteia o consumo diário e devolve o desempenho como faixa, e não como número único |
+| `estudo` | organiza, roda e relata estudos em lote por JSON (`estudo.json`): vários edifícios por tipologia, com tabelas para artigos |
 
 Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise (`technical`, `economic`, `environmental`, `topsis` ou `all`); `--volume` fixa o volume do reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto; `--set CAMPO=VALOR` altera um campo do projeto e pode ser repetido; `--weights` informa os pesos técnico, econômico e ambiental do TOPSIS; `--weight-sensitivity N` sorteia N vetores de pesos e informa a frequência com que cada volume vence; `--format` e `--output` definem o formato e o arquivo de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja reprodutível.
 
@@ -160,3 +161,37 @@ O subcomando `stochastic-demand` sorteia o consumo **dia a dia** e roda a simula
 Esse subcomando não tem equivalente na interface gráfica, e é decisão de projeto: são muitos parâmetros, a leitura exige cuidado, e na tela eles confundiriam mais do que ajudariam.
 
 > Os subcomandos `compare-mass` e `run-vaz-study` executam estudos de pesquisa do grupo sobre bases climáticas de dezenas de milhares de séries, e exigem os arquivos dessas bases; não fazem parte do uso corrente do programa.
+
+---
+
+## Estudos em lote por JSON
+
+Quando a comparação é por **tipologia** (escolas, comerciais, residências unifamiliares e multifamiliares, hospitais, aeroportos) e o resultado vai para um artigo ou para o resumo de um congresso, manter um projeto salvo por caso e montar a planilha à mão deixa de compensar. O subcomando `estudo` da linha de comando organiza o estudo num arquivo `estudo.json`: o projeto base, os casos, o que muda de um caso para o outro, a análise e as saídas. O programa roda todos os casos numa ordem estável e grava tabelas prontas.
+
+```powershell
+# 1. Esqueleto do estudo, com os rótulos da tipologia e nenhum valor preenchido.
+triton estudo init .\escolas --tipologia escolar
+
+# 2. Preencha escolas\estudo.json (os «XX» e null) e coloque os .triton e as séries em escolas\casos.
+triton estudo validate .\escolas\estudo.json
+
+# 3. Execute todos os casos (em ordem estável); --paralelo N usa N processos e não muda o resultado.
+triton estudo run .\escolas\estudo.json --saida .\saida\escolas --paralelo 4
+
+# 4. Refaça as tabelas sem recalcular (por exemplo, depois de mudar métricas ou casas decimais).
+triton estudo resumo .\saida\escolas
+
+# 5. Preencha o texto do resumo do congresso com os números reais.
+triton estudo texto .\saida\escolas --modelo .\escolas\modelo_texto.md
+
+# 6. Vários estudos (uma pasta com estudo*.json), com o comparativo entre tipologias.
+triton estudo lote .\estudos --saida .\saida\comparativo
+```
+
+As tipologias (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar`, `aeroportuario`) são só estrutura e rótulos: `estudo init --tipologia` grava o rótulo, o `grupo` dos casos e, num comentário, o que `usuarios` significa naquela tipologia. Nenhum número vem com a tipologia: área, demanda, usuários e fração vêm dos seus casos, com a fonte de cada um.
+
+O que cada seção do `estudo.json` contém, os apelidos das substituições (área de captação, demanda, usuários, fração, volume do reservatório e outros) e os arquivos de saída estão no apêndice «Arquivos, pastas e formatos». O exemplo `examples/estudos/tres-tipologias-exemplo/` roda os casos 1 a 3 de `examples/` (residência unifamiliar, edifício corporativo e escola), um por `grupo`: `triton estudo run examples\estudos\tres-tipologias-exemplo\estudo.json --saida saida\exemplo`.
+
+Na Edição Brasil o relatório da análise não traz bloco de fonte da chuva: registre, no protocolo do estudo, a fonte, o período e o tratamento de cada série.
+
+> **O programa organiza; quem decide é o analista.** Nenhum campo do esqueleto vem preenchido, e um «XX» ou um `null` impede a execução. Área, demanda, número de usuários e fração atendível de cada edifício precisam vir de uma fonte que o estudo cite. O resumo avisa quando os custos não foram informados (CAPEX igual a zero), porque então o valor presente líquido e o retorno não são resultados.

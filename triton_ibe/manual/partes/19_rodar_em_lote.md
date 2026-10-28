@@ -144,6 +144,7 @@ documenta os pressupostos alterados.
 | `uncertainty` | propaga incertezas por Monte Carlo para um volume de reservatório |
 | `series-length` | responde a quantos anos de chuva o projeto precisa, pelo método de Geraldi e Ghisi |
 | `stochastic-demand` | sorteia o consumo diário e devolve o desempenho como intervalo, e não como número único |
+| `estudo` | organiza, roda e relata estudos em lote por JSON (`estudo.json`): vários edifícios por tipologia, com tabelas para artigos |
 
 Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise
 (`technical`, `economic`, `environmental`, `topsis` ou `all`); `--volume` fixa o volume do
@@ -203,3 +204,37 @@ parâmetros, a leitura exige cuidado, e no ecrã confundiriam mais do que ajudar
 > Os subcomandos `compare-mass` e `run-vaz-study` executam estudos de investigação do grupo sobre
 > bases climáticas de dezenas de milhares de séries, e exigem os ficheiros dessas bases; não fazem
 > parte do uso corrente do programa.
+
+---
+
+## Estudos em lote por JSON
+
+Quando a comparação é por **tipologia** (escolas, comerciais, residências unifamiliares e multifamiliares, hospitais, aeroportos) e o resultado vai para um artigo ou para o resumo de um congresso, manter um projeto guardado por caso e montar a folha de cálculo à mão deixa de compensar. O subcomando `estudo` da linha de comando organiza o estudo num ficheiro `estudo.json`: o projeto base, os casos, o que muda de um caso para o outro, a análise e as saídas. O programa roda todos os casos numa ordem estável e grava tabelas prontas.
+
+```powershell
+# 1. Esqueleto do estudo, com os rótulos da tipologia e nenhum valor preenchido.
+triton estudo init .\escolas --tipologia escolar
+
+# 2. Preencha escolas\estudo.json (os «XX» e null) e coloque os .triton e as séries em escolas\casos.
+triton estudo validate .\escolas\estudo.json
+
+# 3. Execute todos os casos (em ordem estável); --paralelo N usa N processos e não muda o resultado.
+triton estudo run .\escolas\estudo.json --saida .\saida\escolas --paralelo 4
+
+# 4. Refaça as tabelas sem recalcular (por exemplo, depois de mudar métricas ou casas decimais).
+triton estudo resumo .\saida\escolas
+
+# 5. Preencha o texto do resumo do congresso com os números reais.
+triton estudo texto .\saida\escolas --modelo .\escolas\modelo_texto.md
+
+# 6. Vários estudos (uma pasta com estudo*.json), com o comparativo entre tipologias.
+triton estudo lote .\estudos --saida .\saida\comparativo
+```
+
+As tipologias (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar`, `aeroportuario`) são só estrutura e rótulos: `estudo init --tipologia` grava o rótulo, o `grupo` dos casos e, num comentário, o que `usuarios` significa naquela tipologia. Nenhum número vem com a tipologia: área, demanda, utilizadores e fração vêm dos seus casos, com a fonte de cada um.
+
+O que cada secção do `estudo.json` contém, os apelidos das substituições (área de captação, demanda, utilizadores, fração, volume do reservatório e outros) e os ficheiros de saída estão no apêndice «Ficheiros, pastas e formatos». O exemplo `examples/estudos/residencial-unifamiliar-exemplo/` roda a moradia do tutorial em Lisboa, no Porto e no Funchal (`portugal/lisboa.triton`, `portugal/porto.triton`, `portugal/funchal.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida saida\exemplo`.
+
+Quando a chuva vem da E-OBS (uso restrito a pesquisa e educação não comerciais), as saídas herdam do `analyze` o aviso de licença e a citação que ele regista em `provenance`: o resumo, a `tabela.md`, a `tabela.tex` e o `resultados.json` os repetem, e o aviso sobre o uso não comercial vai primeiro. As séries ERA5 do exemplo trazem o crédito Open-Meteo (CC BY 4.0). Projetos com a chuva de outra origem (série própria) não levam o bloco da E-OBS.
+
+> **O programa organiza; quem decide é o analista.** Nenhum campo do esqueleto vem preenchido, e um «XX» ou um `null` impede a execução. Área, demanda, número de utilizadores e fração atendível de cada edifício precisam vir de uma fonte que o estudo cite. O resumo avisa quando os custos não foram informados (CAPEX igual a zero), porque então o valor atual líquido e o retorno não são resultados.

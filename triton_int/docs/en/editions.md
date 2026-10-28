@@ -45,6 +45,7 @@ the neutral answer to every one of them.
 | File | What it does |
 | :--- | :--- |
 | `triton/cli.py` | `init`, `init-catalog` and the scenario spreadsheet template start from the edition factory (`configuracao_da_edicao`) and its sample series; outside Brazil there is no preset tariff, price, green-tax incentive or grid factor; `compare-mass` and `run-vaz-study` (replication of the Brazilian study) exist only in the Brazil Edition; the help is in English (INT) or European Portuguese (IBE) |
+| `triton/cli_estudo.py` | `triton estudo` (`init`, `validate`, `run`, `resumo`, `lote`, `texto`, `esquema`, `apelidos`): arguments, messages and exit codes (0 ok, 1 a case failed, 2 invalid use); the help text goes through `cli_textos`, and the catalogue of aliases and metrics is printed in the language of the edition |
 | `triton/cli_textos.py` | help and message texts of the command line by edition (English in the International Edition, the Portugal glossary in the Iberian Edition) |
 | `triton/core/cost_estimates.py` | cost bank: outside the Brazil Edition `costs_database.json` carries no prices and the estimator returns zero (the user enters the costs) |
 | `triton/core/bibliography.py` | outside Brazil the reference list leaves out the records that cite Brazilian standards, databases and manufacturers |
@@ -55,6 +56,7 @@ the neutral answer to every one of them.
 | `triton/core/licenca_eobs.py` | Portugal only (IBE): E-OBS licence notice, remembered choice of use, blocking behind a constant that is off, and the licence and citation footer of the reports |
 | `triton/core/environmental_justifications.py` | LCA rationale without national manufacturers, standards and inventories outside Brazil |
 | `triton/core/esg_certifications.py` | ESG summary and credit matrix with the international certifications only outside Brazil |
+| `triton/core/estudo.py` | batch studies from JSON: schema of `estudo.json`, parameter aliases, metrics and paper-ready tables; the language of the outputs (`auto`) is pt-BR in Brazil, pt-PT in Portugal and English in the International Edition; the project template «edicao» starts from the edition factory; with no currency declared in the project, the real (BRL), the euro (IBE) or none (INT) applies |
 | `triton/core/parser.py` | the `.triton` and CSV reader starts from `configuracao_da_edicao()`: what the file does not carry falls back to the historical default (BRL) or the neutral one (INT and IBE) |
 | `triton/core/numero.py` | numeric convention of the interface: decimal comma and dotted thousands in Portuguese and Spanish and in the BRL edition; decimal point and comma thousands in English and Chinese outside the BRL edition (showing and reading numbers both go through it) |
 | `triton/core/report_generator.py` | reports without national certifications, standards and references outside Brazil |

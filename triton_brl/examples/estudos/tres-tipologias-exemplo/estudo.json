@@ -1,0 +1,27 @@
+{
+  "esquema": {"nome": "triton-estudo", "versao": 1},
+  "estudo": {
+    "id": "tres-tipologias-exemplo",
+    "titulo": "Estudo de exemplo: três edifícios dos casos de referência",
+    "tipologia": "outra",
+    "tipologia_rotulo": "Três tipologias (exemplo)",
+    "autores": [],
+    "nota": "Exemplo distribuído com o programa: reúne os casos 1 a 3 de examples/, um por tipologia (grupo)."
+  },
+  "padroes": {"substituicoes": {}, "clima": {}},
+  "casos": [
+    {"id": "florianopolis-residencia", "nome": "Residência unifamiliar, Florianópolis", "grupo": "residencial-unifamiliar",
+     "projeto": "../../estudo_caso_1_florianopolis1.triton"},
+    {"id": "brasilia-escritorio", "nome": "Edifício corporativo, Brasília", "grupo": "comercial",
+     "projeto": "../../estudo_caso_2_brasilia2.triton"},
+    {"id": "manaus-escola", "nome": "Escola de tempo integral, Manaus", "grupo": "escolar",
+     "projeto": "../../estudo_caso_3_manaus3.triton"}
+  ],
+  "analise": {"tipo": "economic", "volume": "otimo_tecnico", "semente": 42},
+  "saidas": {
+    "formatos": ["csv", "json", "md", "tex"],
+    "metricas": ["volume_l", "economia_agua_potavel_pct", "agua_pluvial_m3_ano", "extravasamento_m3_ano", "vpl", "payback_descontado_meses"],
+    "casas_decimais": {"padrao": 1, "volume_l": 0, "vpl": 0, "payback_descontado_meses": 0},
+    "idioma": "auto"
+  }
+}

@@ -2940,6 +2940,10 @@ def main() -> None:
         run_vaz_parser.add_argument("--output-dir", help="Pasta para gravar arquivo Parquet e relatórios (TesteMassivo/estudo_vaz)")
         run_vaz_parser.add_argument("--workers", "-w", type=int, default=None, help="Número de núcleos de CPU para execução paralela")
 
+    # Estudos em lote por JSON (triton/cli_estudo.py): só o registro fica aqui.
+    from triton.cli_estudo import registrar as _registrar_estudo, executar as _executar_estudo
+    _registrar_estudo(subparsers)
+
     args = parser.parse_args()
     try:
         if args.command == "init":
@@ -2975,6 +2979,10 @@ def main() -> None:
             _run_compare_mass(args)
         elif args.command == "run-vaz-study" and usa_dados_do_brasil():
             _run_vaz_study(args)
+        elif args.command == "estudo":
+            codigo = _executar_estudo(args)
+            if codigo:
+                sys.exit(codigo)
         else:
             _run_project(args)
     except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as exc:
