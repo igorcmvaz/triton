@@ -342,6 +342,12 @@ _EN.update({
 })
 
 
+def em_portugues_de_portugal(texto: str) -> str:
+    """O texto com o glossário de Portugal (para o núcleo, que não importa a interface)."""
+    from triton.ui.portugues_de_portugal import para_portugal
+    return para_portugal(texto)
+
+
 def t(texto: str) -> str:
     """O texto da edição ativa: o original na Brasil, o inglês na Internacional, o glossário na Portugal."""
     if is_int_edition():

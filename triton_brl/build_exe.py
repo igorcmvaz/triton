@@ -283,6 +283,8 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         "PySide6.QtSvg",
         "ezdxf.render.forms",
         "triton.cli",
+        "triton.cli_estudo",
+        "triton.core.estudo",
         "triton.core.modulacao_estocastica",
         "triton.ui.tab_modulacao_estocastica",
         "triton.ui.portugues_de_portugal",

@@ -383,16 +383,16 @@ def _lingua(idioma: str) -> str:
 def _txt(chave: str, idioma: str, *args: Any) -> str:
     texto = _TXT[chave][_lingua(idioma)]
     if idioma == "pt-PT":
-        from triton.ui.portugues_de_portugal import para_portugal
-        texto = para_portugal(texto)
+        from triton.cli_textos import em_portugues_de_portugal
+        texto = em_portugues_de_portugal(texto)
     return texto.format(*args) if args else texto
 
 
 def rotulo_da_metrica(metrica: str, idioma: str) -> str:
     texto = METRICAS[metrica]["rotulos"][_lingua(idioma)]
     if idioma == "pt-PT":
-        from triton.ui.portugues_de_portugal import para_portugal
-        texto = para_portugal(texto)
+        from triton.cli_textos import em_portugues_de_portugal
+        texto = em_portugues_de_portugal(texto)
     return texto
 
 
