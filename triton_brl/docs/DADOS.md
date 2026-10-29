@@ -192,3 +192,13 @@ Cite o CLIMBra (Ballarin et al., 2023) ao usar a base climática, a fonte de cad
 - Panorama tarifário: explicado acima e com nota de atualização; os números completos (global, por componente) não foram regerados (pendente).
 - Decididas em 25/10/2026: planilhas do Netuno 4 e logotipo CLIMBra mantidos (autorização dos criadores, registrada pelo titular); ANEEL (ODbL) e MCTI (CC BY-ND) aprovados com atribuição. Seguem sem verificação os portais dos prestadores.
 - `tarifas/transcricoes/.cobertura_cache.json` (cache gerado) saiu do controle de versão e entrou no `.gitignore`.
+
+## 10. Estudos de caso de Santa Catarina (`estudos/santa-catarina/`)
+
+Seis estudos `triton-estudo` (escolar, comercial, residencial unifamiliar, residencial multifamiliar, hospitalar, aeroportuário), gerados por `scripts/gerar_estudos_sc.py`. O esquema ganhou, só na BRL, `clima.climbra` (município, UF, modelo, cenário e recorte da CLIMBra), `tarifa` (município e categoria do catálogo de tarifas) e `expansao` (município × modelo × recorte); ver apêndice F do manual.
+
+- **Municípios.** A CLIMBra do programa tem 652 cidades e não traz UF nem código IBGE. O recorte de Santa Catarina cruza o nome com os 295 municípios do IBGE (API de localidades, código 42xxxxx) e confere a UF no catálogo de tarifas: **32 de 295** estão na CLIMBra; os outros 263 não têm série. Quatro nomes da CLIMBra coincidem com municípios de SC mas são de outras UFs (Ipirá, BA; Irati, PR; Praia Grande, SP; São Carlos, SP) e foram excluídos. Lista completa em `estudos/santa-catarina/_fontes/municipios_sc_climbra.json`.
+- **Aeroportos.** Lista de aeródromos públicos da ANAC (dados abertos, atualizada em 15/10/2026): 21 em SC. Critério de «voos regulares»: ao menos um voo regular realizado (VRA 2025, ANAC) em cada um dos 12 meses de 2025. Atendem: Florianópolis (SBFL), Navegantes (SBNF), Joinville (SBJV), Chapecó (SBCH) e Jaguaruna (SBJA). Jaguaruna não tem série na CLIMBra e fica fora até o autor decidir como representar o clima; Correia Pinto (SNCP) teve voos em 5 meses e não entra. Fontes, URL, data de acesso (29/10/2026) e SHA-256 em `_fontes/FONTES.json`.
+- **Clima.** Os 19 modelos da CLIMBra e os sete recortes de `RECORTES_SUGERIDOS`. A CLIMBra não tem série observada por município: o histórico é simulado e corrigido de viés (QDM) contra a grade de Xavier et al. (2016).
+- **Edificação.** Arquétipos: estimativas, a refinar pelo autor; nenhum valor é medido nem de norma.
+- **Tarifas e custos.** Os do catálogo e das estimativas preliminares do programa; categoria `publica` ou `comercial` quando o município tem tabela coletada, senão a residencial (com alerta no resultado).

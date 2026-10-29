@@ -1,0 +1,76 @@
+{
+  "acesso_em": "2026-10-29",
+  "ibge": {
+    "arquivo": "ibge_municipios_sc.json",
+    "url": "https://servicodados.ibge.gov.br/api/v1/localidades/estados/42/municipios",
+    "sha256": "7b3217951569720255938a93677747616a80605612354d5fa69f4614d3beb8f9"
+  },
+  "anac_aerodromos_publicos": {
+    "arquivo": "AerodromosPublicos.csv",
+    "url": "https://sistemas.anac.gov.br/dadosabertos/Aerodromos/Aer%C3%B3dromos%20P%C3%BAblicos/Lista%20de%20aer%C3%B3dromos%20p%C3%BAblicos/AerodromosPublicos.csv",
+    "atualizado_em_pela_anac": "2026-10-15",
+    "sha256": "a0f9f062e18048739ee53348f51b723a1f1de55ae2d71b805b04250aa53598b6"
+  },
+  "anac_vra_2025": {
+    "VRA_20251.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/01%20-%20Janeiro/VRA_20251.csv",
+      "bytes": 12616773,
+      "sha256": "20f75ed8bdf1beb62fe1bb2e0ee53381b87b60ba5bff90f2889c209e3d489027"
+    },
+    "VRA_20252.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/02%20-%20Fevereiro/VRA_20252.csv",
+      "bytes": 11119527,
+      "sha256": "7b7b3fe823bacee718613f53d0c9d2aca3e0544212dd79dc24a63b6fba3e2813"
+    },
+    "VRA_20253.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/03%20-%20Mar%C3%A7o/VRA_20253.csv",
+      "bytes": 11604864,
+      "sha256": "cee663b52adaaab8d94b5e278283c8fc44bfce13ab1ae608776fcb5491d4732d"
+    },
+    "VRA_20254.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/04%20-%20Abril/VRA_20254.csv",
+      "bytes": 11454513,
+      "sha256": "b8690e94283a26100c468e69443d5cb42031ec3c0ab6a832583a861c41e71b69"
+    },
+    "VRA_20255.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/05%20-%20Maio/VRA_20255.csv",
+      "bytes": 11743682,
+      "sha256": "0e896b1cc6025049faee83eb975a6b7518a7a74467f0ed40ee696427550682c4"
+    },
+    "VRA_20256.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/06%20-%20Junho/VRA_20256.csv",
+      "bytes": 11497039,
+      "sha256": "eebaac9516d247757cb7d7843abb3667017da970006de78e8687839230d9c34b"
+    },
+    "VRA_20257.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/07%20-%20Julho/VRA_20257.csv",
+      "bytes": 12459095,
+      "sha256": "953cfd42f83acd46dc631bfeae0b45adaf9fed03e0238f7b3eb93803f9c2dd33"
+    },
+    "VRA_20258.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/08%20-%20Agosto/VRA_20258.csv",
+      "bytes": 12040357,
+      "sha256": "0a34f7cd56420d1295e9858c5e2ec4730112e970597c6084b13f0c7df8fa5ede"
+    },
+    "VRA_20259.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/09%20-%20Setembro/VRA_20259.csv",
+      "bytes": 11667147,
+      "sha256": "be32a58ece3e131718459f926aeb462f760abc77b6111c9aeefb9418375bf3c4"
+    },
+    "VRA_202510.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/10%20-%20Outubro/VRA_202510.csv",
+      "bytes": 12146027,
+      "sha256": "3d5107e396acfea4ed7d2629878e5047a5a3225b2a8a1bd9d1d9e17595e9a470"
+    },
+    "VRA_202511.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/11%20-%20Novembro/VRA_202511.csv",
+      "bytes": 11636410,
+      "sha256": "8182757820031a688b6295eef40990d0ad67636213eb6bfac099dfa8cfd1362d"
+    },
+    "VRA_202512.csv": {
+      "url": "https://sistemas.anac.gov.br/dadosabertos/Voos%20e%20opera%C3%A7%C3%B5es%20a%C3%A9reas/Voo%20Regular%20Ativo%20(VRA)/2025/12%20-%20Dezembro/VRA_202512.csv",
+      "bytes": 12528987,
+      "sha256": "8533fc278dce117620f4941ee5aeac34bd9863029661d8ed41b225a59417f975"
+    }
+  }
+}

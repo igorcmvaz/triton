@@ -158,6 +158,8 @@ scripts/**/*.py
 # ...exceto os que reproduzem a base climática versionada (partes data/climbra_<modelo>.db)
 !scripts/dividir_base_climbra.py
 !scripts/compilar_base_climbra.py
+# ...e o gerador dos estudos de Santa Catarina (estudos/santa-catarina/)
+!scripts/gerar_estudos_sc.py
 tarifas/*.py
 tarifas_portugal/*.py
 docs/gerar_figuras.py
@@ -178,3 +180,6 @@ avisos_qt.log
 
 # Cache gerado pelo auditor de cobertura das transcrições (regerável)
 tarifas/transcricoes/.cobertura_cache.json
+
+# Saídas dos estudos de Santa Catarina (milhares de casos; regeráveis com «triton estudo run»)
+estudos/**/_saida/

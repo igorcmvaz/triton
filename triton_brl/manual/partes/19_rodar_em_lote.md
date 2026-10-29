@@ -192,6 +192,19 @@ As tipologias (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-m
 
 O que cada seção do `estudo.json` contém, os apelidos das substituições (área de captação, demanda, usuários, fração, volume do reservatório e outros) e os arquivos de saída estão no apêndice «Arquivos, pastas e formatos». O exemplo `examples/estudos/tres-tipologias-exemplo/` roda os casos 1 a 3 de `examples/` (residência unifamiliar, edifício corporativo e escola), um por `grupo`: `triton estudo run examples\estudos\tres-tipologias-exemplo\estudo.json --saida saida\exemplo`.
 
-Na Edição Brasil o relatório da análise não traz bloco de fonte da chuva: registre, no protocolo do estudo, a fonte, o período e o tratamento de cada série.
+Na Edição Brasil o relatório da análise não traz bloco de fonte da chuva: registre, no protocolo do estudo, a fonte, o período e o tratamento de cada série. Quando a chuva vem da CLIMBra (`clima.climbra`), o próprio resultado registra o banco, o modelo, o cenário, o recorte e o SHA-256 da série.
 
 > **O programa organiza; quem decide é o analista.** Nenhum campo do esqueleto vem preenchido, e um «XX» ou um `null` impede a execução. Área, demanda, número de usuários e fração atendível de cada edifício precisam vir de uma fonte que o estudo cite. O resumo avisa quando os custos não foram informados (CAPEX igual a zero), porque então o valor presente líquido e o retorno não são resultados.
+
+### Seis estudos de Santa Catarina, prontos para refinar
+
+A pasta `estudos/santa-catarina/` da Edição Brasil traz seis estudos `triton-estudo` (escolar, comercial, residencial unifamiliar, residencial multifamiliar, hospitalar e aeroportuário), todos com o mesmo desenho: um **arquétipo** de edificação em `padroes.substituicoes`, as tarifas do catálogo do programa e uma `expansao` que gera um caso por município, por um dos 19 modelos da CLIMBra e por um dos sete recortes sugeridos pelo programa (histórico 1981–2010 e, em SSP2-4.5 e SSP5-8.5, 2021–2050, 2041–2070 e 2071–2100). Os cinco primeiros cobrem os 32 municípios de Santa Catarina que existem na CLIMBra (dos 295 do IBGE); o aeroportuário cobre os municípios com aeroporto de voos regulares em 2025 (critério da ANAC, no `LEIA.md`) que estão na CLIMBra.
+
+Os números de edificação (área de captação, usuários, demanda por usuário, fração atendível, volumes da varredura) são **estimativas de arquétipo, a refinar pelo autor**: não são dados medidos nem de norma, e cada `estudo.json` e `LEIA.md` o declara. Para refinar, edite `padroes.substituicoes` (ou, para variar por município, troque `expansao` por `casos` explícitos) e cite a fonte de cada valor. As fontes abertas (IBGE e ANAC, com URL, data de acesso e SHA-256 em `FONTES.json`) ficam guardadas em `estudos/santa-catarina/_fontes/`.
+
+```powershell
+triton estudo validate estudos\santa-catarina\escolar\estudo.json
+triton estudo run estudos\santa-catarina\escolar\estudo.json --saida estudos\santa-catarina\_saida\escolar --paralelo 4 --retomar
+```
+
+Cada estudo tem milhares de casos (município × 19 modelos × 7 recortes): rode um estudo por vez e veja o custo no `LEIA.md` da pasta `santa-catarina`. A pasta `_saida/` fica fora do Git.

@@ -34,12 +34,14 @@ import statistics
 import tempfile
 import time
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence, Tuple
 
 from triton import __version__
 from triton.cli_textos import t as _t
-from triton.core.edition import get_current_edition, is_brl_edition, is_ibe_edition, is_int_edition, rotulo_da_edicao
+from triton.core.edition import (get_current_edition, is_brl_edition, is_ibe_edition, is_int_edition, rotulo_da_edicao,
+                                 usa_dados_do_brasil)
 
 ESQUEMA_NOME = "triton-estudo"
 ESQUEMA_VERSAO = 1
@@ -56,6 +58,11 @@ ORIENTACOES = ("casos_nas_linhas", "metricas_nas_linhas")
 _RE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 _RE_DATA = re.compile(r"^\d{2}/\d{2}/\d{4}$")
 _SEM_DADO = "XX"
+_RE_IBGE = re.compile(r"^\d{7}$")
+CENARIOS_CLIMBRA = ("HIST", "SSP245", "SSP585")
+CHAVES_DO_CLIMBRA = ("municipio", "uf", "ibge", "modelo", "cenario", "inicio", "fim")
+CHAVES_DA_TARIFA = ("municipio", "uf", "categoria", "se_ausente")
+CHAVES_DA_EXPANSAO = ("municipios", "uf", "modelos", "recortes")
 
 
 def _m(modelo: str, *args: Any) -> str:
@@ -636,10 +643,71 @@ def _validar_substituicoes(sub: Any, caminho: str, erros: List[str]) -> Dict[str
     return saida
 
 
+def _so_brasil(caminho: str, erros: List[str]) -> bool:
+    """As referências ao CLIMBra e ao catálogo de tarifas são da Edição Brasil; fora dela a validação as recusa."""
+    if usa_dados_do_brasil():
+        return True
+    erros.append(_m("{0}: o CLIMBra e o catálogo de tarifas municipais só existem na Edição Brasil; use «arquivo» com a série de chuva", caminho))
+    return False
+
+
+def _validar_climbra(ref: Any, caminho: str, erros: List[str]) -> Dict[str, Any]:
+    """``clima.climbra``: município, UF, modelo, cenário e recorte da base CLIMBra (resolvidos na execução)."""
+    if not _so_brasil(caminho, erros) or not _validar_chaves(ref, CHAVES_DO_CLIMBRA, caminho, erros):
+        return {}
+    from triton.core.climate_database import CLIMATE_MODELS
+    saida: Dict[str, Any] = {}
+    for k in ("municipio", "uf", "modelo", "cenario", "ibge", "inicio", "fim"):
+        if k not in ref:
+            continue
+        v = ref[k]
+        if _pendente(v):
+            erros.append(_m("{0}.{1}: ainda não preenchido", caminho, k))
+        elif not isinstance(v, str):
+            erros.append(_m("{0}.{1}: esperado texto", caminho, k))
+        elif k == "modelo" and v not in CLIMATE_MODELS:
+            erros.append(_m("{0}.modelo: «{1}» desconhecido. Use: {2}", caminho, v, ", ".join(CLIMATE_MODELS)) + _sugestao(v, CLIMATE_MODELS))
+        elif k == "cenario" and v not in CENARIOS_CLIMBRA:
+            erros.append(_m("{0}.cenario: «{1}» desconhecido. Use: {2}", caminho, v, ", ".join(CENARIOS_CLIMBRA)))
+        elif k == "ibge" and not _RE_IBGE.match(v.strip()):
+            erros.append(_m("{0}.ibge: esperado o código IBGE de sete dígitos, entre aspas", caminho))
+        elif k in ("inicio", "fim"):
+            try:
+                saida[k] = validar_valor_de_apelido("data_inicio", v)
+            except ValueError as exc:
+                erros.append(f"{caminho}.{k}: {exc}")
+        else:
+            saida[k] = v.strip()
+    return saida
+
+
+def _validar_tarifa(tar: Any, caminho: str, erros: List[str]) -> Dict[str, Any]:
+    """``tarifa``: o município (e a categoria) do catálogo de tarifas do programa; sem preços digitados."""
+    if not _so_brasil(caminho, erros) or not _validar_chaves(tar, CHAVES_DA_TARIFA, caminho, erros):
+        return {}
+    from triton.core.tariffs_database import CATEGORIAS_TARIFARIAS
+    saida: Dict[str, Any] = {}
+    for k in CHAVES_DA_TARIFA:
+        if k not in tar:
+            continue
+        v = tar[k]
+        if _pendente(v):
+            erros.append(_m("{0}.{1}: ainda não preenchido", caminho, k))
+        elif not isinstance(v, str):
+            erros.append(_m("{0}.{1}: esperado texto", caminho, k))
+        elif k == "categoria" and v.strip().lower() not in CATEGORIAS_TARIFARIAS:
+            erros.append(_m("{0}.categoria: «{1}» desconhecida. Use: {2}", caminho, v, ", ".join(CATEGORIAS_TARIFARIAS)))
+        elif k == "se_ausente" and v.strip().lower() not in ("erro", "residencial"):
+            erros.append(_m("{0}.se_ausente: use «erro» ou «residencial»", caminho))
+        else:
+            saida[k] = v.strip().lower() if k in ("categoria", "se_ausente") else v.strip()
+    return saida
+
+
 def _validar_clima(clima: Any, caminho: str, erros: List[str]) -> Dict[str, Any]:
     if clima is None:
         return {}
-    if not _validar_chaves(clima, ("arquivo", "data_inicio", "nome", "fonte"), caminho, erros):
+    if not _validar_chaves(clima, ("arquivo", "climbra", "data_inicio", "nome", "fonte"), caminho, erros):
         return {}
     saida: Dict[str, Any] = {}
     for k in ("arquivo", "nome", "fonte"):
@@ -650,11 +718,36 @@ def _validar_clima(clima: Any, caminho: str, erros: List[str]) -> Dict[str, Any]
                 erros.append(_m("{0}.{1}: esperado texto", caminho, k))
             else:
                 saida[k] = clima[k].strip()
+    if "climbra" in clima:
+        if "arquivo" in clima:
+            erros.append(_m("{0}: informe «{1}» ou «{2}», não os dois", caminho, "arquivo", "climbra"))
+        else:
+            ref = _validar_climbra(clima["climbra"], f"{caminho}.climbra", erros)
+            if ref:
+                saida["climbra"] = ref
     if "data_inicio" in clima:
         try:
             saida["data_inicio"] = validar_valor_de_apelido("data_inicio", clima["data_inicio"])
         except ValueError as exc:
             erros.append(f"{caminho}.data_inicio: {exc}")
+    return saida
+
+
+def _fundir_blocos(padrao: Dict[str, Any], caso: Dict[str, Any], excludentes: Sequence[Tuple[str, str]] = ()) -> Dict[str, Any]:
+    """Fusão de um bloco (clima, tarifa): o caso vence; ``climbra`` e ``tarifa`` se completam campo a campo.
+
+    ``excludentes``: pares (a, b) em que informar um no caso descarta o outro vindo dos padrões (arquivo × climbra).
+    """
+    base = dict(padrao)
+    for a, b in excludentes:
+        if a in caso:
+            base.pop(b, None)
+        if b in caso:
+            base.pop(a, None)
+    saida = {**base, **caso}
+    for k, v in caso.items():
+        if isinstance(v, dict) and isinstance(base.get(k), dict):
+            saida[k] = {**base[k], **v}
     return saida
 
 
@@ -669,7 +762,7 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
     avisos: List[str] = []
     if not isinstance(doc, dict):
         return None, [_m("o estudo deve ser um objeto JSON")], avisos
-    _validar_chaves(doc, ("esquema", "estudo", "projeto_base", "padroes", "casos", "analise", "saidas"), "$", erros)
+    _validar_chaves(doc, ("esquema", "estudo", "projeto_base", "padroes", "casos", "expansao", "analise", "saidas"), "$", erros)
 
     # esquema
     esq = doc.get("esquema")
@@ -735,11 +828,13 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
                 erros.append(_m("{0}: informe «{1}» (um .triton) ou «{2}»", "projeto_base", "arquivo", "modelo"))
 
     # padrões
-    padroes: Dict[str, Any] = {"substituicoes": {}, "clima": {}}
+    padroes: Dict[str, Any] = {"substituicoes": {}, "clima": {}, "tarifa": {}}
     pd_ = doc.get("padroes")
-    if pd_ is not None and _validar_chaves(pd_, ("substituicoes", "clima"), "padroes", erros):
+    if pd_ is not None and _validar_chaves(pd_, ("substituicoes", "clima", "tarifa"), "padroes", erros):
         padroes["substituicoes"] = _validar_substituicoes(pd_.get("substituicoes", {}), "padroes.substituicoes", erros)
         padroes["clima"] = _validar_clima(pd_.get("clima"), "padroes.clima", erros)
+        if pd_.get("tarifa") is not None:
+            padroes["tarifa"] = _validar_tarifa(pd_["tarifa"], "padroes.tarifa", erros)
 
     # análise
     analise = {"tipo": "technical", "volume": "otimo_tecnico", "pesos": None, "semente": 42}
@@ -775,10 +870,16 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
 
     # saídas
     saidas: Dict[str, Any] = {"formatos": list(FORMATOS_PADRAO), "metricas": None, "casas_decimais": {},
-                              "idioma": "auto", "milhar": True, "legenda": "", "orientacao": "casos_nas_linhas"}
+                              "idioma": "auto", "milhar": True, "legenda": "", "orientacao": "casos_nas_linhas",
+                              "gravar_analise": True}
     sd = doc.get("saidas")
-    if sd is not None and _validar_chaves(sd, ("formatos", "metricas", "casas_decimais", "idioma", "milhar", "legenda", "orientacao"),
-                                          "saidas", erros):
+    if sd is not None and _validar_chaves(sd, ("formatos", "metricas", "casas_decimais", "idioma", "milhar", "legenda", "orientacao",
+                                           "gravar_analise"), "saidas", erros):
+        if "gravar_analise" in sd:
+            if isinstance(sd["gravar_analise"], bool):
+                saidas["gravar_analise"] = sd["gravar_analise"]
+            else:
+                erros.append(_m("saidas.gravar_analise: esperado verdadeiro ou falso"))
         if "formatos" in sd:
             fm = sd["formatos"]
             if not isinstance(fm, list) or not fm or not all(isinstance(f, str) for f in fm):
@@ -849,13 +950,19 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
     # casos
     casos_plano: List[Dict[str, Any]] = []
     casos = doc.get("casos")
-    if not isinstance(casos, list) or not casos:
+    if casos is None and doc.get("expansao") is not None:
+        casos = []
+    if not isinstance(casos, list) or (not casos and doc.get("expansao") is None):
         erros.append(_m("casos: lista não vazia de casos"))
         casos = []
+    if doc.get("expansao") is not None:
+        casos = list(casos) + expandir_casos(doc["expansao"], "expansao", erros)
+        if not casos:
+            erros.append(_m("expansao: não gerou nenhum caso"))
     vistos: Dict[str, int] = {}
     for i, caso in enumerate(casos):
         onde = f"casos[{i}]"
-        if not _validar_chaves(caso, ("id", "nome", "grupo", "projeto", "clima", "substituicoes"), onde, erros):
+        if not _validar_chaves(caso, ("id", "nome", "grupo", "projeto", "clima", "tarifa", "substituicoes", "dimensoes"), onde, erros):
             continue
         cid = caso.get("id")
         if not isinstance(cid, str) or not _RE_ID.match(cid):
@@ -879,13 +986,20 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
             projeto = None
         sub = _validar_substituicoes(caso.get("substituicoes", {}), f"{onde}.substituicoes", erros)
         cl = _validar_clima(caso.get("clima"), f"{onde}.clima", erros)
+        tf = _validar_tarifa(caso["tarifa"], f"{onde}.tarifa", erros) if caso.get("tarifa") is not None else {}
+        dim = caso.get("dimensoes") or {}
+        if not isinstance(dim, dict) or not all(isinstance(k, str) and isinstance(v, (str, int, float)) for k, v in dim.items()):
+            erros.append(_m("{0}.dimensoes: esperado um objeto com textos ou números", onde))
+            dim = {}
         casos_plano.append({"id": cid, "nome": str(nome), "grupo": str(grupo), "projeto": projeto,
-                            "clima": cl, "substituicoes": sub, "_indice": i})
+                            "clima": cl, "tarifa": tf, "dimensoes": dim, "substituicoes": sub, "_indice": i})
 
     # fusão com os padrões e exigências do modelo
+    _municipios_conferidos: Dict[Tuple[str, str, str], List[str]] = {}
     for caso in casos_plano:
         caso["substituicoes_efetivas"] = _fundir_substituicoes(padroes["substituicoes"], caso["substituicoes"])
-        caso["clima_efetivo"] = {**padroes["clima"], **caso["clima"]}
+        caso["clima_efetivo"] = _fundir_blocos(padroes["clima"], caso["clima"], (("arquivo", "climbra"),))
+        caso["tarifa_efetiva"] = _fundir_blocos(padroes["tarifa"], caso["tarifa"])
         onde = f"casos[{caso['_indice']}] ({caso['id']})"
         origem_do_projeto = caso["projeto"] or base.get("arquivo")
         if not origem_do_projeto and not base.get("modelo") and not base_pendente:
@@ -899,12 +1013,17 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
                 falta.append("fracao_pluvial_pct")
             if "demanda_total_l_dia" not in ef and not ("demanda_per_capita_l_dia" in ef and "usuarios" in ef):
                 falta.append("demanda_total_l_dia (ou demanda_per_capita_l_dia e usuarios)")
-            if "arquivo" not in caso["clima_efetivo"]:
+            if "arquivo" not in caso["clima_efetivo"] and "climbra" not in caso["clima_efetivo"]:
                 falta.append("clima.arquivo")
             if falta:
                 erros.append(_m("{0}: com o modelo da edição nenhum valor é assumido; informe {1}", onde, ", ".join(falta)))
-        if "arquivo" not in caso["clima_efetivo"] and not origem_do_projeto and not base.get("modelo"):
-            pass
+        ref = caso["clima_efetivo"].get("climbra")
+        if ref is not None and not ref.get("municipio"):
+            erros.append(_m("{0}: clima.climbra sem «municipio»", onde))
+        if caso["tarifa_efetiva"] and not (caso["tarifa_efetiva"].get("municipio") or (ref or {}).get("municipio")):
+            erros.append(_m("{0}: tarifa sem «municipio» (e sem clima.climbra para herdá-lo)", onde))
+        if verificar_arquivos and ref and ref.get("municipio"):
+            erros.extend(f"{onde}: {e}" for e in _conferir_municipio(ref, caso["tarifa_efetiva"], _municipios_conferidos))
         if verificar_arquivos and base_dir is not None:
             if origem_do_projeto and not _pendente(origem_do_projeto):
                 p = resolver_caminho(base_dir, origem_do_projeto)
@@ -921,6 +1040,104 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
         return None, erros, avisos
     plano = {"estudo": meta, "base": base, "padroes": padroes, "casos": casos_plano, "analise": analise, "saidas": saidas}
     return plano, [], avisos
+
+
+def _slug(texto: str) -> str:
+    import unicodedata
+    nfkd = unicodedata.normalize("NFD", str(texto))
+    limpo = "".join(c for c in nfkd if unicodedata.category(c) != "Mn").lower()
+    return re.sub(r"[^a-z0-9]+", "-", limpo).strip("-")
+
+
+def expandir_casos(exp: Any, caminho: str, erros: List[str]) -> List[Dict[str, Any]]:
+    """``expansao``: um caso por município × modelo × recorte (nessa ordem), gerado na leitura do estudo.
+
+    Cada caso nasce com ``clima.climbra`` preenchido e ``dimensoes`` (município, IBGE, modelo, recorte, cenário,
+    início, fim), que o CSV tidy traz como colunas. Os valores de edificação, a tarifa e a análise vêm dos
+    ``padroes`` do estudo. Só na Edição Brasil.
+    """
+    if not _so_brasil(caminho, erros) or not _validar_chaves(exp, CHAVES_DA_EXPANSAO, caminho, erros):
+        return []
+    from triton.core.climate_database import CLIMATE_MODELS
+    municipios = exp.get("municipios")
+    uf_padrao = exp.get("uf")
+    if uf_padrao is not None and (not isinstance(uf_padrao, str) or _pendente(uf_padrao)):
+        erros.append(_m("{0}.uf: esperado texto", caminho))
+        uf_padrao = None
+    lista: List[Dict[str, str]] = []
+    if not isinstance(municipios, list) or not municipios:
+        erros.append(_m("{0}.municipios: lista não vazia de municípios", caminho))
+    else:
+        for j, m in enumerate(municipios):
+            onde = f"{caminho}.municipios[{j}]"
+            if not _validar_chaves(m, ("municipio", "uf", "ibge"), onde, erros):
+                continue
+            nome = m.get("municipio")
+            if not isinstance(nome, str) or _pendente(nome):
+                erros.append(_m("{0}.municipio: obrigatório", onde))
+                continue
+            item = {"municipio": nome.strip()}
+            uf = m.get("uf", uf_padrao)
+            if uf:
+                item["uf"] = str(uf).strip()
+            if m.get("ibge") is not None:
+                if not isinstance(m["ibge"], str) or not _RE_IBGE.match(m["ibge"].strip()):
+                    erros.append(_m("{0}.ibge: esperado o código IBGE de sete dígitos, entre aspas", onde))
+                    continue
+                item["ibge"] = m["ibge"].strip()
+            lista.append(item)
+    modelos = exp.get("modelos", "todos")
+    if modelos == "todos":
+        modelos = list(CLIMATE_MODELS)
+    elif not isinstance(modelos, list) or not modelos or not all(isinstance(x, str) and x in CLIMATE_MODELS for x in modelos):
+        erros.append(_m("{0}.modelos: «todos» ou uma lista de modelos entre: {1}", caminho, ", ".join(CLIMATE_MODELS)))
+        modelos = []
+    recortes = exp.get("recortes")
+    rec_ok: List[Dict[str, str]] = []
+    if not isinstance(recortes, list) or not recortes:
+        erros.append(_m("{0}.recortes: lista não vazia de recortes (id, cenario, inicio, fim)", caminho))
+    else:
+        for j, r in enumerate(recortes):
+            onde = f"{caminho}.recortes[{j}]"
+            if not _validar_chaves(r, ("id", "rotulo", "cenario", "inicio", "fim"), onde, erros):
+                continue
+            rid = r.get("id")
+            if not isinstance(rid, str) or not _RE_ID.match(rid):
+                erros.append(_m("{0}.id: obrigatório, só letras, números, ponto, hífen e sublinhado (até 64 caracteres)", onde))
+                continue
+            sub = _validar_climbra({k: r[k] for k in ("cenario", "inicio", "fim") if k in r}, onde, erros)
+            if "cenario" not in sub or "inicio" not in sub or "fim" not in sub:
+                erros.append(_m("{0}: informe cenario, inicio e fim", onde))
+                continue
+            rec_ok.append({"id": rid, "rotulo": str(r.get("rotulo") or rid), **sub})
+    casos: List[Dict[str, Any]] = []
+    for m in lista:
+        for modelo in modelos:
+            for r in rec_ok:
+                ref = {**m, "modelo": modelo, "cenario": r["cenario"], "inicio": r["inicio"], "fim": r["fim"]}
+                cid = f"{_slug(m['municipio'])}__{modelo}__{r['id']}"
+                dim = {"municipio": m["municipio"], "ibge": m.get("ibge", ""), "modelo": modelo, "recorte": r["id"],
+                       "cenario": r["cenario"], "inicio": r["inicio"], "fim": r["fim"]}
+                casos.append({"id": cid, "nome": f"{m['municipio']} · {modelo} · {r['rotulo']}", "grupo": r["id"],
+                              "clima": {"climbra": ref}, "dimensoes": dim})
+    return casos
+
+
+def _conferir_municipio(ref: Dict[str, Any], tarifa: Dict[str, Any], memoria: Dict[Tuple[str, str, str], List[str]]) -> List[str]:
+    """O município existe na CLIMBra e (com UF) no catálogo de tarifas; a conferência é guardada por município."""
+    chave = (ref.get("municipio", ""), ref.get("uf", ""), (tarifa or {}).get("categoria", ""))
+    if chave in memoria:
+        return memoria[chave]
+    erros: List[str] = []
+    from triton.core.climate_database import find_matching_climate_city_name
+    if not find_matching_climate_city_name(ref["municipio"]):
+        erros.append(_m("município «{0}» não está na base CLIMBra", ref["municipio"]))
+    elif ref.get("uf"):
+        from triton.core.tariffs_database import get_city_data
+        if not get_city_data(ref["uf"], ref["municipio"]):
+            erros.append(_m("município «{0}» não consta na UF {1} do catálogo (nome repetido em outra UF?)", ref["municipio"], ref["uf"]))
+    memoria[chave] = erros
+    return erros
 
 
 def _chave_de_alvo(canon: str) -> Tuple[str, ...]:
@@ -1121,6 +1338,72 @@ def impressao_da_serie(precip: Any) -> Dict[str, Any]:
     return _imp(precip)
 
 
+@lru_cache(maxsize=None)
+def _sha256_em_cache(caminho: str) -> str:
+    return sha256_do_arquivo(Path(caminho))
+
+
+def _aplicar_climbra(cfg: Any, bundle: Dict[str, Any], ref: Dict[str, Any], arquivos: List[Dict[str, str]],
+                     alertas: List[str]) -> None:
+    """A série do município, do modelo, do cenário e do recorte, lida da base CLIMBra (só na Edição Brasil)."""
+    if not usa_dados_do_brasil():
+        raise ValueError(_m("o CLIMBra e o catálogo de tarifas municipais só existem na Edição Brasil; use «arquivo» com a série de chuva"))
+    from triton.core import climate_database as cdb
+    cidade = cdb.find_matching_climate_city_name(ref["municipio"])
+    if not cidade:
+        raise ValueError(_m("município «{0}» não está na base CLIMBra", ref["municipio"]))
+    modelo = ref.get("modelo") or cdb.DEFAULT_CLIMATE_MODEL
+    cenario = ref.get("cenario") or "HIST"
+    inicio = ref.get("inicio") or cdb.CLIMATE_SCENARIOS[cenario]["start_date"]
+    fim = ref.get("fim") or cdb.CLIMATE_SCENARIOS[cenario]["end_date"]
+    serie, ini_efetivo, fim_efetivo, _total, _sel, _ = cdb.load_national_climate_series(cidade, modelo, cenario, inicio, fim)
+    cfg.climate_source_mode = "national_db"
+    cfg.precip_file = ""
+    cfg.climate_city_name, cfg.climate_city_uf = cidade, ref.get("uf") or getattr(cfg, "climate_city_uf", "")
+    cfg.climate_model, cfg.climate_scenario = modelo, cenario
+    cfg.climate_start_date, cfg.climate_end_date = ini_efetivo, fim_efetivo
+    cfg.start_date = ini_efetivo
+    bundle["precip_data"] = serie
+    if ini_efetivo != inicio or fim_efetivo != fim:
+        alertas.append(_m("recorte pedido {0} a {1}; a série do modelo cobre {2} a {3}", inicio, fim, ini_efetivo, fim_efetivo))
+    bancos = cdb._caminhos_dos_bancos(modelo, cenario)
+    if bancos:
+        arquivos.append({"papel": "base-climbra", "caminho": Path(bancos[0]).name, "sha256": _sha256_em_cache(bancos[0])})
+
+
+def _aplicar_tarifa(cfg: Any, tar: Dict[str, Any], ref: Dict[str, Any], arquivos: List[Dict[str, str]],
+                    alertas: List[str]) -> None:
+    """A tarifa de água, esgoto e energia do município, do catálogo do programa (como a aba Projeto faz)."""
+    if not usa_dados_do_brasil():
+        raise ValueError(_m("o CLIMBra e o catálogo de tarifas municipais só existem na Edição Brasil; use «arquivo» com a série de chuva"))
+    from triton.core import tariffs_database as tdb
+    from triton.core.vigencia_tarifaria import data_da_vigencia
+    municipio = tar.get("municipio") or ref.get("municipio")
+    uf = tar.get("uf") or ref.get("uf") or getattr(cfg, "climate_city_uf", "")
+    categoria = tar.get("categoria", "residencial")
+    if not municipio:
+        raise ValueError(_m("tarifa sem município"))
+    dados = tdb.get_city_tariffs_by_category(uf, municipio, categoria)
+    if dados is None and categoria != "residencial" and tar.get("se_ausente") == "residencial":
+        dados = tdb.get_city_tariffs_by_category(uf, municipio, "residencial")
+        if dados is not None:
+            alertas.append(_m("sem tabela «{0}» coletada para {1}: usada a residencial do catálogo", categoria, municipio))
+            categoria = "residencial"
+    if dados is None:
+        raise ValueError(_m("sem tarifa «{0}» no catálogo para {1} ({2})", categoria, municipio, uf))
+    cfg.tariff_city_uf, cfg.tariff_city_name = uf, dados.get("municipio", municipio)
+    cfg.elec_city_uf, cfg.elec_city_name = uf, dados.get("municipio", municipio)
+    cfg.tariff_category = categoria
+    cfg.water_tariffs = dados.get("faixas", cfg.water_tariffs)
+    cfg.sewage_mode, cfg.sewage_rate = tdb.esgoto_do_municipio(dados)
+    vig = data_da_vigencia(dados.get("vigencia_saneamento", ""))
+    cfg.tariff_vigencia = vig.strftime("%d/%m/%Y") if vig else ""
+    if dados.get("energia_r_kwh", 0.0) > 0:
+        cfg.elec_tariff = dados["energia_r_kwh"]
+    banco = tdb._find_database_file()
+    arquivos.append({"papel": "tarifas", "caminho": Path(banco).name, "sha256": _sha256_em_cache(banco)})
+
+
 def montar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]:
     """Abre o projeto do caso, aplica o clima e as substituições, e confere. Devolve ``bundle`` e metadados; levanta ``ValueError``."""
     from triton import cli
@@ -1169,6 +1452,10 @@ def montar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]:
         cfg.climate_source_mode = "custom_file"
         bundle["precip_data"] = None
         arquivos.append({"papel": "chuva", "caminho": _relativo(achada, base_dir), "sha256": sha256_do_arquivo(achada)})
+    if clima.get("climbra"):
+        _aplicar_climbra(cfg, bundle, clima["climbra"], arquivos, alertas)
+    if caso.get("tarifa_efetiva"):
+        _aplicar_tarifa(cfg, caso["tarifa_efetiva"], clima.get("climbra") or {}, arquivos, alertas)
     if clima.get("data_inicio"):
         cfg.start_date = clima["data_inicio"]
     if clima.get("nome"):
@@ -1204,7 +1491,8 @@ def chave_do_caso(plano: Dict[str, Any], caso: Dict[str, Any], arquivos: List[Di
     """Impressão digital do que determina o resultado do caso: retomar só pula o caso se ela não mudou."""
     carga = {"triton": __version__, "edicao": get_current_edition(), "analise": plano["analise"],
              "caso": {"id": caso["id"], "projeto": caso["projeto"] or plano["base"].get("arquivo") or "<modelo>",
-                      "clima": caso["clima_efetivo"], "substituicoes": caso["substituicoes_efetivas"]},
+                      "clima": caso["clima_efetivo"], "tarifa": caso.get("tarifa_efetiva") or {},
+                      "substituicoes": caso["substituicoes_efetivas"]},
              "arquivos": arquivos}
     return hashlib.sha256(json.dumps(carga, sort_keys=True, ensure_ascii=False, default=str).encode("utf-8")).hexdigest()
 
@@ -1223,6 +1511,22 @@ def arquivos_do_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> List[Dict[s
         p = resolver_serie(base_dir, ca)
         if p is not None:
             saida.append({"papel": "chuva", "caminho": _relativo(p, base_dir), "sha256": sha256_do_arquivo(p)})
+    ref = caso["clima_efetivo"].get("climbra")
+    if ref and usa_dados_do_brasil():
+        try:
+            from triton.core import climate_database as cdb
+            bancos = cdb._caminhos_dos_bancos(ref.get("modelo") or cdb.DEFAULT_CLIMATE_MODEL, ref.get("cenario") or "HIST")
+            if bancos:
+                saida.append({"papel": "base-climbra", "caminho": Path(bancos[0]).name, "sha256": _sha256_em_cache(bancos[0])})
+        except Exception:
+            pass
+    if (ref or caso.get("tarifa_efetiva")) and usa_dados_do_brasil():
+        try:
+            from triton.core import tariffs_database as tdb
+            banco = tdb._find_database_file()
+            saida.append({"papel": "tarifas", "caminho": Path(banco).name, "sha256": _sha256_em_cache(banco)})
+        except Exception:
+            pass
     return saida
 
 
@@ -1326,6 +1630,8 @@ def executar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]
     arquivos = arquivos_do_caso(plano, caso)
     base = {"esquema": {"nome": ESQUEMA_CASO, "versao": 1}, "id": caso["id"], "nome": caso["nome"], "grupo": caso["grupo"],
             "chave": chave_do_caso(plano, caso, arquivos)}
+    if caso.get("dimensoes"):
+        base["dimensoes"] = dict(caso["dimensoes"])
     try:
         montado = montar_caso(plano, caso)
         cfg, precip, bundle = montado["cfg"], montado["precip"], montado["bundle"]
@@ -1372,8 +1678,14 @@ def executar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]
 def _trabalhar_caso(argumentos: Tuple[str, int]) -> Dict[str, Any]:
     """Ponto de entrada do processo filho (``--paralelo``): relê o estudo e roda o caso de índice dado."""
     caminho, indice = argumentos
-    plano, _ = carregar_plano(Path(caminho))
+    plano = _plano_do_processo(caminho)
     return executar_caso(plano, plano["casos"][indice])
+
+
+@lru_cache(maxsize=2)
+def _plano_do_processo(caminho: str) -> Dict[str, Any]:
+    """O plano lido uma vez por processo filho (estudos com milhares de casos não o releem a cada caso)."""
+    return carregar_plano(Path(caminho))[0]
 
 
 # ══ Pasta de saída ═════════════════════════════════════════════════════════════════════════════
@@ -1382,9 +1694,9 @@ def pasta_do_caso(saida: Path, caso_id: str) -> Path:
     return Path(saida) / "casos" / caso_id
 
 
-def _gravar_caso(saida: Path, resultado: Dict[str, Any]) -> None:
+def _gravar_caso(saida: Path, resultado: Dict[str, Any], com_analise: bool = True) -> None:
     pasta = pasta_do_caso(saida, resultado["id"])
-    completo = resultado.get("analise_completa")
+    completo = resultado.get("analise_completa") if com_analise else None
     leve = {k: v for k, v in resultado.items() if k != "analise_completa"}
     _escrever(pasta / "resultado.json", _json_texto(leve))
     if completo is not None:
@@ -1458,7 +1770,8 @@ def rodar_estudo(caminho: Path, saida: Path, retomar: bool = False, sobrescrever
 
     def concluir(i: int, resultado: Dict[str, Any], tempo: float) -> None:
         resultados[i] = resultado
-        _gravar_caso(saida, resultado)
+        _gravar_caso(saida, resultado, plano["saidas"]["gravar_analise"])
+        resultado.pop("analise_completa", None)      # fora da memória: o estudo pode ter milhares de casos
         estado = "ok" if resultado["status"] == "ok" else _m("erro: {0}", resultado.get("erro", ""))
         log(f"[{len(resultados)}/{total}] {resultado['id']}: {estado} ({tempo:.1f} s)")
         (execucao.calculados if resultado["status"] == "ok" else execucao.erros).append(resultado["id"])
@@ -1669,12 +1982,14 @@ def tabela_tex(plano: Dict[str, Any], resultados: Sequence[Optional[Dict[str, An
 def csv_tidy(plano: Dict[str, Any], resultados: Sequence[Optional[Dict[str, Any]]], idioma: str) -> str:
     buf = io.StringIO(newline="")
     w = csv.writer(buf, lineterminator="\n")
-    w.writerow(["estudo_id", "caso_id", "caso", "grupo", "metrica", "rotulo", "valor", "unidade", "status"])
+    dims = list(dict.fromkeys(k for c in plano["casos"] for k in c.get("dimensoes", {})))
+    w.writerow(["estudo_id", "caso_id", "caso", "grupo", *dims, "metrica", "rotulo", "valor", "unidade", "status"])
     for caso, r in zip(plano["casos"], resultados):
         status = r.get("status", "pendente") if r else "pendente"
+        colunas_dim = [caso.get("dimensoes", {}).get(k, "") for k in dims]
         for m in plano["saidas"]["metricas"]:
             v = _valor(r, m)
-            w.writerow([plano["estudo"]["id"], caso["id"], caso["nome"], caso["grupo"], m, rotulo_da_metrica(m, idioma),
+            w.writerow([plano["estudo"]["id"], caso["id"], caso["nome"], caso["grupo"], *colunas_dim, m, rotulo_da_metrica(m, idioma),
                         "" if v is None else repr(_num_limpo(v)), unidade_da_metrica(m, r, idioma), status])
     return buf.getvalue()
 
@@ -1690,6 +2005,8 @@ def montar_json(plano: Dict[str, Any], resultados: Sequence[Optional[Dict[str, A
     for caso, r in zip(plano["casos"], resultados):
         item: Dict[str, Any] = {"id": caso["id"], "nome": caso["nome"], "grupo": caso["grupo"],
                                 "status": (r or {}).get("status", "pendente")}
+        if caso.get("dimensoes"):
+            item["dimensoes"] = caso["dimensoes"]
         if r and r.get("status") == "ok":
             item.update({"volume_selecionado_l": r.get("volume_selecionado_l"), "criterio_do_volume": r.get("criterio_do_volume"),
                          "metricas": {m: _num_limpo(_valor(r, m)) for m in plano["saidas"]["metricas"]},
@@ -2126,12 +2443,32 @@ def esquema_json() -> Dict[str, Any]:
                      "description": "apelido, campo do projeto ou caminho pontilhado do .triton -> valor"}
     clima = {"type": "object", "additionalProperties": False, "patternProperties": {"^_": {}},
              "properties": {"arquivo": {"type": "string"}, "data_inicio": {"type": "string", "pattern": r"^\d{2}/\d{2}/\d{4}$"},
-                            "nome": {"type": "string"}, "fonte": {"type": "string"}}}
+                            "nome": {"type": "string"}, "fonte": {"type": "string"},
+                            "climbra": {"type": "object", "additionalProperties": False, "patternProperties": {"^_": {}},
+                                        "properties": {k: {"type": "string"} for k in CHAVES_DO_CLIMBRA}}}}
+    tarifa = {"type": "object", "additionalProperties": False, "patternProperties": {"^_": {}},
+              "properties": {"municipio": {"type": "string"}, "uf": {"type": "string"}, "categoria": {"type": "string"},
+                             "se_ausente": {"enum": ["erro", "residencial"]}}}
+    expansao = {"type": "object", "additionalProperties": False, "patternProperties": {"^_": {}},
+                "required": ["municipios", "recortes"],
+                "properties": {"uf": {"type": "string"},
+                               "municipios": {"type": "array", "minItems": 1,
+                                              "items": {"type": "object", "required": ["municipio"],
+                                                        "properties": {"municipio": {"type": "string"}, "uf": {"type": "string"},
+                                                                       "ibge": {"type": "string", "pattern": "^\\d{7}$"}}}},
+                               "modelos": {"anyOf": [{"const": "todos"}, {"type": "array", "items": {"type": "string"}, "minItems": 1}]},
+                               "recortes": {"type": "array", "minItems": 1,
+                                            "items": {"type": "object", "required": ["id", "cenario", "inicio", "fim"],
+                                                      "properties": {"id": {"type": "string", "pattern": _RE_ID.pattern},
+                                                                     "rotulo": {"type": "string"},
+                                                                     "cenario": {"enum": list(CENARIOS_CLIMBRA)},
+                                                                     "inicio": {"type": "string"}, "fim": {"type": "string"}}}}}}
     return {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "title": "triton-estudo (versão 1)",
         "type": "object",
-        "required": ["esquema", "estudo", "casos"],
+        "required": ["esquema", "estudo"],
+        "anyOf": [{"required": ["casos"]}, {"required": ["expansao"]}],
         "properties": {
             "esquema": {"type": "object", "required": ["nome", "versao"],
                         "properties": {"nome": {"const": ESQUEMA_NOME}, "versao": {"const": ESQUEMA_VERSAO}}},
@@ -2143,12 +2480,14 @@ def esquema_json() -> Dict[str, Any]:
                                       "autores": {"type": "array", "items": {"type": "string"}},
                                       "nota": {"type": "string"}}},
             "projeto_base": {"type": "object", "properties": {"arquivo": {"type": "string"}, "modelo": {"const": "edicao"}}},
-            "padroes": {"type": "object", "properties": {"substituicoes": substituicoes, "clima": clima}},
+            "padroes": {"type": "object", "properties": {"substituicoes": substituicoes, "clima": clima, "tarifa": tarifa}},
+            "expansao": expansao,
             "casos": {"type": "array", "minItems": 1,
                       "items": {"type": "object", "required": ["id"],
                                 "properties": {"id": {"type": "string", "pattern": _RE_ID.pattern}, "nome": {"type": "string"},
                                                "grupo": {"type": "string"}, "projeto": {"type": "string"},
-                                               "clima": clima, "substituicoes": substituicoes}}},
+                                               "clima": clima, "tarifa": tarifa, "substituicoes": substituicoes,
+                                               "dimensoes": {"type": "object"}}}},
             "analise": {"type": "object", "properties": {
                 "tipo": {"enum": list(TIPOS_DE_ANALISE)},
                 "volume": {"anyOf": [{"enum": ["otimo_tecnico", "topsis"]}, {"type": "number", "minimum": 0}]},
@@ -2159,6 +2498,7 @@ def esquema_json() -> Dict[str, Any]:
                 "metricas": {"type": "array", "items": {"enum": list(METRICAS)}, "minItems": 1},
                 "casas_decimais": {"anyOf": [{"type": "integer", "minimum": 0, "maximum": 8}, {"type": "object"}]},
                 "idioma": {"enum": list(IDIOMAS)}, "milhar": {"type": "boolean"}, "legenda": {"type": "string"},
+                "gravar_analise": {"type": "boolean"},
                 "orientacao": {"enum": list(ORIENTACOES)}}},
         },
     }
