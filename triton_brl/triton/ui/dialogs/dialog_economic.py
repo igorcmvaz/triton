@@ -48,6 +48,24 @@ def adapt_dialog_size(dlg, target_w=980, target_h=840, min_w=680, min_h=580):
         dlg.resize(target_w, target_h)
 
 
+
+def _simbolo_da_moeda(parent) -> str:
+    """Símbolo da moeda do projeto para os diálogos de custos e tarifas.
+
+    Vem do pai, ou da aba de simulação da janela principal quando o pai (a aba Projeto,
+    por exemplo) não o oferece; só então a moeda padrão da edição. Antes o recurso final
+    era sempre «R$», e o diálogo de tarifas da Edição Ibérica abria com reais.
+    """
+    candidatos = [parent]
+    janela = parent.window() if parent is not None and hasattr(parent, "window") else None
+    candidatos.append(getattr(janela, "tab_tanks_simulation", None))
+    for c in candidatos:
+        if c is not None and hasattr(c, "get_currency_symbol"):
+            return c.get_currency_symbol()
+    from triton.core.edition import get_edition_currency_symbol
+    return get_edition_currency_symbol() or "¤"
+
+
 class DialogLowerTankVol(QDialog):
     """
     Diálogo para Especificação do Volume do Reservatório Inferior na Análise Econômica.
@@ -140,9 +158,7 @@ class DialogTariffs(QDialog):
         super().__init__(parent)
         
         # Get parent currency symbol
-        self._sym = "R$"
-        if parent and hasattr(parent, 'get_currency_symbol'):
-            self._sym = parent.get_currency_symbol()
+        self._sym = _simbolo_da_moeda(parent)
             
         self.setWindowTitle(f"{tr('Tarifas de água e esgoto')} ({self._sym})")
         adapt_dialog_size(self, target_w=980, target_h=820, min_w=680, min_h=620)
@@ -1252,9 +1268,7 @@ class DialogInitialCosts(QDialog):
             self._quantitativo_referencia = self._quantitativo
         
         # Get parent currency symbol
-        self._sym = "R$"
-        if parent and hasattr(parent, 'get_currency_symbol'):
-            self._sym = parent.get_currency_symbol()
+        self._sym = _simbolo_da_moeda(parent)
             
         self.setWindowTitle(f"{tr('🏗️ Investimento Inicial (CAPEX)')} ({self._sym})")
         self.resize(520, 520)
@@ -1516,7 +1530,6 @@ class DialogInitialCosts(QDialog):
         # cisterna não tem estimativa: o campo é o que o projeto informa, na moeda escolhida.
         self.txt_lower = QLineEdit(
             decimal(f"{self.config.cost_lower_tank:.2f}") if self.config.cost_lower_tank > 0 else "")
-        self.txt_lower.setPlaceholderText(tr("Price of the lower reservoir"))
         if self._lower_cost_is_typed():
             add_row(4, f"{tr('Reservatório inferior')} {self._sym}:", self.txt_lower, 0.0)
         else:
@@ -1754,9 +1767,7 @@ class DialogElectricity(QDialog):
         super().__init__(parent)
         
         # Get parent currency symbol
-        self._sym = "R$"
-        if parent and hasattr(parent, 'get_currency_symbol'):
-            self._sym = parent.get_currency_symbol()
+        self._sym = _simbolo_da_moeda(parent)
             
         self.setWindowTitle(f"{tr('Motobomba e Energia')} ({self._sym})")
         adapt_dialog_size(self, target_w=960, target_h=820, min_w=660, min_h=600)
@@ -2219,9 +2230,7 @@ class DialogOtherOpCosts(QDialog):
         super().__init__(parent)
         
         # Get parent currency symbol
-        self._sym = "R$"
-        if parent and hasattr(parent, 'get_currency_symbol'):
-            self._sym = parent.get_currency_symbol()
+        self._sym = _simbolo_da_moeda(parent)
             
         self.setWindowTitle(f"{tr('Outros custos operacionais')} ({self._sym})")
         adapt_dialog_size(self, target_w=720, target_h=720, min_w=560, min_h=620)

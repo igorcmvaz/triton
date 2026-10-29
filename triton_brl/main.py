@@ -13,7 +13,7 @@ os.environ.setdefault("TRITON_EDITION", "BRL")   # a edição desta pasta
 if sys.platform.startswith("win"):
     import ctypes
     try:
-        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("ufsc.ges.triton.0.1")
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("ufsc.ges.triton.brl.0.1")
     except Exception:
         pass
 

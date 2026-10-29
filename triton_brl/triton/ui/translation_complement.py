@@ -616,6 +616,7 @@ COMPLEMENTO = {
     '11. Documentação': ('11. Documentation', '11. Documentación', '11. 文档'),
     '12. Gestor de Tarifas': ('12. Tariff Manager', '12. Gestor de tarifas', '12. 水价管理'),
     '3. Qualidade & ETAP': ('3. Quality & Treatment', '3. Calidad y tratamiento', '3. 水质与处理'),
+    'Reservatório inferior': ('Lower reservoir', 'Depósito inferior', '下部蓄水池'),
     '4. Reservatório & Custos': ('4. Reservoir & Costs', '4. Depósito y costos', '4. 蓄水池与成本'),
     '5. Resultados Técnicos': ('5. Technical Results', '5. Resultados técnicos', '5. 技术结果'),
     '6. Resultados Econômicos': ('6. Economic Results', '6. Resultados económicos', '6. 经济结果'),

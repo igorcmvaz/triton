@@ -45,6 +45,7 @@ TERMOS = _CONCORDANCIA + (
     ("prestador de saneamento", "entidade gestora"),
     ("prestadores", "entidades gestoras"),
     ("prestador", "entidade gestora"),
+    ("TFDI mensal", "Tarifa fixa mensal"),
     ("faixas tarifárias", "escalões tarifários"),
     ("faixa tarifária", "escalão tarifário"),
     ("faixas de consumo", "escalões de consumo"),
