@@ -1,0 +1,272 @@
+{
+  "schema": {
+    "name": "triton-project",
+    "version": 2
+  },
+  "version": "0.1.0",
+  "metadata": {
+    "project_id": "TRITON-SC-AEROPORTOS",
+    "name": "Arquétipo aeroportuario (terminal de passageiros e apoio de aeroporto regional) — Santa Catarina",
+    "created_at": "29/10/2026 00:00",
+    "saved_at": "29/10/2026 00:00:00"
+  },
+  "rainfall": {
+    "source_mode": "national_db",
+    "climate_city_uf": "SC",
+    "climate_city_name": "Florianópolis",
+    "climate_model": "INM-CM4",
+    "climate_scenario": "HIST",
+    "climate_start_date": "01/01/1981",
+    "climate_end_date": "31/12/2010",
+    "file_name": "",
+    "start_date": "01/01/1981",
+    "total_days": 10957,
+    "climbra_series": {
+      "origem": "CLIMBra",
+      "cidade": "Florianópolis",
+      "uf": "SC",
+      "modelo": "INM-CM4",
+      "cenario": "HIST",
+      "inicio": "01/01/1981",
+      "fim": "31/12/2010",
+      "dias": 10957,
+      "total_mm": 53707.43,
+      "sha256": "20fcc8320d1de2394e0d5e4d6d1597d0b90de4f287fc599e2cc049b4692a45f4"
+    },
+    "precipitation_mm": []
+  },
+  "inputs": {
+    "building_and_demand": {
+      "catchment_area_m2": 8000.0,
+      "runoff_coeff": 0.75,
+      "residents_count": 3000,
+      "residents_type": 0,
+      "residents_monthly": [],
+      "demand_value": 25.0,
+      "demand_type": 0,
+      "demand_monthly": [],
+      "use_variable": false,
+      "rainwater_share": 0.5
+    },
+    "demand_modulation": {
+      "demand_mode": "constant",
+      "weekly_demands": [],
+      "weekly_residents": [],
+      "weekly_shares": [],
+      "monthly_shares": [],
+      "daily_demands": [],
+      "daily_residents": [],
+      "daily_shares": []
+    },
+    "rainfall_discard": {
+      "discard_mm": 2.0,
+      "discard_mode": 1,
+      "discard_days_interval": 7
+    },
+    "reservoirs_and_pumping": {
+      "lower_tank_fixed_l": 60000.0,
+      "lower_tank_max_l": 120000.0,
+      "lower_tank_step_l": 3000.0,
+      "lower_tank_mode": 1,
+      "delta_ideal_pct": 0.1,
+      "phi_operation_rule": null,
+      "upper_tank_vol_l": 10000.0,
+      "upper_tank_used": true,
+      "pumping_threshold_l": 2500.0,
+      "supply_arrangement": "recalque",
+      "pressurizer_pressure_m": 18.0,
+      "pressurizer_starts_per_person_day": 5.05,
+      "pressurizer_model": "komeco_tp820t",
+      "pressurizer_point_flow_l_min": 9.0,
+      "pressurizer_power_kw": 0.18,
+      "pressurizer_flow_l_min": 13.3,
+      "pressurizer_post_run_s": 0.0,
+      "pump": {
+        "count": 2,
+        "power_str": "3 CV",
+        "power_kw": 2.2,
+        "flow_rate_l_h": 21600.0,
+        "efficiency_pct": 68.0,
+        "startup_time_h": 0.03,
+        "motor_efficiency": 0.0,
+        "unit_cost": 3800.0,
+        "manometric_head_m": 24.0
+      }
+    },
+    "financial_and_economic": {
+      "analysis_period_years": 20,
+      "tma_monthly_pct": 0.75,
+      "inflation_monthly_pct": 0.2,
+      "sewage_mode": 1,
+      "sewage_rate_pct": 100.0,
+      "sewage_tariffs": [],
+      "sewage_volume_factor": 1.0,
+      "water_tax_fixed": 0.0,
+      "water_tax_var_pct": 0.0,
+      "water_tariffs": [
+        [
+          0.0,
+          0.0,
+          46.34,
+          -1
+        ],
+        [
+          0.0,
+          10.0,
+          6.81,
+          1
+        ],
+        [
+          10.0,
+          50.0,
+          19.14,
+          1
+        ],
+        [
+          50.0,
+          999999.0,
+          24.08,
+          1
+        ]
+      ],
+      "tariff_city_uf": "SC",
+      "tariff_city_name": "Florianópolis",
+      "tariff_vigencia": "01/04/2026",
+      "data_base_estudo": "29/10/2026",
+      "tariff_category": "comercial",
+      "elec_city_uf": "SC",
+      "elec_city_name": "Florianópolis",
+      "tariff_escalation_months": 12.0,
+      "water_tariff_escalation_pct": 5.0,
+      "sewage_tariff_escalation_pct": 5.0,
+      "elec_tariff": 0.69568,
+      "elec_tax_fixed": 0.0,
+      "elec_tax_var_pct": 0.0,
+      "elec_tariff_escalation_pct": 5.0
+    },
+    "water_quality_and_etap": {
+      "target_class": "classe_1",
+      "disinfection": "cloro",
+      "polishing_filter": false,
+      "first_flush_system_enabled": true,
+      "etap_enabled": true,
+      "precos_de_catalogo": true,
+      "chlorine_treatment_enabled": true,
+      "chlorine_dose_mg_l": 1.5,
+      "chlorine_product_purity": 0.65,
+      "chlorine_cost_per_kg": 25.0,
+      "chlorine_co2_kg_per_kg": 1.72
+    },
+    "materials_and_typology": {
+      "building_template_id": "comercial",
+      "lower_tank_material": "CONCRETO",
+      "upper_tank_material": "FIBRA"
+    },
+    "irrigation": {
+      "garden_area_m2": 0.0,
+      "rate_l_m2_day": 3.0,
+      "liters_per_day": 0.0,
+      "rain_threshold_mm": 2.0,
+      "potable_backup": true
+    },
+    "incentives_and_shares": {
+      "iptu_green_enabled": false,
+      "iptu_annual_value": 4000.0,
+      "iptu_discount_pct": 5.0,
+      "tariff_flag": "verde",
+      "tariff_customized": false,
+      "num_economias": 1,
+      "potable_indoor_share": 0.5,
+      "non_potable_indoor_share": 0.5,
+      "install_month": 0,
+      "econ_lower_tank_vol": 60000.0,
+      "demand_mode": "constant",
+      "edge_base_case_l_person_day": 0.0
+    },
+    "capex_and_opex": {
+      "cost_lower_tank": 60858.36,
+      "cost_upper_tank": 7330.7,
+      "cost_labor": 91736.72,
+      "cost_piping": 145000.0,
+      "cost_accessories": 85000.0,
+      "capex_do_arranjo": false,
+      "mao_de_obra_automatica": true,
+      "operational_costs": [
+        [
+          "Inspeção de macrocaptação e filtros industriais",
+          6,
+          3200.0,
+          0.0
+        ],
+        [
+          "Limpeza e higienização das células de acumulação",
+          6,
+          4500.0,
+          0.0
+        ],
+        [
+          "Manutenção eletromecânica das bombas e automação",
+          12,
+          6500.0,
+          0.0
+        ]
+      ]
+    },
+    "global_optimizer_scenarios": []
+  },
+  "ui_state": {
+    "stage3": {
+      "currency_code": "BRL"
+    },
+    "project": {
+      "source_mode": "national_db",
+      "climate_uf": "SC",
+      "climate_city": "Florianópolis",
+      "climate_model": "INM-CM4",
+      "climate_scenario": "HIST",
+      "start_date": "01/01/1981",
+      "end_date": "31/12/2010"
+    }
+  },
+  "analysis": {
+    "origem": "estimativa de arquétipo, a refinar pelo autor; ver LEIA.md",
+    "arquetipo": "terminal de passageiros e apoio de aeroporto regional",
+    "topsis_weights": [
+      0.33,
+      0.33,
+      0.34
+    ],
+    "environmental": {
+      "lower_material_key": "CONCRETO",
+      "upper_material_key": "FIBRA",
+      "grid_co2_factor_kg_kwh": 0.085,
+      "potable_water_co2_kg_m3": 0.35,
+      "chlorine_dose_mg_l": 1.5,
+      "chlorine_co2_kg_per_kg": 1.72,
+      "system_lifespan_years": 20,
+      "pipes": [
+        {
+          "diameter_mm": 150,
+          "length_m": 320
+        },
+        {
+          "diameter_mm": 100,
+          "length_m": 280
+        },
+        {
+          "diameter_mm": 75,
+          "length_m": 200
+        }
+      ],
+      "pump": {
+        "power_cv": 2.99,
+        "specific_kwh_per_m3": 0.45
+      }
+    }
+  },
+  "bim_layout": {
+    "bim_components": [],
+    "pipe_runs": [],
+    "building_volume": {}
+  }
+}

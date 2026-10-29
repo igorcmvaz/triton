@@ -275,9 +275,13 @@ class TestEstudosSantaCatarina:
         assert len(planos) == 6
 
     def test_cada_estudo_tem_os_seus_arquivos(self):
+        from triton.cli import load_triton_project
         for pasta in ESTUDOS_SC:
-            for nome in ("estudo.json", "LEIA.md", "modelo_texto.md"):
+            for nome in ("estudo.json", f"{pasta}.triton", "LEIA.md", "modelo_texto.md"):
                 assert (PASTA_SC / pasta / nome).is_file(), (pasta, nome)
+            cfg = load_triton_project(str(PASTA_SC / pasta / f"{pasta}.triton"))["config"]
+            assert cfg.cost_lower_tank > 0 and cfg.cost_piping > 0 and cfg.cost_accessories > 0, pasta
+            assert cfg.pump_unit_cost > 0 and len(cfg.op_costs) > 0, pasta
 
     def test_tamanhos_do_json(self):
         for pasta in ESTUDOS_SC:

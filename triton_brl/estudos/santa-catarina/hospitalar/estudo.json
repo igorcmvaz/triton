@@ -8,21 +8,24 @@
   "titulo": "Hospitais em Santa Catarina: municípios da CLIMBra, 19 modelos, 7 recortes",
   "tipologia": "hospitalar",
   "autores": [],
-  "nota": "Valores de edificação = estimativas de arquétipo, a refinar pelo autor (LEIA.md). Clima: CLIMBra, 19 modelos × 7 recortes sugeridos pelo programa. Tarifas e custos preliminares: os do programa."
+  "nota": "Projeto-base completo em hospitalar.triton (valores de edificação e custos calibrados = estimativas de arquétipo, a refinar pelo autor; ver LEIA.md). Clima: CLIMBra, 19 modelos × 7 recortes sugeridos pelo programa. Tarifas: catálogo municipal do programa."
  },
  "projeto_base": {
-  "modelo": "edicao"
+  "arquivo": "hospitalar.triton"
  },
  "padroes": {
   "substituicoes": {
-   "_origem": "estimativa de arquétipo, a refinar pelo autor; ver LEIA.md",
+   "_origem": "estimativa de arquétipo, a refinar pelo autor; todos os parâmetros e custos de engenharia também estão em hospitalar.triton (ver LEIA.md)",
    "area_captacao_m2": 4000,
    "usuarios": 300,
    "demanda_per_capita_l_dia": 250,
    "fracao_pluvial_pct": 25,
    "volume_maximo_l": 60000,
    "passo_volume_l": 1500,
-   "reservatorio_superior_l": 10000
+   "delta_ideal_pct": 0.15,
+   "reservatorio_superior_l": 10000,
+   "limiar_bombeamento_l": 2500,
+   "tma_pct_mes": 0.75
   },
   "tarifa": {
    "categoria": "publica",

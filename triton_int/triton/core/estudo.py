@@ -1642,11 +1642,15 @@ def executar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]
         origem_txt = Path(montado["arquivos"][0]["caminho"]).name if montado["arquivos"] and montado["arquivos"][0]["papel"] == "projeto" else ""
         import contextlib
         import warnings
+        saidas_cfg = plano.get("saidas") or {}
+        precisa_smaa = bool(saidas_cfg.get("gravar_analise", True)
+                            or "aceitabilidade_smaa_pct" in saidas_cfg.get("metricas", ()))
         # avisos de frações vão para «alertas»; avisos do motor (limites físicos do passo diário) para «avisos_do_motor»
         with warnings.catch_warnings(record=True) as do_motor, contextlib.redirect_stderr(io.StringIO()) as ruido:
             warnings.simplefilter("always")
             relatorio = cli.run_analysis(cfg, precip, analise["tipo"], volume_fixo, pesos,
-                                         analysis_cfg.get("environmental", {}), origem_txt, 0, analise["semente"])
+                                         analysis_cfg.get("environmental", {}), origem_txt, 0, analise["semente"],
+                                         smaa=precisa_smaa)
         # só os avisos do modelo; os da plataforma (arquivo não fechado, depreciação) e os endereços de memória ficam de fora,
         # para que duas execuções deem o mesmo arquivo
         ruido_da_plataforma = (ResourceWarning, DeprecationWarning, PendingDeprecationWarning, ImportWarning, FutureWarning)
@@ -1679,7 +1683,10 @@ def _trabalhar_caso(argumentos: Tuple[str, int]) -> Dict[str, Any]:
     """Ponto de entrada do processo filho (``--paralelo``): relê o estudo e roda o caso de índice dado."""
     caminho, indice = argumentos
     plano = _plano_do_processo(caminho)
-    return executar_caso(plano, plano["casos"][indice])
+    res = executar_caso(plano, plano["casos"][indice])
+    if not (plano.get("saidas") or {}).get("gravar_analise", True):
+        res.pop("analise_completa", None)
+    return res
 
 
 @lru_cache(maxsize=2)
@@ -1783,10 +1790,22 @@ def rodar_estudo(caminho: Path, saida: Path, retomar: bool = False, sobrescrever
     if paralelo > 1 and len(pendentes) > 1:
         from concurrent.futures import ProcessPoolExecutor
         inicio = time.perf_counter()
-        with ProcessPoolExecutor(max_workers=min(paralelo, len(pendentes))) as pool:
-            futuros = {i: pool.submit(_trabalhar_caso, (str(plano["caminho"]), i)) for i in pendentes}
+        n_workers = min(paralelo, len(pendentes))
+        janela = n_workers * 4
+        it = iter(pendentes)
+        with ProcessPoolExecutor(max_workers=n_workers) as pool:
+            futuros = {}
+            for _ in range(min(janela, len(pendentes))):
+                idx = next(it)
+                futuros[idx] = pool.submit(_trabalhar_caso, (str(plano["caminho"]), idx))
             for i in pendentes:                       # na ordem do estudo, qualquer que seja a ordem de término
-                concluir(i, futuros[i].result(), time.perf_counter() - inicio)
+                res = futuros.pop(i).result()
+                try:
+                    prox = next(it)
+                    futuros[prox] = pool.submit(_trabalhar_caso, (str(plano["caminho"]), prox))
+                except StopIteration:
+                    pass
+                concluir(i, res, time.perf_counter() - inicio)
     else:
         for i in pendentes:
             t0 = time.perf_counter()

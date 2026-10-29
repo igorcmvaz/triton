@@ -8,21 +8,24 @@
   "titulo": "Residências multifamiliares em Santa Catarina: municípios da CLIMBra, 19 modelos, 7 recortes",
   "tipologia": "residencial-multifamiliar",
   "autores": [],
-  "nota": "Valores de edificação = estimativas de arquétipo, a refinar pelo autor (LEIA.md). Clima: CLIMBra, 19 modelos × 7 recortes sugeridos pelo programa. Tarifas e custos preliminares: os do programa."
+  "nota": "Projeto-base completo em residencial-multifamiliar.triton (valores de edificação e custos calibrados = estimativas de arquétipo, a refinar pelo autor; ver LEIA.md). Clima: CLIMBra, 19 modelos × 7 recortes sugeridos pelo programa. Tarifas: catálogo municipal do programa."
  },
  "projeto_base": {
-  "modelo": "edicao"
+  "arquivo": "residencial-multifamiliar.triton"
  },
  "padroes": {
   "substituicoes": {
-   "_origem": "estimativa de arquétipo, a refinar pelo autor; ver LEIA.md",
+   "_origem": "estimativa de arquétipo, a refinar pelo autor; todos os parâmetros e custos de engenharia também estão em residencial-multifamiliar.triton (ver LEIA.md)",
    "area_captacao_m2": 600,
    "usuarios": 48,
    "demanda_per_capita_l_dia": 150,
    "fracao_pluvial_pct": 40,
    "volume_maximo_l": 20000,
    "passo_volume_l": 500,
+   "delta_ideal_pct": 0.5,
    "reservatorio_superior_l": 2500,
+   "limiar_bombeamento_l": 625,
+   "tma_pct_mes": 0.75,
    "economias": 16
   },
   "tarifa": {

@@ -20,6 +20,7 @@ passar do limite, o banco do modelo pode ser dividido por cenário, em
 continua sendo lido, quando existe. Ver `scripts/dividir_base_climbra.py`.
 """
 
+import atexit
 import os
 import re
 import sqlite3
@@ -135,6 +136,9 @@ def _fechar_conexoes_em_cache() -> None:
             except Exception:
                 pass
         _CONNECTION_CACHE.clear()
+
+
+atexit.register(_fechar_conexoes_em_cache)
 
 
 def limpar_cache_da_base() -> None:
@@ -267,7 +271,7 @@ def _abrir_somente_leitura(caminho: str) -> sqlite3.Connection:
 
 
 def _obter_conexao_ro(caminho: str) -> sqlite3.Connection:
-    """Retorna uma conexão somente leitura reutilizável com PRAGMA mmap e query_only.
+    """Retorna uma conexão somente leitura reutilizável com PRAGMA query_only.
 
     Abre com `check_same_thread=False`: sem isso, uma conexão aberta na thread da interface falha
     ao ser usada numa thread de simulação e a série parecia inexistente.
@@ -277,6 +281,13 @@ def _obter_conexao_ro(caminho: str) -> sqlite3.Connection:
         conn = _CONNECTION_CACHE.get(abs_path)
         if conn is not None:
             return conn
+        while len(_CONNECTION_CACHE) >= 2:
+            antigo, conn_antiga = next(iter(_CONNECTION_CACHE.items()))
+            _CONNECTION_CACHE.pop(antigo, None)
+            try:
+                conn_antiga.close()
+            except Exception:
+                pass
         from pathlib import Path
         try:
             conn = sqlite3.connect(Path(abs_path).resolve().as_uri() + "?mode=ro", uri=True, check_same_thread=False)
@@ -284,7 +295,6 @@ def _obter_conexao_ro(caminho: str) -> sqlite3.Connection:
             conn = sqlite3.connect(abs_path, check_same_thread=False)
         try:
             conn.execute("PRAGMA query_only = ON;")
-            conn.execute("PRAGMA mmap_size = 268435456;")
         except sqlite3.Error:
             pass
         _CONNECTION_CACHE[abs_path] = conn
