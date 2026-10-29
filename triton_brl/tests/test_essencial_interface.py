@@ -218,7 +218,11 @@ def test_capex_dialog_opens_recalculated_for_every_sweep_volume(qapp):
     assert _esperado in dialog.table_lower_costs.item(1, 1).text()
     from triton.core.cost_estimates import UPPER_TANK_PRICE_TABLE
     _esperado_sup = f'{dict(UPPER_TANK_PRICE_TABLE)[500.0]:.2f}'.replace('.', ',')
-    assert dialog.txt_upper.text() == _esperado_sup
+    from triton.core.edition import usa_dados_do_brasil
+    if usa_dados_do_brasil():
+        assert dialog.txt_upper.text() == _esperado_sup
+    else:   # sem catálogo de preços, o campo é o que o projeto informa; sem estimativa
+        assert dialog.txt_upper.text() != _esperado_sup
     pump_dialog = DialogMotobomba(config=config)
     assert pump_dialog.chk_backup_pump.isChecked()
     dialog.close()
