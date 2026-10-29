@@ -168,11 +168,17 @@ Tabela 32 — As sete seções do arquivo de projeto e o que cada uma guarda
 
 Tabela 33 — Localização dos arquivos do programa e dos arquivos do usuário
 
-Tabela 34 — Compatibilidade entre versões do arquivo de projeto
+Tabela 34 — Seções do arquivo estudo.json (esquema triton-estudo, versão 1)
 
-Tabela 35 — Padronização terminológica de água de chuva e água pluvial
+Tabela 35 — Apelidos das substituições e o campo do projeto que cada um altera
 
-Tabela 36 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 36 — Arquivos que triton estudo run grava na pasta de saída
+
+Tabela 37 — Compatibilidade entre versões do arquivo de projeto
+
+Tabela 38 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 39 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
 ---
 
@@ -1312,6 +1318,7 @@ A instalação do programa como pacote Python registra o comando `triton`, que e
 | `uncertainty` | propaga incertezas por Monte Carlo para um volume de reservatório |
 | `series-length` | responde de quantos anos de chuva o projeto precisa, pelo método de Geraldi e Ghisi |
 | `stochastic-demand` | sorteia o consumo diário e devolve o desempenho como faixa, e não como número único |
+| `estudo` | organiza, roda e relata estudos em lote por JSON (`estudo.json`): vários edifícios por tipologia, com tabelas para artigos |
 
 Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise (`technical`, `economic`, `environmental`, `topsis` ou `all`); `--volume` fixa o volume do reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto; `--set CAMPO=VALOR` altera um campo do projeto e pode ser repetido; `--weights` informa os pesos técnico, econômico e ambiental do TOPSIS; `--weight-sensitivity N` sorteia N vetores de pesos e informa a frequência com que cada volume vence; `--format` e `--output` definem o formato e o arquivo de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja reprodutível.
 
@@ -1335,6 +1342,40 @@ O subcomando `stochastic-demand` sorteia o consumo **dia a dia** e roda a simula
 Esse subcomando não tem equivalente na interface gráfica, e é decisão de projeto: são muitos parâmetros, a leitura exige cuidado, e na tela eles confundiriam mais do que ajudariam.
 
 > Os subcomandos `compare-mass` e `run-vaz-study` executam estudos de pesquisa do grupo sobre bases climáticas de dezenas de milhares de séries, e exigem os arquivos dessas bases; não fazem parte do uso corrente do programa.
+
+---
+
+### 3.6.8. Estudos em lote por JSON
+
+Quando a comparação é por **tipologia** (escolas, comerciais, residências unifamiliares e multifamiliares, hospitais, aeroportos) e o resultado vai para um artigo ou para o resumo de um congresso, manter um projeto salvo por caso e montar a planilha à mão deixa de compensar. O subcomando `estudo` da linha de comando organiza o estudo num arquivo `estudo.json`: o projeto base, os casos, o que muda de um caso para o outro, a análise e as saídas. O programa roda todos os casos numa ordem estável e grava tabelas prontas.
+
+```powershell
+## 3.6. 1. Esqueleto do estudo, com os rótulos da tipologia e nenhum valor preenchido.
+triton estudo init .\escolas --tipologia escolar
+
+## 3.6. 2. Preencha escolas\estudo.json (os «XX» e null) e coloque os .triton e as séries em escolas\casos.
+triton estudo validate .\escolas\estudo.json
+
+## 3.6. 3. Execute todos os casos (em ordem estável); --paralelo N usa N processos e não muda o resultado.
+triton estudo run .\escolas\estudo.json --saida .\saida\escolas --paralelo 4
+
+## 3.6. 4. Refaça as tabelas sem recalcular (por exemplo, depois de mudar métricas ou casas decimais).
+triton estudo resumo .\saida\escolas
+
+## 3.6. 5. Preencha o texto do resumo do congresso com os números reais.
+triton estudo texto .\saida\escolas --modelo .\escolas\modelo_texto.md
+
+## 3.6. 6. Vários estudos (uma pasta com estudo*.json), com o comparativo entre tipologias.
+triton estudo lote .\estudos --saida .\saida\comparativo
+```
+
+As tipologias (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar`, `aeroportuario`) são só estrutura e rótulos: `estudo init --tipologia` grava o rótulo, o `grupo` dos casos e, num comentário, o que `usuarios` significa naquela tipologia. Nenhum número vem com a tipologia: área, demanda, usuários e fração vêm dos seus casos, com a fonte de cada um.
+
+O que cada seção do `estudo.json` contém, os apelidos das substituições (área de captação, demanda, usuários, fração, volume do reservatório e outros) e os arquivos de saída estão no apêndice «Arquivos, pastas e formatos». O exemplo `examples/estudos/tres-tipologias-exemplo/` roda os casos 1 a 3 de `examples/` (residência unifamiliar, edifício corporativo e escola), um por `grupo`: `triton estudo run examples\estudos\tres-tipologias-exemplo\estudo.json --saida saida\exemplo`.
+
+Na Edição Brasil o relatório da análise não traz bloco de fonte da chuva: registre, no protocolo do estudo, a fonte, o período e o tratamento de cada série.
+
+> **O programa organiza; quem decide é o analista.** Nenhum campo do esqueleto vem preenchido, e um «XX» ou um `null` impede a execução. Área, demanda, número de usuários e fração atendível de cada edifício precisam vir de uma fonte que o estudo cite. O resumo avisa quando os custos não foram informados (CAPEX igual a zero), porque então o valor presente líquido e o retorno não são resultados.
 
 ---
 
@@ -7724,9 +7765,72 @@ que significa que reinstalar ou atualizar o programa não apaga nada seu.
 
 ---
 
-### F.5. Compatibilidade entre versões
+### F.5. O arquivo de estudo em lote (`estudo.json`)
 
-<!-- tabela: **Tabela 34** — Compatibilidade entre versões do arquivo de projeto -->
+Usado por `triton estudo` (capítulo «Comparar muitos casos de uma vez»). Esquema `triton-estudo`, versão 1.
+
+<!-- tabela: **Tabela 34** — Seções do arquivo estudo.json (esquema triton-estudo, versão 1) -->
+| Seção | Conteúdo |
+| :--- | :--- |
+| `esquema` | `{"nome": "triton-estudo", "versao": 1}`; outra versão é recusada |
+| `estudo` | `id` (letras, números, ponto, hífen e sublinhado), `titulo`, `tipologia` (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar`, `aeroportuario` ou `outra`), `tipologia_rotulo`, `autores`, `nota` |
+| `projeto_base` | `arquivo`: um `.triton`, com caminho relativo ao `estudo.json`; ou `modelo`: `"edicao"`, o modelo de projeto da edição (então cada caso informa área, demanda, fração e chuva: nada é presumido) |
+| `padroes` | `substituicoes` e `clima` aplicados a todos os casos; o que o caso declara vence o padrão |
+| `casos` | lista; cada caso tem `id`, `nome`, `grupo` (por padrão, a tipologia), `projeto` (outro `.triton` para este caso), `clima` e `substituicoes` |
+| `clima` | `arquivo` (série diária de chuva, CSV), `data_inicio` (dd/mm/aaaa), `nome` e `fonte` (rótulos que vão para a procedência) |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis` ou um volume em litros), `pesos` (TOPSIS) e `semente` |
+| `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (um inteiro ou uma por métrica), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar`, `legenda` e `orientacao` (`casos_nas_linhas` ou `metricas_nas_linhas`) |
+
+Chaves que começam por `_` são comentários e o programa as ignora. Campo vazio, `null` ou «XX» é «a preencher»: a validação o recusa e diz onde está. Uma chave desconhecida é erro, com a sugestão da mais parecida. `triton estudo esquema` imprime o JSON Schema do arquivo, para completar e conferir no editor.
+
+#### F.5.1. Apelidos das substituições
+
+<!-- tabela: **Tabela 35** — Apelidos das substituições e o campo do projeto que cada um altera -->
+| Apelido | Campo do projeto | Unidade |
+| :--- | :--- | :--- |
+| `area_captacao_m2` | `area` | m² |
+| `coeficiente_escoamento` | `runoff_coeff` | 0 a 1 |
+| `descarte_mm` | `discard` | mm |
+| `usuarios` (também `populacao`, `pessoas`, `ocupantes`) | `residents_count` | pessoas |
+| `demanda_per_capita_l_dia` | `demand_value` | L/pessoa·dia |
+| `demanda_total_l_dia` | `demand_value` (a demanda total dividida pelos usuários) | L/dia |
+| `fracao_pluvial_pct` ou `fracao_pluvial` | `rainwater_share` | % ou 0 a 1 |
+| `volume_reservatorio_l` | `lower_tank_fixed` (e `lower_tank_mode` = volume fixo) | L |
+| `volume_maximo_l`, `passo_volume_l` | `lower_tank_max` (varredura), `lower_tank_step` | L |
+| `reservatorio_superior_l` | `upper_tank_vol` (e `upper_tank_used`) | L |
+| `limiar_bombeamento_l`, `economias`, `irrigacao_l_dia` | `pumping_threshold`, `num_economias`, `irrigation_liters_per_day` | L, unidades, L/dia |
+| `data_inicio`, `regra_phi`, `delta_ideal_pct` | `start_date`, `phi_operation_rule`, `delta_ideal` | dd/mm/aaaa, 0 a 1, %/m³ |
+| `periodo_analise_anos`, `tma_pct_mes`, `tarifa_energia` | `analysis_period_years`, `tma`, `elec_tariff` | anos, % ao mês, moeda/kWh |
+
+Além dos apelidos, a chave de uma substituição pode ser **qualquer campo que `--set` aceita** (por exemplo `cost_labor`) ou um **caminho pontilhado do próprio `.triton`**, como `inputs.building_and_demand.catchment_area_m2`. O caminho precisa existir no projeto e o valor precisa ter o mesmo tipo do que já está lá; senão o caso termina com erro claro, que lista as chaves disponíveis. Um apelido desconhecido também é recusado, com a sugestão do mais parecido. Dois nomes para o mesmo parâmetro no mesmo caso (`area_captacao_m2` e `area_m2`, ou `fracao_pluvial` e `fracao_pluvial_pct`) são conflito. A fração em 0 a 1 recusa 40 (provável percentual); o percentual recusa fora de 0 a 100.
+
+As substituições passam pela mesma conciliação de frações do `--set`, e o preenchimento preliminar de custos (CAPEX) roda **depois** delas, de modo que o preço da cisterna acompanha o volume do caso. `triton estudo apelidos` lista todos os apelidos e métricas, na língua da edição.
+
+#### F.5.2. Saídas do estudo
+
+<!-- tabela: **Tabela 36** — Arquivos que triton estudo run grava na pasta de saída -->
+| Arquivo | Conteúdo |
+| :--- | :--- |
+| `resultados.csv` | formato **tidy**: uma linha por caso e métrica (`estudo_id`, `caso_id`, `caso`, `grupo`, `metrica`, `rotulo`, `valor`, `unidade`, `status`); ponto decimal, sem separador de milhar, UTF-8 |
+| `resultados.json` | os mesmos valores, mais a **proveniência**: versão do Triton, edição, SHA-256 do `estudo.json` e de cada projeto e série de chuva, fonte, crédito e licença da chuva, avisos e a data de execução |
+| `tabela.md` | tabela em Markdown, com os números no formato do idioma (vírgula decimal em português e espanhol, ponto em inglês e chinês) |
+| `tabela.tex` | tabela LaTeX com `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), pronta para colar; precisa de `\usepackage{booktabs}` |
+| `tabela.xlsx` | opcional (`xlsx` em `formatos`): números de verdade, formatados, mais as abas `tidy` e `proveniencia` |
+| `resumo.md` | resumo curto: casos, faixa de cada resultado, avisos, fontes e licenças |
+| `casos/<id>/resultado.json` e `analise.json` | todas as métricas do caso e a análise completa do motor (é o que o `resumo` e o `texto` leem) |
+| `estudo.json` | cópia do estudo que gerou a pasta |
+
+As saídas não levam caminho absoluto: os projetos aparecem com caminho relativo ao `estudo.json` (ou só o nome). Duas execuções do mesmo estudo dão arquivos idênticos; a data de execução é a única diferença, e a variável de ambiente `SOURCE_DATE_EPOCH` a fixa. O `xlsx` guarda a data de criação nas propriedades do arquivo e não é idêntico byte a byte, só no conteúdo.
+
+**Retomada e códigos de saída.** Numa pasta de saída que já tem resultados, `run` exige `--retomar` (pula os casos prontos e inalterados: a impressão digital do caso inclui o estudo, os arquivos, a versão e a edição) ou `--sobrescrever` (refaz tudo). O código de saída é 0 se todos os casos foram calculados, 1 se algum caso terminou com erro (as saídas dos demais são gravadas e o caso com erro aparece com `status` `erro`) e 2 se o estudo ou os argumentos são inválidos.
+
+**Métricas.** O volume de cada caso é, por padrão, o ótimo técnico da varredura (`volume: "otimo_tecnico"`); com `"topsis"`, o primeiro do ranking; com um número, o volume fixo. As métricas disponíveis incluem `volume_l`, `economia_agua_potavel_pct`, `agua_pluvial_m3_ano`, `agua_potavel_m3_ano`, `extravasamento_m3_ano`, os dias com atendimento total, parcial e nulo, `capex`, `vpl`, `economia_anual_agua`, `opex_anual`, `tir_anual_pct`, `payback_descontado_meses`, `co2_liquido_vida_kg`, `indice_topsis` e `aceitabilidade_smaa_pct`, além das entradas do caso (`area_captacao_m2`, `usuarios`, `demanda_total_l_dia`, `chuva_media_anual_mm`). As métricas econômicas pedem `analise.tipo` `economic` ou `all`; as ambientais, `environmental` ou `all`. Os nomes crus do relatório (`potable_savings_pct`) também valem. Valores monetários saem na moeda de cada projeto; se os casos têm moedas diferentes, o resumo avisa que não são comparáveis e o comparativo não os agrega. Com CAPEX igual a zero (custos não informados), o resumo avisa que VPL, TIR e payback não são resultados.
+
+**Texto com os números.** `triton estudo texto` substitui no seu modelo `.md` os marcadores cercados por chaves duplas (duas de cada lado; os exemplos abaixo vêm sem elas): `economia_agua_potavel_pct:caso-01` (o valor de um caso), `economia_agua_potavel_pct:@min`, `@max`, `@media`, `@mediana` (sobre os casos calculados; `@media(escolar)` restringe a um grupo), `n_casos` e, depois de uma barra vertical, as casas decimais (`vpl:caso-01|0`). Onde falta resultado o marcador vira «XX» e o comando lista as pendências (com `--estrito`, termina com código 1). Métrica desconhecida é erro.
+
+### F.6. Compatibilidade entre versões
+
+<!-- tabela: **Tabela 37** — Compatibilidade entre versões do arquivo de projeto -->
 | Situação | O que acontece |
 | :--- | :--- |
 | projeto de versão anterior | abre; campos novos assumem o padrão |
@@ -8171,7 +8275,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 35** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 38** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Triton | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -8182,7 +8286,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 36** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 39** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |

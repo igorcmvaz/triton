@@ -9,7 +9,7 @@ Federal University of Santa Catarina
 
 International Edition · 2026
 
-Version 0.1.0 · revised 2026-10-25
+Version 0.1.0 · revised 2026-10-28
 
 ---
 
@@ -768,23 +768,29 @@ Table 189 — The seven sections of the project file and what each one holds
 
 Table 190 — Location of the program's files and of the user's files
 
-Table 191 — Compatibility between versions of the project file
+Table 191 — Sections of the estudo.json file (schema triton-estudo, version 1)
 
-Table 192 — Terminology for rainwater and stormwater
+Table 192 — Aliases of the substitutions and the project field each one changes
 
-Table 193 — Fundamental quantities of the water balance and relations between fraction and potential
+Table 193 — Files that triton estudo run writes to the output folder
 
-Table 194 — Reference sheet: the ten steps of a complete study and the section that deals with each one
+Table 194 — Compatibility between versions of the project file
 
-Table 195 — Reference sheet: the ten design pitfalls and where each one is dealt with
+Table 195 — Terminology for rainwater and stormwater
 
-Table 196 — Reference sheet: the six tariff regimes and the effect of saving
+Table 196 — Fundamental quantities of the water balance and relations between fraction and potential
 
-Table 197 — Reference sheet: the indicators and the question each one answers
+Table 197 — Reference sheet: the ten steps of a complete study and the section that deals with each one
 
-Table 198 — The example cases and what each one demonstrates
+Table 198 — Reference sheet: the ten design pitfalls and where each one is dealt with
 
-Table 199 — Result each example case produces when reread and simulated
+Table 199 — Reference sheet: the six tariff regimes and the effect of saving
+
+Table 200 — Reference sheet: the indicators and the question each one answers
+
+Table 201 — The example cases and what each one demonstrates
+
+Table 202 — Result each example case produces when reread and simulated
 
 ---
 
@@ -5498,6 +5504,7 @@ command itself documents the assumptions changed.
 | `uncertainty` | propagates uncertainties by Monte Carlo for one tank volume |
 | `series-length` | answers how many years of rain the project needs, by the method of Geraldi and Ghisi |
 | `stochastic-demand` | draws the daily consumption at random and returns the performance as a range, not as a single number |
+| `estudo` | organises, runs and reports batch studies from JSON (`estudo.json`): many buildings per typology, with paper-ready tables |
 
 The subcommands `run`, `analyze` and `econ` accept the same options: `--analysis` chooses the
 analysis (`technical`, `economic`, `environmental`, `topsis` or `all`); `--volume` fixes the
@@ -5557,6 +5564,40 @@ more than they would help.
 > The subcommands `compare-mass` and `run-vaz-study` run research studies of the group on climate
 > databases of tens of thousands of series, and require the files of those databases; they are not
 > part of the everyday use of the program.
+
+---
+
+### 3.6.8. Batch studies from JSON
+
+When the comparison is by **typology** (schools, commercial buildings, single-family and multi-family housing, hospitals, airports) and the result goes into a paper or a conference abstract, keeping one saved project per case and building the spreadsheet by hand stops paying off. The `estudo` subcommand of the command line organises the study in an `estudo.json` file: the base project, the cases, what changes from one case to the next, the analysis and the outputs. The program runs every case in a stable order and writes ready tables.
+
+```powershell
+## 3.6. 1. A skeleton study, with the labels of the typology and no value filled in.
+triton estudo init .\schools --tipologia escolar
+
+## 3.6. 2. Fill in schools\estudo.json (the «XX» and null entries) and put the .triton files and series in schools\casos.
+triton estudo validate .\schools\estudo.json
+
+## 3.6. 3. Run every case (in a stable order); --paralelo N uses N processes and does not change the result.
+triton estudo run .\schools\estudo.json --saida .\out\schools --paralelo 4
+
+## 3.6. 4. Rebuild the tables without recomputing (for example after changing metrics or decimal places).
+triton estudo resumo .\out\schools
+
+## 3.6. 5. Fill the conference abstract template with the real numbers.
+triton estudo texto .\out\schools --modelo .\schools\modelo_texto.md
+
+## 3.6. 6. Several studies (a folder with estudo*.json files), with the comparison between typologies.
+triton estudo lote .\studies --saida .\out\comparison
+```
+
+The typologies (`escolar` school, `comercial` commercial, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar` hospital, `aeroportuario` airport) are structure and labels only: `estudo init --tipologia` writes the label, the `grupo` of the cases and, in a comment, what `usuarios` means in that typology. No number comes with the typology: area, demand, users and share come from your cases, with the source of each.
+
+What each section of `estudo.json` contains, the aliases of the substitutions (catchment area, demand, users, share, tank volume and others) and the output files are in the appendix «Files, folders and formats». The example `examples/estudos/residencial-unifamiliar-exemplo/` runs the tutorial house in New York, London and Cape Town (`new_york.triton`, `london.triton`, `cape_town.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida out\example`.
+
+The ERA5 example series carry the Open-Meteo/Copernicus credit (CC BY 4.0), which the outputs inherit from `analyze` and repeat in the summary, in the tables and in `resultados.json`. Record the source, period and treatment of any series of your own in the protocol of the study.
+
+> **The program organises; the analyst decides.** No field of the skeleton comes filled in, and an «XX» or a `null` stops the run. The area, demand, number of users and eligible share of each building must come from a source that the study cites. The summary warns when the costs were not entered (CAPEX equal to zero), because then the net present value and the payback are not results.
 
 ---
 
@@ -9219,6 +9260,7 @@ The Fewkes operating rule (φ) is available as an option in every module.
 - **A region-neutral program.** It ships no regional rainfall database, no tariff catalogue, no cost catalogue and no emission-factor series, and it applies no national standard and no predefined currency. You supply the rainfall series of the site, the tariffs, the costs and the currency.
 - **Three worked examples.** New York, London and Cape Town, with one building and three rainfall series (ERA5 reanalysis via Open-Meteo, 1991 to 2020, CC BY 4.0) and three tariff structures, each checked by hand against its printed bill.
 - **The analysis chain.** Daily water balance, volume sweep and ideal volume, economic analysis with block tariffs and six tariff regimes, life-cycle assessment, treatment line, certification scoring, multi-criteria ranking, reports in PDF and spreadsheet, CAD and BIM exports.
+- **Batch studies from JSON.** The `triton estudo` subcommand organises a study in an `estudo.json` (base project, cases by typology, parameter substitutions by alias, analysis and outputs), runs every case in a stable order, with resume and parallel execution, and writes paper-ready tables: tidy CSV, JSON with provenance (version, edition, SHA-256, rainfall source and licence), Markdown, LaTeX (booktabs) and XLSX. A text template with markers receives the real numbers and leaves «XX» where a result is missing. A worked study is in `examples/estudos/`.
 - **Documentation.** The complete manual in English, an offline site, short volumes and `docs/DADOS.md`, which describes every dataset with its source, licence and quality.
 
 **What this version does not have.**
@@ -11543,9 +11585,72 @@ reinstalling or updating the program deletes nothing of yours.
 
 ---
 
-### F.5. Compatibility between versions
+### F.5. The batch study file (`estudo.json`)
 
-<!-- tabela: **Table 191** — Compatibility between versions of the project file -->
+Used by `triton estudo` (chapter «Comparing many cases at once»). Schema `triton-estudo`, version 1.
+
+<!-- tabela: **Table 191** — Sections of the estudo.json file (schema triton-estudo, version 1) -->
+| Section | Content |
+| :--- | :--- |
+| `esquema` | `{"nome": "triton-estudo", "versao": 1}`; any other version is refused |
+| `estudo` | `id` (letters, digits, dot, hyphen and underscore), `titulo` (title), `tipologia` (`escolar` school, `comercial` commercial, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar` hospital, `aeroportuario` airport or `outra` other), `tipologia_rotulo`, `autores` (authors), `nota` (note) |
+| `projeto_base` | `arquivo`: a `.triton`, with a path relative to `estudo.json`; or `modelo`: `"edicao"`, the project template of the edition (each case must then give area, demand, share and rainfall: nothing is assumed) |
+| `padroes` | `substituicoes` (substitutions) and `clima` (climate) applied to every case; what a case declares wins over the default |
+| `casos` | list; each case has `id`, `nome` (name), `grupo` (group; by default the typology), `projeto` (another `.triton` for this case), `clima` and `substituicoes` |
+| `clima` | `arquivo` (daily rainfall series, CSV), `data_inicio` (dd/mm/yyyy), `nome` and `fonte` (labels that go into the provenance) |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` or `all`), `volume` (`otimo_tecnico` technical optimum, `topsis` or a volume in litres), `pesos` (TOPSIS weights) and `semente` (seed) |
+| `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (one integer or one per metric), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar` (thousands separator), `legenda` (caption) and `orientacao` (`casos_nas_linhas` or `metricas_nas_linhas`) |
+
+Keys that start with `_` are comments and the program ignores them. An empty field, `null` or «XX» means «to be filled in»: the validation refuses it and says where it is. An unknown key is an error, with the closest match suggested. `triton estudo esquema` prints the JSON Schema of the file, for completion and checking in an editor.
+
+#### F.5.1. Aliases of the substitutions
+
+<!-- tabela: **Table 192** — Aliases of the substitutions and the project field each one changes -->
+| Alias | Project field | Unit |
+| :--- | :--- | :--- |
+| `area_captacao_m2` | `area` | m² |
+| `coeficiente_escoamento` | `runoff_coeff` | 0 to 1 |
+| `descarte_mm` | `discard` | mm |
+| `usuarios` (also `populacao`, `pessoas`, `ocupantes`, `users`, `residents`) | `residents_count` | people |
+| `demanda_per_capita_l_dia` | `demand_value` | L/person·day |
+| `demanda_total_l_dia` | `demand_value` (the total demand divided by the users) | L/day |
+| `fracao_pluvial_pct` or `fracao_pluvial` | `rainwater_share` | % or 0 to 1 |
+| `volume_reservatorio_l` | `lower_tank_fixed` (and `lower_tank_mode` = fixed volume) | L |
+| `volume_maximo_l`, `passo_volume_l` | `lower_tank_max` (sweep), `lower_tank_step` | L |
+| `reservatorio_superior_l` | `upper_tank_vol` (and `upper_tank_used`) | L |
+| `limiar_bombeamento_l`, `economias`, `irrigacao_l_dia` | `pumping_threshold`, `num_economias`, `irrigation_liters_per_day` | L, units, L/day |
+| `data_inicio`, `regra_phi`, `delta_ideal_pct` | `start_date`, `phi_operation_rule`, `delta_ideal` | dd/mm/yyyy, 0 to 1, %/m³ |
+| `periodo_analise_anos`, `tma_pct_mes`, `tarifa_energia` | `analysis_period_years`, `tma`, `elec_tariff` | years, % per month, currency/kWh |
+
+Besides the aliases, the key of a substitution can be **any field that `--set` accepts** (for example `cost_labor`) or a **dotted path of the `.triton` file itself**, such as `inputs.building_and_demand.catchment_area_m2`. The path must exist in the project and the value must have the same type as what is already there; otherwise the case ends with a clear error that lists the available keys. An unknown alias is also refused, with the closest match suggested. Two names for the same parameter in the same case (`area_captacao_m2` and `area_m2`, or `fracao_pluvial` and `fracao_pluvial_pct`) are a conflict. The fraction from 0 to 1 refuses 40 (probably a percentage); the percentage refuses anything outside 0 to 100.
+
+The substitutions go through the same fraction reconciliation as `--set`, and the preliminary cost fill (CAPEX) runs **after** them, so the price of the tank follows the volume of the case. `triton estudo apelidos` lists every alias and metric, in the language of the edition.
+
+#### F.5.2. Outputs of the study
+
+<!-- tabela: **Table 193** — Files that triton estudo run writes to the output folder -->
+| File | Content |
+| :--- | :--- |
+| `resultados.csv` | **tidy** format: one row per case and metric (`estudo_id`, `caso_id`, `caso`, `grupo`, `metrica`, `rotulo`, `valor`, `unidade`, `status`); decimal point, no thousands separator, UTF-8 |
+| `resultados.json` | the same values plus the **provenance**: Triton version, edition, SHA-256 of `estudo.json` and of each project and rainfall series, rainfall source, credit and licence, warnings and the run date |
+| `tabela.md` | Markdown table, with the numbers in the format of the language (decimal comma in Portuguese and Spanish, point in English and Chinese) |
+| `tabela.tex` | LaTeX table with `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), ready to paste; needs `\usepackage{booktabs}` |
+| `tabela.xlsx` | optional (`xlsx` in `formatos`): real, formatted numbers, plus the `tidy` and `proveniencia` sheets |
+| `resumo.md` | short summary: cases, range of each result, warnings, sources and licences |
+| `casos/<id>/resultado.json` and `analise.json` | every metric of the case and the full analysis of the engine (this is what `resumo` and `texto` read) |
+| `estudo.json` | copy of the study that produced the folder |
+
+The outputs carry no absolute path: projects appear with a path relative to `estudo.json` (or just the name). Two runs of the same study give identical files; the run date is the only difference, and the environment variable `SOURCE_DATE_EPOCH` fixes it. The `xlsx` stores its creation date in the file properties and is identical in content, not byte for byte.
+
+**Resuming and exit codes.** In an output folder that already has results, `run` requires `--retomar` (skips the finished and unchanged cases: the fingerprint of a case includes the study, the files, the version and the edition) or `--sobrescrever` (redoes everything). The exit code is 0 if every case was computed, 1 if some case ended with an error (the outputs of the others are written and the failed case shows `status` `erro`) and 2 if the study or the arguments are invalid.
+
+**Metrics.** The volume of each case is, by default, the technical optimum of the sweep (`volume: "otimo_tecnico"`); with `"topsis"`, the first of the ranking; with a number, the fixed volume. The available metrics include `volume_l`, `economia_agua_potavel_pct` (potable water saving), `agua_pluvial_m3_ano` (rainwater used), `agua_potavel_m3_ano`, `extravasamento_m3_ano` (overflow), the days with full, partial and no supply, `capex`, `vpl` (net present value), `economia_anual_agua` (annual saving on the water bill), `opex_anual`, `tir_anual_pct` (IRR), `payback_descontado_meses`, `co2_liquido_vida_kg`, `indice_topsis` and `aceitabilidade_smaa_pct`, plus the inputs of the case (`area_captacao_m2`, `usuarios`, `demanda_total_l_dia`, `chuva_media_anual_mm`). The economic metrics need `analise.tipo` `economic` or `all`; the environmental ones, `environmental` or `all`. The raw names of the report (`potable_savings_pct`) are also accepted. Monetary values come out in the currency of each project; if the cases have different currencies, the summary warns that they are not comparable and the comparison does not aggregate them. With CAPEX equal to zero (costs not entered), the summary warns that NPV, IRR and payback are not results.
+
+**Text with the numbers.** `triton estudo texto` replaces, in your `.md` template, the markers wrapped in double braces (two on each side; the examples below are shown without them): `economia_agua_potavel_pct:caso-01` (the value of one case), `economia_agua_potavel_pct:@min`, `@max`, `@media` (mean), `@mediana` (median) (over the computed cases; `@media(escolar)` restricts to one group), `n_casos` and, after a vertical bar, the decimal places (`vpl:caso-01|0`). Where a result is missing the marker becomes «XX» and the command lists the gaps (with `--estrito`, it exits with code 1). An unknown metric is an error.
+
+### F.6. Compatibility between versions
+
+<!-- tabela: **Table 194** — Compatibility between versions of the project file -->
 | Situation | What happens |
 | :--- | :--- |
 | project from an earlier version | opens; new fields take the default |
@@ -11839,7 +11944,7 @@ related terms that are often confused.
 
 #### G.1.1. 1. Rainwater and stormwater
 
-<!-- tabela: **Table 192** — Terminology for rainwater and stormwater -->
+<!-- tabela: **Table 195** — Terminology for rainwater and stormwater -->
 | Term | Definition and context of use | Status in Triton |
 | :--- | :--- | :--- |
 | *rainwater* | Precipitation collected directly on the roof (roof or waterproofed slab), before it reaches the ground or drains. It refers to the **water source** and the resource collected. | **Canonical and preferred**, also for systems, networks and the balance («rainwater network», «rainwater demand»). |
@@ -11849,7 +11954,7 @@ related terms that are often confused.
 
 To avoid the mathematical and conceptual ambiguities often found in the literature:
 
-<!-- tabela: **Table 193** — Fundamental quantities of the water balance and relations between fraction and potential -->
+<!-- tabela: **Table 196** — Fundamental quantities of the water balance and relations between fraction and potential -->
 | Quantity | Symbol / Code | Definition | Formula | Relation / Ceiling |
 | :--- | :--- | :--- | :--- | :--- |
 | **Suppliable fraction** | $f$ / `rainwater_share` | Share of the building's total demand corresponding to non-potable points of use that can be connected to the harvesting system. | $f = D_{pl} / D_{tot}$ | Design parameter ($0 \le f \le 1$). It is the **asymptotic ceiling** of $E_{pot}$. |
@@ -12081,7 +12186,7 @@ computer.
 
 ### I.1. Sheet 1 — The flow of a complete study
 
-<!-- tabela: **Table 194** — Reference sheet: the ten steps of a complete study and the section that deals with each one -->
+<!-- tabela: **Table 197** — Reference sheet: the ten steps of a complete study and the section that deals with each one -->
 | # | Step | What is decided in it | Section |
 | ---: | :--- | :--- | ---: |
 | 1 | Project and rain | series, area, coefficient, first flush | 4.1 |
@@ -12102,7 +12207,7 @@ mistakes. Section 5.2, the limitations that affect your case.
 
 ### I.2. Sheet 2 — The pitfalls, one line each
 
-<!-- tabela: **Table 195** — Reference sheet: the ten design pitfalls and where each one is dealt with -->
+<!-- tabela: **Table 198** — Reference sheet: the ten design pitfalls and where each one is dealt with -->
 | Pitfall | Where |
 | :--- | :--- |
 | **sloping** area instead of the horizontal projection | 5.1.1 |
@@ -12120,7 +12225,7 @@ mistakes. Section 5.2, the limitations that affect your case.
 
 ### I.3. Sheet 3 — The six tariff regimes
 
-<!-- tabela: **Table 196** — Reference sheet: the six tariff regimes and the effect of saving -->
+<!-- tabela: **Table 199** — Reference sheet: the six tariff regimes and the effect of saving -->
 | Regime | When saving |
 | :--- | :--- |
 | no minimum | every m³ earns a discount |
@@ -12140,7 +12245,7 @@ The International Edition has no tariff catalogue: the regime is the one of the 
 
 ### I.4. Sheet 4 — The indicators, and what each one answers
 
-<!-- tabela: **Table 197** — Reference sheet: the indicators and the question each one answers -->
+<!-- tabela: **Table 200** — Reference sheet: the indicators and the question each one answers -->
 | Indicator | Denominator | Answers |
 | :--- | :--- | :--- |
 | saving potential | **total** demand | how much potable water consumption falls |
@@ -12208,7 +12313,7 @@ enter your own costs in stage 5.
 
 ### J.1. The cases of the manual
 
-<!-- tabela: **Table 198** — The example cases and what each one demonstrates -->
+<!-- tabela: **Table 201** — The example cases and what each one demonstrates -->
 | File | Section | What it demonstrates |
 | :--- | :--- | :--- |
 | `01_tutorial_new_york.triton` | 4.1 to 4.10 | the closed tutorial project in New York: a 4,000 L polyethylene cistern and a pumped feed to a 1,000 L upper tank (illustrative costs, not market prices) |
@@ -12228,7 +12333,7 @@ The values below are obtained by **rereading the saved file** and simulating wha
 configuration that generated it. That is the difference that matters: a parameter that does not
 survive saving shows up here as a wrong number, instead of going unnoticed.
 
-<!-- tabela: **Table 199** — Result each example case produces when reread and simulated -->
+<!-- tabela: **Table 202** — Result each example case produces when reread and simulated -->
 | File | Mode | Volume | Potential | Rainwater consumed |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_new_york.triton` | fixed volume | 4,000 L | 27.09% | 162.6 L/day |
