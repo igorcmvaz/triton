@@ -30,7 +30,7 @@ from triton.core.tariffs_database import (
 from triton.core.tariffs_structure import ESGOTO_POR_FAIXAS, ESGOTO_POR_M3
 from triton.core.economic import esgoto_do_projeto
 from triton.core.cost_estimates import (
-    LOWER_TANK_PRICE_TABLE, UPPER_TANK_PRICE_TABLE, estimate_preliminary_capex, precos_de_catalogo,
+    LOWER_TANK_PRICE_TABLE, UPPER_TANK_PRICE_TABLE, estimate_preliminary_capex, precos_de_catalogo, banco_tem_precos,
     COSTS_FILE_PATH, _refresh_runtime_constants, REGIONAL_FACTORS_BY_UF,
     COMMERCIAL_PIPES_CAPEX, PIPE_COST_PER_METER, compute_pipe_item_cost
 )
@@ -1512,8 +1512,18 @@ class DialogInitialCosts(QDialog):
             grid.addWidget(lbl_est, row, 2)
             return lbl_est
 
+        # Sem catálogo de preços (edições INT/IBE e moeda diferente de R$), o preço da
+        # cisterna não tem estimativa: o campo é o que o projeto informa, na moeda escolhida.
+        self.txt_lower = QLineEdit(
+            decimal(f"{self.config.cost_lower_tank:.2f}") if self.config.cost_lower_tank > 0 else "")
+        self.txt_lower.setPlaceholderText(tr("Price of the lower reservoir"))
+        if self._lower_cost_is_typed():
+            add_row(4, f"{tr('Reservatório inferior')} {self._sym}:", self.txt_lower, 0.0)
+        else:
+            self.txt_lower.setVisible(False)
+
         self.txt_upper = QLineEdit(upper_val)
-        self.lbl_est_upper = add_row(0, f"{tr('Reservatório superior')} ({self._upper_vol:,.0f} L) {self._sym}:", self.txt_upper, est_upper)
+        self.lbl_est_upper = add_row(0,f"{tr('Reservatório superior')} ({self._upper_vol:,.0f} L) {self._sym}:", self.txt_upper, est_upper)
 
         self.txt_labor = QLineEdit(labor_val)
         self.lbl_est_labor = add_row(1, f"{tr('Mão de obra e instalação')} {self._sym}:", self.txt_labor, est_labor)
@@ -1558,10 +1568,11 @@ class DialogInitialCosts(QDialog):
         outer_layout.addWidget(scroll)
 
         # Conecta atualização do total
-        for txt in [self.txt_upper, self.txt_labor, self.txt_piping, self.txt_accessories]:
+        for txt in [self.txt_lower, self.txt_upper, self.txt_labor, self.txt_piping, self.txt_accessories]:
             txt.textChanged.connect(lambda _, w=txt: self._check_highlight(w))
             txt.textChanged.connect(self._update_total)
             self._check_highlight(txt)
+        self.txt_lower.textChanged.connect(self._refresh_lower_cost_table)
         pipe_txts = list(self.txt_pipes.values()) if hasattr(self, "txt_pipes") else [self.txt_pipe_50, self.txt_pipe_75, self.txt_pipe_100, self.txt_pipe_150]
         for txt in pipe_txts:
             txt.textChanged.connect(lambda _, w=txt: self._check_highlight(w))
@@ -1606,10 +1617,26 @@ class DialogInitialCosts(QDialog):
             self.lbl_est_acc.setText(_fmt_est(est_acc))
         self._reset_estimates()
 
-    def _refresh_lower_cost_table(self):
+    def _lower_cost_is_typed(self):
+        """O preço da cisterna é o digitado (sem catálogo de preços) e não o estimado?"""
+        return not precos_de_catalogo(self.config) or not banco_tem_precos()
+
+    def _lower_cost_of(self, volume):
+        """Preço da cisterna inferior para um volume: o digitado, ou a estimativa do catálogo."""
+        if self._lower_cost_is_typed():
+            if volume <= 0:
+                return 0.0
+            texto = normalizar_milhar(self.txt_lower.text().strip()) if hasattr(self, "txt_lower") else ""
+            try:
+                return float(texto) if texto else 0.0
+            except ValueError:
+                return 0.0
+        return self._estimate_costs(lower_volume=volume)[0]
+
+    def _refresh_lower_cost_table(self, *_):
         self.table_lower_costs.setRowCount(len(self._lower_volumes))
         for row, volume in enumerate(self._lower_volumes):
-            lower_cost = self._estimate_costs(lower_volume=volume)[0]
+            lower_cost = self._lower_cost_of(volume)
             volume_item = QTableWidgetItem(milhar(f"{volume:,.0f}"))
             cost_item = QTableWidgetItem(f"{self._sym} {format_ptbr(lower_cost, 2)}")
             volume_item.setTextAlignment(Qt.AlignCenter)
@@ -1643,7 +1670,7 @@ class DialogInitialCosts(QDialog):
                 if val_str:
                     fixed_total += float(val_str)
             totals = [
-                0.0 if volume <= 0 else fixed_total + self._estimate_costs(lower_volume=volume)[0]
+                0.0 if volume <= 0 else fixed_total + self._lower_cost_of(volume)
                 for volume in self._lower_volumes
             ]
             if len(totals) > 1:
@@ -1690,7 +1717,7 @@ class DialogInitialCosts(QDialog):
                 if hasattr(self, "txt_pipes") and dn in self.txt_pipes:
                     self.config.set_pipe_length(dn, _parse_val(self.txt_pipes[dn]))
             mao_anterior = float(self.config.cost_labor)
-            self.config.cost_lower_tank  = self._estimate_costs(lower_volume=self._lower_vol)[0]
+            self.config.cost_lower_tank  = self._lower_cost_of(self._lower_vol)
             self.config.cost_upper_tank  = _parse_val(self.txt_upper)
             self.config.cost_labor       = _parse_val(self.txt_labor)
             self.config.cost_piping      = _parse_val(self.txt_piping)
