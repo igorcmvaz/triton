@@ -27,7 +27,7 @@ from PySide6.QtWidgets import (
     QSplitter,
 )
 from triton.core.numero import decimal, milhar
-from PySide6.QtCore import Qt, Signal, QLocale
+from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QFont, QColor
 
 from triton.core.taxas import mensal_pct_para_anual_fracao, mensal_pct_para_anual_pct

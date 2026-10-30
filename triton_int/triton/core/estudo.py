@@ -21,7 +21,6 @@ projetos); a ordem das importações não muda o comportamento das demais ediç�
 
 from __future__ import annotations
 
-import copy
 import csv
 import difflib
 import hashlib

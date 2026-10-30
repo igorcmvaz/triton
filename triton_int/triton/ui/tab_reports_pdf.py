@@ -12,7 +12,7 @@ import base64
 from io import BytesIO
 from typing import Optional
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel,
+    QWidget, QVBoxLayout, QHBoxLayout, QLabel,
     QPushButton, QTextBrowser, QFileDialog, QMessageBox, QComboBox, QFrame, QSizePolicy
 )
 from PySide6.QtCore import Qt

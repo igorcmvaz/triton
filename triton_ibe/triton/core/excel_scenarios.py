@@ -3,7 +3,6 @@ import os
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 import itertools
 import io
-from dataclasses import field
 from typing import List, Dict, Any, Tuple, Union
 import numpy as np
 import pandas as pd

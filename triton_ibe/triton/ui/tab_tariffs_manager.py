@@ -17,7 +17,6 @@ from PySide6.QtWidgets import (
     QLabel,
     QComboBox,
     QPushButton,
-    QGroupBox,
     QTableWidget,
     QTableWidgetItem,
     QHeaderView,

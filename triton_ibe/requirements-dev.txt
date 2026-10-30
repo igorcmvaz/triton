@@ -5,5 +5,5 @@ reportlab>=4.0.0     # geração do PDF do manual (não usada pelo programa em e
 pytest>=7.4.0
 pypdf>=4.0.0          # conferência das páginas dos PDFs do manual
 pytest-cov>=4.1.0
-time-machine>=2.14.0
+Pillow>=10.0.0
 pyinstaller>=6.0.0

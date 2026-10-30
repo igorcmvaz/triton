@@ -23,11 +23,8 @@ import re
 from triton.core.edition import (
     is_ibe_edition, usa_dados_do_brasil,
     sem_norma_do_brasil, sem_marcas_do_brasil,
-    TERMOS_DO_BRASIL, PADRAO_DO_BRASIL, _AUTORIA, cita_o_brasil, _MARCAS_DO_BRASIL,
+    cita_o_brasil,
 )
-
-#: Sinal genérico de moeda (U+00A4): a Internacional não tem moeda predefinida.
-SINAL_DE_MOEDA = "¤"
 
 
 def por_edicao(brl, internacional, portugal=None):

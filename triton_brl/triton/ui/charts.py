@@ -7,7 +7,7 @@ Gráficos 2x2 com Identidade Visual UFSC Sustentável:
 4. Percentual de Dias de Atendimento (%) vs Volume do Reservatório (L)
 """
 
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QMessageBox, QLabel, QComboBox, QScrollArea, QFrame, QSizePolicy, QDialog, QFormLayout, QDialogButtonBox, QCheckBox
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QFileDialog, QMessageBox, QLabel, QComboBox, QSizePolicy, QDialog, QFormLayout, QDialogButtonBox, QCheckBox
 from triton.core.numero import milhar
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -21,8 +21,6 @@ from triton.ui.textos_da_edicao import nome_sugerido
 from triton.core.parser import format_ptbr
 
 # Proporção padrão dos gráficos (16:9)
-_CHART_ASPECT_W = 16
-_CHART_ASPECT_H = 9
 _CHART_MIN_HEIGHT_PX = 260   # altura mínima em pixels
 _CHART_DPI = 96
 _EXPORT_RATIOS = {"1:1": (1, 1), "3:2": (3, 2), "4:3": (4, 3), "16:9": (16, 9)}

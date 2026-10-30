@@ -34,7 +34,8 @@ ESTRANGEIRISMOS = re.compile(
     r"Selic|SINAPI|CUB|CREA|UFSC|CASAN|Joinville|AISI|HDPE|PEAD|PRFV|TFDI|"
     r"Casa|Azul|CAIXA|Schneider|Cryspin|Walsh|Lawler|Mayer|DeOreo|Ghisi|Vaz|IPTU|"
     r"First|Flush|kWh|CO2|json|xlsx|triton|Delta|"
-    r"three\.js|MIT|Poly|Haven|Quarry|CC0|WebGL)")
+    r"three\.js|MIT|Poly|Haven|Quarry|CC0|WebGL|"
+    r"Iberia|ODbL|ERA5|Sevilla)")
 
 #: Rótulos longos e trechos de HTML não são texto de botão: a composição neles é
 #: o recurso funcionando, e não o defeito.

@@ -132,7 +132,6 @@ CATALOGO: Tuple[Pressurizador, ...] = (
 )
 
 POR_CHAVE = {p.chave: p for p in CATALOGO}
-PADRAO = "komeco_tp820t"
 
 #: Vazão do ponto de uso, em L/min: 0,15 L/s da bacia com caixa de descarga
 #: (ABNT NBR 5626:1998, Tabela A.1; a edição de 2020 deixa a vazão ao projeto).

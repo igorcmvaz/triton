@@ -66,12 +66,6 @@ NOME_DA_TIPOLOGIA: Dict[str, str] = {
     "hospital": "Hospital / Clínica",
 }
 
-#: Razão entre a tarifa da categoria e a residencial na primeira faixa, medida na
-#: Tabela Tarifária CASAN 04/2026 (R$ 6,81 comercial contra R$ 3,08 residencial).
-#: Serve para dimensionar o aviso, não para corrigir conta nenhuma: a proporção
-#: varia entre concessionárias, e o programa não a aplica a lugar algum.
-RAZAO_DE_REFERENCIA_CASAN = 6.81 / 3.08
-
 
 def categoria_exigida(template_id: Optional[str]) -> str:
     """Categoria tarifária que a tipologia escolhida exigiria."""

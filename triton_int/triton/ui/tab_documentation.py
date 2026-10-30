@@ -49,15 +49,6 @@ from triton.core.environmental_justifications import (
 # ── CONFIGURAÇÃO DE LINKS DO ACERVO TÉCNICO E MANUAL INTERATIVO ──
 # URLs de contingência caso os arquivos locais não estejam presentes.
 URL_MANUAL_INTERATIVO = "https://www.google.com"
-URL_MANUAL_COMPLETO = "https://www.google.com"
-URL_MANUAL_VOL_1 = "https://www.google.com"
-URL_MANUAL_VOL_2 = "https://www.google.com"
-URL_MANUAL_VOL_3 = "https://www.google.com"
-URL_MANUAL_VOL_4 = "https://www.google.com"
-URL_MANUAL_VOL_5 = "https://www.google.com"
-URL_MANUAL_VOL_6 = "https://www.google.com"
-URL_MANUAL_VOL_7 = "https://www.google.com"
-URL_MANUAL_VOL_8 = "https://www.google.com"
 
 
 def open_url_in_browser(url: str):

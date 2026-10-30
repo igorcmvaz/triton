@@ -29,9 +29,6 @@ REAL = "R$"
 #: O código «BRL» que as cadeias em inglês do catálogo trazem no lugar do «R$» («Net NPV (BRL)»).
 _CODIGO_REAL = re.compile(r"(?<![A-Za-z])BRL(?![A-Za-z])")
 
-#: Etiqueta que acompanha a moeda ainda não escolhida (código ISO «XXX»: sem moeda).
-SEM_MOEDA = "¤"
-
 #: Propriedade que exclui um widget (e o que ele contém) da troca.
 MOEDA_FIXA = "moeda_fixa"
 

@@ -17,7 +17,6 @@ from typing import Any, Dict, Iterable, Optional
 
 #: Texto dos documentos quando o indicador não foi calculado para o volume.
 NAO_CALCULADO = "Não calculado"
-NAO_CALCULADO_EN = "Not calculated"
 
 #: Indicadores hídricos que o relatório mostra; ``None`` quando não simulados.
 CHAVES_HIDRICAS = ("potential_pct", "pluv_day", "potable_day", "spill_day", "sat_full", "sat_null")

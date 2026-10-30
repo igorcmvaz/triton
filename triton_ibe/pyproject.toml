@@ -57,7 +57,7 @@ dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
     "pyinstaller>=6.0.0",
-    "time-machine>=2.14.0",
+    "Pillow>=10.0.0",
 ]
 
 # Geração do manual (PDF) a partir dos capítulos. Não é usada pelo programa em execução.

@@ -24,7 +24,7 @@ Crossref ou OpenAlex é o que separa uma bibliografia de uma lista de lembrança
 from __future__ import annotations
 
 import html
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import date
 from typing import Dict, Literal, Optional, Tuple
 

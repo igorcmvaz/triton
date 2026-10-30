@@ -15,7 +15,6 @@ import math
 from html import escape
 from typing import Dict, Any, Optional
 from datetime import datetime
-from pathlib import Path
 
 import ezdxf
 from ezdxf.enums import TextEntityAlignment

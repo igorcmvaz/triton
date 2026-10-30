@@ -10,7 +10,7 @@ import math
 from triton.core.numero import milhar
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QGridLayout, QGroupBox, QLabel,
-    QDoubleSpinBox, QSpinBox, QComboBox, QPushButton, QMessageBox, QFrame,
+    QDoubleSpinBox, QSpinBox, QComboBox, QPushButton, QFrame,
     QTabWidget, QTableWidget, QTableWidgetItem, QHeaderView, QWidget,
     QApplication
 )

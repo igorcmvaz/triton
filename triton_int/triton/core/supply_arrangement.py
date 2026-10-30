@@ -40,7 +40,6 @@ PRESSAO_DE_TRABALHO_PADRAO_M = 18.0
 #: conta só as descargas: a lavagem de roupa está fora dos usos do item 4.1.7 da
 #: ABNT NBR 15527:2019. Quem a incluir soma os 0,37 ciclos.
 DESCARGAS_POR_PESSOA_DIA = 5.05
-CICLOS_DE_LAVADORA_POR_PESSOA_DIA = 0.37
 ACIONAMENTOS_POR_PESSOA_DIA = DESCARGAS_POR_PESSOA_DIA
 
 

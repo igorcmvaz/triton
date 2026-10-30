@@ -5,7 +5,7 @@ quando o mouse passa sobre eles, integrado com o sistema de justificativas ambie
 """
 
 from typing import Optional
-from PySide6.QtWidgets import QLineEdit, QComboBox, QWidget, QCheckBox
+from PySide6.QtWidgets import QLineEdit, QComboBox, QCheckBox
 from PySide6.QtWidgets import QToolTip
 
 from triton.core.environmental_justifications import ParameterJustification, format_justification_as_tooltip
