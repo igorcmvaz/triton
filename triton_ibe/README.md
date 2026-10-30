@@ -10,12 +10,12 @@ diário sobre uma série de precipitação, varre uma gama de volumes de reserva
 rende em água poupada, em dinheiro e em carbono do ciclo de vida; depois ordena as alternativas por decisão
 multicritério (TOPSIS e SMAA-VIKOR).
 
-Esta é a **Edição Ibérica** (**Triton IBE**, Península Ibérica; chamou-se Edição Portugal, PRT). Abre em português de Portugal, trabalha em euros e, por agora, só traz dados portugueses (Portugal 278 concelhos; Espanha: 0 locais). Os projetos e os scripts que ainda dizem `PRT` ou `POR` continuam a funcionar: abrem como IBE.
+Esta é a **Edição Ibérica** (**Triton IBE**, Península Ibérica; chamou-se Edição Portugal, PRT). Abre em português de Portugal, trabalha em euros e traz a chuva de toda a Península (Portugal 308 locais; Espanha 8 131 locais; as ilhas com ERA5, nível C). Os projetos e os scripts que ainda dizem `PRT` ou `POR` continuam a funcionar: abrem como IBE.
 
-- **Precipitação E-OBS por concelho**, 1950 a 2025 (E-OBS v33.0e, grelha de 0,1°, limites CAOP 2025): 278 dos
-  308 concelhos têm série. Os 30 restantes são ilhas e ficam de fora: os 19 dos Açores estão fora do domínio da
-  E-OBS e os 11 da Madeira têm mais de 1% de dias sem dado em 1991–2020. Para esses locais usa-se uma série do
-  próprio utilizador.
+- **Precipitação do Iberia01 por município**, 1971 a 2015 (Iberia01 v1.0, grelha de 0,1°, ODbL; limites CAOP 2025 e
+  Eurostat/GISCO LAU 2023), período padrão 1986–2015: Portugal continental, Espanha peninsular e Baleares (8 319
+  municípios, chave por código INE ou DTMN). Canárias, Madeira e Açores (118 locais) usam a reanálise ERA5, sempre
+  com nível C; Ceuta e Melilla ficam sem série. A E-OBS (1950–2025, só uso não comercial) é uma fonte opcional.
 - **Tarifários de água e saneamento** de Lisboa, Porto e Funchal, com a entidade gestora, a vigência e a fonte
   de cada valor.
 - **Exemplos completos** para Lisboa, Porto e Funchal.
@@ -45,17 +45,18 @@ As restantes edições usam o mesmo motor e o mesmo número de versão. Ver o
 **Pronto.** O balanço diário, o varrimento de volumes, a economia (escalões, VAL, TIR, período de recuperação),
 a avaliação do ciclo de vida, a linha de tratamento, as certificações, a decisão multicritério, a modulação
 probabilística, os laudos (PDF), a folha de cálculo, as exportações DXF/glTF/BIM, o manual completo e a
-documentação de cada conjunto de dados. A chuva E-OBS de 278 concelhos de Portugal continental tem nível de
-qualidade A, B ou C (45, 159 e 74); Lisboa, Porto e Funchal têm tarifário transcrito e exemplo completo.
+documentação de cada conjunto de dados. A chuva de cada município tem nível de
+qualidade A, B ou C (A 461, B 7 857, C 119; as ilhas são C); Lisboa, Porto e Funchal têm tarifário transcrito e exemplo completo.
 
 **Cobertura e o que falta.**
 
 | Área | Estado na versão 0.1.0 |
 | :--- | :--- |
-| Chuva, Portugal continental | pronta: 278 concelhos, com nível A (45), B (159) ou C (74) |
-| Chuva, ilhas | sem série na base (30 concelhos); o Funchal usa uma reanálise ERA5 |
-| Chuva, Espanha | 0 locais |
-| Tarifários | Lisboa, Porto e Funchal transcritos; nenhum concelho em verde |
+| Chuva, Portugal continental | pronta: 278 concelhos (Iberia01), nível A (140) ou B (138) |
+| Chuva, Espanha e Baleares | pronta: 8 041 municípios (Iberia01), nível A (321), B (7 719) ou C (1) |
+| Chuva, ilhas | Canárias, Madeira e Açores: 118 locais pela ERA5, nível C; Ceuta e Melilla sem série |
+| Tarifários, Portugal | Lisboa, Porto e Funchal transcritos; nenhum concelho em verde |
+| Tarifas, Espanha | média regional do INE para os 8 131 municípios (indicativa); nenhum município transcrito |
 | Preços e CAPEX | partem de zero e são do utilizador; o programa não traz preços de Portugal |
 | Fator de emissão da rede | sem valor até o utilizador o indicar |
 | Correção de escala da chuva | não faz parte desta versão |

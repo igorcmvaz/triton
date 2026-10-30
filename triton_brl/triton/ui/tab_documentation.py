@@ -88,7 +88,7 @@ def open_url_in_browser(url: str):
 PAGINAS_POR_EDICAO = {
     "BRL": {"manual/Manual-Triton.pdf": 482},
     "INT": {"manual/en/Triton-User-Manual.pdf": 297},
-    "IBE": {"manual/Manual-Triton.pdf": 308},
+    "IBE": {"manual/Manual-Triton.pdf": 309},
 }
 PAGINAS_DO_MANUAL_COMPLETO = PAGINAS_POR_EDICAO.get(get_current_edition(), {})
 

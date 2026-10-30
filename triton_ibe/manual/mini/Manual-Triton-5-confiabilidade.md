@@ -324,7 +324,7 @@ dispositivo, `A × d_f`, mas não o seu arranjo hidráulico, que exige um projet
 ### 5.2.2. Limitações dos dados de chuva e de tarifário
 
 **A chuva por concelho é uma média de grelha.** Em Lisboa e no Porto, a série é a média diária das
-células da grelha E-OBS (0,1°) do concelho, e não o registo de um posto. A base cobre 278 dos 308
+células da grelha (Iberia01 ou E-OBS, 0,1°) do município, e não o registo de um posto. O Iberia01 vai só até 2015; Canárias, Madeira e Açores são ERA5 de 0,25° (nível C), que subestima a chuva; Ceuta e Melilla não têm série. Nas tarifas, Espanha só tem a média regional do INE (indicativa) e Portugal, três concelhos transcritos. A base cobre 278 dos 308
 concelhos; os 30 restantes ficam de fora por estarem fora do domínio da E-OBS (Açores, a oeste de
 25° W) ou por terem mais de 1% de dias sem dado em 1991–2020. O Funchal usa a reanálise ERA5, numa
 célula de cerca de 9 km, com chuva em 42% dos dias, e é a série menos fiável das três. Para um

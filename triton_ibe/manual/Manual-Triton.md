@@ -9,7 +9,7 @@ Universidade Federal de Santa Catarina
 
 2026
 
-Versão 0.1.0 · revisão de 28/10/2026
+Versão 0.1.0 · revisão de 30/10/2026
 
 ---
 
@@ -1078,7 +1078,7 @@ Esta é a Edição Ibérica (IBE), o «Triton IBE», que se chamou Edição Port
 | :--- | :--- |
 | instalador | `Triton_IBE_Setup_0_1_0.exe` |
 | idioma ao abrir | português de Portugal |
-| chuva | base E-OBS por concelho (278 concelhos do Continente) ou série própria; Açores e Madeira só com série própria; série de exemplo do Funchal |
+| chuva | base Iberia01 por município (Portugal, Espanha, Baleares) e ERA5 nas ilhas (nível C), ou a E-OBS opcional (278 concelhos do Continente), ou série própria; série de exemplo do Funchal |
 | tarifas de água, saneamento e resíduos | tarifários de Lisboa, do Porto e do Funchal; nos outros concelhos, digitadas |
 | eletricidade | digitada (o Funchal traz a tarifa da EEM) |
 | moeda e custos | euro, a única oferecida; custos digitados |
@@ -5508,7 +5508,9 @@ Abra a etapa **1. Projeto e Chuva**. Há dois caminhos para a chuva.
 
 **Ficheiro próprio.** Um CSV com uma leitura diária por linha, em milímetros, numa só coluna. É o caminho de quem tem dados de uma estação concreta. A ETA 0701 da ANQIP recomenda dados de fontes oficiais, de preferência séries históricas de pelo menos 10 anos, e indica o Sistema Nacional de Informação de Recursos Hídricos (SNIRH) para as precipitações médias mensais de estações do país (item 4.1, versão 7 da ETA; ver a secção 1.1).
 
-**Base de concelhos (E-OBS).** O programa traz a precipitação diária de 278 concelhos do Continente, de 1950 a 2025, extraída da E-OBS v33.0e. A série de um concelho é a média das células da grelha com centro dentro dos seus limites. É o caminho de quem estuda outros concelhos, e a secção 3.2 mostra como testar um cenário climático.
+**Base ibérica (Iberia01), a fonte por defeito.** Escolha o país e a região (distrito, comunidade autónoma, ilha) e o município, ou escreva o nome ou o código (INE de cinco dígitos em Espanha, DTMN de quatro em Portugal) na caixa de busca. A série de um município é a média das células de 0,1° do Iberia01 que o servem, de 1971 a 2015; o período padrão é 1986–2015, porque a normal 1991–2020 não existe nesta fonte. O Iberia01 é de licença ODbL (uso comercial permitido, com atribuição, que o laudo leva). Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C e um aviso; Ceuta e Melilla não têm série e o programa pede a sua. O nível A, B ou C descreve a representação do município pela grelha, e não uma validação com pluviómetros. Os exemplos e o tutorial deste manual usam a série E-OBS de 1991 a 2020, que dá menos chuva do que o Iberia01 (cerca de 8% em Portugal): os números do tutorial não se repetem com o Iberia01.
+
+**Base de concelhos (E-OBS), fonte opcional.** O programa traz a precipitação diária de 278 concelhos do Continente, de 1950 a 2025, extraída da E-OBS v33.0e. A série de um concelho é a média das células da grelha com centro dentro dos seus limites. É o caminho de quem estuda outros concelhos, e a secção 3.2 mostra como testar um cenário climático.
 
 Para o nosso projeto, escolha o concelho de **Lisboa** e recorte os **30 anos** de 1991 a 2020.
 
@@ -7171,7 +7173,7 @@ dispositivo, `A × d_f`, mas não o seu arranjo hidráulico, que exige um projet
 ### 5.2.2. Limitações dos dados de chuva e de tarifário
 
 **A chuva por concelho é uma média de grelha.** Em Lisboa e no Porto, a série é a média diária das
-células da grelha E-OBS (0,1°) do concelho, e não o registo de um posto. A base cobre 278 dos 308
+células da grelha (Iberia01 ou E-OBS, 0,1°) do município, e não o registo de um posto. O Iberia01 vai só até 2015; Canárias, Madeira e Açores são ERA5 de 0,25° (nível C), que subestima a chuva; Ceuta e Melilla não têm série. Nas tarifas, Espanha só tem a média regional do INE (indicativa) e Portugal, três concelhos transcritos. A base cobre 278 dos 308
 concelhos; os 30 restantes ficam de fora por estarem fora do domínio da E-OBS (Açores, a oeste de
 25° W) ou por terem mais de 1% de dias sem dado em 1991–2020. O Funchal usa a reanálise ERA5, numa
 célula de cerca de 9 km, com chuva em 42% dos dias, e é a série menos fiável das três. Para um
@@ -7860,6 +7862,7 @@ módulos.
 - **Licença da chuva.** No primeiro arranque, o aviso da licença da E-OBS (só uso não comercial, em investigação e educação) e a declaração do uso pretendido, que fica registada nos laudos. Por decisão do titular (25/10/2026), o uso comercial da chuva E-OBS é bloqueado e os relatórios avisam, em vermelho e em tamanho grande, que não pode ser usada comercialmente.
 - **Tarifários.** Água, saneamento e resíduos de Lisboa, do Porto e do Funchal, transcritos de documentos oficiais com endereço e SHA-256 registados; a entidade gestora de cada serviço em 280 concelhos, a partir da ERSAR; e um estado de confiança por concelho e por serviço.
 - **Valores e língua.** Euros, IVA tratado em cada tarifário, português europeu na interface, nos laudos e no manual.
+- **Chuva de toda a Península (30/10/2026).** O Iberia01 passa a ser a fonte por defeito da Edição Ibérica: Portugal (308 locais), Espanha (8 131 municípios, incluindo as Baleares) e, com a ERA5 em nível C, Canárias, Madeira e Açores; chave por código INE/DTMN, busca por nome e código na Etapa 1, `--local` na linha de comandos e `clima.iberia` nos estudos em lote. A E-OBS fica opcional. A tabela de qualidade passa para um ficheiro separado sob ODbL. Tarifas de Espanha: média regional do INE (indicativa).
 - **Estudos em lote por JSON.** O subcomando `triton estudo` organiza um estudo num `estudo.json` (projeto base, casos por tipologia, substituições de parâmetros por apelidos, análise e saídas), roda todos os casos em ordem estável, com retomada e execução paralela, e grava tabelas para artigos: CSV tidy, JSON com proveniência (versão, edição, SHA-256, fonte e licença da chuva), Markdown, LaTeX (booktabs) e XLSX. Um modelo de texto com marcadores recebe os números reais e deixa «XX» onde faltar resultado. Há um estudo de exemplo em `examples/estudos/`.
 - **Documentação.** O manual completo, o sítio de documentação, volumes curtos e `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e qualidade.
 
@@ -10121,6 +10124,8 @@ Os concelhos transcritos:
 
 ## Apêndice E — Base climática
 
+> **Desde 30/10/2026 a fonte primária da Edição Ibérica é o Iberia01** (Península e Baleares, 8 319 municípios, 1971–2015, ODbL; Canárias, Madeira e Açores pela ERA5, nível C), em ficheiros separados do programa; ver `docs/DADOS.md` (§2A). O que se segue descreve a base E-OBS, que continua como fonte opcional e não comercial.
+>
 > **A Edição Ibérica traz a base E-OBS por concelho.** A precipitação diária de 278 concelhos do
 > Continente vem no programa, em `data/portugal_eobs.db`. Os Açores e a Madeira não têm série na base:
 > para eles, a série é sempre um ficheiro do utilizador (secção 4.1). Um exemplo, o Funchal, vem com

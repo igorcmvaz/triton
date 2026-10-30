@@ -27,7 +27,7 @@ Esta é a Edição Ibérica (IBE), o «Triton IBE», que se chamou Edição Port
 | :--- | :--- |
 | instalador | `Triton_IBE_Setup_0_1_0.exe` |
 | idioma ao abrir | português de Portugal |
-| chuva | base E-OBS por concelho (278 concelhos do Continente) ou série própria; Açores e Madeira só com série própria; série de exemplo do Funchal |
+| chuva | base Iberia01 por município (Portugal, Espanha, Baleares) e ERA5 nas ilhas (nível C), ou a E-OBS opcional (278 concelhos do Continente), ou série própria; série de exemplo do Funchal |
 | tarifas de água, saneamento e resíduos | tarifários de Lisboa, do Porto e do Funchal; nos outros concelhos, digitadas |
 | eletricidade | digitada (o Funchal traz a tarifa da EEM) |
 | moeda e custos | euro, a única oferecida; custos digitados |

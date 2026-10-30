@@ -34,7 +34,9 @@ RESUMO
   tzdata                           2024.2         Apache Software License
   three.js                         0.186.1        MIT
   Céu «Quarry» (Poly Haven)        1k HDR         CC0-1.0
-  Precipitação E-OBS (ECA&D / Copernicus) —              ver abaixo
+  Precipitação Iberia01 (UC-CSIC), ODbL —              ver abaixo
+  Precipitação ERA5 das ilhas (Copernicus / Open-Meteo), CC BY —   ver abaixo
+  Precipitação E-OBS (ECA&D / Copernicus), opcional —              ver abaixo
   Limites administrativos CAOP (DGT) —              ver abaixo
 
 ==============================================================================
@@ -7850,7 +7852,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 ==============================================================================
-Precipitação diária E-OBS (ECA&D / Copernicus) e CAOP (DGT)
+Precipitação diária Iberia01, ERA5, E-OBS (opcional), CAOP (DGT) e LAU (Eurostat)
 ==============================================================================
 
 Precipitação diária por concelho: conjunto E-OBS, agradecendo-se ao projeto UERRA do 6.º
@@ -7874,11 +7876,23 @@ acknowledge the E-OBS dataset from the EU-FP6 project UERRA (https://www.uerra.e
 Change Service, and the data providers in the ECA&D project (https://www.ecad.eu)». Cornes, R. C. et al.
 (2018), doi:10.1029/2017JD028200.
 
-Iberia01 (referência de comparação do nível de qualidade A/B/C; a tabela `qualidade` do banco guarda diferenças
-percentuais derivadas dele): Herrera et al. (2019), doi:10.20350/digitalCSIC/8641, DIGITAL.CSIC 10261/183071.
-Licença declarada pelo mantenedor: Open Database License (ODbL), com direitos sobre os conteúdos individuais sob
-a Database Contents License; não foi possível confirmá-la em linha nesta versão. Decisão do titular, 25/10/2026: a tabela
-`qualidade` vai para um ficheiro separado sob a ODbL, com a atribuição «Contains information from Iberia01, made available under the Open Database License».
+Iberia01 v1.0 (data/chuva_iberia01_p1..p4.db, data/ibe_unidades.db, data/qualidade_eobs_odbl.db): fonte primária da
+chuva da Península Ibérica e das Baleares. Herrera, S., Cardoso, R. M., Soares, P. M. M., Espírito-Santo, F., Viterbo, P.,
+Gutiérrez, J. M. (2019). Iberia01: a new gridded dataset of daily precipitation and temperatures over Iberia. Earth System
+Science Data 11, 1947-1956, doi:10.5194/essd-11-1947-2019; dados doi:10.20350/digitalCSIC/8641. Licença: Open Database
+License (ODbL 1.0), com direitos sobre os conteúdos individuais sob a Database Contents License (artigo da ESSD e metadados do
+ficheiro; a página do registo no DIGITAL.CSIC bloqueou o acesso automático). Os ficheiros derivados (séries por célula,
+municípios, pesos, nível de qualidade) são uma base derivada e ficam SEPARADOS do programa, sob ODbL 1.0: «Contains
+information from Iberia01, made available under the Open Database License (ODbL 1.0).» Os relatórios e gráficos são
+«Produced Works» e pedem só esta atribuição. A ODbL não se estende ao código do Triton.
+
+ERA5 (data/chuva_ilhas_era5.db; Canárias, Madeira e Açores, nível C): Hersbach, H. et al. (2020), doi:10.1002/qj.3803.
+Contains modified Copernicus Climate Change Service information; dados obtidos da API de arquivo da Open-Meteo.com,
+CC BY 4.0 (a API gratuita é de uso não comercial e só o mantenedor a consulta, ao compilar a base).
+
+Limites de Espanha: Eurostat/GISCO, Local Administrative Units (LAU) 2023, © EuroGeographics para os limites
+administrativos, reutilização com atribuição. INE (códigos de município, população e custo unitário do água por comunidade,
+Encuesta sobre el suministro y saneamiento del agua 2024): reutilização com citação da fonte.
 
 CAOP 2025 (limites dos concelhos): Direção-Geral do Território, licença cc-by no registo oficial em dados.gov.pt.
 

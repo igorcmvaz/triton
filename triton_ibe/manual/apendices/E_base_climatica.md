@@ -1,5 +1,7 @@
 # Base climática
 
+> **Desde 30/10/2026 a fonte primária da Edição Ibérica é o Iberia01** (Península e Baleares, 8 319 municípios, 1971–2015, ODbL; Canárias, Madeira e Açores pela ERA5, nível C), em ficheiros separados do programa; ver `docs/DADOS.md` (§2A). O que se segue descreve a base E-OBS, que continua como fonte opcional e não comercial.
+>
 > **A Edição Ibérica traz a base E-OBS por concelho.** A precipitação diária de 278 concelhos do
 > Continente vem no programa, em `data/portugal_eobs.db`. Os Açores e a Madeira não têm série na base:
 > para eles, a série é sempre um ficheiro do utilizador (secção {{n:4}}). Um exemplo, o Funchal, vem com

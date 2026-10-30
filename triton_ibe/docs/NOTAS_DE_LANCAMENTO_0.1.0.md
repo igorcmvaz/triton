@@ -2,7 +2,7 @@
 
 Versão 0.1.0 (beta), data de lançamento a definir. É a primeira versão do Triton e a primeira da Edição Ibérica (antes Edição Portugal, PRT; os projetos e os scripts que ainda dizem `PRT` ou `POR` abrem como IBE). Este documento diz o que a versão traz, o que não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
 
-**Em resumo: esta versão só tem dados de Portugal.** A edição chama-se Ibérica porque foi desenhada para a Península Ibérica, mas a Espanha tem 0 locais no programa.
+**Em resumo: a chuva cobre toda a Península Ibérica e as ilhas.** O Iberia01 serve Portugal (308 locais), Espanha (8 131 municípios) e as Baleares; Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C; Ceuta e Melilla ficam sem série. As tarifas de Espanha são só a média regional do INE (indicativa); só 3 concelhos de Portugal têm tarifário transcrito.
 
 ## O que é
 
@@ -20,10 +20,10 @@ As verificações desta versão foram feitas em Windows. A licença é de códig
 
 ## O que a Edição Ibérica traz
 
-- **Chuva.** A precipitação diária de 278 concelhos de Portugal continental, de 1950 a 2025 (27 759 dias), calculada a partir da grelha E-OBS v33.0e (0,1°, cerca de 10 km) e dos limites da CAOP 2025; pacote `PT-EOBS-v33.0e-37fcba20`, com SHA-256.
-- **Nível de qualidade da chuva.** Cada concelho tem um nível A, B ou C, pela diferença para o Iberia01 em 1971–2000 e pela geometria da série: 45 de nível A, 159 de B e 74 de C. Os C concentram-se no Algarve (15 dos 16 concelhos).
-- **Aviso de licença.** No primeiro arranque, o programa mostra a licença da E-OBS (só uso não comercial, em investigação e educação) e regista nos laudos o uso declarado. Por decisão do titular (25/10/2026), o uso comercial da chuva E-OBS é bloqueado e os relatórios avisam, em vermelho e em tamanho grande, que não pode ser usada comercialmente; quem a usa assume o uso não comercial.
-- **Tarifários.** Água, saneamento e resíduos de Lisboa, do Porto e do Funchal, transcritos de documentos oficiais com endereço e SHA-256; a entidade gestora de cada serviço em 280 concelhos (índice da ERSAR); um estado de confiança por concelho e por serviço.
+- **Chuva.** A precipitação diária de 8 319 municípios (Portugal continental, Espanha peninsular e Baleares), de 1971 a 2015 (16 436 dias), calculada a partir das 6 523 células de 0,1° do Iberia01 v1.0 (ODbL), em quatro partes de 13 a 15 MiB e ficheiros separados do programa; período padrão 1986–2015; chave por código INE/DTMN; pacote `iberia01-v1.0-b214eb601c3d`. Canárias, Madeira e Açores (118 locais): ERA5 de 0,25°, nível C. A E-OBS (1950–2025, só uso não comercial) é uma fonte opcional.
+- **Nível de qualidade da chuva.** Cada município tem um nível A, B ou C pela representação espacial na grade (A: 3 ou mais células; B: 1 ou 2, ou contido numa célula; C: célula emprestada ou ERA5): A 461, B 7 857 e C 119; as ilhas são todas C. Não é uma validação com pluviómetros.
+- **Aviso de licença.** No primeiro arranque, o programa mostra a licença da E-OBS (só uso não comercial, em investigação e educação) e regista nos laudos o uso declarado. Por decisão do titular (25/10/2026), o uso comercial da chuva E-OBS é bloqueado e os relatórios que usam a E-OBS avisam, em vermelho e em tamanho grande, que não pode ser usada comercialmente; quem a usa assume o uso não comercial. O Iberia01 (ODbL) não tem esse bloqueio: pede só a atribuição, que o rodapé dos laudos leva.
+- **Tarifários.** Água, saneamento e resíduos de Lisboa, do Porto e do Funchal, transcritos de documentos oficiais com endereço e SHA-256; a entidade gestora de cada serviço em 280 concelhos (índice da ERSAR); um estado de confiança por concelho e por serviço. Espanha: média regional do INE (2024) para os 8 131 municípios, rotulada como indicativa (camada 3); nenhum município transcrito (camada 1).
 - **Valores e língua.** Euros; português europeu na interface, nos laudos e no manual.
 - **Análise.** Balanço diário, volume ideal, economia, ACV simplificada, linha de tratamento, certificações (LEED, EDGE, GRI), decisão multicritério, modulação probabilística.
 - **Saídas.** Laudos em PDF (executivo, ambiental/ESG e dossiê técnico), folha de auditoria, DXF, glTF/HTML e manifesto BIM; exemplos completos para Lisboa, Porto e Funchal.
@@ -31,8 +31,9 @@ As verificações desta versão foram feitas em Windows. A licença é de códig
 
 ## O que não há
 
-- **Espanha.** Nenhum local. Há um ensaio, feito fora do programa, com as 52 capitais de província (39 em nível B, 9 em C, 4 sem série). Falta o limite municipal (CNIG) e a licença da E-OBS, que continua a limitar o uso à investigação e à educação.
-- **Ilhas.** Os 30 concelhos da Madeira (11) e dos Açores (19) não têm série na base. O exemplo do Funchal usa uma reanálise ERA5 (10 958 dias, 1991–2020), sem nível de qualidade.
+- **Tarifas de Espanha por município.** Não existe conjunto aberto nacional; a camada 1 (tarifário transcrito de documento oficial) está vazia e a camada 2 (herdada da entidade) também. Cada transcrição pede a leitura do boletim de cada operador.
+- **Ceuta e Melilla.** Sem série de chuva (fora do Iberia01); o programa diz porquê e pede série própria.
+- **Ilhas.** A ERA5 de 0,25° subestima a chuva (de 8% a 47% nas estações testadas): use a série da estação para um projeto real. A ERA5-Land de 0,1° não estava acessível.
 - **Tarifários dos restantes concelhos.** Só três estão transcritos. Nenhum concelho está em verde: não existe verificação independente registada (42 amarelos e 238 cinzentos na água e no saneamento).
 - **Preços.** O programa não calcula preços de Portugal. Custos de obra, eletrobomba, tratamento e manutenção, a tarifa de eletricidade e o preço do cloro partem de zero; os resultados económicos dos exemplos não são resultados. O manual (secção 10) diz como introduzir os seus valores.
 - **Fator de emissão da rede elétrica.** Sem valor (zero até o utilizador o indicar).
@@ -40,10 +41,10 @@ As verificações desta versão foram feitas em Windows. A licença é de códig
 
 ## Limitações conhecidas
 
-- A licença da E-OBS é omissa quanto à redistribuição da base derivada e nenhum pedido foi feito ao KNMI. Decisão do titular (25/10/2026): bloquear o uso comercial e avisar nos relatórios; o titular não responde por uso comercial. A tabela `qualidade` (derivada do Iberia01, ODbL) vai para um ficheiro separado sob a ODbL, com atribuição; a separação é feita à parte e pode ainda não estar no pacote.
+- A licença da E-OBS é omissa quanto à redistribuição da base derivada e nenhum pedido foi feito ao KNMI. Decisão do titular (25/10/2026): bloquear o uso comercial e avisar nos relatórios; o titular não responde por uso comercial. A tabela de qualidade (derivada do Iberia01, ODbL) está num ficheiro separado sob a ODbL, com atribuição (`data/qualidade_eobs_odbl.db`).
 - O aviso de licença só existe em português europeu, e o texto ainda precisa de revisão.
 - O diálogo do CAPEX não tem campo para o preço da cisterna e repõe-no a zero ao confirmar; a secção 10 do manual dá o contorno.
-- A E-OBS dá, em média, 10,1% menos chuva que o Iberia01 nos 278 concelhos (20,7% menos nos de nível C) e alisa os extremos; em C, valide com uma série local.
+- A E-OBS dá, em média, 13% menos chuva que o Iberia01 (8% em Portugal): os totais e as sobras das versões que usavam a E-OBS não se comparam com os de agora. O Iberia01 vai só até 2015 e não tem a normal 1991–2020.
 - Em espanhol e em chinês, a interface está traduzida em parte (as traduções do nível de qualidade não foram revistas por um falante nativo) e os laudos saem com trechos em português.
 - Em inglês, alguns textos do catálogo da linha de tratamento e a proveniência do tarifário aparecem em português.
 - Tarifários: o IVA do Funchal não está confirmado; a disponibilidade de água do Porto foi lida por inferência do layout; Beja, Évora, Ponta Delgada e Bragança têm vigência de mais de 12 meses. A tarifa de eletricidade do Funchal (0,1673 €/kWh) vem de uma fonte secundária.
@@ -52,7 +53,7 @@ As verificações desta versão foram feitas em Windows. A licença é de códig
 
 ## Dados e licenças numa linha
 
-E-OBS: só uso não comercial em investigação e educação (citar Cornes et al., 2018). CAOP 2025: cc-by. Iberia01: ODbL (referência do nível de qualidade; a tabela derivada vai em ficheiro separado sob ODbL, com atribuição). ERA5 via Open-Meteo: CC BY 4.0. ERSAR: avisos legais, citar a fonte, sem licença aberta. Os documentos dos tarifários não se redistribuem. Detalhe em [`DADOS.md`](DADOS.md).
+E-OBS: só uso não comercial em investigação e educação (citar Cornes et al., 2018). CAOP 2025: cc-by. Iberia01: ODbL (fonte primária da chuva; os dados derivados vão em ficheiros separados do programa, com atribuição). Limites de Espanha: Eurostat/GISCO LAU 2023. INE: média regional das tarifas, com citação. ERA5 via Open-Meteo: CC BY 4.0. ERSAR: avisos legais, citar a fonte, sem licença aberta. Os documentos dos tarifários não se redistribuem. Detalhe em [`DADOS.md`](DADOS.md).
 
 ## O que foi verificado e o que não foi
 
