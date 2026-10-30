@@ -1,0 +1,4 @@
+# Triton — dependências opcionais da documentação técnica (extra "docs"; não entra no instalador)
+# Equivale a: pip install -e ".[docs]"
+mkdocs-material==9.8.0   # o autor só mantém correções críticas até 05/05/2027
+mkdocs<2

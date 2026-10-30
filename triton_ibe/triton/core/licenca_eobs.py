@@ -283,8 +283,18 @@ def _rodape_iberico(aud: Dict[str, Any], ingles: bool) -> str:
                            else f"Pacote {p['pacote_id']}, SHA-256 {p['sha256_pacote'][:8]}."))
     except Exception:
         pass
+    linhas.append(_tarifa_de_espanha(aud, lingua))
     linhas.append(_ib.linha_de_cobertura(lingua))
     return "<br/>".join(escape(l) for l in linhas if l)
+
+
+def _tarifa_de_espanha(aud: Dict[str, Any], lingua: str) -> str:
+    """Linha do laudo sobre a tarifa do município de Espanha (camada 1 transcrita, 2 ou 3); vazia nos demais casos."""
+    codigo = str(aud.get("tariff_city_code") or "")
+    if not codigo.startswith("ES-"):
+        return ""
+    from triton.core import tarifarios_espanha as _te
+    return _te.nota_da_camada1(codigo, lingua) or _te.aviso(codigo)
 
 
 def _pacote_atual() -> Dict[str, str]:

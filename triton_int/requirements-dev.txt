@@ -7,3 +7,5 @@ pypdf>=4.0.0          # conferência das páginas dos PDFs do manual
 pytest-cov>=4.1.0
 Pillow>=10.0.0
 pyinstaller>=6.0.0
+
+# Extras opcionais (nao entram no instalador): pip install -e ".[docs]" / ".[analise]" / ".[cli]" / ".[otimizacao]" / ".[grafo]"; ver pyproject.toml e requirements-docs.txt

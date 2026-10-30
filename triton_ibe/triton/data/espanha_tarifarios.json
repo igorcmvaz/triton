@@ -1,36 +1,1379 @@
 {
- "_formato": "Tarifas de Espanha por camadas (ver triton/core/tarifarios_espanha.py e auditoria/iberia/esquema_tarifas_espanha_exemplo.json). 'camada3' = média regional do INE (um preço total por m3, indicativo); 'municipios' = camada 1, só com documento oficial arquivado (URL, data de acesso, SHA-256). Valor sem fonte verificada fica fora: o programa diz 'sem tarifa'.",
- "camada3": {
-  "fonte": "INE, Encuesta sobre el suministro y saneamiento del agua (ESSA) 2024, nota de imprensa de 02/07/2026, gráfico 'Distribuição do coste unitario do agua por comunidades y ciudades autónomas'",
-  "url": "https://ine.es/dyngs/Prensa/ESSA2024.htm",
-  "acedido_em": "2026-10-30",
-  "sha256_documento": "9412ca7fa82ba9dc55a8d744f6c626ef17b07cb7686d268b816b4d76022e21a6",
-  "ano": 2024,
-  "media_nacional_eur_m3": 2.02,
-  "licenca": "INE, reutilização com citação da fonte (rodapé da página indica CC BY-SA 4.0 / CC BY 4.0: confirmar)",
-  "nota": "Ceuta e Melilla: o INE publica um valor conjunto (1,46); sem série de chuva nestas cidades.",
-  "aviso": "média regional de 2024 (água e saneamento juntos); não é a tarifa do município; use só para ordem de grandeza",
-  "eur_m3_total": {
-   "La Rioja": 1.26,
-   "Principado de Asturias": 1.27,
-   "Castilla y León": 1.29,
-   "Galicia": 1.29,
-   "Cantabria": 1.53,
-   "Comunidad Foral de Navarra": 1.56,
-   "Castilla-La Mancha": 1.62,
-   "Aragón": 1.69,
-   "Extremadura": 1.71,
-   "Comunidad de Madrid": 1.74,
-   "Andalucía": 1.86,
-   "Canarias": 2.27,
-   "País Vasco": 2.32,
-   "Región de Murcia": 2.6,
-   "Comunitat Valenciana": 2.63,
-   "Cataluña": 2.72,
-   "Illes Balears": 2.8,
-   "Ceuta": 1.46,
-   "Melilla": 1.46
+  "_formato": "Tarifas de Espanha por camadas (ver triton/core/tarifarios_espanha.py e auditoria/iberia/esquema_tarifas_espanha_exemplo.json). 'camada3' = média regional do INE (um preço total por m3, indicativo); 'municipios' = camada 1 (transcrita, conferido=false até a segunda leitura humana; iva_pct null = taxa não consta da fonte; ver iva_observacao), só com documento oficial arquivado (URL, data de acesso, SHA-256). Valor sem fonte verificada fica fora: o programa diz 'sem tarifa'.",
+  "camada3": {
+    "fonte": "INE, Encuesta sobre el suministro y saneamiento del agua (ESSA) 2024, nota de imprensa de 02/07/2026, gráfico 'Distribuição do coste unitario do agua por comunidades y ciudades autónomas'",
+    "url": "https://ine.es/dyngs/Prensa/ESSA2024.htm",
+    "acedido_em": "2026-10-30",
+    "sha256_documento": "9412ca7fa82ba9dc55a8d744f6c626ef17b07cb7686d268b816b4d76022e21a6",
+    "ano": 2024,
+    "media_nacional_eur_m3": 2.02,
+    "licenca": "INE, reutilização com citação da fonte (rodapé da página indica CC BY-SA 4.0 / CC BY 4.0: confirmar)",
+    "nota": "Ceuta e Melilla: o INE publica um valor conjunto (1,46); sem série de chuva nestas cidades.",
+    "aviso": "média regional de 2024 (água e saneamento juntos); não é a tarifa do município; use só para ordem de grandeza",
+    "eur_m3_total": {
+      "La Rioja": 1.26,
+      "Principado de Asturias": 1.27,
+      "Castilla y León": 1.29,
+      "Galicia": 1.29,
+      "Cantabria": 1.53,
+      "Comunidad Foral de Navarra": 1.56,
+      "Castilla-La Mancha": 1.62,
+      "Aragón": 1.69,
+      "Extremadura": 1.71,
+      "Comunidad de Madrid": 1.74,
+      "Andalucía": 1.86,
+      "Canarias": 2.27,
+      "País Vasco": 2.32,
+      "Región de Murcia": 2.6,
+      "Comunitat Valenciana": 2.63,
+      "Cataluña": 2.72,
+      "Illes Balears": 2.8,
+      "Ceuta": 1.46,
+      "Melilla": 1.46
+    }
+  },
+  "municipios": {
+    "ES-28079": {
+      "nome": "Madrid",
+      "provincia": "Madrid",
+      "ccaa": "Comunidad de Madrid",
+      "entidades": "Canal de Isabel II (abastecimento, alcantarillado e depuracao)",
+      "vigencia": "2026 (tabela rotulada 'Tarifas 2026'; data exata de inicio nao consta do PDF)",
+      "camada": 1,
+      "origem_do_valor": "transcrito",
+      "periodicidade_faturacao": "bimestral",
+      "calibre_contador_mm": 15,
+      "agua": {
+        "fixa_mes": 6.1425,
+        "fixa_original": {
+          "valor": 12.285,
+          "unidade": "EUR/periodo",
+          "meses_do_periodo": 2,
+          "nota": "aducao 0,0188x(D2+225N)=8.4600 + distribuicao 0,0085x(D2+225N)=3.8250, D=15 mm, N=1"
+        },
+        "escaloes": [
+          [
+            0.0,
+            10,
+            0.4562
+          ],
+          [
+            10,
+            20,
+            0.8695
+          ],
+          [
+            20,
+            30,
+            2.2373
+          ],
+          [
+            30,
+            null,
+            2.5729
+          ]
+        ],
+        "escaloes_original": {
+          "base": "periodo",
+          "meses_do_periodo": 2,
+          "limites_m3": [
+            20,
+            40,
+            60
+          ],
+          "precos_inverno_aducao": [
+            0.3146,
+            0.6286,
+            1.6199,
+            1.8629
+          ],
+          "precos_verao_aducao": [
+            0.3146,
+            0.7854,
+            2.43,
+            2.7945
+          ],
+          "precos_distribuicao": [
+            0.1416,
+            0.2409,
+            0.6174,
+            0.71
+          ]
+        },
+        "iva_pct": 10.0
+      },
+      "saneamiento": {
+        "fixa_mes": 2.2317,
+        "alcantarillado": {
+          "fixa_mes": 0.56765,
+          "por_m3": null
+        },
+        "depuracion": {
+          "fixa_mes": 1.66405,
+          "por_m3": null
+        },
+        "escaloes": [
+          [
+            0.0,
+            10,
+            0.4465
+          ],
+          [
+            10,
+            20,
+            0.5452
+          ],
+          [
+            20,
+            30,
+            0.8496
+          ],
+          [
+            30,
+            null,
+            0.977
+          ]
+        ],
+        "escaloes_original": {
+          "limites_m3": [
+            20,
+            40,
+            60
+          ],
+          "alcantarillado": [
+            0.1161,
+            0.1378,
+            0.1812,
+            0.2084
+          ],
+          "depuracion": [
+            0.3304,
+            0.4074,
+            0.6684,
+            0.7686
+          ]
+        },
+        "coef_recolha": 1.0,
+        "iva_pct": 10.0
+      },
+      "parcelas": [],
+      "extra": {
+        "variante_estacional_verao_1jun_30set": {
+          "agua_escaloes": [
+            [
+              0.0,
+              10,
+              0.4562
+            ],
+            [
+              10,
+              20,
+              1.0263
+            ],
+            [
+              20,
+              30,
+              3.0474
+            ],
+            [
+              30,
+              null,
+              3.5045
+            ]
+          ],
+          "nota": "so o abastecimento muda no verao (blocos 2 a 4); saneamento igual; o motor so le uma tarifa: usada a de inverno (vigente em out)"
+        }
+      },
+      "impostos_nota": "IVA 10% (Ley 37/1992 art. 91.Uno.1.4 e 91.Uno.2.5). O PDF diz que os valores nao incluem IVA e o exemplo de 20 m3/bimestre (38 EUR com IVA) reproduz-se: 34,80 + 10% = 38,28. Sem canon autonomico na factura do Canal. Tasa de basuras e municipal, fora da factura de agua: nao transcrita.",
+      "conversoes": "bimestral->mensal: cuota fija /2; limites dos blocos /2 (20/40/60 -> 10/20/30 m3/mes); precos unitarios inalterados. Pressupoe consumo igual nos dois meses. Agua = aducao+distribuicao; saneamiento = alcantarillado+depuracion.",
+      "procedencia": {
+        "recolhido_em": "2026-10-30",
+        "servicos": {
+          "agua": "transcrito",
+          "saneamiento": "transcrito",
+          "residuos": "nao_transcrito"
+        },
+        "documentos": [
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Canal de Isabel II, Tarifas 2026 (cita BOCM 31/05/2025 Decreto 29/2025 e Orden 2107/2025; BOCM 07/10/2025 Orden 3922/2025)",
+            "ficheiro": "so_hash (5 385 496 B > 5 MB)",
+            "url": "https://175aniversario.canaldeisabelsegunda.es/wp-content/uploads/2026/01/Tarifas_Canal-de-Isabel-II-web.pdf",
+            "sha256": "63541a9afba1b1255f2854277dec5c2fb24c27bfbed04cba1aadf481a9d7fa45",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Ley 37/1992 do IVA, art. 91.Uno.1.4 (aguas aptas para alimentacion humana) e 91.Uno.2.5 (tratamento de aguas residuales): 10%",
+            "ficheiro": "fontes/_comuns/ley37_1992_iva_boe.html",
+            "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
+            "sha256": "77e45c9236c1b7040f8ec57c5d23eb76a0387d86fb019d7dbbd92c1f3a4716db",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          }
+        ],
+        "conferido": false,
+        "pendencias": [
+          "data de inicio exata das tarifas 2026 nao consta do PDF (so a lista de BOCM)",
+          "valores sazonais: a candidata usa a tarifa de inverno (1 out-31 mai)"
+        ],
+        "em_falta": []
+      },
+      "fontes": [
+        "https://175aniversario.canaldeisabelsegunda.es/wp-content/uploads/2026/01/Tarifas_Canal-de-Isabel-II-web.pdf",
+        "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740"
+      ],
+      "conferencia": [
+        {
+          "m3": 10,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 19.14,
+          "conta_max_se_imposto_incerto": 19.14
+        },
+        {
+          "m3": 15,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 26.92,
+          "conta_max_se_imposto_incerto": 26.92
+        },
+        {
+          "m3": 25,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 51.68,
+          "conta_max_se_imposto_incerto": 51.68
+        },
+        {
+          "m3": 30,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 68.66,
+          "conta_max_se_imposto_incerto": 68.66
+        }
+      ],
+      "codigo_ine": "28079",
+      "iva_observacao": "IVA 10% por lei (Ley 37/1992 art. 91.Uno.1.4 e 91.Uno.2.5); o PDF diz so 'sin IVA'; o exemplo de 20 m3/bimestre (38 EUR) confirma 10%."
+    },
+    "ES-41091": {
+      "nome": "Sevilla",
+      "provincia": "Sevilla",
+      "ccaa": "Andalucia",
+      "entidades": "EMASESA (abastecimento, vertido/alcantarillado e depuracao)",
+      "vigencia": "2025-01-01 (coluna 'a partir de 01/01/2025' do Anexo; texto publicado no BOP n. 33 de 18/02/2026)",
+      "camada": 1,
+      "origem_do_valor": "transcrito",
+      "periodicidade_faturacao": "mensal ou trimestral (a ordenanza limita a facturacao a 3 meses para calibres < 65 mm; periodicidade exata nao fixada)",
+      "calibre_contador_mm": 15,
+      "agua": {
+        "fixa_mes": 4.83625,
+        "fixa_original": {
+          "valor": 0.159,
+          "unidade": "EUR/dia",
+          "meses_do_periodo": 1,
+          "nota": "x 365/12 dias por mes"
+        },
+        "escaloes": [
+          [
+            0.0,
+            10.0375,
+            0.641
+          ],
+          [
+            10.0375,
+            11.8625,
+            1.217
+          ],
+          [
+            11.8625,
+            null,
+            2.261
+          ]
+        ],
+        "escaloes_original": {
+          "base": "litros por habitante e dia",
+          "limites_l_hab_dia": [
+            110,
+            130
+          ],
+          "habitantes_assumidos": 3,
+          "precos_Ta": [
+            0.641,
+            1.217,
+            2.261
+          ],
+          "nota": "tarifa em blocos por habitante empadronado; assumida moradia de 3 pessoas (referencia da propria EMASESA); 110/130 l/hab/dia x 3 x 365/12"
+        },
+        "iva_pct": 10.0
+      },
+      "saneamiento": {
+        "fixa_mes": 3.406667,
+        "alcantarillado": {
+          "fixa_mes": 1.703333,
+          "por_m3": null
+        },
+        "depuracion": {
+          "fixa_mes": 1.703333,
+          "por_m3": null
+        },
+        "escaloes": [
+          [
+            0.0,
+            10.0375,
+            0.807
+          ],
+          [
+            10.0375,
+            11.8625,
+            1.581
+          ],
+          [
+            11.8625,
+            null,
+            2.63
+          ]
+        ],
+        "escaloes_original": {
+          "precos_Tv_vertido": [
+            0.395,
+            0.774,
+            1.264
+          ],
+          "precos_Td_depuracion": [
+            0.412,
+            0.807,
+            1.366
+          ],
+          "K": "coeficiente de contaminacao K=1 para uso domestico (nao aplicado a domesticos)"
+        },
+        "coef_recolha": 1.0,
+        "iva_pct": 10.0
+      },
+      "parcelas": [],
+      "extra": {},
+      "impostos_nota": "IVA 10% (Ley 37/1992 art. 91). O Anexo exclui IVA. Canon de mejora de infraestructuras hidraulicas (Junta de Andalucia): o art. 10 do Anexo cita 0,1979 EUR/m3 'para 2024'; valor de 2026 e tratamento de IVA nao confirmados, por isso NAO foi posto em parcelas. Tasa de basuras (45,5% do saneamento segundo terceiros) nao transcrita.",
+      "conversoes": "EUR/dia -> EUR/mes x 365/12; blocos l/hab/dia -> m3/mes por domicilio de 3 pessoas (110 -> 10.0375 m3, 130 -> 11.8625 m3). Agua = Ta; saneamiento = Tv+Td.",
+      "procedencia": {
+        "recolhido_em": "2026-10-30",
+        "servicos": {
+          "agua": "transcrito",
+          "saneamiento": "transcrito",
+          "residuos": "nao_transcrito"
+        },
+        "documentos": [
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "BOP Sevilla n. 33, 18/02/2026, ordenanza EMASESA, Anexo (tarifas 2024 e a partir de 01/01/2025)",
+            "ficheiro": "fontes/sevilla/bop33_2026.pdf",
+            "url": "https://www.emasesa.com/wp-content/uploads/2026/06/Bop-33-18_02_2026-publicacion-definitiva-Ordenanza.pdf",
+            "sha256": "7b1c151537c9b8d5f8374178ca19b1cdf769381d3db2e74abd2ca31ffe7e7591",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Ley 37/1992 do IVA, art. 91.Uno.1.4 (aguas aptas para alimentacion humana) e 91.Uno.2.5 (tratamento de aguas residuales): 10%",
+            "ficheiro": "fontes/_comuns/ley37_1992_iva_boe.html",
+            "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
+            "sha256": "77e45c9236c1b7040f8ec57c5d23eb76a0387d86fb019d7dbbd92c1f3a4716db",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Pagina de tarifas da EMASESA (so conferencia cruzada)",
+            "ficheiro": "fontes/sevilla/pagina_tarifas.html",
+            "url": "https://www.emasesa.com/usuarios/tu-factura/tarifas/",
+            "sha256": "670602b8c4308eaad3322203dc5a12e821edbecc6423db3d65683eb19893a49d",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          }
+        ],
+        "conferido": false,
+        "pendencias": [
+          "canon de mejora Junta de Andalucia: 0,1979 EUR/m3 so documentado para 2024 (art. 10 do Anexo); nao incluido",
+          "numero de habitantes assumido = 3",
+          "bonificacao por uso eficiente (<=90 l/hab/dia) nao transcrita",
+          "pagina da EMASESA (calculo para 3 pessoas) diverge do calculo com a coluna 2025: ver CONFERENCIA.md"
+        ],
+        "em_falta": []
+      },
+      "fontes": [
+        "https://www.emasesa.com/wp-content/uploads/2026/06/Bop-33-18_02_2026-publicacion-definitiva-Ordenanza.pdf",
+        "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
+        "https://www.emasesa.com/usuarios/tu-factura/tarifas/"
+      ],
+      "conferencia": [
+        {
+          "m3": 10,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 25.0,
+          "conta_max_se_imposto_incerto": 25.0
+        },
+        {
+          "m3": 15,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 47.55,
+          "conta_max_se_imposto_incerto": 47.55
+        },
+        {
+          "m3": 25,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 101.35,
+          "conta_max_se_imposto_incerto": 101.35
+        },
+        {
+          "m3": 30,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 128.25,
+          "conta_max_se_imposto_incerto": 128.25
+        }
+      ],
+      "codigo_ine": "41091",
+      "iva_observacao": "IVA 10% por lei (Ley 37/1992 art. 91); o Anexo diz 'sin IVA'. Canon de mejora: tratamento de IVA nao confirmado."
+    },
+    "ES-30030": {
+      "nome": "Murcia",
+      "provincia": "Murcia",
+      "ccaa": "Region de Murcia",
+      "entidades": "EMUASA / Aguas de Murcia (abastecimento e alcantarillado); depuracao: canon ESAMUR (nao transcrito)",
+      "vigencia": "2025-02-06 (aplica-se desde a publicacao no BORM n. 30 de 06/02/2025)",
+      "camada": 1,
+      "origem_do_valor": "transcrito",
+      "periodicidade_faturacao": "bimestral (mensal para consumo anual > 2 400 m3); a tabela ja vem em EUR/mes e m3/mes",
+      "calibre_contador_mm": 15,
+      "agua": {
+        "fixa_mes": 6.89911,
+        "fixa_original": {
+          "valor": 6.89911,
+          "unidade": "EUR/mes",
+          "meses_do_periodo": 1,
+          "nota": "calibre < 15 mm, tarifa geral domestica"
+        },
+        "escaloes": [
+          [
+            0.0,
+            2.5,
+            0.632586
+          ],
+          [
+            2.5,
+            10,
+            1.061759
+          ],
+          [
+            10,
+            13,
+            1.502518
+          ],
+          [
+            13,
+            30,
+            2.447747
+          ],
+          [
+            30,
+            null,
+            3.038728
+          ]
+        ],
+        "escaloes_original": {
+          "base": "mes",
+          "meses_do_periodo": 1,
+          "nota": "blocos ja expressos em m3/mes"
+        },
+        "iva_pct": 10.0
+      },
+      "saneamiento": {
+        "fixa_mes": 2.064601,
+        "alcantarillado": {
+          "fixa_mes": 1.520231,
+          "por_m3": 0.326165
+        },
+        "depuracion": {
+          "fixa_mes": 0.0,
+          "por_m3": null
+        },
+        "escaloes": [
+          [
+            0.0,
+            null,
+            0.326165
+          ]
+        ],
+        "escaloes_original": {
+          "cuota_fija_alcantarillado": 1.520231,
+          "infraestructuras_de_mejora_medioambiental_EUR_mes": 0.54437,
+          "nota": "a 'tarifa para infraestructuras de mejora medioambiental' (Epigrafe III, todos os calibres) esta somada a parte fixa do saneamento"
+        },
+        "coef_recolha": 1.0,
+        "iva_pct": 10.0
+      },
+      "parcelas": [],
+      "extra": {
+        "formula_polinomica": "T' = T x [1 + 0,004793255 x P], P = aumento (cts EUR) da tarifa da Mancomunidad de los Canales del Taibilla: as tarifas podem ter subido depois de 06/02/2025 sem nova publicacao no BORM por mim consultada"
+      },
+      "impostos_nota": "IVA 10% (Ley 37/1992 art. 91). A ordenanza nao indica a taxa. Canon de saneamiento ESAMUR (tributo regional cobrado na factura): valor nao esta na ordenanza; a pagina da EMUASA so o menciona; NAO transcrito. Tasa de residuos tambem vai na factura e nao foi transcrita. O BORM n. 58 de 11/03/2025 nao pode ser baixado (captcha).",
+      "conversoes": "nenhuma (valores ja mensais). Sanemento: fixa 1,520231 + 0,544370 (mejora medioambiental).",
+      "procedencia": {
+        "recolhido_em": "2026-10-30",
+        "servicos": {
+          "agua": "transcrito",
+          "saneamiento": "transcrito",
+          "residuos": "nao_transcrito"
+        },
+        "documentos": [
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "BORM n. 30, 06/02/2025, p. 3214 ss., modificacao da ordenanza (novo modelo tarifario, abastecimento e alcantarillado)",
+            "ficheiro": "fontes/murcia/borm_30_2025_ordenanza.pdf",
+            "url": "https://www.borm.es/services/anuncio/833965/pdf",
+            "sha256": "cbe5ad7085d22b52ba50f5099619c87dae2eaed14d325daf18301c61d32c0c86",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Pagina de tarifas da EMUASA (canon de saneamiento ESAMUR, exemplos de conta: so conferencia)",
+            "ficheiro": "fontes/murcia/emuasa_tarifas_web.html",
+            "url": "https://www.emuasa.es/en/tariffs",
+            "sha256": "acdf057f5b7890a4eb9a1c1e7b6bd5be1048392c2dae69ae5027e81936186daf",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Ley 37/1992 do IVA, art. 91.Uno.1.4 (aguas aptas para alimentacion humana) e 91.Uno.2.5 (tratamento de aguas residuales): 10%",
+            "ficheiro": "fontes/_comuns/ley37_1992_iva_boe.html",
+            "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
+            "sha256": "77e45c9236c1b7040f8ec57c5d23eb76a0387d86fb019d7dbbd92c1f3a4716db",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          }
+        ],
+        "conferido": false,
+        "pendencias": [
+          "canon de saneamiento ESAMUR (Ley 3/2002, valores por Ley de presupuestos CARM) nao transcrito: custo real da factura e maior",
+          "formula polinomica Taibilla: possivel atualizacao apos 02/2025",
+          "tasa de residuos na factura nao transcrita",
+          "depuracao: so o canon ESAMUR; a ordenanza nao traz tarifa de depuracao municipal",
+          "DIVERGENCIA com a pagina da EMUASA: os exemplos da pagina (7 m3=13,26; 15 m3=24,52; 30 m3=61,24 EUR so de agua) coincidem com a ordenanza ate 10 m3, mas ficam 1,32 EUR/mes abaixo a partir de 13 m3, como se o bloco >10 a 13 m3 custasse 1,061759 em vez de 1,502518; possivel correcao no BORM n. 58 de 11/03/2025 (nao baixavel: captcha) ou pagina desatualizada"
+        ],
+        "em_falta": []
+      },
+      "fontes": [
+        "https://www.borm.es/services/anuncio/833965/pdf",
+        "https://www.emuasa.es/en/tariffs",
+        "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740"
+      ],
+      "conferencia": [
+        {
+          "m3": 10,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 23.95,
+          "conta_max_se_imposto_incerto": 23.95
+        },
+        {
+          "m3": 15,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 36.08,
+          "conta_max_se_imposto_incerto": 36.08
+        },
+        {
+          "m3": 25,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 66.6,
+          "conta_max_se_imposto_incerto": 66.6
+        },
+        {
+          "m3": 30,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 81.85,
+          "conta_max_se_imposto_incerto": 81.85
+        }
+      ],
+      "codigo_ine": "30030",
+      "iva_observacao": "IVA 10% por lei (Ley 37/1992 art. 91); a ordenanza nao indica a taxa."
+    },
+    "ES-15030": {
+      "nome": "A Coruña",
+      "provincia": "A Coruña",
+      "ccaa": "Galicia",
+      "entidades": "EMALCSA (abastecimento, alcantarillado); depuracao EDAR Bens (coeficiente de vertido); canon Augas de Galicia",
+      "vigencia": "2026 (cuadro 'vigentes en 2026'; ordenanza BOP 15/07/2024; alcantarillado BOP 29/12/2025; vertido BOP 31/12/2021)",
+      "camada": 1,
+      "origem_do_valor": "transcrito",
+      "periodicidade_faturacao": "mensal (agua: blocos/mes) e trimestral (alcantarillado: blocos/trimestre)",
+      "calibre_contador_mm": 15,
+      "agua": {
+        "fixa_mes": 5.18,
+        "fixa_original": {
+          "valor": 5.18,
+          "unidade": "EUR/mes",
+          "meses_do_periodo": 1,
+          "nota": "cuota de disponibilidad, contador 2,5 m3/h ou inferior"
+        },
+        "escaloes": [
+          [
+            0.0,
+            6,
+            0.1402
+          ],
+          [
+            6,
+            15,
+            0.3612
+          ],
+          [
+            15,
+            null,
+            0.3938
+          ]
+        ],
+        "escaloes_original": {
+          "base": "mes",
+          "nota": "'hasta 6', 'de 7 a 15', 'mas de 15' m3/mes, lidos como blocos marginais"
+        },
+        "iva_pct": 10.0
+      },
+      "saneamiento": {
+        "fixa_mes": 0.936667,
+        "alcantarillado": {
+          "fixa_mes": 0.436667,
+          "por_m3": null
+        },
+        "depuracion": {
+          "fixa_mes": 0.5,
+          "por_m3": 0.28
+        },
+        "escaloes": [
+          [
+            0.0,
+            6,
+            0.38
+          ],
+          [
+            6,
+            null,
+            0.42
+          ]
+        ],
+        "escaloes_original": {
+          "alcantarillado_trimestral": {
+            "fixa": 1.31,
+            "limite_m3_trimestre": 18,
+            "precos": [
+              0.1,
+              0.14
+            ]
+          },
+          "coeficiente_vertido_EDAR_Bens": {
+            "fixa_mes": 0.5,
+            "EUR_m3": 0.28
+          }
+        },
+        "coef_recolha": 1.0,
+        "iva_pct": null
+      },
+      "parcelas": [
+        {
+          "nome": "Alquiler de contador (2,5 m3/h): IVA 21%",
+          "fixa": 0.66,
+          "por_m3": 0.0,
+          "iva_pct": 21.0
+        },
+        {
+          "nome": "Canon del agua, Augas de Galicia: parte fixa (1,54 EUR/mes; 0,51 se nao passar o 1o tramo). A parte variavel por tramos esta em extra.canon_autonomico",
+          "fixa": 1.54,
+          "por_m3": 0.0,
+          "iva_pct": null
+        }
+      ],
+      "extra": {
+        "canon_autonomico": {
+          "entidade": "Augas de Galicia",
+          "fixa_mes": 1.54,
+          "fixa_mes_se_nao_passa_tramo1": 0.51,
+          "n_pessoas_assumido": 3,
+          "tramos_m3_mes": [
+            [
+              0,
+              6,
+              0.0
+            ],
+            [
+              6,
+              12,
+              0.29
+            ],
+            [
+              12,
+              24,
+              0.37
+            ],
+            [
+              24,
+              null,
+              0.42
+            ]
+          ],
+          "nota": "tramos 2n/4n/8n m3/mes com n=3; DOG 31/12/2013 (Ley 11/2013); o motor atual nao representa canon em blocos em 'parcelas'"
+        }
+      },
+      "impostos_nota": "Agua (disponibilidade e consumo) IVA 10%; aluguel de contador IVA 21% (ambos no cuadro). O cuadro nao diz o IVA do alcantarillado (tasa), do coeficiente de vertido nem do canon: iva_pct=null; a CONFERENCIA mostra o intervalo 0%-10%. Tasa de basuras (BOP 15/10/2025: 60,98 EUR/ano fixos + 10 a 55 EUR por tramo de consumo + 1,5 a 10 EUR por rota) nao transcrita.",
+      "conversoes": "alcantarillado trimestral -> mensal: cuota 1,31/3; limite do bloco 18 m3/trimestre -> 6 m3/mes; precos inalterados. Saneamiento = alcantarillado (0,10/0,14) + coeficiente de vertido EDAR Bens (0,28).",
+      "procedencia": {
+        "recolhido_em": "2026-10-30",
+        "servicos": {
+          "agua": "transcrito",
+          "saneamiento": "transcrito",
+          "residuos": "nao_transcrito"
+        },
+        "documentos": [
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "EMALCSA, Cuadro resumen de tarifas vigentes en 2026 (BOP 15/07/2024; BOP 29/12/2025; BOP 31/12/2021; Augas de Galicia)",
+            "ficheiro": "fontes/acoruna/cuadro_tarifas_2026.pdf",
+            "url": "https://www.emalcsa.es/uploads/tinymce/Tarifas/Cuadro%20tarifas%20-%20resumen%202026%2C%20web.pdf",
+            "sha256": "663d4794d84f0e9a05a0e4c2b69431731addc959407368345b39193b2080af53",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Ley 37/1992 do IVA, art. 91.Uno.1.4 (aguas aptas para alimentacion humana) e 91.Uno.2.5 (tratamento de aguas residuales): 10%",
+            "ficheiro": "fontes/_comuns/ley37_1992_iva_boe.html",
+            "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
+            "sha256": "77e45c9236c1b7040f8ec57c5d23eb76a0387d86fb019d7dbbd92c1f3a4716db",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          }
+        ],
+        "conferido": false,
+        "pendencias": [
+          "IVA do saneamento e do canon nao indicado no documento",
+          "canon em tramos nao representavel em parcelas",
+          "alcantarillado: leitura dos blocos 'hasta 18 / mas de 18' como marginais (ambiguidade)",
+          "n=3 pessoas assumido para o canon"
+        ],
+        "em_falta": []
+      },
+      "fontes": [
+        "https://www.emalcsa.es/uploads/tinymce/Tarifas/Cuadro%20tarifas%20-%20resumen%202026%2C%20web.pdf",
+        "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740"
+      ],
+      "conferencia": [
+        {
+          "m3": 10,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 16.61,
+          "conta_max_se_imposto_incerto": 17.37
+        },
+        {
+          "m3": 15,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 22.38,
+          "conta_max_se_imposto_incerto": 23.52
+        },
+        {
+          "m3": 25,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 34.67,
+          "conta_max_se_imposto_incerto": 36.6
+        },
+        {
+          "m3": 30,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 41.03,
+          "conta_max_se_imposto_incerto": 43.39
+        }
+      ],
+      "codigo_ine": "15030",
+      "iva_observacao": "O cuadro da EMALCSA indica IVA 10% so para disponibilidade e consumo de agua e 21% para o aluguer de contador. Nao indica IVA para alcantarillado, coeficiente de vertido e canon: null."
+    },
+    "ES-35016": {
+      "nome": "Las Palmas de Gran Canaria",
+      "provincia": "Las Palmas",
+      "ccaa": "Canarias",
+      "entidades": "EMALSA (abastecimento, alcantarillado e depuracao)",
+      "vigencia": "2026 (coluna 2026 da tabela do Anexo I, ordenanza aprovada para 2025-2029; texto corrigido no BOP n. 103, 27/08/2025)",
+      "camada": 1,
+      "origem_do_valor": "transcrito",
+      "periodicidade_faturacao": "bimestral",
+      "calibre_contador_mm": 15,
+      "agua": {
+        "fixa_mes": 2.25,
+        "fixa_original": {
+          "valor": 4.5,
+          "unidade": "EUR/periodo",
+          "meses_do_periodo": 2,
+          "nota": "calibre 15 mm, 2,5 m3/h"
+        },
+        "escaloes": [
+          [
+            0.0,
+            3.5,
+            0.3
+          ],
+          [
+            3.5,
+            7,
+            1.37
+          ],
+          [
+            7,
+            11,
+            2.0
+          ],
+          [
+            11,
+            null,
+            3.75
+          ]
+        ],
+        "escaloes_original": {
+          "base": "periodo",
+          "meses_do_periodo": 2,
+          "limites_m3": [
+            7,
+            14,
+            22
+          ],
+          "nota": "unidade familiar < 5 pessoas (padrao); blocos 0-7, 8-14, 15-22, >22 m3/bimestre"
+        },
+        "iva_pct": 0.0
+      },
+      "saneamiento": {
+        "fixa_mes": 1.78,
+        "alcantarillado": {
+          "fixa_mes": 0.915,
+          "por_m3": null
+        },
+        "depuracion": {
+          "fixa_mes": 0.865,
+          "por_m3": null
+        },
+        "escaloes": [
+          [
+            0.0,
+            3.5,
+            0.152
+          ],
+          [
+            3.5,
+            7,
+            0.4559
+          ],
+          [
+            7,
+            11,
+            0.9522
+          ],
+          [
+            11,
+            null,
+            1.3586
+          ]
+        ],
+        "escaloes_original": {
+          "alcantarillado_bimestral": {
+            "fixa": 1.83,
+            "precos": [
+              0.0914,
+              0.2741,
+              0.5482,
+              0.75
+            ]
+          },
+          "depuracion_bimestral_2026": {
+            "fixa": 1.73,
+            "precos": [
+              0.0606,
+              0.1818,
+              0.404,
+              0.6086
+            ]
+          },
+          "nota": "a depuracao muda de ano para ano na ordenanza (2026 usada); alcantarillado e agua constantes 2025-2029"
+        },
+        "coef_recolha": 1.0,
+        "iva_pct": null
+      },
+      "parcelas": [],
+      "extra": {},
+      "impostos_nota": "Canarias: IGIC e nao IVA. Agua (abastecimento): tipo cero, Ley 4/2012 de Canarias art. 52.b (aguas aptas para alimentacion humana); vigora como iva_pct=0. O IGIC do alcantarillado e da depuracao nao foi verificado (iva_pct=null; conferencia mostra 0%-7%, tipo geral do art. 51). Sem canon autonomico na ordenanza. Os valores do Anexo excluem impostos.",
+      "conversoes": "bimestral->mensal: cuotas /2; limites 7/14/22 -> 3,5/7/11 m3/mes; precos inalterados. Saneamiento = alcantarillado + depuracion (2026).",
+      "procedencia": {
+        "recolhido_em": "2026-10-30",
+        "servicos": {
+          "agua": "transcrito",
+          "saneamiento": "transcrito",
+          "residuos": "nao_transcrito"
+        },
+        "documentos": [
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "BOP Las Palmas n. 103, 27/08/2025, Anexo I da Ordenanza PPPNT do ciclo integral (tarifas 2025-2029); tabelas lidas em imagem (fonte PDF com codificacao quebrada)",
+            "ficheiro": "fontes/laspalmas/bop_27_8_25_correcao.pdf",
+            "url": "https://emalsa.es/wp-content/uploads/2025/09/Boletin-27.8.25-A_Modificacion-error-Ordenanza-PPPNT.pdf",
+            "sha256": "cf5121a90ae4e45bf7f60ee963d614e2a0f9f2756fdfc140a0ca771c9d07cd90",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Ley 4/2012 de Canarias, art. 51 e 52.b (tipo cero para aguas aptas para alimentacion humana)",
+            "ficheiro": "fontes/_comuns/ley4_2012_canarias_boe.html",
+            "url": "https://www.boe.es/buscar/doc.php?id=BOE-A-2012-9282",
+            "sha256": "bdb79ae0e48368e6fd636c5f677f7e3f0c0bfae95b2fd7be982a98231c16fb9a",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          }
+        ],
+        "conferido": false,
+        "pendencias": [
+          "IGIC de alcantarillado/depuracao nao verificado",
+          "enunciado do Anexo diz 'sin impuestos'",
+          "tabelas lidas em imagem (texto do PDF ilegivel): reconferir antes de integrar",
+          "calibre 15 mm e familia < 5 pessoas"
+        ],
+        "em_falta": []
+      },
+      "fontes": [
+        "https://emalsa.es/wp-content/uploads/2025/09/Boletin-27.8.25-A_Modificacion-error-Ordenanza-PPPNT.pdf",
+        "https://www.boe.es/buscar/doc.php?id=BOE-A-2012-9282"
+      ],
+      "conferencia": [
+        {
+          "m3": 10,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 7% aos itens de IVA/IGIC nao verificado",
+          "conta": 20.86,
+          "conta_max_se_imposto_incerto": 21.33
+        },
+        {
+          "m3": 15,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 7% aos itens de IVA/IGIC nao verificado",
+          "conta": 44.25,
+          "conta_max_se_imposto_incerto": 45.17
+        },
+        {
+          "m3": 25,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 7% aos itens de IVA/IGIC nao verificado",
+          "conta": 95.33,
+          "conta_max_se_imposto_incerto": 97.2
+        },
+        {
+          "m3": 30,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 7% aos itens de IVA/IGIC nao verificado",
+          "conta": 120.87,
+          "conta_max_se_imposto_incerto": 123.22
+        }
+      ],
+      "codigo_ine": "35016",
+      "iva_observacao": "Agua: IGIC tipo cero (Ley 4/2012 de Canarias art. 52.b, texto do BOE arquivado). Alcantarillado e depuracao: IGIC nao verificado: null (tipo geral 7% art. 51 seria o limite superior)."
+    },
+    "ES-33024": {
+      "nome": "Gijón",
+      "provincia": "Asturias",
+      "ccaa": "Principado de Asturias",
+      "entidades": "EMA - Empresa Municipal de Aguas de Gijon (abastecimento e alcantarillado)",
+      "vigencia": "2025-01-01 (ordenanza BOPA 28/11/2024, exercicio 2025); congelamento de tasas em 2026 anunciado pela EMA (so o titulo da noticia foi lido)",
+      "camada": 1,
+      "origem_do_valor": "transcrito",
+      "periodicidade_faturacao": "bimestral",
+      "calibre_contador_mm": 15,
+      "agua": {
+        "fixa_mes": 2.83495,
+        "fixa_original": {
+          "valor": 5.6699,
+          "unidade": "EUR/periodo",
+          "meses_do_periodo": 2,
+          "nota": "cuota de servicio, contador 7 a 15 mm"
+        },
+        "escaloes": [
+          [
+            0.0,
+            15,
+            0.3965
+          ],
+          [
+            15,
+            25,
+            0.5842
+          ],
+          [
+            25,
+            null,
+            0.7468
+          ]
+        ],
+        "escaloes_original": {
+          "base": "periodo",
+          "meses_do_periodo": 2,
+          "limites_m3": [
+            30,
+            50
+          ],
+          "nota": "domestica: ate 30, 31 a 50, a partir de 50 m3/bimestre"
+        },
+        "iva_pct": 10.0
+      },
+      "saneamiento": {
+        "fixa_mes": 1.6221,
+        "alcantarillado": {
+          "fixa_mes": 1.6221,
+          "por_m3": 0.1982
+        },
+        "depuracion": {
+          "fixa_mes": 0.0,
+          "por_m3": null
+        },
+        "escaloes": [
+          [
+            0.0,
+            null,
+            0.1982
+          ]
+        ],
+        "escaloes_original": {
+          "cuota_fija_bimestral_por_vivienda": 3.2442,
+          "EUR_m3": 0.1982,
+          "nota": "a tarifa de alcantarillado inclui o saneamento; nao ha linha separada de depuracao"
+        },
+        "coef_recolha": 1.0,
+        "iva_pct": 10.0
+      },
+      "parcelas": [],
+      "extra": {},
+      "impostos_nota": "A ordenanza so diz 'se anadira el IVA correspondiente en cada caso' (norma 16). Aplicado 10% (Ley 37/1992 art. 91: agua e tratamento/recogida de aguas residuales). A cuota de conservacion do contador (Reglamento de 1972; IVA 21% segundo terceiros, nao verificado), o canon de saneamento do Principado e a tasa de residuos nao estao no documento e nao foram transcritos.",
+      "conversoes": "bimestral->mensal: cuotas /2; limites 30/50 -> 15/25 m3/mes; precos inalterados.",
+      "procedencia": {
+        "recolhido_em": "2026-10-30",
+        "servicos": {
+          "agua": "transcrito",
+          "saneamiento": "transcrito",
+          "residuos": "nao_transcrito"
+        },
+        "documentos": [
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "BOPA n. 232, 28/11/2024, ordenanza PPPNT do Servicio Municipal de Agua y Alcantarillado de Gijon (EMA), exercicio 2025, cap. II e III",
+            "ficheiro": "fontes/gijon/bopa_20241128_ordenanza.pdf",
+            "url": "https://drupal.gijon.es/sites/default/files/2025-02/BOPA%20EMA%2020241128%20ORDENANZA%20AGUA%20Y%20ALCANTARILLADO%202025.pdf",
+            "sha256": "69b1155a6a5ad8075621b90838972d4e43a0da543eb3cd92bf1a39d0fad38a0c",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Noticia do Ayuntamiento (titulo: EMA aprova orcamento 2026 com congelacao de tasas); a pagina e dinamica e o texto nao foi legivel por mim: so o titulo sustenta a vigencia 2026",
+            "ficheiro": "fontes/gijon/noticia_congelacion_2026.html",
+            "url": "https://www.gijon.es/es/noticias/la-ema-aprueba-su-presupuesto-para-2026-con-una-congelacion-de-tasas-y-15201000-de-euros-en",
+            "sha256": "ad346b1d7366dcf5d4bae96cf7b781121cd14b846a1013a063eb351a13f4c7bb",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Ley 37/1992 do IVA, art. 91.Uno.1.4 (aguas aptas para alimentacion humana) e 91.Uno.2.5 (tratamento de aguas residuales): 10%",
+            "ficheiro": "fontes/_comuns/ley37_1992_iva_boe.html",
+            "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
+            "sha256": "77e45c9236c1b7040f8ec57c5d23eb76a0387d86fb019d7dbbd92c1f3a4716db",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          }
+        ],
+        "conferido": false,
+        "pendencias": [
+          "vigencia 2026 nao confirmada em BOPA (so ha o titulo da noticia sobre congelamento)",
+          "cuota de conservacion do contador nao transcrita",
+          "canon de saneamento do Principado de Asturias nao transcrito",
+          "taxa de IVA nao escrita na ordenanza (10% por lei)"
+        ],
+        "em_falta": []
+      },
+      "fontes": [
+        "https://drupal.gijon.es/sites/default/files/2025-02/BOPA%20EMA%2020241128%20ORDENANZA%20AGUA%20Y%20ALCANTARILLADO%202025.pdf",
+        "https://www.gijon.es/es/noticias/la-ema-aprueba-su-presupuesto-para-2026-con-una-congelacion-de-tasas-y-15201000-de-euros-en",
+        "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740"
+      ],
+      "conferencia": [
+        {
+          "m3": 10,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 11.44,
+          "conta_max_se_imposto_incerto": 11.44
+        },
+        {
+          "m3": 15,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 14.72,
+          "conta_max_se_imposto_incerto": 14.72
+        },
+        {
+          "m3": 25,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 23.32,
+          "conta_max_se_imposto_incerto": 23.32
+        },
+        {
+          "m3": 30,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 28.52,
+          "conta_max_se_imposto_incerto": 28.52
+        }
+      ],
+      "codigo_ine": "33024",
+      "iva_observacao": "A ordenanza diz 'IVA correspondiente en cada caso'; aplicado 10% por lei (Ley 37/1992 art. 91)."
+    },
+    "ES-47186": {
+      "nome": "Valladolid",
+      "provincia": "Valladolid",
+      "ccaa": "Castilla y León",
+      "entidades": "Agua de Valladolid / AQUAVALL (entidade publica empresarial municipal): abastecimento, alcantarillado e depuracao",
+      "vigencia": "tabelas rotuladas 2018 na ordenanza fiscal publicada em valladolid.es (aprovacao BOP 29/12/2017); modificacoes posteriores nao verificadas",
+      "camada": 1,
+      "origem_do_valor": "transcrito",
+      "periodicidade_faturacao": "trimestral",
+      "calibre_contador_mm": 15,
+      "agua": {
+        "fixa_mes": 0.734667,
+        "fixa_original": {
+          "valor": 2.204,
+          "unidade": "EUR/periodo",
+          "meses_do_periodo": 3,
+          "nota": "cuota de servicio/trimestre, uso domestico"
+        },
+        "escaloes": [
+          [
+            0.0,
+            5,
+            0.2707
+          ],
+          [
+            5,
+            9,
+            0.5072
+          ],
+          [
+            9,
+            12,
+            0.5523
+          ],
+          [
+            12,
+            15,
+            0.6
+          ],
+          [
+            15,
+            null,
+            0.6637
+          ]
+        ],
+        "escaloes_original": {
+          "base": "periodo",
+          "meses_do_periodo": 3,
+          "limites_m3": [
+            15,
+            27,
+            36,
+            45
+          ],
+          "precos": [
+            0.2707,
+            0.5072,
+            0.5523,
+            0.6,
+            0.6637
+          ]
+        },
+        "iva_pct": null
+      },
+      "saneamiento": {
+        "fixa_mes": 1.441933,
+        "alcantarillado": {
+          "fixa_mes": 1.195833,
+          "por_m3": null
+        },
+        "depuracion": {
+          "fixa_mes": 0.2461,
+          "por_m3": null
+        },
+        "escaloes": [
+          [
+            0.0,
+            5,
+            0.3361
+          ],
+          [
+            5,
+            9,
+            0.5939
+          ],
+          [
+            9,
+            12,
+            0.6531
+          ],
+          [
+            12,
+            null,
+            0.7242
+          ]
+        ],
+        "escaloes_original": {
+          "alcantarillado_trimestral": {
+            "fixa": 3.5875,
+            "limites_m3": [
+              15,
+              27,
+              36
+            ],
+            "precos": [
+              0.1648,
+              0.2962,
+              0.3554,
+              0.4265
+            ]
+          },
+          "depuracion_trimestral": {
+            "fixa": 0.7383,
+            "limite_m3": 15,
+            "precos": [
+              0.1713,
+              0.2977
+            ]
+          },
+          "nota": "blocos de alcantarillado e depuracao fundidos nos limites comuns 15/27/36 m3/trimestre"
+        },
+        "coef_recolha": 1.0,
+        "iva_pct": null
+      },
+      "parcelas": [],
+      "extra": {},
+      "impostos_nota": "A ordenanza (tasa, ordenanza fiscal) nao indica IVA: iva_pct=null em agua e saneamento. Por lei a agua leva 10% e o tratamento de aguas residuais 10% (Ley 37/1992 art. 91), mas nao verifiquei se a tasa da entidade o repercute na factura. A CONFERENCIA mostra 0%-10%. Sem canon autonomico em Castilla y Leon na ordenanza.",
+      "conversoes": "trimestral->mensal: cuotas /3; limites 15/27/36/45 m3/trimestre -> 5/9/12/15 m3/mes; precos inalterados. Saneamento = alcantarillado + depuracao nos limites comuns.",
+      "procedencia": {
+        "recolhido_em": "2026-10-30",
+        "servicos": {
+          "agua": "transcrito",
+          "saneamiento": "transcrito",
+          "residuos": "nao_transcrito"
+        },
+        "documentos": [
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Ordenanza fiscal da tasa do ciclo urbano do agua (Valladolid; tabelas rotuladas 2018; aprovada em dez/2017, BOP n. 247 de 29/12/2017 segundo a pagina oficial), versao publicada em valladolid.es",
+            "ficheiro": "fontes/valladolid/ordenanza_fiscal_tasa_agua.pdf",
+            "url": "https://www.valladolid.es/es/ayuntamiento/organizacion-administrativa/areas/area-hacienda-personal-modernizacion-administrativa/utilidad/normativas/f-reguladora-tasa-prestacion-servicios-ciclo-urbano-agua-ab.ficheros/447251-ORDENANZA%20FISCAL%20TASA%20AGUA.pdf",
+            "sha256": "958758dad2751f9e554db84d0d045bcb067dcd1aa1f57dba95027ba60b3f57f8",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          },
+          {
+            "servicos": [
+              "agua",
+              "saneamiento"
+            ],
+            "entidade": "Ley 37/1992 do IVA, art. 91.Uno.1.4 (aguas aptas para alimentacion humana) e 91.Uno.2.5 (tratamento de aguas residuales): 10%",
+            "ficheiro": "fontes/_comuns/ley37_1992_iva_boe.html",
+            "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
+            "sha256": "77e45c9236c1b7040f8ec57c5d23eb76a0387d86fb019d7dbbd92c1f3a4716db",
+            "confirmado_em": "2026-10-30",
+            "verificado_por": "levantamento automatizado + leitura humana pendente (Prof. Igor)"
+          }
+        ],
+        "conferido": false,
+        "pendencias": [
+          "IVA nao indicado no documento",
+          "tabelas rotuladas 2018: nao confirmei ausencia de modificacoes posteriores nem a vigencia em 2026",
+          "tasa de basura nao transcrita"
+        ],
+        "em_falta": []
+      },
+      "fontes": [
+        "https://www.valladolid.es/es/ayuntamiento/organizacion-administrativa/areas/area-hacienda-personal-modernizacion-administrativa/utilidad/normativas/f-reguladora-tasa-prestacion-servicios-ciclo-urbano-agua-ab.ficheros/447251-ORDENANZA%20FISCAL%20TASA%20AGUA.pdf",
+        "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740"
+      ],
+      "conferencia": [
+        {
+          "m3": 10,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 10.82,
+          "conta_max_se_imposto_incerto": 11.9
+        },
+        {
+          "m3": 15,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 17.2,
+          "conta_max_se_imposto_incerto": 18.92
+        },
+        {
+          "m3": 25,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 31.08,
+          "conta_max_se_imposto_incerto": 34.19
+        },
+        {
+          "m3": 30,
+          "descricao": "conta mensal, calibre 15 mm, com impostos conhecidos; conta_max aplica 10% aos itens de IVA/IGIC nao verificado",
+          "conta": 38.02,
+          "conta_max_se_imposto_incerto": 41.82
+        }
+      ],
+      "codigo_ine": "47186",
+      "iva_observacao": "A ordenanza fiscal nao indica IVA; null em agua e saneamento (10% seria o valor legal, nao confirmado como repercutido)."
+    }
+  },
+  "arquivo_de_fontes": {
+    "arquivo": "espanha_tarifarios_fontes.tsv",
+    "sha256_com_fim_de_linha_lf": "63ee9e017b5668341dc5173e457a03f02b9bd13f9d71c83e88f18130376562c8"
   }
- },
- "municipios": {}
 }

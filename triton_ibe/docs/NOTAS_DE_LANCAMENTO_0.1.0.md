@@ -2,7 +2,7 @@
 
 Versão 0.1.0 (beta), data de lançamento a definir. É a primeira versão do Triton e a primeira da Edição Ibérica (antes Edição Portugal, PRT; os projetos e os scripts que ainda dizem `PRT` ou `POR` abrem como IBE). Este documento diz o que a versão traz, o que não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
 
-**Em resumo: a chuva cobre toda a Península Ibérica e as ilhas.** O Iberia01 serve Portugal (308 locais), Espanha (8 131 municípios) e as Baleares; Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C; Ceuta e Melilla ficam sem série. As tarifas de Espanha são só a média regional do INE (indicativa); só 3 concelhos de Portugal têm tarifário transcrito.
+**Em resumo: a chuva cobre toda a Península Ibérica e as ilhas.** O Iberia01 serve Portugal (308 locais), Espanha (8 131 municípios) e as Baleares; Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C; Ceuta e Melilla ficam sem série. As tarifas de Espanha são a média regional do INE (indicativa), com 7 municípios (12,0 % da população) de tarifa transcrita ainda não conferida; só 3 concelhos de Portugal têm tarifário transcrito.
 
 ## O que é
 
@@ -31,7 +31,7 @@ As verificações desta versão foram feitas em Windows. A licença é de códig
 
 ## O que não há
 
-- **Tarifas de Espanha por município.** Não existe conjunto aberto nacional; a camada 1 (tarifário transcrito de documento oficial) está vazia e a camada 2 (herdada da entidade) também. Cada transcrição pede a leitura do boletim de cada operador.
+- **Tarifas de Espanha por município, quase todas.** Não existe conjunto aberto nacional. A camada 1 (tarifário transcrito de documento oficial) tem 7 municípios (Madrid, Sevilla, Murcia, A Coruña, Las Palmas, Gijón e Valladolid), ainda sem a segunda leitura humana: o programa avisa «Tarifa transcrita, ainda não conferida (segunda leitura pendente)». Onde o documento não indica o IVA, o cálculo não aplica taxa e o programa avisa «IVA do saneamento não consta da fonte». A camada 2 (herdada da entidade) está vazia; os outros 8 124 municípios usam a média regional do INE.
 - **Ceuta e Melilla.** Sem série de chuva (fora do Iberia01); o programa diz porquê e pede série própria.
 - **Ilhas.** A ERA5 de 0,25° subestima a chuva (de 8% a 47% nas estações testadas): use a série da estação para um projeto real. A ERA5-Land de 0,1° não estava acessível.
 - **Tarifários dos restantes concelhos.** Só três estão transcritos. Nenhum concelho está em verde: não existe verificação independente registada (42 amarelos e 238 cinzentos na água e no saneamento).
@@ -53,7 +53,7 @@ As verificações desta versão foram feitas em Windows. A licença é de códig
 
 ## Dados e licenças numa linha
 
-E-OBS: só uso não comercial em investigação e educação (citar Cornes et al., 2018). CAOP 2025: cc-by. Iberia01: ODbL (fonte primária da chuva; os dados derivados vão em ficheiros separados do programa, com atribuição). Limites de Espanha: Eurostat/GISCO LAU 2023. INE: média regional das tarifas, com citação. ERA5 via Open-Meteo: CC BY 4.0. ERSAR: avisos legais, citar a fonte, sem licença aberta. Os documentos dos tarifários não se redistribuem. Detalhe em [`DADOS.md`](DADOS.md).
+E-OBS: só uso não comercial em investigação e educação (citar Cornes et al., 2018). CAOP 2025: cc-by. Iberia01: ODbL (fonte primária da chuva; os dados derivados vão em ficheiros separados do programa, com atribuição). Limites de Espanha: Eurostat/GISCO LAU 2023. INE: média regional das tarifas, com citação. Tarifas dos 7 municípios de Espanha: documentos oficiais de cada operador, citados com URL e SHA-256 (não redistribuídos). ERA5 via Open-Meteo: CC BY 4.0. ERSAR: avisos legais, citar a fonte, sem licença aberta. Os documentos dos tarifários não se redistribuem. Detalhe em [`DADOS.md`](DADOS.md).
 
 ## O que foi verificado e o que não foi
 

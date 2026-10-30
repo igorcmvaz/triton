@@ -1157,13 +1157,31 @@ class TabProject(QWidget):
             return _te.aplicar(u["codigo"], cfg)
         return _tp.aplicar(chave, cfg)
 
+    @staticmethod
+    def _procedencia_espanha(codigo: str, cam) -> str:
+        """Procedência de uma linha do município de Espanha, nos textos traduzidos; a camada 1 traz a fonte e as taxas em falta."""
+        from triton.core import tarifarios_espanha as _te
+        if cam != 1:
+            return _te.procedencia(codigo)
+        f = _te.fonte_da_camada1(codigo)
+        partes = [tr("camada 1: tarifa do município (transcrita)")]
+        if not _te.conferida(codigo):
+            partes.append(tr("Tarifa transcrita, ainda não conferida (segunda leitura pendente)"))
+        partes.append(f"{tr('Fonte:')} {f.get('entidade', '')}, {f.get('url', '')}, {tr('acedida em')} {f.get('acedido_em', '')}")
+        chaves = {"agua": tr("IVA da água não consta da fonte"), "saneamiento": tr("IVA do saneamento não consta da fonte"),
+                  "parcelas": tr("IVA das parcelas adicionais não consta da fonte")}
+        partes.extend(chaves[k] for k in _te.iva_ausente(codigo))
+        return "; ".join(partes)
+
     def _preview_espanha(self, u: dict):
         """O quadro do tarifário de um município de Espanha: camada, aviso e fonte."""
         from triton.core import tarifarios_espanha as _te
         cam = _te.camada(u["codigo"])
-        self.lbl_t_prestador.setText(f"🏢 <b>{tr('Entidades gestoras:')}</b> --")
-        self.lbl_t_reg.setText(f"📋 <b>{tr('Vigência:')}</b> {_te.carregar().get('camada3', {}).get('ano', '--') if cam == 3 else '--'}")
-        self.lbl_t_audit.setText(f"⭐ <b>{tr('Procedência:')}</b> {_te.procedencia(u['codigo'])}")
+        reg1 = (_te.carregar().get("municipios") or {}).get(u["codigo"]) if cam == 1 else None
+        self.lbl_t_prestador.setText(f"🏢 <b>{tr('Entidades gestoras:')}</b> {reg1.get('entidades', '--') if reg1 else '--'}")
+        vig = reg1.get("vigencia", "--") if reg1 else _te.carregar().get("camada3", {}).get("ano", "--") if cam == 3 else "--"
+        self.lbl_t_reg.setText(f"📋 <b>{tr('Vigência:')}</b> {vig}")
+        self.lbl_t_audit.setText(f"⭐ <b>{tr('Procedência:')}</b> {self._procedencia_espanha(u['codigo'], cam)}")
         self.lbl_t_audit.setVisible(True)
         if cam is None:
             self.lbl_tariff_status.setText(tr("⚪ Município sem tarifa: informe a tarifa em «Editar»"))
@@ -1171,6 +1189,9 @@ class TabProject(QWidget):
         elif self._tariff_is_customized:
             self.lbl_tariff_status.setText(tr("✏️ Tarifas Customizadas pelo Usuário"))
             cor = "#eab308"
+        elif cam == 1 and not _te.conferida(u["codigo"]):
+            self.lbl_tariff_status.setText(tr("🟡 Tarifa transcrita, ainda não conferida (segunda leitura pendente)"))
+            cor = "#ca8a04"
         elif cam == 1:
             self.lbl_tariff_status.setText(tr("🟢 Tarifário transcrito dos documentos oficiais"))
             cor = "#10b981"
