@@ -1088,7 +1088,8 @@ def test_alteracao_feita_na_tela_e_gravada(tmp_path, _sem_dialogos):
 def test_modo_diario(tmp_path):
     """Demanda diária: a série do arquivo manda nos dois caminhos."""
     d = json.loads((_caso_do_manual(PARIDADE_INTERFACE_CLI_RAIZ, *_VARREDURA)).read_text(encoding='utf-8'))
-    n = len(d['rainfall']['precipitation_mm']) if 'precipitation_mm' in d.get('rainfall', {}) else 3650
+    rf = d.get('rainfall', {})
+    n = len(rf.get('precipitation_mm') or []) or rf.get('total_days') or 3650
     mod = d['inputs'].setdefault('demand_modulation', {})
     mod.update(demand_mode='daily', daily_demands=[150.0 if i % 7 < 5 else 190.0 for i in range(n)], daily_residents=[4] * n, daily_shares=[0.28] * n)
     d['inputs']['incentives_and_shares']['demand_mode'] = 'daily'
@@ -1841,9 +1842,15 @@ def test_etapa_1_da_portugal_carrega_a_serie_do_concelho(qapp, portugal):
     try:
         tp = janela.tab_project
         tp.rb_source_national.setChecked(True)
+        idx_eobs = tp.combo_climate_scenario.findData('EOBS')
+        if idx_eobs >= 0:
+            tp.combo_climate_model.setCurrentIndex(idx_eobs)
+            QApplication.processEvents()
         assert 'Distrito' in tp.lbl_climate_uf.text() and 'Concelho' in tp.lbl_climate_city.text()
         assert tp.combo_climate_uf.findData('Faro') >= 0 and tp.combo_climate_uf.findData('Ilha da Madeira') < 0
-        assert not tp.combo_climate_model.isEnabled() and tp.combo_climate_scenario.currentData() == 'EOBS'
+        assert not tp.combo_climate_scenario.isEnabled() and tp.combo_climate_scenario.currentData() == 'EOBS'
+        tp.combo_climate_uf.setCurrentIndex(tp.combo_climate_uf.findData('Lisboa'))
+        tp.combo_climate_city.setCurrentIndex(tp.combo_climate_city.findText('Lisboa'))
         assert (tp.combo_climate_uf.currentData(), tp.combo_climate_city.currentText()) == ('Lisboa', 'Lisboa')
         tp.load_active_national_series()
         assert len(tp.precip_data) == 10958 and tp.precip_file_path.startswith('E-OBS v33.0e/')

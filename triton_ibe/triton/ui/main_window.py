@@ -706,16 +706,20 @@ class MainWindow(QMainWindow):
             # 1. Carrega chuva
             if proj.get("chuva_da_climbra"):
                 # Série recomposta da base CLIMBra pela referência gravada no arquivo.
-                self.tab_project.precip_data = proj["precip_data"]
+                self.tab_project.btn_group_source.blockSignals(True)
                 self.tab_project.rb_source_national.setChecked(True)
+                self.tab_project.btn_group_source.blockSignals(False)
+                self.tab_project.precip_data = proj["precip_data"]
                 self.tab_project.panel_custom.hide()
                 self.tab_project.panel_national.show()
                 self.tab_project.update_tables()
             elif proj["precip_data"] is not None:
+                self.tab_project.btn_group_source.blockSignals(True)
+                self.tab_project.rb_source_custom.setChecked(True)
+                self.tab_project.btn_group_source.blockSignals(False)
                 self.tab_project.precip_data = proj["precip_data"]
                 self.tab_project.precip_file_path = proj["precip_filename"]
                 self.tab_project.txt_file_path.setText(proj["precip_filename"])
-                self.tab_project.rb_source_custom.setChecked(True)
                 self.tab_project.panel_national.hide()
                 self.tab_project.panel_custom.show()
                 self.tab_project.update_tables()

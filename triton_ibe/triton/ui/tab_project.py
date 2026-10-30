@@ -1761,14 +1761,19 @@ class TabProject(QWidget):
 
         self._is_populating = True
         try:
+            m_idx = self.combo_climate_model.findText(model)
+            if m_idx < 0 and getattr(self, "_base_portugal", False):
+                m_idx = self.combo_climate_scenario.findData(scenario)
+            if m_idx >= 0:
+                self.combo_climate_model.setCurrentIndex(m_idx)
+                if getattr(self, "_base_portugal", False) and self.combo_climate_model.count() > 1:
+                    self.combo_climate_scenario.setCurrentIndex(m_idx)
+                    self._aplicar_fonte_ibe()
+
             uf_idx = self.combo_climate_uf.findData(uf)
             if uf_idx >= 0:
                 self.combo_climate_uf.setCurrentIndex(uf_idx)
             self.populate_climate_cities(select_city=city)
-
-            m_idx = self.combo_climate_model.findText(model)
-            if m_idx >= 0:
-                self.combo_climate_model.setCurrentIndex(m_idx)
 
             sc_idx = self.combo_climate_scenario.findData(scenario)
             if sc_idx >= 0:
