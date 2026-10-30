@@ -688,6 +688,55 @@ def _validar_climbra(ref: Any, caminho: str, erros: List[str]) -> Dict[str, Any]
     return saida
 
 
+CHAVES_DA_IBERIA = ("local", "inicio", "fim")
+
+
+def _validar_iberia(ref: Any, caminho: str, erros: List[str]) -> Dict[str, Any]:
+    """``clima.iberia``: o município da base ibérica (Edição Ibérica) por código INE/DTMN (``ES-28079``, ``PT-1106``),
+    «Nome [código]» ou nome único, e o recorte (padrão 01/01/1986 a 31/12/2015). Nome repetido exige o código."""
+    from triton.core.edition import usa_dados_de_portugal
+    if not usa_dados_de_portugal():
+        erros.append(_m("{0}: a base ibérica (Iberia01) só existe na Edição Ibérica; use «arquivo» com a série de chuva", caminho))
+        return {}
+    if not _validar_chaves(ref, CHAVES_DA_IBERIA, caminho, erros):
+        return {}
+    saida: Dict[str, Any] = {}
+    for k in CHAVES_DA_IBERIA:
+        if k not in ref:
+            continue
+        v = ref[k]
+        if _pendente(v):
+            erros.append(_m("{0}.{1}: ainda não preenchido", caminho, k))
+        elif not isinstance(v, str):
+            erros.append(_m("{0}.{1}: esperado texto", caminho, k))
+        elif k in ("inicio", "fim"):
+            try:
+                saida[k] = validar_valor_de_apelido("data_inicio", v)
+            except ValueError as exc:
+                erros.append(f"{caminho}.{k}: {exc}")
+        else:
+            saida[k] = v.strip()
+    if "local" not in ref:
+        erros.append(_m("{0}: falta «local» (código INE/DTMN ou nome do município)", caminho))
+    elif saida.get("local"):
+        from triton.core import base_climatica_iberica as _ib
+        if _ib.disponivel():
+            cod = _ib.resolver(saida["local"])
+            if cod is None:
+                alt = _ib.candidatos(saida["local"])
+                if len(alt) > 1:
+                    erros.append(_m("{0}.local: o nome «{1}» é ambíguo; use o código: {2}", caminho, saida["local"],
+                                    ", ".join(f"{u['codigo']} ({u['provincia']})" for u in alt[:8])))
+                else:
+                    erros.append(_m("{0}.local: «{1}» não existe na base ibérica", caminho, saida["local"]))
+            else:
+                saida["local"] = cod
+                if _ib.fonte_da_unidade(cod) == "nenhuma":
+                    erros.append(_m("{0}.local: {1} não tem série ({2}); use «arquivo»", caminho,
+                                    _ib.unidade(cod)["nome"], _ib.unidade(cod)["motivo"]))
+    return saida
+
+
 def _validar_tarifa(tar: Any, caminho: str, erros: List[str]) -> Dict[str, Any]:
     """``tarifa``: o município (e a categoria) do catálogo de tarifas do programa; sem preços digitados."""
     if not _so_brasil(caminho, erros) or not _validar_chaves(tar, CHAVES_DA_TARIFA, caminho, erros):
@@ -714,7 +763,7 @@ def _validar_tarifa(tar: Any, caminho: str, erros: List[str]) -> Dict[str, Any]:
 def _validar_clima(clima: Any, caminho: str, erros: List[str]) -> Dict[str, Any]:
     if clima is None:
         return {}
-    if not _validar_chaves(clima, ("arquivo", "climbra", "data_inicio", "nome", "fonte"), caminho, erros):
+    if not _validar_chaves(clima, ("arquivo", "climbra", "iberia", "data_inicio", "nome", "fonte"), caminho, erros):
         return {}
     saida: Dict[str, Any] = {}
     for k in ("arquivo", "nome", "fonte"):
@@ -732,6 +781,13 @@ def _validar_clima(clima: Any, caminho: str, erros: List[str]) -> Dict[str, Any]
             ref = _validar_climbra(clima["climbra"], f"{caminho}.climbra", erros)
             if ref:
                 saida["climbra"] = ref
+    if "iberia" in clima:
+        if "arquivo" in clima or "climbra" in clima:
+            erros.append(_m("{0}: informe só um de «{1}», «{2}» ou «{3}»", caminho, "arquivo", "climbra", "iberia"))
+        else:
+            ref = _validar_iberia(clima["iberia"], f"{caminho}.iberia", erros)
+            if ref:
+                saida["iberia"] = ref
     if "data_inicio" in clima:
         try:
             saida["data_inicio"] = validar_valor_de_apelido("data_inicio", clima["data_inicio"])
@@ -1005,7 +1061,7 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
     _municipios_conferidos: Dict[Tuple[str, str, str], List[str]] = {}
     for caso in casos_plano:
         caso["substituicoes_efetivas"] = _fundir_substituicoes(padroes["substituicoes"], caso["substituicoes"])
-        caso["clima_efetivo"] = _fundir_blocos(padroes["clima"], caso["clima"], (("arquivo", "climbra"),))
+        caso["clima_efetivo"] = _fundir_blocos(padroes["clima"], caso["clima"], (("arquivo", "climbra"), ("arquivo", "iberia"), ("climbra", "iberia")))
         caso["tarifa_efetiva"] = _fundir_blocos(padroes["tarifa"], caso["tarifa"])
         onde = f"casos[{caso['_indice']}] ({caso['id']})"
         origem_do_projeto = caso["projeto"] or base.get("arquivo")
@@ -1020,7 +1076,7 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
                 falta.append("fracao_pluvial_pct")
             if "demanda_total_l_dia" not in ef and not ("demanda_per_capita_l_dia" in ef and "usuarios" in ef):
                 falta.append("demanda_total_l_dia (ou demanda_per_capita_l_dia e usuarios)")
-            if "arquivo" not in caso["clima_efetivo"] and "climbra" not in caso["clima_efetivo"]:
+            if not any(k in caso["clima_efetivo"] for k in ("arquivo", "climbra", "iberia")):
                 falta.append("clima.arquivo")
             if falta:
                 erros.append(_m("{0}: com o modelo da edição nenhum valor é assumido; informe {1}", onde, ", ".join(falta)))
@@ -1418,6 +1474,42 @@ def _aplicar_climbra(cfg: Any, bundle: Dict[str, Any], ref: Dict[str, Any], arqu
         arquivos.append({"papel": "base-climbra", "caminho": Path(bancos[0]).name, "sha256": _sha256_em_cache(bancos[0])})
 
 
+def _aplicar_iberia(cfg: Any, bundle: Dict[str, Any], ref: Dict[str, Any], arquivos: List[Dict[str, str]],
+                    alertas: List[str]) -> None:
+    """A série do município da base ibérica (Iberia01; ilhas em ERA5, nível C), por código ou nome, e a tarifa do local."""
+    from triton.core import base_climatica_iberica as _ib
+    if not _ib.disponivel():
+        raise ValueError(_m("a base ibérica (Iberia01) não está instalada; use «arquivo» com a série de chuva"))
+    inicio = ref.get("inicio") or _ib.INICIO_PADRAO
+    fim = ref.get("fim") or _ib.FIM_PADRAO
+    serie, ini_efetivo, fim_efetivo, _total, _sel, _ident = _ib.carregar_serie(ref["local"], inicio, fim)
+    cod = _ib.resolver(ref["local"])
+    u = _ib.unidade(cod)
+    cfg.climate_source_mode = "national_db"
+    cfg.precip_file = ""
+    cfg.climate_city_name, cfg.climate_city_uf = _ib.rotulo(u), f"{u['pais']}|{u['regiao']}"
+    cfg.climate_model, cfg.climate_scenario = _ib.MODELO_IBERIA01, _ib.CENARIO_IBERIA01
+    cfg.climate_start_date, cfg.climate_end_date = ini_efetivo, fim_efetivo
+    cfg.start_date = ini_efetivo
+    bundle["precip_data"] = serie
+    if ini_efetivo != inicio or fim_efetivo != fim:
+        alertas.append(_m("recorte pedido {0} a {1}; a série cobre {2} a {3}", inicio, fim, ini_efetivo, fim_efetivo))
+    if u["cobertura"] == "era5":
+        alertas.append(_m("{0}: chuva da reanálise ERA5 (nível C, sem validação local)", u["nome"]))
+    from triton.core import tarifarios_espanha as _te
+    from triton.core import tarifarios_portugal as _tp
+    if u["pais"] == "ES":
+        if not _te.aplicar(u["codigo"], cfg):
+            alertas.append(_m("{0}: sem tarifa de água para este município; os custos ficam por informar", u["nome"]))
+        elif _te.aviso(u["codigo"]):
+            alertas.append(f"{u['nome']}: {_te.aviso(u['codigo'])}")
+    elif not _tp.aplicar(u["nome"], cfg):
+        alertas.append(_m("{0}: sem tarifário transcrito; os custos ficam por informar", u["nome"]))
+    pk = _ib.pacote()
+    if pk.get("pacote_id"):
+        arquivos.append({"papel": "base-iberia01", "caminho": pk["pacote_id"], "sha256": pk.get("sha256_pacote", "")})
+
+
 def _aplicar_tarifa(cfg: Any, tar: Dict[str, Any], ref: Dict[str, Any], arquivos: List[Dict[str, str]],
                     alertas: List[str]) -> None:
     """A tarifa de água, esgoto e energia do município, do catálogo do programa (como a aba Projeto faz)."""
@@ -1501,6 +1593,8 @@ def montar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]:
         arquivos.append({"papel": "chuva", "caminho": _relativo(achada, base_dir), "sha256": sha256_do_arquivo(achada)})
     if clima.get("climbra"):
         _aplicar_climbra(cfg, bundle, clima["climbra"], arquivos, alertas)
+    if clima.get("iberia"):
+        _aplicar_iberia(cfg, bundle, clima["iberia"], arquivos, alertas)
     if caso.get("tarifa_efetiva"):
         _aplicar_tarifa(cfg, caso["tarifa_efetiva"], clima.get("climbra") or {}, arquivos, alertas)
     if clima.get("data_inicio"):
@@ -2526,6 +2620,9 @@ def esquema_json() -> Dict[str, Any]:
     clima = {"type": "object", "additionalProperties": False, "patternProperties": {"^_": {}},
              "properties": {"arquivo": {"type": "string"}, "data_inicio": {"type": "string", "pattern": r"^\d{2}/\d{2}/\d{4}$"},
                             "nome": {"type": "string"}, "fonte": {"type": "string"},
+                            "iberia": {"type": "object", "additionalProperties": False, "patternProperties": {"^_": {}},
+                                       "required": ["local"],
+                                       "properties": {k: {"type": "string"} for k in CHAVES_DA_IBERIA}},
                             "climbra": {"type": "object", "additionalProperties": False, "patternProperties": {"^_": {}},
                                         "properties": {k: {"type": "string"} for k in CHAVES_DO_CLIMBRA}}}}
     tarifa = {"type": "object", "additionalProperties": False, "patternProperties": {"^_": {}},

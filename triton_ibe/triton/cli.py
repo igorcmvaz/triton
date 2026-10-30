@@ -1130,6 +1130,48 @@ def _create_catalog(kind: str, path: str) -> Path:
     return target
 
 
+def _aplicar_local_iberico(cfg: Any, bundle: Dict[str, Any], texto: str) -> None:
+    """``--local``: a chuva (e a tarifa) do município da base ibérica, por código INE/DTMN ou nome (Edição Ibérica)."""
+    from triton.core import base_climatica_iberica as _ib
+    from triton.core.edition import usa_dados_de_portugal
+    if not usa_dados_de_portugal() or not _ib.disponivel():
+        raise ValueError(_t("A opção --local precisa da base ibérica (Edição Ibérica com os dados do Iberia01)."))
+    serie, ini, fim, _t_dias, _s_dias, _ident = _ib.carregar_serie(texto)       # ValueError se o nome for ambíguo
+    cod = _ib.resolver(texto)
+    u = _ib.unidade(cod)
+    cfg.climate_source_mode = "national_db"
+    cfg.precip_file = ""
+    cfg.climate_city_name, cfg.climate_city_uf = _ib.rotulo(u), f"{u['pais']}|{u['regiao']}"
+    cfg.climate_model, cfg.climate_scenario = _ib.MODELO_IBERIA01, _ib.CENARIO_IBERIA01
+    cfg.climate_start_date, cfg.climate_end_date, cfg.start_date = ini, fim, ini
+    bundle["precip_data"] = serie
+    if u["pais"] == "ES":
+        from triton.core import tarifarios_espanha as _te
+        _te.aplicar(cod, cfg)
+    else:
+        from triton.core import tarifarios_portugal as _tp
+        _tp.aplicar(u["nome"], cfg)
+
+
+def _run_locais(args: argparse.Namespace) -> None:
+    """``triton locais [TEXTO]``: procura municípios da base ibérica (código, nome, província, fonte e nível)."""
+    from triton.core import base_climatica_iberica as _ib
+    from triton.core.edition import usa_dados_de_portugal
+    if not usa_dados_de_portugal() or not _ib.disponivel():
+        raise ValueError(_t("O comando locais precisa da base ibérica (Edição Ibérica com os dados do Iberia01)."))
+    achadas = _ib.buscar(args.texto, args.limite) if args.texto else _ib.unidades(None)[:args.limite]
+    if args.pais:
+        achadas = [u for u in achadas if u["pais"] == args.pais.upper()]
+    linhas = [{"codigo": u["codigo"], "nome": u["nome"], "provincia": u["provincia"], "regiao": u["regiao"],
+               "pais": u["pais"], "fonte": u["cobertura"], "nivel": u["nivel"]} for u in achadas]
+    if args.format == "json":
+        print(json.dumps({"cobertura": _ib.linha_de_cobertura(), "locais": linhas}, ensure_ascii=False, indent=2))
+        return
+    for l in linhas:
+        print(f"{l['codigo']}\t{l['nome']}\t{l['provincia'] or l['regiao']}\t{l['fonte']}\t{l['nivel'] or '-'}")
+    print(_ib.linha_de_cobertura(), file=sys.stderr)
+
+
 def _run_project(args: argparse.Namespace) -> None:
     bundle = _load_bundle(args.file)
     cfg = bundle["config"]
@@ -1137,6 +1179,8 @@ def _run_project(args: argparse.Namespace) -> None:
     if args.rainfall:
         cfg.precip_file = args.rainfall
         bundle["precip_data"] = None
+    if getattr(args, "local", None):
+        _aplicar_local_iberico(cfg, bundle, args.local)
     if args.start_date:
         cfg.start_date = args.start_date
     precipitation = _get_precipitation(bundle)
@@ -2760,6 +2804,8 @@ def main() -> None:
         command_parser.add_argument("--volume", type=float, help="Força um volume de cisterna inferior (L)")
         command_parser.add_argument("--weights", type=_parse_weights, help="Pesos TOPSIS: técnico,econômico,ambiental")
         command_parser.add_argument("--rainfall", help="Substitui a chuva do projeto por este arquivo")
+        command_parser.add_argument("--local", metavar="CÓDIGO|NOME",
+                                    help="Edição Ibérica: usa a chuva (e a tarifa) do município da base ibérica, por código INE/DTMN (ES-28079, PT-1106) ou nome")
         command_parser.add_argument("--start-date", help="Data inicial dd/mm/aaaa; necessária para sazonalidade mensal")
         command_parser.add_argument("--set", dest="set_values", action="append", default=[], metavar="CAMPO=VALOR",
                                     help="Sobrescreve campo do projeto; pode ser repetido")
@@ -2772,6 +2818,14 @@ def main() -> None:
     add_analysis_arguments(subparsers.add_parser("run", help="Simula; padrão técnico compatível com o legado"), "technical")
     add_analysis_arguments(subparsers.add_parser("analyze", help="Executa cadeia completa de análises"), "all")
     add_analysis_arguments(subparsers.add_parser("econ", help="Atalho legado para análise econômica"), "economic")
+
+    from triton.core.edition import usa_dados_de_portugal
+    if usa_dados_de_portugal():
+        locais_parser = subparsers.add_parser("locais", help="Procura municípios da base ibérica por nome ou código INE/DTMN")
+        locais_parser.add_argument("texto", nargs="?", default="", help="Parte do nome ou código (ES-28079, PT-1106)")
+        locais_parser.add_argument("--pais", choices=["PT", "ES", "pt", "es"], help="Limita a um país")
+        locais_parser.add_argument("--limite", type=_positive_int, default=50)
+        locais_parser.add_argument("--format", choices=["text", "json"], default="text")
 
     validate_parser = subparsers.add_parser("validate", help="Valida a estrutura e as premissas de um projeto")
     validate_parser.add_argument("file")
@@ -2980,6 +3034,8 @@ def main() -> None:
             _run_compare_mass(args)
         elif args.command == "run-vaz-study" and usa_dados_do_brasil():
             _run_vaz_study(args)
+        elif args.command == "locais":
+            _run_locais(args)
         elif args.command == "estudo":
             codigo = _executar_estudo(args)
             if codigo:
