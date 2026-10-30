@@ -295,8 +295,9 @@ class TestEstudosSantaCatarina:
             if pasta != "aeroportos":
                 assert len(plano["casos"]) == n * MODELOS * RECORTES, pasta
         aer = json.loads((PASTA_SC / "_fontes" / "aeroportos_sc.json").read_text(encoding="utf-8"))
-        n_aer = len({a["ibge"] for a in aer["aeroportos"] if a["regular"] and a["municipio_na_climbra"]})
-        assert len(planos["aeroportos"]["casos"]) == n_aer * MODELOS * RECORTES
+        n_aer = len(aer["aeroportos"])
+        assert n_aer == 21
+        assert len(planos["aeroportos"]["casos"]) == n_aer * MODELOS * RECORTES == 2793
 
     def test_municipios_sao_de_sc_e_tem_ibge_42(self, planos):
         for plano in planos.values():

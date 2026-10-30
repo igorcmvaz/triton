@@ -2578,5 +2578,51 @@ _CHINESE_PHRASES.update({
 
 
 # O núcleo (triton.core.numero) não importa a interface: ela diz a ele como ler o idioma atual.
+_DICTIONARY.update({
+    "Nome ou código (ex.: Sevilla, ES-41091, PT-1106)": "Name or code (e.g. Sevilla, ES-41091, PT-1106)",
+    "A: 3 ou mais células de 0,1° com centro dentro do município. B: 1 ou 2 células, ou município contido numa célula. C: célula emprestada de fora do limite, ou reanálise ERA5 (ilhas). O nível descreve a representação espacial da grade, não uma validação com pluviómetros locais.": "A: 3 or more 0.1° cells with center inside the municipality. B: 1 or 2 cells, or municipality contained within a cell. C: cell borrowed from outside the boundary, or ERA5 reanalysis (islands). The level describes the spatial representation of the grid, not validation with local rain gauges.",
+    "🇪🇸🇵🇹 Base Iberia01 por município (Portugal, Espanha e ilhas, 1971–2015)": "🇪🇸🇵🇹 Iberia01 base by municipality (Portugal, Spain and islands, 1971–2015)",
+    "Portugal (18 distritos, Madeira e Açores) e Espanha (comunidades autónomas, incluindo Baleares, Canárias, Ceuta e Melilla). Canárias, Madeira e Açores usam a reanálise ERA5 (nível C, sem validação local); Ceuta e Melilla não têm série: importe uma série própria.": "Portugal (18 districts, Madeira and Azores) and Spain (autonomous communities, including Balearic Islands, Canary Islands, Ceuta and Melilla). Canary Islands, Madeira and Azores use ERA5 reanalysis (level C, without local validation); Ceuta and Melilla have no series: import a custom series.",
+    "Qualidade da chuva": "Rainfall quality",
+    "nível": "level",
+    "⚪ Município sem tarifa: informe a tarifa em «Editar»": "⚪ Municipality without tariff: enter the tariff in «Edit»",
+    "Buscar município / código:": "Search municipality / code:",
+    "Iberia01, 1971–2015 (ODbL); ilhas: ERA5, nível C": "Iberia01, 1971–2015 (ODbL); islands: ERA5, level C",
+    "País · região:": "Country · region:",
+    "🟠 Tarifa indicativa (média regional ou de outra entidade): confirme na sua fatura": "🟠 Indicative tariff (regional average or other entity): verify on your bill",
+    "sem série": "no series",
+    "Importe uma série própria.": "Import a custom series.",
+})
+_SPANISH_DICTIONARY.update({
+    "Nome ou código (ex.: Sevilla, ES-41091, PT-1106)": "Nombre o código (ej.: Sevilla, ES-41091, PT-1106)",
+    "A: 3 ou mais células de 0,1° com centro dentro do município. B: 1 ou 2 células, ou município contido numa célula. C: célula emprestada de fora do limite, ou reanálise ERA5 (ilhas). O nível descreve a representação espacial da grade, não uma validação com pluviómetros locais.": "A: 3 o más celdas de 0,1° con centro dentro del municipio. B: 1 o 2 celdas, o municipio contenido en una celda. C: celda prestada de fuera del límite, o reanálisis ERA5 (islas). El nivel describe la representación espacial de la cuadrícula, no una validación con pluviómetros locales.",
+    "🇪🇸🇵🇹 Base Iberia01 por município (Portugal, Espanha e ilhas, 1971–2015)": "🇪🇸🇵🇹 Base Iberia01 por municipio (Portugal, España e islas, 1971–2015)",
+    "Portugal (18 distritos, Madeira e Açores) e Espanha (comunidades autónomas, incluindo Baleares, Canárias, Ceuta e Melilla). Canárias, Madeira e Açores usam a reanálise ERA5 (nível C, sem validação local); Ceuta e Melilla não têm série: importe uma série própria.": "Portugal (18 distritos, Madeira y Azores) y España (comunidades autónomas, incluidas Baleares, Canarias, Ceuta y Melilla). Canarias, Madeira y Azores utilizan el reanálisis ERA5 (nivel C, sin validación local); Ceuta y Melilla no tienen serie: importe una serie propia.",
+    "Qualidade da chuva": "Calidad de la lluvia",
+    "nível": "nivel",
+    "⚪ Município sem tarifa: informe a tarifa em «Editar»": "⚪ Municipio sin tarifa: introduzca la tarifa en «Editar»",
+    "Buscar município / código:": "Buscar municipio / código:",
+    "Iberia01, 1971–2015 (ODbL); ilhas: ERA5, nível C": "Iberia01, 1971–2015 (ODbL); islas: ERA5, nivel C",
+    "País · região:": "País · región:",
+    "🟠 Tarifa indicativa (média regional ou de outra entidade): confirme na sua fatura": "🟠 Tarifa indicativa (media regional o de otra entidad): confirme en su factura",
+    "sem série": "sin serie",
+    "Importe uma série própria.": "Importe una serie propia.",
+})
+_CHINESE_DICTIONARY.update({
+    "Nome ou código (ex.: Sevilla, ES-41091, PT-1106)": "名称或代码（例如：Sevilla, ES-41091, PT-1106）",
+    "A: 3 ou mais células de 0,1° com centro dentro do município. B: 1 ou 2 células, ou município contido numa célula. C: célula emprestada de fora do limite, ou reanálise ERA5 (ilhas). O nível descreve a representação espacial da grade, não uma validação com pluviómetros locais.": "A：市界内中心点有3个或以上0.1°网格。B：1或2个网格，或市镇包含在一个网格内。C：借用边界外网格，或ERA5再分析（岛屿）。级别描述网格的空间代表性，而非当地雨量计的验证。",
+    "🇪🇸🇵🇹 Base Iberia01 por município (Portugal, Espanha e ilhas, 1971–2015)": "🇪🇸🇵🇹 按市镇划分的 Iberia01 数据库（葡萄牙、西班牙及群岛，1971–2015）",
+    "Portugal (18 distritos, Madeira e Açores) e Espanha (comunidades autónomas, incluindo Baleares, Canárias, Ceuta e Melilla). Canárias, Madeira e Açores usam a reanálise ERA5 (nível C, sem validação local); Ceuta e Melilla não têm série: importe uma série própria.": "葡萄牙（18个区、马德拉和亚速尔）和西班牙（自治区，包括巴利阿里群岛、加那利群岛、休达和梅利利亚）。加那利群岛、马德拉和亚速尔使用 ERA5 再分析（C级，无本地验证）；休达和梅利利亚没有系列：请导入自定义系列。",
+    "Qualidade da chuva": "降雨质量",
+    "nível": "级别",
+    "⚪ Município sem tarifa: informe a tarifa em «Editar»": "⚪ 市镇无费率：请在“编辑”中输入费率",
+    "Buscar município / código:": "搜索市镇/代码：",
+    "Iberia01, 1971–2015 (ODbL); ilhas: ERA5, nível C": "Iberia01, 1971–2015 (ODbL)；群岛：ERA5，C级",
+    "País · região:": "国家 · 地区：",
+    "🟠 Tarifa indicativa (média regional ou de outra entidade): confirme na sua fatura": "🟠 参考费率（区域平均值或其他实体）：请核对您的账单",
+    "sem série": "无系列",
+    "Importe uma série própria.": "导入自定义系列。",
+})
+
 from triton.core import numero as _numero  # noqa: E402
 _numero.registrar_idioma(get_current_lang)
