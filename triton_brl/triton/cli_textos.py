@@ -382,6 +382,37 @@ _EN.update({
 })
 
 
+# ── triton estudo consolidar e pacotes opcionais ─────────────────────────────────────────────────────────
+_EN.update({
+    'Consolida os resultados.csv de várias execuções numa só tabela (tipologia, caso, métrica)':
+        'Consolidates the resultados.csv files of several runs into a single table (typology, case, metric)',
+    'Pastas de saída de «triton estudo run» ou «lote» (procura resultados.csv nas subpastas)':
+        'Output folders of «triton estudo run» or «lote» (resultados.csv is searched in the subfolders)',
+    'Pasta de saída (consolidado.csv e consolidado.md)': 'Output folder (consolidado.csv and consolidado.md)',
+    'Idioma da tabela em Markdown (padrão: o da edição)': 'Language of the Markdown table (default: the edition\'s)',
+    'Leitura dos arquivos: duckdb (extra analise) ou csv (biblioteca padrão); auto usa o duckdb se estiver instalado. O resultado é o mesmo':
+        'How the files are read: duckdb (analise extra) or csv (standard library); auto uses duckdb if installed. The result is the same',
+    'Consolidado: {0} arquivos resultados.csv, {1} linhas (tipologia, caso, métrica).':
+        'Consolidated: {0} resultados.csv files, {1} rows (typology, case, metric).',
+    'Leitura e agrupamento: {0}': 'Reading and grouping: {0}',
+    'nenhum resultados.csv em {0} (é a pasta de saída de «triton estudo run»?)':
+        'no resultados.csv in {0} (is it the output folder of «triton estudo run»?)',
+    '{0}: faltam as colunas {1} (não é o resultados.csv de «triton estudo run»?)':
+        '{0}: columns {1} are missing (is it not the resultados.csv of «triton estudo run»?)',
+    'motor desconhecido: {0}. Use {1}.': 'unknown engine: {0}. Use {1}.',
+    'consolidar resultados por SQL': 'consolidating results by SQL',
+    'Progresso na saída de erro: rich (extra cli), simples (uma linha por caso) ou auto (rich se houver e for terminal). Os resultados não mudam':
+        'Progress on the error stream: rich (cli extra), simples (one line per case) or auto (rich if installed and on a terminal). The results do not change',
+    'progresso desconhecido: {0}. Use {1}.': 'unknown progress mode: {0}. Use {1}.',
+    'o progresso colorido': 'the coloured progress display',
+    'Usando o progresso simples.': 'Using the simple progress display.',
+    'O pacote opcional «{0}» é necessário para {1}, mas não está instalado. Instale-o com: {2}. Ele não vem no instalador do programa.':
+        'The optional package «{0}» is needed for {1}, but it is not installed. Install it with: {2}. It does not come with the program installer.',
+    'O pacote opcional «{0}» é necessário, mas não está instalado. Instale-o com: {1}. Ele não vem no instalador do programa.':
+        'The optional package «{0}» is needed, but it is not installed. Install it with: {1}. It does not come with the program installer.',
+})
+
+
 def em_portugues_de_portugal(texto: str) -> str:
     """O texto com o glossário de Portugal (para o núcleo, que não importa a interface)."""
     from triton.ui.portugues_de_portugal import para_portugal

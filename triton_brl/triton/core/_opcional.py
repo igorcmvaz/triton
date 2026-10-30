@@ -38,13 +38,26 @@ def _distribuicao() -> str:
         return "triton-int"
 
 
+def _traduzir(texto: str) -> str:
+    """O texto na língua da edição (``cli_textos.t``); sem ele, o original."""
+    try:
+        from triton.cli_textos import t
+        return t(texto)
+    except Exception:
+        return texto
+
+
 def mensagem_de_falta(nome: str, extra: Optional[str] = None, para: str = "") -> str:
-    """O texto do erro: o pacote, o recurso que o pede e o comando de instalação do extra."""
+    """O texto do erro: o pacote, o recurso que o pede e o comando de instalação do extra (na língua da edição)."""
     extra = extra or EXTRA_DO_PACOTE.get(nome.split(".")[0], "")
-    recurso = f" para {para}" if para else ""
     comando = f'pip install "{_distribuicao()}[{extra}]"' if extra else f"pip install {nome.split('.')[0]}"
-    return (f"O pacote opcional «{nome}» é necessário{recurso}, mas não está instalado. "
-            f"Instale-o com: {comando}. Ele não vem no instalador do programa.")
+    if para:
+        modelo = _traduzir("O pacote opcional «{0}» é necessário para {1}, mas não está instalado. "
+                           "Instale-o com: {2}. Ele não vem no instalador do programa.")
+        return modelo.format(nome, para, comando)
+    modelo = _traduzir("O pacote opcional «{0}» é necessário, mas não está instalado. "
+                       "Instale-o com: {1}. Ele não vem no instalador do programa.")
+    return modelo.format(nome, comando)
 
 
 def disponivel(nome: str) -> bool:

@@ -386,7 +386,7 @@ def test_esquema_json_valida_o_exemplo_e_o_esqueleto():
 
 def _mensagens_do_estudo():
     achadas = set()
-    for arq in ("triton/core/estudo.py", "triton/cli_estudo.py"):
+    for arq in ("triton/core/estudo.py", "triton/cli_estudo.py", "triton/core/estudo_consolidar.py", "triton/cli_progresso.py"):
         arvore = ast.parse((RAIZ / arq).read_text(encoding="utf-8"))
         for n in ast.walk(arvore):
             if not isinstance(n, ast.Call):

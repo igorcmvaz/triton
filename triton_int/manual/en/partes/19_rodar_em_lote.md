@@ -227,9 +227,16 @@ triton estudo texto .\out\schools --modelo .\schools\modelo_texto.md
 
 # 6. Several studies (a folder with estudo*.json files), with the comparison between typologies.
 triton estudo lote .\studies --saida .\out\comparison
+
+# 7. Gather the resultados.csv of many runs into one table (typology, case, metric: minimum, mean, median, maximum).
+triton estudo consolidar .\out --saida .\out\consolidated
 ```
 
 The typologies (`escolar` school, `comercial` commercial, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar` hospital, `aeroportuario` airport) are structure and labels only: `estudo init --tipologia` writes the label, the `grupo` of the cases and, in a comment, what `usuarios` means in that typology. No number comes with the typology: area, demand, users and share come from your cases, with the source of each.
+
+The `consolidar` action searches every `resultados.csv` under the given folders (several studies, batches, repeated runs) and writes `consolidado.csv` and `consolidado.md` to the output folder: one row per typology (`grupo`), case and metric, with `n`, minimum, mean, median and maximum of the values of the cases that finished (`status` ok). The unit is part of the group key, so different currencies are never mixed. Numbers have the same format as in `resultados.csv` (decimal point, ten significant digits); the Markdown table follows `--idioma`. If the optional `duckdb` package is installed (`pip install "triton-int[analise]"`, not part of the installer), it reads and groups the files; without it the standard library does the same, and the two paths give the same bytes (`--motor csv` forces the second; `--motor duckdb` demands the package).
+
+`estudo run` and `estudo lote` show their progress on the error stream. `--progresso simples` writes one line per case (`[i/N] id: ok (t s)`); `--progresso rich` draws a progress bar and needs the optional `rich` package (`pip install "triton-int[cli]"`; without it the program warns once and uses `simples`); the default `auto` uses `rich` only if it is installed and the error stream is a terminal. The result files are identical in bytes in every mode, and `--quiet` turns the progress off.
 
 What each section of `estudo.json` contains, the aliases of the substitutions (catchment area, demand, users, share, tank volume and others) and the output files are in the appendix «Files, folders and formats». The example `examples/estudos/residencial-unifamiliar-exemplo/` runs the tutorial house in New York, London and Cape Town (`new_york.triton`, `london.triton`, `cape_town.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida out\example`.
 

@@ -15,11 +15,13 @@ import sys
 from pathlib import Path
 from typing import Any, Callable, List, Optional
 
+from triton import cli_progresso as PR
 from triton.cli_textos import t as _t
 from triton.core import estudo as E
+from triton.core import estudo_consolidar as C
 
 #: As ações do subcomando, na ordem em que a ajuda as mostra.
-ACOES = ("init", "validate", "run", "resumo", "lote", "texto", "esquema", "apelidos")
+ACOES = ("init", "validate", "run", "resumo", "lote", "consolidar", "texto", "esquema", "apelidos")
 
 
 def _inteiro_positivo(bruto: str) -> int:
@@ -67,6 +69,8 @@ def registrar(subparsers: Any) -> None:
     p.add_argument("--sobrescrever", action="store_true", help="Refaz todos os casos numa pasta de saída que já tem resultados")
     p.add_argument("--paralelo", type=_inteiro_positivo, default=1, metavar="N", help="Casos em N processos (o resultado não muda)")
     p.add_argument("--quiet", action="store_true", help="Oculta o progresso")
+    p.add_argument("--progresso", choices=PR.MODOS, default="auto",
+                   help="Progresso na saída de erro: rich (extra cli), simples (uma linha por caso) ou auto (rich se houver e for terminal). Os resultados não mudam")
 
     p = nova("resumo", "Refaz as tabelas a partir da pasta de saída, sem recalcular")
     p.add_argument("pasta", help="Pasta de saída de «triton estudo run»")
@@ -82,6 +86,15 @@ def registrar(subparsers: Any) -> None:
     p.add_argument("--paralelo", type=_inteiro_positivo, default=1, metavar="N", help="Casos em N processos (o resultado não muda)")
     p.add_argument("--idioma", choices=E.IDIOMAS, help="Idioma do comparativo (padrão: o do primeiro estudo)")
     p.add_argument("--quiet", action="store_true", help="Oculta o progresso")
+    p.add_argument("--progresso", choices=PR.MODOS, default="auto",
+                   help="Progresso na saída de erro: rich (extra cli), simples (uma linha por caso) ou auto (rich se houver e for terminal). Os resultados não mudam")
+
+    p = nova("consolidar", "Consolida os resultados.csv de várias execuções numa só tabela (tipologia, caso, métrica)")
+    p.add_argument("pastas", nargs="+", metavar="PASTA", help="Pastas de saída de «triton estudo run» ou «lote» (procura resultados.csv nas subpastas)")
+    p.add_argument("--saida", required=True, help="Pasta de saída (consolidado.csv e consolidado.md)")
+    p.add_argument("--idioma", choices=E.IDIOMAS, help="Idioma da tabela em Markdown (padrão: o da edição)")
+    p.add_argument("--motor", choices=C.MOTORES, default="auto",
+                   help="Leitura dos arquivos: duckdb (extra analise) ou csv (biblioteca padrão); auto usa o duckdb se estiver instalado. O resultado é o mesmo")
 
     p = nova("texto", "Preenche um modelo de texto (.md) com os números reais dos resultados")
     p.add_argument("pasta", help="Pasta de saída de «triton estudo run»")
@@ -147,9 +160,12 @@ def _resumo_da_execucao(ex: E.Execucao, saida: Path) -> None:
 
 
 def _run(args: argparse.Namespace) -> int:
-    log: Optional[Callable[[str], None]] = None if args.quiet else _avisar
+    log, progresso, fechar = PR.criar(args.progresso, args.quiet)
     saida = Path(args.saida)
-    ex = E.rodar_estudo(Path(args.estudo), saida, args.retomar, args.sobrescrever, args.paralelo, log)
+    try:
+        ex = E.rodar_estudo(Path(args.estudo), saida, args.retomar, args.sobrescrever, args.paralelo, log, progresso)
+    finally:
+        fechar()
     for a in ex.avisos:
         _avisar(f"{_t('Aviso:')} {a}")
     _resumo_da_execucao(ex, saida)
@@ -167,10 +183,13 @@ def _resumo(args: argparse.Namespace) -> int:
 
 
 def _lote(args: argparse.Namespace) -> int:
-    log: Optional[Callable[[str], None]] = None if args.quiet else _avisar
+    log, progresso, fechar = PR.criar(args.progresso, args.quiet)
     saida = Path(args.saida)
-    execucoes, comparativo = E.rodar_lote(Path(args.pasta), saida, args.recursivo, args.retomar, args.sobrescrever,
-                                          args.paralelo, args.idioma, log)
+    try:
+        execucoes, comparativo = E.rodar_lote(Path(args.pasta), saida, args.recursivo, args.retomar, args.sobrescrever,
+                                              args.paralelo, args.idioma, log, progresso)
+    finally:
+        fechar()
     calc = sum(len(e.calculados) for e in execucoes)
     pul = sum(len(e.pulados) for e in execucoes)
     err = sum(len(e.erros) for e in execucoes)
@@ -179,6 +198,17 @@ def _lote(args: argparse.Namespace) -> int:
     for nome in comparativo:
         print(f"- {nome}")
     return 1 if err else 0
+
+
+def _consolidar(args: argparse.Namespace) -> int:
+    saida = Path(args.saida)
+    arquivos, n_arquivos, n_linhas, motor = C.consolidar([Path(p) for p in args.pastas], saida, args.idioma, args.motor)
+    print(_t("Consolidado: {0} arquivos resultados.csv, {1} linhas (tipologia, caso, métrica).").format(n_arquivos, n_linhas))
+    print(_t("Leitura e agrupamento: {0}").format(motor))
+    print(_t("Saídas em: {0}").format(saida.resolve()))
+    for nome in arquivos:
+        print(f"- {nome}")
+    return 0
 
 
 def _texto(args: argparse.Namespace) -> int:
@@ -219,7 +249,7 @@ def _apelidos(_args: argparse.Namespace) -> int:
 
 
 _DESPACHO = {"init": _init, "validate": _validate, "run": _run, "resumo": _resumo, "lote": _lote,
-             "texto": _texto, "esquema": _esquema, "apelidos": _apelidos}
+             "consolidar": _consolidar, "texto": _texto, "esquema": _esquema, "apelidos": _apelidos}
 
 
 def executar(args: argparse.Namespace) -> int:

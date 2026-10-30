@@ -229,9 +229,16 @@ triton estudo texto .\saida\escolas --modelo .\escolas\modelo_texto.md
 
 # 6. Vários estudos (uma pasta com estudo*.json), com o comparativo entre tipologias.
 triton estudo lote .\estudos --saida .\saida\comparativo
+
+# 7. Reúne os resultados.csv de várias execuções numa só tabela (tipologia, caso, métrica: mínimo, média, mediana, máximo).
+triton estudo consolidar .\saida --saida .\saida\consolidado
 ```
 
 As tipologias (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar`, `aeroportuario`) são só estrutura e rótulos: `estudo init --tipologia` grava o rótulo, o `grupo` dos casos e, num comentário, o que `usuarios` significa naquela tipologia. Nenhum número vem com a tipologia: área, demanda, utilizadores e fração vêm dos seus casos, com a fonte de cada um.
+
+A ação `consolidar` procura todos os `resultados.csv` sob as pastas indicadas (vários estudos, lotes, execuções repetidas) e grava `consolidado.csv` e `consolidado.md` na pasta de saída: uma linha por tipologia (`grupo`), caso e métrica, com `n`, mínimo, média, mediana e máximo dos valores dos casos concluídos (`status` ok). A unidade faz parte da chave do grupo, pelo que moedas diferentes nunca se misturam. Os números têm o mesmo formato do `resultados.csv` (ponto decimal, dez algarismos significativos); a tabela em Markdown segue `--idioma`. Se o pacote opcional `duckdb` estiver instalado (`pip install "triton-ibe[analise]"`, que não faz parte do instalador), é ele que lê e agrupa os ficheiros; sem ele a biblioteca padrão faz o mesmo, e os dois caminhos dão os mesmos bytes (`--motor csv` força o segundo; `--motor duckdb` exige o pacote).
+
+`estudo run` e `estudo lote` mostram o progresso na saída de erro. `--progresso simples` escreve uma linha por caso (`[i/N] id: ok (t s)`); `--progresso rich` desenha uma barra de progresso e precisa do pacote opcional `rich` (`pip install "triton-ibe[cli]"`; sem ele o programa avisa uma vez e usa `simples`); o padrão `auto` só usa `rich` se este estiver instalado e a saída de erro for um terminal. Os ficheiros de resultado são idênticos em bytes em qualquer modo, e `--quiet` desliga o progresso.
 
 O que cada secção do `estudo.json` contém, os apelidos das substituições (área de captação, demanda, utilizadores, fração, volume do reservatório e outros) e os ficheiros de saída estão no apêndice «Ficheiros, pastas e formatos». O exemplo `examples/estudos/residencial-unifamiliar-exemplo/` roda a moradia do tutorial em Lisboa, no Porto e no Funchal (`portugal/lisboa.triton`, `portugal/porto.triton`, `portugal/funchal.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida saida\exemplo`.
 

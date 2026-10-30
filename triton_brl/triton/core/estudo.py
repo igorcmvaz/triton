@@ -369,6 +369,13 @@ _TXT: Dict[str, Dict[str, str]] = {
     "media_faixa": {"pt": "média (mínimo a máximo)", "en": "mean (minimum to maximum)",
                     "es": "media (mínimo a máximo)", "zh": "平均值（最小值至最大值）"},
     "estudos": {"pt": "Estudos", "en": "Studies", "es": "Estudios", "zh": "研究数"},
+    "consolidado": {"pt": "Consolidado dos resultados", "en": "Consolidated results", "es": "Resultados consolidados", "zh": "结果汇总"},
+    "consolidado_faixa": {"pt": "por tipologia, caso e métrica", "en": "by typology, case and metric",
+                          "es": "por tipología, caso y métrica", "zh": "按类型、案例和指标"},
+    "consolidado_fontes": {"pt": "{0} arquivos de resultados; {1} linhas (tipologia, caso, métrica).",
+                           "en": "{0} results files; {1} rows (typology, case, metric).",
+                           "es": "{0} archivos de resultados; {1} filas (tipología, caso, métrica).",
+                           "zh": "{0} 个结果文件；{1} 行（类型、案例、指标）。"},
 }
 
 
@@ -1894,9 +1901,15 @@ class Execucao:
 
 
 def rodar_estudo(caminho: Path, saida: Path, retomar: bool = False, sobrescrever: bool = False, paralelo: int = 1,
-                 log: Optional[Callable[[str], None]] = None) -> Execucao:
-    """Executa todos os casos (em ordem estável) e escreve as saídas. ``retomar`` pula casos prontos e inalterados."""
+                 log: Optional[Callable[[str], None]] = None, progresso: Optional[Callable[..., None]] = None) -> Execucao:
+    """Executa todos os casos (em ordem estável) e escreve as saídas. ``retomar`` pula casos prontos e inalterados.
+
+    ``log`` recebe uma linha de texto por caso. ``progresso`` (opcional, para barras) recebe
+    ``("inicio", feitos, total, id_do_estudo, None)`` ao começar e ``("caso", feitos, total, id_do_caso, erro_ou_None)`` a cada caso
+    concluído; não muda nenhum resultado.
+    """
     log = log or (lambda _msg: None)
+    progresso = progresso or (lambda *_a: None)
     plano, avisos = carregar_plano(caminho)
     saida = Path(saida)
     ja_tem = (saida / "casos").is_dir() and any((saida / "casos").iterdir())
@@ -1928,11 +1941,13 @@ def rodar_estudo(caminho: Path, saida: Path, retomar: bool = False, sobrescrever
         resultado.pop("analise_completa", None)      # fora da memória: o estudo pode ter milhares de casos
         estado = "ok" if resultado["status"] == "ok" else _m("erro: {0}", resultado.get("erro", ""))
         log(f"[{len(resultados)}/{total}] {resultado['id']}: {estado} ({tempo:.1f} s)")
+        progresso("caso", len(resultados), total, resultado["id"], None if resultado["status"] == "ok" else str(resultado.get("erro", "")))
         (execucao.calculados if resultado["status"] == "ok" else execucao.erros).append(resultado["id"])
 
     for i in sorted(prontos):
         execucao.pulados.append(casos[i]["id"])
         log(f"[{casos[i]['id']}] " + _m("pronto, ignorado"))
+    progresso("inicio", len(prontos), total, plano["estudo"]["id"], None)
 
     if paralelo > 1 and len(pendentes) > 1:
         from concurrent.futures import ProcessPoolExecutor
@@ -2534,8 +2549,8 @@ def comparativo_tex(comp: Dict[str, Any], planos: Sequence[Dict[str, Any]], resu
 
 
 def rodar_lote(pasta: Path, saida: Path, recursivo: bool = False, retomar: bool = False, sobrescrever: bool = False,
-               paralelo: int = 1, idioma: Optional[str] = None, log: Optional[Callable[[str], None]] = None
-               ) -> Tuple[List[Execucao], List[str]]:
+               paralelo: int = 1, idioma: Optional[str] = None, log: Optional[Callable[[str], None]] = None,
+               progresso: Optional[Callable[..., None]] = None) -> Tuple[List[Execucao], List[str]]:
     """Roda cada ``estudo*.json`` da pasta e escreve o comparativo entre tipologias na raiz da saída."""
     log = log or (lambda _m_: None)
     arquivos = descobrir_estudos(pasta, recursivo)
@@ -2551,7 +2566,7 @@ def rodar_lote(pasta: Path, saida: Path, recursivo: bool = False, retomar: bool 
     execucoes: List[Execucao] = []
     for plano in planos:
         log(_m("Estudo {0} ({1} casos)", plano["estudo"]["id"], len(plano["casos"])))
-        execucoes.append(rodar_estudo(plano["caminho"], saida / plano["estudo"]["id"], retomar, sobrescrever, paralelo, log))
+        execucoes.append(rodar_estudo(plano["caminho"], saida / plano["estudo"]["id"], retomar, sobrescrever, paralelo, log, progresso))
     lingua = resolver_idioma(idioma if idioma else planos[0]["saidas"]["idioma"])
     resultados = [e.resultados for e in execucoes]
     comp = comparativo(planos, resultados, lingua)

@@ -149,6 +149,7 @@ The substitutions go through the same fraction reconciliation as `--set`, and th
 | `resumo.md` | short summary: cases, range of each result, warnings, sources and licences |
 | `casos/<id>/resultado.json` and `analise.json` | every metric of the case and the full analysis of the engine (this is what `resumo` and `texto` read) |
 | `estudo.json` | copy of the study that produced the folder |
+| `consolidado.csv` and `consolidado.md` | written by `triton estudo consolidar` (not by `run`): one row per typology (`grupo`), case, metric and unit, with `n`, minimum, mean, median and maximum over the `resultados.csv` files found |
 
 The outputs carry no absolute path: projects appear with a path relative to `estudo.json` (or just the name). Two runs of the same study give identical files; the run date is the only difference, and the environment variable `SOURCE_DATE_EPOCH` fixes it. The `xlsx` stores its creation date in the file properties and is identical in content, not byte for byte.
 

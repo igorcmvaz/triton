@@ -63,7 +63,8 @@ class TestIbe:
         assert r["status"] == "ok", r.get("erro")
         assert r["fonte_da_chuva"]["serie"]["dias"] == 10957
         assert any(a["papel"] == "base-iberia01" and len(a["sha256"]) == 64 for a in r["arquivos"])
-        assert any("indicativa" in a or "média regional" in a for a in r["alertas"])
+        # camada 3 (indicativa, média regional) ou, com a tarifa da camada 1 transcrita, o aviso de que ainda falta a segunda leitura
+        assert any("indicativa" in a or "média regional" in a or "ainda não conferida" in a for a in r["alertas"])
         assert any("Iberia01" in l for l in r["fonte_da_chuva"]["credit_and_licence"])
         assert not any("E-OBS" in l for l in r["fonte_da_chuva"]["credit_and_licence"])
         r2 = E.executar_caso(plano, plano["casos"][0])
