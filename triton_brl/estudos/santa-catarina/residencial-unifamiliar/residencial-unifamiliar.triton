@@ -65,10 +65,10 @@
     },
     "reservoirs_and_pumping": {
       "lower_tank_fixed_l": 3000.0,
-      "lower_tank_max_l": 10000.0,
+      "lower_tank_max_l": 15000.0,
       "lower_tank_step_l": 250.0,
       "lower_tank_mode": 1,
-      "delta_ideal_pct": 2.0,
+      "delta_ideal_pct": 1.5,
       "phi_operation_rule": null,
       "upper_tank_vol_l": 500.0,
       "upper_tank_used": true,

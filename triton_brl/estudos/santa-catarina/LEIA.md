@@ -9,9 +9,9 @@ Seis estudos, um por tipologia, com a mesma estrutura: arquétipo de edificaçã
 | residencial-unifamiliar | `residencial-unifamiliar` | 32 | 4256 |
 | residencial-multifamiliar | `residencial-multifamiliar` | 32 | 4256 |
 | hospitalar | `hospitalar` | 32 | 4256 |
-| aeroportuario | `aeroportos` | 4 | 532 |
+| aeroportuario | `aeroportos` | 21 | 2793 |
 
-Total: 21812 simulações.
+Total: 24073 simulações.
 
 ## Municípios: 32 de 295 estão na CLIMBra
 
@@ -36,7 +36,7 @@ Modelos: os 19 da CLIMBra. Recortes: os sugeridos pelo programa (`RECORTES_SUGER
 | residencial-unifamiliar | 4256 | 0.112 | 8 min | 58 MB |
 | residencial-multifamiliar | 4256 | 0.137 | 10 min | 58 MB |
 | hospitalar | 4256 | 0.142 | 11 min | 58 MB |
-| aeroportos | 532 | 0.166 | 2 min | 7 MB |
+| aeroportos | 2793 | 0.166 | 8 min | 38 MB |
 
 Total: 21812 simulações, cerca de 35 a 40 min com 1 processo (`--paralelo 4` deve cortar para um quarto a um terço; não medido) e cerca de 0,3 GB (com `gravar_analise: false`; cada caso grava só o `resultado.json`). O tempo vem de 39 casos espaçados de cada estudo, com o primeiro descartado (aquecimento); inclui a montagem do caso, não a gravação.
 

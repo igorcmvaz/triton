@@ -19,22 +19,22 @@ Estudo `sc-residencial-multifamiliar` (esquema `triton-estudo`, versão 1) e pro
 | Economias (unidades) | 16 | estimativa de arquétipo, a refinar pelo autor |
 | Demanda por usuário (L/dia) | 150 | estimativa de arquétipo, a refinar pelo autor |
 | Fração atendível por chuva (%) | 40 | estimativa de arquétipo, a refinar pelo autor |
-| Volume inferior de referência (L) | 10000 | estimativa de arquétipo, a refinar pelo autor |
-| Maior volume da varredura (L) | 20000 | estimativa de arquétipo, a refinar pelo autor |
-| Passo da varredura (L) | 500 | estimativa de arquétipo, a refinar pelo autor |
-| Limiar de ganho marginal do ótimo técnico (%/m³) | 0.5 | estimativa de arquétipo, a refinar pelo autor |
-| Reservatório superior (L) | 2500 | estimativa de arquétipo, a refinar pelo autor |
-| Limiar de bombeamento (L) | 625 | estimativa de arquétipo, a refinar pelo autor |
+| Volume inferior de referência (L) | 15000 | estimativa de arquétipo, a refinar pelo autor |
+| Maior volume da varredura (L) | 50000 | estimativa de arquétipo, a refinar pelo autor |
+| Passo da varredura (L) | 1000 | estimativa de arquétipo, a refinar pelo autor |
+| Limiar de ganho marginal do ótimo técnico (%/m³) | 0.3 | estimativa de arquétipo, a refinar pelo autor |
+| Reservatório superior (L) | 3000 | estimativa de arquétipo, a refinar pelo autor |
+| Limiar de bombeamento (L) | 750 | estimativa de arquétipo, a refinar pelo autor |
 | Material da cisterna inferior | FIBRA | estimativa de arquétipo, a refinar pelo autor |
 | Material do reservatório superior | PEAD | estimativa de arquétipo, a refinar pelo autor |
 | TMA mensal (% a.m.) | 0.75 | estimativa de arquétipo, a refinar pelo autor |
 | Recalque (`pump`) | 2 × 1 CV (0.75 kW, R$ 750.00/un) | estimativa de arquétipo, a refinar pelo autor |
-| Cisterna inferior de referência (10000 L, FIBRA) | R$ 7424.86 | catálogo do programa (na varredura, interpola cada volume) |
-| Reservatório superior (2500 L, PEAD) | R$ 1374.10 | catálogo do programa |
+| Cisterna inferior de referência (15000 L, FIBRA) | R$ 9362.25 | catálogo do programa (na varredura, interpola cada volume) |
+| Reservatório superior (3000 L, PEAD) | R$ 1644.50 | catálogo do programa |
 | Tubulações prediais e coletores (`cost_piping`) | R$ 9500.00 | estimativa de arquétipo, a refinar pelo autor |
 | Acessórios, filtragem, quadro e automação (`cost_accessories`) | R$ 5200.00 | estimativa de arquétipo, a refinar pelo autor |
-| Mão de obra de referência (`cost_labor`, 30% dos materiais) | R$ 7499.69 | automática por volume da varredura (`mao_de_obra_automatica: true`) |
-| CAPEX total no volume de referência (10000 L) | R$ 32498.65 | soma dos subsistemas em `residencial-multifamiliar.triton` |
+| Mão de obra de referência (`cost_labor`, 30% dos materiais) | R$ 8162.02 | automática por volume da varredura (`mao_de_obra_automatica: true`) |
+| CAPEX total no volume de referência (15000 L) | R$ 35368.77 | soma dos subsistemas em `residencial-multifamiliar.triton` |
 | Manutenção periódica fixa (`operational_costs`) | R$ 2210.00/ano | estimativa de arquétipo, a refinar pelo autor |
 | Categoria tarifária | residencial | escolha de arquétipo; sem tabela coletada para o município, usa a residencial (alerta no resultado) |
 | Coeficiente de escoamento, descarte, demais campos | os do modelo da edição | padrão do programa |

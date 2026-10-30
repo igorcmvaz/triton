@@ -6,7 +6,7 @@
   "version": "0.1.0",
   "metadata": {
     "project_id": "TRITON-SC-AEROPORTOS",
-    "name": "Arquétipo aeroportuario (terminal de passageiros e apoio de aeroporto regional) — Santa Catarina",
+    "name": "Arquétipo aeroportuario (terminais e aeródromos públicos classificados por porte (Classes I a V)) — Santa Catarina",
     "created_at": "29/10/2026 00:00",
     "saved_at": "29/10/2026 00:00:00"
   },
@@ -37,9 +37,9 @@
   },
   "inputs": {
     "building_and_demand": {
-      "catchment_area_m2": 8000.0,
+      "catchment_area_m2": 3500.0,
       "runoff_coeff": 0.75,
-      "residents_count": 3000,
+      "residents_count": 1300,
       "residents_type": 0,
       "residents_monthly": [],
       "demand_value": 25.0,
@@ -64,15 +64,15 @@
       "discard_days_interval": 7
     },
     "reservoirs_and_pumping": {
-      "lower_tank_fixed_l": 60000.0,
-      "lower_tank_max_l": 120000.0,
+      "lower_tank_fixed_l": 30000.0,
+      "lower_tank_max_l": 150000.0,
       "lower_tank_step_l": 3000.0,
       "lower_tank_mode": 1,
       "delta_ideal_pct": 0.1,
       "phi_operation_rule": null,
-      "upper_tank_vol_l": 10000.0,
+      "upper_tank_vol_l": 8000.0,
       "upper_tank_used": true,
-      "pumping_threshold_l": 2500.0,
+      "pumping_threshold_l": 2000.0,
       "supply_arrangement": "recalque",
       "pressurizer_pressure_m": 18.0,
       "pressurizer_starts_per_person_day": 5.05,
@@ -179,14 +179,14 @@
       "potable_indoor_share": 0.5,
       "non_potable_indoor_share": 0.5,
       "install_month": 0,
-      "econ_lower_tank_vol": 60000.0,
+      "econ_lower_tank_vol": 30000.0,
       "demand_mode": "constant",
       "edge_base_case_l_person_day": 0.0
     },
     "capex_and_opex": {
-      "cost_lower_tank": 60858.36,
-      "cost_upper_tank": 7330.7,
-      "cost_labor": 91736.72,
+      "cost_lower_tank": 30670.13,
+      "cost_upper_tank": 5870.52,
+      "cost_labor": 82242.2,
       "cost_piping": 145000.0,
       "cost_accessories": 85000.0,
       "capex_do_arranjo": false,
@@ -230,7 +230,7 @@
   },
   "analysis": {
     "origem": "estimativa de arquétipo, a refinar pelo autor; ver LEIA.md",
-    "arquetipo": "terminal de passageiros e apoio de aeroporto regional",
+    "arquetipo": "terminais e aeródromos públicos classificados por porte (Classes I a V)",
     "topsis_weights": [
       0.33,
       0.33,

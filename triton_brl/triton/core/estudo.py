@@ -1077,7 +1077,7 @@ def expandir_casos(exp: Any, caminho: str, erros: List[str]) -> List[Dict[str, A
     else:
         for j, m in enumerate(municipios):
             onde = f"{caminho}.municipios[{j}]"
-            if not _validar_chaves(m, ("municipio", "uf", "ibge"), onde, erros):
+            if not _validar_chaves(m, ("municipio", "uf", "ibge", "nome", "id", "clima_municipio", "substituicoes", "dimensoes"), onde, erros):
                 continue
             nome = m.get("municipio")
             if not isinstance(nome, str) or _pendente(nome):
@@ -1092,6 +1092,16 @@ def expandir_casos(exp: Any, caminho: str, erros: List[str]) -> List[Dict[str, A
                     erros.append(_m("{0}.ibge: esperado o código IBGE de sete dígitos, entre aspas", onde))
                     continue
                 item["ibge"] = m["ibge"].strip()
+            if m.get("id"):
+                item["id"] = str(m["id"]).strip()
+            if m.get("nome"):
+                item["nome"] = str(m["nome"]).strip()
+            if m.get("clima_municipio"):
+                item["clima_municipio"] = str(m["clima_municipio"]).strip()
+            if m.get("substituicoes"):
+                item["substituicoes"] = _validar_substituicoes(m["substituicoes"], f"{onde}.substituicoes", erros)
+            if m.get("dimensoes"):
+                item["dimensoes"] = dict(m["dimensoes"])
             lista.append(item)
     modelos = exp.get("modelos", "todos")
     if modelos == "todos":
@@ -1119,14 +1129,44 @@ def expandir_casos(exp: Any, caminho: str, erros: List[str]) -> List[Dict[str, A
             rec_ok.append({"id": rid, "rotulo": str(r.get("rotulo") or rid), **sub})
     casos: List[Dict[str, Any]] = []
     for m in lista:
+        cidade_clima = m.get("clima_municipio") or m["municipio"]
+        subst_item = m.get("substituicoes", {})
+        rotulo_mun = m.get("nome") or m["municipio"]
+        dim_item = m.get("dimensoes", {})
+        slug_prefix = m.get("id") or _slug(m.get("nome") or m["municipio"])[:24]
         for modelo in modelos:
             for r in rec_ok:
-                ref = {**m, "modelo": modelo, "cenario": r["cenario"], "inicio": r["inicio"], "fim": r["fim"]}
-                cid = f"{_slug(m['municipio'])}__{modelo}__{r['id']}"
-                dim = {"municipio": m["municipio"], "ibge": m.get("ibge", ""), "modelo": modelo, "recorte": r["id"],
-                       "cenario": r["cenario"], "inicio": r["inicio"], "fim": r["fim"]}
-                casos.append({"id": cid, "nome": f"{m['municipio']} · {modelo} · {r['rotulo']}", "grupo": r["id"],
-                              "clima": {"climbra": ref}, "dimensoes": dim})
+                ref = {
+                    "municipio": cidade_clima,
+                    "uf": m.get("uf", uf_padrao or "SC"),
+                    "modelo": modelo,
+                    "cenario": r["cenario"],
+                    "inicio": r["inicio"],
+                    "fim": r["fim"],
+                }
+                if m.get("ibge"):
+                    ref["ibge"] = m["ibge"]
+                cid = f"{slug_prefix}__{modelo}__{r['id']}"
+                dim = {
+                    "municipio": m["municipio"],
+                    "ibge": m.get("ibge", ""),
+                    **dim_item,
+                    "modelo": modelo,
+                    "recorte": r["id"],
+                    "cenario": r["cenario"],
+                    "inicio": r["inicio"],
+                    "fim": r["fim"],
+                }
+                caso_d = {
+                    "id": cid,
+                    "nome": f"{rotulo_mun} · {modelo} · {r['rotulo']}",
+                    "grupo": r["id"],
+                    "clima": {"climbra": ref},
+                    "dimensoes": dim,
+                }
+                if subst_item:
+                    caso_d["substituicoes"] = subst_item
+                casos.append(caso_d)
     return casos
 
 

@@ -20,11 +20,11 @@
    "usuarios": 300,
    "demanda_per_capita_l_dia": 45,
    "fracao_pluvial_pct": 50,
-   "volume_maximo_l": 20000,
-   "passo_volume_l": 500,
-   "delta_ideal_pct": 0.5,
-   "reservatorio_superior_l": 3000,
-   "limiar_bombeamento_l": 750,
+   "volume_maximo_l": 80000,
+   "passo_volume_l": 1500,
+   "delta_ideal_pct": 0.25,
+   "reservatorio_superior_l": 5000,
+   "limiar_bombeamento_l": 1250,
    "tma_pct_mes": 0.75
   },
   "tarifa": {

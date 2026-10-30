@@ -19,9 +19,9 @@ Estudo `sc-residencial-unifamiliar` (esquema `triton-estudo`, versão 1) e proje
 | Demanda por usuário (L/dia) | 150 | estimativa de arquétipo, a refinar pelo autor |
 | Fração atendível por chuva (%) | 40 | estimativa de arquétipo, a refinar pelo autor |
 | Volume inferior de referência (L) | 3000 | estimativa de arquétipo, a refinar pelo autor |
-| Maior volume da varredura (L) | 10000 | estimativa de arquétipo, a refinar pelo autor |
+| Maior volume da varredura (L) | 15000 | estimativa de arquétipo, a refinar pelo autor |
 | Passo da varredura (L) | 250 | estimativa de arquétipo, a refinar pelo autor |
-| Limiar de ganho marginal do ótimo técnico (%/m³) | 2.0 | estimativa de arquétipo, a refinar pelo autor |
+| Limiar de ganho marginal do ótimo técnico (%/m³) | 1.5 | estimativa de arquétipo, a refinar pelo autor |
 | Reservatório superior (L) | 500 | estimativa de arquétipo, a refinar pelo autor |
 | Limiar de bombeamento (L) | 125 | estimativa de arquétipo, a refinar pelo autor |
 | Material da cisterna inferior | PEAD | estimativa de arquétipo, a refinar pelo autor |

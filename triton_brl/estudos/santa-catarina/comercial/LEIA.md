@@ -18,22 +18,22 @@ Estudo `sc-comercial` (esquema `triton-estudo`, versão 1) e projeto-base comple
 | Usuários (ocupantes e visitantes presentes por dia) | 300 | estimativa de arquétipo, a refinar pelo autor |
 | Demanda por usuário (L/dia) | 45 | estimativa de arquétipo, a refinar pelo autor |
 | Fração atendível por chuva (%) | 50 | estimativa de arquétipo, a refinar pelo autor |
-| Volume inferior de referência (L) | 10000 | estimativa de arquétipo, a refinar pelo autor |
-| Maior volume da varredura (L) | 20000 | estimativa de arquétipo, a refinar pelo autor |
-| Passo da varredura (L) | 500 | estimativa de arquétipo, a refinar pelo autor |
-| Limiar de ganho marginal do ótimo técnico (%/m³) | 0.5 | estimativa de arquétipo, a refinar pelo autor |
-| Reservatório superior (L) | 3000 | estimativa de arquétipo, a refinar pelo autor |
-| Limiar de bombeamento (L) | 750 | estimativa de arquétipo, a refinar pelo autor |
+| Volume inferior de referência (L) | 20000 | estimativa de arquétipo, a refinar pelo autor |
+| Maior volume da varredura (L) | 80000 | estimativa de arquétipo, a refinar pelo autor |
+| Passo da varredura (L) | 1500 | estimativa de arquétipo, a refinar pelo autor |
+| Limiar de ganho marginal do ótimo técnico (%/m³) | 0.25 | estimativa de arquétipo, a refinar pelo autor |
+| Reservatório superior (L) | 5000 | estimativa de arquétipo, a refinar pelo autor |
+| Limiar de bombeamento (L) | 1250 | estimativa de arquétipo, a refinar pelo autor |
 | Material da cisterna inferior | FIBRA | estimativa de arquétipo, a refinar pelo autor |
 | Material do reservatório superior | FIBRA | estimativa de arquétipo, a refinar pelo autor |
 | TMA mensal (% a.m.) | 0.75 | estimativa de arquétipo, a refinar pelo autor |
 | Recalque (`pump`) | 2 × 1,5 CV (1.1 kW, R$ 1250.00/un) | estimativa de arquétipo, a refinar pelo autor |
-| Cisterna inferior de referência (10000 L, FIBRA) | R$ 7424.86 | catálogo do programa (na varredura, interpola cada volume) |
-| Reservatório superior (3000 L, FIBRA) | R$ 2220.08 | catálogo do programa |
+| Cisterna inferior de referência (20000 L, FIBRA) | R$ 13247.60 | catálogo do programa (na varredura, interpola cada volume) |
+| Reservatório superior (5000 L, FIBRA) | R$ 3680.26 | catálogo do programa |
 | Tubulações prediais e coletores (`cost_piping`) | R$ 28000.00 | estimativa de arquétipo, a refinar pelo autor |
 | Acessórios, filtragem, quadro e automação (`cost_accessories`) | R$ 16000.00 | estimativa de arquétipo, a refinar pelo autor |
-| Mão de obra de referência (`cost_labor`, 30% dos materiais) | R$ 16843.48 | automática por volume da varredura (`mao_de_obra_automatica: true`) |
-| CAPEX total no volume de referência (10000 L) | R$ 72988.42 | soma dos subsistemas em `comercial.triton` |
+| Mão de obra de referência (`cost_labor`, 30% dos materiais) | R$ 19028.36 | automática por volume da varredura (`mao_de_obra_automatica: true`) |
+| CAPEX total no volume de referência (20000 L) | R$ 82456.22 | soma dos subsistemas em `comercial.triton` |
 | Manutenção periódica fixa (`operational_costs`) | R$ 4800.00/ano | estimativa de arquétipo, a refinar pelo autor |
 | Categoria tarifária | comercial | escolha de arquétipo; sem tabela coletada para o município, usa a residencial (alerta no resultado) |
 | Coeficiente de escoamento, descarte, demais campos | os do modelo da edição | padrão do programa |

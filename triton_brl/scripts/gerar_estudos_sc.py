@@ -80,8 +80,8 @@ ARQUETIPOS = {
         descricao="escola pública de ensino básico de porte médio",
         template_id="escola", material_inferior="FIBRA", material_superior="FIBRA",
         area_captacao_m2=1500, usuarios=600, demanda_per_capita_l_dia=50, fracao_pluvial_pct=40,
-        volume_fixo_l=15000, volume_maximo_l=40000, passo_volume_l=1000, delta_ideal_pct=0.25,
-        reservatorio_superior_l=5000, limiar_bombeamento_l=1250, tarifa="publica",
+        volume_fixo_l=30000, volume_maximo_l=120000, passo_volume_l=2000, delta_ideal_pct=0.15,
+        reservatorio_superior_l=8000, limiar_bombeamento_l=2000, tarifa="publica",
         bomba=dict(count=2, power_str="1,5 CV", power_kw=1.10, flow_rate_l_h=9000.0,
                    efficiency_pct=62.0, unit_cost=1350.0, manometric_head_m=18.0),
         custo_tubulacao=34000.0, custo_acessorios=19000.0, tma_mensal_pct=0.75,
@@ -98,8 +98,8 @@ ARQUETIPOS = {
         descricao="edifício de escritórios e serviços de porte médio",
         template_id="comercial", material_inferior="FIBRA", material_superior="FIBRA",
         area_captacao_m2=1200, usuarios=300, demanda_per_capita_l_dia=45, fracao_pluvial_pct=50,
-        volume_fixo_l=10000, volume_maximo_l=20000, passo_volume_l=500, delta_ideal_pct=0.50,
-        reservatorio_superior_l=3000, limiar_bombeamento_l=750, tarifa="comercial",
+        volume_fixo_l=20000, volume_maximo_l=80000, passo_volume_l=1500, delta_ideal_pct=0.25,
+        reservatorio_superior_l=5000, limiar_bombeamento_l=1250, tarifa="comercial",
         bomba=dict(count=2, power_str="1,5 CV", power_kw=1.10, flow_rate_l_h=7200.0,
                    efficiency_pct=62.0, unit_cost=1250.0, manometric_head_m=25.0),
         custo_tubulacao=28000.0, custo_acessorios=16000.0, tma_mensal_pct=0.75,
@@ -116,7 +116,7 @@ ARQUETIPOS = {
         descricao="casa unifamiliar de padrão médio",
         template_id="res_medio", material_inferior="PEAD", material_superior="PEAD",
         area_captacao_m2=120, usuarios=4, demanda_per_capita_l_dia=150, fracao_pluvial_pct=40,
-        volume_fixo_l=3000, volume_maximo_l=10000, passo_volume_l=250, delta_ideal_pct=2.00,
+        volume_fixo_l=3000, volume_maximo_l=15000, passo_volume_l=250, delta_ideal_pct=1.50,
         reservatorio_superior_l=500, limiar_bombeamento_l=125, tarifa="residencial",
         bomba=dict(count=1, power_str="1/2 CV", power_kw=0.37, flow_rate_l_h=2400.0,
                    efficiency_pct=55.0, unit_cost=350.0, manometric_head_m=12.0),
@@ -135,8 +135,8 @@ ARQUETIPOS = {
         descricao="prédio residencial de 16 unidades",
         template_id="res_multi", material_inferior="FIBRA", material_superior="PEAD",
         area_captacao_m2=600, usuarios=48, economias=16, demanda_per_capita_l_dia=150, fracao_pluvial_pct=40,
-        volume_fixo_l=10000, volume_maximo_l=20000, passo_volume_l=500, delta_ideal_pct=0.50,
-        reservatorio_superior_l=2500, limiar_bombeamento_l=625, tarifa="residencial",
+        volume_fixo_l=15000, volume_maximo_l=50000, passo_volume_l=1000, delta_ideal_pct=0.30,
+        reservatorio_superior_l=3000, limiar_bombeamento_l=750, tarifa="residencial",
         bomba=dict(count=2, power_str="1 CV", power_kw=0.75, flow_rate_l_h=4800.0,
                    efficiency_pct=60.0, unit_cost=750.0, manometric_head_m=22.0),
         custo_tubulacao=9500.0, custo_acessorios=5200.0, tma_mensal_pct=0.75,
@@ -153,8 +153,8 @@ ARQUETIPOS = {
         descricao="hospital geral de porte médio",
         template_id="hospital", material_inferior="CONCRETO", material_superior="FIBRA",
         area_captacao_m2=4000, usuarios=300, demanda_per_capita_l_dia=250, fracao_pluvial_pct=25,
-        volume_fixo_l=22500, volume_maximo_l=60000, passo_volume_l=1500, delta_ideal_pct=0.15,
-        reservatorio_superior_l=10000, limiar_bombeamento_l=2500, tarifa="publica",
+        volume_fixo_l=45000, volume_maximo_l=180000, passo_volume_l=3000, delta_ideal_pct=0.10,
+        reservatorio_superior_l=15000, limiar_bombeamento_l=3750, tarifa="publica",
         bomba=dict(count=2, power_str="2 CV", power_kw=1.50, flow_rate_l_h=14400.0,
                    efficiency_pct=65.0, unit_cost=2400.0, manometric_head_m=28.0),
         custo_tubulacao=68000.0, custo_acessorios=42000.0, tma_mensal_pct=0.75,
@@ -167,12 +167,12 @@ ARQUETIPOS = {
         usuarios_texto="pacientes, acompanhantes e equipe presentes por dia, em equivalentes"),
     "aeroportuario": dict(
         pasta="aeroportos", id="sc-aeroportuario", tipologia="aeroportuario", municipios="aeroportos",
-        titulo="Aeroportos de Santa Catarina com voos regulares: municípios da CLIMBra com aeroporto, 19 modelos, 7 recortes",
-        descricao="terminal de passageiros e apoio de aeroporto regional",
+        titulo="Aeródromos e Aeroportos de Santa Catarina: 21 aeródromos da ANAC classificados por porte, 19 modelos, 7 recortes",
+        descricao="terminais e aeródromos públicos classificados por porte (Classes I a V)",
         template_id="comercial", material_inferior="CONCRETO", material_superior="FIBRA",
-        area_captacao_m2=8000, usuarios=3000, demanda_per_capita_l_dia=25, fracao_pluvial_pct=50,
-        volume_fixo_l=60000, volume_maximo_l=120000, passo_volume_l=3000, delta_ideal_pct=0.10,
-        reservatorio_superior_l=10000, limiar_bombeamento_l=2500, tarifa="comercial",
+        area_captacao_m2=3500, usuarios=1300, demanda_per_capita_l_dia=25, fracao_pluvial_pct=50,
+        volume_fixo_l=30000, volume_maximo_l=150000, passo_volume_l=3000, delta_ideal_pct=0.10,
+        reservatorio_superior_l=8000, limiar_bombeamento_l=2000, tarifa="comercial",
         bomba=dict(count=2, power_str="3 CV", power_kw=2.20, flow_rate_l_h=21600.0,
                    efficiency_pct=68.0, unit_cost=3800.0, manometric_head_m=24.0),
         custo_tubulacao=145000.0, custo_acessorios=85000.0, tma_mensal_pct=0.75,
@@ -248,6 +248,80 @@ def municipios_sc() -> dict:
         linhas.append({"ibge": str(m["id"]), "nome_ibge": m["nome"], "nome_climbra": na_climbra.get(n, ""),
                        "na_climbra": n in na_climbra})
     return {"linhas": linhas, "homonimos_excluidos": homonimos, "total_climbra": len(cidades)}
+
+
+# ── aeródromos e aeroportos de Santa Catarina (21 unidades ANAC) ─────────────────────────
+
+DADOS_21_AEROPORTOS = [
+    # Classe I - Hub Internacional / Capital
+    dict(icao="SBFL", nome="Florianópolis (Hercílio Luz)", municipio="Florianópolis", ibge="4205407", clima_municipio="Florianópolis",
+         classe="Classe I - Hub Internacional", area_captacao_m2=18000, usuarios=11500, volume_fixo_l=150000, volume_maximo_l=600000,
+         passo_volume_l=15000, delta_ideal_pct=0.06, reservatorio_superior_l=30000, limiar_bombeamento_l=7500),
+    # Classe II - Internacional Regional / Litoral Norte
+    dict(icao="SBNF", nome="Navegantes (Ministro Victor Konder)", municipio="Navegantes", ibge="4211306", clima_municipio="Navegantes",
+         classe="Classe II - Internacional Regional", area_captacao_m2=8500, usuarios=6300, volume_fixo_l=80000, volume_maximo_l=350000,
+         passo_volume_l=10000, delta_ideal_pct=0.08, reservatorio_superior_l=15000, limiar_bombeamento_l=3750),
+    # Classe III - Regional Médio com Voos Regulares
+    dict(icao="SBJV", nome="Joinville (Lauro Carneiro de Loyola)", municipio="Joinville", ibge="4209102", clima_municipio="Joinville",
+         classe="Classe III - Regional Médio", area_captacao_m2=3500, usuarios=1300, volume_fixo_l=30000, volume_maximo_l=150000,
+         passo_volume_l=3000, delta_ideal_pct=0.10, reservatorio_superior_l=8000, limiar_bombeamento_l=2000),
+    dict(icao="SBCH", nome="Chapecó (Serafin Enoss Bertaso)", municipio="Chapecó", ibge="4204202", clima_municipio="Chapecó",
+         classe="Classe III - Regional Médio", area_captacao_m2=3200, usuarios=1650, volume_fixo_l=30000, volume_maximo_l=150000,
+         passo_volume_l=3000, delta_ideal_pct=0.10, reservatorio_superior_l=8000, limiar_bombeamento_l=2000),
+    # Classe IV - Regional Pequeno / Sazonal / Executivo
+    dict(icao="SBJA", nome="Jaguaruna (Regional Sul)", municipio="Jaguaruna", ibge="4208807", clima_municipio="Tubarão",
+         classe="Classe IV - Regional Pequeno", area_captacao_m2=2000, usuarios=350, volume_fixo_l=15000, volume_maximo_l=60000,
+         passo_volume_l=1500, delta_ideal_pct=0.15, reservatorio_superior_l=5000, limiar_bombeamento_l=1250),
+    dict(icao="SNCP", nome="Correia Pinto (Regional da Serra)", municipio="Correia Pinto", ibge="4204558", clima_municipio="Lages",
+         classe="Classe IV - Regional Pequeno", area_captacao_m2=1500, usuarios=150, volume_fixo_l=10000, volume_maximo_l=50000,
+         passo_volume_l=1000, delta_ideal_pct=0.15, reservatorio_superior_l=3000, limiar_bombeamento_l=750),
+    dict(icao="SSIM", nome="Forquilhinha-Criciúma (Diomício Freitas)", municipio="Forquilhinha", ibge="4205456", clima_municipio="Criciúma",
+         classe="Classe IV - Regional Executivo", area_captacao_m2=1800, usuarios=200, volume_fixo_l=12000, volume_maximo_l=50000,
+         passo_volume_l=1000, delta_ideal_pct=0.15, reservatorio_superior_l=3000, limiar_bombeamento_l=750),
+    dict(icao="SSBL", nome="Blumenau (Quero-Quero)", municipio="Blumenau", ibge="4202404", clima_municipio="Blumenau",
+         classe="Classe IV - Regional Executivo", area_captacao_m2=1500, usuarios=150, volume_fixo_l=10000, volume_maximo_l=50000,
+         passo_volume_l=1000, delta_ideal_pct=0.15, reservatorio_superior_l=3000, limiar_bombeamento_l=750),
+    dict(icao="SBLJ", nome="Lages (Antônio Correia Pinto de Macedo)", municipio="Lages", ibge="4209300", clima_municipio="Lages",
+         classe="Classe IV - Regional Executivo", area_captacao_m2=1500, usuarios=150, volume_fixo_l=10000, volume_maximo_l=50000,
+         passo_volume_l=1000, delta_ideal_pct=0.15, reservatorio_superior_l=3000, limiar_bombeamento_l=750),
+    # Classe V - Aeródromos Locais e Aviação Geral
+    dict(icao="SBCD", nome="Caçador (Dr. Carlos Alberto da Costa Neves)", municipio="Caçador", ibge="4203006", clima_municipio="Caçador",
+         classe="Classe V - Aviação Geral", area_captacao_m2=1000, usuarios=80, volume_fixo_l=6000, volume_maximo_l=30000,
+         passo_volume_l=1000, delta_ideal_pct=0.20, reservatorio_superior_l=2000, limiar_bombeamento_l=500),
+    dict(icao="SSCK", nome="Concórdia (Olavo Cecco Rigon)", municipio="Concórdia", ibge="4204301", clima_municipio="Concórdia",
+         classe="Classe V - Aviação Geral", area_captacao_m2=1000, usuarios=80, volume_fixo_l=6000, volume_maximo_l=30000,
+         passo_volume_l=1000, delta_ideal_pct=0.20, reservatorio_superior_l=2000, limiar_bombeamento_l=500),
+    dict(icao="SSVI", nome="Videira (Ângelo Ponzoni)", municipio="Videira", ibge="4219309", clima_municipio="Videira",
+         classe="Classe V - Aviação Geral", area_captacao_m2=1000, usuarios=80, volume_fixo_l=6000, volume_maximo_l=30000,
+         passo_volume_l=1000, delta_ideal_pct=0.20, reservatorio_superior_l=2000, limiar_bombeamento_l=500),
+    dict(icao="SSXX", nome="Xanxerê (Municipal João Winckler)", municipio="Xanxerê", ibge="4219507", clima_municipio="Xanxerê",
+         classe="Classe V - Aviação Geral", area_captacao_m2=1000, usuarios=80, volume_fixo_l=6000, volume_maximo_l=30000,
+         passo_volume_l=1000, delta_ideal_pct=0.20, reservatorio_superior_l=2000, limiar_bombeamento_l=500),
+    dict(icao="SSSS", nome="São Francisco do Sul", municipio="São Francisco do Sul", ibge="4216206", clima_municipio="São Francisco do Sul",
+         classe="Classe V - Aviação Geral", area_captacao_m2=800, usuarios=60, volume_fixo_l=5000, volume_maximo_l=25000,
+         passo_volume_l=1000, delta_ideal_pct=0.25, reservatorio_superior_l=1500, limiar_bombeamento_l=375),
+    dict(icao="SSJA", nome="Joaçaba (Santa Terezinha)", municipio="Joaçaba", ibge="4209003", clima_municipio="Videira",
+         classe="Classe V - Aviação Geral", area_captacao_m2=1000, usuarios=80, volume_fixo_l=6000, volume_maximo_l=30000,
+         passo_volume_l=1000, delta_ideal_pct=0.20, reservatorio_superior_l=2000, limiar_bombeamento_l=500),
+    dict(icao="SSKU", nome="Curitibanos (Lauro Antônio da Costa)", municipio="Curitibanos", ibge="4204806", clima_municipio="Lages",
+         classe="Classe V - Aviação Geral", area_captacao_m2=800, usuarios=60, volume_fixo_l=5000, volume_maximo_l=25000,
+         passo_volume_l=1000, delta_ideal_pct=0.25, reservatorio_superior_l=1500, limiar_bombeamento_l=375),
+    dict(icao="SSTB", nome="Três Barras", municipio="Três Barras", ibge="4218301", clima_municipio="Canoinhas",
+         classe="Classe V - Aviação Geral", area_captacao_m2=800, usuarios=60, volume_fixo_l=5000, volume_maximo_l=25000,
+         passo_volume_l=1000, delta_ideal_pct=0.25, reservatorio_superior_l=1500, limiar_bombeamento_l=375),
+    dict(icao="SSLN", nome="Lontras (Helmuth Baungartem)", municipio="Lontras", ibge="4209904", clima_municipio="Rio do Sul",
+         classe="Classe V - Aviação Geral", area_captacao_m2=800, usuarios=60, volume_fixo_l=5000, volume_maximo_l=25000,
+         passo_volume_l=1000, delta_ideal_pct=0.25, reservatorio_superior_l=1500, limiar_bombeamento_l=375),
+    dict(icao="SSOE", nome="Descanso (Hélio Wasum)", municipio="Descanso", ibge="4204905", clima_municipio="Chapecó",
+         classe="Classe V - Aviação Geral", area_captacao_m2=600, usuarios=40, volume_fixo_l=4000, volume_maximo_l=20000,
+         passo_volume_l=1000, delta_ideal_pct=0.30, reservatorio_superior_l=1000, limiar_bombeamento_l=250),
+    dict(icao="SND4", nome="São Joaquim (Ismael Nunes)", municipio="São Joaquim", ibge="4216503", clima_municipio="Lages",
+         classe="Classe V - Aviação Geral", area_captacao_m2=600, usuarios=40, volume_fixo_l=4000, volume_maximo_l=20000,
+         passo_volume_l=1000, delta_ideal_pct=0.30, reservatorio_superior_l=1000, limiar_bombeamento_l=250),
+    dict(icao="SND6", nome="Dionísio Cerqueira", municipio="Dionísio Cerqueira", ibge="4205001", clima_municipio="Chapecó",
+         classe="Classe V - Aviação Geral", area_captacao_m2=600, usuarios=40, volume_fixo_l=4000, volume_maximo_l=20000,
+         passo_volume_l=1000, delta_ideal_pct=0.30, reservatorio_superior_l=1000, limiar_bombeamento_l=250),
+]
 
 
 def aeroportos(mun: dict) -> dict:
@@ -592,8 +666,12 @@ def estudo_json(a: dict, lista: list) -> dict:
 
 
 def modelo_texto(a: dict) -> str:
+    if a["tipologia"] == "aeroportuario":
+        desc = "21 aeródromos e aeroportos públicos de Santa Catarina (classificados da Classe I à Classe V)"
+    else:
+        desc = f"arquétipo «{a['descricao']}»"
     return (f"# Modelo de texto: {a['titulo']}\n\n"
-            f"Nos {{{{n_casos}}}} casos (município × modelo climático × recorte), a seleção multicritério estocástica do arquétipo «{a['descricao']}» "
+            f"Nos {{{{n_casos}}}} casos (município × modelo climático × recorte), a seleção multicritério estocástica do {desc} "
             "comparou os volumes ótimos por dimensão — técnico (mediana de {{volume_otimo_tecnico_l:@mediana}} L, faixa de {{volume_otimo_tecnico_l:@min}} L a {{volume_otimo_tecnico_l:@max}} L), "
             "econômico (mediana de {{volume_otimo_economico_l:@mediana}} L, faixa de {{volume_otimo_economico_l:@min}} L a {{volume_otimo_economico_l:@max}} L), "
             "ambiental/ACV (mediana de {{volume_otimo_ambiental_l:@mediana}} L, faixa de {{volume_otimo_ambiental_l:@min}} L a {{volume_otimo_ambiental_l:@max}} L) "
@@ -635,14 +713,12 @@ def leia(a: dict, lista: list, mun: dict, aer: dict, proj: dict) -> str:
         linhas += [f"- Municípios: os **{n}** de Santa Catarina presentes na base CLIMBra (de 295 do IBGE; 263 não têm série). "
                    "A lista, com o código IBGE e os ausentes, está em `../_fontes/municipios_sc_climbra.json`."]
     else:
-        linhas += [f"- Municípios: os **{n}** com aeroporto de voos regulares e série na CLIMBra. Critério e lista completa "
-                   "(inclusive os excluídos e o motivo) em `../_fontes/aeroportos_sc.json`:", ""]
-        for x in aer["aeroportos"]:
-            if x["regular"] or x["meses_com_voo_regular_2025"]:
-                st = "no estudo" if x["regular"] and x["municipio_na_climbra"] else x.get("motivo", "")
-                linhas.append(f"  - {x['icao']} {x['nome']} ({x['municipio_anac']}): {x['movimentos_regulares_2025']} movimentos "
-                              f"regulares em 2025, {x['meses_com_voo_regular_2025']} meses com voo; {st}.")
-        linhas.append(f"  - Critério: {aer['criterio']}.")
+        linhas += [f"- Aeródromos e Aeroportos: os **{n}** aeródromos públicos de Santa Catarina cadastrados na ANAC, "
+                   "classificados da Classe I à Classe V com áreas e demandas individualizadas:", ""]
+        for x in DADOS_21_AEROPORTOS:
+            linhas.append(f"  - **{x['icao']}** {x['nome']} ({x['classe']}): telhado de {x['area_captacao_m2']} m², "
+                           f"{x['usuarios']} pessoas/dia eq., varredura de {x['volume_maximo_l']} L (clima: {x['clima_municipio']}).")
+        linhas.append("  - Fonte dos aeródromos: ANAC, Lista de Aeródromos Públicos e VRA 2025.")
     linhas += [f"- Projeto-base completo: `{arq_triton}` (pode ser aberto diretamente na interface gráfica ou via `triton.cli analyze`), "
                "contendo todos os blocos de entrada (`building_and_demand`, `demand_modulation`, `rainfall_discard`, "
                "`reservoirs_and_pumping`, `financial_and_economic`, `water_quality_and_etap`, `materials_and_typology`, "
@@ -745,11 +821,30 @@ def principal() -> int:
                                               "aeroportos": aer["aeroportos"]})}
     na_climbra = [{"municipio": m["nome_climbra"], "ibge": m["ibge"]} for m in mun["linhas"] if m["na_climbra"]]
     dos_aeroportos = []
-    vistos = set()
-    for x in aer["aeroportos"]:
-        if x["regular"] and x["municipio_na_climbra"] and x["ibge"] not in vistos:
-            vistos.add(x["ibge"])
-            dos_aeroportos.append({"municipio": x["nome_climbra"], "ibge": x["ibge"]})
+    for aero in DADOS_21_AEROPORTOS:
+        dos_aeroportos.append({
+            "id": aero["icao"].lower(),
+            "municipio": aero["municipio"],
+            "ibge": aero["ibge"],
+            "clima_municipio": aero["clima_municipio"],
+            "nome": f"{aero['icao']} - {aero['nome']}",
+            "dimensoes": {
+                "icao": aero["icao"],
+                "aeroporto": aero["nome"],
+                "classe": aero["classe"],
+            },
+            "substituicoes": {
+                "area_captacao_m2": aero["area_captacao_m2"],
+                "usuarios": aero["usuarios"],
+                "demanda_per_capita_l_dia": 25.0,
+                "fracao_pluvial_pct": 50.0,
+                "volume_maximo_l": aero["volume_maximo_l"],
+                "passo_volume_l": aero["passo_volume_l"],
+                "delta_ideal_pct": aero["delta_ideal_pct"],
+                "reservatorio_superior_l": aero["reservatorio_superior_l"],
+                "limiar_bombeamento_l": aero["limiar_bombeamento_l"],
+            },
+        })
     estudos = {}
     for k, a in ARQUETIPOS.items():
         lista = na_climbra if a["municipios"] == "climbra" else dos_aeroportos
