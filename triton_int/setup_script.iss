@@ -27,7 +27,7 @@
   #define Edition "BRL"
 #endif
 #if Edition == "INT"
-  #define MyAppName "Triton — International Edition"
+  #define MyAppName "Triton INT"
   #define MyAppDir "Triton International"
   #define MyAppExeName "Triton_INT.exe"
   #define DistDir "dist\Triton_INT"
@@ -41,7 +41,7 @@
   #define ManualPdf "_internal\manual\en\Triton-User-Manual.pdf"
   #define ManualLink "Triton User Manual"
 #elif Edition == "IBE"
-  #define MyAppName "Triton IBE — Edição Ibérica"
+  #define MyAppName "Triton IBE"
   #define MyAppDir "Triton IBE"
   #define MyAppExeName "Triton_IBE.exe"
   #define DistDir "dist\Triton_IBE"
@@ -55,7 +55,7 @@
   #define ManualPdf "_internal\manual\Manual-Triton.pdf"
   #define ManualLink "Manual do Triton"
 #else
-  #define MyAppName "Triton — Edição Brasil"
+  #define MyAppName "Triton BRL"
   #define MyAppDir "Triton"
   #define MyAppExeName "Triton.exe"
   #define DistDir "dist\Triton"
@@ -168,12 +168,19 @@ Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes
 
 [Icons]
 ; A pasta de trabalho é a do programa.
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; AppUserModelID: "{#MyAppUserModelID}"; IconFilename: "{app}\icons\triton.ico"
+Name: "{autoprograms}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; AppUserModelID: "{#MyAppUserModelID}"; IconFilename: "{app}\icons\triton.ico"
 Name: "{autoprograms}\{#ManualLink}"; Filename: "{app}\{#ManualPdf}"; Check: FileExists(ExpandConstant('{app}\{#ManualPdf}')); IconFilename: "{app}\icons\triton.ico"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; AppUserModelID: "{#MyAppUserModelID}"; Tasks: desktopicon; IconFilename: "{app}\icons\triton.ico"
+Name: "{autodesktop}\{#MyAppName} {#MyAppVersion}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; AppUserModelID: "{#MyAppUserModelID}"; Tasks: desktopicon; IconFilename: "{app}\icons\triton.ico"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+
+[InstallDelete]
+; Atalhos com os nomes antigos desta edição (agora «Triton <ED> <versão>»)
+Type: files; Name: "{autoprograms}\Triton — International Edition.lnk"
+Type: files; Name: "{autodesktop}\Triton — International Edition.lnk"
+Type: files; Name: "{autoprograms}\Triton - International Edition.lnk"
+Type: files; Name: "{autodesktop}\Triton - International Edition.lnk"
 
 [UninstallDelete]
 ; Arquivos que o próprio programa cria na pasta de instalação
