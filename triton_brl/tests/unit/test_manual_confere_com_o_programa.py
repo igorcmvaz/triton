@@ -1089,6 +1089,9 @@ SIGLAS_DISPENSADAS = {
     "GHISI",  # sobrenome em caixa alta nas referências, não sigla
     "MIX",  # nome do periódico MIX Sustentável, não sigla a definir
     "LL",  # sufixo de nome de modelo climático (HadGEM3-GC31-LL, UKESM1-0-LL), não sigla
+    "LEIA",  # nome do arquivo LEIA.md das pastas de estudo, não sigla
+    "HIST",  # código do cenário histórico da CLIMBra (HIST, SSP245, SSP585), não sigla a definir
+    "INM-CM4",  # nome de modelo climático da CLIMBra, não sigla
 }
 
 

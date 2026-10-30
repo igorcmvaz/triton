@@ -7400,15 +7400,25 @@ Usado por `triton estudo` (capítulo «Comparar muitos casos de uma vez»). Esqu
 | `esquema` | `{"nome": "triton-estudo", "versao": 1}`; outra versão é recusada |
 | `estudo` | `id` (letras, números, ponto, hífen e sublinhado), `titulo`, `tipologia` (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-multifamiliar`, `hospitalar`, `aeroportuario` ou `outra`), `tipologia_rotulo`, `autores`, `nota` |
 | `projeto_base` | `arquivo`: um `.triton`, com caminho relativo ao `estudo.json`; ou `modelo`: `"edicao"`, o modelo de projeto da edição (então cada caso informa área, demanda, fração e chuva: nada é presumido) |
-| `padroes` | `substituicoes` e `clima` aplicados a todos os casos; o que o caso declara vence o padrão |
-| `casos` | lista; cada caso tem `id`, `nome`, `grupo` (por padrão, a tipologia), `projeto` (outro `.triton` para este caso), `clima` e `substituicoes` |
-| `clima` | `arquivo` (série diária de chuva, CSV), `data_inicio` (dd/mm/aaaa), `nome` e `fonte` (rótulos que vão para a procedência) |
+| `padroes` | `substituicoes`, `clima` e `tarifa` aplicados a todos os casos; o que o caso declara vence o padrão |
+| `casos` | lista; cada caso tem `id`, `nome`, `grupo` (por padrão, a tipologia), `projeto` (outro `.triton` para este caso), `clima`, `tarifa`, `substituicoes` e `dimensoes` (rótulos livres que viram colunas do CSV). Pode faltar se houver `expansao` |
+| `expansao` | **só na Edição Brasil.** Gera um caso por município × modelo × recorte da CLIMBra: `municipios` (lista de `municipio`, `uf`, `ibge`), `uf` (padrão dos municípios), `modelos` (`"todos"` ou uma lista dos 19) e `recortes` (lista de `id`, `rotulo`, `cenario` `HIST`, `SSP245` ou `SSP585`, `inicio`, `fim`). Os casos expandidos somam-se aos explícitos |
+| `clima` | `arquivo` (série diária de chuva, CSV) **ou** `climbra` (só na Edição Brasil, veja abaixo), `data_inicio` (dd/mm/aaaa), `nome` e `fonte` (rótulos que vão para a procedência) |
+| `tarifa` | **só na Edição Brasil.** `municipio`, `uf` (por padrão, os de `clima.climbra`), `categoria` (`residencial`, `comercial`, `publica`, `industrial` ou `social`) e `se_ausente` (`erro`, o padrão, ou `residencial`): aplica as tarifas de água, esgoto e energia do catálogo do programa, como a aba Projeto. Não aceita preços |
 | `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis` ou um volume em litros), `pesos` (TOPSIS) e `semente` |
-| `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (um inteiro ou uma por métrica), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar`, `legenda` e `orientacao` (`casos_nas_linhas` ou `metricas_nas_linhas`) |
+| `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (um inteiro ou uma por métrica), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar`, `legenda` `orientacao` (`casos_nas_linhas` ou `metricas_nas_linhas`) e `gravar_analise` (`true` por padrão; `false` não grava `analise.json` por caso, o que poupa disco em estudos com milhares de casos) |
 
 Chaves que começam por `_` são comentários e o programa as ignora. Campo vazio, `null` ou «XX» é «a preencher»: a validação o recusa e diz onde está. Uma chave desconhecida é erro, com a sugestão da mais parecida. `triton estudo esquema` imprime o JSON Schema do arquivo, para completar e conferir no editor.
 
-#### F.5.1. Apelidos das substituições
+#### F.5.1. Clima da CLIMBra, tarifa e expansão (só na Edição Brasil)
+
+`clima.climbra` busca a série diária na base CLIMBra do programa: `municipio` (nome como na base; obrigatório), `uf` (confere o município com o catálogo de tarifas e afasta nomes repetidos em outras UFs), `ibge` (código de sete dígitos, só informativo), `modelo` (um dos 19; padrão `INM-CM4`), `cenario` (`HIST`, `SSP245`, `SSP585`; padrão `HIST`) e `inicio`/`fim` (dd/mm/aaaa; padrão, a série inteira do cenário). `arquivo` e `climbra` não convivem no mesmo bloco. Nos `padroes`, `climbra` pode trazer só `modelo` e `cenario`, e o caso completa com o município: os campos se somam. Os modelos de calendário de 360 dias têm um dia a menos no fim do século, e o caso avisa quando a série devolvida é mais curta que o recorte pedido. As saídas registram o SHA-256 do banco `climbra_<modelo>.db` e do catálogo de tarifas usados, além do SHA-256 da série (dias, total e hash).
+
+Na International e na Ibérica, `clima.climbra`, `tarifa` e `expansao` são recusados na validação com a mensagem de que só existem na Edição Brasil; `clima.arquivo` continua valendo.
+
+Com `expansao`, o `resultados.csv` ganha as colunas `municipio`, `ibge`, `modelo`, `recorte`, `cenario`, `inicio` e `fim` entre `grupo` e `metrica`: uma linha por município, modelo, recorte e métrica. Os 6 estudos de Santa Catarina (`estudos/santa-catarina/`) usam este esquema.
+
+#### F.5.2. Apelidos das substituições
 
 <!-- tabela: **Tabela 46** — Apelidos das substituições e o campo do projeto que cada um altera -->
 | Apelido | Campo do projeto | Unidade |
@@ -7431,7 +7441,7 @@ Além dos apelidos, a chave de uma substituição pode ser **qualquer campo que 
 
 As substituições passam pela mesma conciliação de frações do `--set`, e o preenchimento preliminar de custos (CAPEX) roda **depois** delas, de modo que o preço da cisterna acompanha o volume do caso. `triton estudo apelidos` lista todos os apelidos e métricas, na língua da edição.
 
-#### F.5.2. Saídas do estudo
+#### F.5.3. Saídas do estudo
 
 <!-- tabela: **Tabela 47** — Arquivos que triton estudo run grava na pasta de saída -->
 | Arquivo | Conteúdo |
@@ -7444,6 +7454,7 @@ As substituições passam pela mesma conciliação de frações do `--set`, e o 
 | `resumo.md` | resumo curto: casos, faixa de cada resultado, avisos, fontes e licenças |
 | `casos/<id>/resultado.json` e `analise.json` | todas as métricas do caso e a análise completa do motor (é o que o `resumo` e o `texto` leem) |
 | `estudo.json` | cópia do estudo que gerou a pasta |
+| `consolidado.csv` e `consolidado.md` | gravados por `triton estudo consolidar` (não pelo `run`): uma linha por tipologia (`grupo`), caso, métrica e unidade, com `n`, mínimo, média, mediana e máximo dos `resultados.csv` encontrados |
 
 As saídas não levam caminho absoluto: os projetos aparecem com caminho relativo ao `estudo.json` (ou só o nome). Duas execuções do mesmo estudo dão arquivos idênticos; a data de execução é a única diferença, e a variável de ambiente `SOURCE_DATE_EPOCH` a fixa. O `xlsx` guarda a data de criação nas propriedades do arquivo e não é idêntico byte a byte, só no conteúdo.
 
