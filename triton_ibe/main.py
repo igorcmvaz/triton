@@ -133,6 +133,9 @@ def main():
         window.winId()
         if window.windowHandle() is not None:
             window.windowHandle().setScreen(primary_screen)
+    window.winId()
+    from triton.ui.icone_windows import aplicar_icone_da_janela
+    aplicar_icone_da_janela(window)
     window.showMaximized()
 
     # Aberto por um arquivo de projeto (duplo clique num .triton, associação

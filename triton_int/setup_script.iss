@@ -22,6 +22,7 @@
 ;  - Portugal: a base E-OBS por concelho (data\portugal_eobs.db).
 ; Os bancos de documentos de terceiros (tarifas_fontes.db e semelhantes) não vão em nenhuma edição.
 
+#define MyAppUserModelID "ufsc.ges.triton.int.0.1"
 #ifndef Edition
   #define Edition "BRL"
 #endif
@@ -167,9 +168,9 @@ Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes
 
 [Icons]
 ; A pasta de trabalho é a do programa.
-Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; IconFilename: "{app}\icons\triton.ico"
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; AppUserModelID: "{#MyAppUserModelID}"; IconFilename: "{app}\icons\triton.ico"
 Name: "{autoprograms}\{#ManualLink}"; Filename: "{app}\{#ManualPdf}"; Check: FileExists(ExpandConstant('{app}\{#ManualPdf}')); IconFilename: "{app}\icons\triton.ico"
-Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Tasks: desktopicon; IconFilename: "{app}\icons\triton.ico"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; AppUserModelID: "{#MyAppUserModelID}"; Tasks: desktopicon; IconFilename: "{app}\icons\triton.ico"
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; WorkingDir: "{app}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
