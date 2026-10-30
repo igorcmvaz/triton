@@ -799,7 +799,9 @@ def leia_geral(estudos: dict, mun: dict, aer: dict) -> str:
         "Para rodar tudo (um estudo por vez, retomável), na pasta `triton_brl`:", "", "```powershell",
         "foreach ($e in 'escolar','comercial','residencial-unifamiliar','residencial-multifamiliar','hospitalar','aeroportos') {",
         "  python -m triton.cli estudo run estudos/santa-catarina/$e/estudo.json --saida estudos/santa-catarina/_saida/$e --paralelo 4 --retomar",
-        "}", "```", ""])
+        "}", "```", "",
+        '## Figuras para artigo e painel', "",
+        '`python scripts/gerar_graficos_artigos.py` (use `--help`) lê só os `resultados.csv` de `_saida/` e gera, de forma determinística, em `_saida/figuras_artigos/<pt-BR|en-GB>/<dupla|simples>/`: `fig_resumo.*` (seis tipologias: volume ótimo, viabilidade, indicador ambiental) e `fig_<tipologia>.*` (volumes por critério e série por recorte climático de economia de água, VPL e saldo de CO₂e), em PNG 300 dpi, SVG e PDF; `legenda_*.md` (legenda sugerida, números calculados dos resultados) em cada pasta de idioma; e `_saida/dashboard_artigos.html` (modelo em `painel_artigos_modelo.html`; sem rede; claro/escuro; pt-BR/en-GB). Paleta e marcador fixos por tipologia (validados pelo skill `dataviz`). `_saida/` é ignorada pelo Git (`.gitignore`); as figuras antigas em `_saida/figuras_comparativas/` e `_saida/<estudo>/figuras/` ficam substituídas por estas e podem ser apagadas. No Aeroportuário a mediana do volume SMAA-VIKOR é 0 (sem reservatório em mais da metade dos casos): é resultado, não erro.', ""])
 
 
 def principal() -> int:
