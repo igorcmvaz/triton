@@ -48,8 +48,28 @@ RECORTES = [
     {"id": "ssp585-2071-2100", "rotulo": "SSP5-8.5, fim do século 2071–2100", "cenario": "SSP585", "inicio": "01/01/2071", "fim": "31/12/2100"},
 ]
 
-METRICAS = ["volume_l", "economia_agua_potavel_pct", "agua_pluvial_m3_ano", "extravasamento_m3_ano",
-            "dias_atendimento_total_pct", "economia_anual_agua", "capex", "vpl", "payback_descontado_meses"]
+METRICAS = [
+    "volume_l",
+    "volume_otimo_tecnico_l",
+    "volume_otimo_economico_l",
+    "volume_otimo_ambiental_l",
+    "volume_topsis_l",
+    "volume_smaa_vikor_l",
+    "aceitabilidade_smaa_pct",
+    "indice_topsis",
+    "economia_agua_potavel_pct",
+    "agua_pluvial_m3_ano",
+    "extravasamento_m3_ano",
+    "dias_atendimento_total_pct",
+    "economia_anual_agua",
+    "capex",
+    "vpl",
+    "payback_descontado_meses",
+    "co2_incorporado_kg",
+    "co2_evitado_ano_kg",
+    "co2_liquido_vida_kg",
+    "payback_ambiental_anos",
+]
 
 #: Arquétipos por tipologia. TODOS os números são estimativas de arquétipo (nenhum é dado medido nem de norma):
 #: o autor os substitui pelos seus, com fonte. ``tarifa`` é só a categoria do catálogo de tarifas do programa.
@@ -550,24 +570,48 @@ def estudo_json(a: dict, lista: list) -> dict:
                     "tarifa": {"categoria": a["tarifa"], "se_ausente": "residencial",
                                "_origem": "categoria do catálogo de tarifas do programa; sem tabela coletada, usa a residencial e registra alerta"}},
         "expansao": {"uf": UF, "modelos": "todos", "recortes": RECORTES, "municipios": lista},
-        "analise": {"tipo": "economic", "volume": "otimo_tecnico", "semente": 42},
+        "analise": {"tipo": "all", "volume": "smaa_vikor", "semente": 42},
         "saidas": {"formatos": ["csv", "json", "md", "tex"], "metricas": METRICAS,
-                   "casas_decimais": {"padrao": 1, "volume_l": 0, "capex": 0, "vpl": 0, "payback_descontado_meses": 0},
+                   "casas_decimais": {
+                       "padrao": 1,
+                       "volume_l": 0,
+                       "volume_otimo_tecnico_l": 0,
+                       "volume_otimo_economico_l": 0,
+                       "volume_otimo_ambiental_l": 0,
+                       "volume_topsis_l": 0,
+                       "volume_smaa_vikor_l": 0,
+                       "indice_topsis": 3,
+                       "capex": 0,
+                       "vpl": 0,
+                       "payback_descontado_meses": 0,
+                       "co2_incorporado_kg": 0,
+                       "co2_liquido_vida_kg": 0,
+                   },
                    "idioma": "pt-BR", "gravar_analise": False},
     }
 
 
 def modelo_texto(a: dict) -> str:
     return (f"# Modelo de texto: {a['titulo']}\n\n"
-            f"Nos {{{{n_casos}}}} casos (município × modelo climático × recorte), a economia de água potável do arquétipo «{a['descricao']}» "
-            "ficou entre {{economia_agua_potavel_pct:@min}}% e {{economia_agua_potavel_pct:@max}}% "
-            "(média de {{economia_agua_potavel_pct:@media}}%), com o reservatório no ótimo técnico de cada caso "
-            "(mediana de {{volume_l:@mediana}} L, faixa de {{volume_l:@min}} L a {{volume_l:@max}} L) e aproveitamento pluvial médio de "
-            "{{agua_pluvial_m3_ano:@media}} m³/ano. Na análise econômica (horizonte de 20 anos, custos calibrados no projeto `.triton` e tarifas "
-            "municipais do catálogo), o investimento inicial (CAPEX) médio foi de R$ {{capex:@media}} (R$ {{capex:@min}} a R$ {{capex:@max}}), "
+            f"Nos {{{{n_casos}}}} casos (município × modelo climático × recorte), a seleção multicritério estocástica do arquétipo «{a['descricao']}» "
+            "comparou os volumes ótimos por dimensão — técnico (mediana de {{volume_otimo_tecnico_l:@mediana}} L, faixa de {{volume_otimo_tecnico_l:@min}} L a {{volume_otimo_tecnico_l:@max}} L), "
+            "econômico (mediana de {{volume_otimo_economico_l:@mediana}} L, faixa de {{volume_otimo_economico_l:@min}} L a {{volume_otimo_economico_l:@max}} L), "
+            "ambiental/ACV (mediana de {{volume_otimo_ambiental_l:@mediana}} L, faixa de {{volume_otimo_ambiental_l:@min}} L a {{volume_otimo_ambiental_l:@max}} L) "
+            "e TOPSIS (mediana de {{volume_topsis_l:@mediana}} L, índice médio {{indice_topsis:@media}}) — e adotou como volume de referência o "
+            "ótimo SMAA-VIKOR (mediana de {{volume_smaa_vikor_l:@mediana}} L, faixa de {{volume_smaa_vikor_l:@min}} L a {{volume_smaa_vikor_l:@max}} L, "
+            "aceitabilidade de 1.º posto $b^1$ média de {{aceitabilidade_smaa_pct:@media}}%). "
+            "No volume SMAA-VIKOR, a economia de água potável ficou entre {{economia_agua_potavel_pct:@min}}% e {{economia_agua_potavel_pct:@max}}% "
+            "(média de {{economia_agua_potavel_pct:@media}}%), com aproveitamento pluvial médio de {{agua_pluvial_m3_ano:@media}} m³/ano. "
+            "Na análise econômica (horizonte de 20 anos, custos calibrados no projeto `.triton` e tarifas municipais do catálogo), "
+            "o investimento inicial (CAPEX) médio foi de R$ {{capex:@media}} (R$ {{capex:@min}} a R$ {{capex:@max}}), "
             "o valor presente líquido (VPL) médio foi de R$ {{vpl:@media}} (mediana de R$ {{vpl:@mediana}}, faixa de R$ {{vpl:@min}} a R$ {{vpl:@max}}) "
             "e o payback descontado nos casos viáveis teve mediana de {{payback_descontado_meses:@mediana}} meses "
             "({{payback_descontado_meses:@min}} a {{payback_descontado_meses:@max}} meses). "
+            "Na avaliação ambiental de ciclo de vida (ACV, 20 anos), o carbono incorporado médio foi de {{co2_incorporado_kg:@media}} kg CO₂e, "
+            "a redução líquida de emissões ao longo da vida útil teve média de {{co2_liquido_vida_kg:@media}} kg CO₂e "
+            "(mediana de {{co2_liquido_vida_kg:@mediana}} kg CO₂e, {{co2_evitado_ano_kg:@media}} kg CO₂e/ano evitados) "
+            "e o payback ambiental nos casos viáveis teve mediana de {{payback_ambiental_anos:@mediana}} anos "
+            "({{payback_ambiental_anos:@min}} a {{payback_ambiental_anos:@max}} anos). "
             "Valores de edificação e custos são estimativas de arquétipo, a refinar pelo autor.\n")
 
 
@@ -607,7 +651,8 @@ def leia(a: dict, lista: list, mun: dict, aer: dict, proj: dict) -> str:
                f"(`expansao.recortes`): histórico 1981–2010 e, para SSP2-4.5 e SSP5-8.5, futuro próximo 2021–2050, meados 2041–2070 e fim 2071–2100, "
                "os atalhos de `RECORTES_SUGERIDOS`. A série é a da célula de 0,25° do município; o histórico é simulado, não observado.",
                f"- Casos: {n} × 19 × {len(RECORTES)} = **{ncasos}** simulações (cada uma varre os volumes do reservatório).",
-               f"- Análise: `economic`, volume no ótimo técnico, semente 42. Custos de engenharia calibrados em `{arq_triton}` "
+               f"- Análise: `all` (técnica, econômica, ambiental/ACV, TOPSIS e SMAA-VIKOR), volume no ótimo SMAA-VIKOR (`smaa_vikor`), semente 42, "
+               "reportando lado a lado os ótimos técnico, econômico, ambiental, TOPSIS e SMAA-VIKOR. Custos de engenharia e parâmetros de ACV calibrados em `{arq_triton}` "
                "(com interpolação da cisterna inferior pelo catálogo para cada volume da varredura e mão de obra proporcional aos materiais), "
                "tarifas: catálogo municipal do programa.", "",
                f"## Arquétipo e Custos em `{arq_triton}` (todos os valores: estimativa de arquétipo, a refinar pelo autor)", "",

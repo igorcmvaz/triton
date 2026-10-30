@@ -108,6 +108,22 @@ def test_volume_topsis_exige_analise_completa():
     assert _erros(doc)[1] == []
 
 
+def test_volume_smaa_vikor_exige_analise_completa_e_aceita_novas_metricas():
+    doc = _estudo(analise={"tipo": "economic", "volume": "smaa_vikor"})
+    _, erros, _ = _erros(doc)
+    assert _tem(erros, "smaa_vikor")
+    doc = _estudo(
+        analise={"tipo": "all", "volume": "smaa_vikor"},
+        saidas={"metricas": [
+            "volume_l", "volume_otimo_tecnico_l", "volume_otimo_economico_l",
+            "volume_otimo_ambiental_l", "volume_topsis_l", "volume_smaa_vikor_l",
+            "aceitabilidade_smaa_pct", "co2_liquido_vida_kg", "payback_ambiental_anos",
+        ]},
+    )
+    plano, erros, _ = _erros(doc)
+    assert erros == [] and plano["analise"]["volume"] == "smaa_vikor"
+
+
 def test_metrica_que_exige_analise_mais_completa_e_recusada():
     doc = _estudo(saidas={"metricas": ["vpl"]})
     _, erros, _ = _erros(doc)

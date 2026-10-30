@@ -107,8 +107,8 @@
   ]
  },
  "analise": {
-  "tipo": "economic",
-  "volume": "otimo_tecnico",
+  "tipo": "all",
+  "volume": "smaa_vikor",
   "semente": 42
  },
  "saidas": {
@@ -120,6 +120,13 @@
   ],
   "metricas": [
    "volume_l",
+   "volume_otimo_tecnico_l",
+   "volume_otimo_economico_l",
+   "volume_otimo_ambiental_l",
+   "volume_topsis_l",
+   "volume_smaa_vikor_l",
+   "aceitabilidade_smaa_pct",
+   "indice_topsis",
    "economia_agua_potavel_pct",
    "agua_pluvial_m3_ano",
    "extravasamento_m3_ano",
@@ -127,14 +134,26 @@
    "economia_anual_agua",
    "capex",
    "vpl",
-   "payback_descontado_meses"
+   "payback_descontado_meses",
+   "co2_incorporado_kg",
+   "co2_evitado_ano_kg",
+   "co2_liquido_vida_kg",
+   "payback_ambiental_anos"
   ],
   "casas_decimais": {
    "padrao": 1,
    "volume_l": 0,
+   "volume_otimo_tecnico_l": 0,
+   "volume_otimo_economico_l": 0,
+   "volume_otimo_ambiental_l": 0,
+   "volume_topsis_l": 0,
+   "volume_smaa_vikor_l": 0,
+   "indice_topsis": 3,
    "capex": 0,
    "vpl": 0,
-   "payback_descontado_meses": 0
+   "payback_descontado_meses": 0,
+   "co2_incorporado_kg": 0,
+   "co2_liquido_vida_kg": 0
   },
   "idioma": "pt-BR",
   "gravar_analise": false

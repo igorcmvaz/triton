@@ -231,6 +231,7 @@ _EN.update({
     '{0}: esperado um objeto JSON': '{0}: a JSON object is expected',
     'esquema: esperado {{"nome": "{0}", "versao": {1}}}': 'esquema: expected {{"nome": "{0}", "versao": {1}}}',
     'analise.volume = «topsis» exige analise.tipo = «all» (ou «topsis»)': 'analise.volume = «topsis» requires analise.tipo = «all» (or «topsis»)',
+    'analise.volume = «{0}» exige analise.tipo = «all» (ou «topsis»)': 'analise.volume = «{0}» requires analise.tipo = «all» (or «topsis»)',
     'casos: lista não vazia de casos': 'casos: a non-empty list of cases',
     'Estudo não encontrado: {0}': 'Study not found: {0}',
     'não foi possível escolher o volume do caso': 'could not choose the volume of the case',
@@ -327,6 +328,8 @@ _EN.update({
     '{0}: informe «{1}» ou «{2}», não os dois': '{0}: give «{1}» or «{2}», not both',
     'analise.volume: use «otimo_tecnico», «topsis» ou um volume em litros (número ≥ 0)':
         'analise.volume: use «otimo_tecnico», «topsis» or a volume in litres (number ≥ 0)',
+    'analise.volume: use «otimo_tecnico», «topsis», «smaa_vikor» ou um volume em litros (número ≥ 0)':
+        'analise.volume: use «otimo_tecnico», «topsis», «smaa_vikor» or a volume in litres (number ≥ 0)',
     'analise.pesos: três números não negativos (técnico, econômico, ambiental), com soma positiva':
         'analise.pesos: three non-negative numbers (technical, economic, environmental) with a positive sum',
     'saidas.formatos: lista não vazia com {0}': 'saidas.formatos: a non-empty list with {0}',

@@ -10,6 +10,14 @@ from dataclasses import dataclass, field
 from typing import List, Optional, Tuple, Sequence
 import numpy as np
 
+try:
+    from numba import njit
+except ImportError:  # pragma: no cover
+    def njit(*args, **kwargs):
+        def _wrap(fn):
+            return fn
+        return _wrap
+
 from triton.core.topsis import TopsisCandidate, CRITERION_KEYS, CRITERION_IS_BENEFIT
 
 
@@ -202,6 +210,54 @@ def run_vikor(
 AMOSTRAS_SMAA_PADRAO = 20000
 
 
+@njit(cache=True)
+def _smaa_vikor_kernel(diff_matrix: np.ndarray, weight_samples: np.ndarray, v_param: float):
+    num_samples, m = weight_samples.shape
+    n = diff_matrix.shape[0]
+    rank_counts = np.zeros((n, n), dtype=np.int64)
+    weight_sums = np.zeros((n, m), dtype=np.float64)
+    win_counts = np.zeros(n, dtype=np.int64)
+    s = np.empty(n, dtype=np.float64)
+    r = np.empty(n, dtype=np.float64)
+    q = np.empty(n, dtype=np.float64)
+    for k in range(num_samples):
+        w = weight_samples[k]
+        s_star = 1e308
+        s_minus = -1e308
+        r_star = 1e308
+        r_minus = -1e308
+        for i in range(n):
+            si = 0.0
+            ri = -1e308
+            for j in range(m):
+                v = diff_matrix[i, j] * w[j]
+                si += v
+                if v > ri:
+                    ri = v
+            s[i] = si
+            r[i] = ri
+            if si < s_star:
+                s_star = si
+            if si > s_minus:
+                s_minus = si
+            if ri < r_star:
+                r_star = ri
+            if ri > r_minus:
+                r_minus = ri
+        s_span = (s_minus - s_star) if (s_minus - s_star) > 1e-12 else 1.0
+        r_span = (r_minus - r_star) if (r_minus - r_star) > 1e-12 else 1.0
+        for i in range(n):
+            q[i] = v_param * ((s[i] - s_star) / s_span) + (1.0 - v_param) * ((r[i] - r_star) / r_span)
+        ranks = np.argsort(q)
+        w0 = ranks[0]
+        win_counts[w0] += 1
+        for j in range(m):
+            weight_sums[w0, j] += w[j]
+        for pos in range(n):
+            rank_counts[ranks[pos], pos] += 1
+    return rank_counts, weight_sums, win_counts
+
+
 def run_smaa_vikor(
     candidates: Sequence[TopsisCandidate],
     v_param: float = 0.5,
@@ -264,30 +320,7 @@ def run_smaa_vikor(
     rng = np.random.default_rng(random_seed)
     weight_samples = rng.dirichlet(np.ones(m), size=num_samples)
 
-    rank_counts = np.zeros((n, n), dtype=int)
-    first_rank_weights = [[] for _ in range(n)]
-
-    for k in range(num_samples):
-        w = weight_samples[k]
-        w_diffs = diff_matrix * w  # shape (n, m)
-        s = np.sum(w_diffs, axis=1)  # shape (n,)
-        r = np.max(w_diffs, axis=1)  # shape (n,)
-
-        s_star = np.min(s)
-        s_minus = np.max(s)
-        r_star = np.min(r)
-        r_minus = np.max(r)
-
-        s_span = (s_minus - s_star) if (s_minus - s_star) > 1e-12 else 1.0
-        r_span = (r_minus - r_star) if (r_minus - r_star) > 1e-12 else 1.0
-
-        q = v_param * ((s - s_star) / s_span) + (1.0 - v_param) * ((r - r_star) / r_span)
-
-        ranks = np.argsort(q)
-        for pos, alt_idx in enumerate(ranks):
-            rank_counts[alt_idx, pos] += 1
-            if pos == 0:
-                first_rank_weights[alt_idx].append(w)
+    rank_counts, weight_sums, win_counts = _smaa_vikor_kernel(diff_matrix, weight_samples, float(v_param))
 
     rank_acceptabilities = (rank_counts / num_samples) * 100.0
     first_rank_probs = rank_acceptabilities[:, 0]
@@ -297,8 +330,8 @@ def run_smaa_vikor(
     confidence_factors = np.zeros(n, dtype=float)
 
     for i in range(n):
-        if len(first_rank_weights[i]) > 0:
-            cw = np.mean(first_rank_weights[i], axis=0)
+        if win_counts[i] > 0:
+            cw = weight_sums[i] / win_counts[i]
             central_weights[i] = cw
             w_diffs_c = diff_matrix * cw
             s_c = np.sum(w_diffs_c, axis=1)

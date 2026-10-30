@@ -280,10 +280,16 @@ METRICAS: Dict[str, Dict[str, Any]] = {m["id"]: m for m in (
          "Emisiones netas evitadas en la vida útil", "寿命期净减排量", ("lifetime_net_co2_saved_kg",)),
     _met("payback_ambiental_anos", "amb", "environmental_payback_years", "anos", 1, 2, "Payback ambiental",
          "Environmental payback", "Payback ambiental", "环境回收期", ("environmental_payback_years",)),
+    _met("volume_otimo_economico_l", "topsis", "economic_best_volume_l", "L", 0, 3, "Volume ótimo econômico",
+         "Economic optimum volume", "Volumen óptimo económico", "经济最优容积", ("economic_best_volume_l", "otimo_economico_l")),
+    _met("volume_otimo_ambiental_l", "topsis", "environmental_best_volume_l", "L", 0, 3, "Volume ótimo ambiental",
+         "Environmental optimum volume", "Volumen óptimo ambiental", "环境最优容积", ("environmental_best_volume_l", "otimo_ambiental_l")),
     _met("volume_topsis_l", "topsis", "best_volume_l", "L", 0, 3, "Volume indicado pelo TOPSIS",
          "Volume ranked first by TOPSIS", "Volumen indicado por TOPSIS", "TOPSIS推荐容积", ("best_volume_l",)),
     _met("indice_topsis", "rank", "score", "–", 3, 3, "Índice TOPSIS do volume", "TOPSIS score of the volume",
          "Índice TOPSIS del volumen", "容积的TOPSIS得分"),
+    _met("volume_smaa_vikor_l", "smaa_resumo", "best_volume_l", "L", 0, 3, "Volume ótimo SMAA-VIKOR",
+         "SMAA-VIKOR optimum volume", "Volumen óptimo SMAA-VIKOR", "SMAA-VIKOR最优容积", ("smaa_vikor_best_volume_l", "volume_smaa_l", "otimo_smaa_vikor_l")),
     _met("aceitabilidade_smaa_pct", "smaa", "first_rank_pct", "%", 1, 3, "Aceitabilidade SMAA-VIKOR",
          "SMAA-VIKOR acceptability", "Aceptabilidad SMAA-VIKOR", "SMAA-VIKOR可接受度"),
 )}
@@ -332,6 +338,7 @@ _TXT: Dict[str, Dict[str, str]] = {
                         "zh": "各案例的容积"},
     "crit_otimo_tecnico": {"pt": "ótimo técnico", "en": "technical optimum", "es": "óptimo técnico", "zh": "技术最优"},
     "crit_topsis": {"pt": "primeiro do TOPSIS", "en": "first by TOPSIS", "es": "primero según TOPSIS", "zh": "TOPSIS第一名"},
+    "crit_smaa_vikor": {"pt": "compromisso SMAA-VIKOR", "en": "SMAA-VIKOR compromise", "es": "compromiso SMAA-VIKOR", "zh": "SMAA-VIKOR折中解"},
     "crit_fixo": {"pt": "volume fixo informado", "en": "fixed volume given", "es": "volumen fijo indicado", "zh": "指定的固定容积"},
     "faixa": {"pt": "Faixa dos resultados (mínimo a máximo)", "en": "Range of the results (minimum to maximum)",
               "es": "Rango de los resultados (mínimo a máximo)", "zh": "结果范围（最小值至最大值）"},
@@ -846,12 +853,12 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
         else:
             analise["tipo"] = tipo
         vol = an.get("volume", "otimo_tecnico")
-        if vol in ("otimo_tecnico", "topsis"):
-            analise["volume"] = vol
+        if vol in ("otimo_tecnico", "topsis", "smaa_vikor", "smaa"):
+            analise["volume"] = "smaa_vikor" if vol == "smaa" else vol
         elif _eh_numero(vol) and float(vol) >= 0:
             analise["volume"] = float(vol)
         else:
-            erros.append(_m("analise.volume: use «otimo_tecnico», «topsis» ou um volume em litros (número ≥ 0)"))
+            erros.append(_m("analise.volume: use «otimo_tecnico», «topsis», «smaa_vikor» ou um volume em litros (número ≥ 0)"))
         if an.get("pesos") is not None:
             pesos = an["pesos"]
             if (not isinstance(pesos, list) or len(pesos) != 3 or not all(_eh_numero(p) and p >= 0 for p in pesos)
@@ -864,8 +871,8 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
             erros.append(_m("analise.semente: esperado um inteiro"))
         else:
             analise["semente"] = sem
-    if analise["volume"] == "topsis" and _NIVEL_DA_ANALISE.get(analise["tipo"], 0) < 3:
-        erros.append(_m("analise.volume = «topsis» exige analise.tipo = «all» (ou «topsis»)"))
+    if analise["volume"] in ("topsis", "smaa_vikor") and _NIVEL_DA_ANALISE.get(analise["tipo"], 0) < 3:
+        erros.append(_m("analise.volume = «{0}» exige analise.tipo = «all» (ou «topsis»)", analise["volume"]))
     nivel = _NIVEL_DA_ANALISE.get(analise["tipo"], 0)
 
     # saídas
@@ -1576,6 +1583,8 @@ def extrair_metricas(report: Dict[str, Any], cfg: Any, precip: Any, plano: Dict[
         escolhido, criterio_txt = criterio, "fixo"
     elif criterio == "topsis":
         escolhido, criterio_txt = report.get("topsis", {}).get("best_volume_l"), "topsis"
+    elif criterio == "smaa_vikor":
+        escolhido, criterio_txt = report.get("smaa_vikor", {}).get("best_volume_l"), "smaa_vikor"
     else:
         criterio_txt = "otimo_tecnico"
         escolhido = resumo.get("optimal_volume_l")
@@ -1596,7 +1605,8 @@ def extrair_metricas(report: Dict[str, Any], cfg: Any, precip: Any, plano: Dict[
     entradas = {"area": cfg.area, "usuarios": cfg.residents_count, "demanda": demanda,
                 "fracao": cfg.rainwater_share * 100.0, "chuva_anual": chuva_anual, "dias": len(serie)}
     topsis = report.get("topsis", {})
-    smaa = {a["lower_tank_volume_l"]: a for a in report.get("smaa_vikor", {}).get("acceptabilities", [])}
+    smaa_resumo = report.get("smaa_vikor", {})
+    smaa = {a["lower_tank_volume_l"]: a for a in smaa_resumo.get("acceptabilities", [])}
     valores: Dict[str, Optional[float]] = {}
     for mid, m in METRICAS.items():
         o, k = m["origem"], m["chave"]
@@ -1606,6 +1616,8 @@ def extrair_metricas(report: Dict[str, Any], cfg: Any, precip: Any, plano: Dict[
             v = resumo.get(k)
         elif o == "topsis":
             v = topsis.get(k)
+        elif o == "smaa_resumo":
+            v = smaa_resumo.get(k)
         elif o == "smaa":
             v = smaa.get(volume, {}).get(k)
         else:
@@ -1643,8 +1655,10 @@ def executar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]
         import contextlib
         import warnings
         saidas_cfg = plano.get("saidas") or {}
+        metricas_pedidas = set(saidas_cfg.get("metricas") or ())
         precisa_smaa = bool(saidas_cfg.get("gravar_analise", True)
-                            or "aceitabilidade_smaa_pct" in saidas_cfg.get("metricas", ()))
+                            or analise.get("volume") == "smaa_vikor"
+                            or (metricas_pedidas & {"aceitabilidade_smaa_pct", "volume_smaa_vikor_l"}))
         # avisos de frações vão para «alertas»; avisos do motor (limites físicos do passo diário) para «avisos_do_motor»
         with warnings.catch_warnings(record=True) as do_motor, contextlib.redirect_stderr(io.StringIO()) as ruido:
             warnings.simplefilter("always")
@@ -2068,8 +2082,14 @@ def resumo_md(plano: Dict[str, Any], resultados: Sequence[Optional[Dict[str, Any
     titulo = e["titulo"] if e["titulo"] and not _pendente(e["titulo"]) else e["id"]
     rot_tip = e.get("tipologia_rotulo") or rotulo_da_tipologia(e["tipologia"], idioma)
     crit = plano["analise"]["volume"]
-    crit_txt = _txt("crit_topsis", idioma) if crit == "topsis" else (_txt("crit_otimo_tecnico", idioma) if crit == "otimo_tecnico"
-                                                                       else f"{formatar_numero(crit, 0, idioma)} L ({_txt('crit_fixo', idioma)})")
+    if crit == "topsis":
+        crit_txt = _txt("crit_topsis", idioma)
+    elif crit == "smaa_vikor":
+        crit_txt = _txt("crit_smaa_vikor", idioma)
+    elif crit == "otimo_tecnico":
+        crit_txt = _txt("crit_otimo_tecnico", idioma)
+    else:
+        crit_txt = f"{formatar_numero(crit, 0, idioma)} L ({_txt('crit_fixo', idioma)})"
     linhas = [f"# {_txt('resumo', idioma)}: {titulo}", "",
               f"- {_txt('tipologia', idioma)}: {rot_tip}",
               f"- {_txt('casos', idioma)}: {len(plano['casos'])} ({len(ok)} {_txt('rodados', idioma)}"
@@ -2281,7 +2301,10 @@ def descobrir_estudos(pasta: Path, recursivo: bool = False) -> List[Path]:
         raise FileNotFoundError(_m("Pasta não encontrada: {0}", pasta.name))
     achados = sorted(pasta.rglob("estudo*.json") if recursivo else pasta.glob("estudo*.json"),
                      key=lambda p: p.relative_to(pasta).as_posix())
-    achados = [p for p in achados if p.is_file()]
+    achados = [
+        p for p in achados
+        if p.is_file() and not any(parte.startswith("_") for parte in p.relative_to(pasta).parts[:-1])
+    ]
     if not achados:
         raise ValueError(_m("nenhum estudo*.json em {0} (use --recursivo para procurar nas subpastas)", pasta.name))
     return achados
@@ -2509,7 +2532,7 @@ def esquema_json() -> Dict[str, Any]:
                                                "dimensoes": {"type": "object"}}}},
             "analise": {"type": "object", "properties": {
                 "tipo": {"enum": list(TIPOS_DE_ANALISE)},
-                "volume": {"anyOf": [{"enum": ["otimo_tecnico", "topsis"]}, {"type": "number", "minimum": 0}]},
+                "volume": {"anyOf": [{"enum": ["otimo_tecnico", "topsis", "smaa_vikor", "smaa"]}, {"type": "number", "minimum": 0}]},
                 "pesos": {"type": "array", "items": {"type": "number", "minimum": 0}, "minItems": 3, "maxItems": 3},
                 "semente": {"type": "integer"}}},
             "saidas": {"type": "object", "properties": {
