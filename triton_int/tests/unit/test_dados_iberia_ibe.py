@@ -235,3 +235,17 @@ def test_tamanho_e_sha256_do_arquivo_de_fontes():
     for cod, m in te.carregar()["municipios"].items():
         for d in m["procedencia"]["documentos"]:
             assert (d["url"], d["sha256"]) in por[cod[3:]], (cod, d["url"])
+
+
+@ibe
+def test_interface_mostra_camada_1_nao_conferida_com_fonte_e_iva_em_falta_traduzidos():
+    pytest.importorskip("PySide6")
+    from triton.ui import translation as T
+    from triton.ui.tab_project import TabProject
+    txt = TabProject._procedencia_espanha("ES-47186", 1)
+    assert "ainda não conferida (segunda leitura pendente)" in txt and "valladolid.es" in txt
+    assert "IVA da água não consta da fonte" in txt and "IVA do saneamento não consta da fonte" in txt
+    for chave in ("🟡 Tarifa transcrita, ainda não conferida (segunda leitura pendente)",
+                  "IVA do saneamento não consta da fonte", "IVA das parcelas adicionais não consta da fonte"):
+        for lang in ("en", "es", "zh"):
+            assert T.tr(chave, lang) != chave, (lang, chave)
