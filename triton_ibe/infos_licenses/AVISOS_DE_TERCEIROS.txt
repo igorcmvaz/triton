@@ -7894,6 +7894,13 @@ Limites de Espanha: Eurostat/GISCO, Local Administrative Units (LAU) 2023, © Eu
 administrativos, reutilização com atribuição. INE (códigos de município, população e custo unitário do água por comunidade,
 Encuesta sobre el suministro y saneamiento del agua 2024): reutilização com citação da fonte.
 
+Tarifas de água de 7 municípios de Espanha (triton/data/espanha_tarifarios.json): valores transcritos de documentos
+oficiais publicados por Canal de Isabel II (Madrid), EMASESA (Sevilla, BOP n.º 33 de 18/02/2026), EMUASA (Murcia, BORM
+n.º 30 de 06/02/2025), EMALCSA (A Coruña), EMALSA (Las Palmas, BOP n.º 103 de 27/08/2025), EMA (Gijón, BOPA de
+28/11/2024) e Ayuntamiento de Valladolid. Citam-se o URL, a data de acesso (30/10/2026) e o SHA-256 de cada documento
+(triton/data/espanha_tarifarios_fontes.tsv); os documentos não são redistribuídos e os valores ainda não tiveram a
+segunda leitura. Confirmar os termos de reutilização de cada sítio antes da publicação.
+
 CAOP 2025 (limites dos concelhos): Direção-Geral do Território, licença cc-by no registo oficial em dados.gov.pt.
 
 Série de exemplo do Funchal (data/rainfall/Funchal.csv): dados meteorológicos de Open-Meteo.com, em Creative
