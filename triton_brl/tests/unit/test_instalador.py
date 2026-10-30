@@ -54,7 +54,7 @@ def test_a_licenca_e_instalada_com_o_programa():
 
 def test_o_instalador_nao_exclui_todos_os_bancos_sqlite():
     """`*.db` nas exclusões tiraria do instalador a base CLIMBra e a E-OBS; só os bancos de terceiros saem."""
-    assert "*.db" not in ISS.replace("climbra_*.db", "")
+    assert "*.db" not in ISS.replace("climbra_*.db", "").replace("chuva_iberia01_*.db", "")
     assert "*.sqlite" not in ISS
     assert "tarifas_fontes.db" in ISS and "tarifas_portugal_fontes.db" in ISS
     # a base climática é excluída das edições a que não pertence, e só delas

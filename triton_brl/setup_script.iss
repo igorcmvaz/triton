@@ -19,7 +19,10 @@
 ;    versões antigas não vai (seria o mesmo conteúdo em dobro). Os CSV brutos de origem
 ;    (~6,5 GB) não são oferecidos: o programa lê os bancos, e os CSV só servem para
 ;    recompilá-los (scripts/compilar_base_climbra.py).
-;  - Portugal: a base E-OBS por concelho (data\portugal_eobs.db).
+;  - Ibérica: o Iberia01 por célula em quatro partes (data\chuva_iberia01_p1..p4.db), as ilhas em ERA5
+;    (data\chuva_ilhas_era5.db), os municípios com a qualidade A/B/C (data\ibe_unidades.db) e a tabela de
+;    qualidade (data\qualidade_eobs_odbl.db), todos sob ODbL e FORA do programa; a E-OBS opcional
+;    (data\portugal_eobs.db, uso não comercial).
 ; Os bancos de documentos de terceiros (tarifas_fontes.db e semelhantes) não vão em nenhuma edição.
 
 #define MyAppUserModelID "ufsc.ges.triton.brl.0.1"
@@ -36,7 +39,7 @@
   #define SetupName "Triton_INT_Setup_"
   #define CoreDesc "Triton application (International Edition: no Brazilian data), manual, cases and examples"
   #define AssocFlags "; Flags: unchecked"
-  #define ExcluirBases "*\climbra.db,*\climbra_*.db,*\climbra_partes.json,*\portugal_eobs.db"
+  #define ExcluirBases "*\climbra.db,*\climbra_*.db,*\climbra_partes.json,*\portugal_eobs.db,*\ibe_unidades.db,*\chuva_iberia01_*.db,*\chuva_ilhas_era5.db,*\iberia01_partes.json,*\qualidade_eobs_odbl.db"
   #define ExcluirIcones "CLIMBra.*"
   #define ManualPdf "_internal\manual\en\Triton-User-Manual.pdf"
   #define ManualLink "Triton User Manual"
@@ -64,7 +67,7 @@
   #define SetupName "Triton_Setup_"
   #define CoreDesc "Aplicativo Triton, base climática nacional CLIMBra (652 cidades, embutida), manual, casos e exemplos"
   #define AssocFlags ""
-  #define ExcluirBases "*\climbra.db,*\portugal_eobs.db"
+  #define ExcluirBases "*\climbra.db,*\portugal_eobs.db,*\ibe_unidades.db,*\chuva_iberia01_*.db,*\chuva_ilhas_era5.db,*\iberia01_partes.json,*\qualidade_eobs_odbl.db"
   #define ExcluirIcones ""
   #define ManualPdf "_internal\manual\Manual-Triton.pdf"
   #define ManualLink "Manual do Triton"

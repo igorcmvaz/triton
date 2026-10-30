@@ -31,7 +31,7 @@ def _validar(doc):
 @pytest.mark.skipif(IBE, reason="vale para BRL e INT")
 def test_fora_da_ibe_a_base_iberica_e_recusada():
     _, erros, _ = _validar(_doc("ES-28079"))
-    assert any("iberia" in e and "Edição Ibérica" in e for e in erros)
+    assert any("iberia" in e and ("Edição Ibérica" in e or "Iberian" in e) for e in erros), erros
 
 
 @pytest.mark.skipif(not (IBE and ib.disponivel()), reason="base ibérica só na IBE")

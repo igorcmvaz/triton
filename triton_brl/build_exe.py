@@ -155,7 +155,7 @@ def entradas_do_pacote(base_dir: Path, edicao: str) -> list:
             return True
         if (nome.startswith("climbra_") and nome.endswith((".db", ".json"))) and edicao != "brl":
             return True
-        return nome == "portugal_eobs.db" and edicao != "ibe"
+        return nome in ARQUIVOS_IBERICOS and edicao != "ibe"
 
     tarifas_de_terceiros = {rel.name for rel in SO_DOCUMENTOS_DE_TERCEIROS if rel.parts[0] == "tarifas"}
     entradas = filhos("data", "data", pular_data)
@@ -290,6 +290,8 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
         "triton.ui.portugues_de_portugal",
         # A base E-OBS da Portugal é importada só dentro das funções da etapa 1 e do parser.
         "triton.core.base_climatica_portugal",
+        "triton.core.base_climatica_iberica",
+        "triton.core.tarifarios_espanha",
         "triton.core.licenca_eobs",
         "triton.ui.dialogs.dialog_licenca_eobs",
         "triton.core.dados_do_relatorio",
@@ -465,6 +467,7 @@ def verificar_pasta_para_instalador(base_dir: Path, edicao: str = "brl") -> list
         esperados += [pasta / "_internal" / "data" / f"climbra_{m}.db" for m in modelos_climbra()]
     if edicao == "ibe":
         esperados.append(pasta / "_internal" / BASE_PORTUGAL)  # a base E-OBS só vai na Portugal
+        esperados += [pasta / "_internal" / "data" / n for n in ARQUIVOS_IBERICOS if n != BASE_PORTUGAL.name]
     return [str(p) for p in esperados if not (base_dir / p).exists()]
 
 
@@ -494,6 +497,12 @@ def partes_da_base_climatica(raiz: Path) -> list:
 #: data/portugal_eobs.db. As fontes brutas (E-OBS, CAOP; 3 GB) ficam em data/portugal, no disco do
 #: mantenedor, e não vão em nenhum pacote.
 BASE_PORTUGAL = Path("data") / "portugal_eobs.db"
+#: Os ficheiros de dados da Edição Ibérica (só nela): a E-OBS opcional (não comercial), o Iberia01 por célula em quatro
+#: partes (ODbL), as ilhas em ERA5 (CC BY), o banco de municípios com a qualidade (ODbL) e a tabela de qualidade da E-OBS
+#: (ODbL). Os dados derivados do Iberia01 ficam em ficheiros à parte do programa (decisão de 25/10/2026).
+ARQUIVOS_IBERICOS = ("portugal_eobs.db", "qualidade_eobs_odbl.db", "ibe_unidades.db", "iberia01_partes.json",
+                     "chuva_iberia01_p1.db", "chuva_iberia01_p2.db", "chuva_iberia01_p3.db", "chuva_iberia01_p4.db",
+                     "chuva_ilhas_era5.db")
 FONTES_DE_PORTUGAL = Path("data") / "portugal"
 
 
@@ -576,19 +585,22 @@ def remover_dados_de_portugal_fora_da_ibe(dist_dir: Path, edicao: str) -> None:
         if fontes.exists():
             shutil.rmtree(fontes, ignore_errors=True)
             print(f"[*] Removido do pacote: {fontes}")
-        db = base / BASE_PORTUGAL
-        if edicao != "ibe" and db.exists():
-            db.unlink()
-            print(f"[*] Removido da edição {edicao.upper()}: {db}")
+        for nome in ARQUIVOS_IBERICOS:
+            db = base / "data" / nome
+            if edicao != "ibe" and db.exists():
+                db.unlink()
+                print(f"[*] Removido da edição {edicao.upper()}: {db}")
 
 
 def garantir_base_portugal(base_dir: Path) -> bool:
     """A Edição Ibérica sai com a base E-OBS por concelho embutida, ou não sai."""
-    db = base_dir / BASE_PORTUGAL
-    if db.is_file() and db.stat().st_size > 0:
-        print(f"[+] Base E-OBS de Portugal embutida: {BASE_PORTUGAL} ({db.stat().st_size / 1e6:.1f} MB)")
+    faltam = [n for n in ARQUIVOS_IBERICOS if not (base_dir / "data" / n).is_file() or (base_dir / "data" / n).stat().st_size == 0]
+    if not faltam:
+        total = sum((base_dir / "data" / n).stat().st_size for n in ARQUIVOS_IBERICOS)
+        print(f"[+] Bases ibéricas embutidas ({len(ARQUIVOS_IBERICOS)} ficheiros, {total / 2 ** 20:.1f} MiB): Iberia01 por célula, ilhas ERA5, "
+              f"municípios e qualidade (ODbL), E-OBS opcional")
         return True
-    print(f"[ERRO] A Edição Ibérica embute a base E-OBS, e {BASE_PORTUGAL} não foi encontrado.")
+    print(f"[ERRO] A Edição Ibérica embute as bases de chuva, e faltam em data/: {', '.join(faltam)}.")
     print("        Ela é versionada no repositório. Para um pacote de teste sem a base, use --sem-base-climatica.")
     return False
 
