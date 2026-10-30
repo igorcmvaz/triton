@@ -777,8 +777,48 @@ def validar_parametros_fisicos(
             )
 
 
-def validar_serie_precipitacao(precip_data) -> None:
-    """Rejeita serie vazia, com falha de registro ou com chuva negativa.
+# Maior chuva em 24 h registrada no mundo: 1.825 mm (Foc-Foc, Reunion, 1966). Acima de 2.000 mm num dia o valor
+# so pode ser erro de unidade (centesimos de mm, acumulado) ou de coluna, e a simulacao seria falsa sem aviso.
+LIMITE_DE_CHUVA_DIARIA_MM = 2000.0
+# Total anual medio plausivel para um local habitado (o deserto de Atacama tem menos de 5 mm; o maior total anual
+# registrado passa de 26.000 mm). Fora de 20 a 12.000 mm/ano o programa avisa, sem recusar a serie.
+TOTAL_ANUAL_MINIMO_MM = 20.0
+TOTAL_ANUAL_MAXIMO_MM = 12000.0
+
+
+def avisos_da_serie_precipitacao(precip_data) -> List[str]:
+    """Avisos (nao erros) sobre uma serie diaria ja valida: comprimento e escala.
+
+    - Comprimento: n anos civis consecutivos tem entre 365*n e 365*n + n//4 + 1 dias (366 nos bissextos). Um
+      comprimento fora dessa faixa nao e uma serie de anos inteiros: o balanco roda, mas o total anual medio e
+      a comparacao entre anos deixam de valer. Series de anos incompletos sao legitimas e por isso so avisam.
+    - Escala: o total anual medio abaixo de 20 mm ou acima de 12.000 mm costuma indicar unidade errada
+      (cm, centesimos de mm) ou coluna errada.
+    """
+    serie = np.asarray(precip_data, dtype=np.float64)
+    dias = int(serie.size)
+    avisos: List[str] = []
+    if dias == 0:
+        return avisos
+    anos = max(1, round(dias / 365.25))
+    minimo, maximo = 365 * anos, 365 * anos + anos // 4 + 1
+    if not minimo <= dias <= maximo:
+        avisos.append(
+            f"A serie de precipitacao tem {dias} dias, que nao corresponde a anos inteiros "
+            f"(365 ou 366 dias por ano; {anos} ano(s) teriam de {minimo} a {maximo} dias). "
+            "O total anual medio e a comparacao entre anos ficam aproximados."
+        )
+    total_anual = float(serie.sum()) / (dias / 365.25)
+    if total_anual < TOTAL_ANUAL_MINIMO_MM or total_anual > TOTAL_ANUAL_MAXIMO_MM:
+        avisos.append(
+            f"O total anual medio da serie de precipitacao e {total_anual:.1f} mm, fora do intervalo plausivel "
+            f"({TOTAL_ANUAL_MINIMO_MM:g} a {TOTAL_ANUAL_MAXIMO_MM:g} mm). Confira a unidade (mm) e a coluna lida."
+        )
+    return avisos
+
+
+def validar_serie_precipitacao(precip_data, avisos: Optional[List[str]] = None) -> None:
+    """Rejeita serie vazia, com falha de registro, com chuva negativa ou com chuva diaria impossivel.
 
     O motor nao tem como distinguir um dia seco de um dia sem registro, e nao
     deve adivinhar. Ate esta revisao:
@@ -791,7 +831,12 @@ def validar_serie_precipitacao(precip_data) -> None:
     - o sentinela -999, comum em series do INMET e da ANA, entrava como chuva
       negativa e produzia consumo pluvial negativo e potencial de -4.179%.
 
-    Levanta `ValueError` dizendo quantos dias e onde esta o primeiro.
+    - um dia acima de `LIMITE_DE_CHUVA_DIARIA_MM` (2.000 mm, acima do recorde mundial de 24 h) so pode ser erro
+      de unidade ou de coluna e tambem e recusado.
+
+    Levanta `ValueError` dizendo quantos dias e onde esta o primeiro. Se `avisos` for uma lista, recebe os
+    avisos de `avisos_da_serie_precipitacao` (comprimento fora de anos inteiros, total anual implausivel), que
+    nao recusam a serie: os resultados de series validas ficam exatamente como eram.
     """
     serie = np.asarray(precip_data, dtype=np.float64)
     if serie.ndim != 1 or serie.size == 0:
@@ -816,6 +861,16 @@ def validar_serie_precipitacao(precip_data) -> None:
             f"o primeiro de {serie[i]:g} mm no dia {i + 1}. Valores como -999 "
             "costumam marcar falha de registro, e nao chuva."
         )
+    excessivos = np.flatnonzero(serie > LIMITE_DE_CHUVA_DIARIA_MM)
+    if excessivos.size:
+        i = int(excessivos[0])
+        raise ValueError(
+            f"A serie de precipitacao tem {excessivos.size} dia(s) acima de {LIMITE_DE_CHUVA_DIARIA_MM:g} mm, "
+            f"o primeiro de {serie[i]:g} mm no dia {i + 1}. Nenhuma chuva diaria chega perto disso (o recorde "
+            "mundial em 24 h e de 1.825 mm): confira a unidade (mm) e a coluna lida."
+        )
+    if avisos is not None:
+        avisos.extend(avisos_da_serie_precipitacao(serie))
 
 
 def run_single_simulation(

@@ -2564,5 +2564,33 @@ _CHINESE_DICTIONARY.update({
     "Importe uma série própria.": "导入自定义系列。",
 })
 
+_DICTIONARY.update({
+    "🟡 Tarifa transcrita, ainda não conferida (segunda leitura pendente)": "🟡 Transcribed tariff, not yet checked (second reading pending)",
+    "Tarifa transcrita, ainda não conferida (segunda leitura pendente)": "Transcribed tariff, not yet checked (second reading pending)",
+    "camada 1: tarifa do município (transcrita)": "layer 1: municipal tariff (transcribed)",
+    "acedida em": "accessed on",
+    "IVA da água não consta da fonte": "VAT on water is not stated in the source",
+    "IVA do saneamento não consta da fonte": "VAT on sanitation is not stated in the source",
+    "IVA das parcelas adicionais não consta da fonte": "VAT on the additional charges is not stated in the source",
+})
+_SPANISH_DICTIONARY.update({
+    "🟡 Tarifa transcrita, ainda não conferida (segunda leitura pendente)": "🟡 Tarifa transcrita, aún no verificada (segunda lectura pendiente)",
+    "Tarifa transcrita, ainda não conferida (segunda leitura pendente)": "Tarifa transcrita, aún no verificada (segunda lectura pendiente)",
+    "camada 1: tarifa do município (transcrita)": "capa 1: tarifa del municipio (transcrita)",
+    "acedida em": "consultada el",
+    "IVA da água não consta da fonte": "El IVA del agua no consta en la fuente",
+    "IVA do saneamento não consta da fonte": "El IVA del saneamiento no consta en la fuente",
+    "IVA das parcelas adicionais não consta da fonte": "El IVA de los cargos adicionales no consta en la fuente",
+})
+_CHINESE_DICTIONARY.update({
+    "🟡 Tarifa transcrita, ainda não conferida (segunda leitura pendente)": "🟡 已转录费率，尚未核对（待第二次核读）",
+    "Tarifa transcrita, ainda não conferida (segunda leitura pendente)": "已转录费率，尚未核对（待第二次核读）",
+    "camada 1: tarifa do município (transcrita)": "第1层：市镇费率（已转录）",
+    "acedida em": "访问日期",
+    "IVA da água não consta da fonte": "来源中未载明水费增值税",
+    "IVA do saneamento não consta da fonte": "来源中未载明排污费增值税",
+    "IVA das parcelas adicionais não consta da fonte": "来源中未载明附加费用增值税",
+})
+
 from triton.core import numero as _numero  # noqa: E402
 _numero.registrar_idioma(get_current_lang)

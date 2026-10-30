@@ -501,6 +501,7 @@ class TabReportsPdf(QWidget):
         audit["climate_scenario"] = str(getattr(cfg, "climate_scenario", "") or "")
         audit["chuva_serie_propria"] = (getattr(cfg, "climate_source_mode", "") or "") == "custom_file"
         audit["chuva_procedencia"] = dict(getattr(cfg, "chuva_procedencia", None) or {})
+        audit["tariff_city_code"] = str(getattr(cfg, "tariff_city_name", "") or "")
 
     @staticmethod
     def _periodo_climatico(cfg) -> str:

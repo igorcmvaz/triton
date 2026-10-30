@@ -819,6 +819,7 @@ def _procedencia_da_chuva(cfg: TritonConfig) -> Dict[str, Any]:
         "climate_scenario": str(getattr(cfg, "climate_scenario", "") or ""),
         "chuva_serie_propria": (getattr(cfg, "climate_source_mode", "") or "") == "custom_file",
         "chuva_procedencia": dict(getattr(cfg, "chuva_procedencia", None) or {}),
+        "tariff_city_code": str(getattr(cfg, "tariff_city_name", "") or ""),
     }
     linhas = [unescape(l) for l in rodape_do_laudo(auditoria, ingles=is_int_edition()).split("<br/>") if l.strip()]
     fonte = {"climate_model": auditoria["climate_model"], "climate_scenario": str(getattr(cfg, "climate_scenario", "") or ""),
