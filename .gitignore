@@ -33,3 +33,6 @@ build_log.txt
 install_*.log
 avisos_qt.log
 PROGRESSO_INTEGRACAO.md
+
+# Site de documentacao tecnica gerado pelo mkdocs (mkdocs.yml da raiz; so desenvolvimento)
+/site/
