@@ -81,6 +81,30 @@ acelerado = [
     "numba>=0.62",
 ]
 
+# Extras OPCIONAIS de desenvolvimento e análise. Nenhum entra no requirements.txt, no instalador, no Triton.spec
+# nem no build_exe.py; o código os importa por triton.core._opcional, com mensagem clara quando faltam.
+#   docs        site de documentação técnica (mkdocs; versão fixada, o autor só mantém correções até 05/05/2027)
+#   analise     consolidar resultados de vários estudos por SQL (duckdb), com alternativa sem o pacote
+#   cli         progresso e tabelas coloridas no terminal (rich), com alternativa simples
+#   otimizacao  experimentos com otimização bayesiana (optuna), só em scripts, nunca no "estudo run"
+#   grafo       grafo de dependências entre módulos (pydeps; o SVG exige o Graphviz "dot" instalado à parte)
+docs = [
+    "mkdocs-material==9.8.0",
+    "mkdocs<2",
+]
+analise = [
+    "duckdb>=2.0",
+]
+cli = [
+    "rich>=15",
+]
+otimizacao = [
+    "optuna>=5.0",
+]
+grafo = [
+    "pydeps>=3.0.9",
+]
+
 [project.scripts]
 triton = "triton.cli:main"
 triton-gui = "main:main"
