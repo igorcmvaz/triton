@@ -1,0 +1,36 @@
+{
+ "_formato": "Tarifas de Espanha por camadas (ver triton/core/tarifarios_espanha.py e auditoria/iberia/esquema_tarifas_espanha_exemplo.json). 'camada3' = média regional do INE (um preço total por m3, indicativo); 'municipios' = camada 1, só com documento oficial arquivado (URL, data de acesso, SHA-256). Valor sem fonte verificada fica fora: o programa diz 'sem tarifa'.",
+ "camada3": {
+  "fonte": "INE, Encuesta sobre el suministro y saneamiento del agua (ESSA) 2024, nota de imprensa de 02/07/2026, gráfico 'Distribuição do coste unitario do agua por comunidades y ciudades autónomas'",
+  "url": "https://ine.es/dyngs/Prensa/ESSA2024.htm",
+  "acedido_em": "2026-10-30",
+  "sha256_documento": "9412ca7fa82ba9dc55a8d744f6c626ef17b07cb7686d268b816b4d76022e21a6",
+  "ano": 2024,
+  "media_nacional_eur_m3": 2.02,
+  "licenca": "INE, reutilização com citação da fonte (rodapé da página indica CC BY-SA 4.0 / CC BY 4.0: confirmar)",
+  "nota": "Ceuta e Melilla: o INE publica um valor conjunto (1,46); sem série de chuva nestas cidades.",
+  "aviso": "média regional de 2024 (água e saneamento juntos); não é a tarifa do município; use só para ordem de grandeza",
+  "eur_m3_total": {
+   "La Rioja": 1.26,
+   "Principado de Asturias": 1.27,
+   "Castilla y León": 1.29,
+   "Galicia": 1.29,
+   "Cantabria": 1.53,
+   "Comunidad Foral de Navarra": 1.56,
+   "Castilla-La Mancha": 1.62,
+   "Aragón": 1.69,
+   "Extremadura": 1.71,
+   "Comunidad de Madrid": 1.74,
+   "Andalucía": 1.86,
+   "Canarias": 2.27,
+   "País Vasco": 2.32,
+   "Región de Murcia": 2.6,
+   "Comunitat Valenciana": 2.63,
+   "Cataluña": 2.72,
+   "Illes Balears": 2.8,
+   "Ceuta": 1.46,
+   "Melilla": 1.46
+  }
+ },
+ "municipios": {}
+}

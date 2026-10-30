@@ -151,6 +151,12 @@ AVISO_VERMELHO_NOTA_EN = ("Use restricted to non-commercial research and educati
                           "non-commercial use; the owner of the programme is not liable for commercial use.")
 
 
+def chuva_e_iberica(auditoria: Optional[Dict[str, Any]]) -> bool:
+    """A chuva do laudo é do Iberia01 ou das ilhas ERA5 (ODbL e CC BY: uso comercial permitido, com atribuição)?"""
+    from triton.core.base_climatica_iberica import CENARIO_IBERIA01
+    return str((auditoria or {}).get("climate_scenario") or "") == CENARIO_IBERIA01
+
+
 def aviso_vermelho(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = False) -> str:
     """O aviso grande e vermelho dos relatórios que usam a E-OBS (vazio fora da IBE e com série própria do utilizador).
 
@@ -158,7 +164,7 @@ def aviso_vermelho(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = Fa
     """
     from html import escape
     from triton.core.edition import usa_dados_de_portugal
-    if not usa_dados_de_portugal() or (auditoria or {}).get("chuva_serie_propria"):
+    if not usa_dados_de_portugal() or (auditoria or {}).get("chuva_serie_propria") or chuva_e_iberica(auditoria):
         return ""
     titulo, nota = (AVISO_VERMELHO_EN, AVISO_VERMELHO_NOTA_EN) if ingles else (AVISO_VERMELHO_PT, AVISO_VERMELHO_NOTA_PT)
     marca = "NON-COMMERCIAL" if ingles else "NÃO COMERCIAL"
@@ -208,6 +214,8 @@ def rodape_do_laudo(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = F
     from triton.core import qualidade_chuva as _q
     proc = aud.get("chuva_procedencia") or {}
     linhas = []
+    if chuva_e_iberica(aud) and not aud.get("chuva_serie_propria"):
+        return _rodape_iberico(aud, ingles)
     if aud.get("chuva_serie_propria"):
         linhas.append("Rainfall: series supplied by the user." if ingles else "Chuva: série fornecida pelo utilizador.")
         if credito:
@@ -246,6 +254,36 @@ def rodape_do_laudo(auditoria: Optional[Dict[str, Any]] = None, ingles: bool = F
             if t:
                 linhas.append(t)
     linhas.append(_q.linha_de_cobertura("en" if ingles else "pt"))
+    return "<br/>".join(escape(l) for l in linhas if l)
+
+
+def _rodape_iberico(aud: Dict[str, Any], ingles: bool) -> str:
+    """Rodapé quando a chuva é do Iberia01 (ou ERA5 nas ilhas): fonte, licença ODbL, qualidade e cobertura."""
+    from html import escape
+    from triton.core import base_climatica_iberica as _ib
+    lingua = "en" if ingles else "pt"
+    linhas = []
+    codigo = _ib.resolver(str(aud.get("climate_city_name") or ""))
+    if codigo:
+        linhas.append(_ib.texto_da_fonte(codigo, lingua))
+        q = _ib.qualidade(codigo)
+        if q:
+            u = _ib.unidade(codigo)
+            if ingles:
+                linhas.append(f"Rainfall quality for {u['nome']}: level {q['nivel']}. Level reflects spatial representation "
+                              f"of the grid, not a validation against local gauges.")
+            else:
+                linhas.append(f"Qualidade da chuva em {u['nome']}: nível {q['nivel']}. {q['motivo']}")
+    else:
+        linhas.append(_ib.texto_da_fonte("", lingua))
+    try:
+        p = _ib.pacote()
+        if p.get("pacote_id"):
+            linhas.append((f"Package {p['pacote_id']}, SHA-256 {p['sha256_pacote'][:8]}." if ingles
+                           else f"Pacote {p['pacote_id']}, SHA-256 {p['sha256_pacote'][:8]}."))
+    except Exception:
+        pass
+    linhas.append(_ib.linha_de_cobertura(lingua))
     return "<br/>".join(escape(l) for l in linhas if l)
 
 

@@ -50,7 +50,7 @@ def test_ao_salvar_grava_o_pacote_e_incorpora_a_serie_por_padrao(tmp_path):
     pacote = chuva["pacote_chuva"]
     assert pacote["pacote_id"] == meta["pacote_id"] and pacote["versao_eobs"] == "v33.0e"
     assert pacote["sha256_pacote"] == meta["sha256_pacote"] and len(pacote["sha256_pacote"]) == 64
-    assert pacote["qualidade_versao"] == meta["qualidade_versao"]
+    assert pacote["qualidade_versao"] == pt.pacote()["qualidade_versao"] == "1"
     assert pacote["serie_incorporada"] is True and pacote["historico"] == []
     assert len(chuva["precipitation_mm"]) == len(serie) == chuva["total_days"]
     assert chuva["climbra_series"]["origem"] == "E-OBS (Portugal)"

@@ -54,7 +54,7 @@ def test_caminho_bloqueado_uso_comercial_desliga_a_e_obs(uso, monkeypatch):
     with pytest.raises(L.LicencaEObsBloqueada):
         serie_da_climbra(cfg)
     from triton.core import qualidade_chuva as Q
-    assert not Q.tem_qualidade()          # sem a E-OBS, nenhum dado dela é mostrado (nem a cobertura)
+    assert not Q.tem_qualidade_eobs()     # sem a E-OBS, nenhum dado dela é mostrado (nem a cobertura)
 
 
 def test_caminho_bloqueado_uso_de_pesquisa_ou_sem_escolha_segue(uso, monkeypatch):

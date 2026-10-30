@@ -222,8 +222,14 @@ class TabProject(QWidget):
         # mesmo painel serve a base E-OBS por concelho (triton/core/base_climatica_portugal.py).
         from triton.core import base_climatica_portugal as _pt
         from triton.core.edition import usa_dados_de_portugal
-        self._base_portugal = usa_dados_de_portugal() and _pt.disponivel()
-        if self._base_portugal:
+        from triton.core import base_climatica_iberica as _ib
+        # Duas fontes na Edição Ibérica: o Iberia01 (padrão, ODbL) e a E-OBS (opcional, não comercial).
+        self._base_iberica = usa_dados_de_portugal() and _ib.disponivel()
+        self._base_eobs = usa_dados_de_portugal() and _pt.disponivel()
+        self._base_portugal = self._base_iberica or self._base_eobs
+        if self._base_iberica:
+            self.rb_source_national.setText(tr("🇪🇸🇵🇹 Base Iberia01 por município (Portugal, Espanha e ilhas, 1971–2015)"))
+        elif self._base_portugal:
             self.rb_source_national.setText(tr("🇵🇹 Base E-OBS por concelho (precipitação observada, 1950–2025)"))
         self.rb_source_national.setVisible(usa_dados_do_brasil() or self._base_portugal)
 
@@ -300,6 +306,16 @@ class TabProject(QWidget):
             "climatológicas. As datas continuam editáveis."))
         self.combo_recorte.activated.connect(self.on_recorte_sugerido)
         grid_nat.addWidget(self.combo_recorte, 3, 1, 1, 3)
+
+        # Busca por nome ou código (INE de 5 dígitos, DTMN de 4) em todo o país: só na base ibérica.
+        self.lbl_busca_local = QLabel(f"<b>{tr('Buscar município / código:')}</b>")
+        self.txt_busca_local = QLineEdit()
+        self.txt_busca_local.setPlaceholderText(tr("Nome ou código (ex.: Sevilla, ES-41091, PT-1106)"))
+        self.txt_busca_local.setClearButtonEnabled(True)
+        grid_nat.addWidget(self.lbl_busca_local, 4, 0)
+        grid_nat.addWidget(self.txt_busca_local, 4, 1, 1, 3)
+        self.lbl_busca_local.setVisible(False)
+        self.txt_busca_local.setVisible(False)
 
         lay_pnat.addLayout(grid_nat)
 
@@ -612,30 +628,137 @@ class TabProject(QWidget):
         self.btn_group_source.buttonToggled.connect(self.on_source_mode_toggled)
         self.init_climate_and_tariff_ui()
 
+    def _fonte_ibe_atual(self) -> str:
+        """«IBERIA01» ou «EOBS»: a fonte de chuva escolhida no painel da Edição Ibérica."""
+        return self.combo_climate_scenario.currentData() or ""
+
     def _preparar_painel_portugal(self):
-        """Na Edição Ibérica: distritos e concelhos, e a E-OBS como única série (observada)."""
+        """Na Edição Ibérica: país, região e município; Iberia01 (padrão) e, se instalada, a E-OBS."""
+        from triton.core import base_climatica_iberica as _ib
         from triton.core import base_climatica_portugal as _pt
-        self.lbl_climate_uf.setText(f"<b>{tr('Distrito / ilha:')}</b>")
-        self.lbl_climate_city.setText(f"<b>{tr('Concelho:')}</b>")
-        for combo, rotulo, dado in ((self.combo_climate_model, _pt.MODELO_EOBS, _pt.MODELO_EOBS),
-                                    (self.combo_climate_scenario, tr("Observado — E-OBS, 1950–2025"),
-                                     _pt.CENARIO_EOBS)):
+        fontes = []
+        if getattr(self, "_base_iberica", False):
+            fontes.append((_ib.MODELO_IBERIA01, tr("Iberia01, 1971–2015 (ODbL); ilhas: ERA5, nível C"), _ib.CENARIO_IBERIA01))
+        if getattr(self, "_base_eobs", False):
+            fontes.append((_pt.MODELO_EOBS, tr("Observado — E-OBS, 1950–2025"), _pt.CENARIO_EOBS))
+        for combo in (self.combo_climate_model, self.combo_climate_scenario):
             combo.blockSignals(True)
             combo.clear()
-            combo.addItem(rotulo, dado)
-            combo.setEnabled(False)
+        for modelo, rotulo, cenario in fontes:
+            self.combo_climate_model.addItem(modelo, modelo)
+            self.combo_climate_scenario.addItem(rotulo, cenario)
+        self.combo_climate_model.setEnabled(len(fontes) > 1)
+        self.combo_climate_scenario.setEnabled(False)
+        for combo in (self.combo_climate_model, self.combo_climate_scenario):
             combo.blockSignals(False)
-        for caixa, valor in ((self.txt_start_date, _pt.INICIO_PADRAO), (self.txt_end_date, _pt.FIM_PADRAO)):
+        self._aplicar_fonte_ibe()
+
+    def _aplicar_fonte_ibe(self):
+        """Rótulos, datas e listas de região conforme a fonte (Iberia01 ou E-OBS) escolhida."""
+        from triton.core import base_climatica_iberica as _ib
+        from triton.core import base_climatica_portugal as _pt
+        iberia = self._fonte_ibe_atual() == _ib.CENARIO_IBERIA01
+        self.lbl_climate_uf.setText(f"<b>{tr('País · região:') if iberia else tr('Distrito / ilha:')}</b>")
+        self.lbl_climate_city.setText(f"<b>{tr('Município:') if iberia else tr('Concelho:')}</b>")
+        self.lbl_busca_local.setVisible(iberia)
+        self.txt_busca_local.setVisible(iberia)
+        inicio, fim = (_ib.INICIO_PADRAO, _ib.FIM_PADRAO) if iberia else (_pt.INICIO_PADRAO, _pt.FIM_PADRAO)
+        for caixa, valor in ((self.txt_start_date, inicio), (self.txt_end_date, fim)):
             caixa.blockSignals(True)
             caixa.setText(valor)
             caixa.blockSignals(False)
+        self.combo_climate_uf.blockSignals(True)
         self.combo_climate_uf.clear()
-        for d in _pt.distritos():
-            self.combo_climate_uf.addItem(d, d)
-        self.combo_climate_uf.setToolTip(tr(
-            "Os 18 distritos do Continente. Açores (fora do domínio da E-OBS) e Madeira (a E-OBS só tem "
-            "ali as estações em funcionamento, com falhas em mais de 20% dos dias) não têm série na base: "
-            "importe uma série própria."))
+        if iberia:
+            for chave, rotulo in _ib.regioes():
+                self.combo_climate_uf.addItem(rotulo, chave)
+            self.combo_climate_uf.setToolTip(tr(
+                "Portugal (18 distritos, Madeira e Açores) e Espanha (comunidades autónomas, incluindo Baleares, "
+                "Canárias, Ceuta e Melilla). Canárias, Madeira e Açores usam a reanálise ERA5 (nível C, sem "
+                "validação local); Ceuta e Melilla não têm série: importe uma série própria."))
+            self._preparar_busca_local()
+        else:
+            for d in _pt.distritos():
+                self.combo_climate_uf.addItem(d, d)
+            self.combo_climate_uf.setToolTip(tr(
+                "Os 18 distritos do Continente. Açores (fora do domínio da E-OBS) e Madeira (a E-OBS só tem "
+                "ali as estações em funcionamento, com falhas em mais de 20% dos dias) não têm série na base: "
+                "importe uma série própria."))
+        self.combo_climate_uf.blockSignals(False)
+        self.combo_climate_city.setEditable(iberia)
+        if iberia:
+            self.combo_climate_city.setInsertPolicy(QComboBox.NoInsert)
+            comp = self.combo_climate_city.completer()
+            if comp is not None:
+                comp.setFilterMode(Qt.MatchContains)
+                comp.setCaseSensitivity(Qt.CaseInsensitive)
+
+    def _preparar_busca_local(self):
+        """O completador da caixa de busca: «Nome [código] · província» de todas as unidades com série."""
+        if getattr(self, "_busca_pronta", False):
+            return
+        from PySide6.QtCore import QStringListModel
+        from PySide6.QtWidgets import QCompleter
+        from triton.core import base_climatica_iberica as _ib
+        self._busca_rotulos = {}
+        for u in _ib.unidades():
+            if u["cobertura"] == "nenhuma":
+                continue
+            r = f"{u['nome']} [{u['codigo']}] · {u['provincia'] or u['regiao']}"
+            self._busca_rotulos[r] = u["codigo"]
+        comp = QCompleter(QStringListModel(sorted(self._busca_rotulos)), self.txt_busca_local)
+        comp.setFilterMode(Qt.MatchContains)
+        comp.setCaseSensitivity(Qt.CaseInsensitive)
+        comp.setMaxVisibleItems(15)
+        comp.activated[str].connect(self._ao_escolher_na_busca)
+        self.txt_busca_local.setCompleter(comp)
+        self.txt_busca_local.returnPressed.connect(self._ao_confirmar_busca)
+        self._busca_pronta = True
+
+    def _ao_escolher_na_busca(self, texto: str):
+        codigo = self._busca_rotulos.get(texto)
+        if codigo:
+            self.selecionar_unidade(codigo)
+
+    def _ao_confirmar_busca(self):
+        from triton.core import base_climatica_iberica as _ib
+        texto = self.txt_busca_local.text().strip()
+        codigo = _ib.resolver(texto)
+        if codigo is None:
+            achadas = _ib.buscar(texto, limite=2)
+            codigo = achadas[0]["codigo"] if len(achadas) == 1 else None
+        if codigo:
+            self.selecionar_unidade(codigo)
+
+    def selecionar_unidade(self, codigo: str):
+        """Seleciona, na tela, o município de código INE/DTMN (muda a região e carrega a série)."""
+        from triton.core import base_climatica_iberica as _ib
+        u = _ib.unidade(codigo)
+        if u is None or self._fonte_ibe_atual() != _ib.CENARIO_IBERIA01:
+            return
+        i = self.combo_climate_uf.findData(f"{u['pais']}|{u['regiao']}")
+        if i < 0:
+            return
+        self._is_populating = True
+        try:
+            self.combo_climate_uf.setCurrentIndex(i)
+            self.populate_climate_cities(select_city=codigo)
+        finally:
+            self._is_populating = False
+        self.load_active_national_series()
+
+    def _escolher_fonte_gravada(self, cfg):
+        """Projeto que já tinha fonte (EOBS ou IBERIA01): a mantém, se estiver instalada."""
+        quer = getattr(cfg, "climate_scenario", "") or ""
+        i = self.combo_climate_scenario.findData(quer)
+        if i >= 0 and i != self.combo_climate_scenario.currentIndex():
+            self.combo_climate_scenario.blockSignals(True)
+            self.combo_climate_model.blockSignals(True)
+            self.combo_climate_scenario.setCurrentIndex(i)
+            self.combo_climate_model.setCurrentIndex(i)
+            self.combo_climate_scenario.blockSignals(False)
+            self.combo_climate_model.blockSignals(False)
+            self._aplicar_fonte_ibe()
 
     @staticmethod
     def _uf_padrao() -> str:
@@ -648,6 +771,7 @@ class TabProject(QWidget):
             self.combo_climate_uf.clear()
             if getattr(self, "_base_portugal", False):
                 self._preparar_painel_portugal()
+                self._escolher_fonte_gravada(self._get_config())
             elif usa_dados_do_brasil():
                 for uf_code, state_name in get_available_ufs():
                     self.combo_climate_uf.addItem(f"{uf_code} - {state_name}", uf_code)
@@ -659,8 +783,18 @@ class TabProject(QWidget):
             saved_uf = getattr(cfg, 'climate_city_uf', getattr(cfg, 'tariff_city_uf', padrao_uf))
             saved_city = getattr(cfg, 'climate_city_name', getattr(cfg, 'tariff_city_name', padrao_cidade))
             if getattr(self, "_base_portugal", False) and self.combo_climate_uf.findData(saved_uf) < 0:
+                from triton.core import base_climatica_iberica as _ib
                 from triton.core import base_climatica_portugal as _pt
-                saved_uf, saved_city = _pt.DISTRITO_PADRAO, _pt.CONCELHO_PADRAO
+                if self._fonte_ibe_atual() == _ib.CENARIO_IBERIA01:
+                    # Projeto da E-OBS (distrito e concelho por nome) aberto na base ibérica: mapeia o nome, se for único.
+                    codigo = _ib.resolver(saved_city) or _ib.UNIDADE_PADRAO
+                    u = _ib.unidade(codigo)
+                    saved_uf, saved_city = f"{u['pais']}|{u['regiao']}", codigo
+                else:
+                    saved_uf, saved_city = _pt.DISTRITO_PADRAO, _pt.CONCELHO_PADRAO
+            elif getattr(self, "_base_portugal", False) and self._fonte_ibe_atual() == "IBERIA01":
+                from triton.core import base_climatica_iberica as _ib
+                saved_city = _ib.resolver(saved_city) or _ib.UNIDADE_PADRAO
 
             uf_idx = -1
             for i in range(self.combo_climate_uf.count()):
@@ -689,6 +823,24 @@ class TabProject(QWidget):
         uf_code = self.combo_climate_uf.currentData() or ("SC" if usa_dados_do_brasil() else "")
         prev_blocked = self.combo_climate_city.blockSignals(True)
         self.combo_climate_city.clear()
+        if getattr(self, "_base_portugal", False) and self._fonte_ibe_atual() == "IBERIA01":
+            from triton.core import base_climatica_iberica as _ib
+            repetidos = {}
+            lista = _ib.unidades(uf_code)
+            for u in lista:
+                repetidos[u["nome"]] = repetidos.get(u["nome"], 0) + 1
+            for u in lista:
+                if u["cobertura"] == "nenhuma":
+                    texto = f"{u['nome']} · {tr('sem série')}"
+                elif repetidos[u["nome"]] > 1:
+                    texto = f"{u['nome']} ({u['provincia']}) [{u['codigo']}]"
+                else:
+                    texto = u["nome"]
+                self.combo_climate_city.addItem(texto, u["codigo"])
+            idx = self.combo_climate_city.findData(select_city) if select_city else -1
+            self.combo_climate_city.setCurrentIndex(idx if idx >= 0 else 0)
+            self.combo_climate_city.blockSignals(prev_blocked)
+            return
         if getattr(self, "_base_portugal", False):
             from triton.core import base_climatica_portugal as _pt
             for c in _pt.concelhos(uf_code):
@@ -756,6 +908,19 @@ class TabProject(QWidget):
     def on_climate_model_changed(self):
         if self._is_populating:
             return
+        if getattr(self, "_base_portugal", False) and self.combo_climate_model.count() > 1:
+            # A fonte (Iberia01 ou E-OBS) manda no cenário, nas datas e nas listas de região.
+            i = self.combo_climate_model.currentIndex()
+            self.combo_climate_scenario.blockSignals(True)
+            self.combo_climate_scenario.setCurrentIndex(i)
+            self.combo_climate_scenario.blockSignals(False)
+            self._is_populating = True
+            try:
+                self._aplicar_fonte_ibe()
+                self.populate_climate_cities()
+            finally:
+                self._is_populating = False
+            self.populate_recortes()
         self.load_active_national_series()
 
     def on_climate_scenario_changed(self):
@@ -780,8 +945,12 @@ class TabProject(QWidget):
         self.combo_recorte.blockSignals(True)
         self.combo_recorte.clear()
         self.combo_recorte.addItem(tr("Personalizado — datas acima"), None)
+        from triton.core import base_climatica_iberica as _ib
         from triton.core import base_climatica_portugal as _pt
-        recortes = _pt.RECORTES if sc_key == _pt.CENARIO_EOBS else RECORTES_SUGERIDOS.get(sc_key, [])
+        if sc_key == _ib.CENARIO_IBERIA01:
+            recortes = _ib.RECORTES
+        else:
+            recortes = _pt.RECORTES if sc_key == _pt.CENARIO_EOBS else RECORTES_SUGERIDOS.get(sc_key, [])
         for rotulo, ini, fim in recortes:
             self.combo_recorte.addItem(tr(rotulo), (ini, fim))
         self.combo_recorte.setCurrentIndex(0)
@@ -802,6 +971,12 @@ class TabProject(QWidget):
         if not self.rb_source_national.isChecked():
             return
         city_name = self.combo_climate_city.currentText().strip()
+        if getattr(self, "_base_portugal", False) and self._fonte_ibe_atual() == "IBERIA01":
+            from triton.core import base_climatica_iberica as _ib
+            city_name = self.combo_climate_city.currentData() or _ib.UNIDADE_PADRAO
+            u = _ib.unidade(city_name)
+            if u is not None:
+                city_name = _ib.rotulo(u)
         uf_code = self.combo_climate_uf.currentData() or self._uf_padrao()
         model_name = self.combo_climate_model.currentText().strip() or "ACCESS-CM2"
         scenario_key = self.combo_climate_scenario.currentData() or "HIST"
@@ -810,8 +985,13 @@ class TabProject(QWidget):
         end_date_in = self.txt_end_date.text().strip()
 
         try:
+            from triton.core import base_climatica_iberica as _ib
             from triton.core import base_climatica_portugal as _pt
-            if scenario_key == _pt.CENARIO_EOBS:
+            if scenario_key == _ib.CENARIO_IBERIA01:
+                p_data, eff_start, eff_end, tot_days, sel_days, fpath = _ib.carregar_serie(
+                    city_name, start_date_in if start_date_in != "-" else None,
+                    end_date_in if end_date_in != "-" else None)
+            elif scenario_key == _pt.CENARIO_EOBS:
                 p_data, eff_start, eff_end, tot_days, sel_days, fpath = _pt.carregar_serie(
                     city_name, start_date_in if start_date_in != "-" else None,
                     end_date_in if end_date_in != "-" else None)
@@ -852,7 +1032,8 @@ class TabProject(QWidget):
 
         except Exception as e:
             self.lbl_date_range_info.setText(f"⚠️ {str(e)}")
-            self._mostrar_qualidade_da_chuva("", "")
+            self._mostrar_qualidade_da_chuva(city_name if scenario_key == "IBERIA01" else "",
+                                             scenario_key if scenario_key == "IBERIA01" else "")
 
     def _mostrar_qualidade_da_chuva(self, concelho: str, scenario_key: str):
         """Nível A/B/C da chuva do concelho e o motivo, abaixo do recorte (só a base E-OBS por concelho).
@@ -864,8 +1045,12 @@ class TabProject(QWidget):
         if not getattr(self, "_base_portugal", False):
             rotulo.setVisible(False)
             return
+        from triton.core import base_climatica_iberica as _ib
         from triton.core import base_climatica_portugal as _pt
         from triton.core import qualidade_chuva as _q
+        if concelho and scenario_key == _ib.CENARIO_IBERIA01:
+            self._mostrar_qualidade_iberica(rotulo, concelho)
+            return
         if concelho and scenario_key == _pt.CENARIO_EOBS:
             cfg = self._get_config()
             anterior = getattr(cfg, "chuva_procedencia", None) or {}
@@ -892,6 +1077,34 @@ class TabProject(QWidget):
         rotulo.setStyleSheet("font-size: 11px; padding: 4px; background-color: transparent;")
         rotulo.setVisible(True)
 
+    def _mostrar_qualidade_iberica(self, rotulo, texto_local: str):
+        """Nível A/B/C do município na base ibérica, a fonte e a licença (ODbL / CC BY), abaixo do recorte."""
+        from triton.core import base_climatica_iberica as _ib
+        from triton.ui.translation import get_current_lang, em_portugues_da_edicao
+        cod = _ib.resolver(texto_local)
+        q = _ib.qualidade(cod) if cod else None
+        if not q:
+            u = _ib.unidade(cod) if cod else None
+            if u is not None and u["cobertura"] == "nenhuma":
+                rotulo.setText(f"<span style='color:#b91c1c; font-weight:bold;'>{u['nome']}: {u['motivo']}. "
+                               f"{tr('Importe uma série própria.')}</span>")
+                rotulo.setVisible(True)
+            else:
+                rotulo.setVisible(False)
+            return
+        _l = get_current_lang()
+        lingua = _l if _l in ("pt", "es") else "en"
+        cor = {"A": "#15803d", "B": "#b45309", "C": "#b91c1c"}[q["nivel"]]
+        u = _ib.unidade(cod)
+        titulo = f"{tr('Qualidade da chuva')}: {u['nome']}, {tr('nível')} {q['nivel']}. {q['motivo']}."
+        rotulo.setText(f"<span style='color:{cor}; font-weight:bold;'>{em_portugues_da_edicao(titulo)}</span><br/>"
+                       f"<span style='font-size:10px;'>{_ib.texto_da_fonte(cod, lingua)}</span>")
+        rotulo.setToolTip(tr("A: 3 ou mais células de 0,1° com centro dentro do município. B: 1 ou 2 células, ou município "
+                             "contido numa célula. C: célula emprestada de fora do limite, ou reanálise ERA5 (ilhas). O nível "
+                             "descreve a representação espacial da grade, não uma validação com pluviómetros locais."))
+        rotulo.setStyleSheet("font-size: 11px; padding: 4px; background-color: transparent;")
+        rotulo.setVisible(True)
+
     def sync_tariffs_for_city(self, uf_code: str, city_name: str):
         cfg = self._get_config()
         cfg.tariff_city_uf = uf_code
@@ -906,7 +1119,7 @@ class TabProject(QWidget):
         if getattr(self, "_tarifas_portugal", False):
             from triton.core import tarifarios_portugal as _tp
             if not self._tariff_is_customized:
-                _tp.aplicar(city_name, cfg)
+                self._aplicar_tarifa_do_local(city_name, cfg)
             self.update_tariff_location_preview()
             return
 
@@ -926,9 +1139,54 @@ class TabProject(QWidget):
 
         self.update_tariff_location_preview()
 
+    def _local_ibe(self, city_name: str):
+        """(unidade, chave do tarifário de Portugal) do local escolhido na base ibérica; (None, nome) nos outros casos."""
+        if getattr(self, "_base_iberica", False) and self._fonte_ibe_atual() == "IBERIA01":
+            from triton.core import base_climatica_iberica as _ib
+            u = _ib.unidade(_ib.resolver(city_name) or "")
+            if u is not None:
+                return u, (u["nome"] if u["pais"] == "PT" else "")
+        return None, city_name
+
+    def _aplicar_tarifa_do_local(self, city_name: str, cfg) -> bool:
+        """Tarifa do concelho (Portugal) ou do município de Espanha (camadas 1 a 3); False se não houver (fica vazia)."""
+        from triton.core import tarifarios_portugal as _tp
+        u, chave = self._local_ibe(city_name)
+        if u is not None and u["pais"] == "ES":
+            from triton.core import tarifarios_espanha as _te
+            return _te.aplicar(u["codigo"], cfg)
+        return _tp.aplicar(chave, cfg)
+
+    def _preview_espanha(self, u: dict):
+        """O quadro do tarifário de um município de Espanha: camada, aviso e fonte."""
+        from triton.core import tarifarios_espanha as _te
+        cam = _te.camada(u["codigo"])
+        self.lbl_t_prestador.setText(f"🏢 <b>{tr('Entidades gestoras:')}</b> --")
+        self.lbl_t_reg.setText(f"📋 <b>{tr('Vigência:')}</b> {_te.carregar().get('camada3', {}).get('ano', '--') if cam == 3 else '--'}")
+        self.lbl_t_audit.setText(f"⭐ <b>{tr('Procedência:')}</b> {_te.procedencia(u['codigo'])}")
+        self.lbl_t_audit.setVisible(True)
+        if cam is None:
+            self.lbl_tariff_status.setText(tr("⚪ Município sem tarifa: informe a tarifa em «Editar»"))
+            cor = "#64748b"
+        elif self._tariff_is_customized:
+            self.lbl_tariff_status.setText(tr("✏️ Tarifas Customizadas pelo Usuário"))
+            cor = "#eab308"
+        elif cam == 1:
+            self.lbl_tariff_status.setText(tr("🟢 Tarifário transcrito dos documentos oficiais"))
+            cor = "#10b981"
+        else:
+            self.lbl_tariff_status.setText(tr("🟠 Tarifa indicativa (média regional ou de outra entidade): confirme na sua fatura"))
+            cor = "#d97706"
+        self.lbl_tariff_status.setStyleSheet(f"font-size: 11px; font-weight: bold; color: {cor}; background-color: transparent;")
+
     def _preview_portugal(self, city_name: str):
         """O quadro do tarifário na Edição Ibérica: entidades, vigência e fontes."""
         from triton.core import tarifarios_portugal as _tp
+        u, chave = self._local_ibe(city_name)
+        if u is not None and u["pais"] == "ES":
+            self._preview_espanha(u)
+            return
+        city_name = chave
         d = _tp.carregar().get(city_name)
         if d is None:
             self.lbl_t_prestador.setText(f"🏢 <b>{tr('Entidades gestoras:')}</b> --")
@@ -955,6 +1213,9 @@ class TabProject(QWidget):
         uf_code = self.combo_climate_uf.currentData() or self._uf_padrao()
         city_name = self.combo_climate_city.currentText().strip()
         if getattr(self, "_tarifas_portugal", False):
+            if getattr(self, "_base_iberica", False) and self._fonte_ibe_atual() == "IBERIA01":
+                from triton.core import base_climatica_iberica as _ib
+                city_name = _ib.rotulo(self.combo_climate_city.currentData() or _ib.UNIDADE_PADRAO)
             self._preview_portugal(city_name)
             return
         data = get_city_data(uf_code, city_name)
@@ -1003,8 +1264,10 @@ class TabProject(QWidget):
         uf_code = self.combo_climate_uf.currentData() or self._uf_padrao()
         city_name = self.combo_climate_city.currentText().strip()
         if getattr(self, "_tarifas_portugal", False):
-            from triton.core import tarifarios_portugal as _tp
-            _tp.aplicar(city_name, self._get_config())
+            if getattr(self, "_base_iberica", False) and self._fonte_ibe_atual() == "IBERIA01":
+                from triton.core import base_climatica_iberica as _ib
+                city_name = _ib.rotulo(self.combo_climate_city.currentData() or _ib.UNIDADE_PADRAO)
+            self._aplicar_tarifa_do_local(city_name, self._get_config())
             self.update_tariff_location_preview()
             self.project_updated.emit()
             return

@@ -110,6 +110,13 @@ def pacote() -> Dict[str, str]:
     ausente (base anterior ao registo do pacote) volta como texto vazio.
     """
     meta = metadados()
+    if "qualidade_versao" not in meta:
+        # A tabela de qualidade (ODbL) mora noutro ficheiro desde 30/10/2026; a versão do critério vem de lá.
+        try:
+            from triton.core import qualidade_chuva as _q
+            meta = {**meta, **{k: v for k, v in _q.metadados_da_qualidade().items() if k == "qualidade_versao"}}
+        except Exception:
+            pass
     return {k: meta.get(k, "") for k in ("pacote_id", "versao_eobs", "sha256_pacote", "qualidade_versao")}
 
 

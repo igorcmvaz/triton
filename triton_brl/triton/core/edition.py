@@ -182,7 +182,18 @@ def neutralizar_para_a_internacional(config) -> None:
     config.precos_de_catalogo = False
     config.op_costs = [(nome, meses, 0.0, 0.0) for nome, meses, *_ in (config.op_costs or [])]
     if is_ibe_edition():
+        from triton.core import base_climatica_iberica as _ib
         from triton.core import base_climatica_portugal as _pt
+        if _ib.disponivel() and _ib.unidade(_ib.UNIDADE_PADRAO):
+            # Fonte primária da IBE: Iberia01 (ODbL), Lisboa, normal 1986-2015.
+            config.climate_source_mode = "national_db"
+            config.climate_city_uf = _ib.REGIAO_PADRAO
+            config.climate_city_name = _ib.rotulo(_ib.UNIDADE_PADRAO)
+            config.climate_model = _ib.MODELO_IBERIA01
+            config.climate_scenario = _ib.CENARIO_IBERIA01
+            config.climate_start_date = _ib.INICIO_PADRAO
+            config.climate_end_date = _ib.FIM_PADRAO
+            return
         config.climate_source_mode = "national_db"
         config.climate_city_uf = _pt.DISTRITO_PADRAO
         config.climate_city_name = _pt.CONCELHO_PADRAO

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """Nível de qualidade (A, B ou C) da chuva por concelho da edição IBE.
 
-Uma só fórmula, num só lugar. O banco (``data/portugal_eobs.db``, tabela ``qualidade``), a
+Uma só fórmula, num só lugar (a da E-OBS; a da base ibérica, por geometria, está em
+``scripts/dados/unidades_iberia.py`` e nos metadados de ``ibe_unidades.db``). O banco (``data/qualidade_eobs_odbl.db``, tabela ``qualidade``), a
 interface, o laudo e o manual leem os limiares deste módulo; nenhum outro arquivo repete
 «10 %», «15 %», «20 %» ou «25 %».
 
@@ -162,13 +163,35 @@ def limiares_em_texto() -> str:
 
 # ── Leitura do banco ─────────────────────────────────────────────────────────────────────────
 
+#: A tabela da concordância E-OBS menos Iberia01 mora num ficheiro ODbL à parte (decisão de 25/10/2026),
+#: ao lado da base E-OBS; a qualidade por município da base ibérica mora em ``ibe_unidades.db``.
+ARQUIVO_DA_QUALIDADE = "qualidade_eobs_odbl.db"
+
+
+def _iberica_ok() -> bool:
+    try:
+        from triton.core import base_climatica_iberica as _ib
+        return _ib.disponivel()
+    except Exception:
+        return False
+
+
 def _conectar():
+    """Liga ao ficheiro ODbL da qualidade da E-OBS (ao lado de ``portugal_eobs.db``)."""
+    import os
+    import sqlite3
     from triton.core import base_climatica_portugal as _pt
-    return _pt._conectar()
+    base = _pt.caminho_da_base()
+    if base is None:
+        raise FileNotFoundError("A base E-OBS não está instalada.")
+    arq = os.path.join(os.path.dirname(base), ARQUIVO_DA_QUALIDADE)
+    if not os.path.isfile(arq):
+        raise FileNotFoundError(f"O ficheiro {ARQUIVO_DA_QUALIDADE} não está instalado.")
+    return sqlite3.connect(f"file:{arq}?mode=ro", uri=True)
 
 
-def tem_qualidade() -> bool:
-    """A base instalada traz a tabela ``qualidade``?"""
+def tem_qualidade_eobs() -> bool:
+    """A tabela de concordância da E-OBS (ficheiro ODbL separado) está instalada?"""
     from triton.core import base_climatica_portugal as _pt
     if not _pt.disponivel():
         return False
@@ -177,6 +200,11 @@ def tem_qualidade() -> bool:
             return con.execute("SELECT COUNT(*) FROM sqlite_master WHERE name = 'qualidade'").fetchone()[0] == 1
     except Exception:
         return False
+
+
+def tem_qualidade() -> bool:
+    """Há nível de qualidade A/B/C instalado: o da base ibérica (por município) ou o da E-OBS."""
+    return _iberica_ok() or tem_qualidade_eobs()
 
 
 @lru_cache(maxsize=1)
@@ -188,16 +216,19 @@ def _tabela() -> Dict[str, Dict[str, Any]]:
 
 
 def qualidade_do_concelho(concelho: str) -> Optional[Dict[str, Any]]:
-    """A linha de qualidade do concelho (nível, motivo, medidas), ou None sem a tabela ou sem o concelho."""
-    if not tem_qualidade():
+    """A linha de qualidade do concelho na base E-OBS, ou None sem a tabela ou sem o concelho."""
+    if not tem_qualidade_eobs():
         return None
     linha = _tabela().get(concelho)
     return dict(linha) if linha else None
 
 
 def contagem_por_nivel() -> Dict[str, int]:
-    """{'A': n, 'B': n, 'C': n} lido da tabela ``qualidade``; vazio sem a tabela."""
-    if not tem_qualidade():
+    """{'A': n, 'B': n, 'C': n}: dos municípios da base ibérica ou, sem ela, da tabela da E-OBS; vazio sem nenhuma."""
+    if _iberica_ok():
+        from triton.core import base_climatica_iberica as _ib
+        return _ib.contagem_por_nivel()
+    if not tem_qualidade_eobs():
         return {}
     cont = {n: 0 for n in NIVEIS}
     for linha in _tabela().values():
@@ -206,22 +237,22 @@ def contagem_por_nivel() -> Dict[str, int]:
 
 
 def metadados_da_qualidade() -> Dict[str, str]:
-    """As chaves de ``metadados`` do pacote: pacote_id, versao_eobs, qualidade_versao, limiares..."""
-    from triton.core import base_climatica_portugal as _pt
-    if not _pt.disponivel():
+    """As chaves do ficheiro ODbL da qualidade: qualidade_versao, limiares, espanha_locais (contagem real)..."""
+    if not tem_qualidade_eobs():
         return {}
-    meta = _pt.metadados()
-    chaves = ("pacote_id", "versao_eobs", "sha256_pacote", "qualidade_versao", "limiares", "espanha_locais")
-    return {k: meta[k] for k in chaves if k in meta}
+    with _conectar() as con:
+        return dict(con.execute("SELECT chave, valor FROM metadados"))
 
 
 def linha_de_cobertura(lingua: str = "pt") -> str:
-    """«Cobertura: Portugal continental 278 concelhos (A 45, B 159, C 74); Espanha: 0 locais».
+    """«Cobertura: Portugal 308 locais, Espanha 8131 locais; chuva Iberia01 ...» (base ibérica) ou a linha da E-OBS.
 
-    Os números são lidos do banco (a tabela ``qualidade`` e a chave ``espanha_locais``), nunca
-    digitados. Sem a tabela (base antiga ou ausente), a linha diz só o que sabe.
+    Os números são lidos do banco, nunca digitados. Sem nenhuma tabela, a linha diz só o que sabe.
     """
-    if not tem_qualidade():
+    if _iberica_ok():
+        from triton.core import base_climatica_iberica as _ib
+        return _ib.linha_de_cobertura(lingua)
+    if not tem_qualidade_eobs():
         return {"en": "Coverage: no rainfall quality table in this installation",
                 "es": "Cobertura: sin la tabla de calidad de la lluvia en esta instalación",
                 "zh": "覆盖范围：本安装中没有降雨质量表"}.get(lingua, "Cobertura: sem a tabela de qualidade da chuva nesta instalação")

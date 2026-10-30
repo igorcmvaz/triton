@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Qualidade da chuva por concelho no banco da edição IBE (``data/portugal_eobs.db``).
+"""Qualidade da chuva por concelho da E-OBS na edição IBE (``data/qualidade_eobs_odbl.db``, ficheiro ODbL à parte).
 
 Só vale na IBE (``tests/so_da_ibe.txt``; fora dela o arquivo é saltado). Teste de ouro: o
 ``qualidade_prototipo.csv`` do protótipo (``tests/dados_ibe/``), com a fórmula única de
@@ -21,11 +21,28 @@ from triton.core import qualidade_chuva as Q
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CSV_DE_OURO = os.path.join(RAIZ, "tests", "dados_ibe", "qualidade_prototipo.csv")
 
-pytestmark = pytest.mark.skipif(not pt.disponivel(), reason="data/portugal_eobs.db ausente")
+pytestmark = pytest.mark.skipif(not (pt.disponivel() and Q.tem_qualidade_eobs()),
+                                reason="data/portugal_eobs.db ou data/qualidade_eobs_odbl.db ausente")
+
+
+@pytest.fixture(autouse=True)
+def _so_a_eobs(monkeypatch):
+    """Estes testes cobrem o caminho da E-OBS; a base ibérica (Iberia01) tem os seus em test_base_climatica_iberica."""
+    monkeypatch.setattr(Q, "_iberica_ok", lambda: False)
+    yield
 
 
 def _sql(consulta, *args):
     con = sqlite3.connect(f"file:{pt.caminho_da_base()}?mode=ro", uri=True)
+    try:
+        return con.execute(consulta, args).fetchall()
+    finally:
+        con.close()
+
+
+def _sq(consulta, *args):
+    """Consulta ao ficheiro ODbL da qualidade (a tabela ``qualidade`` e os seus metadados)."""
+    con = Q._conectar()
     try:
         return con.execute(consulta, args).fetchall()
     finally:
@@ -44,25 +61,25 @@ def _linhas_do_csv():
 
 
 def test_a_tabela_qualidade_tem_as_colunas_pedidas():
-    cols = [r[1] for r in _sql("PRAGMA table_info(qualidade)")]
+    cols = [r[1] for r in _sq("PRAGMA table_info(qualidade)")]
     assert cols == ["dtmn", "concelho", "n_eff", "metodo", "repetida", "dtot", "drx", "nivel", "motivo"]
     assert Q.tem_qualidade()
 
 
 def test_ouro_45_159_74_e_o_maior_drx_entre_os_a():
-    cont = Counter(n for (n,) in _sql("SELECT nivel FROM qualidade"))
+    cont = Counter(n for (n,) in _sq("SELECT nivel FROM qualidade"))
     assert (cont["A"], cont["B"], cont["C"]) == (45, 159, 74)
     assert Q.contagem_por_nivel() == {"A": 45, "B": 159, "C": 74}
-    maior_drx = max(abs(d) for (d,) in _sql("SELECT drx FROM qualidade WHERE nivel = 'A'"))
+    maior_drx = max(abs(d) for (d,) in _sq("SELECT drx FROM qualidade WHERE nivel = 'A'"))
     assert round(maior_drx, 2) == 14.90
-    maior_dtot = max(abs(d) for (d,) in _sql("SELECT dtot FROM qualidade WHERE nivel = 'A'"))
+    maior_dtot = max(abs(d) for (d,) in _sq("SELECT dtot FROM qualidade WHERE nivel = 'A'"))
     assert round(maior_dtot, 2) == 9.85
 
 
 def test_o_csv_de_ouro_com_a_formula_reproduz_o_banco_linha_a_linha():
     repetidas = _repetidas_por_sha()
     assert len(repetidas) == 14
-    no_banco = {d: (n, niv, mot) for d, n, niv, mot in _sql("SELECT dtmn, n_eff, nivel, motivo FROM qualidade")}
+    no_banco = {d: (n, niv, mot) for d, n, niv, mot in _sq("SELECT dtmn, n_eff, nivel, motivo FROM qualidade")}
     linhas = _linhas_do_csv()
     assert len(linhas) == len(no_banco) == 278
     esperados = Counter()
@@ -79,7 +96,7 @@ def test_o_csv_de_ouro_com_a_formula_reproduz_o_banco_linha_a_linha():
 
 def test_nenhum_a_fora_dos_limiares_e_nenhum_nivel_fora_de_abc():
     """O teste que FALHA se o banco tiver um A fora dos limiares ou um nível que não seja A, B ou C."""
-    linhas = _sql("SELECT dtmn, nivel, dtot, drx FROM qualidade")
+    linhas = _sq("SELECT dtmn, nivel, dtot, drx FROM qualidade")
     assert linhas
     for dtmn, nivel, dtot, drx in linhas:
         assert nivel in ("A", "B", "C"), (dtmn, nivel)
@@ -87,35 +104,37 @@ def test_nenhum_a_fora_dos_limiares_e_nenhum_nivel_fora_de_abc():
             assert abs(dtot) <= Q.LIMIARES["A"]["dtot"] and abs(drx) <= Q.LIMIARES["A"]["drx"], dtmn
         if nivel == "B":
             assert abs(dtot) <= Q.LIMIARES["B"]["dtot"] and abs(drx) <= Q.LIMIARES["B"]["drx"], dtmn
-    assert _sql("SELECT COUNT(*) FROM qualidade WHERE nivel NOT IN ('A','B','C')") == [(0,)]
+    assert _sq("SELECT COUNT(*) FROM qualidade WHERE nivel NOT IN ('A','B','C')") == [(0,)]
 
 
 def test_a_geometria_so_rebaixa_ate_b_e_os_c_sao_discrepancia_medida():
-    for dtmn, n, metodo, rep, dtot, drx, nivel in _sql(
+    for dtmn, n, metodo, rep, dtot, drx, nivel in _sq(
             "SELECT dtmn, n_eff, metodo, repetida, dtot, drx, nivel FROM qualidade"):
         assert Q.nivel_de_geometria(n, metodo, bool(rep)) in ("A", "B")
         if nivel == "C":
             assert Q.nivel_de_concordancia(dtot, drx) == "C", dtmn
         if Q.nivel_de_concordancia(dtot, drx) == "A" and Q.nivel_de_geometria(n, metodo, bool(rep)) == "B":
             assert nivel == "B", dtmn
-    assert _sql("SELECT COUNT(*) FROM qualidade WHERE repetida = 1") == [(14,)]
-    assert _sql("SELECT COUNT(*) FROM qualidade WHERE n_eff < 3") == [(148,)]
+    assert _sq("SELECT COUNT(*) FROM qualidade WHERE repetida = 1") == [(14,)]
+    assert _sq("SELECT COUNT(*) FROM qualidade WHERE n_eff < 3") == [(148,)]
 
 
 def test_os_51_concelhos_de_concordancia_a_rebaixados_pela_geometria():
     """O número do manual: 96 de concordância A, 45 ficam A, 51 caem para B só pela geometria."""
-    conc_a = [(d, t, x) for d, t, x in _sql("SELECT dtmn, dtot, drx FROM qualidade")
+    conc_a = [(d, t, x) for d, t, x in _sq("SELECT dtmn, dtot, drx FROM qualidade")
               if Q.nivel_de_concordancia(t, x) == "A"]
     assert len(conc_a) == 96
-    assert len(_sql("SELECT dtmn FROM qualidade WHERE nivel = 'A'")) == 45
+    assert len(_sq("SELECT dtmn FROM qualidade WHERE nivel = 'A'")) == 45
 
 
 def test_metadados_do_pacote_e_da_qualidade():
-    meta = pt.metadados()
+    meta = {**pt.metadados(), **Q.metadados_da_qualidade()}
     for chave in ("pacote_id", "versao_eobs", "qualidade_versao", "limiares", "sha256_pacote", "espanha_locais"):
         assert meta.get(chave), chave
+    assert meta["licenca"] == "ODbL 1.0" and "Iberia01" in meta["aviso"]
     assert meta["versao_eobs"] == "v33.0e" and meta["qualidade_versao"] == Q.VERSAO_DA_QUALIDADE
     assert json.loads(meta["limiares"]) == Q.LIMIARES
+    assert "qualidade" not in {r[0] for r in _sql("SELECT name FROM sqlite_master")}   # a tabela ODbL saiu do banco da E-OBS
     assert meta["pacote_id"].startswith("PT-EOBS-v33.0e-") and meta["pacote_id"].endswith(meta["sha256_pacote"][:8])
     assert pt.pacote()["sha256_pacote"] == meta["sha256_pacote"]
 
@@ -148,19 +167,20 @@ def test_o_motivo_de_cada_nivel_mostra_a_razao():
     por_nivel = {n: Q.qualidade_do_concelho(c) for n, c in (("A", None), ("B", "Lisboa"), ("C", "Albufeira"))
                  if c}
     assert por_nivel["C"]["nivel"] == "C" and "acima dos limites do nível B" in por_nivel["C"]["motivo"]
-    a = _sql("SELECT concelho FROM qualidade WHERE nivel = 'A' LIMIT 1")[0][0]
+    a = _sq("SELECT concelho FROM qualidade WHERE nivel = 'A' LIMIT 1")[0][0]
     assert Q.qualidade_do_concelho(a)["motivo"].startswith("A:")
 
 
 def test_a_linha_de_cobertura_vem_do_banco_e_nao_e_digitada():
     """O teste da tarefa E: a linha é igual à contagem feita direto no banco, por consulta independente."""
-    n = _sql("SELECT COUNT(*) FROM qualidade")[0][0]
-    por = dict(_sql("SELECT nivel, COUNT(*) FROM qualidade GROUP BY nivel"))
-    espanha = dict(_sql("SELECT chave, valor FROM metadados"))["espanha_locais"]
+    n = _sq("SELECT COUNT(*) FROM qualidade")[0][0]
+    por = dict(_sq("SELECT nivel, COUNT(*) FROM qualidade GROUP BY nivel"))
+    espanha = dict(_sq("SELECT chave, valor FROM metadados"))["espanha_locais"]
     esperada = (f"Cobertura: Portugal continental {n} concelhos (A {por['A']}, B {por['B']}, C {por['C']}); "
                 f"Espanha: {espanha} locais")
     assert Q.linha_de_cobertura() == esperada
-    assert esperada == "Cobertura: Portugal continental 278 concelhos (A 45, B 159, C 74); Espanha: 0 locais"
+    assert esperada.startswith("Cobertura: Portugal continental 278 concelhos (A 45, B 159, C 74); Espanha: ")
+    assert "Espanha: 0 locais" not in esperada and int(espanha) > 8000
 
 
 def test_a_linha_de_cobertura_acompanha_o_banco(tmp_path, monkeypatch):
@@ -168,7 +188,10 @@ def test_a_linha_de_cobertura_acompanha_o_banco(tmp_path, monkeypatch):
     import shutil
     copia = tmp_path / "portugal_eobs.db"
     shutil.copyfile(pt.caminho_da_base(), copia)
-    con = sqlite3.connect(copia)
+    import os
+    qcopia = tmp_path / Q.ARQUIVO_DA_QUALIDADE
+    shutil.copyfile(os.path.join(os.path.dirname(pt.caminho_da_base()), Q.ARQUIVO_DA_QUALIDADE), qcopia)
+    con = sqlite3.connect(qcopia)
     con.execute("UPDATE qualidade SET nivel = 'C' WHERE dtmn IN (SELECT dtmn FROM qualidade WHERE nivel = 'A' LIMIT 2)")
     con.execute("UPDATE metadados SET valor = '52' WHERE chave = 'espanha_locais'")
     con.commit()

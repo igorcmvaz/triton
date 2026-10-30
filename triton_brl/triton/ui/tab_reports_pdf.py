@@ -498,6 +498,7 @@ class TabReportsPdf(QWidget):
         if not usa_dados_de_portugal():
             return
         audit["climate_city_name"] = str(getattr(cfg, "climate_city_name", "") or "")
+        audit["climate_scenario"] = str(getattr(cfg, "climate_scenario", "") or "")
         audit["chuva_serie_propria"] = (getattr(cfg, "climate_source_mode", "") or "") == "custom_file"
         audit["chuva_procedencia"] = dict(getattr(cfg, "chuva_procedencia", None) or {})
 

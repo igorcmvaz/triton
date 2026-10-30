@@ -79,14 +79,20 @@ def test_na_internacional_nao_ha_localidade_climatica_predefinida(monkeypatch):
     assert cfg.tariff_city_name == "CUSTOM" and cfg.water_tariffs == []
 
 
-def test_em_portugal_o_projeto_novo_parte_de_lisboa_na_e_obs(monkeypatch):
+def test_em_portugal_o_projeto_novo_parte_de_lisboa_no_iberia01_ou_na_e_obs(monkeypatch):
     monkeypatch.setenv("TRITON_EDITION", "IBE")
+    from triton.core import base_climatica_iberica as ib
     from triton.core import base_climatica_portugal as pt
     cfg = E.projeto_novo_da_edicao()
     assert cfg.climate_source_mode == "national_db"
-    assert (cfg.climate_city_uf, cfg.climate_city_name) == (pt.DISTRITO_PADRAO, pt.CONCELHO_PADRAO)
-    assert (cfg.climate_model, cfg.climate_scenario) == (pt.MODELO_EOBS, pt.CENARIO_EOBS)
-    assert (cfg.climate_start_date, cfg.climate_end_date) == (pt.INICIO_PADRAO, pt.FIM_PADRAO)
+    if ib.disponivel():
+        assert (cfg.climate_city_uf, cfg.climate_city_name) == (ib.REGIAO_PADRAO, ib.rotulo(ib.UNIDADE_PADRAO))
+        assert (cfg.climate_model, cfg.climate_scenario) == (ib.MODELO_IBERIA01, ib.CENARIO_IBERIA01)
+        assert (cfg.climate_start_date, cfg.climate_end_date) == ("01/01/1986", "31/12/2015")
+    else:
+        assert (cfg.climate_city_uf, cfg.climate_city_name) == (pt.DISTRITO_PADRAO, pt.CONCELHO_PADRAO)
+        assert (cfg.climate_model, cfg.climate_scenario) == (pt.MODELO_EOBS, pt.CENARIO_EOBS)
+        assert (cfg.climate_start_date, cfg.climate_end_date) == (pt.INICIO_PADRAO, pt.FIM_PADRAO)
     assert "Florianópolis" not in _texto_de_valores(cfg)
 
 

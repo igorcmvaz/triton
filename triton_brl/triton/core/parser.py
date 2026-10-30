@@ -872,6 +872,9 @@ def serie_da_climbra(config: TritonConfig) -> np.ndarray:
     A base é a CLIMBra (Brasil) ou, com o cenário ``EOBS``, a de Portugal por concelho
     (triton/core/base_climatica_portugal.py).
     """
+    from triton.core import base_climatica_iberica as _ib
+    if (getattr(config, "climate_scenario", "") or "") == _ib.CENARIO_IBERIA01:
+        return _ib.carregar_serie(config.climate_city_name, config.climate_start_date, config.climate_end_date)[0]
     from triton.core import base_climatica_portugal as _pt
     if (getattr(config, "climate_scenario", "") or "") == _pt.CENARIO_EOBS:
         return _pt.carregar_serie(config.climate_city_name, config.climate_start_date, config.climate_end_date)[0]
@@ -898,13 +901,24 @@ def _referencia_climbra(config: TritonConfig, precip_data) -> Optional[dict]:
     if not np.array_equal(np.asarray(da_base, dtype=np.float64), np.asarray(precip_data, dtype=np.float64)):
         return None
     from triton.core.base_climatica_portugal import CENARIO_EOBS
+    from triton.core.base_climatica_iberica import CENARIO_IBERIA01
     origem = "E-OBS (Portugal)" if config.climate_scenario == CENARIO_EOBS else "CLIMBra"
-    return {"origem": origem, "cidade": config.climate_city_name, "uf": config.climate_city_uf,
+    extra = {}
+    if config.climate_scenario == CENARIO_IBERIA01:
+        origem = ORIGEM_IBERIA01
+        try:
+            from triton.core import base_climatica_iberica as _ib
+            extra = {"pacote_id": _ib.pacote().get("pacote_id", "")}
+        except Exception:
+            extra = {}
+    return {"origem": origem, **extra, "cidade": config.climate_city_name, "uf": config.climate_city_uf,
             "modelo": config.climate_model, "cenario": config.climate_scenario,
             "inicio": config.climate_start_date, "fim": config.climate_end_date,
             **impressao_da_serie(precip_data)}
 
 
+#: A origem da referência quando a chuva é a do Iberia01 (Península e ilhas): ODbL, uso comercial permitido.
+ORIGEM_IBERIA01 = "Iberia01 (Ibéria)"
 #: A origem que a referência da série traz quando a chuva é a da base E-OBS (Portugal).
 ORIGEM_EOBS = "E-OBS (Portugal)"
 

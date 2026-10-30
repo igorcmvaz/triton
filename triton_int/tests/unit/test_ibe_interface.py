@@ -52,13 +52,56 @@ def janela(monkeypatch):
 def test_a_tela_inicial_e_o_titulo_trazem_a_linha_de_cobertura_do_banco(janela):
     linha = Q.linha_de_cobertura()
     assert janela.lbl_cobertura.text() == linha
-    assert linha.endswith("Espanha: 0 locais") and "A 45, B 159, C 74" in linha
+    assert "Espanha 8131 locais" in linha and "Portugal 308 locais" in linha and "0 locais" not in linha
     assert linha in janela.windowTitle()
+
+
+def _usar_eobs(tp):
+    """Escolhe a E-OBS (fonte opcional) no painel; o padrão da IBE é o Iberia01."""
+    tp.combo_climate_model.setCurrentIndex(tp.combo_climate_scenario.findData(pt.CENARIO_EOBS))
+    QApplication.processEvents()
+    assert tp._fonte_ibe_atual() == pt.CENARIO_EOBS
+
+
+def test_a_aba_do_projeto_comeca_no_iberia01_com_lisboa(janela):
+    tp = janela.tab_project
+    assert tp._fonte_ibe_atual() == "IBERIA01" and tp.combo_climate_model.count() == 2
+    assert tp.combo_climate_city.currentData() == "PT-1106" and tp.txt_start_date.text() == "01/01/1986"
+    assert tp.lbl_qualidade_chuva.isVisibleTo(tp) and "Iberia01" in tp.lbl_qualidade_chuva.text()
+
+
+def test_a_aba_do_projeto_busca_por_codigo_e_escolhe_municipio_de_espanha(janela):
+    tp = janela.tab_project
+    tp.selecionar_unidade("ES-41091")
+    QApplication.processEvents()
+    assert tp.combo_climate_uf.currentData() == "ES|Andalucía" and tp.combo_climate_city.currentData() == "ES-41091"
+    assert "Sevilla" in tp.combo_climate_city.currentText()
+    assert len(tp.precip_data) == 10957 and "nível" in tp.lbl_qualidade_chuva.text()
+    assert janela.config.climate_city_name == "Sevilla [ES-41091]"
+    tp.txt_busca_local.setText("ES-28079")
+    tp._ao_confirmar_busca()
+    assert tp.combo_climate_city.currentData() == "ES-28079"
+
+
+def test_as_ilhas_aparecem_com_nivel_c_e_aviso_de_era5(janela):
+    tp = janela.tab_project
+    tp.selecionar_unidade("PT-3103")          # Funchal
+    QApplication.processEvents()
+    texto = tp.lbl_qualidade_chuva.text()
+    assert "nível C" in texto and "ERA5" in texto and "validação local" in texto
+
+
+def test_ceuta_nao_tem_serie_e_a_tela_diz_porque(janela):
+    tp = janela.tab_project
+    tp.selecionar_unidade("ES-51001")
+    QApplication.processEvents()
+    assert "fora do domínio" in tp.lbl_qualidade_chuva.text() and tp.lbl_qualidade_chuva.isVisibleTo(tp)
 
 
 def test_a_aba_do_projeto_mostra_nivel_e_motivo_do_concelho(janela):
     tp = janela.tab_project
     assert tp._base_portugal
+    _usar_eobs(tp)
     for distrito, concelho in (("Lisboa", "Lisboa"), ("Faro", "Albufeira"), ("Aveiro", "Águeda")):
         tp.combo_climate_uf.setCurrentIndex(tp.combo_climate_uf.findData(distrito))
         tp.combo_climate_city.setCurrentIndex(tp.combo_climate_city.findData(concelho))
@@ -74,7 +117,7 @@ def test_a_aba_do_projeto_mostra_nivel_e_motivo_do_concelho(janela):
 
 def test_o_texto_da_interface_esta_em_portugues_europeu(janela):
     tp = janela.tab_project
-    tp.combo_climate_city.setCurrentIndex(tp.combo_climate_city.findData("Lisboa"))
+    tp.combo_climate_city.setCurrentIndex(tp.combo_climate_city.findData("PT-1106"))
     QApplication.processEvents()
     texto = tp.lbl_qualidade_chuva.text() + tp.lbl_qualidade_chuva.toolTip() + janela.lbl_cobertura.text()
     assert not re.search(r"\b(usuário|arquivo|tela|esgoto)\b", texto)
@@ -127,9 +170,10 @@ def test_com_o_bloqueio_ligado_a_aba_do_projeto_oculta_a_base_e_pede_serie_propr
     w = MainWindow()
     try:
         tp = w.tab_project
-        assert not tp._base_portugal and not tp.rb_source_national.isVisibleTo(tp)
-        assert tp.rb_source_custom.isChecked()
-        assert w.lbl_cobertura is None
+        # Só a E-OBS é desligada; o Iberia01 (ODbL, uso comercial permitido) continua a servir.
+        assert tp._base_iberica and not tp._base_eobs
+        assert tp.combo_climate_model.count() == 1 and tp.combo_climate_scenario.findData(pt.CENARIO_EOBS) < 0
+        assert tp._fonte_ibe_atual() == "IBERIA01" and w.lbl_cobertura is not None
     finally:
         w.close()
         app.processEvents()

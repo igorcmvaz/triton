@@ -1,0 +1,48 @@
+{
+  "fonte": "Iberia01 v1.0",
+  "licenca": "ODbL 1.0",
+  "citacao": "Herrera, S., Cardoso, R. M., Soares, P. M. M., Espírito-Santo, F., Viterbo, P., Gutiérrez, J. M. (2019). Iberia01: a new gridded dataset of daily precipitation and temperatures over Iberia. Earth System Science Data, 11, 1947-1956. doi:10.5194/essd-11-1947-2019",
+  "aviso": "Contains information from Iberia01, made available under the Open Database License (ODbL 1.0).",
+  "limite_github_mb": 50,
+  "limite_parte_mib": 43,
+  "passo_mm": 0.1,
+  "inicio": "1971-01-01",
+  "fim": "2015-12-31",
+  "dias": 16436,
+  "partes": [
+    {
+      "arquivo": "chuva_iberia01_p1.db",
+      "tamanho_bytes": 15929344,
+      "sha256": "6c3e1ab20c47ca8a68b8cfc184c9b8d07fcbaabeeb3e10f76ce695c725beffcf",
+      "celulas": 1631,
+      "lon_min": -9.5,
+      "lon_max": -6.6
+    },
+    {
+      "arquivo": "chuva_iberia01_p2.db",
+      "tamanho_bytes": 14118912,
+      "sha256": "cd3f2138fd235655783c3797540d2f6dc63fe88cd88e2691f20ef44cb82070c3",
+      "celulas": 1631,
+      "lon_min": -6.5,
+      "lon_max": -4.3
+    },
+    {
+      "arquivo": "chuva_iberia01_p3.db",
+      "tamanho_bytes": 14209024,
+      "sha256": "2ee13c0dd8d5ddd34c2e199ec7c8d543ef84ac4cf615a7ddee153b41fcff1fc8",
+      "celulas": 1631,
+      "lon_min": -4.3,
+      "lon_max": -1.9
+    },
+    {
+      "arquivo": "chuva_iberia01_p4.db",
+      "tamanho_bytes": 13803520,
+      "sha256": "d0a4bff6d4dd58b5882d03340f3bc18429c0285966a227853fa86abbeba92475",
+      "celulas": 1630,
+      "lon_min": -1.9,
+      "lon_max": 4.3
+    }
+  ],
+  "sha256_pacote": "b214eb601c3d6da80f98629b6425a713752dd498c88b88c78ce6534b37adc11c",
+  "pacote_id": "iberia01-v1.0-b214eb601c3d"
+}
