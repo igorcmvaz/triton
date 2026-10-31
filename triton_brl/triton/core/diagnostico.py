@@ -109,6 +109,23 @@ def _dados_de_portugal() -> Verificacao:
                         f"tarifários: {', '.join(tarifas.concelhos())}")
 
 
+def _dados_iberia() -> Verificacao:
+    """Chuva do Iberia01 por município (Portugal, Espanha, Baleares) e ilhas por ERA5: só na Edição Ibérica."""
+    from triton.core.edition import rotulo_da_edicao, usa_dados_de_portugal
+
+    nome = "Dados ibéricos (Iberia01 e ilhas)"
+    if not usa_dados_de_portugal():
+        return (nome, None, f"não se aplica à {rotulo_da_edicao()}")
+    from triton.core import base_climatica_iberica as ib
+
+    if not ib.disponivel():
+        return (nome, False, "ficheiros do Iberia01 (data/chuva_iberia01_p*.db, ibe_unidades.db) não encontrados")
+    c = ib.contagens()
+    partes = len(ib.partes_instaladas())
+    return (nome, True, f"{c['PT']} unidades de Portugal e {c['ES']} de Espanha; {c['iberia01']} com Iberia01, "
+                        f"{c['era5']} com ERA5 (nível C), {c['nenhuma']} sem chuva; {partes} partes em {ib.pasta_dos_dados()}")
+
+
 def _manual() -> Verificacao:
     raiz = getattr(sys, "_MEIPASS", None) or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     from triton.core.edition import is_int_edition
@@ -121,7 +138,7 @@ def _manual() -> Verificacao:
 
 def verificacoes() -> List[Verificacao]:
     itens: List[Verificacao] = []
-    for funcao in (_volumetria_web, _arranjo_3d, _base_climatica, _tarifas, _dados_de_portugal, _manual):
+    for funcao in (_volumetria_web, _arranjo_3d, _base_climatica, _tarifas, _dados_de_portugal, _dados_iberia, _manual):
         try:
             itens.append(funcao())
         except Exception as erro:  # um item quebrado não esconde os outros
