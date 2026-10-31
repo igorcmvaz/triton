@@ -67,7 +67,7 @@ follow the order of the data dependencies: changing the building invalidates the
 used it, and the software says so rather than silently keeping a stale result. The user manual
 (`manual/Manual-Triton.pdf`, in European Portuguese, opened from the Documentation tab) describes every step, and
 **File > Open** loads the worked examples in `examples/portugal/` (`lisboa.triton`, `porto.triton`,
-`funchal.triton`).
+`funchal.triton`) and `examples/espanha/` (`madrid.triton`, `palma.triton`); all use the Iberia01 rainfall (ODbL), except Funchal (ERA5, level C).
 
 ---
 

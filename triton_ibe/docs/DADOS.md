@@ -23,7 +23,7 @@ Tamanhos em MiB (1 MiB = 1 048 576 bytes, a unidade do aviso de 50 MB do GitHub)
 | Banco que reúne esses documentos | `tarifas_portugal/tarifas_portugal_fontes.db` | SQLite | 16 MB | **não** | de terceiros |
 | Fontes brutas E-OBS e CAOP | `data/portugal/fontes/` | NetCDF, GeoPackage | cerca de 3 GB | **não** | E-OBS (não comercial); CAOP (cc-by) |
 | Fatores de emissão, custos, rotas de produção de água | `triton/data/*.json` | JSON | 0,02 MiB | sim | do projeto; sem valor local (§4) |
-| Exemplos (Lisboa, Porto, Funchal) e relatórios de exemplo | `examples/`, `reports/exemplos/` | `.triton`, PDF | 0,15 MiB e 5,33 MiB | sim | do projeto |
+| Exemplos (Lisboa, Porto, Funchal, Madrid, Palma) e relatórios de exemplo (15 PDF) | `examples/`, `reports/exemplos/` | `.triton`, PDF | 0,06 MiB e 9,26 MiB | sim | do projeto; chuva do Iberia01 (ODbL) ou da ERA5 das ilhas (CC BY 4.0), sem a E-OBS |
 | Visualizador 3D (HDR e JS) | `triton/data/volumetria/` | HDR, JS | 2,1 MiB | sim | CC0 (céu) e MIT (three.js) |
 | Manual (PDF, sítio, figuras) | `manual/` | PDF, HTML, PNG | 41,7 MiB (445 ficheiros) | sim | do projeto |
 
@@ -119,7 +119,7 @@ A tabela de qualidade da E-OBS (A 45, B 159, C 74 nos 278 concelhos, com base na
 | Licença | CC BY 4.0 (termos do Open-Meteo, https://open-meteo.com/en/terms; ERA5 sob CC-BY-4.0 no catálogo do CDS, conferido em 23/10/2026). Exige atribuição |
 | Período, resolução | 01/01/1991 a 31/12/2020, 10 958 dias; célula de cerca de 9 km |
 | Falhas | Sem falhas (nenhum valor em falta; máximo diário 74,6 mm) |
-| Qualidade | Reanálise, não registo de estação; a média anual (cerca de 538 mm) pode diferir da média medida no Funchal. É um exemplo e um ponto de partida; para um projeto real, use a série medida |
+| Qualidade | Reanálise, não registo de estação; a média anual (cerca de 538 mm) pode diferir da média medida no Funchal. É um exemplo e um ponto de partida; para um projeto real, use a série medida. O projeto de exemplo `examples/portugal/funchal.triton` usa, desde 31/10/2026, a mesma ERA5 pela base das ilhas (`chuva_ilhas_era5.db`, município PT-3103, 1986–2015, 531 mm/ano, nível C): o nó de 0,25° é a mesma célula deste CSV (totais anuais iguais em 1991–2015; a diferença de 538 para 531 mm vem só do período) |
 | Porquê | A E-OBS não cobre o Funchal (22% de dias sem dado, acima do limite de 1%) |
 | Tamanho, carregamento | 0,04 MiB; lido como qualquer série CSV de `data/rainfall/` (`triton/core/parser.py`) |
 
@@ -221,7 +221,7 @@ Fonte da camada 3: INE, *Encuesta sobre el suministro y saneamiento del agua* 20
 | Fator de emissão da rede elétrica (`fatores_emissao_rede_padrao.json`) | **Sem valor**: a edição não traz série oficial; o fator é 0 até o utilizador indicar o da rede do projeto. As fontes portuguesas e espanholas (APA, MITECO, REE) foram avaliadas e não estão incorporadas; APA e MITECO sem licença expressa, REE com reutilização não autorizada no aviso geral (`scripts/dados/resultados/LICENCAS_DOS_DADOS.md`) |
 | Custos de referência (`costs_database.json`) | Ficheiro do núcleo, neutro nesta edição (preços a zero, sem moeda nem fatores regionais); não há preços de catálogo: custos de obra, bomba, tratamento e manutenção ficam a zero nos exemplos, para o utilizador indicar os seus |
 | Rotas de produção de água (`rotas_producao_agua.json`) | Do projeto; o fator evitado por m³ depende da rota substituída e deve ser indicado pelo utilizador |
-| Exemplos (`examples/portugal/*.triton`) e relatórios (`reports/exemplos/`) | Gerados pelo projeto; os resultados económicos dos exemplos **não são resultados** (custos a zero) |
+| Exemplos (`examples/portugal/*.triton`, `examples/espanha/*.triton`) e relatórios (`reports/exemplos/`) | Gerados pelo projeto com `scripts/gerar_exemplos_prt.py` e `scripts/gerar_relatorios_exemplo.py`; regerados em 31/10/2026 com o Iberia01 (normal 1986–2015, por código do município) e, no Funchal, com a ERA5 de ilha (nível C). **Nenhum exemplo usa a E-OBS** nem leva o aviso vermelho. Lisboa 746 mm/ano, Porto 1 197, Funchal 531, Madrid 459, Palma 560. Os resultados económicos dos exemplos **não são resultados** (custos a zero). Madrid mostra a tarifa da camada 1 ainda não conferida; Palma, a média regional do INE (indicativa) |
 | Visualizador 3D | Céu «Quarry» do Poly Haven (CC0 1.0) e three.js (MIT), em `triton/data/volumetria/LICENCAS.md` |
 
 ## 6. Limites de tamanho e verificação

@@ -1,19 +1,21 @@
 # Projetos de exemplo (Edição Ibérica)
 
-Três projetos, uma edificação, três cidades. A edificação é a moradia do tutorial do manual, igual nas três
-para que os resultados se comparem: 150 m² de cobertura (coeficiente de escoamento 0,85), 4 residentes,
+Cinco projetos, uma edificação, cinco cidades (três de Portugal e duas de Espanha). A edificação é a moradia do tutorial do manual, igual nas três
+para que os resultados se comparem; a chuva é a do **Iberia01** (ODbL, uso comercial permitido, com atribuição a Herrera et al., 2019), normal 1986–2015, escolhida por município e pelo código (`Lisboa [PT-1106]`), exceto o Funchal (ERA5 de ilha). Nenhum exemplo usa a E-OBS, e por isso nenhum leva o aviso vermelho de uso não comercial. 150 m² de cobertura (coeficiente de escoamento 0,85), 4 residentes,
 150 L/hab·dia, 28% da procura não potável (autoclismos e usos exteriores), descarte das primeiras águas
 de 2 mm, abastecimento por sobrepressor, varrimento de volumes até 20 000 L em passos de 1000 L.
 
 | Ficheiro | Cidade | Chuva | Tarifário em vigor desde |
 |---|---|---|---|
-| `portugal/lisboa.triton` | Lisboa | E-OBS v33.0e, concelho de Lisboa, 1991–2020 (719 mm/ano) | 01/01/2026 |
-| `portugal/porto.triton` | Porto | E-OBS v33.0e, concelho do Porto, 1991–2020 (1199 mm/ano) | 01/01/2026 |
-| `portugal/funchal.triton` | Funchal | `data/rainfall/Funchal.csv`, reanálise ERA5 (538 mm/ano) | 01/01/2026 |
+| `portugal/lisboa.triton` | Lisboa | Iberia01 v1.0, Lisboa [PT-1106], 1986–2015 (746 mm/ano), nível B | 01/01/2026 |
+| `portugal/porto.triton` | Porto | Iberia01 v1.0, Porto [PT-1312], 1986–2015 (1197 mm/ano), nível B | 01/01/2026 |
+| `portugal/funchal.triton` | Funchal | reanálise ERA5 de ilha (0,25°), Funchal [PT-3103], 1986–2015 (531 mm/ano), **nível C, com aviso** | 01/01/2026 |
+| `espanha/madrid.triton` | Madrid | Iberia01 v1.0, Madrid [ES-28079], 1986–2015 (459 mm/ano), nível A | Canal de Isabel II 2026 (camada 1, **ainda não conferida**) |
+| `espanha/palma.triton` | Palma (Baleares) | Iberia01 v1.0, Palma [ES-07040], 1986–2015 (560 mm/ano), nível B | média regional do INE (camada 3, só indicativa) |
 
-Os projetos estão versionados tal como foram gerados; o gerador (`scripts/gerar_exemplo_portugal.py`) fica no disco do mantenedor, fora do Git, e não é público. Conferem-no por `tests/unit/test_exemplos_da_edicao.py`, que refaz à mão cada fatura com os números impressos
-nos tarifários. Os relatórios dos três exemplos (executivo, ambiental/ESG e dossiê técnico; PDF, em português
-de Portugal) estão em `reports/exemplos/<cidade>/`, feitos com o gerador de relatórios do programa (o script que os produz em lote também não é público).
+Os projetos estão versionados tal como foram gerados, por `scripts/gerar_exemplos_prt.py` (regerados em 31/10/2026). Conferem-nos por `tests/unit/test_exemplos_da_edicao.py`, que refaz à mão cada fatura com os números impressos
+nos tarifários. Os relatórios dos cinco exemplos (executivo, ambiental/ESG e dossiê técnico; PDF, em português
+de Portugal) estão em `reports/exemplos/<cidade>/`, feitos com o gerador de relatórios do programa (`scripts/gerar_relatorios_exemplo.py`); cada um traz a fonte e a licença da chuva, a atribuição ao Iberia01 (ou o crédito CC BY da ERA5), o nível de qualidade e a linha de cobertura.
 
 **Os custos não estão definidos.** Custos de obra, de bomba, de tratamento e de manutenção ficam a zero: dependem
 do local e do mercado, e não se usou fonte oficial para eles. Introduza os seus na etapa 5. Até lá, a análise
@@ -21,9 +23,14 @@ económica mostra apenas a poupança na fatura de água (o período de recupera�
 Cada projeto leva este aviso no bloco `analysis`. A tarifa de eletricidade só existe no Funchal (abaixo);
 em Lisboa e no Porto o custo de bombagem fica a zero até o utilizador introduzir a sua.
 
-A chuva do Funchal é reanálise ERA5 (célula de grelha de cerca de 9 km), não registo de estação:
-a E-OBS não cobre o Funchal (22% de dias sem dados, acima do limite de 1%). Para um projeto real, use a série
-medida (ver `data/rainfall/LEIA.md`).
+A chuva do Funchal é reanálise ERA5 (nó de grelha de 0,25°, cerca de 25 km, nível C), não registo de estação:
+o Funchal está fora do domínio do Iberia01 (e a E-OBS não o cobre: 22% de dias sem dados, acima do limite de 1%). É a mesma
+célula da série `data/rainfall/Funchal.csv` (1991–2015: totais anuais iguais; 538 mm em 1991–2020 contra 531 mm em 1986–2015). Para
+um projeto real, use a série medida (ver `data/rainfall/LEIA.md`).
+
+**Limites dos exemplos de Espanha.** Madrid usa a tarifa transcrita do Canal de Isabel II (camada 1), com a segunda leitura
+pendente: o laudo diz «Tarifa transcrita, ainda não conferida». Palma usa só a média regional do INE para as Baleares (um preço
+total por m³, sem parte fixa), que é indicativa e não é a tarifa da entidade gestora. Nenhum dos dois leva custos nem eletricidade.
 
 **Por definir, de propósito:** não há CAPEX nem OPEX locais para estes exemplos, e nenhum foi inventado: custos de
 cisterna, bomba, tubagem, mão de obra, manutenção e cloro ficam a zero (custos a informar pelo utilizador). O fator de
