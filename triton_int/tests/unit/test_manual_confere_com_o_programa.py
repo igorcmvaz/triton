@@ -1632,7 +1632,7 @@ def test_int_as_cidades_da_secao_3_1():
         r = _int_sim(serie, INT_VOLUME)
         sw = run_sweep_simulation(precip_data=serie, lower_tank_max=20000.0, lower_tank_step=1000.0,
                                   delta_ideal_threshold=1.0, **INT_TUTORIAL)
-        d0, meses = datetime(1991, 1, 1), np.zeros(12)
+        d0, meses = datetime(1986, 1, 1), np.zeros(12)
         for i, v in enumerate(serie):
             meses[(d0 + timedelta(days=i)).month - 1] += float(v)
         meses /= anos
@@ -1803,9 +1803,9 @@ def test_int_o_capitulo_cita_os_numeros_do_programa(arquivo):
 # ══════════════════════════════════════════════════════════════════════════════
 #
 # O tutorial da IBE é a mesma casa (150 m², 4 residentes, 150 L/hab·dia, 28% não potável) em Lisboa,
-# com a chuva E-OBS por concelho (normal 1991-2020, `data/portugal_eobs.db`) e o tarifário transcrito
-# em `triton/data/portugal_tarifarios.json`; o Porto (E-OBS) e o Funchal (ERA5, `data/rainfall/Funchal.csv`)
-# são as cidades de comparação. Os custos são ILUSTRATIVOS (euros, números redondos declarados em
+# com a chuva do Iberia01 (ODbL, normal 1986-2015, município PT-1106) e o tarifário transcrito
+# em `triton/data/portugal_tarifarios.json`; o Porto (Iberia01, PT-1312) e o Funchal (ERA5 de ilha, nível C,
+# `data/chuva_ilhas_era5.db`, PT-3103) são as cidades de comparação. Os custos são ILUSTRATIVOS (euros, números redondos declarados em
 # `manual/gerar_tabelas.py`), nunca preços de mercado. Os valores abaixo são os que `manual/gerar_tabelas.py`
 # e `manual/gerar_casos.py` produzem; o texto em português de Portugal cita os mesmos.
 #
@@ -1821,8 +1821,8 @@ PRT_TUTORIAL = dict(
     area=150.0, runoff_coeff=0.85, discard_mm=2.0, discard_mode=1,
     total_demand_per_day=600.0, rainwater_share=0.28,
 )
-#: O caso dos dez dias: 11 a 20 de dezembro de 2019 da série de Lisboa (dia 10571; 01/01/1991 = dia 0).
-PRT_DEZ_DIAS_CHUVA = [0.0, 2.1, 0.0, 1.2, 6.0, 13.5, 0.7, 8.1, 35.7, 25.8]
+#: O caso dos dez dias: 15 a 24 de dezembro de 2013 da série de Lisboa (dia 10210; 01/01/1986 = dia 0).
+PRT_DEZ_DIAS_CHUVA = [0.0, 0.6, 2.6, 7.2, 33.9, 3.7, 0.9, 0.1, 4.9, 50.9]
 PRT_DEZ_DIAS = dict(
     lower_tank_vol=2000.0, area=100.0, runoff_coeff=0.85, discard_mm=2.0, discard_mode=1,
     total_demand_per_day=200.0, rainwater_share=0.40,
@@ -1840,17 +1840,12 @@ PRT_TERMOS_PROIBIDOS = ("Florianópolis", "Florianopolis", "Manaus", "Brasília"
 
 
 def _prt_serie(nome):
-    """A série diária de 1991-2020 da cidade: E-OBS por concelho (Lisboa, Porto) ou ERA5 (Funchal)."""
-    if nome == "Funchal":
-        from triton.core.parser import load_precipitation
-        caminho = os.path.join(PRT_CHUVAS, "Funchal.csv")
-        if not os.path.exists(caminho):
-            pytest.skip("série do Funchal não instalada")
-        return load_precipitation(caminho)
-    from triton.core import base_climatica_portugal as pt
-    if not pt.disponivel():
-        pytest.skip("base E-OBS de Portugal (data/portugal_eobs.db) não instalada")
-    return pt.carregar_serie(nome, "01/01/1991", "31/12/2020")[0]
+    """A série diária de 1986-2015 da cidade: Iberia01 (Lisboa, Porto) ou ERA5 de ilha (Funchal), por código."""
+    from triton.core import base_climatica_iberica as ib
+    if not ib.disponivel():
+        pytest.skip("base ibérica de chuva (data/chuva_iberia01_p*.db) não instalada")
+    codigo = {"Lisboa": "PT-1106", "Porto": "PT-1312", "Funchal": "PT-3103"}[nome]
+    return ib.carregar_serie(codigo, "01/01/1986", "31/12/2015")[0]
 
 
 @pytest.fixture(scope="module")
@@ -1956,10 +1951,10 @@ def prt_dez_dias():
 
 
 def test_prt_os_dez_dias_sao_os_de_lisboa(prt_serie):
-    """A janela está na série da base E-OBS: 11/12/2019 é o dia 10571 (01/01/1991 = dia 0), ao décimo de mm."""
+    """A janela está na série do Iberia01: 15/12/2013 é o dia 10210 (01/01/1986 = dia 0), ao décimo de mm."""
     import datetime as dt
-    assert (dt.date(2019, 12, 11) - dt.date(1991, 1, 1)).days == 10571
-    assert [round(float(x), 1) for x in prt_serie[10571:10581]] == pytest.approx(PRT_DEZ_DIAS_CHUVA)
+    assert (dt.date(2013, 12, 15) - dt.date(1986, 1, 1)).days == 10210
+    assert [round(float(x), 1) for x in prt_serie[10210:10220]] == pytest.approx(PRT_DEZ_DIAS_CHUVA)
 
 
 def test_prt_o_potencial_e_os_indicadores_dos_dez_dias(prt_dez_dias):
@@ -2249,7 +2244,7 @@ def test_prt_as_cidades_da_secao_3_1():
         r = _prt_sim(serie, PRT_VOLUME)
         sw = run_sweep_simulation(precip_data=serie, lower_tank_max=20000.0, lower_tank_step=1000.0,
                                   delta_ideal_threshold=1.0, **PRT_TUTORIAL)
-        d0, meses = datetime(1991, 1, 1), np.zeros(12)
+        d0, meses = datetime(1986, 1, 1), np.zeros(12)
         for i, v in enumerate(serie):
             meses[(d0 + timedelta(days=i)).month - 1] += float(v)
         meses /= anos

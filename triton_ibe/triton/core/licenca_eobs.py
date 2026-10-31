@@ -273,11 +273,12 @@ def _rodape_iberico(aud: Dict[str, Any], ingles: bool) -> str:
                 linhas.append(f"Rainfall quality for {u['nome']}: level {q['nivel']}. Level reflects spatial representation "
                               f"of the grid, not a validation against local gauges.")
             else:
-                linhas.append(f"Qualidade da chuva em {u['nome']}: nível {q['nivel']}. {q['motivo']}")
+                motivo = q["motivo"][:1].upper() + q["motivo"][1:]
+                linhas.append(f"Qualidade da chuva em {u['nome']}: nível {q['nivel']}. {motivo}" + ("" if motivo.endswith(".") else "."))
     else:
         linhas.append(_ib.texto_da_fonte("", lingua))
     try:
-        p = _ib.pacote()
+        p = _ib.pacote() if not (codigo and _ib.fonte_da_unidade(codigo) == "era5") else {}   # a ERA5 das ilhas não é do pacote do Iberia01
         if p.get("pacote_id"):
             linhas.append((f"Package {p['pacote_id']}, SHA-256 {p['sha256_pacote'][:8]}." if ingles
                            else f"Pacote {p['pacote_id']}, SHA-256 {p['sha256_pacote'][:8]}."))

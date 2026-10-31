@@ -200,3 +200,29 @@ def test_projeto_aberto_pela_interface_com_pacote_antigo_mantem_a_serie_incorpor
     assert np.array_equal(np.asarray(janela.tab_project.precip_data, dtype=float), serie)
     assert any("PT-EOBS-v34.0-deadbeef" in m for m in mensagens)
     assert janela.config.chuva_procedencia["mudou"] is True
+
+
+@pytest.mark.parametrize("arquivo,rotulo,codigo", [
+    ("portugal/lisboa.triton", "Lisboa [PT-1106]", "PT-1106"),
+    ("portugal/porto.triton", "Porto [PT-1312]", "PT-1312"),        # «Porto» também existe em Espanha
+    ("portugal/funchal.triton", "Funchal [PT-3103]", "PT-3103"),    # ERA5 das ilhas
+    ("espanha/madrid.triton", "Madrid [ES-28079]", "ES-28079"),
+])
+def test_abrir_um_exemplo_da_ibe_escolhe_o_municipio_gravado_e_regrava_o_codigo(janela, arquivo, rotulo, codigo):
+    """O projeto grava «Nome [código]»: ao abrir, o seletor fica no município certo (e não no primeiro da região)
+    e o laudo e o ficheiro regravado mantêm o código; o laudo cita Iberia01 (ou ERA5), nunca «E-OBS»."""
+    import os
+    raiz = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    caminho = os.path.join(raiz, "examples", *arquivo.split("/"))
+    if not os.path.isfile(caminho):
+        pytest.skip("exemplo não instalado")
+    janela.on_load_simulation(caminho)
+    tp = janela.tab_project
+    assert tp.combo_climate_city.currentData() == codigo
+    assert tp.get_project_state()["climate_city"] == rotulo
+    assert janela.config.climate_city_name == rotulo
+    from triton.ui.tab_reports_pdf import TabReportsPdf
+    esperado = "ERA5" if codigo == "PT-3103" else "Iberia01"
+    assert TabReportsPdf._base_climatica(janela.config) == esperado
+    assert TabReportsPdf._nome_da_serie_sem_arquivo(janela).endswith(f"({esperado})")
+    assert TabReportsPdf._juntar_locais(rotulo, "PT|Lisboa") == f"{rotulo} / Lisboa"

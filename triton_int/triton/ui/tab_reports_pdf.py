@@ -483,7 +483,18 @@ class TabReportsPdf(QWidget):
                 str(getattr(cfg, "climate_model", "") or ""),
                 str(getattr(cfg, "climate_scenario", "") or ""),
             ])) or "Série observada"
-        return "E-OBS" if is_ibe_edition() else "Série observada"
+        if not is_ibe_edition():
+            return "Série observada"
+        return TabReportsPdf._fonte_da_chuva_ibe(cfg) or "E-OBS"
+
+    @staticmethod
+    def _fonte_da_chuva_ibe(cfg) -> str:
+        """«Iberia01» ou «ERA5» (ilhas) quando a chuva do projeto é da base ibérica; vazio nos demais casos (E-OBS)."""
+        from triton.core import base_climatica_iberica as _ib
+        if str(getattr(cfg, "climate_scenario", "") or "") != _ib.CENARIO_IBERIA01:
+            return ""
+        codigo = _ib.resolver(str(getattr(cfg, "climate_city_name", "") or ""))
+        return "ERA5" if codigo and _ib.fonte_da_unidade(codigo) == "era5" else "Iberia01"
 
     @staticmethod
     def _acrescentar_procedencia_da_chuva(audit: dict, cfg) -> None:
@@ -523,6 +534,8 @@ class TabReportsPdf(QWidget):
             texto = str(parte or "").strip()
             if texto.upper() == "CUSTOM":
                 continue
+            if texto[:3] in ("PT|", "ES|"):
+                texto = texto[3:]       # «PT|Lisboa» é a chave da região na base ibérica; o laudo diz só «Lisboa»
             if texto and texto not in vistas:
                 vistas.append(texto)
         return " / ".join(vistas)
@@ -541,7 +554,8 @@ class TabReportsPdf(QWidget):
         nome = str(getattr(cfg, "climate_city_name", "") or "").strip()
         if not nome:
             return ""
-        return f"{nome} (E-OBS)"
+        fonte = TabReportsPdf._fonte_da_chuva_ibe(cfg) or "E-OBS"
+        return f"{nome.split(' [')[0]} ({fonte})"
 
     def _generate_ref_code(self) -> str:
         mw = self.window()

@@ -837,7 +837,8 @@ class TabProject(QWidget):
                 else:
                     texto = u["nome"]
                 self.combo_climate_city.addItem(texto, u["codigo"])
-            idx = self.combo_climate_city.findData(select_city) if select_city else -1
+            # O projeto grava «Nome [código]»: o item da lista guarda só o código.
+            idx = self.combo_climate_city.findData(_ib.resolver(select_city) or select_city) if select_city else -1
             self.combo_climate_city.setCurrentIndex(idx if idx >= 0 else 0)
             self.combo_climate_city.blockSignals(prev_blocked)
             return
@@ -1312,7 +1313,7 @@ class TabProject(QWidget):
             # Na International, a lista é a das cidades brasileiras da CLIMBra, oculta: o
             # projeto gravava Florianópolis (SC) como local da tarifa e do fator regional.
             return ("CUSTOM", "CUSTOM")
-        return (self.combo_climate_uf.currentData() or self._uf_padrao(), self.combo_climate_city.currentText().strip())
+        return (self.combo_climate_uf.currentData() or self._uf_padrao(), self._local_da_tarifa())
 
     def set_tariff_location(self, uf_code: str, city_name: str):
         self._is_populating = True
@@ -1744,11 +1745,31 @@ class TabProject(QWidget):
             self.table_preview.setItem(r, 4, item_eff)
             self.table_preview.setItem(r, 5, item_status)
 
+    def _cidade_gravada(self) -> str:
+        """O município como o projeto o grava: «Nome [código]» na base ibérica (há nomes repetidos, como Porto), o texto do seletor nos demais casos."""
+        texto = self.combo_climate_city.currentText().strip()
+        if getattr(self, "_base_iberica", False) and self._fonte_ibe_atual() == "IBERIA01":
+            from triton.core import base_climatica_iberica as _ib
+            u = _ib.unidade(self.combo_climate_city.currentData() or "")
+            if u is not None:
+                return _ib.rotulo(u)
+        return texto
+
+    def _local_da_tarifa(self) -> str:
+        """O local da tarifa como o projeto o grava: o concelho em Portugal, o código INE em Espanha (como as tabelas de tarifas)."""
+        texto = self.combo_climate_city.currentText().strip()
+        if getattr(self, "_base_iberica", False) and self._fonte_ibe_atual() == "IBERIA01":
+            from triton.core import base_climatica_iberica as _ib
+            u = _ib.unidade(self.combo_climate_city.currentData() or "")
+            if u is not None:
+                return u["codigo"] if u["pais"] == "ES" else u["nome"]
+        return texto
+
     def get_project_state(self) -> dict:
         return {
             "source_mode": "national_db" if self.rb_source_national.isChecked() else "custom_file",
             "climate_uf": self.combo_climate_uf.currentData() or self._uf_padrao(),
-            "climate_city": self.combo_climate_city.currentText().strip(),
+            "climate_city": self._cidade_gravada(),
             "climate_model": self.combo_climate_model.currentText().strip(),
             "climate_scenario": self.combo_climate_scenario.currentData() or "HIST",
             "start_date": self.txt_start_date.text().strip(),

@@ -57,7 +57,7 @@ RELATORIOS = {
 TERMOS_DO_BRASIL = ("Florianópolis", "Florianopolis", "Brasília", "Manaus", "São Paulo", "R$", "CASAN", "CELESC",
                     "CLIMBra", "SABESP", "ANEEL", "NBR", "ABNT", "IPTU", "Selic",
                     "CREA", "SNIS", "MCTI", "INMET", "Casa Azul", "AQUA-HQE")
-TERMOS_DE_PORTUGAL = ("E-OBS", "EPAL", "ERSAR", "Lisboa", "Funchal")
+TERMOS_DE_PORTUGAL = ("E-OBS", "Iberia01", "EPAL", "ERSAR", "Lisboa", "Funchal")
 #: O que o rodapé de cada edição tem de trazer (a licença e o crédito da chuva; na IBE, também o nível e a cobertura).
 EXIGIDOS = {"INT": ("Open-Meteo", "CC BY 4.0"),
             "IBE": ("Cobertura",)}[EDICAO]
@@ -66,13 +66,15 @@ EXIGIDOS = {"INT": ("Open-Meteo", "CC BY 4.0"),
 def _cidades():
     """(arquivo do projeto, pasta de saída, texto que o relatório tem de citar) por exemplo da edição."""
     import json
-    pasta = RAIZ / "examples" / ("portugal" if EDICAO == "IBE" else "")
+    pastas = [RAIZ / "examples" / "portugal", RAIZ / "examples" / "espanha"] if EDICAO == "IBE" else [RAIZ / "examples"]
     casos = []
-    for arquivo in sorted(pasta.glob("*.triton")):
-        if arquivo.name.startswith("triton-"):
-            continue
-        dados = json.loads(arquivo.read_text(encoding="utf-8"))
-        casos.append((arquivo, arquivo.stem, str(dados["rainfall"]["climate_city_name"])))
+    for pasta in pastas:
+        for arquivo in sorted(pasta.glob("*.triton")):
+            if arquivo.name.startswith("triton-"):
+                continue
+            dados = json.loads(arquivo.read_text(encoding="utf-8"))
+            # «Lisboa [PT-1106]»: o relatório cita o nome, e o código vai à parte (o rodapé confere-o)
+            casos.append((arquivo, arquivo.stem, str(dados["rainfall"]["climate_city_name"]).split(" [")[0]))
     return casos
 
 
@@ -130,9 +132,17 @@ def _conferir_pdf(caminho: Path, cidade: str) -> list:
         raise RuntimeError(f"{caminho.name}: o relatório não cita {cidade}")
     if not re.search(r"[1-9]\d*[.,]\d+\s*%", texto):
         raise RuntimeError(f"{caminho.name}: nenhum percentual diferente de zero")
-    # Funchal usa série ERA5 própria (crédito CC BY); os concelhos da base levam a licença da E-OBS e o nível.
-    exigidos = EXIGIDOS + (("Open-Meteo",) if cidade == "Funchal" else
-                           ("não comerciais", "Qualidade da chuva", "NÃO PODE SER USADA COMERCIALMENTE") if EDICAO == "IBE" else ())
+    # IBE: chuva do Iberia01 (ODbL, com a atribuição de Herrera et al. 2019), ou ERA5 nas ilhas (CC BY, nível C).
+    # Nenhum relatório de exemplo da IBE pode carregar a restrição não comercial da E-OBS.
+    exigidos = EXIGIDOS
+    if EDICAO == "IBE":
+        exigidos = EXIGIDOS + ("Qualidade da chuva",) + (
+            ("Open-Meteo", "ERA5", "CC BY 4.0") if cidade == "Funchal"
+            else ("Iberia01", "ODbL", "Herrera", "10.5194/essd-11-1947-2019"))
+        proibidos = [t for t in ("NÃO PODE SER USADA COMERCIALMENTE", "não comerciais", "NÃO COMERCIAL", "E-OBS",
+                                 "pressupostos implementadas", "pressupostos implementada ") if t in texto]
+        if proibidos:
+            raise RuntimeError(f"{caminho.name}: o relatório traz o que não devia: {', '.join(proibidos)}")
     em_falta = [t for t in exigidos if t not in texto]
     if em_falta:
         raise RuntimeError(f"{caminho.name}: falta no rodapé: {', '.join(em_falta)}")
