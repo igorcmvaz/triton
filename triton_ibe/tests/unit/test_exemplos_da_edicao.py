@@ -285,6 +285,8 @@ def test_o_exemplo_de_espanha_abre_simula_e_declara_os_limites_da_tarifa(cidade)
     sim = _simular(res)
     assert sim.potential_potable_savings_pct > 5.0
     assert run_economic_analysis(c, sim).annual_water_savings_brl > 0.0
+    chuva_anual = float(res["precip_data"].sum()) / 30.0
+    assert (450 < chuva_anual < 470) if cidade == "madrid" else (550 < chuva_anual < 570), chuva_anual
     notas = res["analysis"]
     assert "introduza os seus" in notas["custos"]
     texto = " ".join(notas["hipoteses_tarifarias"]) + " " + " ".join(notas["fontes_tarifarias"])
