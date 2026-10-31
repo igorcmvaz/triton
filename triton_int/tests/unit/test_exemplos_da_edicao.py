@@ -26,9 +26,11 @@ EDICAO = get_current_edition()
 
 INT_EXEMPLOS = RAIZ / "examples"
 PRT_EXEMPLOS = RAIZ / "examples" / "portugal"
+ES_EXEMPLOS = RAIZ / "examples" / "espanha"
 
 CIDADES_INT = ("new_york", "london", "cape_town")
 CIDADES_PRT = ("lisboa", "porto", "funchal")
+CIDADES_ES = ("madrid", "palma")
 
 so_int = pytest.mark.skipif(
     EDICAO != EDITION_INT or not (INT_EXEMPLOS / "new_york.triton").is_file(),
@@ -229,7 +231,7 @@ def test_o_exemplo_da_prt_abre_simula_e_economiza_agua(cidade):
     from triton.core.economic import run_economic_analysis
     res = _carregar(PRT_EXEMPLOS / f"{cidade}.triton")
     c = res["config"]
-    assert res["precip_data"] is not None and len(res["precip_data"]) == 10958
+    assert res["precip_data"] is not None and len(res["precip_data"]) == 10957   # 1986-2015
     assert (c.area, c.residents_count, c.demand_value, c.rainwater_share) == (150.0, 4, 150.0, 0.28)
     sim = _simular(res)
     assert sim.potential_potable_savings_pct > 5.0
@@ -239,13 +241,57 @@ def test_o_exemplo_da_prt_abre_simula_e_economiza_agua(cidade):
 
 @so_prt
 def test_a_chuva_de_cada_cidade_e_a_da_sua_fonte():
+    """Lisboa e Porto: Iberia01 (ODbL) por código, 1986-2015. Funchal: ERA5 de ilha (nível C) da base das ilhas."""
     lisboa, porto, funchal = (_carregar(PRT_EXEMPLOS / f"{c}.triton") for c in CIDADES_PRT)
     anual = lambda r: float(r["precip_data"].sum()) / 30.0
-    assert lisboa["config"].climate_model == porto["config"].climate_model == "E-OBS v33.0e"
-    assert (lisboa["config"].climate_city_name, porto["config"].climate_city_name) == ("Lisboa", "Porto")
-    assert 700 < anual(lisboa) < 740 and 1150 < anual(porto) < 1250
-    assert funchal["config"].climate_source_mode == "custom_file" and funchal["config"].precip_file == "Funchal.csv"
-    assert 530 < anual(funchal) < 545
+    for r in (lisboa, porto, funchal):
+        c = r["config"]
+        assert c.climate_model == "Iberia01 v1.0" and c.climate_scenario == "IBERIA01"
+        assert (c.climate_start_date, c.climate_end_date) == ("01/01/1986", "31/12/2015")
+        assert r["chuva_da_climbra"] is True and not r.get("aviso_chuva")
+    assert [r["config"].climate_city_name for r in (lisboa, porto, funchal)] == [
+        "Lisboa [PT-1106]", "Porto [PT-1312]", "Funchal [PT-3103]"]
+    assert 740 < anual(lisboa) < 755 and 1190 < anual(porto) < 1205 and 525 < anual(funchal) < 540
+
+
+@so_prt
+def test_o_funchal_do_exemplo_e_a_serie_era5_das_ilhas_e_confere_com_o_funchal_csv():
+    """A série ERA5 de ilha do exemplo é a mesma célula do ``Funchal.csv`` (Open-Meteo): totais anuais iguais em 1991-2015."""
+    import numpy as np
+    from triton.core import base_climatica_iberica as ib
+    from triton.core.parser import load_precipitation
+    assert ib.fonte_da_unidade("PT-3103") == "era5" and ib.unidade("PT-3103")["nivel"] == "C"
+    ilha = ib.carregar_serie("PT-3103", "01/01/1991", "31/12/2015")[0]
+    csv = load_precipitation(str(RAIZ / "data" / "rainfall" / "Funchal.csv"))[:len(ilha)]
+    assert abs(float(ilha.sum()) - float(csv.sum())) / float(csv.sum()) < 0.005
+
+
+@so_prt
+def test_os_exemplos_da_ibe_nao_trazem_a_e_obs_nem_a_restricao_nao_comercial():
+    for cidade in CIDADES_PRT + CIDADES_ES:
+        pasta = ES_EXEMPLOS if cidade in CIDADES_ES else PRT_EXEMPLOS
+        texto = (pasta / f"{cidade}.triton").read_text(encoding="utf-8")
+        assert "E-OBS" not in texto and "EOBS" not in texto, cidade
+
+
+@so_prt
+@pytest.mark.parametrize("cidade", CIDADES_ES)
+def test_o_exemplo_de_espanha_abre_simula_e_declara_os_limites_da_tarifa(cidade):
+    from triton.core.economic import run_economic_analysis
+    res = _carregar(ES_EXEMPLOS / f"{cidade}.triton")
+    c = res["config"]
+    assert c.climate_scenario == "IBERIA01" and c.climate_city_name.endswith("]")
+    assert len(res["precip_data"]) == 10957 and not res.get("aviso_chuva")
+    sim = _simular(res)
+    assert sim.potential_potable_savings_pct > 5.0
+    assert run_economic_analysis(c, sim).annual_water_savings_brl > 0.0
+    notas = res["analysis"]
+    assert "introduza os seus" in notas["custos"]
+    texto = " ".join(notas["hipoteses_tarifarias"]) + " " + " ".join(notas["fontes_tarifarias"])
+    if cidade == "madrid":
+        assert notas["camada_tarifaria"] == 1 and "NÃO CONFERIDA" in texto
+    else:
+        assert notas["camada_tarifaria"] == 3 and "indicativa" in texto
 
 
 @so_prt

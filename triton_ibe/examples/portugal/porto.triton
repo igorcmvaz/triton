@@ -5,33 +5,34 @@
   },
   "version": "0.1.0",
   "metadata": {
-    "project_id": "N5-20261015-085019-51B6206C",
-    "name": "Exemplo - moradia do tutorial no Porto (E-OBS 1991-2020) [custos a informar pelo utilizador]",
+    "project_id": "N5-20261031-102004-0D94BBBD",
+    "name": "Exemplo - moradia do tutorial no Porto (Iberia01 1986-2015) [custos a informar pelo utilizador]",
     "created_at": "15/10/2026 00:00",
-    "saved_at": "15/10/2026 08:50:19"
+    "saved_at": "31/10/2026 10:20:04"
   },
   "rainfall": {
     "source_mode": "national_db",
-    "climate_city_uf": "Porto",
-    "climate_city_name": "Porto",
-    "climate_model": "E-OBS v33.0e",
-    "climate_scenario": "EOBS",
-    "climate_start_date": "01/01/1991",
-    "climate_end_date": "31/12/2020",
+    "climate_city_uf": "PT|Porto",
+    "climate_city_name": "Porto [PT-1312]",
+    "climate_model": "Iberia01 v1.0",
+    "climate_scenario": "IBERIA01",
+    "climate_start_date": "01/01/1986",
+    "climate_end_date": "31/12/2015",
     "file_name": "",
-    "start_date": "01/01/1991",
-    "total_days": 10958,
+    "start_date": "01/01/1986",
+    "total_days": 10957,
     "climbra_series": {
-      "origem": "E-OBS (Portugal)",
-      "cidade": "Porto",
-      "uf": "Porto",
-      "modelo": "E-OBS v33.0e",
-      "cenario": "EOBS",
-      "inicio": "01/01/1991",
-      "fim": "31/12/2020",
-      "dias": 10958,
-      "total_mm": 35960.2,
-      "sha256": "395ae6836f4c26f2243a7a1eddf73aa609b21c2d061b36f209860fe1dc177abc"
+      "origem": "Iberia01 (Ibéria)",
+      "pacote_id": "iberia01-v1.0-b214eb601c3d",
+      "cidade": "Porto [PT-1312]",
+      "uf": "PT|Porto",
+      "modelo": "Iberia01 v1.0",
+      "cenario": "IBERIA01",
+      "inicio": "01/01/1986",
+      "fim": "31/12/2015",
+      "dias": 10957,
+      "total_mm": 35917.4,
+      "sha256": "481baaf78c58f43e6fcb352dcb6ff02e90115e2fbb621e763f601f7ab2e2ca93"
     },
     "precipitation_mm": []
   },
@@ -247,16 +248,16 @@
     },
     "project": {
       "source_mode": "national_db",
-      "climate_uf": "Porto",
-      "climate_city": "Porto",
-      "climate_model": "E-OBS v33.0e",
-      "climate_scenario": "EOBS",
-      "start_date": "01/01/1991",
-      "end_date": "31/12/2020"
+      "climate_uf": "PT|Porto",
+      "climate_city": "Porto [PT-1312]",
+      "climate_model": "Iberia01 v1.0",
+      "climate_scenario": "IBERIA01",
+      "start_date": "01/01/1986",
+      "end_date": "31/12/2015"
     }
   },
   "analysis": {
-    "exemplo": "Exemplo - moradia do tutorial no Porto (E-OBS 1991-2020) [custos a informar pelo utilizador]",
+    "exemplo": "Exemplo - moradia do tutorial no Porto (Iberia01 1986-2015) [custos a informar pelo utilizador]",
     "custos": "Os custos de obra, de bomba e de manutenção não estão definidos: introduza os seus (etapa 5). Até lá, a análise mostra apenas a poupança na fatura.",
     "entidades_tarifarias": "Águas e Energia do Porto, EM",
     "vigencia_tarifaria": "01/01/2026",
@@ -270,7 +271,7 @@
       "Taxa de Recursos Hídricos (TRH) da água: 0,0392 €/m³ devida à APA, com IVA a 6% (o PDF diz apenas que às tarifas acresce o IVA à taxa legal em vigor; os 6% são a taxa reduzida do Continente, não impressa no documento).",
       "Resíduos urbanos: não constam do tarifário da Águas e Energia do Porto (são da Porto Ambiente) e ficam de fora desta fatura. Meses de 30 dias, como nos escalões do PDF («/30 dias»)."
     ],
-    "chuva": "E-OBS v33.0e, concelho de Porto, 1991-2020 (data/portugal_eobs.db).",
+    "chuva": "Porto [PT-1312]: Iberia01 v1.0 (ODbL 1.0), 1986-2015, nível de qualidade B (data/chuva_iberia01_p*.db). Herrera, S., Cardoso, R. M., Soares, P. M. M., Espírito-Santo, F., Viterbo, P., Gutiérrez, J. M. (2019). Iberia01: a new gridded dataset of daily precipitation and temperatures over Iberia. Earth System Science Data, 11, 1947-1956. doi:10.5194/essd-11-1947-2019",
     "eletricidade": "Tarifa de eletricidade não definida neste exemplo: introduza a sua (o custo de bombagem fica a zero até lá)."
   },
   "bim_layout": {
