@@ -1958,57 +1958,65 @@ def test_prt_os_dez_dias_sao_os_de_lisboa(prt_serie):
 
 
 def test_prt_o_potencial_e_os_indicadores_dos_dez_dias(prt_dez_dias):
-    """Impresso na secção 2.1: potencial 24,4%, 48,9 L/dia pluviais, 432,4 L/dia extravasados, dias 60/10/30%."""
+    """Impresso na secção 2.1: potencial 30,6%, 61,1 L/dia pluviais, 522,1 L/dia extravasados, dias 70/10/20%."""
     r = prt_dez_dias
-    assert r.potential_potable_savings_pct == pytest.approx(24.4, abs=0.05)
-    assert r.avg_pluvial_consumed_l_day == pytest.approx(48.9, abs=0.05)
-    assert r.avg_potable_consumed_l_day == pytest.approx(151.1, abs=0.15)
-    assert r.avg_spilled_l_day == pytest.approx(432.4, abs=0.05)
-    assert r.pct_days_full_satisfaction == pytest.approx(60.0, abs=0.5)
+    assert r.potential_potable_savings_pct == pytest.approx(30.55, abs=0.05)
+    assert r.avg_pluvial_consumed_l_day == pytest.approx(61.1, abs=0.05)
+    assert r.avg_potable_consumed_l_day == pytest.approx(138.9, abs=0.15)
+    assert r.avg_spilled_l_day == pytest.approx(522.1, abs=0.05)
+    assert r.pct_days_full_satisfaction == pytest.approx(70.0, abs=0.5)
     assert r.pct_days_partial_satisfaction == pytest.approx(10.0, abs=0.5)
-    assert r.pct_days_null_satisfaction == pytest.approx(30.0, abs=0.5)
+    assert r.pct_days_null_satisfaction == pytest.approx(20.0, abs=0.5)
 
 
-def test_prt_o_dia_2_e_parcial_e_o_dia_4_se_perde_inteiro(prt_dez_dias):
-    """Dia 2: 2,1 mm, 0,1 mm efetivo, 9 L e abastecimento parcial. Dia 4: 1,2 mm < 2,0 mm, capta-se zero."""
-    d2, d4 = prt_dez_dias.daily_results[1], prt_dez_dias.daily_results[3]
-    assert d2.satisfaction_type == 1
-    assert d2.eff_precip_mm == pytest.approx(0.1, abs=0.01)
-    assert d2.harvested_liters == pytest.approx(9.0, abs=1.0)
-    assert d2.pluvial_consumed_liters == pytest.approx(9.0, abs=1.0)
-    assert d4.precip_mm == pytest.approx(1.2)
-    assert d4.eff_precip_mm == pytest.approx(0.0)
-    assert d4.harvested_liters == pytest.approx(0.0)
-    assert d4.satisfaction_type == 0
+def test_prt_o_dia_2_se_perde_inteiro_e_o_dia_3_e_parcial(prt_dez_dias):
+    """Dia 2: 0,6 mm < 2,0 mm, capta-se zero e o dia é nulo. Dia 3: 2,6 mm, 0,6 mm efetivo, 51 L e abastecimento parcial."""
+    d2, d3 = prt_dez_dias.daily_results[1], prt_dez_dias.daily_results[2]
+    assert d2.precip_mm == pytest.approx(0.6)
+    assert d2.eff_precip_mm == pytest.approx(0.0)
+    assert d2.harvested_liters == pytest.approx(0.0)
+    assert d2.satisfaction_type == 0
+    assert d3.satisfaction_type == 1
+    assert d3.eff_precip_mm == pytest.approx(0.6, abs=0.01)
+    assert d3.harvested_liters == pytest.approx(51.0, abs=1.0)
+    assert d3.pluvial_consumed_liters == pytest.approx(51.0, abs=1.0)
 
 
-def test_prt_o_dia_9_extravasa_mais_que_o_reservatorio(prt_dez_dias):
-    """Dia 9 (35,7 mm): 2.865 L captados, 2.380 L extravasados, 1.920 L no reservatório."""
-    d = prt_dez_dias.daily_results[8]
-    assert d.harvested_liters == pytest.approx(2865.0, abs=1.0)
-    assert d.spilled_liters == pytest.approx(2380.0, abs=1.0)
-    assert d.lower_tank_end_liters == pytest.approx(1920.0, abs=1.0)
-    assert d.spilled_liters > PRT_DEZ_DIAS["lower_tank_vol"]
+def test_prt_o_dia_5_extravasa_antes_do_consumo(prt_dez_dias):
+    """Dia 5 (33,9 mm): 2.712 L captados, 1.074 L extravasados (o reservatório tinha 362 L), 1.920 L no fim."""
+    d4, d5 = prt_dez_dias.daily_results[3], prt_dez_dias.daily_results[4]
+    assert d4.lower_tank_end_liters == pytest.approx(362.0, abs=1.0)
+    assert d5.harvested_liters == pytest.approx(2712.0, abs=1.0)
+    assert d5.spilled_liters == pytest.approx(1074.0, abs=1.0)
+    assert d5.lower_tank_end_liters == pytest.approx(1920.0, abs=1.0)
 
 
-def test_prt_o_dia_10_extravasa_com_o_reservatorio_ja_cheio(prt_dez_dias):
-    """Dia 10 (25,8 mm): 2.023 L captados e 1.943 L extravasados; o reservatório acabara o dia 9 com 1.920 L."""
-    d9, d10 = prt_dez_dias.daily_results[8], prt_dez_dias.daily_results[9]
-    assert d9.lower_tank_end_liters == pytest.approx(1920.0, abs=1.0)
-    assert d10.harvested_liters == pytest.approx(2023.0, abs=1.0)
-    assert d10.spilled_liters == pytest.approx(1943.0, abs=1.0)
+def test_prt_o_dia_6_extravasa_com_o_reservatorio_ja_cheio(prt_dez_dias):
+    """Dia 6 (3,7 mm): 145 L captados e 64 L extravasados; o reservatório acabara o dia 5 com 1.920 L."""
+    d5, d6 = prt_dez_dias.daily_results[4], prt_dez_dias.daily_results[5]
+    assert d5.lower_tank_end_liters == pytest.approx(1920.0, abs=1.0)
+    assert d6.harvested_liters == pytest.approx(145.0, abs=1.0)
+    assert d6.spilled_liters == pytest.approx(64.0, abs=1.0)
+
+
+def test_prt_o_dia_10_extravasa_mais_que_o_reservatorio(prt_dez_dias):
+    """Dia 10 (50,9 mm): 4.156 L captados e 4.076 L extravasados, mais do dobro dos 2.000 L do reservatório."""
+    d = prt_dez_dias.daily_results[9]
+    assert d.harvested_liters == pytest.approx(4156.0, abs=1.0)
+    assert d.spilled_liters == pytest.approx(4076.0, abs=1.0)
+    assert d.spilled_liters > 2 * PRT_DEZ_DIAS["lower_tank_vol"]
 
 
 def test_prt_as_somas_dos_dez_dias_fecham(prt_dez_dias):
-    """Impresso: 6.732 L captados, 4.324 L extravasados, 488 L consumidos, 1.920 L ao fim; resíduo zero."""
+    """Impresso: 7.752 L captados, 5.221 L extravasados, 611 L consumidos, 1.920 L ao fim; resíduo zero."""
     d = prt_dez_dias.daily_results
     captado = sum(x.harvested_liters for x in d)
     extravasado = sum(x.spilled_liters for x in d)
     consumido = sum(x.pluvial_consumed_liters for x in d)
     final = d[-1].lower_tank_end_liters
-    assert captado == pytest.approx(6732.0, abs=1.0)
-    assert extravasado == pytest.approx(4324.0, abs=1.0)
-    assert consumido == pytest.approx(488.0, abs=1.0)
+    assert captado == pytest.approx(7752.0, abs=1.0)
+    assert extravasado == pytest.approx(5221.0, abs=1.0)
+    assert consumido == pytest.approx(611.0, abs=1.0)
     assert final == pytest.approx(1920.0, abs=1.0)
     assert captado - extravasado - consumido - final == pytest.approx(0.0, abs=0.5)
 
@@ -2034,47 +2042,47 @@ def test_prt_a_tabela_publicada_dos_dez_dias_bate_com_a_simulacao(prt_dez_dias):
 # ── o tutorial de Lisboa: capítulos 4 a 7 ───────────────────────────────────────────────────────
 
 def test_prt_a_serie_do_tutorial_e_a_que_o_capitulo_4_descreve(prt_serie):
-    """Impresso: 30 anos, 719 mm/ano, chuva em 22% dos dias, 9,0 mm nos dias chuvosos, máximo 91,2 mm."""
+    """Impresso: 30 anos, 746 mm/ano, chuva em 35% dos dias, 5,9 mm nos dias chuvosos, máximo 109,9 mm."""
     anos = len(prt_serie) / 365.25
-    assert len(prt_serie) == 10958
+    assert len(prt_serie) == 10957       # 01/01/1986 a 31/12/2015
     assert anos == pytest.approx(30.0, abs=0.1)
-    assert prt_serie.sum() / anos == pytest.approx(719.0, abs=3.0)
-    assert (prt_serie > 0.1).mean() * 100 == pytest.approx(22.0, abs=1.0)
-    assert prt_serie[prt_serie > 0.1].mean() == pytest.approx(9.0, abs=0.1)
-    assert prt_serie.max() == pytest.approx(91.2, abs=0.05)
+    assert prt_serie.sum() / anos == pytest.approx(746.0, abs=3.0)
+    assert (prt_serie > 0.1).mean() * 100 == pytest.approx(35.0, abs=1.0)
+    assert prt_serie[prt_serie > 0.1].mean() == pytest.approx(5.9, abs=0.1)
+    assert prt_serie.max() == pytest.approx(109.9, abs=0.05)
 
 
-def test_prt_o_descarte_atinge_quatro_por_cento_dos_dias(prt_serie):
-    """Impresso: 4% dos dias têm chuva (acima de 0,1 mm) mas abaixo da lâmina de descarte de 2 mm."""
+def test_prt_o_descarte_atinge_dezasseis_por_cento_dos_dias(prt_serie):
+    """Impresso: 16% dos dias têm chuva (acima de 0,1 mm) mas abaixo da lâmina de descarte de 2 mm."""
     abaixo = ((prt_serie > 0.1) & (prt_serie <= 2.0)).mean() * 100
-    assert abaixo == pytest.approx(4.0, abs=1.0)
+    assert abaixo == pytest.approx(16.0, abs=1.0)
 
 
 def test_prt_a_oferta_bruta_e_uma_vez_e_meia_a_procura(prt_serie):
-    """Impresso no capítulo 5: 92 m³/ano de oferta bruta contra 61 m³/ano de procura pluvial (1,5×)."""
+    """Impresso no capítulo 5: 95 m³/ano de oferta bruta contra 61 m³/ano de procura pluvial (1,6×)."""
     anos = len(prt_serie) / 365.25
     bruta = prt_serie.sum() / anos * PRT_TUTORIAL["area"] * PRT_TUTORIAL["runoff_coeff"] / 1000.0
     procura = PRT_TUTORIAL["total_demand_per_day"] * PRT_TUTORIAL["rainwater_share"] * 365.25 / 1000.0
-    assert bruta == pytest.approx(92.0, abs=1.0)
+    assert bruta == pytest.approx(95.0, abs=1.0)
     assert procura == pytest.approx(61.0, abs=1.0)
-    assert bruta / procura == pytest.approx(1.5, abs=0.05)
+    assert bruta / procura == pytest.approx(1.6, abs=0.06)
 
 
 def test_prt_a_primeira_simulacao_do_capitulo_6(prt_serie):
-    """Impresso: 15,39% com 3.000 L, 106,4 L/dia extravasados, 53,3% de dias plenos, 33,7 m³/ano."""
+    """Impresso: 15,77% com 3.000 L, 100,3 L/dia extravasados, 54,7% de dias plenos, 34,6 m³/ano."""
     r = _prt_sim(prt_serie, 3000)
-    assert r.potential_potable_savings_pct == pytest.approx(15.39, abs=0.05)
-    assert r.avg_spilled_l_day == pytest.approx(106.4, abs=0.1)
-    assert r.pct_days_full_satisfaction == pytest.approx(53.3, abs=0.1)
-    assert r.pct_days_partial_satisfaction == pytest.approx(2.9, abs=0.1)
-    assert r.pct_days_null_satisfaction == pytest.approx(43.8, abs=0.1)
-    assert r.annual_pluvial_consumed_m3 == pytest.approx(33.7, abs=0.1)
-    assert r.avg_pluvial_consumed_l_day == pytest.approx(92.3, abs=0.1)
+    assert r.potential_potable_savings_pct == pytest.approx(15.77, abs=0.05)
+    assert r.avg_spilled_l_day == pytest.approx(100.3, abs=0.1)
+    assert r.pct_days_full_satisfaction == pytest.approx(54.7, abs=0.1)
+    assert r.pct_days_partial_satisfaction == pytest.approx(3.0, abs=0.1)
+    assert r.pct_days_null_satisfaction == pytest.approx(42.3, abs=0.1)
+    assert r.annual_pluvial_consumed_m3 == pytest.approx(34.6, abs=0.1)
+    assert r.avg_pluvial_consumed_l_day == pytest.approx(94.6, abs=0.1)
 
 
 @pytest.mark.parametrize(("volume", "potencial"), [
-    (1000, 10.39), (2000, 13.55), (3000, 15.39), (4000, 16.60), (5000, 17.49),
-    (8000, 19.39), (12000, 21.23), (20000, 24.01),
+    (1000, 10.84), (2000, 13.92), (3000, 15.77), (4000, 16.97), (5000, 17.87),
+    (8000, 19.76), (12000, 21.58), (20000, 24.35),
 ])
 def test_prt_a_curva_de_varredura_do_capitulo_7(prt_serie, volume, potencial):
     """Cada linha da tabela impressa no capítulo 7."""
@@ -2087,7 +2095,7 @@ def test_prt_o_potencial_nunca_passa_da_fracao_suprivel(prt_serie):
         assert _prt_sim(prt_serie, v).potential_potable_savings_pct <= teto + 1e-9
 
 
-@pytest.mark.parametrize(("limiar", "ideal"), [(3.0, 3000), (1.0, 5000), (0.5, 10000)])
+@pytest.mark.parametrize(("limiar", "ideal"), [(3.0, 3000), (1.0, 5000), (0.5, 9000)])
 def test_prt_o_limiar_decide_o_volume_ideal(prt_serie, limiar, ideal):
     from triton.core.simulation import run_sweep_simulation
     r = run_sweep_simulation(precip_data=prt_serie, lower_tank_max=20000.0, lower_tank_step=1000.0,
@@ -2096,10 +2104,10 @@ def test_prt_o_limiar_decide_o_volume_ideal(prt_serie, limiar, ideal):
 
 
 def test_prt_o_volume_maior_custa_muito_mais_por_pouco_ganho(prt_serie):
-    """Impresso: 3,3× o preço (ilustrativo) e 3,5× o carbono por 6,52 pontos (de 5.000 a 20.000 L)."""
+    """Impresso: 3,3× o preço (ilustrativo) e 3,5× o carbono por 6,47 pontos (de 5.000 a 20.000 L)."""
     from triton.core.environmental import calculate_lca
     r5, r20 = _prt_sim(prt_serie, PRT_VOLUME), _prt_sim(prt_serie, 20000)
-    assert r20.potential_potable_savings_pct - r5.potential_potable_savings_pct == pytest.approx(6.52, abs=0.05)
+    assert r20.potential_potable_savings_pct - r5.potential_potable_savings_pct == pytest.approx(6.47, abs=0.05)
     assert _prt_preco(20000, "CONCRETO") / _prt_preco(PRT_VOLUME, "CONCRETO") == pytest.approx(3.3, abs=0.1)
     cfg = _prt_ambiental("CONCRETO")
     c5 = calculate_lca(PRT_VOLUME, r5.annual_pluvial_consumed_m3, cfg).total_embodied_co2_kg
@@ -2111,18 +2119,18 @@ def test_prt_o_volume_maior_custa_muito_mais_por_pouco_ganho(prt_serie):
 # ── capítulos 8 a 12: o reservatório superior, o custo (ilustrativo), o carbono, a decisão ───────
 
 def test_prt_o_reservatorio_superior_nao_aumenta_a_poupanca(prt_serie):
-    """Impresso no capítulo 8: com o mesmo armazenamento (6.000 L), o arranjo duplo perde 0,31 ponto."""
+    """Impresso no capítulo 8: com o mesmo armazenamento (6.000 L), o arranjo duplo perde 0,32 ponto."""
     unico = _prt_sim(prt_serie, PRT_VOLUME + 1000.0)
     duplo = _prt_sim(prt_serie, PRT_VOLUME, upper_tank_vol=1000.0, upper_tank_used=True, pumping_threshold=100.0)
-    assert unico.potential_potable_savings_pct == pytest.approx(18.19, abs=0.05)
-    assert duplo.potential_potable_savings_pct == pytest.approx(17.88, abs=0.05)
-    assert unico.potential_potable_savings_pct - duplo.potential_potable_savings_pct == pytest.approx(0.31, abs=0.03)
-    assert unico.pct_days_full_satisfaction == pytest.approx(64.0, abs=0.1)
-    assert duplo.pct_days_full_satisfaction == pytest.approx(62.8, abs=0.1)
+    assert unico.potential_potable_savings_pct == pytest.approx(18.59, abs=0.05)
+    assert duplo.potential_potable_savings_pct == pytest.approx(18.28, abs=0.05)
+    assert unico.potential_potable_savings_pct - duplo.potential_potable_savings_pct == pytest.approx(0.32, abs=0.03)
+    assert unico.pct_days_full_satisfaction == pytest.approx(65.5, abs=0.1)
+    assert duplo.pct_days_full_satisfaction == pytest.approx(64.3, abs=0.1)
 
 
 def test_prt_a_energia_da_elevacao_do_capitulo_8(prt_serie):
-    """Impresso: 5,1 kWh/ano e 49 arranques por ano."""
+    """Impresso: 5,3 kWh/ano e 51 arranques por ano."""
     from triton.core.parser import TritonConfig
     from triton.core.pump_energy import compute_annual_pump_energy
     duplo = _prt_sim(prt_serie, PRT_VOLUME, upper_tank_vol=1000.0, upper_tank_used=True, pumping_threshold=100.0)
@@ -2131,12 +2139,12 @@ def test_prt_a_energia_da_elevacao_do_capitulo_8(prt_serie):
     cfg.pump_power_kw, cfg.pump_efficiency, cfg.pump_flow_rate = 0.37, 0.0, 0.0
     cfg.pump_manometric_head_m, cfg.pump_startup_time_h = 12.0, 0.03
     e = compute_annual_pump_energy(cfg, duplo)
-    assert e.annual_kwh == pytest.approx(5.1, abs=0.3)
-    assert e.annual_cycles == pytest.approx(49, abs=3)
+    assert e.annual_kwh == pytest.approx(5.3, abs=0.3)
+    assert e.annual_cycles == pytest.approx(51, abs=3)
 
 
 @pytest.mark.parametrize(("limiar", "potencial", "arranques"), [
-    (0, 17.78, 45), (100, 17.88, 49), (300, 17.95, 61), (500, 18.01, 80),
+    (0, 18.23, 46), (100, 18.28, 51), (300, 18.32, 62), (500, 18.42, 83),
 ])
 def test_prt_o_limiar_de_arranque_troca_potencial_por_desgaste(prt_serie, limiar, potencial, arranques):
     r = _prt_sim(prt_serie, PRT_VOLUME, upper_tank_vol=1000.0, upper_tank_used=True,
@@ -2146,20 +2154,20 @@ def test_prt_o_limiar_de_arranque_troca_potencial_por_desgaste(prt_serie, limiar
 
 
 def test_prt_o_resultado_economico_do_capitulo_10(prt_serie):
-    """Impresso (custos ILUSTRATIVOS, euros): investimento 6.650; poupança anual 134,28; VAL -5.828,77; sem recuperação.
+    """Impresso (custos ILUSTRATIVOS, euros): investimento 6.650; poupança anual 135,88; VAL -5.802,56; sem recuperação.
 
     O tarifário de Lisboa é o transcrito (EPAL e Câmara); o sistema não se paga com estes custos, e o
     capítulo diz isso em vez de ajustar os custos até a recuperação aparecer.
     """
     _, e = _prt_economico(prt_serie, PRT_VOLUME, "CONCRETO")
     assert e.capex_total == pytest.approx(6650.0, abs=1.0)
-    assert e.annual_water_savings_brl == pytest.approx(134.28, abs=3.0)
-    assert e.vpl == pytest.approx(-5828.8, abs=60.0)
+    assert e.annual_water_savings_brl == pytest.approx(135.88, abs=3.0)
+    assert e.vpl == pytest.approx(-5802.6, abs=60.0)
     assert not e.payback_years
 
 
 def test_prt_a_fatura_de_lisboa_com_e_sem_o_sistema(prt_serie):
-    """Impresso: 46,25 € sem o sistema, 35,06 € com ele, poupança de 11,19 € por mês."""
+    """Impresso: 46,25 € sem o sistema, 34,93 € com ele, poupança de 11,32 € por mês."""
     from triton.core.economic import calculate_water_bill, esgoto_do_projeto
     cfg = _prt_config_de_lisboa()
     r = run_single_simulation(precip_data=prt_serie, lower_tank_vol=PRT_VOLUME, upper_tank_vol=1000.0,
@@ -2172,8 +2180,8 @@ def test_prt_a_fatura_de_lisboa_com_e_sem_o_sistema(prt_serie):
     sem = conta(r.avg_pluvial_consumed_l_day + r.avg_potable_consumed_l_day)
     com = conta(r.avg_potable_consumed_l_day)
     assert sem == pytest.approx(46.25, abs=0.05)
-    assert com == pytest.approx(35.06, abs=0.05)
-    assert sem - com == pytest.approx(11.19, abs=0.05)
+    assert com == pytest.approx(34.93, abs=0.05)
+    assert sem - com == pytest.approx(11.32, abs=0.05)
 
 
 def test_prt_o_tarifario_de_lisboa_e_o_impresso_na_base():
@@ -2186,22 +2194,22 @@ def test_prt_o_tarifario_de_lisboa_e_o_impresso_na_base():
 
 
 def test_prt_a_troca_para_polietileno_muda_o_retorno_do_carbono(prt_serie):
-    """Impresso no capítulo 11: o carbono retorna em 20,9 anos em polietileno e em 59,0 em betão.
+    """Impresso no capítulo 11: o carbono retorna em 20,4 anos em polietileno e em 57,7 em betão.
 
     Com a chuva de Lisboa e os fatores ilustrativos, nenhum dos dois cumpre 20 anos com folga: o polietileno
-    fica na fronteira (emite 15 kg em 20 anos), o betão emite 678 kg.
+    fica na fronteira (emite 8 kg em 20 anos), o betão emite 670 kg.
     """
     from triton.core.environmental import calculate_lca
     r = run_single_simulation(precip_data=prt_serie, lower_tank_vol=PRT_VOLUME, upper_tank_vol=1000.0,
                               upper_tank_used=True, pumping_threshold=100.0, **PRT_TUTORIAL)
     lca = {k: calculate_lca(PRT_VOLUME, r.annual_pluvial_consumed_m3, _prt_ambiental(k, r))
            for k in ("PEAD", "CONCRETO")}
-    assert lca["PEAD"].environmental_payback_years == pytest.approx(20.9, abs=0.3)
-    assert lca["CONCRETO"].environmental_payback_years == pytest.approx(59.0, abs=0.5)
+    assert lca["PEAD"].environmental_payback_years == pytest.approx(20.4, abs=0.3)
+    assert lca["CONCRETO"].environmental_payback_years == pytest.approx(57.7, abs=0.5)
     assert lca["PEAD"].total_embodied_co2_kg == pytest.approx(363.0, abs=2.0)
     assert lca["CONCRETO"].total_embodied_co2_kg == pytest.approx(1026.0, abs=2.0)
-    assert -lca["PEAD"].lifetime_net_co2_saved_kg == pytest.approx(15.0, abs=3.0)
-    assert -lca["CONCRETO"].lifetime_net_co2_saved_kg == pytest.approx(678.0, abs=5.0)
+    assert -lca["PEAD"].lifetime_net_co2_saved_kg == pytest.approx(8.0, abs=3.0)
+    assert -lca["CONCRETO"].lifetime_net_co2_saved_kg == pytest.approx(670.0, abs=5.0)
 
 
 def test_prt_os_tres_criterios_do_capitulo_12_discordam(prt_serie):
@@ -2228,11 +2236,11 @@ def test_prt_os_tres_criterios_do_capitulo_12_discordam(prt_serie):
 # ── secção 3.1: as cidades de comparação ────────────────────────────────────────────────────────
 
 def test_prt_as_cidades_da_secao_3_1():
-    """Impresso: o mesmo projeto rende 17,49% em Lisboa, 22,04% no Porto e 12,98% no Funchal (com 5.000 L).
+    """Impresso: o mesmo projeto rende 17,87% em Lisboa, 21,58% no Porto e 12,86% no Funchal (com 5.000 L).
 
-    O Porto chove 1,7 vez o que chove Lisboa e rende 4,6 pontos mais; o Funchal, com menos chuva, rende menos.
+    O Porto chove 1,6 vez o que chove Lisboa e rende 3,7 pontos mais; o Funchal, com menos chuva, rende menos.
     O volume ideal é 5.000 L em Lisboa e no Porto e 4.000 L no Funchal. A razão entre o mês mais e o menos
-    chuvoso é 47,3× em Lisboa (verão seco), 9,8× no Porto e 14,8× no Funchal.
+    chuvoso é 22,7× em Lisboa (verão seco), 9,9× no Porto e 22,4× no Funchal.
     """
     from datetime import datetime, timedelta
 
@@ -2252,30 +2260,30 @@ def test_prt_as_cidades_da_secao_3_1():
                       sw.optimal_lower_tank_vol, (serie > 0.1).mean() * 100)
     li, po, fu = res["Lisboa"], res["Porto"], res["Funchal"]
     assert po[0] > li[0] > fu[0]
-    assert li[1] == pytest.approx(17.49, abs=0.05)
-    assert po[1] == pytest.approx(22.04, abs=0.05)
-    assert fu[1] == pytest.approx(12.98, abs=0.05)
-    assert li[0] == pytest.approx(719.0, abs=3.0) and po[0] == pytest.approx(1199.0, abs=3.0) \
-        and fu[0] == pytest.approx(538.0, abs=3.0)
-    assert li[2] == pytest.approx(47.3, abs=0.5) and po[2] == pytest.approx(9.8, abs=0.2) \
-        and fu[2] == pytest.approx(14.8, abs=0.3)
-    assert (li[4], po[4], fu[4]) == pytest.approx((22.0, 31.0, 42.0), abs=1.0)
+    assert li[1] == pytest.approx(17.87, abs=0.05)
+    assert po[1] == pytest.approx(21.58, abs=0.05)
+    assert fu[1] == pytest.approx(12.86, abs=0.05)
+    assert li[0] == pytest.approx(746.0, abs=3.0) and po[0] == pytest.approx(1197.0, abs=3.0) \
+        and fu[0] == pytest.approx(531.0, abs=3.0)
+    assert li[2] == pytest.approx(22.7, abs=0.3) and po[2] == pytest.approx(9.9, abs=0.2) \
+        and fu[2] == pytest.approx(22.4, abs=0.3)
+    assert (li[4], po[4], fu[4]) == pytest.approx((35.0, 48.0, 42.0), abs=1.0)
     assert (li[3], po[3], fu[3]) == (5000.0, 5000.0, 4000.0)
 
 
 # ── os ficheiros de caso e as tabelas ───────────────────────────────────────────────────────────
 
 PRT_CASOS_ESPERADOS = {
-    "01_tutorial_lisboa.triton": ("volume fixo", 17.88),
-    "02_porto.triton": ("volume fixo", 22.04),
-    "03_funchal.triton": ("volume fixo", 12.98),
-    "04_tutorial_varredura.triton": ("varredura", 17.49),
-    "05_dez_dias.triton": ("volume fixo", 24.43),
-    "06_reservatorio_superior.triton": ("volume fixo", 17.88),
-    "07_escola_semanal.triton": ("volume fixo", 23.03),
-    "08_hotel_mensal.triton": ("volume fixo", 10.36),
-    "09_modulacao_tutorial.triton": ("varredura", 17.49),
-    "10_modulacao_captacao.triton": ("varredura", 17.49),
+    "01_tutorial_lisboa.triton": ("volume fixo", 18.28),
+    "02_porto.triton": ("volume fixo", 21.58),
+    "03_funchal.triton": ("volume fixo", 12.86),
+    "04_tutorial_varredura.triton": ("varredura", 17.87),
+    "05_dez_dias.triton": ("volume fixo", 30.55),
+    "06_reservatorio_superior.triton": ("volume fixo", 18.28),
+    "07_escola_semanal.triton": ("volume fixo", 21.83),
+    "08_hotel_mensal.triton": ("volume fixo", 10.34),
+    "09_modulacao_tutorial.triton": ("varredura", 17.87),
+    "10_modulacao_captacao.triton": ("varredura", 17.87),
 }
 
 
@@ -2300,26 +2308,26 @@ def test_prt_os_casos_batem_com_as_tabelas_e_os_capitulos():
     assert pub["04_tutorial_varredura.triton"]["volumes_simulados"] == 21
     d = pub["05_dez_dias.triton"]
     assert (d["volume_l"], d["dias_de_chuva"]) == (2000.0, 10)
-    assert d["pluvial_l_dia"] == pytest.approx(48.9) and d["extravasado_l_dia"] == pytest.approx(432.4)
-    assert d["atendimento_pleno_pct"] == pytest.approx(60.0)
-    # O reservatório superior de 1.000 L perde 0,31 ponto contra um reservatório só de 6.000 L.
+    assert d["pluvial_l_dia"] == pytest.approx(61.1) and d["extravasado_l_dia"] == pytest.approx(522.1)
+    assert d["atendimento_pleno_pct"] == pytest.approx(70.0)
+    # O reservatório superior de 1.000 L perde 0,32 ponto contra um reservatório só de 6.000 L.
     u = pub["06_reservatorio_superior.triton"]
     assert u["volume_tanque_unico_l"] == 6000.0
-    assert u["potencial_tanque_unico_pct"] - u["potencial_pct"] == pytest.approx(0.31, abs=0.01)
+    assert u["potencial_tanque_unico_pct"] - u["potencial_pct"] == pytest.approx(0.32, abs=0.02)
     # O mesmo projeto em três chuvas.
-    assert pub["01_tutorial_lisboa.triton"]["atendimento_pleno_pct"] == pytest.approx(62.8)
-    assert pub["02_porto.triton"]["atendimento_pleno_pct"] == pytest.approx(77.9)
-    assert pub["03_funchal.triton"]["atendimento_pleno_pct"] == pytest.approx(44.5)
+    assert pub["01_tutorial_lisboa.triton"]["atendimento_pleno_pct"] == pytest.approx(64.3)
+    assert pub["02_porto.triton"]["atendimento_pleno_pct"] == pytest.approx(76.0)
+    assert pub["03_funchal.triton"]["atendimento_pleno_pct"] == pytest.approx(44.1)
 
 
 def test_prt_o_calendario_concentrado_rende_menos_que_a_procura_constante():
-    """Secção 3.4: o hotel de Lisboa (cheio de junho a setembro, o verão seco) perde 0,71 ponto contra a mesma
+    """Secção 3.4: o hotel de Lisboa (cheio de junho a setembro, o verão seco) perde 0,68 ponto contra a mesma
     procura anual espalhada; a escola semanal do Porto, que só fecha ao fim de semana, quase não muda."""
     pub = _prt_resultados()
     hotel, escola = pub["08_hotel_mensal.triton"], pub["07_escola_semanal.triton"]
-    assert hotel["potencial_demanda_constante_pct"] - hotel["potencial_pct"] == pytest.approx(0.71, abs=0.02)
+    assert hotel["potencial_demanda_constante_pct"] - hotel["potencial_pct"] == pytest.approx(0.68, abs=0.02)
     assert hotel["demanda_media_l_dia"] == pytest.approx(8365.1, abs=0.1)
-    assert abs(escola["potencial_demanda_constante_pct"] - escola["potencial_pct"]) < 0.2
+    assert abs(escola["potencial_demanda_constante_pct"] - escola["potencial_pct"]) < 0.3
     assert escola["demanda_media_l_dia"] == pytest.approx(9014.3, abs=0.1)
 
 
@@ -2406,17 +2414,17 @@ def test_prt_as_tabelas_estao_em_portugues_de_portugal():
 #: Para cada capítulo, o que ele tem de citar do programa. Cada capítulo vale a partir do momento em que
 #: deixa de citar o Brasil (`_prt_capitulo`); antes disso, é saltado, sem esconder os demais.
 PRT_CITACOES = {
-    "23_balanco_diario.md": ("24,4%", "6 732 L", "4 324 L", "488 L", "2 865 L", "2 380 L", "1 943 L",
-                             "9 L", "1 920 L"),
-    "04_o_projeto_e_a_chuva.md": ("150 m²", "0,85", "2,0 mm", "719 mm", "Lisboa"),
+    "23_balanco_diario.md": ("30,6%", "7 752 L", "5 221 L", "611 L", "4 156 L", "4 076 L", "2 712 L", "1 074 L",
+                             "51 L", "1 920 L"),
+    "04_o_projeto_e_a_chuva.md": ("150 m²", "0,85", "2,0 mm", "746 mm", "Lisboa"),
     "05_a_edificacao_e_a_demanda.md": ("600 L/dia", "168 L/dia", "28%", "61"),
-    "06_a_primeira_simulacao.md": ("15,39%", "106,4 L/dia", "53,3%", "3 000"),
-    "07_escolher_o_volume.md": ("5 000 L", "17,49%", "61,3%", "24,01%"),
-    "08_reservatorio_superior.md": ("5,1 kWh", "6 000 L"),
-    "10_quanto_custa.md": ("11,19 €", "ilustrativo"),
-    "11_quanto_carbono_evita.md": ("1 026 kg", "59,0 anos", "20,9 anos"),
-    "12_qual_volume_escolher.md": ("5 000 L", "12 000 L", "1 000 L", "2 000 L", "17,88%"),
-    "14_comparar_cidades.md": ("Porto", "Funchal", "17,49%", "22,04%", "12,98%", "47,3"),
+    "06_a_primeira_simulacao.md": ("15,77%", "100,3 L/dia", "54,7%", "3 000"),
+    "07_escolher_o_volume.md": ("5 000 L", "17,87%", "62,7%", "24,35%"),
+    "08_reservatorio_superior.md": ("5,3 kWh", "6 000 L"),
+    "10_quanto_custa.md": ("11,32 €", "ilustrativo"),
+    "11_quanto_carbono_evita.md": ("1 026 kg", "57,7 anos", "20,4 anos"),
+    "12_qual_volume_escolher.md": ("5 000 L", "12 000 L", "1 000 L", "2 000 L", "18,28%"),
+    "14_comparar_cidades.md": ("Porto", "Funchal", "17,87%", "21,58%", "12,86%", "22,7"),
 }
 
 

@@ -14,7 +14,7 @@ O Triton evita o problema calculando duas faturas completas — a que o edifíci
 
 <!-- inclui: _tabelas/cap10_economico.md -->
 
-O resultado merece atenção. O sistema poupa 3,27 m³ por mês e a fatura baixa 11,19 €, o que dá 3,42 € por metro cúbico poupado. É mais do que a média da fatura sem o sistema, 2,53 € por metro cúbico (46,25 € para 18,26 m³). A diferença vem de a poupança incidir sobre os escalões mais altos e de a fatura de Lisboa somar à água o saneamento e os resíduos, ambos cobrados em função do volume de água: cada metro cúbico que não é tirado da rede também não é descarregado nem contado para os resíduos.
+O resultado merece atenção. O sistema poupa 3,34 m³ por mês e a fatura baixa 11,32 €, o que dá 3,39 € por metro cúbico poupado. É mais do que a média da fatura sem o sistema, 2,53 € por metro cúbico (46,25 € para 18,26 m³). A diferença vem de a poupança incidir sobre os escalões mais altos e de a fatura de Lisboa somar à água o saneamento e os resíduos, ambos cobrados em função do volume de água: cada metro cúbico que não é tirado da rede também não é descarregado nem contado para os resíduos.
 
 > **O saneamento acompanha a parcela da água, não a fatura total.** Poupar água poupa as duas parcelas, e é por isso que o valor efetivo do metro cúbico poupado fica acima do preço da água.
 
@@ -99,11 +99,11 @@ O plano é uma tabela opcional, que o utilizador ligaria de propósito, com cinc
 
 A segunda tabela acima dá os indicadores.
 
-**O projeto não se paga, e esse é o resultado honesto.** Ao fim de vinte anos, com estes custos ilustrativos e o tarifário de Lisboa, o valor atual líquido (VAL) é de −5 828,77 €, a taxa interna de rentabilidade é de −11,30% ao ano, e não há período de recuperação descontado dentro do horizonte. Não ajustámos os custos até aparecer uma recuperação.
+**O projeto não se paga, e esse é o resultado honesto.** Ao fim de vinte anos, com estes custos ilustrativos e o tarifário de Lisboa, o valor atual líquido (VAL) é de −5 802,56 €, a taxa interna de rentabilidade é de −11,11% ao ano, e não há período de recuperação descontado dentro do horizonte. Não ajustámos os custos até aparecer uma recuperação.
 
-A razão não é um defeito do exemplo. A água é barata em Lisboa em relação ao que custam uma cisterna, duas bombas e a mão de obra, e a fração de 28% limita a poupança a pouco mais de três metros cúbicos por mês, 134,28 € por ano. Um tarifário que premeie mais o metro cúbico, uma fração atendível maior ou uma instalação mais barata mudam a conta, e a secção {{n:20}} varia cada um deles por sua vez. Mostra também que nenhuma das premissas testadas, isoladamente, produz recuperação neste caso. Só o tutorial leva custos, pelo que a secção {{n:14}} compara as três cidades pelo potencial de poupança, e não pela recuperação.
+A razão não é um defeito do exemplo. A água é barata em Lisboa em relação ao que custam uma cisterna, duas bombas e a mão de obra, e a fração de 28% limita a poupança a pouco mais de três metros cúbicos por mês, 135,88 € por ano. Um tarifário que premeie mais o metro cúbico, uma fração atendível maior ou uma instalação mais barata mudam a conta, e a secção {{n:20}} varia cada um deles por sua vez. Mostra também que nenhuma das premissas testadas, isoladamente, produz recuperação neste caso. Só o tutorial leva custos, pelo que a secção {{n:14}} compara as três cidades pelo potencial de poupança, e não pela recuperação.
 
-**O custo de exploração é pequeno:** 1,75 € por ano, dos quais 1,03 € são a energia da elevação, os 5,1 kWh por ano da secção {{n:8}} a 0,20 € por quilowatt-hora (valor ilustrativo, não é preço de mercado). A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo indicado na etapa **4. Reservatório & Custos**: elevação, pressurização direta ou gravidade. Este valor não inclui as três rotinas de manutenção ilustrativas, que somam 90,00 € por ano e entram no fluxo de caixa à parte; a secção seguinte mostra o peso delas.
+**O custo de exploração é pequeno:** 1,79 € por ano, dos quais 1,05 € são a energia da elevação, os 5,3 kWh por ano da secção {{n:8}} a 0,20 € por quilowatt-hora (valor ilustrativo, não é preço de mercado). A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo indicado na etapa **4. Reservatório & Custos**: elevação, pressurização direta ou gravidade. Este valor não inclui as três rotinas de manutenção ilustrativas, que somam 90,00 € por ano e entram no fluxo de caixa à parte; a secção seguinte mostra o peso delas.
 
 ---
 
@@ -168,8 +168,8 @@ A atualização da tarifa é a premissa mais frágil da lista. Três por cento a
 | volume | 5 000 L, betão |
 | arranjo | elevação para reservatório superior de 1 000 L |
 | investimento | 6 650 € |
-| poupança anual | 134,28 € |
-| VAL a 20 anos | −5 828,77 € |
+| poupança anual | 135,88 € |
+| VAL a 20 anos | −5 802,56 € |
 | período de recuperação | sem recuperação em 20 anos |
 
 O dinheiro diz não.

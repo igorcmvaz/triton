@@ -165,7 +165,7 @@ triton run 04_tutorial_varredura.triton --volume 5000 --format json --output r.j
 ```
 
 O ficheiro `r.json` regista a proveniência (projeto de origem, número de dias da série e data
-inicial) e, para o volume de 5 000 L, o potencial de poupança de 17,49%, com 61,3% de dias de
+inicial) e, para o volume de 5 000 L, o potencial de poupança de 17,87%, com 62,7% de dias de
 abastecimento pleno.
 
 O subcomando `uncertainty` sorteia, em cada amostra, a precipitação, a área de captação, a
@@ -173,7 +173,7 @@ procura e o investimento com uma distribuição de coeficiente de variação dec
 percentis de 5%, 50% e 95% do potencial de poupança e do valor atual líquido, com a probabilidade
 de o valor atual líquido ser positivo. Corra-o sobre o tutorial com um número modesto de amostras
 e uma `--seed` fixa, e leia os percentis do potencial como um intervalo, e não como um número
-único. Em Lisboa, o potencial do tutorial (17,49% a 5 000 L) está bem abaixo do teto de 28%, e a
+único. Em Lisboa, o potencial do tutorial (17,87% a 5 000 L) está bem abaixo do teto de 28%, e a
 curva ainda sobe aos 20 000 L; por isso, uma variação da chuva ou da procura desloca o potencial
 mais do que deslocaria num sistema que já opera junto do teto. O valor atual líquido, negativo no
 tutorial com os custos ilustrativos da secção {{n:10}}, move-se em proporção ao investimento e ao

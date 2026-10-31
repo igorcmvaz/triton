@@ -61,7 +61,7 @@ A terceira pergunta é hidráulica. A resposta depende da altura do edifício e 
 | é moradia de dois pisos ou prédio | reservatório superior, por **pressão** | secção {{n:8}} |
 | precisa de reserva contra falhas de energia | reservatório superior | secção {{n:8}} |
 
-> O reservatório superior **não aumenta** a poupança de água. Com o mesmo armazenamento total, entrega um pouco menos e gasta energia de elevação. A decisão de o adotar deve ser hidráulica, nunca fundada na expectativa de um aproveitamento maior. No tutorial de Lisboa, a diferença é de 0,31 pontos percentuais (secção {{n:8}}).
+> O reservatório superior **não aumenta** a poupança de água. Com o mesmo armazenamento total, entrega um pouco menos e gasta energia de elevação. A decisão de o adotar deve ser hidráulica, nunca fundada na expectativa de um aproveitamento maior. No tutorial de Lisboa, a diferença é de 0,32 pontos percentuais (secção {{n:8}}).
 
 ---
 

@@ -127,7 +127,7 @@ cálculo cabe numa página.
 concentrada: um mês com 200 mm repartidos por cinco eventos enche a cisterna e faz com que
 extravase cinco vezes, ao passo que o cálculo por médias supõe um fluxo contínuo que a cisterna
 absorveria por inteiro. Em Lisboa o efeito é ainda mais marcante, porque o verão é seco: o mês mais
-chuvoso tem 47,3 vezes a chuva do menos chuvoso, e uma média anual não vê nada disto.
+chuvoso tem 22,7 vezes a chuva do menos chuvoso, e uma média anual não vê nada disto.
 
 **Como evitar.** É a razão de existir deste programa. A secção 2.1 (volume O método) mostra o extravasamento a
 acontecer dia a dia; o cálculo por médias não o vê.
@@ -142,7 +142,7 @@ acontecer dia a dia; o cálculo por médias não o vê.
 
 **O que faz ao resultado.** O campo espera **milímetros**. Introduzir 300, a pensar nos 300 litros
 do dispositivo, produz um descarte de 300 mm — maior do que qualquer chuva diária da série de
-Lisboa do tutorial, cujo máximo é 91,2 mm. O sistema capta **praticamente nada**.
+Lisboa do tutorial, cujo máximo é 109,9 mm. O sistema capta **praticamente nada**.
 
 **Como evitar.** `d_f` é uma lâmina. O volume do dispositivo é `A × d_f`: no projeto do tutorial,
 150 m² × 2 mm = 300 litros. São a mesma decisão expressa em duas unidades, e o programa quer a
@@ -160,8 +160,8 @@ como o saneamento e os resíduos acompanham o consumo estão em quadros à parte
 
 **O que faz ao resultado.** A poupança só incide sobre a parte variável da fatura, e cada metro
 cúbico poupado vale o preço do escalão em que cai. Em Lisboa, a fatura do tutorial passa de
-46,25 € por mês sem o sistema (18,26 m³) para 35,06 € com ele (15,00 m³): uma poupança de
-3,27 m³ e de 11,19 € por mês. Um estudo que suponha um desconto linear sobre a fatura total produz
+46,25 € por mês sem o sistema (18,26 m³) para 34,93 € com ele (14,92 m³): uma poupança de
+3,34 m³ e de 11,32 € por mês. Um estudo que suponha um desconto linear sobre a fatura total produz
 um período de recuperação que não existe.
 
 **Como evitar.** A secção 3.3 (volume Guias de uso). E o teste prático: simule dois consumos, um num escalão e outro
@@ -194,8 +194,8 @@ modo personalizado. A secção 3.5 (volume Guias de uso) trata do assunto.
 
 **O que faz ao resultado.** Com o mesmo armazenamento total, o arranjo com reservatório elevado
 entrega **menos**: a cisterna extravasa enquanto o reservatório de cima ainda tem espaço, porque a
-elevação só acontece quando há consumo. No tutorial, 0,31 pontos percentuais a menos (17,88%
-contra 18,19% com um único reservatório de 6 000 L), mais 5,1 kWh por ano de energia.
+elevação só acontece quando há consumo. No tutorial, 0,32 pontos percentuais a menos (18,28%
+contra 18,59% com um único reservatório de 6 000 L), mais 5,3 kWh por ano de energia.
 
 **Como evitar.** Decida o reservatório por critério **hidráulico** — pressão por gravidade, reserva
 contra falhas de energia — e não hídrico. A secção 4.5 (volume Tutorial) faz a comparação justa.
@@ -257,9 +257,9 @@ regras de descarte coincidem. As secções 3.8 (volume Guias de uso) e 6.1 (volu
 **Porque é tentador.** É a coluna que o estudo de aproveitamento pluvial reporta, e mais é melhor.
 
 **O que faz ao resultado.** No tutorial de Lisboa a curva não satura: 20 000 L dão o maior
-potencial da varredura, 24,01%. Custam também **3,3 vezes mais** do que 5 000 L, em betão
+potencial da varredura, 24,35%. Custam também **3,3 vezes mais** do que 5 000 L, em betão
 (ilustrativo, não é preço de mercado: 8 600 € contra 2 600 €), e carregam **3,5 vezes mais carbono
-incorporado** (3 546 contra 1 026 kg CO₂e), para entregar 6,52 pontos percentuais a mais. Escolher
+incorporado** (3 546 contra 1 026 kg CO₂e), para entregar 6,47 pontos percentuais a mais. Escolher
 o maior volume testado é escolher o limite da varredura, e não um ótimo.
 
 **Como evitar.** Declare o critério de escolha. Se for hidráulico, o limiar de ganho marginal; se
@@ -324,10 +324,9 @@ dispositivo, `A × d_f`, mas não o seu arranjo hidráulico, que exige um projet
 ### 5.2.2. Limitações dos dados de chuva e de tarifário
 
 **A chuva por concelho é uma média de grelha.** Em Lisboa e no Porto, a série é a média diária das
-células da grelha (Iberia01 ou E-OBS, 0,1°) do município, e não o registo de um posto. O Iberia01 vai só até 2015; Canárias, Madeira e Açores são ERA5 de 0,25° (nível C), que subestima a chuva; Ceuta e Melilla não têm série. Nas tarifas, Espanha só tem a média regional do INE (indicativa) e Portugal, três concelhos transcritos. A base cobre 278 dos 308
-concelhos; os 30 restantes ficam de fora por estarem fora do domínio da E-OBS (Açores, a oeste de
-25° W) ou por terem mais de 1% de dias sem dado em 1991–2020. O Funchal usa a reanálise ERA5, numa
-célula de cerca de 9 km, com chuva em 42% dos dias, e é a série menos fiável das três. Para um
+células da grelha (Iberia01 ou E-OBS, 0,1°) do município, e não o registo de um posto. O Iberia01 vai só até 2015; Canárias, Madeira e Açores são ERA5 de 0,25° (nível C), que subestima a chuva; Ceuta e Melilla não têm série. Nas tarifas, Espanha só tem a média regional do INE (indicativa) e Portugal, três concelhos transcritos. O Iberia01 cobre 278 dos 308
+concelhos de Portugal; os 30 das ilhas (Madeira e Açores) estão fora do seu domínio e usam a reanálise
+ERA5. O Funchal usa um nó de 0,25° (cerca de 25 km), com chuva em 42% dos dias, e é a série menos fiável das três. Para um
 projeto real, use a série medida.
 
 **O tarifário cobre três cidades e só o utilizador doméstico.** Estão transcritos os tarifários de
@@ -771,7 +770,7 @@ ao reservatório, em %/m³ ($\Delta E_{pot} / \Delta V$). Critério de escolha d
 **GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
 de desempenho socioambiental. Sua série 303 trata de água e efluentes.
 
-**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva E-OBS por concelho e os tarifários transcritos de Lisboa, Porto e Funchal. Hoje só os concelhos de Portugal têm dados; a linha de cobertura do programa diz quantos locais há em cada país (Espanha: 0). Os custos e os fatores de emissão são indicados pelo utilizador.
+**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva do Iberia01 por município e os tarifários transcritos de Lisboa, Porto e Funchal. A linha de cobertura do programa diz quantos locais há em cada país. Os custos e os fatores de emissão são indicados pelo utilizador.
 
 **IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o

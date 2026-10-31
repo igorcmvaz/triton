@@ -10,8 +10,8 @@ A coluna **onde se introduz** diz em que ecrã o campo aparece; a coluna **quem 
 diz que cálculo o usa. Um campo sem nenhuma das duas é um campo gravado no ficheiro e
 nunca lido, e está listado na secção {{n:36}}.
 
-Os padrões são os do projeto com que a Edição Ibérica abre: a chuva é a normal 1991-2020
-do concelho de Lisboa na base E-OBS, e os custos, os preços e a tarifa de eletricidade
+Os padrões são os do projeto com que a Edição Ibérica abre: a chuva é a normal 1986-2015
+do município de Lisboa [PT-1106] no Iberia01, e os custos, os preços e a tarifa de eletricidade
 partem de zero ou vazios, para o utilizador os introduzir em euros. Um traço significa
 que o campo não tem valor inicial.
 
@@ -37,18 +37,18 @@ edições. Não têm efeito nesta e não são listados.
 | Parâmetro | Padrão | Unidade | Onde se introduz | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Folhas de cálculo |
-| `climate_source_mode` | national_db | — | Janela principal, Projeto | — |
-| `climate_city_uf` | Lisboa | — | Janela principal, Projeto, Relatórios | — |
-| `climate_city_name` | Lisboa | — | Janela principal, Projeto, Relatórios | — |
-| `climate_model` | E-OBS v33.0e | — | Janela principal, Projeto, Relatórios | — |
-| `climate_scenario` | EOBS | — | Janela principal, Projeto, Relatórios | — |
-| `climate_start_date` | 01/01/1991 | — | Janela principal, Projeto, Relatórios | — |
-| `climate_end_date` | 31/12/2020 | — | Janela principal, Projeto, Relatórios | — |
+| `climate_source_mode` | national_db | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_city_uf` | PT\|Lisboa | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_city_name` | Lisboa [PT-1106] | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_model` | Iberia01 v1.0 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_scenario` | IBERIA01 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_start_date` | 01/01/1986 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_end_date` | 31/12/2015 | — | Janela principal, Projeto, Relatórios | Automação |
 | `start_date` | 01/01/1980 | — | Exportação, Janela principal, Projeto, Tarifário e custos | Automação, Clima, Folhas de cálculo |
 
 Observações do código:
 
-- `climate_source_mode`: "national_db" (a base E-OBS por concelho) ou "custom_file" (ficheiro do utilizador)
+- `climate_source_mode`: "national_db" (a base de chuva por município: Iberia01, ou a E-OBS opcional) ou "custom_file" (ficheiro do utilizador)
 
 ## Captação
 
@@ -271,7 +271,7 @@ Observações do código:
 | `tariff_customized` | não | — | Projeto | — |
 | `water_tariffs` | — | — | Projeto, Tarifário, Tarifário e custos, Varrimento | Económico |
 | `tariff_city_uf` | personalizado | — | Janela principal, Projeto, Relatórios, Tarifário, Tarifário e custos | — |
-| `tariff_city_name` | personalizado | — | Janela principal, Projeto, Relatórios, Tarifário, Tarifário e custos | — |
+| `tariff_city_name` | personalizado | — | Janela principal, Projeto, Relatórios, Tarifário, Tarifário e custos | Automação |
 | `tariff_vigencia` | — | — | Projeto, Tarifário e custos | — |
 | `tariff_category` | residencial | — | Económico, Tarifário, Tarifário e custos | Tarifário |
 | `sewage_rate` | 100 | — | Projeto, Tarifário, Tarifário e custos | Automação, Económico, Tarifário |

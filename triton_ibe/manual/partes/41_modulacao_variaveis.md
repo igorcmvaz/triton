@@ -61,8 +61,8 @@ o volume, é ele que desloca o volume de menor período de recuperação.
 ## A incerteza da chuva
 
 A Edição Ibérica não tem base de séries de modelos climáticos, pelo que a incerteza da chuva
-entra pelo **fator da chuva**. O fator multiplica toda a série diária do projeto — a série E-OBS
-do concelho, a do Funchal ou um ficheiro do utilizador — e por isso mantém a sua estrutura
+entra pelo **fator da chuva**. O fator multiplica toda a série diária do projeto — a série do Iberia01
+do município, a ERA5 de uma ilha ou um ficheiro do utilizador — e por isso mantém a sua estrutura
 temporal: a sequência de estiagens e de dias chuvosos não muda, só o nível. Um fator sorteado com
 média 1 e desvio de 0,10 representa uma chuva 10% mais húmida ou mais seca do que o registo, que
 é a maneira de representar um clima futuro mais seco ou mais húmido do que o passado. Para testar

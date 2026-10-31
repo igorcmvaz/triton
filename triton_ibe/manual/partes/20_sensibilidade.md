@@ -72,7 +72,7 @@ intervalo em vez de um número.
 
 A tabela seguinte aplica o procedimento ao projeto final do tutorial, em Lisboa: 5 000 L em
 polietileno, elevação para um reservatório superior de 1 000 L, com os custos ilustrativos do
-manual (ilustrativos, não são preços de mercado). O VAL provável é negativo, de −6 079 €. A
+manual (ilustrativos, não são preços de mercado). O VAL provável é negativo, de −6 053 €. A
 tabela varia cinco pressupostos, um de cada vez, entre um valor baixo e um alto.
 
 <!-- inclui: _tabelas/cap20_sensibilidade.md -->
@@ -85,22 +85,22 @@ exemplo. Leia o resto da tabela com isto em mente: a pergunta não é que pressu
 projeto viável, mas qual deles mais move o resultado.
 
 **O que mais move o VAL é o preço da cisterna.** De 70% a 130% do orçamento, o VAL passa de
-−5 224 € a −6 934 €, a maior amplitude das cinco (1 710 €). Quando a poupança é pequena, quem
+−5 198 € a −6 908 €, a maior amplitude das cinco (1 710 €). Quando a poupança é pequena, quem
 decide o saldo é o investimento: a cisterna de polietileno de 5 000 L, de 2 850 € (ilustrativo, não é preço de
 mercado), pesa nele de forma direta, ao contrário do que acontece num caso em que o sistema se
 paga com folga.
 
 **O consumo per capita vem logo atrás.** De 120 a 180 L por pessoa e por dia, o potencial desce
-de 19,86% para 16,23% enquanto o VAL sobe de −7 258 € para −5 621 €, uma amplitude de 1 637 €.
+de 20,09% para 16,55% enquanto o VAL sobe de −7 245 € para −5 567 €, uma amplitude de 1 678 €.
 Com mais consumo, a fração suprível aplica-se a uma procura maior, a cisterna falta mais vezes,
 o potencial desce um pouco e a poupança em dinheiro sobe.
 
 **Os pressupostos decididos pelo mercado pesam menos.** A atualização das tarifas desloca o VAL de
-−6 456 € (1% ao ano) para −5 601 € (5% ao ano), e a taxa de atualização de −5 873 € (0,2% ao mês)
-para −6 231 € (0,6% ao mês); nenhuma toca no potencial.
+−6 435 € (1% ao ano) para −5 570 € (5% ao ano), e a taxa de atualização de −5 839 € (0,2% ao mês)
+para −6 210 € (0,6% ao mês); nenhuma toca no potencial.
 
 **A fração suprível é o pressuposto que mais move o potencial.** De 20% a 40%, o potencial vai
-de 14,85% a 21,03%, mas o VAL só vai de −6 417 € a −5 870 €, porque cada ponto percentual de
+de 14,98% a 21,33%, mas o VAL só vai de −6 403 € a −5 850 €, porque cada ponto percentual de
 poupança vale pouco em euros ao preço da água de Lisboa. É o pressuposto que a secção {{n:5}}
 fixou e que depende da decisão sobre usos, e não de medição: incluir ou não a máquina de lavar
 roupa, face ao critério de qualidade aplicável ao caso, move o resultado hídrico mais do que
@@ -135,8 +135,8 @@ Leia-a assim:
 A distinção que esta coluna permite é de natureza epistemológica, e não apenas estatística: um
 volume que vence em 80% dos sorteios de pesos constitui uma recomendação, ao passo que um volume
 que vence em 30% constitui uma preferência do analista, legítima desde que apresentada como tal.
-No tutorial de Lisboa, o volume vencedor, 5 000 L, tem uma aceitabilidade de 34,1%, com 8 000 L
-em segundo, com 30,6%, e 4 000 L em terceiro, com 15,6%: abaixo de 40%, a escolha depende dos
+No tutorial de Lisboa, o volume vencedor, 5 000 L, tem uma aceitabilidade de 34,8%, com 8 000 L
+em segundo, com 30,1%, e 4 000 L em terceiro, com 15,0%: abaixo de 40%, a escolha depende dos
 pesos, e o texto tem de o dizer. A secção {{n:32}} expõe o método que produz este número.
 
 ---

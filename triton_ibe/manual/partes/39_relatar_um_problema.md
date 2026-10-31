@@ -19,7 +19,7 @@ investigação numa troca de mensagens que consome mais tempo a todos do que a p
 
 **O ficheiro do projeto.** É o item mais importante, e por si só substitui páginas de descrição. O
 `.triton` é autocontido: traz todos os parâmetros e a série de chuva inteira dentro dele — ou,
-com a chuva E-OBS por concelho, a referência exata da série e a sua impressão digital, que o
+com a chuva da base (Iberia01 ou E-OBS), a referência exata da série e a sua impressão digital, que o
 programa recompõe a partir da base —, de modo que quem o receber reproduz exatamente a sua
 simulação, no mesmo computador ou noutro qualquer. Sem ele, a investigação começa por tentar
 adivinhar as entradas, e adivinhar entradas é a maneira mais eficiente de não encontrar um defeito.

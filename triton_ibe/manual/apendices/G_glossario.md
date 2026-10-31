@@ -157,7 +157,7 @@ ao reservatório, em %/m³ ($\Delta E_{pot} / \Delta V$). Critério de escolha d
 **GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
 de desempenho socioambiental. Sua série 303 trata de água e efluentes.
 
-**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva E-OBS por concelho e os tarifários transcritos de Lisboa, Porto e Funchal. Hoje só os concelhos de Portugal têm dados; a linha de cobertura do programa diz quantos locais há em cada país (Espanha: 0). Os custos e os fatores de emissão são indicados pelo utilizador.
+**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva do Iberia01 por município e os tarifários transcritos de Lisboa, Porto e Funchal. A linha de cobertura do programa diz quantos locais há em cada país. Os custos e os fatores de emissão são indicados pelo utilizador.
 
 **IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o

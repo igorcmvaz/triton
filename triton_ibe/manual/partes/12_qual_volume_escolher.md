@@ -12,9 +12,9 @@ As secções anteriores deste tutorial fizeram ao mesmo projeto três perguntas 
 
 A primeira tabela é o retrato do problema. Repare em como as colunas discordam:
 
-- O **potencial** cresce monotonicamente: quanto maior a cisterna, mais água. Máximo em 12 000 L (21,43%).
+- O **potencial** cresce monotonicamente: quanto maior a cisterna, mais água. Máximo em 12 000 L (21,81%).
 - O **VAL** é negativo em todos os volumes (os custos são ilustrativos, não são preços de mercado). O seu melhor valor, a menor perda, está em 1 000 L, e piora a cada volume acrescentado, porque cada metro cúbico adicional de reservatório custa mais do que a poupança que traz. Nenhum volume tem período de recuperação.
-- O **carbono** sobe e cai muito mais cedo: máximo em 2 000 L (retira 25 kg em vinte anos). Depois disso, cada metro cúbico de polietileno acrescenta mais dívida do que crédito, e aos 5 000 L o saldo já passa a emissão.
+- O **carbono** sobe e cai muito mais cedo: máximo em 2 000 L (retira 31 kg em vinte anos). Depois disso, cada metro cúbico de polietileno acrescenta mais dívida do que crédito, e aos 5 000 L o saldo já passa a emissão.
 
 ==Não existe um volume que vença nos três critérios em simultâneo.== Cada um tem o seu ótimo num ponto diferente da curva, e a escolha entre eles não é uma questão técnica com resposta única: é uma questão de prioridade, que tem de ser declarada por quem decide e não pode ser descoberta pelo programa. É exatamente essa a lacuna que os métodos multicritério vêm preencher.
 
@@ -81,7 +81,7 @@ Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O pr
 ---
 ## A recomendação do tutorial
 
-A recomendação do tutorial, se o projeto for construído, é o reservatório de **5 000 L em polietileno**, e a razão para a adotar não é só vencer com pesos iguais. É o volume de compromisso, não o ótimo financeiro, que está em 1 000 L, nem o ótimo ambiental, que está em 2 000 L. Vence também com um peso económico dominante e com um peso ambiental dominante, e perde para os 8 000 L apenas com um peso técnico dominante. Sob a incerteza simulada dos pesos (SMAA), fica em primeiro lugar em 34,1% dos sorteios, contra 30,6% para 8 000 L e 15,6% para 4 000 L. ==Uma recomendação que sobrevive a três ponderações diferentes é robusta justamente porque não depende de nenhuma delas==, embora a margem do SMAA seja estreita.
+A recomendação do tutorial, se o projeto for construído, é o reservatório de **5 000 L em polietileno**, e a razão para a adotar não é só vencer com pesos iguais. É o volume de compromisso, não o ótimo financeiro, que está em 1 000 L, nem o ótimo ambiental, que está em 2 000 L. Vence também com um peso económico dominante e com um peso ambiental dominante, e perde para os 8 000 L apenas com um peso técnico dominante. Sob a incerteza simulada dos pesos (SMAA), fica em primeiro lugar em 34,8% dos sorteios, contra 30,1% para 8 000 L e 15,0% para 4 000 L. ==Uma recomendação que sobrevive a três ponderações diferentes é robusta justamente porque não depende de nenhuma delas==, embora a margem do SMAA seja estreita.
 
 Vale registar ainda que este é o mesmo volume que o critério hidráulico da secção {{n:7}} tinha indicado, com um limiar de ganho marginal de 1 %/m³. Duas vias metodologicamente independentes — uma que olha só para a curva de aproveitamento e outra que pondera sete critérios de três dimensões — chegaram ao mesmo resultado, e essa concordância reforça a confiança na recomendação.
 
@@ -94,7 +94,7 @@ A concordância, porém, não está garantida em nenhum outro caso, e é por iss
 <!-- tabela: Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
 | Triton · moradia unifamiliar em Lisboa (custos ilustrativos, não são preços de mercado) | |
 | :--- | ---: |
-| série de precipitação | Lisboa, 30 anos, 719 mm/ano |
+| série de precipitação | Lisboa, 30 anos, 746 mm/ano |
 | área de captação | 150 m² |
 | coeficiente de escoamento | 0,85 |
 | descarte das primeiras águas | 2,0 mm, todas as chuvadas |
@@ -106,14 +106,14 @@ A concordância, porém, não está garantida em nenhum outro caso, e é por iss
 | reservatório superior | 1 000 L, limiar de acionamento de 100 L |
 | classe de qualidade | 1, cloragem por pastilhas |
 | descarte inicial | câmara de 300 L |
-| **potencial de economia de água potável** | **17,88%** |
-| dias de atendimento pleno | 62,8% |
-| água da chuva consumida | 39,2 m³/ano |
-| energia da elevação | 5,1 kWh/ano |
+| **potencial de economia de água potável** | **18,28%** |
+| dias de atendimento pleno | 64,3% |
+| água da chuva consumida | 40,1 m³/ano |
+| energia da elevação | 5,3 kWh/ano |
 | investimento (ilustrativo) | 6 900 € |
-| **valor atual líquido a 20 anos (ilustrativo)** | **−6 079 €** |
+| **valor atual líquido a 20 anos (ilustrativo)** | **−6 053 €** |
 | período de recuperação descontado | sem recuperação |
-| **emissões líquidas em 20 anos** | **+15 kg CO₂e** |
-| retorno do carbono | 20,9 anos |
+| **emissões líquidas em 20 anos** | **+8 kg CO₂e** |
+| retorno do carbono | 20,4 anos |
 
 Resta uma etapa, que é comunicar o resultado: um estudo que não é relatado de forma verificável não se distingue, para quem o lê, de um palpite bem apresentado. É o assunto da secção seguinte.

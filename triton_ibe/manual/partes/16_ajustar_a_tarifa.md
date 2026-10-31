@@ -158,8 +158,8 @@ Na estrutura B, cada metro cúbico poupado reduz a fatura, desde o primeiro.
 
 Os três concelhos do programa pertencem todos à segunda família: em cada um, todos os metros
 cúbicos poupados reduzem a fatura. Em Lisboa, para a moradia do tutorial, a fatura sem o
-sistema corresponde a 18,26 m³ por mês e custa 46,25 €; com o sistema, a 15,00 m³ e 35,06 €.
-A poupança é de 3,27 m³ e 11,19 € por mês, ou seja, 3,42 € por metro cúbico poupado, contra
+sistema corresponde a 18,26 m³ por mês e custa 46,25 €; com o sistema, a 14,92 m³ e 34,93 €.
+A poupança é de 3,34 m³ e 11,32 € por mês, ou seja, 3,39 € por metro cúbico poupado, contra
 os 2,53 € por metro cúbico que o preço médio da fatura sem sistema sugeriria. Cada metro cúbico
 poupado desconta o escalão mais alto da água e as parcelas do saneamento e dos resíduos que o
 acompanham.

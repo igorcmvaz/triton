@@ -8,7 +8,7 @@ As dez secções deste capítulo constroem **um só projeto**, do princípio ao 
 
 Uma moradia unifamiliar em Lisboa. Quatro moradores, cobertura de 150 m², cisterna enterrada no logradouro. É um caso deliberadamente comum, para que o método se destaque, e não o edifício.
 
-Lisboa tem três razões a favor. A série de precipitação é longa e completa: 30 anos de valores diários, de 1991 a 2020. O tarifário da água é público e verificável: a EPAL fornece a água e a Câmara Municipal cobra o saneamento e os resíduos. E o regime de chuva tem um verão muito seco, o que — como a secção {{n:7}} mostrará — decide a escolha do volume. A secção {{n:14}} leva a mesma moradia ao Porto e ao Funchal e mostra quanto muda só pelo clima.
+Lisboa tem três razões a favor. A série de precipitação é longa e completa: 30 anos de valores diários, de 1986 a 2015 (Iberia01). O tarifário da água é público e verificável: a EPAL fornece a água e a Câmara Municipal cobra o saneamento e os resíduos. E o regime de chuva tem um verão muito seco, o que — como a secção {{n:7}} mostrará — decide a escolha do volume. A secção {{n:14}} leva a mesma moradia ao Porto e ao Funchal e mostra quanto muda só pelo clima.
 
 > **O seu local.** O tutorial corre sobre a série de Lisboa e o tarifário que acompanham o programa. Num projeto real, substitua-os pela série medida no local e pela tarifa que paga, como explica a secção {{n:10}}. O método hidráulico é o mesmo.
 
@@ -20,21 +20,21 @@ Abra a etapa **1. Projeto e Chuva**. Há dois caminhos para a chuva.
 
 **Ficheiro próprio.** Um CSV com uma leitura diária por linha, em milímetros, numa só coluna. É o caminho de quem tem dados de uma estação concreta. A ETA 0701 da ANQIP recomenda dados de fontes oficiais, de preferência séries históricas de pelo menos 10 anos, e indica o Sistema Nacional de Informação de Recursos Hídricos (SNIRH) para as precipitações médias mensais de estações do país (item 4.1, versão 7 da ETA; ver a secção {{n:1}}).
 
-**Base ibérica (Iberia01), a fonte por defeito.** Escolha o país e a região (distrito, comunidade autónoma, ilha) e o município, ou escreva o nome ou o código (INE de cinco dígitos em Espanha, DTMN de quatro em Portugal) na caixa de busca. A série de um município é a média das células de 0,1° do Iberia01 que o servem, de 1971 a 2015; o período padrão é 1986–2015, porque a normal 1991–2020 não existe nesta fonte. O Iberia01 é de licença ODbL (uso comercial permitido, com atribuição, que o laudo leva). Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C e um aviso; Ceuta e Melilla não têm série e o programa pede a sua. O nível A, B ou C descreve a representação do município pela grelha, e não uma validação com pluviómetros. Os exemplos e o tutorial deste manual usam a série E-OBS de 1991 a 2020, que dá menos chuva do que o Iberia01 (cerca de 8% em Portugal): os números do tutorial não se repetem com o Iberia01.
+**Base ibérica (Iberia01), a fonte por defeito.** Escolha o país e a região (distrito, comunidade autónoma, ilha) e o município, ou escreva o nome ou o código (INE de cinco dígitos em Espanha, DTMN de quatro em Portugal) na caixa de busca. A série de um município é a média das células de 0,1° do Iberia01 que o servem, de 1971 a 2015; o período padrão é 1986–2015, porque a normal 1991–2020 não existe nesta fonte. O Iberia01 é de licença ODbL (uso comercial permitido, com atribuição, que o laudo leva). Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C e um aviso; Ceuta e Melilla não têm série e o programa pede a sua. O nível A, B ou C descreve a representação do município pela grelha, e não uma validação com pluviómetros. O tutorial e os exemplos deste manual usam esta fonte, no período padrão de 1986 a 2015, por município e pelo código (`Lisboa [PT-1106]`). A E-OBS, opcional, dá em média menos chuva do que o Iberia01 (cerca de 8% em Portugal em 1971–2015); no mesmo período de 1991 a 2015, o Iberia01 dá 0,4% a mais em Lisboa e 2,4% a mais no Porto.
 
 **Base de concelhos (E-OBS), fonte opcional.** O programa traz a precipitação diária de 278 concelhos do Continente, de 1950 a 2025, extraída da E-OBS v33.0e. A série de um concelho é a média das células da grelha com centro dentro dos seus limites. É o caminho de quem estuda outros concelhos, e a secção {{n:15}} mostra como testar um cenário climático.
 
-Para o nosso projeto, escolha o concelho de **Lisboa** e recorte os **30 anos** de 1991 a 2020.
+Para o nosso projeto, escolha o município de **Lisboa** (PT-1106) e recorte os **30 anos** de 1986 a 2015.
 
 <!-- inclui: _tabelas/cap04_serie.md -->
 
 Três números desta tabela decidem o projeto, e vale a pena olhar para eles antes de qualquer simulação.
 
-**719 mm por ano** é pouca chuva para esta cobertura, e muito concentrada no inverno. A oferta bruta, cerca de 92 m³ por ano, é 1,5 vez a procura pluvial da casa (61 m³ por ano, secção {{n:5}}). Há água a mais no ano, mas no momento errado: o fator limitante será o verão seco e o tamanho do reservatório, não o total anual.
+**746 mm por ano** é pouca chuva para esta cobertura, e muito concentrada no inverno. A oferta bruta, cerca de 95 m³ por ano, é 1,6 vez a procura pluvial da casa (61 m³ por ano, secção {{n:5}}). Há água a mais no ano, mas no momento errado: o fator limitante será o verão seco e o tamanho do reservatório, não o total anual.
 
-**Chove em 22% dos dias.** Chuva rara obriga a cisterna a atravessar longas estiagens. Compare com o Porto, na secção {{n:14}}, onde chove em 31% dos dias e a mesma casa poupa mais. Em Lisboa, o mês mais chuvoso recebe 47,3 vezes o que recebe o mais seco.
+**Chove em 35% dos dias.** Chuva rara obriga a cisterna a atravessar longas estiagens. Compare com o Porto, na secção {{n:14}}, onde chove em 48% dos dias e a mesma casa poupa mais. Em Lisboa, o mês mais chuvoso recebe 22,7 vezes o que recebe o mais seco.
 
-**Quatro por cento dos dias têm chuva, mas abaixo de 2 mm.** Esses dias serão descartados por inteiro, e o ponto sobre o descarte das primeiras águas, mais adiante, explica porquê.
+**Dezasseis por cento dos dias têm chuva, mas abaixo de 2 mm.** Esses dias serão descartados por inteiro, e o ponto sobre o descarte das primeiras águas, mais adiante, explica porquê.
 
 > **Quantos anos de série usar.** Trinta é confortável. Abaixo de dez, o resultado começa a depender do troço escolhido; abaixo de cinco, o viés do reservatório vazio no início da simulação passa a pesar de forma sensível. A secção {{n:33}} trata este engano em pormenor.
 
@@ -44,7 +44,7 @@ Vale a pena olhar para uma série inteira antes de a usar. Trinta anos de Lisboa
 
 ![Trinta anos de série, e a distribuição dos dias de chuva](../figuras/fig15_serie.png)
 
-*Figura 99 — Série de precipitação de Lisboa usada em todo o tutorial (E-OBS, concelho de Lisboa, 1991 a 2020): (a) precipitação total de cada ano, com a média dos trinta anos em linha contínua e os anos acima da média a azul e abaixo dela a laranja; (b) distribuição de frequência da precipitação diária nos dias de chuva, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes. O maior dia da série tem 91,2 mm.*
+*Figura 99 — Série de precipitação de Lisboa usada em todo o tutorial (Iberia01, município de Lisboa, 1986 a 2015): (a) precipitação total de cada ano, com a média dos trinta anos em linha contínua e os anos acima da média a azul e abaixo dela a laranja; (b) distribuição de frequência da precipitação diária nos dias de chuva, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes. O maior dia da série tem 109,9 mm.*
 
 ---
 
@@ -64,7 +64,7 @@ Carregada a série, o programa já mostra o regime que ela descreve. Vale a pena
 
 ![O ciclo sazonal médio da série carregada](../figuras/fig55_programa_sazonal.png)
 
-*Figura 99 — O ciclo sazonal médio da série, calculado e desenhado pelo programa assim que a precipitação é carregada. Em Lisboa, o mês mais chuvoso recebe cerca de 47 vezes o que recebe o mais seco (47,3), e é esta diferença que o reservatório tem de atravessar: o verão é quase sem chuva. Figura gerada pelo próprio programa.*
+*Figura 99 — O ciclo sazonal médio da série, calculado e desenhado pelo programa assim que a precipitação é carregada. Em Lisboa, o mês mais chuvoso recebe cerca de 23 vezes o que recebe o mais seco (22,7), e é esta diferença que o reservatório tem de atravessar: o verão é quase sem chuva. Figura gerada pelo próprio programa.*
 
 ---
 ## O coeficiente de escoamento
@@ -123,4 +123,4 @@ A razão deste comportamento é física, não convencional: o dispositivo de aut
 
 Com isto, o programa já sabe **quanta água entra**. Falta dizer quanta sai, o que é a secção {{n:5}}.
 
-Uma conta de algibeira, para calibrar a expectativa: 719 mm por ano sobre 150 m² com coeficiente de 0,85 dão cerca de 92 m³ por ano de água bruta, antes do descarte. A secção {{n:6}} mostra quanto desse volume se converte em poupança efetiva — e a diferença entre os dois números é a lição mais importante do tutorial.
+Uma conta de algibeira, para calibrar a expectativa: 746 mm por ano sobre 150 m² com coeficiente de 0,85 dão cerca de 95 m³ por ano de água bruta, antes do descarte. A secção {{n:6}} mostra quanto desse volume se converte em poupança efetiva — e a diferença entre os dois números é a lição mais importante do tutorial.

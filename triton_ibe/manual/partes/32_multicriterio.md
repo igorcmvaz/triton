@@ -151,11 +151,11 @@ preço de mercado).
 <!-- inclui: _tabelas/cap32_decisao.md -->
 
 Os dois métodos concordam no vencedor, 5 000 L, e discordam na margem. O TOPSIS separa o primeiro
-do segundo classificado (4 000 L) por 0,026 de escore, diferença que nenhum dado de entrada
-sustenta. O SMAA mede essa fragilidade: 5 000 L vence em 34,1% dos sorteios e 8 000 L em 30,6%,
-quase empatados, e com os 4 000 L (15,6%) os três somam quatro em cada cinco sorteios. Pela régua
+do segundo classificado (4 000 L) por 0,029 de escore, diferença que nenhum dado de entrada
+sustenta. O SMAA mede essa fragilidade: 5 000 L vence em 34,8% dos sorteios e 8 000 L em 30,1%,
+quase empatados, e com os 4 000 L (15,0%) os três somam quatro em cada cinco sorteios. Pela régua
 desta secção, a recomendação é frágil, e o estudo deve declarar 8 000 L e 4 000 L como as
-alternativas. Os extremos não fazem melhor: 1 000 L não vence em sorteio algum, e 2 000 L em 1,2%
+alternativas. Os extremos não fazem melhor: 1 000 L não vence em sorteio algum, e 2 000 L em 0,9%
 deles. Nenhuma ponderação plausível recomenda o menor volume, e isso também é resultado.
 
 ---

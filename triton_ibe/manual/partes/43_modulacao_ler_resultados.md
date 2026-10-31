@@ -125,7 +125,7 @@ O segundo exemplo, gravado no ficheiro `10_modulacao_captacao.triton`, usa a mes
 Lisboa mas sorteia a incerteza da **captação** — área, coeficiente de escoamento e lâmina de
 descarte — em conjunto com o fator da chuva, o fator das tarifas e o fator do investimento, em mil
 realizações e semente 42. A Edição Ibérica não tem tabela por modelo climático, porque não tem
-base de modelos climáticos: a incerteza da chuva entra pelo fator da chuva sobre a série E-OBS de
+base de modelos climáticos: a incerteza da chuva entra pelo fator da chuva sobre a série do Iberia01 de
 Lisboa, e a tabela da variância lista as variáveis sorteadas, entre elas o fator da chuva.
 
 Leia este exemplo pelo que separa. Um coeficiente de escoamento ou uma área errados em alguns por

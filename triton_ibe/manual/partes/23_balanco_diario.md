@@ -38,10 +38,10 @@ ponto.
 
 ## O caso resolvido
 
-Dez dias, uma moradia, sem reservatório superior. A chuva é a de Lisboa, de 11 a 20 de dezembro
-de 2019, na base E-OBS por concelho. A janela foi escolhida por busca determinística entre os
-trinta anos da série, por reunir num só período os cinco fenómenos que a secção ensina. Os
-números cabem numa folha de cálculo.
+Dez dias, uma moradia, sem reservatório superior. A chuva é a de Lisboa, de 15 a 24 de dezembro
+de 2013, no Iberia01 (município PT-1106). A janela foi escolhida por busca determinística entre os
+trinta anos da série (a mais recente que começa com um dia seco e reúne os fenómenos abaixo), por
+reunir num só período os cinco fenómenos que a secção ensina. Os números cabem numa folha de cálculo.
 
 <!-- inclui: _tabelas/cap23_entrada.md -->
 
@@ -67,18 +67,19 @@ procura pluvial de 80 L não é satisfeita por uma gota: o dia é de abastecimen
 
 Isto não é um defeito da série escolhida. É a condição inicial do modelo, e conta: em séries
 curtas, os primeiros dias penalizam o resultado. Com trinta anos de série o efeito desaparece;
-com dez dias, é uma das razões por que o potencial obtido, 24,4%, fica tão abaixo da fração
-suprível de 40%. Os dias 3 e 4 juntam mais dois dias de abastecimento nulo, e são 30% dos dez.
+com dez dias, é uma das razões por que o potencial obtido, 30,6%, fica abaixo da fração
+suprível de 40%. O dia 2 junta mais um dia de abastecimento nulo, e são 20% dos dez.
 
-### Os dias 2 e 4: o descarte em ação
+### Os dias 2 e 3: o descarte em ação
 
-No dia 2 choveu 2,1 mm. Depois do descarte de 2,0 mm, ficam 0,1 mm, que sobre 100 m² com o
-coeficiente de 0,85 dão 9 L. Os 9 L são consumidos, e o dia é de abastecimento **parcial**: 9 L
+No dia 2 choveu 0,6 mm, menos do que a lâmina de descarte de 2,0 mm. O programa não subtrai 0,6 e
+capta zero: **descarta o dia inteiro**, e o dia é de abastecimento nulo. O mesmo se passa nos dias 7
+e 8, com 0,9 e 0,1 mm, e a diferença é que nesses dias o reservatório tem água de reserva e o
+abastecimento é pleno à mesma.
+
+No dia 3 choveu 2,6 mm. Depois do descarte de 2,0 mm, ficam 0,6 mm, que sobre 100 m² com o
+coeficiente de 0,85 dão 51 L. Os 51 L são consumidos, e o dia é de abastecimento **parcial**: 51 L
 dos 80 L pretendidos.
-
-No dia 4 choveu 1,2 mm, menos do que a lâmina de descarte de 2,0 mm. O programa não subtrai 1,2 e
-capta zero: **descarta o dia inteiro**. O mesmo se passa no dia 7, com 0,7 mm, e a diferença é que
-nesse dia o reservatório tem água de reserva e o abastecimento é pleno à mesma.
 
 > **Atenção.** Quando a regra de descarte se aplica e a chuva do dia não excede a lâmina, perde-se
 > o dia **inteiro**, e não a diferença. A conta é `P_ef = P − d_f` quando `P > d_f`, e **zero**
@@ -87,7 +88,7 @@ nesse dia o reservatório tem água de reserva e o abastecimento é pleno à mes
 A razão é física: o dispositivo de descarte tem de encher antes de a água chegar à cisterna. Se a
 chuva não enche o dispositivo, nada passa. Em climas de chuva fraca e frequente, isto pesa muito
 mais do que a intuição sugere, e é por isso que o modo de descarte merece atenção na secção
-{{n:4}}. Na série de Lisboa do tutorial, chove em 22% dos dias, e 4% dos dias ficam abaixo da lâmina de
+{{n:4}}. Na série de Lisboa do tutorial, chove em 35% dos dias, e 16% dos dias ficam abaixo da lâmina de
 descarte.
 
 > **Uma nota para quem compara ferramentas.** Algumas ferramentas de simulação tratam `d_f` como
@@ -95,14 +96,13 @@ descarte.
 > subtração. O Triton subtrai a lâmina. A diferença é deliberada, baixa a poupança estimada, e os
 > estudos que comparem as duas regras têm de a declarar. A secção {{n:35}} trata da comparação.
 
-### O dia 9: o extravasamento vem antes do consumo
+### O dia 5: o extravasamento vem antes do consumo
 
-Choveu 35,7 mm. Descontados os 2,0 mm de descarte, restam 33,7 mm efetivos, que sobre 100 m² com
-o coeficiente de 0,85 dão 2 865 L captados.
+Choveu 33,9 mm. Descontados os 2,0 mm de descarte, restam 31,9 mm efetivos, que sobre 100 m² com
+o coeficiente de 0,85 dão 2 712 L captados.
 
-O reservatório tinha 1 516 L e comporta 2 000 L, pelo que **extravasam 2 380 L**, mais do que o
-reservatório inteiro comporta. Só depois disso o programa retira os 80 L da procura, deixando
-1 920 L para o dia seguinte.
+O reservatório tinha 362 L e comporta 2 000 L, pelo que **extravasam 1 074 L**. Só depois disso o
+programa retira os 80 L da procura, deixando 1 920 L para o dia seguinte.
 
 > **Atenção.** Esta ordem define o modelo. O extravasamento é calculado **antes** da retirada da
 > procura, como na regra **YAS** (*yield after spillage*), mas a chuva do próprio dia já pode
@@ -113,21 +113,27 @@ reservatório inteiro comporta. Só depois disso o programa retira os 80 L da pr
 > teria extravasado, e o programa sobrestimaria o aproveitamento. A diferença aparece justamente
 > nos dias de chuva forte, que são os que mais pesam no total anual.
 
-Num único dia, o sistema deitou fora o equivalente a quase trinta dias de procura pluvial. É o
+Num único dia, o sistema deitou fora o equivalente a mais de treze dias de procura pluvial. É o
 retrato do desencontro entre a chuva, que chega concentrada, e a procura, que é constante.
 
-### O dia 10: o reservatório já está cheio
+### O dia 6: o reservatório já está cheio
 
-Choveu 25,8 mm, e o sistema captou 2 023 L. O reservatório começava o dia com 1 920 L, de modo que
-**extravasam 1 943 L**: quase tudo o que foi captado. Entre os dias 9 e 10, o reservatório
-terminou ambos os dias com os mesmos 1 920 L, e perdeu 4 324 L em dois dias, mais de cinquenta
-dias de procura pluvial. Aumentar o reservatório recupera parte disto, e é exatamente esta a
-pergunta a que a varredura de volumes da secção {{n:24}} responde. A {{fig:fig01_dez_dias}}
+Choveu 3,7 mm, e o sistema captou 145 L. O reservatório começava o dia com 1 920 L, de modo que
+**extravasam 64 L**: quase metade do que foi captado, por uma chuva que, só por si, daria menos de
+dois dias de procura. O mesmo se repete no dia 9, com 4,9 mm: captam-se 247 L e extravasam 6.
+
+### O dia 10: o extravasamento maior do que o reservatório
+
+Choveu 50,9 mm, e o sistema captou 4 156 L. O reservatório começava o dia com 1 920 L, de modo que
+**extravasam 4 076 L**: quase tudo o que foi captado, e mais do dobro do que o reservatório inteiro
+comporta (2 000 L). Nos dez dias, a cisterna perdeu 5 221 L, mais de sessenta dias de procura
+pluvial. Aumentar o reservatório recupera parte disto, e é exatamente esta a pergunta a que a
+varredura de volumes da secção {{n:24}} responde. A {{fig:fig01_dez_dias}}
 resume os dez dias.
 
 ![Volumes captado e extravasado e volume armazenado ao longo dos dez dias](../figuras/fig01_dez_dias.png)
 
-*Figura 1 — Os dez dias do caso resolvido, com a chuva de Lisboa de 11 a 20 de dezembro de 2019: (a) volume captado, a azul, e volume extravasado, a laranja, por dia; nos dias 9 e 10 o extravasamento é quase igual ao captado; (b) volume armazenado no reservatório inferior no fim de cada dia, depois do consumo, com a capacidade de 2 000 L a tracejado; nos dias 9 e 10 o reservatório atinge a capacidade, extravasa e termina o dia com 1 920 L.*
+*Figura 1 — Os dez dias do caso resolvido, com a chuva de Lisboa de 15 a 24 de dezembro de 2013: (a) volume captado, a azul, e volume extravasado, a laranja, por dia; no dia 5 o extravasamento é cerca de 40% do captado e no dia 10 é quase igual ao captado; (b) volume armazenado no reservatório inferior no fim de cada dia, depois do consumo, com a capacidade de 2 000 L a tracejado; a partir do dia 5 o reservatório atinge a capacidade e termina o dia com 1 920 L (menos nos dias 7 e 8, sem chuva útil).*
 
 ### A soma: o balanço fecha
 
@@ -144,8 +150,8 @@ V_cap = V_ext + V_con + V_res
 | `V_con` | volume total de água da chuva consumido no período | L |
 | `V_res` | volume remanescente no reservatório no fim do período | L |
 
-Nos dez dias do caso resolvido, a Equação {{eq:fechamento}} verifica-se com 6 732 L captados,
-4 324 L extravasados, 488 L consumidos e 1 920 L remanescentes.
+Nos dez dias do caso resolvido, a Equação {{eq:fechamento}} verifica-se com 7 752 L captados,
+5 221 L extravasados, 611 L consumidos e 1 920 L remanescentes.
 
 Resíduo zero. O programa não cria nem perde água, e esta verificação é feita automaticamente pela
 bateria de testes a cada alteração do código, sobre séries de dez anos, com um resíduo da ordem

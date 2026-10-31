@@ -94,22 +94,22 @@ limite da busca e não um ponto de inflexão da curva.
 ### Um exemplo, passo a passo
 
 A tabela da varredura do tutorial, na secção {{n:7}}, permite refazer a conta à mão. Entre
-3 000 L e 4 000 L o potencial sobe de 15,39% para 16,60%, isto é, 1,21 pontos percentuais por
-mais um metro cúbico. Como 1,21 é maior do que o limiar de 1,0 %/m³, o volume não é ainda o ideal.
-Entre 4 000 L e 5 000 L o potencial sobe de 16,60% para 17,49%, isto é, 0,89 pontos por metro
+3 000 L e 4 000 L o potencial sobe de 15,77% para 16,97%, isto é, 1,20 pontos percentuais por
+mais um metro cúbico. Como 1,20 é maior do que o limiar de 1,0 %/m³, o volume não é ainda o ideal.
+Entre 4 000 L e 5 000 L o potencial sobe de 16,97% para 17,87%, isto é, 0,90 pontos por metro
 cúbico, já abaixo do limiar: o primeiro volume a cruzá-lo é 5 000 L, e é ele o volume ideal. Com o
-limiar mais folgado de 3 %/m³, o volume ideal seria 3 000 L (15,39%), e com o mais exigente de
-0,5 %/m³ seria 10 000 L (20,37%).
+limiar mais folgado de 3 %/m³, o volume ideal seria 3 000 L (15,77%), e com o mais exigente de
+0,5 %/m³ seria 9 000 L (20,25%).
 
-Repare no que se passa logo a seguir. Entre 6 000 L e 8 000 L o potencial sobe 1,20 pontos, mais
-do que os 0,70 do intervalo anterior, de 5 000 para 6 000 L, e no entanto o ganho **por metro
-cúbico** desce, de 0,70 para 0,60 %/m³, porque o intervalo tem dois metros cúbicos. É por isso que
+Repare no que se passa logo a seguir. Entre 6 000 L e 8 000 L o potencial sobe 1,17 pontos, mais
+do que os 0,72 do intervalo anterior, de 5 000 para 6 000 L, e no entanto o ganho **por metro
+cúbico** desce, de 0,72 para 0,58 %/m³, porque o intervalo tem dois metros cúbicos. É por isso que
 o critério usa o ganho por metro cúbico, e não o ganho entre pontos consecutivos da grelha: o
 segundo depende do passo, e o primeiro muito menos.
 
 Em Lisboa, a escolha do limiar pesa mais do que noutros climas. A curva não satura: sobe ainda
-de 20,37% a 10 000 L para 24,01% a 20 000 L, por causa do verão seco, e o ganho marginal desce
-devagar, de 1,84 %/m³ aos 3 000 L para 0,32 %/m³ aos 20 000 L. O volume ideal sai do limiar
+de 20,71% a 10 000 L para 24,35% a 20 000 L, por causa do verão seco, e o ganho marginal desce
+devagar, de 1,85 %/m³ aos 3 000 L para 0,32 %/m³ aos 20 000 L. O volume ideal sai do limiar
 declarado, e não de um patamar da curva: declare o limiar junto do volume.
 
 > **O critério é hidráulico e só hidráulico.** Ignora custo, tarifário e carbono. Um volume ideal
@@ -162,11 +162,11 @@ uma produz.
 
 A primeira tabela mostra o que a curva côncava da secção {{n:7}} já anunciava, com uma diferença
 de peso: em Lisboa, o verão seco faz do método de Rippl um pedido enorme. Com série diária, pede
-51 500 L, e com série mensal, 47 000 L: perto de dez vezes os 5 000 L da simulação. Esses
-reservatórios entregam de facto mais, 26,92% e 26,78% contra 17,49%, e chegam perto do teto de
+50 250 L, e com série mensal, 47 500 L: perto de dez vezes os 5 000 L da simulação. Esses
+reservatórios entregam de facto mais, 27,10% e 27,02% contra 17,87%, e chegam perto do teto de
 28%, porque são dimensionados para que quase nunca falte água. Mas cada metro cúbico acima de
-5 000 L rende pouco, e uma cisterna de 47 a 52 m³ é impraticável numa moradia como a do tutorial. As regras práticas ficam do outro lado: a alemã (3 750 L, 16,32%) dá menos do que a
-simulação, e a britânica (5 500 L, 17,85%) acerta a ordem de grandeza por coincidência, porque
+5 000 L rende pouco, e uma cisterna de 48 a 50 m³ é impraticável numa moradia como a do tutorial. As regras práticas ficam do outro lado: a alemã (3 750 L, 16,71%) dá menos do que a
+simulação, e a britânica (5 500 L, 18,26%) acerta a ordem de grandeza por coincidência, porque
 nenhuma das duas tem como saber que a chuva de Lisboa se concentra no inverno, e dariam o mesmo
 volume a uma cidade de chuva bem repartida.
 
@@ -207,8 +207,8 @@ mesmo dia chuvoso, enquanto a procura é retirada ao longo das horas; um passo d
 entrada o que, hora a hora, teria entrado e saído aos poucos.
 
 A segunda tabela calcula a fração para os volumes da varredura do tutorial. A cisterna escolhida,
-de 5 000 L, tem uma fração de cerca de 0,046, dentro da gama do modelo diário; o reservatório de
-1 000 L (0,0093) fica abaixo de 0,01, e para ele o resultado diário deve ler-se como uma
+de 5 000 L, tem uma fração de cerca de 0,045, dentro da gama do modelo diário; o reservatório de
+1 000 L (0,0089) fica abaixo de 0,01, e para ele o resultado diário deve ler-se como uma
 aproximação. Fewkes e Butler recomendam o passo horário para esse volume e o diário para os
 outros. Campisano e Modica (2015), que simularam um sistema residencial com passos diários e
 subdiários a partir de caudais medidos, chegaram a uma conclusão complementar: o passo diário é
@@ -274,7 +274,7 @@ os poucos eventos extremos.
 **A fração suprível é um teto.** O potencial não pode ultrapassar a fração da procura que a chuva
 satisfaz, definida na secção {{n:5}}. A curva aproxima-se desse teto e nunca o cruza, invariante
 que a bateria de testes verifica até volumes de 100 m³. Em Lisboa, o teto é de 28% e a curva
-chega a 24,01% aos 20 000 L: ainda longe dele.
+chega a 24,35% aos 20 000 L: ainda longe dele.
 
 ---
 

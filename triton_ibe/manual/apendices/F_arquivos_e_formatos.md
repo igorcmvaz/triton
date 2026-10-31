@@ -90,7 +90,7 @@ O apêndice {{n:A}} lista todos os parâmetros, com o nome exato de cada campo.
 | os tarifários transcritos (Lisboa, Porto e Funchal) | dentro do programa, em `triton\data\portugal_tarifarios.json` |
 | os casos do manual | na pasta do programa, em `casos` |
 | os três projetos de exemplo (Lisboa, Porto e Funchal) | na pasta do programa, em `examples\portugal` |
-| a base de precipitação por concelho (E-OBS) | na pasta do programa, em `data\portugal_eobs.db` |
+| a base de precipitação por município (Iberia01) e a E-OBS opcional | na pasta do programa, em `data\chuva_iberia01_p1.db` a `p4.db`, `data\ibe_unidades.db`, `data\chuva_ilhas_era5.db` e `data\portugal_eobs.db` |
 | **os seus projetos e relatórios** | **onde escolher ao guardar** |
 
 O programa não cria pasta de trabalho nem guarda ficheiros escondidos. Cada gravação

@@ -5,34 +5,34 @@
   },
   "version": "0.1.0",
   "metadata": {
-    "project_id": "N5-20261015-235806-2FE05A9C",
+    "project_id": "N5-20261031-103955-E5A0CC9F",
     "name": "Manual, secção 2.1 - dez dias resolvidos (Lisboa)",
     "created_at": "15/10/2026 00:00",
-    "saved_at": "15/10/2026 23:58:06"
+    "saved_at": "31/10/2026 10:39:56"
   },
   "rainfall": {
     "source_mode": "custom_file",
     "climate_city_uf": "",
     "climate_city_name": "Lisboa",
-    "climate_model": "E-OBS v33.0e",
-    "climate_scenario": "EOBS",
-    "climate_start_date": "11/12/2019",
-    "climate_end_date": "20/12/2019",
+    "climate_model": "Iberia01 v1.0",
+    "climate_scenario": "IBERIA01",
+    "climate_start_date": "15/12/2013",
+    "climate_end_date": "24/12/2013",
     "file_name": "",
-    "start_date": "11/12/2019",
+    "start_date": "15/12/2013",
     "total_days": 10,
     "climbra_series": null,
     "precipitation_mm": [
       0.0,
-      2.1,
-      0.0,
-      1.2,
-      6.0,
-      13.5,
-      0.7,
-      8.1,
-      35.7,
-      25.8
+      0.6,
+      2.6,
+      7.2,
+      33.9,
+      3.7,
+      0.9,
+      0.1,
+      4.9,
+      50.9
     ]
   },
   "inputs": {
@@ -247,8 +247,8 @@
     },
     "project": {
       "source_mode": "custom_file",
-      "start_date": "11/12/2019",
-      "end_date": "20/12/2019"
+      "start_date": "15/12/2013",
+      "end_date": "24/12/2013"
     }
   },
   "analysis": {
@@ -268,7 +268,7 @@
       "Adicional C.M. Lisboa: por m³ de água, impresso na tabela da EPAL; a tabela não diz se leva IVA — tratado sem IVA, a confirmar numa fatura.",
       "Tarifas de disponibilidade por 30 dias tomadas como mensais."
     ],
-    "chuva": "Lisboa, 11 a 20 de dezembro de 2019 (E-OBS v33.0e, concelho de Lisboa, arredondada ao décimo de milímetro; data/portugal_eobs.db).",
+    "chuva": "Lisboa, 15 a 24 de dezembro de 2013 (Iberia01 v1.0, ODbL, município de Lisboa [PT-1106], arredondada ao décimo de milímetro; data/chuva_iberia01_p*.db). Herrera, S., Cardoso, R. M., Soares, P. M. M., Espírito-Santo, F., Viterbo, P., Gutiérrez, J. M. (2019). Iberia01: a new gridded dataset of daily precipitation and temperatures over Iberia. Earth System Science Data, 11, 1947-1956. doi:10.5194/essd-11-1947-2019",
     "eletricidade": "Tarifa de eletricidade não definida neste exemplo: introduza a sua (o custo de bombagem fica a zero até lá)."
   },
   "bim_layout": {

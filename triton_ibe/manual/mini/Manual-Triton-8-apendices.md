@@ -205,8 +205,8 @@ A coluna **onde se introduz** diz em que ecrã o campo aparece; a coluna **quem 
 diz que cálculo o usa. Um campo sem nenhuma das duas é um campo gravado no ficheiro e
 nunca lido, e está listado na secção 5.2 (volume Enganos, limitações e confiabilidade).
 
-Os padrões são os do projeto com que a Edição Ibérica abre: a chuva é a normal 1991-2020
-do concelho de Lisboa na base E-OBS, e os custos, os preços e a tarifa de eletricidade
+Os padrões são os do projeto com que a Edição Ibérica abre: a chuva é a normal 1986-2015
+do município de Lisboa [PT-1106] no Iberia01, e os custos, os preços e a tarifa de eletricidade
 partem de zero ou vazios, para o utilizador os introduzir em euros. Um traço significa
 que o campo não tem valor inicial.
 
@@ -232,18 +232,18 @@ edições. Não têm efeito nesta e não são listados.
 | Parâmetro | Padrão | Unidade | Onde se introduz | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Folhas de cálculo |
-| `climate_source_mode` | national_db | — | Janela principal, Projeto | — |
-| `climate_city_uf` | Lisboa | — | Janela principal, Projeto, Relatórios | — |
-| `climate_city_name` | Lisboa | — | Janela principal, Projeto, Relatórios | — |
-| `climate_model` | E-OBS v33.0e | — | Janela principal, Projeto, Relatórios | — |
-| `climate_scenario` | EOBS | — | Janela principal, Projeto, Relatórios | — |
-| `climate_start_date` | 01/01/1991 | — | Janela principal, Projeto, Relatórios | — |
-| `climate_end_date` | 31/12/2020 | — | Janela principal, Projeto, Relatórios | — |
+| `climate_source_mode` | national_db | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_city_uf` | PT\|Lisboa | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_city_name` | Lisboa [PT-1106] | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_model` | Iberia01 v1.0 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_scenario` | IBERIA01 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_start_date` | 01/01/1986 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_end_date` | 31/12/2015 | — | Janela principal, Projeto, Relatórios | Automação |
 | `start_date` | 01/01/1980 | — | Exportação, Janela principal, Projeto, Tarifário e custos | Automação, Clima, Folhas de cálculo |
 
 Observações do código:
 
-- `climate_source_mode`: "national_db" (a base E-OBS por concelho) ou "custom_file" (ficheiro do utilizador)
+- `climate_source_mode`: "national_db" (a base de chuva por município: Iberia01, ou a E-OBS opcional) ou "custom_file" (ficheiro do utilizador)
 
 ### A.3. Captação
 
@@ -466,7 +466,7 @@ Observações do código:
 | `tariff_customized` | não | — | Projeto | — |
 | `water_tariffs` | — | — | Projeto, Tarifário, Tarifário e custos, Varrimento | Económico |
 | `tariff_city_uf` | personalizado | — | Janela principal, Projeto, Relatórios, Tarifário, Tarifário e custos | — |
-| `tariff_city_name` | personalizado | — | Janela principal, Projeto, Relatórios, Tarifário, Tarifário e custos | — |
+| `tariff_city_name` | personalizado | — | Janela principal, Projeto, Relatórios, Tarifário, Tarifário e custos | Automação |
 | `tariff_vigencia` | — | — | Projeto, Tarifário e custos | — |
 | `tariff_category` | residencial | — | Económico, Tarifário, Tarifário e custos | Tarifário |
 | `sewage_rate` | 100 | — | Projeto, Tarifário, Tarifário e custos | Automação, Económico, Tarifário |
@@ -569,21 +569,21 @@ Os nomes em `código` são os campos do ficheiro de projeto, listados no apêndi
 
 *Chuva*
 
-**Gatilho.** Separador Projeto: escolher o concelho na base E-OBS ou abrir um ficheiro CSV.
+**Gatilho.** Separador Projeto: escolher o município na base ibérica (Iberia01), o concelho na E-OBS opcional, ou abrir um ficheiro CSV.
 
 **Entradas**
 
-- Concelho da base E-OBS v33.0e (278 concelhos com série, 1950 a 2025), ou ficheiro CSV diário em milímetros por dia
-- `climate_start_date` e `climate_end_date`, que recortam a série (a normal 1991-2020 é o recorte inicial)
+- Município do Iberia01 v1.0 (8 319 municípios da Península e das Baleares, 1971 a 2015; ERA5 nas ilhas), concelho da E-OBS v33.0e opcional (278 concelhos, 1950 a 2025), ou ficheiro CSV diário em milímetros por dia
+- `climate_start_date` e `climate_end_date`, que recortam a série (a normal 1986-2015 do Iberia01 é o recorte inicial)
 - `start_date`, data do primeiro dia da série
 
 **Regras**
 
 1. A série vira um vetor `numpy` de milímetros por dia; o índice do vetor é o dia, e a data serve só para saber o dia da semana e o mês.
-2. A série de um concelho é a média diária das células da grelha E-OBS (0,1°) com centro dentro do concelho (limites da CAOP2025). Os Açores ficam fora do domínio da E-OBS e a Madeira não cumpre o limite de 1% de dias sem dado: 30 concelhos ficam sem série na base, e nenhum recebe a série de um vizinho. Para esses, a série é um ficheiro do utilizador.
+2. A série de um município é a média diária das células da grelha do Iberia01 (0,1°) com centro dentro do município (CAOP2025 em Portugal, LAU 2023 em Espanha); na E-OBS, a média das células da sua grelha. As ilhas ficam fora do domínio do Iberia01: Canárias, Madeira e Açores usam a reanálise ERA5 de 0,25° (nível C, com aviso); Ceuta e Melilla ficam sem série, e nenhum local recebe a série de um vizinho. Para esses, a série é um ficheiro do utilizador.
 3. Dia sem dado em todas as células é uma falha (NaN), e a simulação recusa a série em vez de o tratar como dia seco.
 4. Ano incompleto é descartado na leitura, para não enviesar totais anuais.
-5. A base vem no programa, em `data/portugal_eobs.db`; o exemplo do Funchal usa uma série ERA5 em `data/rainfall/Funchal.csv`.
+5. As bases vêm no programa, em `data/chuva_iberia01_p1.db` a `p4.db`, `data/chuva_ilhas_era5.db` e `data/portugal_eobs.db` (opcional); o exemplo do Funchal usa a ERA5 de ilha, e `data/rainfall/Funchal.csv` é a série de exemplo da edição.
 
 **Saídas**
 
@@ -1688,10 +1688,7 @@ Os concelhos transcritos:
 
 > **Desde 30/10/2026 a fonte primária da Edição Ibérica é o Iberia01** (Península e Baleares, 8 319 municípios, 1971–2015, ODbL; Canárias, Madeira e Açores pela ERA5, nível C), em ficheiros separados do programa; ver `docs/DADOS.md` (§2A). O que se segue descreve a base E-OBS, que continua como fonte opcional e não comercial.
 >
-> **A Edição Ibérica traz a base E-OBS por concelho.** A precipitação diária de 278 concelhos do
-> Continente vem no programa, em `data/portugal_eobs.db`. Os Açores e a Madeira não têm série na base:
-> para eles, a série é sempre um ficheiro do utilizador (secção 4.1 (volume Tutorial)). Um exemplo, o Funchal, vem com
-> uma série de reanálise ERA5.
+> **A Edição Ibérica traz duas bases de chuva.** O Iberia01 (fonte por defeito) vem em `data/chuva_iberia01_p1.db` a `p4.db`, com `data/ibe_unidades.db`, e a E-OBS opcional em `data/portugal_eobs.db`. Canárias, Madeira e Açores usam a ERA5 de 0,25° (`data/chuva_ilhas_era5.db`, nível C); Ceuta e Melilla ficam sem série, e a série é um ficheiro do utilizador (secção 4.1 (volume Tutorial)). O exemplo do Funchal usa a ERA5 de ilha.
 
 ---
 
@@ -1764,17 +1761,7 @@ Para 148 concelhos a geometria é o motivo de ficarem fora de A (menos de três 
 dos 16 concelhos em C, e Braga, Vila Real e Santarém mais de metade. O nível não é uma nota de exatidão: diz
 onde a base é mais frágil. Em C, valide com uma série local.
 
-**E em Espanha?** O programa ainda não traz nenhum local espanhol: a linha de cobertura diz «Espanha: 0
-locais», e é assim que deve ser lida. Como ensaio, feito fora do programa, aplicou-se a mesma fórmula às 52
-capitais de província (incluindo Ceuta e Melilla). Quarenta e oito têm série e quatro ficam de fora, porque
-estão fora da grelha do Iberia01 ou da E-OBS: Las Palmas de Gran Canaria, Santa Cruz de Tenerife, Ceuta e
-Melilla. O critério de cobertura é, por isso, «48 capitais com série mais quatro exclusões documentadas», e não
-«52 capitais». Cada capital foi tratada como um ponto (a célula da E-OBS mais próxima, a 14 km ou menos), e não
-como a média de um município, que falta (o limite municipal ainda não foi incorporado). Resultado: 39 capitais
-em B e 9 em C, nenhuma em A (a geometria de um só ponto limita o nível a B). As nove em C são Almería, Ávila,
-A Coruña, Cuenca, Donostia/San Sebastián, Palencia, Santander, Segovia e Bilbao: nelas a E-OBS dá entre 20% e
-34% menos chuva no total anual que o Iberia01. Estes resultados não estão na base do programa e não valem como
-nível de nenhum município espanhol.
+**E em Espanha?** A base ibérica traz 8 131 municípios de Espanha (8 041 pelo Iberia01, incluindo as 67 das Baleares; 88 das Canárias pela ERA5; Ceuta e Melilla sem série), com o limite municipal do Eurostat/GISCO (LAU 2023) e o código INE de cinco dígitos. O nível é geométrico (sem a E-OBS como referência): na Península e nas Baleares, A 321, B 7 719 e C 1; as ilhas são C. É a representação do município pela grelha, e não uma validação com pluviómetros. O ensaio que as 52 capitais de província tiveram antes desta base (feito fora do programa, com a E-OBS) já não vale como nível de nenhum município.
 
 **Correção de escala: não incluída.** Estudou-se uma correção mensal do total, calibrada com o Iberia01 em
 1971–2000 (o período de referência que os autores recomendam), mas **ela não faz parte desta versão**: o
@@ -1782,16 +1769,13 @@ pacote não traz nem o código nem o ficheiro dos fatores. Se vier a ser distrib
 separado, sob a Open Database License do Iberia01, e ficará desligada por defeito. Até lá, nos concelhos de
 nível C, valide a série com uma série local ou carregue a sua.
 
-**Uso comercial.** A E-OBS é de uso estritamente não comercial em pesquisa e educação. No primeiro arranque o
-programa pergunta o uso pretendido e o laudo repete a licença e a citação.
+**Uso comercial.** O Iberia01 (ODbL) e a ERA5 (CC BY 4.0) permitem o uso comercial, com atribuição, que o rodapé do laudo leva (Herrera et al., 2019, doi:10.5194/essd-11-1947-2019). A E-OBS, opcional, é de uso estritamente não comercial em pesquisa e educação: só o projeto cuja fonte é a E-OBS mostra o aviso vermelho, e o laudo repete a licença e a citação.
 
-**Reprodutibilidade.** Cada projeto grava o identificador do pacote de chuva (`PT-EOBS-v33.0e-37fcba20`), a
+**Reprodutibilidade.** Cada projeto grava o município (`Nome [código]`), a fonte e o SHA-256 da série; com a E-OBS, grava também o identificador do pacote (`PT-EOBS-v33.0e-37fcba20`), a
 versão da E-OBS e o SHA-256 do pacote, e por defeito leva a série dentro do ficheiro. Se reabrir um projeto
 com um pacote diferente, o programa avisa e o laudo regista a mudança.
 
-**Cobertura.** O ecrã inicial, o título da janela e o rodapé dos laudos mostram uma linha lida da base:
-Portugal continental, 278 concelhos (A 45, B 159, C 74); Espanha: 0 locais. A grelha cobre a Península, mas a
-edição só tem concelhos de Portugal por enquanto.
+**Cobertura.** O ecrã inicial, o título da janela e o rodapé dos laudos mostram uma linha lida da base: «Cobertura: Portugal 308 locais, Espanha 8131 locais; chuva Iberia01 8319, ERA5 (nível C) 118, sem série 2». Com a E-OBS escolhida, a linha é a da E-OBS (278 concelhos do Continente: A 45, B 159, C 74).
 
 ---
 
@@ -1803,7 +1787,7 @@ udómetro.
 <!-- tabela: **Tabela 40** — Série de precipitação distribuída com a Edição Ibérica -->
 | Ficheiro | Local | Período | Dias | Chuva média anual | Fonte |
 | :--- | :--- | :--- | ---: | ---: | :--- |
-| `Funchal.csv` | Funchal (32,65° N, 16,90° O, célula de grelha a 323 m de altitude) | 01/01/1991 a 31/12/2020 | 10 958 | cerca de 538 mm | reanálise ERA5, via Open-Meteo |
+| `Funchal.csv` | Funchal (32,65° N, 16,90° O, célula de grelha a 323 m de altitude) | 01/01/1991 a 31/12/2020 | 10 958 | cerca de 538 mm | reanálise ERA5, via Open-Meteo (série de exemplo da edição; o projeto de exemplo do Funchal usa a mesma ERA5 pela base das ilhas, 1986–2015, 531 mm) |
 
 O formato é um valor por linha: a precipitação diária em milímetros, sem data. A data do primeiro dia vem
 do projeto (1 de janeiro de 1991 neste ficheiro).
@@ -1815,13 +1799,11 @@ célula de grelha de cerca de 9 km, pela interface de arquivo da Open-Meteo.com 
 14/10/2026. Uma célula é uma média de área: suaviza as chuvadas intensas e exagera o número de dias de
 chuva fraca, e por isso é um ponto de partida, e não um substituto de um registo medido.
 
-**Porque o Funchal usa a ERA5.** A E-OBS não serve ao Funchal (22% de dias sem dado em 1991-2020, acima do
+**Porque o Funchal usa a ERA5.** O Funchal está fora do domínio do Iberia01, e a E-OBS não serve (22% de dias sem dado em 1991-2020, acima do
 limite de 1%). A média anual da reanálise pode diferir da média medida na estação. Num projeto real,
 use a série medida.
 
-**Os projetos de exemplo.** Lisboa e Porto usam a base E-OBS por concelho, e o ficheiro do projeto guarda a
-referência da série e a impressão digital dos valores; por defeito a série vai dentro do ficheiro, com o identificador do pacote. O Funchal traz
-a série ERA5 dentro do ficheiro.
+**Os projetos de exemplo.** Lisboa, Porto, Madrid e Palma usam o Iberia01 (normal 1986–2015), e o Funchal a ERA5 de ilha (nível C); em todos, o ficheiro do projeto guarda o município pelo código (`Lisboa [PT-1106]`), a referência da série e a impressão digital dos valores, e o programa recompõe a série da base ao abrir. Nenhum exemplo usa a E-OBS, e por isso nenhum leva o aviso vermelho de uso não comercial. Medido no mesmo período de 1991 a 2015, o Iberia01 dá 0,4% mais chuva do que a E-OBS em Lisboa e 2,4% mais no Porto; a normal 1991–2020 da E-OBS, que os exemplos usavam antes, dava 719 mm em Lisboa e 1 199 mm no Porto, contra 746 mm e 1 197 mm do Iberia01 em 1986–2015.
 
 ---
 
@@ -1866,23 +1848,23 @@ percentagem declarada. A secção 3.2 (volume Guias de uso) trata da condução 
 
 ### E.7. Particularidades de região e país
 
-A Edição Ibérica chama-se assim porque foi desenhada para a Península Ibérica, mas **esta versão só traz dados de Portugal**. Esta secção diz o que existe, o que falta e o que é próprio do país. Os números vêm de `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e tamanho.
+A Edição Ibérica chama-se assim porque foi desenhada para a Península Ibérica: a chuva cobre **Portugal e Espanha**, e os tarifários de Portugal (três concelhos transcritos) e de Espanha (média regional do INE para todos os municípios; sete com tarifa transcrita ainda não conferida). Esta secção diz o que existe, o que falta e o que é próprio de cada país. Os números vêm de `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e tamanho.
 
 <!-- tabela: **Tabela 41** — Cobertura geográfica da Edição Ibérica nesta versão -->
 | Território | Chuva no programa | Tarifário no programa |
 | :--- | :--- | :--- |
-| Portugal continental | 278 concelhos, série E-OBS de 1950 a 2025, com nível de qualidade A, B ou C | Lisboa e Porto transcritos; os restantes concelhos digitados pelo utilizador |
-| Madeira (11 concelhos) | nenhuma; só com a série de uma estação, carregada pelo utilizador | Funchal transcrito |
-| Açores (19 concelhos) | nenhuma; só com a série de uma estação, carregada pelo utilizador | nenhum transcrito (Ponta Delgada consta do registo de entidades) |
-| Espanha | **0 locais** | nenhum |
+| Portugal continental | 278 concelhos, Iberia01 de 1971 a 2015 (padrão 1986–2015), com nível de qualidade A, B ou C; a E-OBS é opcional | Lisboa e Porto transcritos; os restantes concelhos digitados pelo utilizador |
+| Madeira (11 concelhos) | ERA5 de 0,25°, nível C, com aviso | Funchal transcrito |
+| Açores (19 concelhos) | ERA5 de 0,25°, nível C, com aviso | nenhum transcrito (Ponta Delgada consta do registo de entidades) |
+| Espanha | 8 131 municípios: 8 041 pelo Iberia01 (incluindo as Baleares), 88 das Canárias pela ERA5 (nível C); Ceuta e Melilla sem série | média regional do INE (indicativa); sete municípios com tarifa transcrita ainda não conferida |
 
-**Portugal continental.** Os 278 concelhos têm uma série diária de chuva, calculada a partir da grelha E-OBS de 0,1° (cerca de 10 km); a série de um concelho é uma média de área e suaviza as chuvadas intensas. Cada concelho traz um nível de qualidade (A, B ou C), explicado na secção anterior e resumido abaixo.
+**Portugal continental.** Os 278 concelhos têm uma série diária de chuva, calculada a partir da grelha do Iberia01 de 0,1° (cerca de 10 km) ou, em alternativa, da E-OBS; a série de um concelho é uma média de área e suaviza as chuvadas intensas. Cada concelho traz um nível de qualidade (A, B ou C), explicado na secção anterior e resumido abaixo.
 
-**Ilhas.** A Madeira e os Açores não entram pela grelha. Os Açores ficam a oeste de 25° O, fora do domínio da E-OBS; na Madeira, todos os concelhos faltam em mais de 1% dos dias de 1991 a 2020. A decisão do projeto é que as ilhas só entram com a série de uma estação. O Funchal é uma exceção rotulada: o exemplo usa uma reanálise ERA5, por ser a única série de ilha distribuída, e o laudo diz que a série é própria, sem nível A, B ou C.
+**Ilhas.** A Madeira, os Açores e as Canárias não entram pela grelha do Iberia01 (nem a Madeira pela E-OBS: todos os concelhos faltam em mais de 1% dos dias de 1991 a 2020). Usam a reanálise ERA5 de 0,25°, sempre em nível C e com aviso no ecrã e nos laudos; para um projeto real, use a série da estação. O exemplo do Funchal mostra o caso.
 
-**Espanha.** O programa **ainda não traz nenhum local espanhol**, e a linha de cobertura diz «Espanha: 0 locais». O que existe é um ensaio, feito fora do programa, com as 52 capitais de província: 39 em nível B, 9 em C e 4 sem série. Para ter um pacote por município falta o limite municipal (CNIG, compatível com a licença CC-BY 4.0, confirmado em 23/10/2026) e a licença da E-OBS, que limita o uso à investigação e à educação. Os tarifários e os custos de Espanha também não existem.
+**Espanha.** A chuva vem do Iberia01 por município (limites LAU 2023 do Eurostat/GISCO, código INE). Os custos de Espanha não existem, e as tarifas são a média regional do INE (camada 3, só indicativa) ou, em sete municípios (entre eles Madrid), uma tarifa transcrita de documento oficial, ainda não conferida: o laudo diz «Tarifa transcrita, ainda não conferida (segunda leitura pendente)». Os exemplos `examples/espanha/madrid.triton` e `palma.triton` mostram os dois casos.
 
-**Licença da chuva.** A E-OBS e o ECA&D são de uso estritamente não comercial, em investigação e educação. A licença não trata da redistribuição nem de produtos derivados (nenhum pedido foi feito ao KNMI). No primeiro arranque o programa mostra o aviso e pede o uso pretendido; a declaração fica registada nos laudos. Por defeito, o programa não bloqueia a E-OBS em uso comercial. Num uso comercial, carregue a sua série. O texto do aviso ainda precisa de revisão pela UFSC.
+**Licença da chuva.** O Iberia01 é ODbL (uso comercial permitido, com atribuição). A E-OBS e o ECA&D são de uso estritamente não comercial, em investigação e educação. A licença não trata da redistribuição nem de produtos derivados (nenhum pedido foi feito ao KNMI). No primeiro arranque o programa mostra o aviso e pede o uso pretendido; a declaração fica registada nos laudos. Por defeito, o programa não bloqueia a E-OBS em uso comercial. Num uso comercial, carregue a sua série. O texto do aviso ainda precisa de revisão pela UFSC.
 
 **Níveis de qualidade da chuva.** O nível é o pior de duas medidas: a diferença entre a E-OBS e o Iberia01 (total anual e máximo diário anual, em 1971–2000) e a geometria da série (poucas células, método do centroide ou série repetida de outro concelho). Nos 278 concelhos, 45 são A, 159 são B e 74 são C. A diferença média do total anual, sobre os 278 concelhos, é de −10,1% (a E-OBS dá menos chuva; o −8% da secção anterior é a média célula a célula em Portugal): −3,1% em A, −7,1% em B e −20,7% em C. Os C concentram-se no distrito de Faro (15 dos 16 concelhos), em Santarém (11), Braga (10), Vila Real (8) e Porto (7). O nível não é uma nota de exatidão: diz onde a base é mais frágil, e em C convém validar com uma série local.
 
@@ -1900,13 +1882,14 @@ A Edição Ibérica chama-se assim porque foi desenhada para a Península Ibéri
 
 ### E.8. Descrição dos dados e sua qualidade
 
-Esta secção resume os dados que a edição traz. O inventário completo, com tamanhos, endereços das fontes, licenças e o modo de reproduzir cada item, está em `docs/DADOS.md` do repositório, e os números abaixo são os de lá. Nenhum ficheiro rastreado do repositório passa de 50 MiB; o maior ficheiro de dados é `data/portugal_eobs.db`, com 5,74 MiB.
+Esta secção resume os dados que a edição traz. O inventário completo, com tamanhos, endereços das fontes, licenças e o modo de reproduzir cada item, está em `docs/DADOS.md` do repositório, e os números abaixo são os de lá. Nenhum ficheiro rastreado do repositório passa de 50 MiB; o maior ficheiro de dados é `data/chuva_iberia01_p1.db`, com 15,19 MiB.
 
 <!-- tabela: **Tabela 42** — Os conjuntos de dados da Edição Ibérica, a fonte e a licença -->
 | Conjunto | O que é | Fonte e licença |
 | :--- | :--- | :--- |
-| Chuva por concelho | base SQLite `portugal_eobs.db` (5,74 MiB): 278 séries diárias, de 01/01/1950 a 31/12/2025 (27 759 dias) | E-OBS v33.0e (ECA&D / Copernicus): só uso não comercial em investigação e educação; limites dos concelhos da CAOP 2025 (Direção-Geral do Território, cc-by) |
-| Série do Funchal | `data/rainfall/Funchal.csv` (0,04 MiB), 10 958 dias, de 01/01/1991 a 31/12/2020 | reanálise ERA5 via Open-Meteo; CC BY 4.0 |
+| Chuva por município (fonte por defeito) | quatro partes `chuva_iberia01_p1.db` a `p4.db` (13 a 15 MiB cada), `ibe_unidades.db` (3,3 MiB) e `chuva_ilhas_era5.db` (0,33 MiB): 6 523 células do Iberia01, de 01/01/1971 a 31/12/2015, e 41 nós ERA5 das ilhas | Iberia01 v1.0 (Herrera et al., 2019): ODbL 1.0, com atribuição; limites da CAOP 2025 (Portugal) e do Eurostat/GISCO LAU 2023 (Espanha); ERA5 (Copernicus, via Open-Meteo): CC BY 4.0 |
+| Chuva por concelho (opcional) | base SQLite `portugal_eobs.db` (5,74 MiB): 278 séries diárias, de 01/01/1950 a 31/12/2025 (27 759 dias) | E-OBS v33.0e (ECA&D / Copernicus): só uso não comercial em investigação e educação; limites dos concelhos da CAOP 2025 (Direção-Geral do Território, cc-by) |
+| Série de exemplo do Funchal | `data/rainfall/Funchal.csv` (0,04 MiB), 10 958 dias, de 01/01/1991 a 31/12/2020 | reanálise ERA5 via Open-Meteo; CC BY 4.0 |
 | Tarifários transcritos | Lisboa, Porto e Funchal (`portugal_tarifarios.json`) | documentos oficiais das entidades, com endereço e SHA-256 registados |
 | Entidade gestora, confiança e proveniência | 280 concelhos (`tarifas_portugal/`, 0,75 MiB) | índice da ERSAR (avisos legais: citar a fonte, sem licença aberta) |
 | Fatores de emissão, custos e rotas de produção de água | ficheiros do núcleo (0,02 MiB) | do projeto; sem valor local |
@@ -1914,6 +1897,8 @@ Esta secção resume os dados que a edição traz. O inventário completo, com t
 **Chuva: o que a base é.** O pacote é identificado por `PT-EOBS-v33.0e-37fcba20`, com o SHA-256 da E-OBS, da CAOP e do próprio pacote nos metadados da base, e cada projeto grava esse identificador. Nos 278 concelhos da base não há nenhum dia em falta; o critério de entrada é rejeitar o concelho com mais de 1% de dias sem dado em 1991–2020. A média anual vai de 485 mm (num concelho do distrito de Faro) a 1994 mm (no distrito de Viana do Castelo), e a média dos concelhos é de 908 mm. Setenta e um concelhos têm uma só célula, 20 usam a célula mais próxima do centroide e 14 repetem a série de outro concelho.
 
 **Chuva: o que a base não é.** A E-OBS é um produto interpolado, e não um registo de pluviómetro. Comparada com o Iberia01 (uma grelha feita com uma rede mais densa de estações) em 1971–2000, dá menos chuva e alisa os extremos; por isso o manual não afirma nenhuma tendência de longo prazo da chuva. O Iberia01 só serve aqui de referência para o nível de qualidade (licença ODbL; a tabela `qualidade` guarda diferenças percentuais agregadas derivadas dele, e ainda não está decidido se isso exige a ODbL). No Funchal, a reanálise ERA5 tem uma média anual de cerca de 538 mm, que pode diferir da medida na estação.
+
+**Chuva do Iberia01.** A E-OBS dá em média 13,3% menos chuva do que o Iberia01 na Península (8% em Portugal) em 1971–2015, e o autor do Iberia01 recomenda 1971–2000 como referência e desaconselha a análise de tendências. O nível de qualidade do Iberia01 descreve a representação espacial do município pela grelha (A: três ou mais células; B: uma ou duas; C: célula emprestada ou ERA5), e não uma validação com pluviómetros.
 
 **Tarifas: o que há.** O programa lê só o tarifário transcrito de Lisboa, Porto e Funchal. Os documentos oficiais em que ele se baseia (cada um com endereço de origem e SHA-256 em `tarifas_portugal/fontes/FONTES.tsv`, recolhidos em 07/10/2026) não se redistribuem: o Git leva só o registo e os valores transcritos. As pendências de cada tarifário estão em `examples/LEIA.md`; entre elas, o IVA do Funchal, a leitura por inferência da disponibilidade de água no Porto e a vigência de mais de 12 meses de Beja, Évora, Ponta Delgada e Bragança.
 
@@ -2019,7 +2004,7 @@ O apêndice A lista todos os parâmetros, com o nome exato de cada campo.
 | os tarifários transcritos (Lisboa, Porto e Funchal) | dentro do programa, em `triton\data\portugal_tarifarios.json` |
 | os casos do manual | na pasta do programa, em `casos` |
 | os três projetos de exemplo (Lisboa, Porto e Funchal) | na pasta do programa, em `examples\portugal` |
-| a base de precipitação por concelho (E-OBS) | na pasta do programa, em `data\portugal_eobs.db` |
+| a base de precipitação por município (Iberia01) e a E-OBS opcional | na pasta do programa, em `data\chuva_iberia01_p1.db` a `p4.db`, `data\ibe_unidades.db`, `data\chuva_ilhas_era5.db` e `data\portugal_eobs.db` |
 | **os seus projetos e relatórios** | **onde escolher ao guardar** |
 
 O programa não cria pasta de trabalho nem guarda ficheiros escondidos. Cada gravação
@@ -2269,7 +2254,7 @@ ao reservatório, em %/m³ ($\Delta E_{pot} / \Delta V$). Critério de escolha d
 **GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
 de desempenho socioambiental. Sua série 303 trata de água e efluentes.
 
-**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva E-OBS por concelho e os tarifários transcritos de Lisboa, Porto e Funchal. Hoje só os concelhos de Portugal têm dados; a linha de cobertura do programa diz quantos locais há em cada país (Espanha: 0). Os custos e os fatores de emissão são indicados pelo utilizador.
+**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva do Iberia01 por município e os tarifários transcritos de Lisboa, Porto e Funchal. A linha de cobertura do programa diz quantos locais há em cada país. Os custos e os fatores de emissão são indicados pelo utilizador.
 
 **IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o
@@ -2827,8 +2812,8 @@ barra de água foi avaliada.
 
 O manual imprime resultados; estes ficheiros são o que se abre para
 reproduzi-los. Ficam na pasta `casos` do programa, e cada um traz a série de chuva
-incorporada: abrem sem o CSV de origem, em qualquer computador. A chuva provém da base
-E-OBS por concelho (1991–2020) para Lisboa e Porto, e da reanálise ERA5 para o Funchal,
+incorporada: abrem sem o CSV de origem, em qualquer computador. A chuva provém do
+Iberia01 por município (1986–2015) para Lisboa e Porto, e da reanálise ERA5 de ilha para o Funchal,
 que acompanham o programa (apêndice E); cada ficheiro traz o tarifário oficial da
 sua localidade (apêndice D).
 
@@ -2846,10 +2831,10 @@ introduza os seus próprios custos na etapa 5.
 | Ficheiro | Secção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_lisboa.triton` | 4.1 a 4.10 | o projeto fechado do tutorial em Lisboa: cisterna de 5.000 L em polietileno e elevação para um reservatório superior de 1.000 L (custos ilustrativos, não são preços de mercado) |
-| `02_porto.triton` | 3.1 | a moradia do tutorial levada ao Porto, com a chuva E-OBS do Porto e o tarifário da Águas e Energia do Porto (sem custos definidos) |
-| `03_funchal.triton` | 3.1 | a moradia do tutorial levada ao Funchal, com a chuva ERA5 do Funchal, o tarifário da Câmara Municipal do Funchal e a eletricidade da EEM (sem custos definidos) |
+| `02_porto.triton` | 3.1 | a moradia do tutorial levada ao Porto, com a chuva do Iberia01 no Porto e o tarifário da Águas e Energia do Porto (sem custos definidos) |
+| `03_funchal.triton` | 3.1 | a moradia do tutorial levada ao Funchal, com a chuva ERA5 de ilha do Funchal (nível C), o tarifário da Câmara Municipal do Funchal e a eletricidade da EEM (sem custos definidos) |
 | `04_tutorial_varredura.triton` | 4.4 e 2.2 | o projeto antes do reservatório superior, em modo varredura, de 0 a 20.000 L em passos de 1.000 L (Lisboa) |
-| `05_dez_dias.triton` | 2.1 | o caso didático de dez dias, 11 a 20 de dezembro de 2019 da série de Lisboa, que cabe numa folha de cálculo |
+| `05_dez_dias.triton` | 2.1 | o caso didático de dez dias, 15 a 24 de dezembro de 2013 da série de Lisboa, que cabe numa folha de cálculo |
 | `06_reservatorio_superior.triton` | 4.5 | 5.000 L em baixo mais 1.000 em cima, a comparação da secção 4.5 contra os 6.000 L de um reservatório só (Lisboa) |
 | `07_escola_semanal.triton` | 3.4 e 3.5 | uma escola do Porto, com 300 alunos e procura modulada por dia da semana |
 | `08_hotel_mensal.triton` | 3.4 | um hotel de Lisboa com ocupação mensal ilustrativa, concentrada no verão seco |
@@ -2866,18 +2851,18 @@ número errado, em vez de passar despercebido.
 <!-- tabela: **Tabela 58** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Ficheiro | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
-| `01_tutorial_lisboa.triton` | volume fixo | 5.000 L | 17,88% | 107,3 L/dia |
-| `02_porto.triton` | volume fixo | 5.000 L | 22,04% | 132,3 L/dia |
-| `03_funchal.triton` | volume fixo | 5.000 L | 12,98% | 77,9 L/dia |
-| `04_tutorial_varredura.triton` | varredura | ideal: 5.000 L | 17,49% | 21 volumes |
-| `05_dez_dias.triton` | volume fixo | 2.000 L | 24,43% | 48,9 L/dia |
-| `06_reservatorio_superior.triton` | volume fixo | 5.000 L | 17,88% | 107,3 L/dia |
-| `07_escola_semanal.triton` | volume fixo | 30.000 L | 23,03% | 2.076,2 L/dia |
-| `08_hotel_mensal.triton` | volume fixo | 25.000 L | 10,36% | 866,7 L/dia |
-| `09_modulacao_tutorial.triton` | varredura | ideal: 5.000 L | 17,49% | 21 volumes |
-| `10_modulacao_captacao.triton` | varredura | ideal: 5.000 L | 17,49% | 21 volumes |
+| `01_tutorial_lisboa.triton` | volume fixo | 5.000 L | 18,28% | 109,7 L/dia |
+| `02_porto.triton` | volume fixo | 5.000 L | 21,58% | 129,5 L/dia |
+| `03_funchal.triton` | volume fixo | 5.000 L | 12,86% | 77,1 L/dia |
+| `04_tutorial_varredura.triton` | varredura | ideal: 5.000 L | 17,87% | 21 volumes |
+| `05_dez_dias.triton` | volume fixo | 2.000 L | 30,55% | 61,1 L/dia |
+| `06_reservatorio_superior.triton` | volume fixo | 5.000 L | 18,28% | 109,7 L/dia |
+| `07_escola_semanal.triton` | volume fixo | 30.000 L | 21,83% | 1.968,0 L/dia |
+| `08_hotel_mensal.triton` | volume fixo | 25.000 L | 10,34% | 865,3 L/dia |
+| `09_modulacao_tutorial.triton` | varredura | ideal: 5.000 L | 17,87% | 21 volumes |
+| `10_modulacao_captacao.triton` | varredura | ideal: 5.000 L | 17,87% | 21 volumes |
 
-O caso 01 inclui o reservatório superior de 1.000 L, e o caso 06 compara-o com um único reservatório de 6.000 L, que obtém 18,19% (secção 4.5 (volume Tutorial)).
+O caso 01 inclui o reservatório superior de 1.000 L, e o caso 06 compara-o com um único reservatório de 6.000 L, que obtém 18,59% (secção 4.5 (volume Tutorial)).
 
 ---
 
@@ -2902,8 +2887,11 @@ reproduzir exatamente os números apresentados no manual.
 ### J.4. Os estudos de `exemplos`
 
 Além dos casos didáticos do manual, o programa disponibiliza em `examples/portugal/` os
-projetos de referência para Lisboa, Porto e Funchal. Permitem explorar a aplicação direta
-dos tarifários locais em moradias unifamiliares completas.
+projetos de referência para Lisboa, Porto e Funchal, e em `examples/espanha/` os de Madrid e Palma (Baleares). Todos usam a
+chuva do Iberia01 (1986–2015), por município e pelo código, exceto o Funchal, que usa a ERA5 de ilha (nível C, com aviso).
+Permitem explorar a aplicação direta dos tarifários locais em moradias unifamiliares completas. Os limites dos de Espanha: a
+tarifa de Madrid é a do Canal de Isabel II, transcrita e ainda não conferida; a de Palma é a média regional do INE (indicativa,
+um preço total por metro cúbico), e não a da entidade gestora.
 
 ---
 

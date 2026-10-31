@@ -78,7 +78,7 @@ Apêndice J — Arquivos de exemplo
 
 ## Lista de figuras
 
-Figura 1 — Série de precipitação de Lisboa usada em todo o tutorial (E-OBS, concelho de Lisboa, 1991 a 2020): (a) precipitação total de cada ano, com a média dos trinta anos em linha contínua e os anos acima da média a azul e abaixo dela a laranja; (b) distribuição de frequência da precipitação diária nos dias de chuva, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes
+Figura 1 — Série de precipitação de Lisboa usada em todo o tutorial (Iberia01, município de Lisboa, 1986 a 2015): (a) precipitação total de cada ano, com a média dos trinta anos em linha contínua e os anos acima da média a azul e abaixo dela a laranja; (b) distribuição de frequência da precipitação diária nos dias de chuva, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes
 
 Figura 2 — O ciclo sazonal médio da série, calculado e desenhado pelo programa assim que a precipitação é carregada
 
@@ -92,7 +92,7 @@ Figura 6 — Estados do campo de fração atendível na interface
 
 Figura 7 — O nível da cisterna ao longo do primeiro ano da série de Lisboa, com a chuva diária ao fundo
 
-Figura 8 — (a) Potencial de economia em função do volume do reservatório, que continua a subir aos 20 000 L (24,01%) sem alcançar o teto de 28%, com o volume ideal marcado; (b) ganho marginal, em escala logarítmica, com o limiar de 1 %/m³ adotado no tutorial
+Figura 8 — (a) Potencial de economia em função do volume do reservatório, que continua a subir aos 20 000 L (24,35%) sem alcançar o teto de 28%, com o volume ideal marcado; (b) ganho marginal, em escala logarítmica, com o limiar de 1 %/m³ adotado no tutorial
 
 Figura 9 — O primeiro gráfico do separador de resultados: o potencial de economia de água potável em função do volume do reservatório inferior
 
@@ -242,7 +242,7 @@ As dez secções deste capítulo constroem **um só projeto**, do princípio ao 
 
 Uma moradia unifamiliar em Lisboa. Quatro moradores, cobertura de 150 m², cisterna enterrada no logradouro. É um caso deliberadamente comum, para que o método se destaque, e não o edifício.
 
-Lisboa tem três razões a favor. A série de precipitação é longa e completa: 30 anos de valores diários, de 1991 a 2020. O tarifário da água é público e verificável: a EPAL fornece a água e a Câmara Municipal cobra o saneamento e os resíduos. E o regime de chuva tem um verão muito seco, o que — como a secção 4.4 mostrará — decide a escolha do volume. A secção 3.1 (volume Guias de uso) leva a mesma moradia ao Porto e ao Funchal e mostra quanto muda só pelo clima.
+Lisboa tem três razões a favor. A série de precipitação é longa e completa: 30 anos de valores diários, de 1986 a 2015 (Iberia01). O tarifário da água é público e verificável: a EPAL fornece a água e a Câmara Municipal cobra o saneamento e os resíduos. E o regime de chuva tem um verão muito seco, o que — como a secção 4.4 mostrará — decide a escolha do volume. A secção 3.1 (volume Guias de uso) leva a mesma moradia ao Porto e ao Funchal e mostra quanto muda só pelo clima.
 
 > **O seu local.** O tutorial corre sobre a série de Lisboa e o tarifário que acompanham o programa. Num projeto real, substitua-os pela série medida no local e pela tarifa que paga, como explica a secção 4.7. O método hidráulico é o mesmo.
 
@@ -254,30 +254,30 @@ Abra a etapa **1. Projeto e Chuva**. Há dois caminhos para a chuva.
 
 **Ficheiro próprio.** Um CSV com uma leitura diária por linha, em milímetros, numa só coluna. É o caminho de quem tem dados de uma estação concreta. A ETA 0701 da ANQIP recomenda dados de fontes oficiais, de preferência séries históricas de pelo menos 10 anos, e indica o Sistema Nacional de Informação de Recursos Hídricos (SNIRH) para as precipitações médias mensais de estações do país (item 4.1, versão 7 da ETA; ver a secção 1.1 (volume Comece aqui)).
 
-**Base ibérica (Iberia01), a fonte por defeito.** Escolha o país e a região (distrito, comunidade autónoma, ilha) e o município, ou escreva o nome ou o código (INE de cinco dígitos em Espanha, DTMN de quatro em Portugal) na caixa de busca. A série de um município é a média das células de 0,1° do Iberia01 que o servem, de 1971 a 2015; o período padrão é 1986–2015, porque a normal 1991–2020 não existe nesta fonte. O Iberia01 é de licença ODbL (uso comercial permitido, com atribuição, que o laudo leva). Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C e um aviso; Ceuta e Melilla não têm série e o programa pede a sua. O nível A, B ou C descreve a representação do município pela grelha, e não uma validação com pluviómetros. Os exemplos e o tutorial deste manual usam a série E-OBS de 1991 a 2020, que dá menos chuva do que o Iberia01 (cerca de 8% em Portugal): os números do tutorial não se repetem com o Iberia01.
+**Base ibérica (Iberia01), a fonte por defeito.** Escolha o país e a região (distrito, comunidade autónoma, ilha) e o município, ou escreva o nome ou o código (INE de cinco dígitos em Espanha, DTMN de quatro em Portugal) na caixa de busca. A série de um município é a média das células de 0,1° do Iberia01 que o servem, de 1971 a 2015; o período padrão é 1986–2015, porque a normal 1991–2020 não existe nesta fonte. O Iberia01 é de licença ODbL (uso comercial permitido, com atribuição, que o laudo leva). Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C e um aviso; Ceuta e Melilla não têm série e o programa pede a sua. O nível A, B ou C descreve a representação do município pela grelha, e não uma validação com pluviómetros. O tutorial e os exemplos deste manual usam esta fonte, no período padrão de 1986 a 2015, por município e pelo código (`Lisboa [PT-1106]`). A E-OBS, opcional, dá em média menos chuva do que o Iberia01 (cerca de 8% em Portugal em 1971–2015); no mesmo período de 1991 a 2015, o Iberia01 dá 0,4% a mais em Lisboa e 2,4% a mais no Porto.
 
 **Base de concelhos (E-OBS), fonte opcional.** O programa traz a precipitação diária de 278 concelhos do Continente, de 1950 a 2025, extraída da E-OBS v33.0e. A série de um concelho é a média das células da grelha com centro dentro dos seus limites. É o caminho de quem estuda outros concelhos, e a secção 3.2 (volume Guias de uso) mostra como testar um cenário climático.
 
-Para o nosso projeto, escolha o concelho de **Lisboa** e recorte os **30 anos** de 1991 a 2020.
+Para o nosso projeto, escolha o município de **Lisboa** (PT-1106) e recorte os **30 anos** de 1986 a 2015.
 
 <!-- tabela: **Tabela 1** — Caracterização da série de precipitação de Lisboa adotada no tutorial -->
 | A série de Lisboa | Valor |
 | :--- | ---: |
-| dias na série | 10 958 |
+| dias na série | 10 957 |
 | anos | 30,0 |
-| precipitação média anual | 719 mm |
-| dias com chuva | 22% |
-| chuva média nos dias chuvosos | 9,0 mm |
-| maior chuva diária | 91,2 mm |
-| dias abaixo da lâmina de descarte | 4% |
+| precipitação média anual | 746 mm |
+| dias com chuva | 35% |
+| chuva média nos dias chuvosos | 5,9 mm |
+| maior chuva diária | 109,9 mm |
+| dias abaixo da lâmina de descarte | 16% |
 
 Três números desta tabela decidem o projeto, e vale a pena olhar para eles antes de qualquer simulação.
 
-**719 mm por ano** é pouca chuva para esta cobertura, e muito concentrada no inverno. A oferta bruta, cerca de 92 m³ por ano, é 1,5 vez a procura pluvial da casa (61 m³ por ano, secção 4.2). Há água a mais no ano, mas no momento errado: o fator limitante será o verão seco e o tamanho do reservatório, não o total anual.
+**746 mm por ano** é pouca chuva para esta cobertura, e muito concentrada no inverno. A oferta bruta, cerca de 95 m³ por ano, é 1,6 vez a procura pluvial da casa (61 m³ por ano, secção 4.2). Há água a mais no ano, mas no momento errado: o fator limitante será o verão seco e o tamanho do reservatório, não o total anual.
 
-**Chove em 22% dos dias.** Chuva rara obriga a cisterna a atravessar longas estiagens. Compare com o Porto, na secção 3.1 (volume Guias de uso), onde chove em 31% dos dias e a mesma casa poupa mais. Em Lisboa, o mês mais chuvoso recebe 47,3 vezes o que recebe o mais seco.
+**Chove em 35% dos dias.** Chuva rara obriga a cisterna a atravessar longas estiagens. Compare com o Porto, na secção 3.1 (volume Guias de uso), onde chove em 48% dos dias e a mesma casa poupa mais. Em Lisboa, o mês mais chuvoso recebe 22,7 vezes o que recebe o mais seco.
 
-**Quatro por cento dos dias têm chuva, mas abaixo de 2 mm.** Esses dias serão descartados por inteiro, e o ponto sobre o descarte das primeiras águas, mais adiante, explica porquê.
+**Dezasseis por cento dos dias têm chuva, mas abaixo de 2 mm.** Esses dias serão descartados por inteiro, e o ponto sobre o descarte das primeiras águas, mais adiante, explica porquê.
 
 > **Quantos anos de série usar.** Trinta é confortável. Abaixo de dez, o resultado começa a depender do troço escolhido; abaixo de cinco, o viés do reservatório vazio no início da simulação passa a pesar de forma sensível. A secção 5.1 (volume Enganos, limitações e confiabilidade) trata este engano em pormenor.
 
@@ -287,7 +287,7 @@ Vale a pena olhar para uma série inteira antes de a usar. Trinta anos de Lisboa
 
 ![Trinta anos de série, e a distribuição dos dias de chuva](../figuras/fig15_serie.png)
 
-*Figura 1 — Série de precipitação de Lisboa usada em todo o tutorial (E-OBS, concelho de Lisboa, 1991 a 2020): (a) precipitação total de cada ano, com a média dos trinta anos em linha contínua e os anos acima da média a azul e abaixo dela a laranja; (b) distribuição de frequência da precipitação diária nos dias de chuva, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes. O maior dia da série tem 91,2 mm.*
+*Figura 1 — Série de precipitação de Lisboa usada em todo o tutorial (Iberia01, município de Lisboa, 1986 a 2015): (a) precipitação total de cada ano, com a média dos trinta anos em linha contínua e os anos acima da média a azul e abaixo dela a laranja; (b) distribuição de frequência da precipitação diária nos dias de chuva, em escala logarítmica, que mostra como poucos dias respondem pelos maiores volumes. O maior dia da série tem 109,9 mm.*
 
 ---
 
@@ -307,7 +307,7 @@ Carregada a série, o programa já mostra o regime que ela descreve. Vale a pena
 
 ![O ciclo sazonal médio da série carregada](../figuras/fig55_programa_sazonal.png)
 
-*Figura 2 — O ciclo sazonal médio da série, calculado e desenhado pelo programa assim que a precipitação é carregada. Em Lisboa, o mês mais chuvoso recebe cerca de 47 vezes o que recebe o mais seco (47,3), e é esta diferença que o reservatório tem de atravessar: o verão é quase sem chuva. Figura gerada pelo próprio programa.*
+*Figura 2 — O ciclo sazonal médio da série, calculado e desenhado pelo programa assim que a precipitação é carregada. Em Lisboa, o mês mais chuvoso recebe cerca de 23 vezes o que recebe o mais seco (22,7), e é esta diferença que o reservatório tem de atravessar: o verão é quase sem chuva. Figura gerada pelo próprio programa.*
 
 ---
 ### 4.1.4. O coeficiente de escoamento
@@ -366,7 +366,7 @@ A razão deste comportamento é física, não convencional: o dispositivo de aut
 
 Com isto, o programa já sabe **quanta água entra**. Falta dizer quanta sai, o que é a secção 4.2.
 
-Uma conta de algibeira, para calibrar a expectativa: 719 mm por ano sobre 150 m² com coeficiente de 0,85 dão cerca de 92 m³ por ano de água bruta, antes do descarte. A secção 4.3 mostra quanto desse volume se converte em poupança efetiva — e a diferença entre os dois números é a lição mais importante do tutorial.
+Uma conta de algibeira, para calibrar a expectativa: 746 mm por ano sobre 150 m² com coeficiente de 0,85 dão cerca de 95 m³ por ano de água bruta, antes do descarte. A secção 4.3 mostra quanto desse volume se converte em poupança efetiva — e a diferença entre os dois números é a lição mais importante do tutorial.
 
 ---
 
@@ -417,7 +417,7 @@ Somando os dois usos que a chuva atende, chega-se aos 28% do tutorial. É um val
 
 *Figura 5 — Repartição típica do consumo de uma moradia por uso final. A cinzento, os usos que exigem água potável; a verde, os que podem usar água da chuva, cuja soma é a fração atendível e o teto do potencial de economia: nenhum reservatório, por maior que seja, poupa mais do que esta fração.*
 
-> **Este número é o teto.** Com 28% de fração atendível, o potencial de economia **nunca** passa de 28%, por maior que seja o reservatório e por mais que chova. A tabela da secção 4.4 mostra a curva a aproximar-se desse limite sem o atingir: em Lisboa, a 20.000 L ainda só chega a 24,01%.
+> **Este número é o teto.** Com 28% de fração atendível, o potencial de economia **nunca** passa de 28%, por maior que seja o reservatório e por mais que chova. A tabela da secção 4.4 mostra a curva a aproximar-se desse limite sem o atingir: em Lisboa, a 20.000 L ainda só chega a 24,35%.
 >
 > Quem quer passar dos 28% tem de mudar o **uso**, não o reservatório: acrescentar um uso, como a lavagem de roupa, com o critério de qualidade declarado, ou reduzir o consumo potável.
 
@@ -486,10 +486,10 @@ O programa sabe agora a oferta e a procura. Antes de simular, uma comparação q
 <!-- tabela: **Tabela 5** — Comparação entre a oferta anual de água da chuva e a procura atendível -->
 | | m³/ano |
 | :--- | ---: |
-| oferta bruta de água da chuva (precipitação × área × coeficiente) | 92 |
+| oferta bruta de água da chuva (precipitação × área × coeficiente) | 95 |
 | **procura pluvial do ano** | **61** |
 
-A oferta excede a procura: o volume bruto é **1,5 vez** o que se pretende usar, antes de deduzir o descarte. Se a oferta fosse o único limite, o sistema atenderia 100% da procura pluvial e chegaria ao teto de 28%.
+A oferta excede a procura: o volume bruto é **1,6 vez** o que se pretende usar, antes de deduzir o descarte. Se a oferta fosse o único limite, o sistema atenderia 100% da procura pluvial e chegaria ao teto de 28%.
 
 Não chega, e a secção 4.3 mostra porquê.
 
@@ -512,45 +512,45 @@ Na etapa **4. Reservatório & Custos**, escolha volume fixo, indique 3 000 L, de
 <!-- tabela: **Tabela 6** — Resultado da primeira simulação do tutorial, com um reservatório de 3 000 L -->
 | Resultado com 3 000 L | Valor |
 | :--- | ---: |
-| potencial de poupança de água potável | **15,39%** |
-| água da chuva consumida | 92,3 L/dia |
-| água da rede consumida | 507,7 L/dia |
-| água extravasada | 106,4 L/dia |
-| dias de abastecimento pleno | 53,3% |
-| dias de abastecimento parcial | 2,9% |
-| dias de abastecimento nulo | 43,8% |
+| potencial de poupança de água potável | **15,77%** |
+| água da chuva consumida | 94,6 L/dia |
+| água da rede consumida | 505,4 L/dia |
+| água extravasada | 100,3 L/dia |
+| dias de abastecimento pleno | 54,7% |
+| dias de abastecimento parcial | 3,0% |
+| dias de abastecimento nulo | 42,3% |
 | procura pluvial pretendida | 168 L/dia |
-| volume anual poupado | 33,7 m³/ano |
+| volume anual poupado | 34,6 m³/ano |
 
 O ecrã devolve várias dezenas de valores, e quatro bastam para julgar o projeto nesta etapa. Cada um responde a uma pergunta distinta, e é justamente por isso que não se substituem: um projeto pode ser bom pelo primeiro e mau pelo terceiro, e a leitura conjunta é o que evita conclusões apressadas.
 
 ---
 
-### 4.3.2. O potencial de economia: 15,39%
+### 4.3.2. O potencial de economia: 15,77%
 
 Este indicador responde à pergunta que motiva a maior parte dos projetos: quanto da fatura da água e do saneamento deixa de se pagar. É o valor central do programa e o que consta do resumo de qualquer estudo. Corresponde à razão entre a água da chuva consumida e a procura total do edifício ao longo de toda a série, como na Equação 14 (volume O método).
 
 O denominador merece atenção, porque dele decorre tudo o resto: é a procura **total**, não a procura pluvial. É esta escolha que fixa o teto do indicador nos 28%, a fração atendível definida na secção 4.2, e não em cem por cento.
 
-O sistema alcançou 15,39% contra um teto de 28%, o que significa que entrega 55% do que se propunha entregar (92,3 L/dia de chuva consumida, contra 168 L/dia de procura pluvial). Os 45% em falta correspondem aos dias em que a cisterna não tinha água suficiente para atender à procura pluvial do dia.
+O sistema alcançou 15,77% contra um teto de 28%, o que significa que entrega 56% do que se propunha entregar (94,6 L/dia de chuva consumida, contra 168 L/dia de procura pluvial). Os 44% em falta correspondem aos dias em que a cisterna não tinha água suficiente para atender à procura pluvial do dia.
 
-> **Não confunda as duas percentagens.** «Economia de 15%» e «atendimento de 55% da procura pluvial» descrevem o mesmo sistema e são números diferentes. Estudos publicados trocam por vezes um pelo outro. Declare qual está a usar.
+> **Não confunda as duas percentagens.** «Economia de 16%» e «atendimento de 56% da procura pluvial» descrevem o mesmo sistema e são números diferentes. Estudos publicados trocam por vezes um pelo outro. Declare qual está a usar.
 
 ---
 
-### 4.3.3. O extravasamento: 106,4 L/dia
+### 4.3.3. O extravasamento: 100,3 L/dia
 
 **Responde: o reservatório é suficientemente grande?**
 
-Em média, ao longo dos trinta anos, extravasam da cisterna 106,4 litros por dia, que seguem para a rede de drenagem. Menos do que os 168 L/dia que o sistema pretende consumir, mas ainda assim muita água a perder.
+Em média, ao longo dos trinta anos, extravasam da cisterna 100,3 litros por dia, que seguem para a rede de drenagem. Menos do que os 168 L/dia que o sistema pretende consumir, mas ainda assim muita água a perder.
 
-Parece o argumento definitivo a favor de aumentar o reservatório, e é um argumento fraco. A cobertura oferece 1,5 vez o que a casa consome (secção 4.2), e boa parte desse excedente extravasaria de qualquer cisterna: a secção 4.4 mostra que nem 20 000 L o reduzem abaixo de 54 L/dia. O extravasamento só diz algo sobre o volume quando comparado com o de outros volumes, e é essa comparação que a secção 4.4 faz.
+Parece o argumento definitivo a favor de aumentar o reservatório, e é um argumento fraco. A cobertura oferece 1,6 vez o que a casa consome (secção 4.2), e boa parte desse excedente extravasaria de qualquer cisterna: a secção 4.4 mostra que nem 20 000 L o reduzem abaixo de 48 L/dia. O extravasamento só diz algo sobre o volume quando comparado com o de outros volumes, e é essa comparação que a secção 4.4 faz.
 
 > Um extravasamento elevado não é defeito do programa nem do projeto. É a assinatura do desencontro entre a chuva, que chega concentrada em poucos dias, e a procura, que é constante. O reservatório existe para amortecer isso, e todo o reservatório finito falha em algum episódio.
 
 ---
 
-### 4.3.4. Os dias de atendimento: 53,3% plenos
+### 4.3.4. Os dias de atendimento: 54,7% plenos
 
 **Responde: com que frequência posso contar com o sistema?**
 
@@ -563,7 +563,7 @@ Parece o argumento definitivo a favor de aumentar o reservatório, e é um argum
 | parcial | atendeu parte, e a rede completou |
 | nulo | a cisterna estava vazia; tudo veio da rede |
 
-Em 53,3% dos dias o sistema deu conta sozinho da procura pluvial. Nos restantes 46,7%, a rede pública entrou, total ou parcialmente: 2,9% dos dias foram parciais e 43,8% nulos. A distinção tem consequência direta no projeto hidráulico. Um sistema com muitos dias de atendimento nulo exige um abastecimento automático de reserva bem dimensionado, e o utilizador nota a alternância entre as duas origens ao longo do ano. Um sistema com 99% de dias plenos é, na prática, independente da rede para os usos que atende.
+Em 54,7% dos dias o sistema deu conta sozinho da procura pluvial. Nos restantes 45,3%, a rede pública entrou, total ou parcialmente: 3,0% dos dias foram parciais e 42,3% nulos. A distinção tem consequência direta no projeto hidráulico. Um sistema com muitos dias de atendimento nulo exige um abastecimento automático de reserva bem dimensionado, e o utilizador nota a alternância entre as duas origens ao longo do ano. Um sistema com 99% de dias plenos é, na prática, independente da rede para os usos que atende.
 
 > **Potencial e fiabilidade não andam juntos.** É possível ter um potencial alto com fiabilidade baixa: um reservatório que enche na estação chuvosa e seca na estiagem entrega muito volume no ano e falha metade dos dias. A tabela da secção 4.4 mostra as duas colunas a divergir.
 
@@ -573,7 +573,7 @@ Em 53,3% dos dias o sistema deu conta sozinho da procura pluvial. Nos restantes 
 
 **Responde: quanto vale isto em dinheiro e em carbono?**
 
-É o valor que passa para as secções 4.7 e 4.8, porque tanto a poupança na fatura da água e do saneamento como a emissão de carbono evitada se calculam a partir dele. Vale 33,7 m³/ano, bem menos de metade dos 92 m³/ano que a cobertura disponibiliza antes do descarte; o descarte e o extravasamento explicam a diferença.
+É o valor que passa para as secções 4.7 e 4.8, porque tanto a poupança na fatura da água e do saneamento como a emissão de carbono evitada se calculam a partir dele. Vale 34,6 m³/ano, bem menos de metade dos 95 m³/ano que a cobertura disponibiliza antes do descarte; o descarte e o extravasamento explicam a diferença.
 
 ---
 
@@ -601,10 +601,10 @@ A cisterna de 3 000 L armazena o equivalente a dezoito dias de procura pluvial. 
 <!-- tabela: **Tabela 8** — Estado do projeto do tutorial depois da primeira simulação -->
 | Resultado com 3 000 L | |
 | :--- | ---: |
-| potencial de economia | 15,39% |
+| potencial de economia | 15,77% |
 | de um teto de | 28% |
-| extravasamento | 106,4 L/dia |
-| dias de atendimento pleno | 53,3% |
+| extravasamento | 100,3 L/dia |
+| dias de atendimento pleno | 54,7% |
 
 Um resultado defensável, mas longe do teto. E escolhemos 3 000 L por palpite: pode ser pouco, e pode ser demais.
 
@@ -616,7 +616,7 @@ Quanto seria o certo?
 
 > No fim desta secção, tem a curva de retorno do reservatório, sabe onde deixa de compensar, e percebe porque **não existe** um volume ótimo absoluto — existe um volume ótimo para um critério declarado.
 
-A secção 4.3 adotou 3 000 L como primeiro palpite e encontrou 106,4 L/dia a extravasar e um atendimento pleno em apenas 53,3% dos dias. A pergunta que se impõe é quanto reservatório vale a pena ter. Não se responde com uma tentativa isolada: responde-se simulando o mesmo projeto para muitos volumes e vendo como o resultado evolui. É o que o programa chama **varredura**.
+A secção 4.3 adotou 3 000 L como primeiro palpite e encontrou 100,3 L/dia a extravasar e um atendimento pleno em apenas 54,7% dos dias. A pergunta que se impõe é quanto reservatório vale a pena ter. Não se responde com uma tentativa isolada: responde-se simulando o mesmo projeto para muitos volumes e vendo como o resultado evolui. É o que o programa chama **varredura**.
 
 ---
 
@@ -638,41 +638,41 @@ O volume zero faz parte da grelha como alternativa de referência: representa o 
 | Volume | Potencial | Ganho sobre o anterior | Ganho por metro cúbico acrescentado | Extravasado | Dias plenos |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | L | % | pontos percentuais | %/m³ | L/dia | % |
-| 0 | 0,00 | — | — | 199 | 0,0 |
-| 1 000 | 10,39 | 10,39 | 10,39 | 136 | 33,6 |
-| 2 000 | 13,55 | 3,16 | 3,16 | 117 | 46,1 |
-| 3 000 | 15,39 | 1,84 | 1,84 | 106 | 53,3 |
-| 4 000 | 16,60 | 1,21 | 1,21 | 99 | 58,0 |
-| 5 000 | 17,49 | 0,89 | 0,89 | 94 | 61,3 |
-| 6 000 | 18,19 | 0,70 | 0,70 | 89 | 64,0 |
-| 8 000 | 19,39 | 1,21 | 0,60 | 82 | 68,4 |
-| 10 000 | 20,37 | 0,98 | 0,49 | 76 | 72,0 |
-| 12 000 | 21,23 | 0,86 | 0,43 | 70 | 75,2 |
-| 16 000 | 22,73 | 1,50 | 0,38 | 61 | 80,6 |
-| 20 000 | 24,01 | 1,27 | 0,32 | 54 | 85,2 |
+| 0 | 0,00 | — | — | 195 | 0,0 |
+| 1 000 | 10,84 | 10,84 | 10,84 | 130 | 35,3 |
+| 2 000 | 13,92 | 3,08 | 3,08 | 111 | 47,6 |
+| 3 000 | 15,77 | 1,85 | 1,85 | 100 | 54,7 |
+| 4 000 | 16,97 | 1,20 | 1,20 | 93 | 59,4 |
+| 5 000 | 17,87 | 0,90 | 0,90 | 87 | 62,7 |
+| 6 000 | 18,59 | 0,72 | 0,72 | 83 | 65,5 |
+| 8 000 | 19,76 | 1,17 | 0,58 | 76 | 69,8 |
+| 10 000 | 20,71 | 0,95 | 0,47 | 70 | 73,3 |
+| 12 000 | 21,58 | 0,87 | 0,44 | 65 | 76,5 |
+| 16 000 | 23,06 | 1,48 | 0,37 | 55 | 81,8 |
+| 20 000 | 24,35 | 1,29 | 0,32 | 48 | 86,5 |
 
 A Figura 8 traça os resultados da tabela: o potencial de economia sobe em direção à fração atendível sem a atingir, e o ganho marginal cai mais de trinta vezes ao longo da varredura.
 
 ![Curva de potencial e curva de ganho marginal](../figuras/fig02_curva_de_retorno.png)
 
-*Figura 8 — (a) Potencial de economia em função do volume do reservatório, que continua a subir aos 20 000 L (24,01%) sem alcançar o teto de 28%, com o volume ideal marcado; (b) ganho marginal, em escala logarítmica, com o limiar de 1 %/m³ adotado no tutorial.*
+*Figura 8 — (a) Potencial de economia em função do volume do reservatório, que continua a subir aos 20 000 L (24,35%) sem alcançar o teto de 28%, com o volume ideal marcado; (b) ganho marginal, em escala logarítmica, com o limiar de 1 %/m³ adotado no tutorial.*
 
 A coluna decisiva da tabela é a do **ganho por metro cúbico acrescentado**, a derivada discreta da curva de potencial, que exprime quanto cada metro cúbico adicional de reservatório acrescenta de economia. A tabela abaixo destaca alguns intervalos, e o padrão que revela é o argumento central desta secção.
 
 <!-- tabela: **Tabela 10** — Ganho marginal de economia por cada metro cúbico acrescentado ao reservatório -->
 | De → para | Ganho por m³ |
 | :--- | ---: |
-| 0 → 1 000 L | 10,39 %/m³ |
-| 1 000 → 2 000 L | 3,16 %/m³ |
-| 2 000 → 3 000 L | 1,84 %/m³ |
-| 3 000 → 4 000 L | 1,21 %/m³ |
-| 4 000 → 5 000 L | 0,89 %/m³ |
-| 10 000 → 12 000 L | 0,43 %/m³ |
+| 0 → 1 000 L | 10,84 %/m³ |
+| 1 000 → 2 000 L | 3,08 %/m³ |
+| 2 000 → 3 000 L | 1,85 %/m³ |
+| 3 000 → 4 000 L | 1,20 %/m³ |
+| 4 000 → 5 000 L | 0,90 %/m³ |
+| 10 000 → 12 000 L | 0,44 %/m³ |
 | 16 000 → 20 000 L | 0,32 %/m³ |
 
 ==O primeiro metro cúbico de reservatório entrega mais de 10 pontos percentuais de economia; os de 16 para 20 m³ entregam menos de um terço de ponto cada um.== A diferença é de mais de trinta vezes, e os metros cúbicos custam o mesmo betão, a mesma escavação e a mesma mão de obra.
 
-Aqui Lisboa difere de um clima de chuva bem repartida. A curva **não satura**: a 20 000 L ainda sobe, e só 85,2% dos dias são plenos. A razão é o verão seco. O mês mais chuvoso recebe 47,3 vezes o que recebe o mais seco, e uma cisterna maior continua a ganhar, porque guarda mais inverno para atravessar mais verão. O ganho é pequeno, mas não chega a zero.
+Aqui Lisboa difere de um clima de chuva bem repartida. A curva **não satura**: a 20 000 L ainda sobe, e só 86,5% dos dias são plenos. A razão é o verão seco. O mês mais chuvoso recebe 22,7 vezes o que recebe o mais seco, e uma cisterna maior continua a ganhar, porque guarda mais inverno para atravessar mais verão. O ganho é pequeno, mas não chega a zero.
 
 O comportamento tem, ainda assim, a forma característica de toda a curva de aproveitamento pluvial, e decorre de dois factos que atuam em conjunto. Os primeiros litros de armazenamento captam os episódios pequenos e frequentes, que são a maioria das chuvas em qualquer regime; e o teto imposto pela fração atendível, de 28% neste projeto, puxa a curva para a horizontal à medida que o sistema dele se aproxima, de modo que o espaço restante para ganho se vai esgotando.
 
@@ -704,38 +704,38 @@ A varredura não devolve apenas a curva de potencial. O separador de resultados 
 
 Perante uma curva cujo rendimento decai desta forma, a pergunta «qual é o volume ideal?» só admite resposta depois de se estabelecer o que significa deixar de compensar. O Triton adota para isso o critério do ganho marginal: o volume ideal é o menor volume cujo ganho por metro cúbico acrescentado já desceu abaixo de um limiar declarado pelo utilizador, conforme a formulação da secção 2.2 (volume O método).
 
-O programa abre com um limiar de 5 %/m³, e o tutorial adota um mais exigente, de 1 %/m³. A diferença não é um pormenor: com o valor predefinido, o volume ideal deste projeto seria de 2 000 L (ganho de 3,16 %/m³); com o limiar do tutorial, o primeiro volume a descer abaixo dele é o de 5 000 L, com um ganho marginal de 0,89 %/m³. Quem refizer o tutorial tem, por isso, de alterar o limiar no programa antes de executar a varredura.
+O programa abre com um limiar de 5 %/m³, e o tutorial adota um mais exigente, de 1 %/m³. A diferença não é um pormenor: com o valor predefinido, o volume ideal deste projeto seria de 2 000 L (ganho de 3,08 %/m³); com o limiar do tutorial, o primeiro volume a descer abaixo dele é o de 5 000 L, com um ganho marginal de 0,90 %/m³. Quem refizer o tutorial tem, por isso, de alterar o limiar no programa antes de executar a varredura.
 
 <!-- tabela: **Tabela 11** — Indicadores do volume ideal obtido com o limiar de 1 %/m³ adotado no tutorial -->
 | Indicador | Valor |
 | :--- | ---: |
 | volume ideal, limiar de 1 %/m³ | 5 000 L |
-| potencial nesse volume | 17,49% |
+| potencial nesse volume | 17,87% |
 | de um teto de | 28% |
-| dias de atendimento pleno | 61,3% |
+| dias de atendimento pleno | 62,7% |
 
 O limiar, contudo, é uma escolha do analista, e decide o resultado tanto como os dados de entrada. A tabela abaixo mostra o volume ideal que cada limiar plausível produziria para este mesmo projeto.
 
 <!-- tabela: **Tabela 12** — Volume ideal obtido com cada limiar de ganho marginal, para o mesmo projeto -->
 | Limiar declarado | Volume ideal | Potencial |
 | ---: | ---: | ---: |
-| 3,0 %/m³ | 3 000 L | 15,39% |
-| 1,0 %/m³ | 5 000 L | 17,49% |
-| 0,5 %/m³ | 10 000 L | 20,37% |
+| 3,0 %/m³ | 3 000 L | 15,77% |
+| 1,0 %/m³ | 5 000 L | 17,87% |
+| 0,5 %/m³ | 9 000 L | 20,25% |
 
 <!-- tabela: **Tabela 13** — Custo e desempenho comparados entre o volume ideal e o maior volume varrido (os preços são ilustrativos, não são preços de mercado) -->
 | | 5 000 L | 20 000 L |
 | :--- | ---: | ---: |
-| potencial de poupança | 17,49% | 24,01% |
+| potencial de poupança | 17,87% | 24,35% |
 | preço da cisterna de betão (ilustrativo, não é preço de mercado) | 2 600 € | 8 600 € |
 | massa de betão | 6 000 kg | 24 000 kg |
 | carbono incorporado do sistema | 1 026 kg CO₂e | 3 546 kg CO₂e |
 | **razão de preços** | | **3,3×** |
-| **ganho de potencial** | | **+6,52 pontos** |
+| **ganho de potencial** | | **+6,47 pontos** |
 
 O programa não emite opinião sobre qual seria o limiar correto, e não poderia: a escolha depende do custo do reservatório, do valor da água no concelho e do espaço disponível no terreno, nenhum dos quais é um dado hidrológico. O que o programa faz é aplicar fielmente o limiar declarado e registá-lo no relatório.
 
-> **Num estudo publicado, declare o limiar.** Dois artigos com «volume ideal» de limiares diferentes não são comparáveis. Entre o primeiro e o último limiares da tabela, a diferença é de 7 000 L de reservatório, que compram 4,98 pontos percentuais de economia.
+> **Num estudo publicado, declare o limiar.** Dois artigos com «volume ideal» de limiares diferentes não são comparáveis. Entre o primeiro e o último limiares da tabela, a diferença é de 6 000 L de reservatório, que compram 4,48 pontos percentuais de economia.
 
 ---
 
@@ -743,13 +743,13 @@ O programa não emite opinião sobre qual seria o limiar correto, e não poderia
 
 O critério do ganho marginal é puramente hidráulico: olha para a curva de aproveitamento e para mais nada. Não sabe quanto custa o reservatório, quanto vale o metro cúbico de água no concelho em causa, nem quanto carbono traz consigo o material escolhido. Desta cegueira decorrem três consequências, e cada uma pode deslocar a recomendação num sentido diferente.
 
-- Se a água for muito cara, o ganho de 0,89 %/m³ do quinto metro cúbico pode pagar-se bem, e o volume económico será **maior** do que o hidráulico.
+- Se a água for muito cara, o ganho de 0,90 %/m³ do quinto metro cúbico pode pagar-se bem, e o volume económico será **maior** do que o hidráulico.
 - Se a cisterna for cara ou o espaço escasso, o inverso.
 - Uma cisterna de betão de 20 m³ pesa 24 toneladas e traz, com o resto do sistema, cerca de **3,5 toneladas de CO₂e** incorporado (3 546 kg), contra cerca de uma tonelada na de 5 m³ (1 026 kg). Os últimos metros cúbicos acrescentam pouca economia, e não têm como compensar a diferença.
 
 São três critérios e três respostas diferentes para a mesma pergunta, e nenhuma é mais legítima do que as outras em abstrato. É por isso que o tutorial não acaba aqui: as secções 4.7 e 4.8 acrescentam à análise, respetivamente, o dinheiro e o carbono, e a secção 4.9 põe as três dimensões na mesma mesa, com pesos declarados, para chegar a um volume de compromisso que se possa defender.
 
-> **O engano mais comum, e está na secção 5.1 (volume Enganos, limitações e confiabilidade).** Publicar o volume de maior economia de água como se fosse o volume recomendado. Pela tabela, 20 000 L dão o maior potencial, 24,01%. A cisterna de betão custa **3,3 vezes mais** do que a de 5 000 L (2 600 € contra 8 600 €; preços ilustrativos, não são preços de mercado) e traz **3,5 vezes mais carbono incorporado**, para entregar 6,52 pontos percentuais a mais.
+> **O engano mais comum, e está na secção 5.1 (volume Enganos, limitações e confiabilidade).** Publicar o volume de maior economia de água como se fosse o volume recomendado. Pela tabela, 20 000 L dão o maior potencial, 24,35%. A cisterna de betão custa **3,3 vezes mais** do que a de 5 000 L (2 600 € contra 8 600 €; preços ilustrativos, não são preços de mercado) e traz **3,5 vezes mais carbono incorporado**, para entregar 6,47 pontos percentuais a mais.
 
 ---
 
@@ -764,9 +764,9 @@ A cisterna pequena renova o seu volume muitas vezes por ano e termina o dia vazi
 ---
 ### 4.4.5. Mais duas leituras da tabela
 
-**O extravasamento não chega a zero.** Parte de 199 L/dia sem reservatório e desce para 54 L/dia com vinte metros cúbicos, e ainda não estabilizou. Parte da água que a cobertura capta continuará a ir para a drenagem, por uma razão que nenhum aumento do reservatório resolve: a procura simplesmente não a consome. Os sistemas de aproveitamento pluvial não retêm água por reter, e quem procura amortecer cheias precisa de um reservatório de retenção, que é outro projeto, com outro critério de dimensionamento.
+**O extravasamento não chega a zero.** Parte de 195 L/dia sem reservatório e desce para 48 L/dia com vinte metros cúbicos, e ainda não estabilizou. Parte da água que a cobertura capta continuará a ir para a drenagem, por uma razão que nenhum aumento do reservatório resolve: a procura simplesmente não a consome. Os sistemas de aproveitamento pluvial não retêm água por reter, e quem procura amortecer cheias precisa de um reservatório de retenção, que é outro projeto, com outro critério de dimensionamento.
 
-**A fiabilidade cresce mais depressa do que o potencial.** Ao passar de 3 000 para 4 000 L, o potencial de economia ganha 1,21 pontos percentuais, ao passo que os dias de atendimento pleno sobem de 53,3% para 58,0%. Quando o critério de projeto é o conforto de uso — não faltar água da chuva nos pontos que a utilizam — e não a poupança na fatura, a leitura da mesma tabela leva a outra escolha.
+**A fiabilidade cresce mais depressa do que o potencial.** Ao passar de 3 000 para 4 000 L, o potencial de economia ganha 1,20 pontos percentuais, ao passo que os dias de atendimento pleno sobem de 54,7% para 59,4%. Quando o critério de projeto é o conforto de uso — não faltar água da chuva nos pontos que a utilizam — e não a poupança na fatura, a leitura da mesma tabela leva a outra escolha.
 
 ---
 
@@ -782,8 +782,8 @@ O tutorial adota 5 000 L e segue. É o volume ideal pelo critério hidráulico c
 | procura total | 600 L/dia |
 | fração atendível | 28% |
 | **volume do reservatório** | **5 000 L** |
-| potencial de economia | 17,49% |
-| dias de atendimento pleno | 61,3% |
+| potencial de economia | 17,87% |
+| dias de atendimento pleno | 62,7% |
 
 Resta uma decisão hidráulica antes de se poder falar de dinheiro: esta água precisa de subir para um reservatório elevado, ou pode ser pressurizada diretamente a partir da cisterna? É o assunto da secção 4.5.
 
@@ -815,7 +815,7 @@ Quando a cisterna fica acima dos pontos de uso, há ainda uma terceira: a **grav
 | pressurização direta | todo o volume pluvial consumido, pela pressão de trabalho | só as eletrobombas |
 | gravidade | nenhuma | nenhuma |
 
-Na pressurização direta, a etapa 4 pede o modelo do sobrepressor, escolhido num catálogo de seis modelos genéricos de referência, de A a F, cada um com uma curva caudal × pressão ilustrativa (nenhum é um produto real), a pressão de trabalho e o caudal do ponto de uso. O sobrepressor liga a cada descarga, 5,05 por pessoa e por dia segundo o levantamento de usos finais de Mayer et al. (1999), e fica ligado enquanto o autoclismo acoplado enche, ao ritmo da torneira de bóia. A energia é esse tempo vezes a potência elétrica. No tutorial, a uma pressão de 18 m, o menor modelo gastaria 26,1 kWh por ano, cerca de cinco vezes os 5,1 kWh da elevação; a secção 2.6 (volume O método) explica porquê e mostra que o modelo escolhido pesa mais do que a pressão. Não verificado nesta versão: o valor de 5,05 descargas por pessoa e por dia e a referência de Mayer et al. (1999) numa fonte aberta; uma consulta de 24/10/2026 não o confirmou.
+Na pressurização direta, a etapa 4 pede o modelo do sobrepressor, escolhido num catálogo de seis modelos genéricos de referência, de A a F, cada um com uma curva caudal × pressão ilustrativa (nenhum é um produto real), a pressão de trabalho e o caudal do ponto de uso. O sobrepressor liga a cada descarga, 5,05 por pessoa e por dia segundo o levantamento de usos finais de Mayer et al. (1999), e fica ligado enquanto o autoclismo acoplado enche, ao ritmo da torneira de bóia. A energia é esse tempo vezes a potência elétrica. No tutorial, a uma pressão de 18 m, o menor modelo gastaria 26,7 kWh por ano, cerca de cinco vezes os 5,3 kWh da elevação; a secção 2.6 (volume O método) explica porquê e mostra que o modelo escolhido pesa mais do que a pressão. Não verificado nesta versão: o valor de 5,05 descargas por pessoa e por dia e a referência de Mayer et al. (1999) numa fonte aberta; uma consulta de 24/10/2026 não o confirmou.
 
 A elevação para um reservatório elevado tem três vantagens práticas reais. A eletrobomba liga poucas vezes por dia, em vez de dezenas, o que prolonga a vida do equipamento; a pressão nos pontos de consumo é constante, porque decorre da altura da coluna de água e não do funcionamento da bomba; e há reserva disponível durante uma falha de energia. ==Nenhuma destas três vantagens é poupança de água==, e é justamente essa a confusão que a secção desfaz.
 
@@ -828,22 +828,22 @@ Comparar um sistema de 5 000 L sem reservatório elevado com outro de 5 000 L ma
 <!-- tabela: **Tabela 16** — Reservatório único comparado com dois reservatórios, mantido o mesmo armazenamento total (o custo da energia é ilustrativo, não é preço de mercado) -->
 | Mesmo armazenamento de 6 000 L | Um só reservatório | 5 000 em baixo + 1 000 em cima |
 | :--- | ---: | ---: |
-| potencial de poupança | 18,19% | 17,88% |
-| dias de abastecimento pleno | 64,0% | 62,8% |
-| volume elevado | — | 39,2 m³/ano |
-| arranques da bomba | — | 49 por ano |
-| horas de bomba | — | 8,4 h/ano |
-| energia | — | 5,1 kWh/ano |
-| custo da energia (ilustrativo, não é preço de mercado) | — | 1,03 €/ano |
-| **diferença de potencial** | | **−0,31 pontos** |
+| potencial de poupança | 18,59% | 18,28% |
+| dias de abastecimento pleno | 65,5% | 64,3% |
+| volume elevado | — | 40,1 m³/ano |
+| arranques da bomba | — | 51 por ano |
+| horas de bomba | — | 8,6 h/ano |
+| energia | — | 5,3 kWh/ano |
+| custo da energia (ilustrativo, não é preço de mercado) | — | 1,05 €/ano |
+| **diferença de potencial** | | **−0,32 pontos** |
 
-Com o mesmo armazenamento, o arranjo com reservatório elevado entrega 0,31 pontos percentuais a menos de economia do que o reservatório único (17,88% contra 18,19%). A diferença não é erro de arredondamento, e tem uma causa: **a cisterna extravasa enquanto o reservatório superior ainda tem espaço**.
+Com o mesmo armazenamento, o arranjo com reservatório elevado entrega 0,32 pontos percentuais a menos de economia do que o reservatório único (18,28% contra 18,59%). A diferença não é erro de arredondamento, e tem uma causa: **a cisterna extravasa enquanto o reservatório superior ainda tem espaço**.
 
 A chuva entra só pela cisterna, e o extravasamento é calculado nela antes do consumo do dia. A elevação, porém, só acontece quando há consumo e o reservatório superior desce abaixo do limiar de acionamento. Assim, num dia de chuva com a cisterna cheia, a água que excede os 5 000 L de baixo perde-se mesmo que o reservatório de cima tenha centenas de litros livres. Um reservatório único de 6 000 L guardá-la-ia.
 
 É também por isso que um limiar de acionamento maior rende mais: com ele, a bomba enche o reservatório mais cedo, a cisterna está mais vazia quando a chuva chega, e extravasa menos. A reserva abaixo do limiar não fica imobilizada, porque é consumida logo a seguir a cada elevação e quando a cisterna seca.
 
-> **O reservatório superior não aumenta a poupança de água. Custa.** No nosso projeto, custa o reservatório, custa a bomba, custa 5,1 kWh por ano de energia, e custa 0,31 pontos de potencial em relação a um reservatório único do mesmo volume total.
+> **O reservatório superior não aumenta a poupança de água. Custa.** No nosso projeto, custa o reservatório, custa a bomba, custa 5,3 kWh por ano de energia, e custa 0,32 pontos de potencial em relação a um reservatório único do mesmo volume total.
 >
 > Isto não o torna errado. Torna a decisão **hidráulica**, e não hídrica: adote-o se o projeto precisa de pressão por gravidade ou de reserva contra falhas de energia, e não à espera de que renda mais água.
 
@@ -856,14 +856,14 @@ Se adotar o reservatório superior, há um parâmetro a ajustar: o volume de res
 <!-- tabela: **Tabela 17** — Efeito do limiar de arranque da bomba no potencial de poupança e no número de arranques -->
 | Limiar de arranque | Potencial | Arranques por ano |
 | ---: | ---: | ---: |
-| 0 L | 17,78% | 45 |
-| 100 L | 17,88% | 49 |
-| 300 L | 17,95% | 61 |
-| 500 L | 18,01% | 80 |
+| 0 L | 18,23% | 46 |
+| 100 L | 18,28% | 51 |
+| 300 L | 18,32% | 62 |
+| 500 L | 18,42% | 83 |
 
-Um limiar maior significa **mais potencial e mais arranques**, pela razão acima. De 0 para 500 L, o potencial sobe 0,23 pontos (de 17,78% para 18,01%) e os arranques passam de 45 para 80 por ano.
+Um limiar maior significa **mais potencial e mais arranques**, pela razão acima. De 0 para 500 L, o potencial sobe 0,19 pontos (de 18,23% para 18,42%) e os arranques passam de 46 para 83 por ano.
 
-A troca é entre um ganho hídrico marginal e o desgaste da eletrobomba. As eletrobombas residenciais suportam bem alguns arranques por dia; o que as mata é o liga-desliga contínuo. Oitenta arranques por ano são menos de dois por semana, e nenhum dos valores da tabela chega perto de ser um problema.
+A troca é entre um ganho hídrico marginal e o desgaste da eletrobomba. As eletrobombas residenciais suportam bem alguns arranques por dia; o que as mata é o liga-desliga contínuo. Oitenta e três arranques por ano são menos de dois por semana, e nenhum dos valores da tabela chega perto de ser um problema.
 
 > **Onde o limiar importa a sério** é nos edifícios com procura concentrada, em que o reservatório esvazia depressa. Aí pode passar dos mil arranques por ano, e convém dimensionar o reservatório em vez de mexer no limiar.
 
@@ -871,9 +871,9 @@ A troca é entre um ganho hídrico marginal e o desgaste da eletrobomba. As elet
 
 ### 4.5.4. A energia, e porque é pequena
 
-Cinco vírgula um quilowatts-hora por ano. A 0,20 € por quilowatt-hora, valor ilustrativo, não é preço de mercado, são 1,03 € por ano.
+Cinco vírgula três quilowatts-hora por ano. A 0,20 € por quilowatt-hora, valor ilustrativo, não é preço de mercado, são 1,05 € por ano.
 
-Parece pouco demais, e vale a pena perceber porquê. Elevar um metro cúbico de água a dez metros custa, em energia hidráulica, cerca de 0,027 kWh. Com os rendimentos da bomba e do motor, e somados os arranques, o programa chega a cerca de 0,13 kWh por metro cúbico elevado. Os 39,2 metros cúbicos elevados por ano dão os 5,1 quilowatts-hora da tabela.
+Parece pouco demais, e vale a pena perceber porquê. Elevar um metro cúbico de água a dez metros custa, em energia hidráulica, cerca de 0,027 kWh. Com os rendimentos da bomba e do motor, e somados os arranques, o programa chega a cerca de 0,13 kWh por metro cúbico elevado. Os 40,1 metros cúbicos elevados por ano dão os 5,3 quilowatts-hora da tabela.
 
 A água é pesada, mas a altura de um edifício pequeno é pouca. É por isso que o custo energético do aproveitamento pluvial é desprezável face à poupança na fatura da água e do saneamento — e é por isso também que o argumento de que «bombear água gasta mais energia do que poupa» não se sustenta num edifício de pequeno porte.
 
@@ -885,9 +885,9 @@ A água é pesada, mas a altura de um edifício pequeno é pouca. É por isso qu
 
 **Adotamos a elevação para um reservatório superior de 1 000 L, com limiar de 100 L.**
 
-A decisão é hidráulica, e não hídrica. O reservatório elevado dá pressão constante nos pontos de uso sem depender da bomba a cada descarga, mantém água disponível durante uma falha de energia e faz a eletrobomba arrancar 49 vezes por ano, em vez das mais de sete mil partidas de um sobrepressor acionado a cada descarga por quatro moradores, que gastaria entre 26 e 68 kWh por ano conforme o modelo genérico. O preço é o que a tabela mostra: o reservatório, as bombas, 5,1 kWh por ano e 0,31 pontos de potencial face a um reservatório único de 6 000 L. As bombas são duas, a principal e a de reserva, a precaução habitual num sistema de elevação de que o edifício não pode prescindir.
+A decisão é hidráulica, e não hídrica. O reservatório elevado dá pressão constante nos pontos de uso sem depender da bomba a cada descarga, mantém água disponível durante uma falha de energia e faz a eletrobomba arrancar 51 vezes por ano, em vez das mais de sete mil partidas de um sobrepressor acionado a cada descarga por quatro moradores, que gastaria entre 27 e 69 kWh por ano conforme o modelo genérico. O preço é o que a tabela mostra: o reservatório, as bombas, 5,3 kWh por ano e 0,32 pontos de potencial face a um reservatório único de 6 000 L. As bombas são duas, a principal e a de reserva, a precaução habitual num sistema de elevação de que o edifício não pode prescindir.
 
-Em relação à cisterna de 5 000 L sozinha, o potencial sobe de 17,49% para 17,88%, porque o reservatório acrescenta 1 000 L de armazenamento. Daqui em diante, o custo, o carbono e a decisão do tutorial incluem o reservatório superior, as duas eletrobombas e a energia da elevação.
+Em relação à cisterna de 5 000 L sozinha, o potencial sobe de 17,87% para 18,28%, porque o reservatório acrescenta 1 000 L de armazenamento. Daqui em diante, o custo, o carbono e a decisão do tutorial incluem o reservatório superior, as duas eletrobombas e a energia da elevação.
 
 <!-- tabela: **Tabela 18** — Estado do projeto do tutorial depois da decisão sobre o reservatório superior -->
 | Projeto até aqui | |
@@ -895,7 +895,7 @@ Em relação à cisterna de 5 000 L sozinha, o potencial sobe de 17,49% para 17,
 | volume do reservatório inferior | 5 000 L |
 | arranjo | elevação para reservatório superior |
 | reservatório superior | 1 000 L, limiar de 100 L |
-| potencial de economia | 17,88% |
+| potencial de economia | 18,28% |
 
 Já sabemos quanta água o sistema entrega. Falta saber **que água** é essa.
 
@@ -1035,20 +1035,20 @@ O Triton evita o problema calculando duas faturas completas — a que o edifíci
 | A fatura de água, saneamento e resíduos de Lisboa | Consumo | Valor |
 | :--- | ---: | ---: |
 | sem o sistema | 18,26 m³/mês | 46,25 € |
-| com o sistema | 15,00 m³/mês | 35,06 € |
-| **poupança** | 3,27 m³/mês | **11,19 €** |
+| com o sistema | 14,92 m³/mês | 34,93 € |
+| **poupança** | 3,34 m³/mês | **11,32 €** |
 
 <!-- tabela: **Tabela 24** — Indicadores económicos do projeto do tutorial em vinte anos de análise (todos os custos são ilustrativos, não são preços de mercado) -->
 | Análise a vinte anos (custos ilustrativos, não são preços de mercado) | Valor |
 | :--- | ---: |
 | investimento inicial | 6 650,00 € |
-| poupança anual na água | 134,28 € |
-| custo anual de exploração | 1,75 € |
-| valor atual líquido | −5 828,77 € |
-| taxa interna de rentabilidade | −11,30% ao ano |
+| poupança anual na água | 135,88 € |
+| custo anual de exploração | 1,79 € |
+| valor atual líquido | −5 802,56 € |
+| taxa interna de rentabilidade | −11,11% ao ano |
 | período de recuperação descontado | sem recuperação |
 
-O resultado merece atenção. O sistema poupa 3,27 m³ por mês e a fatura baixa 11,19 €, o que dá 3,42 € por metro cúbico poupado. É mais do que a média da fatura sem o sistema, 2,53 € por metro cúbico (46,25 € para 18,26 m³). A diferença vem de a poupança incidir sobre os escalões mais altos e de a fatura de Lisboa somar à água o saneamento e os resíduos, ambos cobrados em função do volume de água: cada metro cúbico que não é tirado da rede também não é descarregado nem contado para os resíduos.
+O resultado merece atenção. O sistema poupa 3,34 m³ por mês e a fatura baixa 11,32 €, o que dá 3,39 € por metro cúbico poupado. É mais do que a média da fatura sem o sistema, 2,53 € por metro cúbico (46,25 € para 18,26 m³). A diferença vem de a poupança incidir sobre os escalões mais altos e de a fatura de Lisboa somar à água o saneamento e os resíduos, ambos cobrados em função do volume de água: cada metro cúbico que não é tirado da rede também não é descarregado nem contado para os resíduos.
 
 > **O saneamento acompanha a parcela da água, não a fatura total.** Poupar água poupa as duas parcelas, e é por isso que o valor efetivo do metro cúbico poupado fica acima do preço da água.
 
@@ -1168,11 +1168,11 @@ O plano é uma tabela opcional, que o utilizador ligaria de propósito, com cinc
 
 A segunda tabela acima dá os indicadores.
 
-**O projeto não se paga, e esse é o resultado honesto.** Ao fim de vinte anos, com estes custos ilustrativos e o tarifário de Lisboa, o valor atual líquido (VAL) é de −5 828,77 €, a taxa interna de rentabilidade é de −11,30% ao ano, e não há período de recuperação descontado dentro do horizonte. Não ajustámos os custos até aparecer uma recuperação.
+**O projeto não se paga, e esse é o resultado honesto.** Ao fim de vinte anos, com estes custos ilustrativos e o tarifário de Lisboa, o valor atual líquido (VAL) é de −5 802,56 €, a taxa interna de rentabilidade é de −11,11% ao ano, e não há período de recuperação descontado dentro do horizonte. Não ajustámos os custos até aparecer uma recuperação.
 
-A razão não é um defeito do exemplo. A água é barata em Lisboa em relação ao que custam uma cisterna, duas bombas e a mão de obra, e a fração de 28% limita a poupança a pouco mais de três metros cúbicos por mês, 134,28 € por ano. Um tarifário que premeie mais o metro cúbico, uma fração atendível maior ou uma instalação mais barata mudam a conta, e a secção 3.7 (volume Guias de uso) varia cada um deles por sua vez. Mostra também que nenhuma das premissas testadas, isoladamente, produz recuperação neste caso. Só o tutorial leva custos, pelo que a secção 3.1 (volume Guias de uso) compara as três cidades pelo potencial de poupança, e não pela recuperação.
+A razão não é um defeito do exemplo. A água é barata em Lisboa em relação ao que custam uma cisterna, duas bombas e a mão de obra, e a fração de 28% limita a poupança a pouco mais de três metros cúbicos por mês, 135,88 € por ano. Um tarifário que premeie mais o metro cúbico, uma fração atendível maior ou uma instalação mais barata mudam a conta, e a secção 3.7 (volume Guias de uso) varia cada um deles por sua vez. Mostra também que nenhuma das premissas testadas, isoladamente, produz recuperação neste caso. Só o tutorial leva custos, pelo que a secção 3.1 (volume Guias de uso) compara as três cidades pelo potencial de poupança, e não pela recuperação.
 
-**O custo de exploração é pequeno:** 1,75 € por ano, dos quais 1,03 € são a energia da elevação, os 5,1 kWh por ano da secção 4.5 a 0,20 € por quilowatt-hora (valor ilustrativo, não é preço de mercado). A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo indicado na etapa **4. Reservatório & Custos**: elevação, pressurização direta ou gravidade. Este valor não inclui as três rotinas de manutenção ilustrativas, que somam 90,00 € por ano e entram no fluxo de caixa à parte; a secção seguinte mostra o peso delas.
+**O custo de exploração é pequeno:** 1,79 € por ano, dos quais 1,05 € são a energia da elevação, os 5,3 kWh por ano da secção 4.5 a 0,20 € por quilowatt-hora (valor ilustrativo, não é preço de mercado). A energia vem da mesma função que alimenta a avaliação ambiental, conforme o arranjo indicado na etapa **4. Reservatório & Custos**: elevação, pressurização direta ou gravidade. Este valor não inclui as três rotinas de manutenção ilustrativas, que somam 90,00 € por ano e entram no fluxo de caixa à parte; a secção seguinte mostra o peso delas.
 
 ---
 
@@ -1196,8 +1196,8 @@ O que o programa calcula sozinho são as quantidades: a energia anual da eletrob
 | Projeto do tutorial (custos ilustrativos, não são preços de mercado) | Com as rotinas | Sem rotinas |
 | :--- | ---: | ---: |
 | rotinas de manutenção por ano | 90,00 € | 0,00 € |
-| custo anual do resumo: energia, cloro e tratamento | 1,75 € | 1,75 € |
-| valor atual líquido | −5 828,77 € | −4 418,13 € |
+| custo anual do resumo: energia, cloro e tratamento | 1,79 € | 1,79 € |
+| valor atual líquido | −5 802,56 € | −4 391,92 € |
 
 **Energia.** Hoje a tarifa de eletricidade é um campo vazio. O exemplo do Funchal traz 0,1673 €/kWh, a Tarifa Base da Empresa de Eletricidade da Madeira, sem IVA, recolhida num comparador de preços (atualizado em 20/02/2025) e por isso de **fonte secundária, a amarelo**: não foi confirmada na EEM nem na ERSE; Lisboa e Porto ficam a zero. Para um estudo, use a sua fatura.
 
@@ -1248,8 +1248,8 @@ A atualização da tarifa é a premissa mais frágil da lista. Três por cento a
 | volume | 5 000 L, betão |
 | arranjo | elevação para reservatório superior de 1 000 L |
 | investimento | 6 650 € |
-| poupança anual | 134,28 € |
-| VAL a 20 anos | −5 828,77 € |
+| poupança anual | 135,88 € |
+| VAL a 20 anos | −5 802,56 € |
 | período de recuperação | sem recuperação em 20 anos |
 
 O dinheiro diz não.
@@ -1278,13 +1278,13 @@ Para o nosso projeto, uma cisterna de betão de 5 000 L com elevação para o re
 | Parcela | Valor |
 | :--- | ---: |
 | carbono incorporado no sistema | 1 026 kg CO₂e |
-| emissão evitada por ano | 19,6 kg CO₂e |
-| emissão anual de bombagem e tratamento | 2,2 kg CO₂e |
-| saldo líquido anual | 17,4 kg CO₂e |
-| **retorno do carbono** | **59,0 anos** |
-| saldo ao fim de 20 anos | **+678 kg CO₂e** |
+| emissão evitada por ano | 20,0 kg CO₂e |
+| emissão anual de bombagem e tratamento | 2,3 kg CO₂e |
+| saldo líquido anual | 17,8 kg CO₂e |
+| **retorno do carbono** | **57,7 anos** |
+| saldo ao fim de 20 anos | **+670 kg CO₂e** |
 
-São 59 anos para amortizar a dívida de carbono, contra uma vida útil adotada de vinte. ==O sistema não se paga, portanto, do ponto de vista ambiental:== quando for desativado, terá emitido 678 kg CO₂e a mais do que evitou durante toda a operação.
+São 58 anos para amortizar a dívida de carbono, contra uma vida útil adotada de vinte. ==O sistema não se paga, portanto, do ponto de vista ambiental:== quando for desativado, terá emitido 670 kg CO₂e a mais do que evitou durante toda a operação.
 
 E o resultado financeiro do mesmo projeto também foi negativo (secção 4.7). Os dois veredictos coincidem, mas por razões diferentes, e as secções seguintes mostram-no: o carbono é decidido pela massa da cisterna, o dinheiro pela tarifa. É por isso que as dimensões de análise devem ser mantidas separadas até ao momento da decisão.
 
@@ -1292,7 +1292,7 @@ E o resultado financeiro do mesmo projeto também foi negativo (secção 4.7). O
 
 ### 4.8.2. Porque a poupança de carbono é tão pequena
 
-Dezanove quilogramas e meio de CO₂e por ano parecem pouco para 39,2 metros cúbicos de água poupada, e com estes fatores são: 0,50 kg CO₂e por metro cúbico substituído, descontada a energia para o bombear.
+Vinte quilogramas de CO₂e por ano parecem pouco para 40,1 metros cúbicos de água poupada, e com estes fatores são: 0,50 kg CO₂e por metro cúbico substituído, descontada a energia para o bombear.
 
 A explicação está na natureza do produto substituído. A água tratada não é um bem intensivo em carbono. Captar, tratar e distribuir a água custa uma fração de quilograma de CO₂e por metro cúbico entregue, conforme o mix elétrico local e a origem da água, e isso é modesto quando comparado com o carbono do betão, do aço ou dos combustíveis. Substituir um produto de baixa intensidade de carbono por outro que exige o fabrico de um reservatório não produz, portanto, o ganho ambiental que a intuição sugere.
 
@@ -1316,32 +1316,32 @@ A dívida de carbono está quase toda na cisterna. E uma cisterna de 5 000 L pod
 <!-- tabela: **Tabela 34** — Emissões líquidas de carbono do projeto do tutorial conforme o material do reservatório (os preços são ilustrativos, não são preços de mercado) -->
 | Material da cisterna | Massa | Carbono incorporado | Retorno do carbono | Emissões líquidas em 20 anos | Preço (ilustrativo, não é preço de mercado) |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| Polietileno (PEAD) | 110 kg | 363 kg CO₂e | 20,9 anos | 15 kg | 2 850 € |
-| Betão armado | 6 000 kg | 1 026 kg CO₂e | 59,0 anos | 678 kg | 2 600 € |
-| Fibra de vidro | 75 kg | 429 kg CO₂e | 24,7 anos | 81 kg | 3 370 € |
-| Aço inoxidável | 190 kg | 889 kg CO₂e | 51,1 anos | 541 kg | 10 300 € |
+| Polietileno (PEAD) | 110 kg | 363 kg CO₂e | 20,4 anos | 8 kg | 2 850 € |
+| Betão armado | 6 000 kg | 1 026 kg CO₂e | 57,7 anos | 670 kg | 2 600 € |
+| Fibra de vidro | 75 kg | 429 kg CO₂e | 24,1 anos | 74 kg | 3 370 € |
+| Aço inoxidável | 190 kg | 889 kg CO₂e | 50,0 anos | 533 kg | 10 300 € |
 
 <!-- tabela: **Tabela 35** — Efeito do volume da cisterna de betão nas emissões líquidas de carbono -->
 | Volume em betão | Retorno do carbono | Emissões líquidas em 20 anos |
 | ---: | ---: | ---: |
-| 2 000 L | 37,1 anos | 240 kg CO₂e |
-| 3 000 L | 44,4 anos | 379 kg CO₂e |
-| 5 000 L | 59,0 anos | 678 kg CO₂e |
-| 8 000 L | 80,0 anos | 1 147 kg CO₂e |
+| 2 000 L | 36,3 anos | 234 kg CO₂e |
+| 3 000 L | 43,2 anos | 371 kg CO₂e |
+| 5 000 L | 57,7 anos | 670 kg CO₂e |
+| 8 000 L | 78,5 anos | 1 140 kg CO₂e |
 
 ![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figura 17 — Emissões líquidas acumuladas da cisterna de 5 000 L ao longo da vida útil, para polietileno e betão, com fatores ilustrativos. A curva parte do carbono incorporado no fabrico, acima de zero, e desce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 20,9 anos, logo depois do horizonte de vinte anos adotado, e o betão aos 59,0 anos.*
+*Figura 17 — Emissões líquidas acumuladas da cisterna de 5 000 L ao longo da vida útil, para polietileno e betão, com fatores ilustrativos. A curva parte do carbono incorporado no fabrico, acima de zero, e desce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 20,4 anos, logo depois do horizonte de vinte anos adotado, e o betão aos 57,7 anos.*
 
 ![Emissões líquidas em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
-*Figura 18 — Emissões líquidas em vinte anos da cisterna de 5 000 L, por material, com fatores ilustrativos. Os quatro materiais encerram a vida útil a emitir mais do que evitaram; o polietileno fica praticamente na fronteira (+15 kg) e o betão, o mais pesado, longe dela (+678 kg).*
+*Figura 18 — Emissões líquidas em vinte anos da cisterna de 5 000 L, por material, com fatores ilustrativos. Os quatro materiais encerram a vida útil a emitir mais do que evitaram; o polietileno fica praticamente na fronteira (+8 kg) e o betão, o mais pesado, longe dela (+670 kg).*
 
 **A escolha do material muda a dimensão do problema, mas aqui não inverte o sinal.**
 
-Com a chuva de Lisboa, que dá pouca água poupada, nenhum material paga o próprio fabrico em vinte anos. O polietileno leva 20,9 anos e termina os vinte anos a emitir ainda 15 kg: está praticamente na fronteira. A fibra de vidro leva 24,7 anos e termina com +81 kg. O aço inoxidável leva 51,1 anos e termina com +541 kg. O betão leva 59,0 anos e termina com +678 kg. Com 28% de fração atendível e 39,2 m³ poupados por ano, só os materiais leves chegam perto de pagar o fabrico.
+Com a chuva de Lisboa, que dá pouca água poupada, nenhum material paga o próprio fabrico em vinte anos. O polietileno leva 20,4 anos e termina os vinte anos a emitir ainda 8 kg: está praticamente na fronteira. A fibra de vidro leva 24,1 anos e termina com +74 kg. O aço inoxidável leva 50,0 anos e termina com +533 kg. O betão leva 57,7 anos e termina com +670 kg. Com 28% de fração atendível e 40,1 m³ poupados por ano, só os materiais leves chegam perto de pagar o fabrico.
 
-A segunda tabela mostra o outro lado da mesma moeda: em betão, **quanto maior a cisterna, pior o carbono**. A de 2 000 L fecha os vinte anos a emitir 240 kg; a de 8 000 L, 1 147 kg, e o seu retorno do carbono estica-se até 80,0 anos. Cada metro cúbico de betão acrescenta cerca de 150 kg CO₂e e rende cada vez menos água.
+A segunda tabela mostra o outro lado da mesma moeda: em betão, **quanto maior a cisterna, pior o carbono**. A de 2 000 L fecha os vinte anos a emitir 234 kg; a de 8 000 L, 1 140 kg, e o seu retorno do carbono estica-se até 78,5 anos. Cada metro cúbico de betão acrescenta cerca de 150 kg CO₂e e rende cada vez menos água.
 
 ---
 ### 4.8.4. Existe um volume ambientalmente ótimo
@@ -1350,7 +1350,7 @@ A observação anterior vale para o betão, mas é um caso particular de algo ma
 
 ![Emissões líquidas em vinte anos contra o volume da cisterna](../figuras/fig06b_otimizacao_ambiental.png)
 
-*Figura 19 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) betão, no projeto do tutorial, com fatores ilustrativos. Em polietileno (com o reservatório superior de 1 000 L), o balanço é o melhor, entre os volumes testados, aos 2 000 L, onde retira 25 kg; passa a emissão entre 4 000 e 5 000 L (retira 5 kg aos 4 000 L e emite 15 kg aos 5 000 L) e emite 194 kg aos 12 000 L. Em betão, as emissões líquidas são positivas em toda a gama.*
+*Figura 19 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) betão, no projeto do tutorial, com fatores ilustrativos. Em polietileno (com o reservatório superior de 1 000 L), o balanço é o melhor, entre os volumes testados, aos 2 000 L, onde retira 31 kg; passa a emissão entre 4 000 e 5 000 L (retira 12 kg aos 4 000 L e emite 8 kg aos 5 000 L) e emite 187 kg aos 12 000 L. Em betão, as emissões líquidas são positivas em toda a gama.*
 
 ==Mais armazenamento não é monotonicamente melhor para o clima.== É o contrário do que a intuição corrente sugere, e decorre de uma propriedade simples: a saturação do atendimento. O volume que minimiza as emissões (2 000 L) não é o que maximiza a poupança de água, nem o que o critério do ganho marginal escolheu (5 000 L) — e a secção 4.9 trata de como decidir entre eles.
 
@@ -1364,7 +1364,7 @@ A observação anterior vale para o betão, mas é um caso particular de algo ma
 
 A tabela não condena o betão. Diz que precisa de justificação.
 
-- **Vida útil maior.** O programa adota 20 anos para todos os materiais. É um piso, não uma previsão: uma cisterna de betão bem executada pode durar muito mais, e num horizonte superior a 59 anos o retorno do carbono paga-se, embora sem folga. Se adotar uma vida útil diferente, **declare-a** e justifique-a. Este manual não cita nenhuma norma para a vida útil; se fundamentar a sua por norma, indique a fonte aberta.
+- **Vida útil maior.** O programa adota 20 anos para todos os materiais. É um piso, não uma previsão: uma cisterna de betão bem executada pode durar muito mais, e num horizonte superior a 58 anos o retorno do carbono paga-se, embora sem folga. Se adotar uma vida útil diferente, **declare-a** e justifique-a. Este manual não cita nenhuma norma para a vida útil; se fundamentar a sua por norma, indique a fonte aberta.
 - **Volumes grandes.** Para volumes muito grandes, os reservatórios de polietileno de fábrica deixam de ser práticos e o betão moldado no local pode ser a única opção viável.
 - **Restrição de espaço.** Uma cisterna enterrada de betão adapta-se ao terreno; a de polietileno vem em formatos fixos.
 - **Estrutura já existente.** Um reservatório de betão reaproveitado de outra finalidade tem carbono incorporado **zero** para efeito deste projeto.
@@ -1383,11 +1383,11 @@ A tabela não condena o betão. Diz que precisa de justificação.
 | preço da cisterna | 2 600 € | 2 850 € |
 | investimento total | 6 650 € | 6 900 € |
 | período de recuperação | sem recuperação | sem recuperação |
-| VAL a 20 anos | −5 829 € | −6 079 € |
-| retorno do carbono | 59,0 anos | 20,9 anos |
-| emissões líquidas em 20 anos | +678 kg | +15 kg |
+| VAL a 20 anos | −5 803 € | −6 053 € |
+| retorno do carbono | 57,7 anos | 20,4 anos |
+| emissões líquidas em 20 anos | +670 kg | +8 kg |
 
-A troca custa 250 € a mais e empurra o VAL para −6 079 €, mas reduz o retorno do carbono de 59,0 para 20,9 anos e as emissões líquidas de 678 para 15 kg. O potencial de poupança não muda.
+A troca custa 250 € a mais e empurra o VAL para −6 053 €, mas reduz o retorno do carbono de 57,7 para 20,4 anos e as emissões líquidas de 670 para 8 kg. O potencial de poupança não muda.
 
 <!-- tabela: **Tabela 37** — Estado do projeto do tutorial depois da análise ambiental (ilustrativo, não é preço de mercado) -->
 | Projeto até aqui (ilustrativo, não é preço de mercado) | |
@@ -1395,9 +1395,9 @@ A troca custa 250 € a mais e empurra o VAL para −6 079 €, mas reduz o reto
 | volume | 5 000 L |
 | **material** | **polietileno** |
 | investimento | 6 900 € |
-| VAL | −6 079 € |
+| VAL | −6 053 € |
 | período de recuperação | sem recuperação |
-| retorno do carbono | 20,9 anos |
+| retorno do carbono | 20,4 anos |
 
 ---
 
@@ -1429,13 +1429,13 @@ As secções anteriores deste tutorial fizeram ao mesmo projeto três perguntas 
 <!-- tabela: **Tabela 38** — Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise (os custos são ilustrativos, não são preços de mercado) -->
 | Volume | Potencial | VAL (ilustrativo, não é preço de mercado) | Período de recuperação | Saldo de carbono em 20 anos | Investimento (ilustrativo, não é preço de mercado) |
 | ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 000 L | 11,91% | −4 548 € | sem recuperação | 9 kg | 4 700 € |
-| 2 000 L | 14,52% | −4 805 € | sem recuperação | 25 kg | 5 250 € |
-| 3 000 L | 16,00% | −5 189 € | sem recuperação | 19 kg | 5 800 € |
-| 4 000 L | 17,10% | −5 615 € | sem recuperação | 5 kg | 6 350 € |
-| 5 000 L | 17,88% | −6 079 € | sem recuperação | −15 kg | 6 900 € |
-| 8 000 L | 19,65% | −7 611 € | sem recuperação | −87 kg | 8 550 € |
-| 12 000 L | 21,43% | −9 694 € | sem recuperação | −194 kg | 10 750 € |
+| 1 000 L | 12,31% | −4 503 € | sem recuperação | 17 kg | 4 700 € |
+| 2 000 L | 14,83% | −4 770 € | sem recuperação | 31 kg | 5 250 € |
+| 3 000 L | 16,43% | −5 140 € | sem recuperação | 27 kg | 5 800 € |
+| 4 000 L | 17,46% | −5 575 € | sem recuperação | 12 kg | 6 350 € |
+| 5 000 L | 18,28% | −6 053 € | sem recuperação | −8 kg | 6 900 € |
+| 8 000 L | 20,03% | −7 586 € | sem recuperação | −80 kg | 8 550 € |
+| 12 000 L | 21,81% | −9 668 € | sem recuperação | −187 kg | 10 750 € |
 
 <!-- tabela: **Tabela 39** — Volume vencedor segundo cada critério isolado -->
 | Critério isolado | Volume vencedor |
@@ -1447,9 +1447,9 @@ As secções anteriores deste tutorial fizeram ao mesmo projeto três perguntas 
 
 A primeira tabela é o retrato do problema. Repare em como as colunas discordam:
 
-- O **potencial** cresce monotonicamente: quanto maior a cisterna, mais água. Máximo em 12 000 L (21,43%).
+- O **potencial** cresce monotonicamente: quanto maior a cisterna, mais água. Máximo em 12 000 L (21,81%).
 - O **VAL** é negativo em todos os volumes (os custos são ilustrativos, não são preços de mercado). O seu melhor valor, a menor perda, está em 1 000 L, e piora a cada volume acrescentado, porque cada metro cúbico adicional de reservatório custa mais do que a poupança que traz. Nenhum volume tem período de recuperação.
-- O **carbono** sobe e cai muito mais cedo: máximo em 2 000 L (retira 25 kg em vinte anos). Depois disso, cada metro cúbico de polietileno acrescenta mais dívida do que crédito, e aos 5 000 L o saldo já passa a emissão.
+- O **carbono** sobe e cai muito mais cedo: máximo em 2 000 L (retira 31 kg em vinte anos). Depois disso, cada metro cúbico de polietileno acrescenta mais dívida do que crédito, e aos 5 000 L o saldo já passa a emissão.
 
 ==Não existe um volume que vença nos três critérios em simultâneo.== Cada um tem o seu ótimo num ponto diferente da curva, e a escolha entre eles não é uma questão técnica com resposta única: é uma questão de prioridade, que tem de ser declarada por quem decide e não pode ser descoberta pelo programa. É exatamente essa a lacuna que os métodos multicritério vêm preencher.
 
@@ -1522,7 +1522,7 @@ Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O pr
 ---
 ### 4.9.4. A recomendação do tutorial
 
-A recomendação do tutorial, se o projeto for construído, é o reservatório de **5 000 L em polietileno**, e a razão para a adotar não é só vencer com pesos iguais. É o volume de compromisso, não o ótimo financeiro, que está em 1 000 L, nem o ótimo ambiental, que está em 2 000 L. Vence também com um peso económico dominante e com um peso ambiental dominante, e perde para os 8 000 L apenas com um peso técnico dominante. Sob a incerteza simulada dos pesos (SMAA), fica em primeiro lugar em 34,1% dos sorteios, contra 30,6% para 8 000 L e 15,6% para 4 000 L. ==Uma recomendação que sobrevive a três ponderações diferentes é robusta justamente porque não depende de nenhuma delas==, embora a margem do SMAA seja estreita.
+A recomendação do tutorial, se o projeto for construído, é o reservatório de **5 000 L em polietileno**, e a razão para a adotar não é só vencer com pesos iguais. É o volume de compromisso, não o ótimo financeiro, que está em 1 000 L, nem o ótimo ambiental, que está em 2 000 L. Vence também com um peso económico dominante e com um peso ambiental dominante, e perde para os 8 000 L apenas com um peso técnico dominante. Sob a incerteza simulada dos pesos (SMAA), fica em primeiro lugar em 34,8% dos sorteios, contra 30,1% para 8 000 L e 15,0% para 4 000 L. ==Uma recomendação que sobrevive a três ponderações diferentes é robusta justamente porque não depende de nenhuma delas==, embora a margem do SMAA seja estreita.
 
 Vale registar ainda que este é o mesmo volume que o critério hidráulico da secção 4.4 tinha indicado, com um limiar de ganho marginal de 1 %/m³. Duas vias metodologicamente independentes — uma que olha só para a curva de aproveitamento e outra que pondera sete critérios de três dimensões — chegaram ao mesmo resultado, e essa concordância reforça a confiança na recomendação.
 
@@ -1535,7 +1535,7 @@ A concordância, porém, não está garantida em nenhum outro caso, e é por iss
 <!-- tabela: **Tabela 42** — Resumo do projeto do tutorial, com todos os parâmetros e resultados -->
 | Triton · moradia unifamiliar em Lisboa (custos ilustrativos, não são preços de mercado) | |
 | :--- | ---: |
-| série de precipitação | Lisboa, 30 anos, 719 mm/ano |
+| série de precipitação | Lisboa, 30 anos, 746 mm/ano |
 | área de captação | 150 m² |
 | coeficiente de escoamento | 0,85 |
 | descarte das primeiras águas | 2,0 mm, todas as chuvadas |
@@ -1547,15 +1547,15 @@ A concordância, porém, não está garantida em nenhum outro caso, e é por iss
 | reservatório superior | 1 000 L, limiar de acionamento de 100 L |
 | classe de qualidade | 1, cloragem por pastilhas |
 | descarte inicial | câmara de 300 L |
-| **potencial de economia de água potável** | **17,88%** |
-| dias de atendimento pleno | 62,8% |
-| água da chuva consumida | 39,2 m³/ano |
-| energia da elevação | 5,1 kWh/ano |
+| **potencial de economia de água potável** | **18,28%** |
+| dias de atendimento pleno | 64,3% |
+| água da chuva consumida | 40,1 m³/ano |
+| energia da elevação | 5,3 kWh/ano |
 | investimento (ilustrativo) | 6 900 € |
-| **valor atual líquido a 20 anos (ilustrativo)** | **−6 079 €** |
+| **valor atual líquido a 20 anos (ilustrativo)** | **−6 053 €** |
 | período de recuperação descontado | sem recuperação |
-| **emissões líquidas em 20 anos** | **+15 kg CO₂e** |
-| retorno do carbono | 20,9 anos |
+| **emissões líquidas em 20 anos** | **+8 kg CO₂e** |
+| retorno do carbono | 20,4 anos |
 
 Resta uma etapa, que é comunicar o resultado: um estudo que não é relatado de forma verificável não se distingue, para quem o lê, de um palpite bem apresentado. É o assunto da secção seguinte.
 
@@ -1597,8 +1597,8 @@ Um estudo feito no Triton que deixe de declarar qualquer dos itens abaixo não �
 
 #### 4.10.3.2. Série de precipitação
 
-- **Origem**: estação, base de concelhos (E-OBS) ou reanálise.
-- Se for a base de concelhos: **concelho, versão da E-OBS e janela temporal**; se for reanálise ou modelo: **produto, cenário, janela temporal** e a resolução da grelha.
+- **Origem**: estação, base ibérica (Iberia01), base de concelhos (E-OBS) ou reanálise.
+- Se for a base ibérica ou a de concelhos: **município (com o código) ou concelho, fonte e versão (Iberia01 v1.0 ou E-OBS) e janela temporal**; se for reanálise ou modelo: **produto, cenário, janela temporal** e a resolução da grelha.
 - **Recorte**: datas de início e fim, e número de anos.
 - **Tratamento de falhas** e critério para descartar um ano incompleto.
 
@@ -1656,7 +1656,7 @@ Um estudo feito no Triton que deixe de declarar qualquer dos itens abaixo não �
 
 Para o nosso projeto, o método ficaria assim:
 
-> A simulação foi conduzida no Triton 0.1.0, Edição Ibérica, com um modelo comportamental de passo diário (extravasamento calculado antes da retirada da procura, com a chuva do dia disponível para o consumo do dia, uma ordem intermédia entre YAS e YBS), sobre uma série de precipitação de 30 anos para Lisboa (E-OBS, concelho de Lisboa, 1991 a 2020; 10 958 dias, média de 719 mm/ano). Adotou-se uma área de captação de 150 m² em projeção horizontal, um coeficiente de 0,85, valor redondo para a eficiência de captação combinada, e um descarte das primeiras águas de 2,0 mm em todas as chuvadas, subtraído à lâmina diária. A procura total adotada foi de 600 L/dia (4 moradores, 150 L/hab·dia), com uma fração atendível pela água da chuva de 28%, correspondente ao autoclismo e aos usos exteriores. O volume de 5 000 L resultou do critério do ganho marginal com limiar de 1 %/m³ e foi confirmado por uma análise multicritério TOPSIS com sete critérios e pesos iguais entre as dimensões técnica, económica e ambiental, com normalização numa variante de Hwang e Yoon transladada por x − min(x). Os pontos de uso são abastecidos por elevação para um reservatório superior de 1 000 L, com limiar de acionamento de 100 L, duas eletrobombas de 0,5 cv e o rendimento de motor predefinido do programa. A análise económica usou o tarifário de Lisboa em vigor desde 01/01/2026 (água da EPAL com o adicional da Câmara Municipal, saneamento e resíduos da Câmara), uma taxa de atualização de 0,4% ao mês, uma inflação de 0,2% ao mês, atualizações de 3% ao ano com intervalos de 12 meses e um período de 20 anos; todos os custos foram valores redondos ilustrativos, não são preços de mercado. A avaliação do ciclo de vida adotou a fronteira da água entregue, fatores de emissão ilustrativos de 0,40 kg CO₂e/kWh e 0,50 kg CO₂e/m³, um reservatório de polietileno e uma vida útil de 20 anos.
+> A simulação foi conduzida no Triton 0.1.0, Edição Ibérica, com um modelo comportamental de passo diário (extravasamento calculado antes da retirada da procura, com a chuva do dia disponível para o consumo do dia, uma ordem intermédia entre YAS e YBS), sobre uma série de precipitação de 30 anos para Lisboa (Iberia01, município de Lisboa [PT-1106], 1986 a 2015; 10 957 dias, média de 746 mm/ano). Adotou-se uma área de captação de 150 m² em projeção horizontal, um coeficiente de 0,85, valor redondo para a eficiência de captação combinada, e um descarte das primeiras águas de 2,0 mm em todas as chuvadas, subtraído à lâmina diária. A procura total adotada foi de 600 L/dia (4 moradores, 150 L/hab·dia), com uma fração atendível pela água da chuva de 28%, correspondente ao autoclismo e aos usos exteriores. O volume de 5 000 L resultou do critério do ganho marginal com limiar de 1 %/m³ e foi confirmado por uma análise multicritério TOPSIS com sete critérios e pesos iguais entre as dimensões técnica, económica e ambiental, com normalização numa variante de Hwang e Yoon transladada por x − min(x). Os pontos de uso são abastecidos por elevação para um reservatório superior de 1 000 L, com limiar de acionamento de 100 L, duas eletrobombas de 0,5 cv e o rendimento de motor predefinido do programa. A análise económica usou o tarifário de Lisboa em vigor desde 01/01/2026 (água da EPAL com o adicional da Câmara Municipal, saneamento e resíduos da Câmara), uma taxa de atualização de 0,4% ao mês, uma inflação de 0,2% ao mês, atualizações de 3% ao ano com intervalos de 12 meses e um período de 20 anos; todos os custos foram valores redondos ilustrativos, não são preços de mercado. A avaliação do ciclo de vida adotou a fronteira da água entregue, fatores de emissão ilustrativos de 0,40 kg CO₂e/kWh e 0,50 kg CO₂e/m³, um reservatório de polietileno e uma vida útil de 20 anos.
 
 São cerca de trezentas palavras, e são a diferença entre um estudo que outro investigador consegue repetir e um número solto que ninguém pode verificar. A extensão é modesta perante o que se ganha: um método assim redigido responde antecipadamente à maior parte das perguntas que um revisor faria.
 
@@ -1838,7 +1838,7 @@ ao reservatório, em %/m³ ($\Delta E_{pot} / \Delta V$). Critério de escolha d
 **GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
 de desempenho socioambiental. Sua série 303 trata de água e efluentes.
 
-**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva E-OBS por concelho e os tarifários transcritos de Lisboa, Porto e Funchal. Hoje só os concelhos de Portugal têm dados; a linha de cobertura do programa diz quantos locais há em cada país (Espanha: 0). Os custos e os fatores de emissão são indicados pelo utilizador.
+**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva do Iberia01 por município e os tarifários transcritos de Lisboa, Porto e Funchal. A linha de cobertura do programa diz quantos locais há em cada país. Os custos e os fatores de emissão são indicados pelo utilizador.
 
 **IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o
@@ -2177,8 +2177,8 @@ barra de água foi avaliada.
 
 O manual imprime resultados; estes ficheiros são o que se abre para
 reproduzi-los. Ficam na pasta `casos` do programa, e cada um traz a série de chuva
-incorporada: abrem sem o CSV de origem, em qualquer computador. A chuva provém da base
-E-OBS por concelho (1991–2020) para Lisboa e Porto, e da reanálise ERA5 para o Funchal,
+incorporada: abrem sem o CSV de origem, em qualquer computador. A chuva provém do
+Iberia01 por município (1986–2015) para Lisboa e Porto, e da reanálise ERA5 de ilha para o Funchal,
 que acompanham o programa (apêndice E (volume Apêndices)); cada ficheiro traz o tarifário oficial da
 sua localidade (apêndice D (volume Apêndices)).
 
@@ -2196,10 +2196,10 @@ introduza os seus próprios custos na etapa 5.
 | Ficheiro | Secção | O que demonstra |
 | :--- | :--- | :--- |
 | `01_tutorial_lisboa.triton` | 4.1 a 4.10 | o projeto fechado do tutorial em Lisboa: cisterna de 5.000 L em polietileno e elevação para um reservatório superior de 1.000 L (custos ilustrativos, não são preços de mercado) |
-| `02_porto.triton` | 3.1 | a moradia do tutorial levada ao Porto, com a chuva E-OBS do Porto e o tarifário da Águas e Energia do Porto (sem custos definidos) |
-| `03_funchal.triton` | 3.1 | a moradia do tutorial levada ao Funchal, com a chuva ERA5 do Funchal, o tarifário da Câmara Municipal do Funchal e a eletricidade da EEM (sem custos definidos) |
+| `02_porto.triton` | 3.1 | a moradia do tutorial levada ao Porto, com a chuva do Iberia01 no Porto e o tarifário da Águas e Energia do Porto (sem custos definidos) |
+| `03_funchal.triton` | 3.1 | a moradia do tutorial levada ao Funchal, com a chuva ERA5 de ilha do Funchal (nível C), o tarifário da Câmara Municipal do Funchal e a eletricidade da EEM (sem custos definidos) |
 | `04_tutorial_varredura.triton` | 4.4 e 2.2 | o projeto antes do reservatório superior, em modo varredura, de 0 a 20.000 L em passos de 1.000 L (Lisboa) |
-| `05_dez_dias.triton` | 2.1 | o caso didático de dez dias, 11 a 20 de dezembro de 2019 da série de Lisboa, que cabe numa folha de cálculo |
+| `05_dez_dias.triton` | 2.1 | o caso didático de dez dias, 15 a 24 de dezembro de 2013 da série de Lisboa, que cabe numa folha de cálculo |
 | `06_reservatorio_superior.triton` | 4.5 | 5.000 L em baixo mais 1.000 em cima, a comparação da secção 4.5 contra os 6.000 L de um reservatório só (Lisboa) |
 | `07_escola_semanal.triton` | 3.4 e 3.5 | uma escola do Porto, com 300 alunos e procura modulada por dia da semana |
 | `08_hotel_mensal.triton` | 3.4 | um hotel de Lisboa com ocupação mensal ilustrativa, concentrada no verão seco |
@@ -2216,18 +2216,18 @@ número errado, em vez de passar despercebido.
 <!-- tabela: **Tabela 50** — Resultado que cada caso de exemplo produz ao ser relido e simulado -->
 | Ficheiro | Modo | Volume | Potencial | Pluvial consumida |
 | :--- | :--- | ---: | ---: | ---: |
-| `01_tutorial_lisboa.triton` | volume fixo | 5.000 L | 17,88% | 107,3 L/dia |
-| `02_porto.triton` | volume fixo | 5.000 L | 22,04% | 132,3 L/dia |
-| `03_funchal.triton` | volume fixo | 5.000 L | 12,98% | 77,9 L/dia |
-| `04_tutorial_varredura.triton` | varredura | ideal: 5.000 L | 17,49% | 21 volumes |
-| `05_dez_dias.triton` | volume fixo | 2.000 L | 24,43% | 48,9 L/dia |
-| `06_reservatorio_superior.triton` | volume fixo | 5.000 L | 17,88% | 107,3 L/dia |
-| `07_escola_semanal.triton` | volume fixo | 30.000 L | 23,03% | 2.076,2 L/dia |
-| `08_hotel_mensal.triton` | volume fixo | 25.000 L | 10,36% | 866,7 L/dia |
-| `09_modulacao_tutorial.triton` | varredura | ideal: 5.000 L | 17,49% | 21 volumes |
-| `10_modulacao_captacao.triton` | varredura | ideal: 5.000 L | 17,49% | 21 volumes |
+| `01_tutorial_lisboa.triton` | volume fixo | 5.000 L | 18,28% | 109,7 L/dia |
+| `02_porto.triton` | volume fixo | 5.000 L | 21,58% | 129,5 L/dia |
+| `03_funchal.triton` | volume fixo | 5.000 L | 12,86% | 77,1 L/dia |
+| `04_tutorial_varredura.triton` | varredura | ideal: 5.000 L | 17,87% | 21 volumes |
+| `05_dez_dias.triton` | volume fixo | 2.000 L | 30,55% | 61,1 L/dia |
+| `06_reservatorio_superior.triton` | volume fixo | 5.000 L | 18,28% | 109,7 L/dia |
+| `07_escola_semanal.triton` | volume fixo | 30.000 L | 21,83% | 1.968,0 L/dia |
+| `08_hotel_mensal.triton` | volume fixo | 25.000 L | 10,34% | 865,3 L/dia |
+| `09_modulacao_tutorial.triton` | varredura | ideal: 5.000 L | 17,87% | 21 volumes |
+| `10_modulacao_captacao.triton` | varredura | ideal: 5.000 L | 17,87% | 21 volumes |
 
-O caso 01 inclui o reservatório superior de 1.000 L, e o caso 06 compara-o com um único reservatório de 6.000 L, que obtém 18,19% (secção 4.5).
+O caso 01 inclui o reservatório superior de 1.000 L, e o caso 06 compara-o com um único reservatório de 6.000 L, que obtém 18,59% (secção 4.5).
 
 ---
 
@@ -2252,8 +2252,11 @@ reproduzir exatamente os números apresentados no manual.
 ### J.4. Os estudos de `exemplos`
 
 Além dos casos didáticos do manual, o programa disponibiliza em `examples/portugal/` os
-projetos de referência para Lisboa, Porto e Funchal. Permitem explorar a aplicação direta
-dos tarifários locais em moradias unifamiliares completas.
+projetos de referência para Lisboa, Porto e Funchal, e em `examples/espanha/` os de Madrid e Palma (Baleares). Todos usam a
+chuva do Iberia01 (1986–2015), por município e pelo código, exceto o Funchal, que usa a ERA5 de ilha (nível C, com aviso).
+Permitem explorar a aplicação direta dos tarifários locais em moradias unifamiliares completas. Os limites dos de Espanha: a
+tarifa de Madrid é a do Canal de Isabel II, transcrita e ainda não conferida; a de Palma é a média regional do INE (indicativa,
+um preço total por metro cúbico), e não a da entidade gestora.
 
 ---
 

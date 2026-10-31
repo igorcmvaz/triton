@@ -23,24 +23,24 @@ e o site de documentação, em `manual/site/index.html`.
 
 O Triton simula o aproveitamento de águas pluviais dia a dia e inclui o motor de simulação, a
 avaliação de ciclo de vida, a linha de tratamento, a decisão multicritério e a modulação
-probabilística. Esta é a primeira versão da Edição Ibérica (IBE, antes Edição Portugal), que tem nome e logótipo próprios e partilha o repositório e a numeração das outras edições, com a chuva E-OBS por concelho, os tarifários de Lisboa, do Porto e do Funchal
+probabilística. Esta é a primeira versão da Edição Ibérica (IBE, antes Edição Portugal), que tem nome e logótipo próprios e partilha o repositório e a numeração das outras edições, com a chuva do Iberia01 por município (e a E-OBS por concelho como opção), os tarifários de Lisboa, do Porto e do Funchal
 e os valores em euros. A regra de operação de Fewkes (φ) está disponível como opção em todos os
 módulos.
 
 **O que a Edição Ibérica traz nesta versão.**
 
 - **Chuva.** A precipitação diária de 278 concelhos de Portugal continental, de 1950 a 2025, calculada a partir da grelha E-OBS v33.0e, numa base de 5,74 MiB identificada por `PT-EOBS-v33.0e-37fcba20` e por SHA-256. Cada concelho tem um nível de qualidade, A, B ou C: 45 de nível A, 159 de B e 74 de C.
-- **Licença da chuva.** No primeiro arranque, o aviso da licença da E-OBS (só uso não comercial, em investigação e educação) e a declaração do uso pretendido, que fica registada nos laudos. Por decisão do titular (25/10/2026), o uso comercial da chuva E-OBS é bloqueado e os relatórios avisam, em vermelho e em tamanho grande, que não pode ser usada comercialmente.
+- **Licença da chuva (E-OBS, opcional).** No primeiro arranque, o aviso da licença da E-OBS (só uso não comercial, em investigação e educação) e a declaração do uso pretendido, que fica registada nos laudos. Por decisão do titular (25/10/2026), o uso comercial da chuva E-OBS é bloqueado e os relatórios avisam, em vermelho e em tamanho grande, que não pode ser usada comercialmente.
 - **Tarifários.** Água, saneamento e resíduos de Lisboa, do Porto e do Funchal, transcritos de documentos oficiais com endereço e SHA-256 registados; a entidade gestora de cada serviço em 280 concelhos, a partir da ERSAR; e um estado de confiança por concelho e por serviço.
 - **Valores e língua.** Euros, IVA tratado em cada tarifário, português europeu na interface, nos laudos e no manual.
-- **Chuva de toda a Península (30/10/2026).** O Iberia01 passa a ser a fonte por defeito da Edição Ibérica: Portugal (308 locais), Espanha (8 131 municípios, incluindo as Baleares) e, com a ERA5 em nível C, Canárias, Madeira e Açores; chave por código INE/DTMN, busca por nome e código na Etapa 1, `--local` na linha de comandos e `clima.iberia` nos estudos em lote. A E-OBS fica opcional. A tabela de qualidade passa para um ficheiro separado sob ODbL. Tarifas de Espanha: média regional do INE (indicativa).
+- **Chuva de toda a Península (30/10/2026).** O Iberia01 passa a ser a fonte por defeito da Edição Ibérica: Portugal (308 locais), Espanha (8 131 municípios, incluindo as Baleares) e, com a ERA5 em nível C, Canárias, Madeira e Açores; chave por código INE/DTMN, busca por nome e código na Etapa 1, `--local` na linha de comandos e `clima.iberia` nos estudos em lote. A E-OBS fica opcional. Os exemplos (Lisboa, Porto e Funchal; novos Madrid e Palma), os relatórios de exemplo e o tutorial deste manual foram regerados com o Iberia01 (normal 1986–2015) em 31/10/2026, e já não levam o aviso vermelho da E-OBS; o Funchal usa a ERA5 de ilha (nível C). A tabela de qualidade passa para um ficheiro separado sob ODbL. Tarifas de Espanha: média regional do INE (indicativa).
 - **Estudos em lote por JSON.** O subcomando `triton estudo` organiza um estudo num `estudo.json` (projeto base, casos por tipologia, substituições de parâmetros por apelidos, análise e saídas), roda todos os casos em ordem estável, com retomada e execução paralela, e grava tabelas para artigos: CSV tidy, JSON com proveniência (versão, edição, SHA-256, fonte e licença da chuva), Markdown, LaTeX (booktabs) e XLSX. Um modelo de texto com marcadores recebe os números reais e deixa «XX» onde faltar resultado. Há um estudo de exemplo em `examples/estudos/`.
 - **Documentação.** O manual completo, o sítio de documentação, volumes curtos e `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e qualidade.
 
 **O que a versão ainda não tem.**
 
-- **Espanha.** Nenhum local: a linha de cobertura diz «Espanha: 0 locais». Há um ensaio com as 52 capitais de província (39 em nível B, 9 em C, 4 sem série), feito fora do programa; falta o limite municipal e a licença da E-OBS, que limita o uso à investigação e à educação.
-- **Ilhas.** Os 30 concelhos da Madeira e dos Açores não têm série na base (os Açores estão fora do domínio da E-OBS e a Madeira falha em mais de 1% dos dias). O exemplo do Funchal usa uma reanálise ERA5, e não nível A, B ou C.
+- **Espanha.** As tarifas são a média regional do INE (indicativa) e, em sete municípios, uma tarifa transcrita ainda não conferida (segunda leitura pendente); o exemplo de Madrid mostra a tarifa do Canal de Isabel II com esse aviso.
+- **Ilhas.** Canárias, Madeira e Açores usam a reanálise ERA5 de 0,25°, sempre em nível C e com aviso; Ceuta e Melilla não têm série.
 - **Tarifários nos restantes concelhos.** Só três estão transcritos; nenhum concelho está em verde, porque falta a verificação independente (42 amarelos e 238 cinzentos na água e no saneamento).
 - **Preços e CAPEX.** O programa não calcula preços de Portugal: reservatórios, tubagem, eletrobombas, mão de obra e manutenção partem de zero, e a tarifa de eletricidade e o preço do cloro também. Os resultados económicos dos exemplos não são resultados.
 - **Fator de emissão da rede.** Sem valor: é zero até o utilizador indicar o da rede do projeto.

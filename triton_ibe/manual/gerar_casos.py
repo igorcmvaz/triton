@@ -3,7 +3,7 @@
 
 O manual imprime resultados; estes ficheiros são o que o leitor abre para os reproduzir. Não são
 escritos à mão: saem dos mesmos parâmetros declarados em `manual/gerar_tabelas.py` e das cidades de
-`scripts/gerar_exemplos_prt.py` (chuva E-OBS por concelho ou ERA5 do Funchal, e o tarifário transcrito
+`scripts/gerar_exemplos_prt.py` (chuva do Iberia01 por município ou ERA5 de ilha no Funchal, e o tarifário transcrito
 de cada cidade), de modo que capítulo, tabela e ficheiro de projeto não possam divergir.
 
 Cidades: **Lisboa** (o tutorial), **Porto** e **Funchal** (a comparação). Os custos são **ilustrativos,
@@ -44,6 +44,7 @@ from gerar_exemplos_prt import (                              # noqa: E402
     _funchal, _lisboa, _porto, projeto,
 )
 
+from triton.core import base_climatica_iberica as ib            # noqa: E402
 from triton.core.parser import (                               # noqa: E402
     TritonConfig, export_triton_json, load_triton_project,
 )
@@ -81,7 +82,7 @@ def base(nome_do_projeto, cidade):
     """Configuração comum: a cidade do `scripts/gerar_exemplos_prt.py` (chuva, tarifário, moeda), volume fixo.
 
     `cidade` é uma das fábricas `_lisboa`, `_porto`, `_funchal`. Devolve a configuração, a série de chuva
-    de 1991-2020, o estado da interface (moeda) e as notas de fonte do tarifário.
+    de 1986-2015, o estado da interface (moeda) e as notas de fonte do tarifário.
     """
     c = cidade()
     cfg, chuva, estado, notas = projeto(c)
@@ -199,7 +200,7 @@ def caso_modulacao_captacao():
     """A mesma varredura, com a incerteza na captação e na chuva (a chuva da própria série de Lisboa).
 
     Substitui o antigo caso dos modelos climáticos: a edição não traz base de modelos climáticos; a
-    incerteza da chuva entra pelo fator de chuva sorteado sobre a série E-OBS de Lisboa.
+    incerteza da chuva entra pelo fator de chuva sorteado sobre a série do Iberia01 de Lisboa.
     """
     cfg, chuva, estado, notas = caso_tutorial_varredura()
     cfg.project_name = "Manual, modulação probabilística - captação e chuva (Lisboa)"
@@ -208,7 +209,7 @@ def caso_modulacao_captacao():
 
 
 def caso_dez_dias():
-    """Dez dias consecutivos da série de Lisboa (11 a 20 de dezembro de 2019), que cabem numa folha de cálculo."""
+    """Dez dias consecutivos da série de Lisboa (15 a 24 de dezembro de 2013), que cabem numa folha de cálculo."""
     c = CASO_23
     cfg, chuva, estado, notas, _ = base(f"Manual, secção {sec('23')} - dez dias resolvidos (Lisboa)", _lisboa)
     cfg.area = c["area"]
@@ -227,16 +228,16 @@ def caso_dez_dias():
     i = c["dia_na_serie"]
     dez = np.array([round(float(x), 1) for x in chuva[i:i + 10]], dtype=float)
     assert np.allclose(dez, CHUVA_23), "a janela de dez dias não é a de gerar_tabelas.CHUVA_23"
-    # Os dez dias vão dentro do ficheiro (já não são uma referência à base E-OBS).
+    # Os dez dias vão dentro do ficheiro (já não são uma referência à base do Iberia01).
     cfg.climate_source_mode = "custom_file"
     cfg.climate_city_uf, cfg.climate_city_name = "", "Lisboa"
-    cfg.climate_model, cfg.climate_scenario = "E-OBS v33.0e", "EOBS"
+    cfg.climate_model, cfg.climate_scenario = "Iberia01 v1.0", "IBERIA01"
     cfg.precip_file = ""
-    cfg.climate_start_date, cfg.climate_end_date = c["inicio"], "20/12/2019"
+    cfg.climate_start_date, cfg.climate_end_date = c["inicio"], "24/12/2013"
     estado = dict(estado)
-    estado["project"] = {"source_mode": "custom_file", "start_date": c["inicio"], "end_date": "20/12/2019"}
-    notas["chuva"] = ("Lisboa, 11 a 20 de dezembro de 2019 (E-OBS v33.0e, concelho de Lisboa, arredondada "
-                      "ao décimo de milímetro; data/portugal_eobs.db).")
+    estado["project"] = {"source_mode": "custom_file", "start_date": c["inicio"], "end_date": "24/12/2013"}
+    notas["chuva"] = ("Lisboa, 15 a 24 de dezembro de 2013 (Iberia01 v1.0, ODbL, município de Lisboa [PT-1106], "
+                      "arredondada ao décimo de milímetro; data/chuva_iberia01_p*.db). " + ib.CITACAO)
     return cfg, dez, estado, notas
 
 
@@ -328,18 +329,18 @@ LISTA = [
      "reservatório superior de 1.000 L (custos ilustrativos, não são preços de mercado)",
      caso_tutorial),
     ("02_porto.triton", sec("14"),
-     "a moradia do tutorial levada ao Porto, com a chuva E-OBS do Porto e o tarifário da Águas e Energia do "
+     "a moradia do tutorial levada ao Porto, com a chuva do Iberia01 no Porto e o tarifário da Águas e Energia do "
      "Porto (sem custos definidos)",
      lambda: caso_cidade(_porto, "Porto")),
     ("03_funchal.triton", sec("14"),
-     "a moradia do tutorial levada ao Funchal, com a chuva ERA5 do Funchal, o tarifário da Câmara Municipal "
+     "a moradia do tutorial levada ao Funchal, com a chuva ERA5 de ilha do Funchal (nível C), o tarifário da Câmara Municipal "
      "do Funchal e a eletricidade da EEM (sem custos definidos)",
      lambda: caso_cidade(_funchal, "Funchal")),
     ("04_tutorial_varredura.triton", f"{sec('07')} e {sec('24')}",
      "o projeto antes do reservatório superior, em modo varredura, de 0 a 20.000 L em passos de 1.000 L (Lisboa)",
      caso_tutorial_varredura),
     ("05_dez_dias.triton", sec("23"),
-     "o caso didático de dez dias, 11 a 20 de dezembro de 2019 da série de Lisboa, que cabe numa folha de cálculo",
+     "o caso didático de dez dias, 15 a 24 de dezembro de 2013 da série de Lisboa, que cabe numa folha de cálculo",
      caso_dez_dias),
     ("06_reservatorio_superior.triton", sec("08"),
      f"5.000 L em baixo mais 1.000 em cima, a comparação da secção {sec('08')} contra os 6.000 L de um "
@@ -495,9 +496,9 @@ def escrever_readme(resultados):
         "Cada ficheiro reproduz um resultado impresso no manual. Abra-o com **Ficheiro > Abrir projeto** e "
         "carregue em **Simular**.",
         "",
-        "A chuva de Lisboa e do Porto é a da base E-OBS por concelho (normal 1991-2020, `data/portugal_eobs.db`): "
+        "A chuva de Lisboa e do Porto é a do Iberia01 por município (ODbL, normal 1986-2015, `data/chuva_iberia01_p*.db`): "
         "o ficheiro guarda a referência da série e a impressão digital dos valores, e o programa recompõe-na "
-        "da base ao abrir. O Funchal usa a série ERA5 de `data/rainfall/Funchal.csv`, incorporada no ficheiro. "
+        "da base ao abrir. O Funchal usa a série ERA5 de ilha (0,25°, nível C, `data/chuva_ilhas_era5.db`), recomposta da base ao abrir. "
         "O caso dos dez dias traz os seus dez valores dentro do ficheiro. Cidades: Lisboa (o tutorial), Porto "
         "e Funchal; cada ficheiro leva o tarifário de água e saneamento da sua cidade, transcrito em "
         "`triton/data/portugal_tarifarios.json`.",

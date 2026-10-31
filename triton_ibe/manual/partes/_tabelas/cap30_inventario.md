@@ -8,7 +8,7 @@
 | tubagem de PVC, DN 25 mm | 8,9 kg | 2,5% | — |
 | duas eletrobombas de 0,5 cv | 61,0 kg | 16,8% | — |
 | descarte das primeiras águas: reservatório de 300 L e separador de folhas | 21,1 kg | 5,8% | — |
-| energia de elevação | — | — | 2,05 kg/ano |
+| energia de elevação | — | — | 2,10 kg/ano |
 | cloragem por pastilhas | — | — | 0,16 kg/ano |
-| água da rede evitada | — | — | −19,59 kg/ano |
-| **total** | **362,9 kg** | **100%** | **−17,38 kg/ano** |
+| água da rede evitada | — | — | −20,03 kg/ano |
+| **total** | **362,9 kg** | **100%** | **−17,76 kg/ano** |

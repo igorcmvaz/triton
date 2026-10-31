@@ -192,7 +192,7 @@ Tabela 39 — Grandezas fundamentais do balanço hídrico e relações entre fra
 
 Não renderia, e a diferença não é a que a chuva sozinha sugere. A expectativa corrente é que mais chuva dê mais aproveitamento. Isso vale como ordenação, mas falha como proporção, e falha por uma razão que merece uma secção inteira.
 
-> **As suas cidades.** O programa traz a chuva diária de 278 concelhos do Continente (E-OBS) e a série de exemplo do Funchal. Para qualquer outro local, use um ficheiro de chuva próprio, um por cidade; tudo o resto do guia vale como está escrito.
+> **As suas cidades.** O programa traz a chuva diária de 8 319 municípios da Península e das Baleares (Iberia01) e, nas ilhas, a reanálise ERA5 (nível C), com o Funchal como exemplo. Para qualquer outro local, use um ficheiro de chuva próprio, um por cidade; tudo o resto do guia vale como está escrito.
 
 ---
 
@@ -209,9 +209,9 @@ O projeto do tutorial — 150 m² de captação, 600 L/dia de procura, 28% de fr
 <!-- tabela: **Tabela 1** — O mesmo projeto do tutorial simulado em Lisboa, no Porto e no Funchal -->
 | Cidade | Chuva anual | Dias com chuva | Razão entre o mês mais e o menos chuvoso | Potencial com 5 000 L | Volume ideal |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| Lisboa | 719 mm | 22% | 47,3× | 17,49% | 5 000 L |
-| Porto | 1 199 mm | 31% | 9,8× | 22,04% | 5 000 L |
-| Funchal | 538 mm | 42% | 14,8× | 12,98% | 4 000 L |
+| Lisboa | 746 mm | 35% | 22,7× | 17,87% | 5 000 L |
+| Porto | 1 197 mm | 48% | 9,9× | 21,58% | 5 000 L |
+| Funchal | 531 mm | 42% | 22,4× | 12,86% | 4 000 L |
 
 A Figura 1 separa as duas grandezas, cada uma na sua escala.
 
@@ -223,20 +223,20 @@ A Figura 1 separa as duas grandezas, cada uma na sua escala.
 
 ### 3.1.3. A oferta em relação à procura, e o seu calendário
 
-Lidas lado a lado, as colunas de chuva anual e de potencial de economia ordenam as cidades da mesma maneira, mas não andam em proporção. O Porto recebe 67% mais chuva do que Lisboa (1 199 mm contra 719 mm) e rende 4,55 pontos percentuais a mais: 22,04% contra 17,49%. Lisboa recebe 34% mais chuva do que o Funchal (719 mm contra 538 mm) e rende 4,51 pontos a mais, 17,49% contra 12,98%. Face ao teto de 28%, o Porto chega a 79%, Lisboa a 62% e o Funchal a 46%.
+Lidas lado a lado, as colunas de chuva anual e de potencial de economia ordenam as cidades da mesma maneira, mas não andam em proporção. O Porto recebe 60% mais chuva do que Lisboa (1 197 mm contra 746 mm) e rende 3,71 pontos percentuais a mais: 21,58% contra 17,87%. Lisboa recebe 40% mais chuva do que o Funchal (746 mm contra 531 mm) e rende 5,01 pontos a mais, 17,87% contra 12,86%. Face ao teto de 28%, o Porto chega a 77%, Lisboa a 64% e o Funchal a 46%.
 
-A explicação está em dois eixos. O primeiro é a **oferta em relação à procura**. Com 150 m² e coeficiente de 0,85, a chuva anual dá cerca de 153 m³ no Porto, 92 m³ em Lisboa e 69 m³ no Funchal, contra uma procura pluvial de 61 m³ por ano. O Porto tem 2,5 vezes o que precisa, Lisboa 1,5 vez e o Funchal pouco mais do que 1 vez. Onde a oferta sobra, a cisterna enche com facilidade e o potencial aproxima-se do teto; onde mal chega, a oferta limita-o, por maior que seja o reservatório.
+A explicação está em dois eixos. O primeiro é a **oferta em relação à procura**. Com 150 m² e coeficiente de 0,85, a chuva anual dá cerca de 153 m³ no Porto, 95 m³ em Lisboa e 68 m³ no Funchal, contra uma procura pluvial de 61 m³ por ano. O Porto tem 2,5 vezes o que precisa, Lisboa 1,6 vez e o Funchal pouco mais do que 1 vez. Onde a oferta sobra, a cisterna enche com facilidade e o potencial aproxima-se do teto; onde mal chega, a oferta limita-o, por maior que seja o reservatório.
 
-O segundo eixo é o **calendário**. A tabela acima mostra-o duas vezes. A fração de dias com chuva é de 31% no Porto, 22% em Lisboa e 42% no Funchal. E a razão entre o mês mais chuvoso e o menos chuvoso, que mede quanto a chuva se concentra ao longo do ano, é de 9,8 no Porto, 14,8 no Funchal e 47,3 em Lisboa.
+O segundo eixo é o **calendário**. A tabela acima mostra-o duas vezes. A fração de dias com chuva é de 48% no Porto, 35% em Lisboa e 42% no Funchal. E a razão entre o mês mais chuvoso e o menos chuvoso, que mede quanto a chuva se concentra ao longo do ano, é de 9,9 no Porto, 22,4 no Funchal e 22,7 em Lisboa.
 
 <!-- tabela: **Tabela 2** — Razão entre o mês mais chuvoso e o menos chuvoso nas três cidades -->
 | Cidade | Razão | O que significa |
 | :--- | ---: | :--- |
-| Porto | 9,8× | chove o ano todo, com uma estação mais húmida marcada |
-| Funchal | 14,8× | chuva frequente, mas com um verão claramente mais seco |
-| Lisboa | 47,3× | **um verão quase sem chuva depois de um inverno húmido** |
+| Porto | 9,9× | chove o ano todo, com uma estação mais húmida marcada |
+| Funchal | 22,4× | chuva frequente, mas com um verão claramente mais seco |
+| Lisboa | 22,7× | **um verão seco depois de um inverno húmido** |
 
-Em Lisboa, o verão é o que pesa. A cisterna enche no inverno e seca na estiagem: o atendimento pleno chega a 61,3% dos dias com 5 000 L, contra 77,9% no Porto e 44,5% no Funchal com o mesmo reservatório. Um reservatório dimensionado para atravessar noventa dias de estiagem teria de armazenar noventa dias de procura pluvial, o que neste projeto são 15 120 litros — um volume que nenhuma cisterna residencial comporta. É por isso que a curva de volume de Lisboa não satura (secção 4.4 (volume Tutorial)) e que o sistema fica parado durante parte de cada ano.
+Em Lisboa, o verão é o que pesa. A cisterna enche no inverno e seca na estiagem: o atendimento pleno chega a 62,7% dos dias com 5 000 L, contra 76,0% no Porto e 44,1% no Funchal com o mesmo reservatório. Um reservatório dimensionado para atravessar noventa dias de estiagem teria de armazenar noventa dias de procura pluvial, o que neste projeto são 15 120 litros — um volume que nenhuma cisterna residencial comporta. É por isso que a curva de volume de Lisboa não satura (secção 4.4 (volume Tutorial)) e que o sistema fica parado durante parte de cada ano.
 
 > **A conclusão prática.** ==O potencial do aproveitamento pluvial depende de a chuva chegar, e de chegar quando é precisa.== O Porto mostra o que a abundância faz; Lisboa mostra o que um verão seco tira a uma chuva razoável; o Funchal mostra o que acontece quando a chuva, mesmo frequente, quase não excede a procura.
 
@@ -246,13 +246,13 @@ A Figura 2 apresenta o regime mensal das três cidades na mesma escala.
 
 ![O regime mensal das três cidades](../figuras/fig18_capitais.png)
 
-*Figura 2 — Precipitação média mensal em (a) Lisboa, (b) Porto e (c) Funchal, na mesma escala; a linha a tracejado é a média mensal de cada série. Lisboa concentra a chuva no inverno e tem um verão quase seco (a razão entre o mês mais e o menos chuvoso é de 47,3); o Porto é mais repartido (9,8); o Funchal fica entre os dois (14,8). É esta distribuição, e não o total anual sozinho, que decide o comportamento do reservatório.*
+*Figura 2 — Precipitação média mensal em (a) Lisboa, (b) Porto e (c) Funchal, na mesma escala; a linha a tracejado é a média mensal de cada série. Lisboa concentra a chuva no inverno e tem um verão seco (a razão entre o mês mais e o menos chuvoso é de 22,7); o Porto é mais repartido (9,9); o Funchal tem uma razão quase igual à de Lisboa (22,4). É esta distribuição, e não o total anual sozinho, que decide o comportamento do reservatório.*
 
 ---
 
 ### 3.1.4. Atenção ao Funchal
 
-A série do Funchal é de natureza diferente das outras duas. Lisboa e o Porto usam a E-OBS, uma grelha interpolada de observações, média das células dentro do concelho. A E-OBS não dá uma série utilizável para o Funchal (faltam dados em 22% dos dias de 1991 a 2020, e o critério admite no máximo 1%), pelo que o exemplo usa a reanálise ERA5, uma célula de grelha de cerca de 9 km, e não um registo de estação. Comparar o Funchal com Lisboa e o Porto mistura, por isso, dois produtos. É a série menos fiável das três, e o seu valor serve para ilustrar o método, não para dimensionar. Num projeto real, use a série medida no local.
+A série do Funchal é de natureza diferente das outras duas. Lisboa e o Porto usam o Iberia01, uma grelha de 0,1° interpolada de observações, média das células dentro do município. O Funchal está fora do domínio do Iberia01 (e a E-OBS não serve: faltam dados em 22% dos dias de 1991 a 2020, e o critério admite no máximo 1%), pelo que o exemplo usa a reanálise ERA5, um nó de grelha de 0,25° (cerca de 25 km), com nível de qualidade C, e não um registo de estação. Comparar o Funchal com Lisboa e o Porto mistura, por isso, dois produtos. É a série menos fiável das três, e o seu valor serve para ilustrar o método, não para dimensionar. Num projeto real, use a série medida no local.
 
 ---
 
@@ -282,7 +282,7 @@ A segunda é o **fator de emissão da rede elétrica**, que altera em simultâne
 
 A última coluna da tabela guarda uma surpresa menor: com o limiar de 1 %/m³, o volume ideal é de 5 000 L em Lisboa e no Porto e de 4 000 L no Funchal, uma amplitude modesta perante a diferença de regimes que as separa.
 
-A explicação está na natureza do critério. O volume ideal pelo ganho marginal localiza o joelho da curva de aproveitamento, e a posição desse joelho depende de como os primeiros metros cúbicos de armazenamento enchem e esvaziam contra uma procura diária de 168 L, que é a mesma nas três cidades. O que varia fortemente é o **patamar** que a curva atinge depois do joelho (17,49%, 22,04% e 12,98%), e não o ponto em que dobra. A coincidência pertence a esta casa, a este limiar e a estas três cidades; não é uma lei, e outra procura ou outro limiar podem separá-las.
+A explicação está na natureza do critério. O volume ideal pelo ganho marginal localiza o joelho da curva de aproveitamento, e a posição desse joelho depende de como os primeiros metros cúbicos de armazenamento enchem e esvaziam contra uma procura diária de 168 L, que é a mesma nas três cidades. O que varia fortemente é o **patamar** que a curva atinge depois do joelho (17,87%, 21,58% e 12,86%), e não o ponto em que dobra. A coincidência pertence a esta casa, a este limiar e a estas três cidades; não é uma lei, e outra procura ou outro limiar podem separá-las.
 
 Dito de outro modo: no Funchal acerta-se quase o mesmo volume que no Porto e colhe-se bastante menos água com ele.
 
@@ -292,7 +292,7 @@ Dito de outro modo: no Funchal acerta-se quase o mesmo volume que no Porto e col
 
 > **Pergunta a que este guia responde:** o sistema que dimensiono hoje ainda serve em 2060?
 
-> **As suas projeções.** A Edição Ibérica não traz base de projeções climáticas. A base E-OBS que acompanha o programa é observada (1950 a 2025) e não contém futuro. O método deste guia aplica-se tal como está a séries projetadas que carregue como ficheiros de chuva: por exemplo, séries diárias com correção de viés de um serviço climático nacional ou de um estudo de regionalização. O guia diz o que pedir a essas séries e como compará-las. O sítio do Instituto Português do Mar e da Atmosfera (IPMA, https://www.ipma.pt, consultado em 16/10/2026) tem uma ligação para o «Portal do Clima». Não verificado nesta versão: o conteúdo do Portal do Clima (séries diárias de precipitação projetada, modelos, cenários, resolução e condições de utilização); este manual não afirma nada sobre ele.
+> **As suas projeções.** A Edição Ibérica não traz base de projeções climáticas. As bases que acompanham o programa (Iberia01, 1971 a 2015, e a E-OBS opcional, 1950 a 2025) são observadas e não contêm futuro. O método deste guia aplica-se tal como está a séries projetadas que carregue como ficheiros de chuva: por exemplo, séries diárias com correção de viés de um serviço climático nacional ou de um estudo de regionalização. O guia diz o que pedir a essas séries e como compará-las. O sítio do Instituto Português do Mar e da Atmosfera (IPMA, https://www.ipma.pt, consultado em 16/10/2026) tem uma ligação para o «Portal do Clima». Não verificado nesta versão: o conteúdo do Portal do Clima (séries diárias de precipitação projetada, modelos, cenários, resolução e condições de utilização); este manual não afirma nada sobre ele.
 
 Um reservatório de água da chuva dura trinta anos ou mais, e a chuva que cairá sobre o edifício durante esse período não será a mesma que caiu no passado recente. Dimensionar um sistema de vida longa só sobre a série histórica supõe, implicitamente, um clima estacionário — uma suposição que as projeções disponíveis não sustentam. O Triton não pode fornecer as projeções para o seu local, mas corre o mesmo projeto sobre qualquer série que lhe dê, para que o dimensionamento possa incorporar esta questão de forma explícita.
 
@@ -359,7 +359,7 @@ Três condutas são defensáveis perante esta dispersão, apresentadas aqui por 
 
 ### 3.2.5. O que as três cidades sugerem sobre um clima futuro
 
-Os estudos que simulam sistemas de aproveitamento pluvial sob projeções climáticas tendem a concordar num ponto: a mudança no total anual de chuva importa menos do que a mudança na sua **distribuição**. A secção 3.1 mostra o mesmo no espaço: Lisboa tem 60% da chuva do Porto e uma razão de 47,3 entre o mês mais e o menos chuvoso, contra 9,8 no Porto, e o seu potencial é de 17,49% contra 22,04% com o mesmo reservatório de 5 000 L. Um clima futuro com estiagens mais longas comporta-se, para o reservatório, como uma mudança de cidade, e um reservatório adequado hoje pode precisar de ser maior para dar a mesma fiabilidade. Este manual não cita estudos específicos; quem queira apoiar esta afirmação em literatura deve indicar estudos com fonte aberta (DOI).
+Os estudos que simulam sistemas de aproveitamento pluvial sob projeções climáticas tendem a concordar num ponto: a mudança no total anual de chuva importa menos do que a mudança na sua **distribuição**. A secção 3.1 mostra o mesmo no espaço: Lisboa tem 62% da chuva do Porto e uma razão de 22,7 entre o mês mais e o menos chuvoso, contra 9,9 no Porto, e o seu potencial é de 17,87% contra 21,58% com o mesmo reservatório de 5 000 L. Um clima futuro com estiagens mais longas comporta-se, para o reservatório, como uma mudança de cidade, e um reservatório adequado hoje pode precisar de ser maior para dar a mesma fiabilidade. Este manual não cita estudos específicos; quem queira apoiar esta afirmação em literatura deve indicar estudos com fonte aberta (DOI).
 
 ---
 
@@ -547,8 +547,8 @@ Na estrutura B, cada metro cúbico poupado reduz a fatura, desde o primeiro.
 
 Os três concelhos do programa pertencem todos à segunda família: em cada um, todos os metros
 cúbicos poupados reduzem a fatura. Em Lisboa, para a moradia do tutorial, a fatura sem o
-sistema corresponde a 18,26 m³ por mês e custa 46,25 €; com o sistema, a 15,00 m³ e 35,06 €.
-A poupança é de 3,27 m³ e 11,19 € por mês, ou seja, 3,42 € por metro cúbico poupado, contra
+sistema corresponde a 18,26 m³ por mês e custa 46,25 €; com o sistema, a 14,92 m³ e 34,93 €.
+A poupança é de 3,34 m³ e 11,32 € por mês, ou seja, 3,39 € por metro cúbico poupado, contra
 os 2,53 € por metro cúbico que o preço médio da fatura sem sistema sugeriria. Cada metro cúbico
 poupado desconta o escalão mais alto da água e as parcelas do saneamento e dos resíduos que o
 acompanham.
@@ -1148,7 +1148,7 @@ triton run 04_tutorial_varredura.triton --volume 5000 --format json --output r.j
 ```
 
 O ficheiro `r.json` regista a proveniência (projeto de origem, número de dias da série e data
-inicial) e, para o volume de 5 000 L, o potencial de poupança de 17,49%, com 61,3% de dias de
+inicial) e, para o volume de 5 000 L, o potencial de poupança de 17,87%, com 62,7% de dias de
 abastecimento pleno.
 
 O subcomando `uncertainty` sorteia, em cada amostra, a precipitação, a área de captação, a
@@ -1156,7 +1156,7 @@ procura e o investimento com uma distribuição de coeficiente de variação dec
 percentis de 5%, 50% e 95% do potencial de poupança e do valor atual líquido, com a probabilidade
 de o valor atual líquido ser positivo. Corra-o sobre o tutorial com um número modesto de amostras
 e uma `--seed` fixa, e leia os percentis do potencial como um intervalo, e não como um número
-único. Em Lisboa, o potencial do tutorial (17,49% a 5 000 L) está bem abaixo do teto de 28%, e a
+único. Em Lisboa, o potencial do tutorial (17,87% a 5 000 L) está bem abaixo do teto de 28%, e a
 curva ainda sobe aos 20 000 L; por isso, uma variação da chuva ou da procura desloca o potencial
 mais do que deslocaria num sistema que já opera junto do teto. O valor atual líquido, negativo no
 tutorial com os custos ilustrativos da secção 4.7 (volume Tutorial), move-se em proporção ao investimento e ao
@@ -1305,17 +1305,17 @@ intervalo em vez de um número.
 
 A tabela seguinte aplica o procedimento ao projeto final do tutorial, em Lisboa: 5 000 L em
 polietileno, elevação para um reservatório superior de 1 000 L, com os custos ilustrativos do
-manual (ilustrativos, não são preços de mercado). O VAL provável é negativo, de −6 079 €. A
+manual (ilustrativos, não são preços de mercado). O VAL provável é negativo, de −6 053 €. A
 tabela varia cinco pressupostos, um de cada vez, entre um valor baixo e um alto.
 
 <!-- tabela: **Tabela 9** — Potencial, valor atual líquido e período de recuperação do projeto final do tutorial com cada premissa variada isoladamente, do valor baixo ao alto (os custos são ilustrativos, não são preços de mercado) -->
 | Premissa | Baixo | Provável | Alto | Potencial | VAL a 20 anos (ilustrativo, não é preço de mercado) | Período de recuperação descontado |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
-| atualização das tarifas de água e saneamento, % ao ano | 1,0 | 3,0 | 5,0 | 17,88% a 17,88% | −6 456 € a −5 601 € | sem recuperação a sem recuperação |
-| taxa de atualização mínima, % ao mês | 0,2 | 0,4 | 0,6 | 17,88% a 17,88% | −5 873 € a −6 231 € | sem recuperação a sem recuperação |
-| consumo per capita, L/hab·dia | 120,0 | 150,0 | 180,0 | 19,86% a 16,23% | −7 258 € a −5 621 € | sem recuperação a sem recuperação |
-| fração suprível, % | 20,0 | 28,0 | 40,0 | 14,85% a 21,03% | −6 417 € a −5 870 € | sem recuperação a sem recuperação |
-| preço da cisterna, % do orçamento | 70,0 | 100,0 | 130,0 | 17,88% a 17,88% | −5 224 € a −6 934 € | sem recuperação a sem recuperação |
+| atualização das tarifas de água e saneamento, % ao ano | 1,0 | 3,0 | 5,0 | 18,28% a 18,28% | −6 435 € a −5 570 € | sem recuperação a sem recuperação |
+| taxa de atualização mínima, % ao mês | 0,2 | 0,4 | 0,6 | 18,28% a 18,28% | −5 839 € a −6 210 € | sem recuperação a sem recuperação |
+| consumo per capita, L/hab·dia | 120,0 | 150,0 | 180,0 | 20,09% a 16,55% | −7 245 € a −5 567 € | sem recuperação a sem recuperação |
+| fração suprível, % | 20,0 | 28,0 | 40,0 | 14,98% a 21,33% | −6 403 € a −5 850 € | sem recuperação a sem recuperação |
+| preço da cisterna, % do orçamento | 70,0 | 100,0 | 130,0 | 18,28% a 18,28% | −5 198 € a −6 908 € | sem recuperação a sem recuperação |
 
 A primeira coisa a ler é o que **não** acontece: nenhum pressuposto, no valor baixo ou no alto,
 torna o VAL positivo, e nenhum produz período de recuperação. Com o tarifário de Lisboa e estes
@@ -1325,22 +1325,22 @@ exemplo. Leia o resto da tabela com isto em mente: a pergunta não é que pressu
 projeto viável, mas qual deles mais move o resultado.
 
 **O que mais move o VAL é o preço da cisterna.** De 70% a 130% do orçamento, o VAL passa de
-−5 224 € a −6 934 €, a maior amplitude das cinco (1 710 €). Quando a poupança é pequena, quem
+−5 198 € a −6 908 €, a maior amplitude das cinco (1 710 €). Quando a poupança é pequena, quem
 decide o saldo é o investimento: a cisterna de polietileno de 5 000 L, de 2 850 € (ilustrativo, não é preço de
 mercado), pesa nele de forma direta, ao contrário do que acontece num caso em que o sistema se
 paga com folga.
 
 **O consumo per capita vem logo atrás.** De 120 a 180 L por pessoa e por dia, o potencial desce
-de 19,86% para 16,23% enquanto o VAL sobe de −7 258 € para −5 621 €, uma amplitude de 1 637 €.
+de 20,09% para 16,55% enquanto o VAL sobe de −7 245 € para −5 567 €, uma amplitude de 1 678 €.
 Com mais consumo, a fração suprível aplica-se a uma procura maior, a cisterna falta mais vezes,
 o potencial desce um pouco e a poupança em dinheiro sobe.
 
 **Os pressupostos decididos pelo mercado pesam menos.** A atualização das tarifas desloca o VAL de
-−6 456 € (1% ao ano) para −5 601 € (5% ao ano), e a taxa de atualização de −5 873 € (0,2% ao mês)
-para −6 231 € (0,6% ao mês); nenhuma toca no potencial.
+−6 435 € (1% ao ano) para −5 570 € (5% ao ano), e a taxa de atualização de −5 839 € (0,2% ao mês)
+para −6 210 € (0,6% ao mês); nenhuma toca no potencial.
 
 **A fração suprível é o pressuposto que mais move o potencial.** De 20% a 40%, o potencial vai
-de 14,85% a 21,03%, mas o VAL só vai de −6 417 € a −5 870 €, porque cada ponto percentual de
+de 14,98% a 21,33%, mas o VAL só vai de −6 403 € a −5 850 €, porque cada ponto percentual de
 poupança vale pouco em euros ao preço da água de Lisboa. É o pressuposto que a secção 4.2 (volume Tutorial)
 fixou e que depende da decisão sobre usos, e não de medição: incluir ou não a máquina de lavar
 roupa, face ao critério de qualidade aplicável ao caso, move o resultado hídrico mais do que
@@ -1375,8 +1375,8 @@ Leia-a assim:
 A distinção que esta coluna permite é de natureza epistemológica, e não apenas estatística: um
 volume que vence em 80% dos sorteios de pesos constitui uma recomendação, ao passo que um volume
 que vence em 30% constitui uma preferência do analista, legítima desde que apresentada como tal.
-No tutorial de Lisboa, o volume vencedor, 5 000 L, tem uma aceitabilidade de 34,1%, com 8 000 L
-em segundo, com 30,6%, e 4 000 L em terceiro, com 15,6%: abaixo de 40%, a escolha depende dos
+No tutorial de Lisboa, o volume vencedor, 5 000 L, tem uma aceitabilidade de 34,8%, com 8 000 L
+em segundo, com 30,1%, e 4 000 L em terceiro, com 15,0%: abaixo de 40%, a escolha depende dos
 pesos, e o texto tem de o dizer. A secção 2.10 (volume O método) expõe o método que produz este número.
 
 ---
@@ -2236,7 +2236,7 @@ O apêndice A (volume Apêndices) lista todos os parâmetros, com o nome exato d
 | os tarifários transcritos (Lisboa, Porto e Funchal) | dentro do programa, em `triton\data\portugal_tarifarios.json` |
 | os casos do manual | na pasta do programa, em `casos` |
 | os três projetos de exemplo (Lisboa, Porto e Funchal) | na pasta do programa, em `examples\portugal` |
-| a base de precipitação por concelho (E-OBS) | na pasta do programa, em `data\portugal_eobs.db` |
+| a base de precipitação por município (Iberia01) e a E-OBS opcional | na pasta do programa, em `data\chuva_iberia01_p1.db` a `p4.db`, `data\ibe_unidades.db`, `data\chuva_ilhas_era5.db` e `data\portugal_eobs.db` |
 | **os seus projetos e relatórios** | **onde escolher ao guardar** |
 
 O programa não cria pasta de trabalho nem guarda ficheiros escondidos. Cada gravação
@@ -2486,7 +2486,7 @@ ao reservatório, em %/m³ ($\Delta E_{pot} / \Delta V$). Critério de escolha d
 **GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
 de desempenho socioambiental. Sua série 303 trata de água e efluentes.
 
-**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva E-OBS por concelho e os tarifários transcritos de Lisboa, Porto e Funchal. Hoje só os concelhos de Portugal têm dados; a linha de cobertura do programa diz quantos locais há em cada país (Espanha: 0). Os custos e os fatores de emissão são indicados pelo utilizador.
+**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva do Iberia01 por município e os tarifários transcritos de Lisboa, Porto e Funchal. A linha de cobertura do programa diz quantos locais há em cada país. Os custos e os fatores de emissão são indicados pelo utilizador.
 
 **IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o

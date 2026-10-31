@@ -4,7 +4,7 @@
 | Fator do investimento | 0,01 | 0,87 | 0,01 |
 | Fator das tarifas de água e saneamento | 0,01 | 0,08 | 0,01 |
 | Coeficiente de escoamento | 0,05 | 0,02 | 0,00 |
-| Área de captação | 0,09 | 0,01 | 0,01 |
-| Fator da chuva | 0,55 | 0,01 | 0,01 |
-| Lâmina de descarte | 0,28 | 0,00 | 0,71 |
-| Soma | 0,99 | 1,00 | 0,74 |
+| Área de captação | 0,08 | 0,01 | 0,01 |
+| Fator da chuva | 0,54 | 0,01 | 0,01 |
+| Lâmina de descarte | 0,29 | 0,01 | 0,71 |
+| Soma | 0,98 | 1,00 | 0,74 |

@@ -41,7 +41,7 @@ cálculo cabe numa página.
 concentrada: um mês com 200 mm repartidos por cinco eventos enche a cisterna e faz com que
 extravase cinco vezes, ao passo que o cálculo por médias supõe um fluxo contínuo que a cisterna
 absorveria por inteiro. Em Lisboa o efeito é ainda mais marcante, porque o verão é seco: o mês mais
-chuvoso tem 47,3 vezes a chuva do menos chuvoso, e uma média anual não vê nada disto.
+chuvoso tem 22,7 vezes a chuva do menos chuvoso, e uma média anual não vê nada disto.
 
 **Como evitar.** É a razão de existir deste programa. A secção {{n:23}} mostra o extravasamento a
 acontecer dia a dia; o cálculo por médias não o vê.
@@ -56,7 +56,7 @@ acontecer dia a dia; o cálculo por médias não o vê.
 
 **O que faz ao resultado.** O campo espera **milímetros**. Introduzir 300, a pensar nos 300 litros
 do dispositivo, produz um descarte de 300 mm — maior do que qualquer chuva diária da série de
-Lisboa do tutorial, cujo máximo é 91,2 mm. O sistema capta **praticamente nada**.
+Lisboa do tutorial, cujo máximo é 109,9 mm. O sistema capta **praticamente nada**.
 
 **Como evitar.** `d_f` é uma lâmina. O volume do dispositivo é `A × d_f`: no projeto do tutorial,
 150 m² × 2 mm = 300 litros. São a mesma decisão expressa em duas unidades, e o programa quer a
@@ -74,8 +74,8 @@ como o saneamento e os resíduos acompanham o consumo estão em quadros à parte
 
 **O que faz ao resultado.** A poupança só incide sobre a parte variável da fatura, e cada metro
 cúbico poupado vale o preço do escalão em que cai. Em Lisboa, a fatura do tutorial passa de
-46,25 € por mês sem o sistema (18,26 m³) para 35,06 € com ele (15,00 m³): uma poupança de
-3,27 m³ e de 11,19 € por mês. Um estudo que suponha um desconto linear sobre a fatura total produz
+46,25 € por mês sem o sistema (18,26 m³) para 34,93 € com ele (14,92 m³): uma poupança de
+3,34 m³ e de 11,32 € por mês. Um estudo que suponha um desconto linear sobre a fatura total produz
 um período de recuperação que não existe.
 
 **Como evitar.** A secção {{n:16}}. E o teste prático: simule dois consumos, um num escalão e outro
@@ -108,8 +108,8 @@ modo personalizado. A secção {{n:18}} trata do assunto.
 
 **O que faz ao resultado.** Com o mesmo armazenamento total, o arranjo com reservatório elevado
 entrega **menos**: a cisterna extravasa enquanto o reservatório de cima ainda tem espaço, porque a
-elevação só acontece quando há consumo. No tutorial, 0,31 pontos percentuais a menos (17,88%
-contra 18,19% com um único reservatório de 6 000 L), mais 5,1 kWh por ano de energia.
+elevação só acontece quando há consumo. No tutorial, 0,32 pontos percentuais a menos (18,28%
+contra 18,59% com um único reservatório de 6 000 L), mais 5,3 kWh por ano de energia.
 
 **Como evitar.** Decida o reservatório por critério **hidráulico** — pressão por gravidade, reserva
 contra falhas de energia — e não hídrico. A secção {{n:8}} faz a comparação justa.
@@ -171,9 +171,9 @@ regras de descarte coincidem. As secções {{n:21}} e {{n:35}} detalham o assunt
 **Porque é tentador.** É a coluna que o estudo de aproveitamento pluvial reporta, e mais é melhor.
 
 **O que faz ao resultado.** No tutorial de Lisboa a curva não satura: 20 000 L dão o maior
-potencial da varredura, 24,01%. Custam também **3,3 vezes mais** do que 5 000 L, em betão
+potencial da varredura, 24,35%. Custam também **3,3 vezes mais** do que 5 000 L, em betão
 (ilustrativo, não é preço de mercado: 8 600 € contra 2 600 €), e carregam **3,5 vezes mais carbono
-incorporado** (3 546 contra 1 026 kg CO₂e), para entregar 6,52 pontos percentuais a mais. Escolher
+incorporado** (3 546 contra 1 026 kg CO₂e), para entregar 6,47 pontos percentuais a mais. Escolher
 o maior volume testado é escolher o limite da varredura, e não um ótimo.
 
 **Como evitar.** Declare o critério de escolha. Se for hidráulico, o limiar de ganho marginal; se

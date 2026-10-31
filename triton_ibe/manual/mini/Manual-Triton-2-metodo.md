@@ -84,7 +84,7 @@ Apêndice H — Referências
 
 ## Lista de figuras
 
-Figura 1 — Os dez dias do caso resolvido, com a chuva de Lisboa de 11 a 20 de dezembro de 2019: (a) volume captado, a azul, e volume extravasado, a laranja, por dia; nos dias 9 e 10 o extravasamento é quase igual ao captado; (b) volume armazenado no reservatório inferior no fim de cada dia, depois do consumo, com a capacidade de 2 000 L a tracejado; nos dias 9 e 10 o reservatório atinge a capacidade, extravasa e termina o dia com 1 920 L
+Figura 1 — Os dez dias do caso resolvido, com a chuva de Lisboa de 15 a 24 de dezembro de 2013: (a) volume captado, a azul, e volume extravasado, a laranja, por dia; no dia 5 o extravasamento é cerca de 40% do captado e no dia 10 é quase igual ao captado; (b) volume armazenado no reservatório inferior no fim de cada dia, depois do consumo, com a capacidade de 2 000 L a tracejado; a partir do dia 5 o reservatório atinge a capacidade e termina o dia com 1 920 L (menos nos dias 7 e 8, sem chuva útil)
 
 Figura 2 — Sequência de operações do balanço diário: (a) a ordem adotada pelo programa, com o extravasamento calculado antes do consumo; (b) a ordem invertida (YBS), com o consumo retirado antes do extravasamento
 
@@ -140,7 +140,7 @@ Figura 25 — Aceitabilidade de primeiro lugar (b¹) de cada volume candidato, o
 
 Tabela 1 — Dados de entrada do caso resolvido de dez dias
 
-Tabela 2 — Série de precipitação dos dez dias do caso resolvido (Lisboa, dezembro de 2019)
+Tabela 2 — Série de precipitação dos dez dias do caso resolvido (Lisboa, dezembro de 2013)
 
 Tabela 3 — Balanço hídrico diário do caso resolvido, dia a dia, com captação, consumo, extravasamento e armazenamento
 
@@ -478,10 +478,10 @@ ponto.
 
 ### 2.1.2. O caso resolvido
 
-Dez dias, uma moradia, sem reservatório superior. A chuva é a de Lisboa, de 11 a 20 de dezembro
-de 2019, na base E-OBS por concelho. A janela foi escolhida por busca determinística entre os
-trinta anos da série, por reunir num só período os cinco fenómenos que a secção ensina. Os
-números cabem numa folha de cálculo.
+Dez dias, uma moradia, sem reservatório superior. A chuva é a de Lisboa, de 15 a 24 de dezembro
+de 2013, no Iberia01 (município PT-1106). A janela foi escolhida por busca determinística entre os
+trinta anos da série (a mais recente que começa com um dia seco e reúne os fenómenos abaixo), por
+reunir num só período os cinco fenómenos que a secção ensina. Os números cabem numa folha de cálculo.
 
 <!-- tabela: **Tabela 1** — Dados de entrada do caso resolvido de dez dias -->
 | Dado de entrada | Valor |
@@ -493,14 +493,14 @@ números cabem numa folha de cálculo.
 | fração suprível por água da chuva | 40% = 80 L/dia |
 | volume do reservatório inferior | 2 000 L |
 | reservatório superior | nenhum |
-| chuva | Lisboa, 11 a 20 de dezembro de 2019 (E-OBS, por concelho) |
+| chuva | Lisboa, 15 a 24 de dezembro de 2013 (Iberia01, município PT-1106) |
 
 A série de chuva dos dez dias, em milímetros:
 
-<!-- tabela: **Tabela 2** — Série de precipitação dos dez dias do caso resolvido (Lisboa, dezembro de 2019) -->
+<!-- tabela: **Tabela 2** — Série de precipitação dos dez dias do caso resolvido (Lisboa, dezembro de 2013) -->
 | Dia | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Chuva | 0,0 | 2,1 | 0,0 | 1,2 | 6,0 | 13,5 | 0,7 | 8,1 | 35,7 | 25,8 |
+| Chuva | 0,0 | 0,6 | 2,6 | 7,2 | 33,9 | 3,7 | 0,9 | 0,1 | 4,9 | 50,9 |
 
 Sem procura exterior, a procura pluvial diária é a procura interior vezes a fração não potável
 interior, que aqui coincide com a fração suprível total: 200 × 0,40 = **80 L/dia**. É este o
@@ -513,36 +513,36 @@ volume que o sistema tenta entregar todos os dias.
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | :---: |
 | | mm | mm | mm | L | L | L | L | L | |
 | 1 | 0,0 | 0,0 | 0,0 | 0 | 80 | 0 | 0 | 0 | nulo |
-| 2 | 2,1 | 2,0 | 0,1 | 9 | 80 | 9 | 0 | 0 | parcial |
-| 3 | 0,0 | 0,0 | 0,0 | 0 | 80 | 0 | 0 | 0 | nulo |
-| 4 | 1,2 | 1,2 | 0,0 | 0 | 80 | 0 | 0 | 0 | nulo |
-| 5 | 6,0 | 2,0 | 4,0 | 340 | 80 | 80 | 0 | 260 | pleno |
-| 6 | 13,5 | 2,0 | 11,5 | 978 | 80 | 80 | 0 | 1 158 | pleno |
-| 7 | 0,7 | 0,7 | 0,0 | 0 | 80 | 80 | 0 | 1 078 | pleno |
-| 8 | 8,1 | 2,0 | 6,1 | 518 | 80 | 80 | 0 | 1 516 | pleno |
-| 9 | 35,7 | 2,0 | 33,7 | 2 865 | 80 | 80 | 2 380 | 1 920 | pleno |
-| 10 | 25,8 | 2,0 | 23,8 | 2 023 | 80 | 80 | 1 943 | 1 920 | pleno |
-| **soma** | | | | **6 732** | | **488** | **4 324** | 1 920 | |
+| 2 | 0,6 | 0,6 | 0,0 | 0 | 80 | 0 | 0 | 0 | nulo |
+| 3 | 2,6 | 2,0 | 0,6 | 51 | 80 | 51 | 0 | 0 | parcial |
+| 4 | 7,2 | 2,0 | 5,2 | 442 | 80 | 80 | 0 | 362 | pleno |
+| 5 | 33,9 | 2,0 | 31,9 | 2 712 | 80 | 80 | 1 074 | 1 920 | pleno |
+| 6 | 3,7 | 2,0 | 1,7 | 145 | 80 | 80 | 64 | 1 920 | pleno |
+| 7 | 0,9 | 0,9 | 0,0 | 0 | 80 | 80 | 0 | 1 840 | pleno |
+| 8 | 0,1 | 0,1 | 0,0 | 0 | 80 | 80 | 0 | 1 760 | pleno |
+| 9 | 4,9 | 2,0 | 2,9 | 247 | 80 | 80 | 6 | 1 920 | pleno |
+| 10 | 50,9 | 2,0 | 48,9 | 4 156 | 80 | 80 | 4 076 | 1 920 | pleno |
+| **soma** | | | | **7 752** | | **611** | **5 221** | 1 920 | |
 
 <!-- tabela: **Tabela 4** — Verificação do fecho do balanço de massa nos dez dias -->
 | Verificação do fecho | Litros |
 | :--- | ---: |
-| captado no período | 6 732 |
-| menos o extravasado | −4 324 |
-| menos o consumido | −488 |
+| captado no período | 7 752 |
+| menos o extravasado | −5 221 |
+| menos o consumido | −611 |
 | menos o que ficou no reservatório | −1 920 |
 | **resíduo** | **0** |
 
 <!-- tabela: **Tabela 5** — Indicadores do caso resolvido de dez dias -->
 | Indicador dos dez dias | Valor |
 | :--- | ---: |
-| potencial de poupança de água potável | 24,4% |
-| média diária de água pluvial consumida | 48,9 L/dia |
-| média diária de água da rede consumida | 151,2 L/dia |
-| média diária extravasada | 432,4 L/dia |
-| dias de abastecimento pleno | 60% |
+| potencial de poupança de água potável | 30,6% |
+| média diária de água pluvial consumida | 61,1 L/dia |
+| média diária de água da rede consumida | 138,9 L/dia |
+| média diária extravasada | 522,1 L/dia |
+| dias de abastecimento pleno | 70% |
 | dias de abastecimento parcial | 10% |
-| dias de abastecimento nulo | 30% |
+| dias de abastecimento nulo | 20% |
 
 ---
 
@@ -558,18 +558,19 @@ procura pluvial de 80 L não é satisfeita por uma gota: o dia é de abastecimen
 
 Isto não é um defeito da série escolhida. É a condição inicial do modelo, e conta: em séries
 curtas, os primeiros dias penalizam o resultado. Com trinta anos de série o efeito desaparece;
-com dez dias, é uma das razões por que o potencial obtido, 24,4%, fica tão abaixo da fração
-suprível de 40%. Os dias 3 e 4 juntam mais dois dias de abastecimento nulo, e são 30% dos dez.
+com dez dias, é uma das razões por que o potencial obtido, 30,6%, fica abaixo da fração
+suprível de 40%. O dia 2 junta mais um dia de abastecimento nulo, e são 20% dos dez.
 
-#### 2.1.3.2. Os dias 2 e 4: o descarte em ação
+#### 2.1.3.2. Os dias 2 e 3: o descarte em ação
 
-No dia 2 choveu 2,1 mm. Depois do descarte de 2,0 mm, ficam 0,1 mm, que sobre 100 m² com o
-coeficiente de 0,85 dão 9 L. Os 9 L são consumidos, e o dia é de abastecimento **parcial**: 9 L
+No dia 2 choveu 0,6 mm, menos do que a lâmina de descarte de 2,0 mm. O programa não subtrai 0,6 e
+capta zero: **descarta o dia inteiro**, e o dia é de abastecimento nulo. O mesmo se passa nos dias 7
+e 8, com 0,9 e 0,1 mm, e a diferença é que nesses dias o reservatório tem água de reserva e o
+abastecimento é pleno à mesma.
+
+No dia 3 choveu 2,6 mm. Depois do descarte de 2,0 mm, ficam 0,6 mm, que sobre 100 m² com o
+coeficiente de 0,85 dão 51 L. Os 51 L são consumidos, e o dia é de abastecimento **parcial**: 51 L
 dos 80 L pretendidos.
-
-No dia 4 choveu 1,2 mm, menos do que a lâmina de descarte de 2,0 mm. O programa não subtrai 1,2 e
-capta zero: **descarta o dia inteiro**. O mesmo se passa no dia 7, com 0,7 mm, e a diferença é que
-nesse dia o reservatório tem água de reserva e o abastecimento é pleno à mesma.
 
 > **Atenção.** Quando a regra de descarte se aplica e a chuva do dia não excede a lâmina, perde-se
 > o dia **inteiro**, e não a diferença. A conta é `P_ef = P − d_f` quando `P > d_f`, e **zero**
@@ -578,7 +579,7 @@ nesse dia o reservatório tem água de reserva e o abastecimento é pleno à mes
 A razão é física: o dispositivo de descarte tem de encher antes de a água chegar à cisterna. Se a
 chuva não enche o dispositivo, nada passa. Em climas de chuva fraca e frequente, isto pesa muito
 mais do que a intuição sugere, e é por isso que o modo de descarte merece atenção na secção
-4.1 (volume Tutorial). Na série de Lisboa do tutorial, chove em 22% dos dias, e 4% dos dias ficam abaixo da lâmina de
+4.1 (volume Tutorial). Na série de Lisboa do tutorial, chove em 35% dos dias, e 16% dos dias ficam abaixo da lâmina de
 descarte.
 
 > **Uma nota para quem compara ferramentas.** Algumas ferramentas de simulação tratam `d_f` como
@@ -586,14 +587,13 @@ descarte.
 > subtração. O Triton subtrai a lâmina. A diferença é deliberada, baixa a poupança estimada, e os
 > estudos que comparem as duas regras têm de a declarar. A secção 6.1 (volume Correções, bugs e versionamento) trata da comparação.
 
-#### 2.1.3.3. O dia 9: o extravasamento vem antes do consumo
+#### 2.1.3.3. O dia 5: o extravasamento vem antes do consumo
 
-Choveu 35,7 mm. Descontados os 2,0 mm de descarte, restam 33,7 mm efetivos, que sobre 100 m² com
-o coeficiente de 0,85 dão 2 865 L captados.
+Choveu 33,9 mm. Descontados os 2,0 mm de descarte, restam 31,9 mm efetivos, que sobre 100 m² com
+o coeficiente de 0,85 dão 2 712 L captados.
 
-O reservatório tinha 1 516 L e comporta 2 000 L, pelo que **extravasam 2 380 L**, mais do que o
-reservatório inteiro comporta. Só depois disso o programa retira os 80 L da procura, deixando
-1 920 L para o dia seguinte.
+O reservatório tinha 362 L e comporta 2 000 L, pelo que **extravasam 1 074 L**. Só depois disso o
+programa retira os 80 L da procura, deixando 1 920 L para o dia seguinte.
 
 > **Atenção.** Esta ordem define o modelo. O extravasamento é calculado **antes** da retirada da
 > procura, como na regra **YAS** (*yield after spillage*), mas a chuva do próprio dia já pode
@@ -604,23 +604,29 @@ reservatório inteiro comporta. Só depois disso o programa retira os 80 L da pr
 > teria extravasado, e o programa sobrestimaria o aproveitamento. A diferença aparece justamente
 > nos dias de chuva forte, que são os que mais pesam no total anual.
 
-Num único dia, o sistema deitou fora o equivalente a quase trinta dias de procura pluvial. É o
+Num único dia, o sistema deitou fora o equivalente a mais de treze dias de procura pluvial. É o
 retrato do desencontro entre a chuva, que chega concentrada, e a procura, que é constante.
 
-#### 2.1.3.4. O dia 10: o reservatório já está cheio
+#### 2.1.3.4. O dia 6: o reservatório já está cheio
 
-Choveu 25,8 mm, e o sistema captou 2 023 L. O reservatório começava o dia com 1 920 L, de modo que
-**extravasam 1 943 L**: quase tudo o que foi captado. Entre os dias 9 e 10, o reservatório
-terminou ambos os dias com os mesmos 1 920 L, e perdeu 4 324 L em dois dias, mais de cinquenta
-dias de procura pluvial. Aumentar o reservatório recupera parte disto, e é exatamente esta a
-pergunta a que a varredura de volumes da secção 2.2 responde. A Figura 1
+Choveu 3,7 mm, e o sistema captou 145 L. O reservatório começava o dia com 1 920 L, de modo que
+**extravasam 64 L**: quase metade do que foi captado, por uma chuva que, só por si, daria menos de
+dois dias de procura. O mesmo se repete no dia 9, com 4,9 mm: captam-se 247 L e extravasam 6.
+
+#### 2.1.3.5. O dia 10: o extravasamento maior do que o reservatório
+
+Choveu 50,9 mm, e o sistema captou 4 156 L. O reservatório começava o dia com 1 920 L, de modo que
+**extravasam 4 076 L**: quase tudo o que foi captado, e mais do dobro do que o reservatório inteiro
+comporta (2 000 L). Nos dez dias, a cisterna perdeu 5 221 L, mais de sessenta dias de procura
+pluvial. Aumentar o reservatório recupera parte disto, e é exatamente esta a pergunta a que a
+varredura de volumes da secção 2.2 responde. A Figura 1
 resume os dez dias.
 
 ![Volumes captado e extravasado e volume armazenado ao longo dos dez dias](../figuras/fig01_dez_dias.png)
 
-*Figura 1 — Os dez dias do caso resolvido, com a chuva de Lisboa de 11 a 20 de dezembro de 2019: (a) volume captado, a azul, e volume extravasado, a laranja, por dia; nos dias 9 e 10 o extravasamento é quase igual ao captado; (b) volume armazenado no reservatório inferior no fim de cada dia, depois do consumo, com a capacidade de 2 000 L a tracejado; nos dias 9 e 10 o reservatório atinge a capacidade, extravasa e termina o dia com 1 920 L.*
+*Figura 1 — Os dez dias do caso resolvido, com a chuva de Lisboa de 15 a 24 de dezembro de 2013: (a) volume captado, a azul, e volume extravasado, a laranja, por dia; no dia 5 o extravasamento é cerca de 40% do captado e no dia 10 é quase igual ao captado; (b) volume armazenado no reservatório inferior no fim de cada dia, depois do consumo, com a capacidade de 2 000 L a tracejado; a partir do dia 5 o reservatório atinge a capacidade e termina o dia com 1 920 L (menos nos dias 7 e 8, sem chuva útil).*
 
-#### 2.1.3.5. A soma: o balanço fecha
+#### 2.1.3.6. A soma: o balanço fecha
 
 A última linha da tabela e o quadro de verificação mostram o fecho:
 
@@ -636,8 +642,8 @@ V_cap = V_ext + V_con + V_res
 | `V_con` | volume total de água da chuva consumido no período | L |
 | `V_res` | volume remanescente no reservatório no fim do período | L |
 
-Nos dez dias do caso resolvido, a Equação 1 verifica-se com 6 732 L captados,
-4 324 L extravasados, 488 L consumidos e 1 920 L remanescentes.
+Nos dez dias do caso resolvido, a Equação 1 verifica-se com 7 752 L captados,
+5 221 L extravasados, 611 L consumidos e 1 920 L remanescentes.
 
 Resíduo zero. O programa não cria nem perde água, e esta verificação é feita automaticamente pela
 bateria de testes a cada alteração do código, sobre séries de dez anos, com um resíduo da ordem
@@ -996,22 +1002,22 @@ limite da busca e não um ponto de inflexão da curva.
 #### 2.2.3.1. Um exemplo, passo a passo
 
 A tabela da varredura do tutorial, na secção 4.4 (volume Tutorial), permite refazer a conta à mão. Entre
-3 000 L e 4 000 L o potencial sobe de 15,39% para 16,60%, isto é, 1,21 pontos percentuais por
-mais um metro cúbico. Como 1,21 é maior do que o limiar de 1,0 %/m³, o volume não é ainda o ideal.
-Entre 4 000 L e 5 000 L o potencial sobe de 16,60% para 17,49%, isto é, 0,89 pontos por metro
+3 000 L e 4 000 L o potencial sobe de 15,77% para 16,97%, isto é, 1,20 pontos percentuais por
+mais um metro cúbico. Como 1,20 é maior do que o limiar de 1,0 %/m³, o volume não é ainda o ideal.
+Entre 4 000 L e 5 000 L o potencial sobe de 16,97% para 17,87%, isto é, 0,90 pontos por metro
 cúbico, já abaixo do limiar: o primeiro volume a cruzá-lo é 5 000 L, e é ele o volume ideal. Com o
-limiar mais folgado de 3 %/m³, o volume ideal seria 3 000 L (15,39%), e com o mais exigente de
-0,5 %/m³ seria 10 000 L (20,37%).
+limiar mais folgado de 3 %/m³, o volume ideal seria 3 000 L (15,77%), e com o mais exigente de
+0,5 %/m³ seria 9 000 L (20,25%).
 
-Repare no que se passa logo a seguir. Entre 6 000 L e 8 000 L o potencial sobe 1,20 pontos, mais
-do que os 0,70 do intervalo anterior, de 5 000 para 6 000 L, e no entanto o ganho **por metro
-cúbico** desce, de 0,70 para 0,60 %/m³, porque o intervalo tem dois metros cúbicos. É por isso que
+Repare no que se passa logo a seguir. Entre 6 000 L e 8 000 L o potencial sobe 1,17 pontos, mais
+do que os 0,72 do intervalo anterior, de 5 000 para 6 000 L, e no entanto o ganho **por metro
+cúbico** desce, de 0,72 para 0,58 %/m³, porque o intervalo tem dois metros cúbicos. É por isso que
 o critério usa o ganho por metro cúbico, e não o ganho entre pontos consecutivos da grelha: o
 segundo depende do passo, e o primeiro muito menos.
 
 Em Lisboa, a escolha do limiar pesa mais do que noutros climas. A curva não satura: sobe ainda
-de 20,37% a 10 000 L para 24,01% a 20 000 L, por causa do verão seco, e o ganho marginal desce
-devagar, de 1,84 %/m³ aos 3 000 L para 0,32 %/m³ aos 20 000 L. O volume ideal sai do limiar
+de 20,71% a 10 000 L para 24,35% a 20 000 L, por causa do verão seco, e o ganho marginal desce
+devagar, de 1,85 %/m³ aos 3 000 L para 0,32 %/m³ aos 20 000 L. O volume ideal sai do limiar
 declarado, e não de um patamar da curva: declare o limiar junto do volume.
 
 > **O critério é hidráulico e só hidráulico.** Ignora custo, tarifário e carbono. Um volume ideal
@@ -1063,30 +1069,30 @@ uma produz.
 <!-- tabela: **Tabela 16** — Volumes dados por regras clássicas de dimensionamento para o projeto do tutorial, arredondados a 250 L, e o potencial que cada um produz na simulação diária -->
 | Método | Regra | Volume | Potencial simulado |
 | :--- | :--- | ---: | ---: |
-| regra prática alemã | 6% do menor entre a oferta e a procura anuais | 3 750 L | 16,32% |
-| Rippl, série mensal | maior défice acumulado, meses | 47 000 L | 26,78% |
-| Rippl, série diária | maior défice acumulado, dias | 51 500 L | 26,92% |
-| regra prática britânica | 0,05 × P × A | 5 500 L | 17,85% |
-| **simulação diária, ganho marginal de 1 %/m³** | varredura | **5 000 L** | **17,49%** |
+| regra prática alemã | 6% do menor entre a oferta e a procura anuais | 3 750 L | 16,71% |
+| Rippl, série mensal | maior défice acumulado, meses | 47 500 L | 27,02% |
+| Rippl, série diária | maior défice acumulado, dias | 50 250 L | 27,10% |
+| regra prática britânica | 0,05 × P × A | 5 500 L | 18,26% |
+| **simulação diária, ganho marginal de 1 %/m³** | varredura | **5 000 L** | **17,87%** |
 
 <!-- tabela: **Tabela 17** — Fração de armazenamento dos volumes da varredura e o passo de simulação que Fewkes e Butler (2000) recomendam para cada gama -->
 | Volume | Fração de armazenamento S/(A·R) | Passo de tempo recomendado por Fewkes e Butler |
 | ---: | ---: | :--- |
-| 1 000 L | 0,0093 | horário |
-| 2 000 L | 0,0185 | diário |
-| 3 000 L | 0,0278 | diário |
-| 4 000 L | 0,0371 | diário |
-| 8 000 L | 0,0741 | diário |
-| 12 000 L | 0,1112 | diário |
-| 20 000 L | 0,1854 | mensal |
+| 1 000 L | 0,0089 | horário |
+| 2 000 L | 0,0179 | diário |
+| 3 000 L | 0,0268 | diário |
+| 4 000 L | 0,0357 | diário |
+| 8 000 L | 0,0715 | diário |
+| 12 000 L | 0,1072 | diário |
+| 20 000 L | 0,1787 | mensal |
 
 A primeira tabela mostra o que a curva côncava da secção 4.4 (volume Tutorial) já anunciava, com uma diferença
 de peso: em Lisboa, o verão seco faz do método de Rippl um pedido enorme. Com série diária, pede
-51 500 L, e com série mensal, 47 000 L: perto de dez vezes os 5 000 L da simulação. Esses
-reservatórios entregam de facto mais, 26,92% e 26,78% contra 17,49%, e chegam perto do teto de
+50 250 L, e com série mensal, 47 500 L: perto de dez vezes os 5 000 L da simulação. Esses
+reservatórios entregam de facto mais, 27,10% e 27,02% contra 17,87%, e chegam perto do teto de
 28%, porque são dimensionados para que quase nunca falte água. Mas cada metro cúbico acima de
-5 000 L rende pouco, e uma cisterna de 47 a 52 m³ é impraticável numa moradia como a do tutorial. As regras práticas ficam do outro lado: a alemã (3 750 L, 16,32%) dá menos do que a
-simulação, e a britânica (5 500 L, 17,85%) acerta a ordem de grandeza por coincidência, porque
+5 000 L rende pouco, e uma cisterna de 48 a 50 m³ é impraticável numa moradia como a do tutorial. As regras práticas ficam do outro lado: a alemã (3 750 L, 16,71%) dá menos do que a
+simulação, e a britânica (5 500 L, 18,26%) acerta a ordem de grandeza por coincidência, porque
 nenhuma das duas tem como saber que a chuva de Lisboa se concentra no inverno, e dariam o mesmo
 volume a uma cidade de chuva bem repartida.
 
@@ -1128,8 +1134,8 @@ mesmo dia chuvoso, enquanto a procura é retirada ao longo das horas; um passo d
 entrada o que, hora a hora, teria entrado e saído aos poucos.
 
 A segunda tabela calcula a fração para os volumes da varredura do tutorial. A cisterna escolhida,
-de 5 000 L, tem uma fração de cerca de 0,046, dentro da gama do modelo diário; o reservatório de
-1 000 L (0,0093) fica abaixo de 0,01, e para ele o resultado diário deve ler-se como uma
+de 5 000 L, tem uma fração de cerca de 0,045, dentro da gama do modelo diário; o reservatório de
+1 000 L (0,0089) fica abaixo de 0,01, e para ele o resultado diário deve ler-se como uma
 aproximação. Fewkes e Butler recomendam o passo horário para esse volume e o diário para os
 outros. Campisano e Modica (2015), que simularam um sistema residencial com passos diários e
 subdiários a partir de caudais medidos, chegaram a uma conclusão complementar: o passo diário é
@@ -1195,7 +1201,7 @@ os poucos eventos extremos.
 **A fração suprível é um teto.** O potencial não pode ultrapassar a fração da procura que a chuva
 satisfaz, definida na secção 4.2 (volume Tutorial). A curva aproxima-se desse teto e nunca o cruza, invariante
 que a bateria de testes verifica até volumes de 100 m³. Em Lisboa, o teto é de 28% e a curva
-chega a 24,01% aos 20 000 L: ainda longe dele.
+chega a 24,35% aos 20 000 L: ainda longe dele.
 
 ---
 
@@ -1322,11 +1328,11 @@ Epot = Rv × f
 | `Rv` | fiabilidade volumétrica | % |
 | `f` | fração da procura total suprível por água da chuva | adimensional |
 
-==Um sistema com 55% de fiabilidade e 28% de fração suprível poupa 15,4% do consumo total, e os
+==Um sistema com 56% de fiabilidade e 28% de fração suprível poupa 15,8% do consumo total, e os
 três números dizem a mesma coisa de três maneiras.== É o caso da moradia de Lisboa do tutorial com
 uma cisterna de 3 000 L, a primeira simulação da secção 4.3 (volume Tutorial): o potencial de poupança é de
-15,39%, e dividindo pela fração suprível de 0,28 obtém-se uma fiabilidade volumétrica de cerca de
-55,0%. Relatar apenas um deles, sem declarar a fração suprível adotada, torna o resultado
+15,77%, e dividindo pela fração suprível de 0,28 obtém-se uma fiabilidade volumétrica de cerca de
+56,3%. Relatar apenas um deles, sem declarar a fração suprível adotada, torna o resultado
 impossível de comparar com o de outro estudo, e é a causa mais frequente de comparações indevidas
 na literatura da área.
 
@@ -1357,12 +1363,12 @@ Formalmente, o dia é **pleno** quando `V_con,t = D_pl,t`, com tolerância de 10
 quando `0 < V_con,t < D_pl,t`; e **nulo** quando `V_con,t = 0`.
 
 
-No tutorial de Lisboa com a cisterna de 3 000 L, 53,3% dos dias são plenos, 2,9% parciais e 43,8%
-nulos. Repare que a fiabilidade temporal, 53,3%, é menor do que a volumétrica, cerca de 55,0%.
+No tutorial de Lisboa com a cisterna de 3 000 L, 54,7% dos dias são plenos, 3,0% parciais e 42,3%
+nulos. Repare que a fiabilidade temporal, 54,7%, é menor do que a volumétrica, cerca de 56,3%.
 Não há contradição: os dias parciais não contam como plenos, mas contribuem com volume, e é essa
 água que a fiabilidade volumétrica soma e a temporal não. A diferença entre as duas é, por isso,
 uma medida indireta de quanto as falhas são falhas parciais. Com uma cisterna de 4 000 L os dias
-plenos sobem para 58,0%, e com 5 000 L para 61,3%.
+plenos sobem para 59,4%, e com 5 000 L para 62,7%.
 
 **O que mede:** com que frequência o utilizador pode contar com o sistema.
 
@@ -1420,10 +1426,10 @@ extravasamento. É a fração da água que chegou à cisterna, já descontado o 
 | `V_cap,t` | volume captado no dia `t`, depois do descarte | L |
 | `Σ` | somatório sobre todos os dias da série simulada | — |
 
-Na cisterna de 3 000 L do tutorial, o sistema consome 33,7 m³ por ano e extravasa em média
-106,4 L/dia, cerca de 39 m³ por ano; as duas parcelas, com o pouco que fica no reservatório,
-fecham o balanço de massa. Chegam assim à cisterna cerca de 73 m³ por ano, e é consumido pouco
-menos de metade, cerca de 46%. O número explica por que aumentar a cisterna rende tão pouco a
+Na cisterna de 3 000 L do tutorial, o sistema consome 34,6 m³ por ano e extravasa em média
+100,3 L/dia, cerca de 37 m³ por ano; as duas parcelas, com o pouco que fica no reservatório,
+fecham o balanço de massa. Chegam assim à cisterna cerca de 71 m³ por ano, e é consumido pouco
+menos de metade, cerca de 49%. O número explica por que aumentar a cisterna rende tão pouco a
 partir de certo ponto: a água não falta na cobertura, falta **procura** para a consumir. A oferta
 bruta da cobertura, de 92 m³ por ano, é 1,5 vez a procura pluvial de 61 m³ por ano; quando a
 oferta excede largamente a procura pluvial, a eficiência de uso da água captada é
@@ -1448,7 +1454,7 @@ médio nos dias de falha como fração da procura pluvial, uma medida de vulnera
 A leitura para o projeto é direta. Se as falhas são longas e quase totais, o abastecimento de
 reserva pela rede pública tem de ser automático e dimensionado para o caudal total dos pontos de
 utilização pluviais, e não apenas para completar pequenas faltas. Os dias nulos do tutorial
-(43,8% com 3 000 L) são deste tipo: a cisterna está vazia, e não ligeiramente em falta.
+(42,3% com 3 000 L) são deste tipo: a cisterna está vazia, e não ligeiramente em falta.
 
 ---
 
@@ -1772,10 +1778,10 @@ O separador de índices do programa apresenta cada indicador ano a ano: a precip
 a média anual sozinha.
 
 **Explicar o resultado.** Um CDD alto, ou um regime fortemente sazonal, explica um desempenho
-inferior ao que o total anual sugere: na secção 3.1 (volume Guias de uso), Lisboa recebe chuva em 22% dos dias, o
-seu mês mais chuvoso tem 47,3 vezes a chuva do mais seco, e a mesma moradia rende 17,49% com
-5 000 L, contra 22,04% no Porto, onde chove em 31% dos dias e a razão entre o mês mais e o menos
-chuvoso é de 9,8.
+inferior ao que o total anual sugere: na secção 3.1 (volume Guias de uso), Lisboa recebe chuva em 35% dos dias, o
+seu mês mais chuvoso tem 22,7 vezes a chuva do mais seco, e a mesma moradia rende 17,87% com
+5 000 L, contra 21,58% no Porto, onde chove em 48% dos dias e a razão entre o mês mais e o menos
+chuvoso é de 9,9.
 
 **Comparar cenários climáticos.** Entre a série histórica e a projetada, o que costuma mudar
 primeiro é o SDII e o CDD, e não o PRCPTOT. Reportar só o total anual esconde a mudança que mais
@@ -2199,12 +2205,12 @@ E = (P ÷ η_m) · [V ÷ min(Q_b(H), Q_p) + N · t_r]
 <!-- tabela: **Tabela 48** — Energia anual de seis sobrepressores genéricos (curvas ilustrativas, sem marca) na pressurização direta do tutorial, com o caudal do autoclismo a limitar o caudal da bomba -->
 | Modelo | Comando | Caudal da curva a 18 m de altura manométrica | Horas por ano | kWh por ano | kWh/m³ | kWh por ano a 24 m |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: |
-| Modelo A, 0,25 cv | pressostato | 10,1 L/min | 71 | 26,1 | 0,68 | 163,1 |
-| Modelo B, 0,33 cv | fluxostato | 18,0 L/min | 71 | 31,4 | 0,82 | não atinge |
-| Modelo C, 0,5 cv | pressostato | 27,5 L/min | 71 | 43,1 | 1,13 | 43,1 |
-| Modelo D, 0,5 cv | pressostato | 26,0 L/min | 71 | 43,1 | 1,13 | 43,1 |
-| Modelo F, 0,5 cv | eletrónico | 12,8 L/min | 71 | 43,1 | 1,13 | não atinge |
-| Modelo E, 0,5 cv | eletrónico | 7,0 L/min | 112 | 67,9 | 1,77 | não atinge |
+| Modelo A, 0,25 cv | pressostato | 10,1 L/min | 73 | 26,7 | 0,68 | 166,7 |
+| Modelo B, 0,33 cv | fluxostato | 18,0 L/min | 73 | 32,0 | 0,82 | não atinge |
+| Modelo C, 0,5 cv | pressostato | 27,5 L/min | 73 | 44,1 | 1,13 | 44,1 |
+| Modelo D, 0,5 cv | pressostato | 26,0 L/min | 73 | 44,1 | 1,13 | 44,1 |
+| Modelo F, 0,5 cv | eletrónico | 12,8 L/min | 73 | 44,1 | 1,13 | não atinge |
+| Modelo E, 0,5 cv | eletrónico | 7,0 L/min | 114 | 69,1 | 1,77 | não atinge |
 
 A comparação dos regimes evidencia que a pressurização hidropneumática direta consome
 significativamente mais energia por metro cúbico fornecido do que a elevação pontual para
@@ -2242,7 +2248,7 @@ E_mês = F(V_tot) − F(V_pot)
 | `V_pot` | volume mensal de água potável adquirido da rede | m³ |
 
 A razão desta metodologia assenta na estrutura progressiva por escalões e na existência
-de componentes fixas nos tarifários. ==O metro cúbico poupado abate sempre nos escalões superiores de consumo, que são os mais onerosos por unidade de volume.== No tutorial de Lisboa, a fatura mensal desce de 46,25 € para 35,06 €, gerando uma poupança mensal de 11,19 €. Utilizar uma tarifa média linear induziria distorções significativas nos resultados.
+de componentes fixas nos tarifários. ==O metro cúbico poupado abate sempre nos escalões superiores de consumo, que são os mais onerosos por unidade de volume.== No tutorial de Lisboa, a fatura mensal desce de 46,25 € para 34,93 €, gerando uma poupança mensal de 11,32 €. Utilizar uma tarifa média linear induziria distorções significativas nos resultados.
 
 ---
 
@@ -2497,10 +2503,10 @@ A tabela seguinte ilustra a repartição das emissões para o caso de estudo do 
 | tubagem de PVC, DN 25 mm | 8,9 kg | 2,5% | — |
 | duas eletrobombas de 0,5 cv | 61,0 kg | 16,8% | — |
 | descarte das primeiras águas: reservatório de 300 L e separador de folhas | 21,1 kg | 5,8% | — |
-| energia de elevação | — | — | 2,05 kg/ano |
+| energia de elevação | — | — | 2,10 kg/ano |
 | cloragem por pastilhas | — | — | 0,16 kg/ano |
-| água da rede evitada | — | — | −19,59 kg/ano |
-| **total** | **362,9 kg** | **100%** | **−17,38 kg/ano** |
+| água da rede evitada | — | — | −20,03 kg/ano |
+| **total** | **362,9 kg** | **100%** | **−17,76 kg/ano** |
 
 ---
 
@@ -2957,20 +2963,20 @@ preço de mercado).
 <!-- tabela: **Tabela 66** — Pontuação de proximidade TOPSIS com pesos iguais nas dimensões e aceitabilidade do primeiro lugar no SMAA-VIKOR, com 5 000 vetores de pesos aleatórios, para os volumes do tutorial -->
 | Volume | Pontuação TOPSIS | Posição no TOPSIS | Primeiro lugar no SMAA-VIKOR, b¹ |
 | ---: | ---: | ---: | ---: |
-| 1 000 L | 0,429 | 7.º | 0,0% |
-| 2 000 L | 0,549 | 6.º | 1,2% |
-| 3 000 L | 0,620 | 4.º | 5,7% |
-| 4 000 L | 0,673 | 2.º | 15,6% |
-| 5 000 L | 0,699 | 1.º | 34,1% |
-| 8 000 L | 0,665 | 3.º | 30,6% |
-| 12 000 L | 0,552 | 5.º | 12,8% |
+| 1 000 L | 0,431 | 7.º | 0,0% |
+| 2 000 L | 0,546 | 6.º | 0,9% |
+| 3 000 L | 0,625 | 4.º | 6,8% |
+| 4 000 L | 0,673 | 2.º | 15,0% |
+| 5 000 L | 0,702 | 1.º | 34,8% |
+| 8 000 L | 0,665 | 3.º | 30,1% |
+| 12 000 L | 0,550 | 5.º | 12,4% |
 
 Os dois métodos concordam no vencedor, 5 000 L, e discordam na margem. O TOPSIS separa o primeiro
-do segundo classificado (4 000 L) por 0,026 de escore, diferença que nenhum dado de entrada
-sustenta. O SMAA mede essa fragilidade: 5 000 L vence em 34,1% dos sorteios e 8 000 L em 30,6%,
-quase empatados, e com os 4 000 L (15,6%) os três somam quatro em cada cinco sorteios. Pela régua
+do segundo classificado (4 000 L) por 0,029 de escore, diferença que nenhum dado de entrada
+sustenta. O SMAA mede essa fragilidade: 5 000 L vence em 34,8% dos sorteios e 8 000 L em 30,1%,
+quase empatados, e com os 4 000 L (15,0%) os três somam quatro em cada cinco sorteios. Pela régua
 desta secção, a recomendação é frágil, e o estudo deve declarar 8 000 L e 4 000 L como as
-alternativas. Os extremos não fazem melhor: 1 000 L não vence em sorteio algum, e 2 000 L em 1,2%
+alternativas. Os extremos não fazem melhor: 1 000 L não vence em sorteio algum, e 2 000 L em 0,9%
 deles. Nenhuma ponderação plausível recomenda o menor volume, e isso também é resultado.
 
 ---
@@ -3046,8 +3052,8 @@ A coluna **onde se introduz** diz em que ecrã o campo aparece; a coluna **quem 
 diz que cálculo o usa. Um campo sem nenhuma das duas é um campo gravado no ficheiro e
 nunca lido, e está listado na secção 5.2 (volume Enganos, limitações e confiabilidade).
 
-Os padrões são os do projeto com que a Edição Ibérica abre: a chuva é a normal 1991-2020
-do concelho de Lisboa na base E-OBS, e os custos, os preços e a tarifa de eletricidade
+Os padrões são os do projeto com que a Edição Ibérica abre: a chuva é a normal 1986-2015
+do município de Lisboa [PT-1106] no Iberia01, e os custos, os preços e a tarifa de eletricidade
 partem de zero ou vazios, para o utilizador os introduzir em euros. Um traço significa
 que o campo não tem valor inicial.
 
@@ -3073,18 +3079,18 @@ edições. Não têm efeito nesta e não são listados.
 | Parâmetro | Padrão | Unidade | Onde se introduz | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Folhas de cálculo |
-| `climate_source_mode` | national_db | — | Janela principal, Projeto | — |
-| `climate_city_uf` | Lisboa | — | Janela principal, Projeto, Relatórios | — |
-| `climate_city_name` | Lisboa | — | Janela principal, Projeto, Relatórios | — |
-| `climate_model` | E-OBS v33.0e | — | Janela principal, Projeto, Relatórios | — |
-| `climate_scenario` | EOBS | — | Janela principal, Projeto, Relatórios | — |
-| `climate_start_date` | 01/01/1991 | — | Janela principal, Projeto, Relatórios | — |
-| `climate_end_date` | 31/12/2020 | — | Janela principal, Projeto, Relatórios | — |
+| `climate_source_mode` | national_db | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_city_uf` | PT\|Lisboa | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_city_name` | Lisboa [PT-1106] | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_model` | Iberia01 v1.0 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_scenario` | IBERIA01 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_start_date` | 01/01/1986 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_end_date` | 31/12/2015 | — | Janela principal, Projeto, Relatórios | Automação |
 | `start_date` | 01/01/1980 | — | Exportação, Janela principal, Projeto, Tarifário e custos | Automação, Clima, Folhas de cálculo |
 
 Observações do código:
 
-- `climate_source_mode`: "national_db" (a base E-OBS por concelho) ou "custom_file" (ficheiro do utilizador)
+- `climate_source_mode`: "national_db" (a base de chuva por município: Iberia01, ou a E-OBS opcional) ou "custom_file" (ficheiro do utilizador)
 
 ### A.3. Captação
 
@@ -3307,7 +3313,7 @@ Observações do código:
 | `tariff_customized` | não | — | Projeto | — |
 | `water_tariffs` | — | — | Projeto, Tarifário, Tarifário e custos, Varrimento | Económico |
 | `tariff_city_uf` | personalizado | — | Janela principal, Projeto, Relatórios, Tarifário, Tarifário e custos | — |
-| `tariff_city_name` | personalizado | — | Janela principal, Projeto, Relatórios, Tarifário, Tarifário e custos | — |
+| `tariff_city_name` | personalizado | — | Janela principal, Projeto, Relatórios, Tarifário, Tarifário e custos | Automação |
 | `tariff_vigencia` | — | — | Projeto, Tarifário e custos | — |
 | `tariff_category` | residencial | — | Económico, Tarifário, Tarifário e custos | Tarifário |
 | `sewage_rate` | 100 | — | Projeto, Tarifário, Tarifário e custos | Automação, Económico, Tarifário |
@@ -3410,21 +3416,21 @@ Os nomes em `código` são os campos do ficheiro de projeto, listados no apêndi
 
 *Chuva*
 
-**Gatilho.** Separador Projeto: escolher o concelho na base E-OBS ou abrir um ficheiro CSV.
+**Gatilho.** Separador Projeto: escolher o município na base ibérica (Iberia01), o concelho na E-OBS opcional, ou abrir um ficheiro CSV.
 
 **Entradas**
 
-- Concelho da base E-OBS v33.0e (278 concelhos com série, 1950 a 2025), ou ficheiro CSV diário em milímetros por dia
-- `climate_start_date` e `climate_end_date`, que recortam a série (a normal 1991-2020 é o recorte inicial)
+- Município do Iberia01 v1.0 (8 319 municípios da Península e das Baleares, 1971 a 2015; ERA5 nas ilhas), concelho da E-OBS v33.0e opcional (278 concelhos, 1950 a 2025), ou ficheiro CSV diário em milímetros por dia
+- `climate_start_date` e `climate_end_date`, que recortam a série (a normal 1986-2015 do Iberia01 é o recorte inicial)
 - `start_date`, data do primeiro dia da série
 
 **Regras**
 
 1. A série vira um vetor `numpy` de milímetros por dia; o índice do vetor é o dia, e a data serve só para saber o dia da semana e o mês.
-2. A série de um concelho é a média diária das células da grelha E-OBS (0,1°) com centro dentro do concelho (limites da CAOP2025). Os Açores ficam fora do domínio da E-OBS e a Madeira não cumpre o limite de 1% de dias sem dado: 30 concelhos ficam sem série na base, e nenhum recebe a série de um vizinho. Para esses, a série é um ficheiro do utilizador.
+2. A série de um município é a média diária das células da grelha do Iberia01 (0,1°) com centro dentro do município (CAOP2025 em Portugal, LAU 2023 em Espanha); na E-OBS, a média das células da sua grelha. As ilhas ficam fora do domínio do Iberia01: Canárias, Madeira e Açores usam a reanálise ERA5 de 0,25° (nível C, com aviso); Ceuta e Melilla ficam sem série, e nenhum local recebe a série de um vizinho. Para esses, a série é um ficheiro do utilizador.
 3. Dia sem dado em todas as células é uma falha (NaN), e a simulação recusa a série em vez de o tratar como dia seco.
 4. Ano incompleto é descartado na leitura, para não enviesar totais anuais.
-5. A base vem no programa, em `data/portugal_eobs.db`; o exemplo do Funchal usa uma série ERA5 em `data/rainfall/Funchal.csv`.
+5. As bases vêm no programa, em `data/chuva_iberia01_p1.db` a `p4.db`, `data/chuva_ilhas_era5.db` e `data/portugal_eobs.db` (opcional); o exemplo do Funchal usa a ERA5 de ilha, e `data/rainfall/Funchal.csv` é a série de exemplo da edição.
 
 **Saídas**
 
@@ -4189,10 +4195,7 @@ de confiança esconde onde está a fragilidade.
 
 > **Desde 30/10/2026 a fonte primária da Edição Ibérica é o Iberia01** (Península e Baleares, 8 319 municípios, 1971–2015, ODbL; Canárias, Madeira e Açores pela ERA5, nível C), em ficheiros separados do programa; ver `docs/DADOS.md` (§2A). O que se segue descreve a base E-OBS, que continua como fonte opcional e não comercial.
 >
-> **A Edição Ibérica traz a base E-OBS por concelho.** A precipitação diária de 278 concelhos do
-> Continente vem no programa, em `data/portugal_eobs.db`. Os Açores e a Madeira não têm série na base:
-> para eles, a série é sempre um ficheiro do utilizador (secção 4.1 (volume Tutorial)). Um exemplo, o Funchal, vem com
-> uma série de reanálise ERA5.
+> **A Edição Ibérica traz duas bases de chuva.** O Iberia01 (fonte por defeito) vem em `data/chuva_iberia01_p1.db` a `p4.db`, com `data/ibe_unidades.db`, e a E-OBS opcional em `data/portugal_eobs.db`. Canárias, Madeira e Açores usam a ERA5 de 0,25° (`data/chuva_ilhas_era5.db`, nível C); Ceuta e Melilla ficam sem série, e a série é um ficheiro do utilizador (secção 4.1 (volume Tutorial)). O exemplo do Funchal usa a ERA5 de ilha.
 
 ---
 
@@ -4265,17 +4268,7 @@ Para 148 concelhos a geometria é o motivo de ficarem fora de A (menos de três 
 dos 16 concelhos em C, e Braga, Vila Real e Santarém mais de metade. O nível não é uma nota de exatidão: diz
 onde a base é mais frágil. Em C, valide com uma série local.
 
-**E em Espanha?** O programa ainda não traz nenhum local espanhol: a linha de cobertura diz «Espanha: 0
-locais», e é assim que deve ser lida. Como ensaio, feito fora do programa, aplicou-se a mesma fórmula às 52
-capitais de província (incluindo Ceuta e Melilla). Quarenta e oito têm série e quatro ficam de fora, porque
-estão fora da grelha do Iberia01 ou da E-OBS: Las Palmas de Gran Canaria, Santa Cruz de Tenerife, Ceuta e
-Melilla. O critério de cobertura é, por isso, «48 capitais com série mais quatro exclusões documentadas», e não
-«52 capitais». Cada capital foi tratada como um ponto (a célula da E-OBS mais próxima, a 14 km ou menos), e não
-como a média de um município, que falta (o limite municipal ainda não foi incorporado). Resultado: 39 capitais
-em B e 9 em C, nenhuma em A (a geometria de um só ponto limita o nível a B). As nove em C são Almería, Ávila,
-A Coruña, Cuenca, Donostia/San Sebastián, Palencia, Santander, Segovia e Bilbao: nelas a E-OBS dá entre 20% e
-34% menos chuva no total anual que o Iberia01. Estes resultados não estão na base do programa e não valem como
-nível de nenhum município espanhol.
+**E em Espanha?** A base ibérica traz 8 131 municípios de Espanha (8 041 pelo Iberia01, incluindo as 67 das Baleares; 88 das Canárias pela ERA5; Ceuta e Melilla sem série), com o limite municipal do Eurostat/GISCO (LAU 2023) e o código INE de cinco dígitos. O nível é geométrico (sem a E-OBS como referência): na Península e nas Baleares, A 321, B 7 719 e C 1; as ilhas são C. É a representação do município pela grelha, e não uma validação com pluviómetros. O ensaio que as 52 capitais de província tiveram antes desta base (feito fora do programa, com a E-OBS) já não vale como nível de nenhum município.
 
 **Correção de escala: não incluída.** Estudou-se uma correção mensal do total, calibrada com o Iberia01 em
 1971–2000 (o período de referência que os autores recomendam), mas **ela não faz parte desta versão**: o
@@ -4283,16 +4276,13 @@ pacote não traz nem o código nem o ficheiro dos fatores. Se vier a ser distrib
 separado, sob a Open Database License do Iberia01, e ficará desligada por defeito. Até lá, nos concelhos de
 nível C, valide a série com uma série local ou carregue a sua.
 
-**Uso comercial.** A E-OBS é de uso estritamente não comercial em pesquisa e educação. No primeiro arranque o
-programa pergunta o uso pretendido e o laudo repete a licença e a citação.
+**Uso comercial.** O Iberia01 (ODbL) e a ERA5 (CC BY 4.0) permitem o uso comercial, com atribuição, que o rodapé do laudo leva (Herrera et al., 2019, doi:10.5194/essd-11-1947-2019). A E-OBS, opcional, é de uso estritamente não comercial em pesquisa e educação: só o projeto cuja fonte é a E-OBS mostra o aviso vermelho, e o laudo repete a licença e a citação.
 
-**Reprodutibilidade.** Cada projeto grava o identificador do pacote de chuva (`PT-EOBS-v33.0e-37fcba20`), a
+**Reprodutibilidade.** Cada projeto grava o município (`Nome [código]`), a fonte e o SHA-256 da série; com a E-OBS, grava também o identificador do pacote (`PT-EOBS-v33.0e-37fcba20`), a
 versão da E-OBS e o SHA-256 do pacote, e por defeito leva a série dentro do ficheiro. Se reabrir um projeto
 com um pacote diferente, o programa avisa e o laudo regista a mudança.
 
-**Cobertura.** O ecrã inicial, o título da janela e o rodapé dos laudos mostram uma linha lida da base:
-Portugal continental, 278 concelhos (A 45, B 159, C 74); Espanha: 0 locais. A grelha cobre a Península, mas a
-edição só tem concelhos de Portugal por enquanto.
+**Cobertura.** O ecrã inicial, o título da janela e o rodapé dos laudos mostram uma linha lida da base: «Cobertura: Portugal 308 locais, Espanha 8131 locais; chuva Iberia01 8319, ERA5 (nível C) 118, sem série 2». Com a E-OBS escolhida, a linha é a da E-OBS (278 concelhos do Continente: A 45, B 159, C 74).
 
 ---
 
@@ -4304,7 +4294,7 @@ udómetro.
 <!-- tabela: **Tabela 90** — Série de precipitação distribuída com a Edição Ibérica -->
 | Ficheiro | Local | Período | Dias | Chuva média anual | Fonte |
 | :--- | :--- | :--- | ---: | ---: | :--- |
-| `Funchal.csv` | Funchal (32,65° N, 16,90° O, célula de grelha a 323 m de altitude) | 01/01/1991 a 31/12/2020 | 10 958 | cerca de 538 mm | reanálise ERA5, via Open-Meteo |
+| `Funchal.csv` | Funchal (32,65° N, 16,90° O, célula de grelha a 323 m de altitude) | 01/01/1991 a 31/12/2020 | 10 958 | cerca de 538 mm | reanálise ERA5, via Open-Meteo (série de exemplo da edição; o projeto de exemplo do Funchal usa a mesma ERA5 pela base das ilhas, 1986–2015, 531 mm) |
 
 O formato é um valor por linha: a precipitação diária em milímetros, sem data. A data do primeiro dia vem
 do projeto (1 de janeiro de 1991 neste ficheiro).
@@ -4316,13 +4306,11 @@ célula de grelha de cerca de 9 km, pela interface de arquivo da Open-Meteo.com 
 14/10/2026. Uma célula é uma média de área: suaviza as chuvadas intensas e exagera o número de dias de
 chuva fraca, e por isso é um ponto de partida, e não um substituto de um registo medido.
 
-**Porque o Funchal usa a ERA5.** A E-OBS não serve ao Funchal (22% de dias sem dado em 1991-2020, acima do
+**Porque o Funchal usa a ERA5.** O Funchal está fora do domínio do Iberia01, e a E-OBS não serve (22% de dias sem dado em 1991-2020, acima do
 limite de 1%). A média anual da reanálise pode diferir da média medida na estação. Num projeto real,
 use a série medida.
 
-**Os projetos de exemplo.** Lisboa e Porto usam a base E-OBS por concelho, e o ficheiro do projeto guarda a
-referência da série e a impressão digital dos valores; por defeito a série vai dentro do ficheiro, com o identificador do pacote. O Funchal traz
-a série ERA5 dentro do ficheiro.
+**Os projetos de exemplo.** Lisboa, Porto, Madrid e Palma usam o Iberia01 (normal 1986–2015), e o Funchal a ERA5 de ilha (nível C); em todos, o ficheiro do projeto guarda o município pelo código (`Lisboa [PT-1106]`), a referência da série e a impressão digital dos valores, e o programa recompõe a série da base ao abrir. Nenhum exemplo usa a E-OBS, e por isso nenhum leva o aviso vermelho de uso não comercial. Medido no mesmo período de 1991 a 2015, o Iberia01 dá 0,4% mais chuva do que a E-OBS em Lisboa e 2,4% mais no Porto; a normal 1991–2020 da E-OBS, que os exemplos usavam antes, dava 719 mm em Lisboa e 1 199 mm no Porto, contra 746 mm e 1 197 mm do Iberia01 em 1986–2015.
 
 ---
 
@@ -4367,23 +4355,23 @@ percentagem declarada. A secção 3.2 (volume Guias de uso) trata da condução 
 
 ### E.7. Particularidades de região e país
 
-A Edição Ibérica chama-se assim porque foi desenhada para a Península Ibérica, mas **esta versão só traz dados de Portugal**. Esta secção diz o que existe, o que falta e o que é próprio do país. Os números vêm de `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e tamanho.
+A Edição Ibérica chama-se assim porque foi desenhada para a Península Ibérica: a chuva cobre **Portugal e Espanha**, e os tarifários de Portugal (três concelhos transcritos) e de Espanha (média regional do INE para todos os municípios; sete com tarifa transcrita ainda não conferida). Esta secção diz o que existe, o que falta e o que é próprio de cada país. Os números vêm de `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e tamanho.
 
 <!-- tabela: **Tabela 91** — Cobertura geográfica da Edição Ibérica nesta versão -->
 | Território | Chuva no programa | Tarifário no programa |
 | :--- | :--- | :--- |
-| Portugal continental | 278 concelhos, série E-OBS de 1950 a 2025, com nível de qualidade A, B ou C | Lisboa e Porto transcritos; os restantes concelhos digitados pelo utilizador |
-| Madeira (11 concelhos) | nenhuma; só com a série de uma estação, carregada pelo utilizador | Funchal transcrito |
-| Açores (19 concelhos) | nenhuma; só com a série de uma estação, carregada pelo utilizador | nenhum transcrito (Ponta Delgada consta do registo de entidades) |
-| Espanha | **0 locais** | nenhum |
+| Portugal continental | 278 concelhos, Iberia01 de 1971 a 2015 (padrão 1986–2015), com nível de qualidade A, B ou C; a E-OBS é opcional | Lisboa e Porto transcritos; os restantes concelhos digitados pelo utilizador |
+| Madeira (11 concelhos) | ERA5 de 0,25°, nível C, com aviso | Funchal transcrito |
+| Açores (19 concelhos) | ERA5 de 0,25°, nível C, com aviso | nenhum transcrito (Ponta Delgada consta do registo de entidades) |
+| Espanha | 8 131 municípios: 8 041 pelo Iberia01 (incluindo as Baleares), 88 das Canárias pela ERA5 (nível C); Ceuta e Melilla sem série | média regional do INE (indicativa); sete municípios com tarifa transcrita ainda não conferida |
 
-**Portugal continental.** Os 278 concelhos têm uma série diária de chuva, calculada a partir da grelha E-OBS de 0,1° (cerca de 10 km); a série de um concelho é uma média de área e suaviza as chuvadas intensas. Cada concelho traz um nível de qualidade (A, B ou C), explicado na secção anterior e resumido abaixo.
+**Portugal continental.** Os 278 concelhos têm uma série diária de chuva, calculada a partir da grelha do Iberia01 de 0,1° (cerca de 10 km) ou, em alternativa, da E-OBS; a série de um concelho é uma média de área e suaviza as chuvadas intensas. Cada concelho traz um nível de qualidade (A, B ou C), explicado na secção anterior e resumido abaixo.
 
-**Ilhas.** A Madeira e os Açores não entram pela grelha. Os Açores ficam a oeste de 25° O, fora do domínio da E-OBS; na Madeira, todos os concelhos faltam em mais de 1% dos dias de 1991 a 2020. A decisão do projeto é que as ilhas só entram com a série de uma estação. O Funchal é uma exceção rotulada: o exemplo usa uma reanálise ERA5, por ser a única série de ilha distribuída, e o laudo diz que a série é própria, sem nível A, B ou C.
+**Ilhas.** A Madeira, os Açores e as Canárias não entram pela grelha do Iberia01 (nem a Madeira pela E-OBS: todos os concelhos faltam em mais de 1% dos dias de 1991 a 2020). Usam a reanálise ERA5 de 0,25°, sempre em nível C e com aviso no ecrã e nos laudos; para um projeto real, use a série da estação. O exemplo do Funchal mostra o caso.
 
-**Espanha.** O programa **ainda não traz nenhum local espanhol**, e a linha de cobertura diz «Espanha: 0 locais». O que existe é um ensaio, feito fora do programa, com as 52 capitais de província: 39 em nível B, 9 em C e 4 sem série. Para ter um pacote por município falta o limite municipal (CNIG, compatível com a licença CC-BY 4.0, confirmado em 23/10/2026) e a licença da E-OBS, que limita o uso à investigação e à educação. Os tarifários e os custos de Espanha também não existem.
+**Espanha.** A chuva vem do Iberia01 por município (limites LAU 2023 do Eurostat/GISCO, código INE). Os custos de Espanha não existem, e as tarifas são a média regional do INE (camada 3, só indicativa) ou, em sete municípios (entre eles Madrid), uma tarifa transcrita de documento oficial, ainda não conferida: o laudo diz «Tarifa transcrita, ainda não conferida (segunda leitura pendente)». Os exemplos `examples/espanha/madrid.triton` e `palma.triton` mostram os dois casos.
 
-**Licença da chuva.** A E-OBS e o ECA&D são de uso estritamente não comercial, em investigação e educação. A licença não trata da redistribuição nem de produtos derivados (nenhum pedido foi feito ao KNMI). No primeiro arranque o programa mostra o aviso e pede o uso pretendido; a declaração fica registada nos laudos. Por defeito, o programa não bloqueia a E-OBS em uso comercial. Num uso comercial, carregue a sua série. O texto do aviso ainda precisa de revisão pela UFSC.
+**Licença da chuva.** O Iberia01 é ODbL (uso comercial permitido, com atribuição). A E-OBS e o ECA&D são de uso estritamente não comercial, em investigação e educação. A licença não trata da redistribuição nem de produtos derivados (nenhum pedido foi feito ao KNMI). No primeiro arranque o programa mostra o aviso e pede o uso pretendido; a declaração fica registada nos laudos. Por defeito, o programa não bloqueia a E-OBS em uso comercial. Num uso comercial, carregue a sua série. O texto do aviso ainda precisa de revisão pela UFSC.
 
 **Níveis de qualidade da chuva.** O nível é o pior de duas medidas: a diferença entre a E-OBS e o Iberia01 (total anual e máximo diário anual, em 1971–2000) e a geometria da série (poucas células, método do centroide ou série repetida de outro concelho). Nos 278 concelhos, 45 são A, 159 são B e 74 são C. A diferença média do total anual, sobre os 278 concelhos, é de −10,1% (a E-OBS dá menos chuva; o −8% da secção anterior é a média célula a célula em Portugal): −3,1% em A, −7,1% em B e −20,7% em C. Os C concentram-se no distrito de Faro (15 dos 16 concelhos), em Santarém (11), Braga (10), Vila Real (8) e Porto (7). O nível não é uma nota de exatidão: diz onde a base é mais frágil, e em C convém validar com uma série local.
 
@@ -4401,13 +4389,14 @@ A Edição Ibérica chama-se assim porque foi desenhada para a Península Ibéri
 
 ### E.8. Descrição dos dados e sua qualidade
 
-Esta secção resume os dados que a edição traz. O inventário completo, com tamanhos, endereços das fontes, licenças e o modo de reproduzir cada item, está em `docs/DADOS.md` do repositório, e os números abaixo são os de lá. Nenhum ficheiro rastreado do repositório passa de 50 MiB; o maior ficheiro de dados é `data/portugal_eobs.db`, com 5,74 MiB.
+Esta secção resume os dados que a edição traz. O inventário completo, com tamanhos, endereços das fontes, licenças e o modo de reproduzir cada item, está em `docs/DADOS.md` do repositório, e os números abaixo são os de lá. Nenhum ficheiro rastreado do repositório passa de 50 MiB; o maior ficheiro de dados é `data/chuva_iberia01_p1.db`, com 15,19 MiB.
 
 <!-- tabela: **Tabela 92** — Os conjuntos de dados da Edição Ibérica, a fonte e a licença -->
 | Conjunto | O que é | Fonte e licença |
 | :--- | :--- | :--- |
-| Chuva por concelho | base SQLite `portugal_eobs.db` (5,74 MiB): 278 séries diárias, de 01/01/1950 a 31/12/2025 (27 759 dias) | E-OBS v33.0e (ECA&D / Copernicus): só uso não comercial em investigação e educação; limites dos concelhos da CAOP 2025 (Direção-Geral do Território, cc-by) |
-| Série do Funchal | `data/rainfall/Funchal.csv` (0,04 MiB), 10 958 dias, de 01/01/1991 a 31/12/2020 | reanálise ERA5 via Open-Meteo; CC BY 4.0 |
+| Chuva por município (fonte por defeito) | quatro partes `chuva_iberia01_p1.db` a `p4.db` (13 a 15 MiB cada), `ibe_unidades.db` (3,3 MiB) e `chuva_ilhas_era5.db` (0,33 MiB): 6 523 células do Iberia01, de 01/01/1971 a 31/12/2015, e 41 nós ERA5 das ilhas | Iberia01 v1.0 (Herrera et al., 2019): ODbL 1.0, com atribuição; limites da CAOP 2025 (Portugal) e do Eurostat/GISCO LAU 2023 (Espanha); ERA5 (Copernicus, via Open-Meteo): CC BY 4.0 |
+| Chuva por concelho (opcional) | base SQLite `portugal_eobs.db` (5,74 MiB): 278 séries diárias, de 01/01/1950 a 31/12/2025 (27 759 dias) | E-OBS v33.0e (ECA&D / Copernicus): só uso não comercial em investigação e educação; limites dos concelhos da CAOP 2025 (Direção-Geral do Território, cc-by) |
+| Série de exemplo do Funchal | `data/rainfall/Funchal.csv` (0,04 MiB), 10 958 dias, de 01/01/1991 a 31/12/2020 | reanálise ERA5 via Open-Meteo; CC BY 4.0 |
 | Tarifários transcritos | Lisboa, Porto e Funchal (`portugal_tarifarios.json`) | documentos oficiais das entidades, com endereço e SHA-256 registados |
 | Entidade gestora, confiança e proveniência | 280 concelhos (`tarifas_portugal/`, 0,75 MiB) | índice da ERSAR (avisos legais: citar a fonte, sem licença aberta) |
 | Fatores de emissão, custos e rotas de produção de água | ficheiros do núcleo (0,02 MiB) | do projeto; sem valor local |
@@ -4415,6 +4404,8 @@ Esta secção resume os dados que a edição traz. O inventário completo, com t
 **Chuva: o que a base é.** O pacote é identificado por `PT-EOBS-v33.0e-37fcba20`, com o SHA-256 da E-OBS, da CAOP e do próprio pacote nos metadados da base, e cada projeto grava esse identificador. Nos 278 concelhos da base não há nenhum dia em falta; o critério de entrada é rejeitar o concelho com mais de 1% de dias sem dado em 1991–2020. A média anual vai de 485 mm (num concelho do distrito de Faro) a 1994 mm (no distrito de Viana do Castelo), e a média dos concelhos é de 908 mm. Setenta e um concelhos têm uma só célula, 20 usam a célula mais próxima do centroide e 14 repetem a série de outro concelho.
 
 **Chuva: o que a base não é.** A E-OBS é um produto interpolado, e não um registo de pluviómetro. Comparada com o Iberia01 (uma grelha feita com uma rede mais densa de estações) em 1971–2000, dá menos chuva e alisa os extremos; por isso o manual não afirma nenhuma tendência de longo prazo da chuva. O Iberia01 só serve aqui de referência para o nível de qualidade (licença ODbL; a tabela `qualidade` guarda diferenças percentuais agregadas derivadas dele, e ainda não está decidido se isso exige a ODbL). No Funchal, a reanálise ERA5 tem uma média anual de cerca de 538 mm, que pode diferir da medida na estação.
+
+**Chuva do Iberia01.** A E-OBS dá em média 13,3% menos chuva do que o Iberia01 na Península (8% em Portugal) em 1971–2015, e o autor do Iberia01 recomenda 1971–2000 como referência e desaconselha a análise de tendências. O nível de qualidade do Iberia01 descreve a representação espacial do município pela grelha (A: três ou mais células; B: uma ou duas; C: célula emprestada ou ERA5), e não uma validação com pluviómetros.
 
 **Tarifas: o que há.** O programa lê só o tarifário transcrito de Lisboa, Porto e Funchal. Os documentos oficiais em que ele se baseia (cada um com endereço de origem e SHA-256 em `tarifas_portugal/fontes/FONTES.tsv`, recolhidos em 07/10/2026) não se redistribuem: o Git leva só o registo e os valores transcritos. As pendências de cada tarifário estão em `examples/LEIA.md`; entre elas, o IVA do Funchal, a leitura por inferência da disponibilidade de água no Porto e a vigência de mais de 12 meses de Beja, Évora, Ponta Delgada e Bragança.
 
@@ -4587,7 +4578,7 @@ ao reservatório, em %/m³ ($\Delta E_{pot} / \Delta V$). Critério de escolha d
 **GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
 de desempenho socioambiental. Sua série 303 trata de água e efluentes.
 
-**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva E-OBS por concelho e os tarifários transcritos de Lisboa, Porto e Funchal. Hoje só os concelhos de Portugal têm dados; a linha de cobertura do programa diz quantos locais há em cada país (Espanha: 0). Os custos e os fatores de emissão são indicados pelo utilizador.
+**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva do Iberia01 por município e os tarifários transcritos de Lisboa, Porto e Funchal. A linha de cobertura do programa diz quantos locais há em cada país. Os custos e os fatores de emissão são indicados pelo utilizador.
 
 **IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o

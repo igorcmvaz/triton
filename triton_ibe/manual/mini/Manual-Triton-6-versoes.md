@@ -146,11 +146,11 @@ dedução, e não de uma execução anterior do programa, um erro não se pode e
 
 O caso dos dez dias da secção 2.1 (volume O método) é pequeno o bastante para se acompanhar com papel e lápis:
 100 m², coeficiente de escoamento 0,85, descarte de 2,0 mm, reservatório de 2 000 L, procura
-pluvial de 80 L/dia, e a chuva de Lisboa de 11 a 20 de dezembro de 2019. O programa dá 6 732 L
-captados, dos quais 4 324 L extravasam, 488 L são consumidos e 1 920 L ficam no reservatório. As
-três saídas somam exatamente a entrada (6 732 − 4 324 − 488 = 1 920), e o resíduo do balanço é
-zero. Repetir dois dias à mão — o dia de 35,7 mm, que capta 2 865 L e extravasa 2 380 L por
-exceder o reservatório, e o dia de 1,2 mm, que fica abaixo da lâmina de descarte e não capta nada —
+pluvial de 80 L/dia, e a chuva de Lisboa de 15 a 24 de dezembro de 2013. O programa dá 7 752 L
+captados, dos quais 5 221 L extravasam, 611 L são consumidos e 1 920 L ficam no reservatório. As
+três saídas somam exatamente a entrada (7 752 − 5 221 − 611 = 1 920), e o resíduo do balanço é
+zero. Repetir dois dias à mão — o dia de 50,9 mm, que capta 4 156 L e extravasa 4 076 L por
+exceder o reservatório, e o dia de 0,6 mm, que fica abaixo da lâmina de descarte e não capta nada —
 é a maneira mais rápida de aprender o que o programa faz com cada regra.
 
 ---
@@ -162,16 +162,16 @@ tutorial (150 m², 600 L/dia, 28% satisfazível) foi dimensionada por cinco m�
 foi depois passado pela simulação diária para obter o potencial que efetivamente entrega, com a
 chuva de Lisboa.
 
-- regra prática de 6% da procura anual (método alemão): 3 750 L, potencial 16,32%;
-- simulação diária com critério de ganho marginal: 5 000 L, potencial 17,49%;
-- regra prática de 0,05 vezes a precipitação vezes a área (método britânico): 5 500 L, potencial
-  17,85%;
-- diagrama de Rippl mensal: 47 000 L, potencial 26,78%;
-- diagrama de Rippl diário: 51 500 L, potencial 26,92%.
+- regra prática de 6% da procura anual (método alemão): 3 750 L, potencial 16,71%;
+- simulação diária com critério de ganho marginal: 5 000 L, potencial 17,87%;
+- regra prática de 0,05 vezes a precipitação vezes a área (método britânico): 5 500 L, potencial
+  18,26%;
+- diagrama de Rippl mensal: 47 500 L, potencial 27,02%;
+- diagrama de Rippl diário: 50 250 L, potencial 27,10%.
 
 Os métodos discordam por um fator superior a treze no volume. A dispersão é o resultado útil. As
-duas regras práticas e a simulação ficam entre 3 750 e 5 500 L; o diagrama de Rippl pede 47 000 a
-51 500 L, porque dimensiona contra o verão seco de Lisboa para garantir o fornecimento, e a curva da
+duas regras práticas e a simulação ficam entre 3 750 e 5 500 L; o diagrama de Rippl pede 47 500 a
+50 250 L, porque dimensiona contra o verão seco de Lisboa para garantir o fornecimento, e a curva da
 secção 4.4 (volume Tutorial) não satura nesse intervalo. Uma regra que dê um volume muito fora desta gama para as
 mesmas entradas merece uma segunda análise, e a diferença entre o ótimo hidráulico e o volume de
 Rippl é uma decisão de projeto, não um erro de nenhum dos dois.
@@ -500,24 +500,24 @@ programa pelo repositório, pelo sítio ou pelo manual lê o mesmo registo.
 
 O Triton simula o aproveitamento de águas pluviais dia a dia e inclui o motor de simulação, a
 avaliação de ciclo de vida, a linha de tratamento, a decisão multicritério e a modulação
-probabilística. Esta é a primeira versão da Edição Ibérica (IBE, antes Edição Portugal), que tem nome e logótipo próprios e partilha o repositório e a numeração das outras edições, com a chuva E-OBS por concelho, os tarifários de Lisboa, do Porto e do Funchal
+probabilística. Esta é a primeira versão da Edição Ibérica (IBE, antes Edição Portugal), que tem nome e logótipo próprios e partilha o repositório e a numeração das outras edições, com a chuva do Iberia01 por município (e a E-OBS por concelho como opção), os tarifários de Lisboa, do Porto e do Funchal
 e os valores em euros. A regra de operação de Fewkes (φ) está disponível como opção em todos os
 módulos.
 
 **O que a Edição Ibérica traz nesta versão.**
 
 - **Chuva.** A precipitação diária de 278 concelhos de Portugal continental, de 1950 a 2025, calculada a partir da grelha E-OBS v33.0e, numa base de 5,74 MiB identificada por `PT-EOBS-v33.0e-37fcba20` e por SHA-256. Cada concelho tem um nível de qualidade, A, B ou C: 45 de nível A, 159 de B e 74 de C.
-- **Licença da chuva.** No primeiro arranque, o aviso da licença da E-OBS (só uso não comercial, em investigação e educação) e a declaração do uso pretendido, que fica registada nos laudos. Por decisão do titular (25/10/2026), o uso comercial da chuva E-OBS é bloqueado e os relatórios avisam, em vermelho e em tamanho grande, que não pode ser usada comercialmente.
+- **Licença da chuva (E-OBS, opcional).** No primeiro arranque, o aviso da licença da E-OBS (só uso não comercial, em investigação e educação) e a declaração do uso pretendido, que fica registada nos laudos. Por decisão do titular (25/10/2026), o uso comercial da chuva E-OBS é bloqueado e os relatórios avisam, em vermelho e em tamanho grande, que não pode ser usada comercialmente.
 - **Tarifários.** Água, saneamento e resíduos de Lisboa, do Porto e do Funchal, transcritos de documentos oficiais com endereço e SHA-256 registados; a entidade gestora de cada serviço em 280 concelhos, a partir da ERSAR; e um estado de confiança por concelho e por serviço.
 - **Valores e língua.** Euros, IVA tratado em cada tarifário, português europeu na interface, nos laudos e no manual.
-- **Chuva de toda a Península (30/10/2026).** O Iberia01 passa a ser a fonte por defeito da Edição Ibérica: Portugal (308 locais), Espanha (8 131 municípios, incluindo as Baleares) e, com a ERA5 em nível C, Canárias, Madeira e Açores; chave por código INE/DTMN, busca por nome e código na Etapa 1, `--local` na linha de comandos e `clima.iberia` nos estudos em lote. A E-OBS fica opcional. A tabela de qualidade passa para um ficheiro separado sob ODbL. Tarifas de Espanha: média regional do INE (indicativa).
+- **Chuva de toda a Península (30/10/2026).** O Iberia01 passa a ser a fonte por defeito da Edição Ibérica: Portugal (308 locais), Espanha (8 131 municípios, incluindo as Baleares) e, com a ERA5 em nível C, Canárias, Madeira e Açores; chave por código INE/DTMN, busca por nome e código na Etapa 1, `--local` na linha de comandos e `clima.iberia` nos estudos em lote. A E-OBS fica opcional. Os exemplos (Lisboa, Porto e Funchal; novos Madrid e Palma), os relatórios de exemplo e o tutorial deste manual foram regerados com o Iberia01 (normal 1986–2015) em 31/10/2026, e já não levam o aviso vermelho da E-OBS; o Funchal usa a ERA5 de ilha (nível C). A tabela de qualidade passa para um ficheiro separado sob ODbL. Tarifas de Espanha: média regional do INE (indicativa).
 - **Estudos em lote por JSON.** O subcomando `triton estudo` organiza um estudo num `estudo.json` (projeto base, casos por tipologia, substituições de parâmetros por apelidos, análise e saídas), roda todos os casos em ordem estável, com retomada e execução paralela, e grava tabelas para artigos: CSV tidy, JSON com proveniência (versão, edição, SHA-256, fonte e licença da chuva), Markdown, LaTeX (booktabs) e XLSX. Um modelo de texto com marcadores recebe os números reais e deixa «XX» onde faltar resultado. Há um estudo de exemplo em `examples/estudos/`.
 - **Documentação.** O manual completo, o sítio de documentação, volumes curtos e `docs/DADOS.md`, que descreve cada conjunto de dados com fonte, licença e qualidade.
 
 **O que a versão ainda não tem.**
 
-- **Espanha.** Nenhum local: a linha de cobertura diz «Espanha: 0 locais». Há um ensaio com as 52 capitais de província (39 em nível B, 9 em C, 4 sem série), feito fora do programa; falta o limite municipal e a licença da E-OBS, que limita o uso à investigação e à educação.
-- **Ilhas.** Os 30 concelhos da Madeira e dos Açores não têm série na base (os Açores estão fora do domínio da E-OBS e a Madeira falha em mais de 1% dos dias). O exemplo do Funchal usa uma reanálise ERA5, e não nível A, B ou C.
+- **Espanha.** As tarifas são a média regional do INE (indicativa) e, em sete municípios, uma tarifa transcrita ainda não conferida (segunda leitura pendente); o exemplo de Madrid mostra a tarifa do Canal de Isabel II com esse aviso.
+- **Ilhas.** Canárias, Madeira e Açores usam a reanálise ERA5 de 0,25°, sempre em nível C e com aviso; Ceuta e Melilla não têm série.
 - **Tarifários nos restantes concelhos.** Só três estão transcritos; nenhum concelho está em verde, porque falta a verificação independente (42 amarelos e 238 cinzentos na água e no saneamento).
 - **Preços e CAPEX.** O programa não calcula preços de Portugal: reservatórios, tubagem, eletrobombas, mão de obra e manutenção partem de zero, e a tarifa de eletricidade e o preço do cloro também. Os resultados económicos dos exemplos não são resultados.
 - **Fator de emissão da rede.** Sem valor: é zero até o utilizador indicar o da rede do projeto.
@@ -575,7 +575,7 @@ entrada em vigor; e a declaração de quais os parâmetros alterados em relaçã
 omissão. A secção 4.10 (volume Tutorial) traz a lista completa, com um parágrafo de método pronto a adaptar.
 
 Anexar o ficheiro `.triton` ao material suplementar resolve as quatro de uma só vez, porque o
-ficheiro é autocontido: traz a série de chuva dentro dele ou, com a chuva E-OBS por concelho, a
+ficheiro é autocontido: traz a série de chuva dentro dele ou, com a chuva da base (Iberia01 ou E-OBS), a
 referência da série e a sua impressão digital, que o programa recompõe a partir da base. É a forma
 mais económica de tornar um estudo verificável por terceiros, e custa um pequeno anexo.
 
@@ -602,7 +602,7 @@ investigação numa troca de mensagens que consome mais tempo a todos do que a p
 
 **O ficheiro do projeto.** É o item mais importante, e por si só substitui páginas de descrição. O
 `.triton` é autocontido: traz todos os parâmetros e a série de chuva inteira dentro dele — ou,
-com a chuva E-OBS por concelho, a referência exata da série e a sua impressão digital, que o
+com a chuva da base (Iberia01 ou E-OBS), a referência exata da série e a sua impressão digital, que o
 programa recompõe a partir da base —, de modo que quem o receber reproduz exatamente a sua
 simulação, no mesmo computador ou noutro qualquer. Sem ele, a investigação começa por tentar
 adivinhar as entradas, e adivinhar entradas é a maneira mais eficiente de não encontrar um defeito.
@@ -693,8 +693,8 @@ pendências do próprio programa, descrito na secção «Limitações conhecidas
 
 ### 6.5.1. O que já é estável na 0.1.0
 
-**Série climática.** Chuva diária E-OBS por concelho (278 concelhos de Portugal, com base de 1950 a
-2025), a série ERA5 do Funchal e séries diárias fornecidas pelo utilizador. **Tarifas.** Os
+**Série climática.** Chuva diária do Iberia01 por município (Portugal, Espanha e Baleares; normal 1986–2015), a E-OBS opcional (278 concelhos, 1950 a
+2025), a reanálise ERA5 das ilhas (nível C) e séries diárias fornecidas pelo utilizador. **Tarifas.** Os
 tarifários transcritos de Lisboa, do Porto e do Funchal, e estruturas introduzidas pelo utilizador,
 com escalões progressivos, partes fixas e atualização. **Balanço hídrico.** Simulação diária pela
 regra do Triton, com a YAS estrita, a YBS e o parâmetro φ de Fewkes (2000b) como opções para

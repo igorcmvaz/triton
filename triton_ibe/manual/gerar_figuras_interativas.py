@@ -38,7 +38,7 @@ from gerar_tabelas import (  # noqa: E402
 )
 from triton.core.simulation import run_single_simulation  # noqa: E402
 
-INICIO = datetime(1991, 1, 1)     # o mesmo calendário das figuras do manual (1991-2020)
+INICIO = datetime(1986, 1, 1)     # o mesmo calendário das figuras do manual (1986-2015)
 DIAS_MES = 30.4375
 MATERIAIS = [("CONCRETO", "Betão armado"), ("PEAD", "Polietileno (PEAD)"),
              ("FIBRA", "Fibra de vidro (PRFV)"), ("ACO_INOX", "Aço inoxidável")]

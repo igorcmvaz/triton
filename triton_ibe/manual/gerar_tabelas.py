@@ -5,10 +5,10 @@ Nenhum número do manual sai da cabeça de quem escreve. As tabelas deste fichei
 a executar o Triton com os dados de entrada declarados, de modo que uma correção no motor apareça no
 manual na mesma alteração.
 
-Edição Ibérica (IBE): o tutorial é uma moradia em **Lisboa** (chuva E-OBS por concelho, normal
-1991-2020, de ``data/portugal_eobs.db``, e o tarifário de água e saneamento transcrito em
-``triton/data/portugal_tarifarios.json``, o mesmo de ``examples/portugal/lisboa.triton``); as cidades de
-comparação são o **Porto** (E-OBS) e o **Funchal** (reanálise ERA5 de ``data/rainfall/Funchal.csv``).
+Edição Ibérica (IBE): o tutorial é uma moradia em **Lisboa** (chuva do **Iberia01**, ODbL, normal 1986-2015,
+município PT-1106, e o tarifário de água e saneamento transcrito em ``triton/data/portugal_tarifarios.json``,
+o mesmo de ``examples/portugal/lisboa.triton``); as cidades de comparação são o **Porto** (Iberia01, PT-1312)
+e o **Funchal** (reanálise ERA5 de 0,25° das ilhas, ``data/chuva_ilhas_era5.db``, PT-3103, nível C).
 Nada do Brasil. Os **custos são ilustrativos**: a edição não traz preços de obra, e os números abaixo
 (reservatórios, mão de obra, bomba, energia, cloro, taxas) servem para o leitor ver o método. Cada
 tabela com dinheiro diz, na legenda e na linha, que o valor é «ilustrativo, não é preço de mercado».
@@ -79,8 +79,8 @@ def anos_ou_nunca(x):
 # Secção 2.1 — o balanço diário, dez dias resolvidos (chuva real de Lisboa)
 # ──────────────────────────────────────────────────────────────────────────────
 #
-# O caso didático: dez dias consecutivos da série de Lisboa (11 a 20 de dezembro de 2019, E-OBS por
-# concelho), escolhidos entre os 30 anos porque reúnem, em dez linhas, tudo o que o balanço ensina: o
+# O caso didático: dez dias consecutivos da série de Lisboa (15 a 24 de dezembro de 2013, Iberia01,
+# município PT-1106), escolhidos entre os 30 anos porque reúnem, em dez linhas, tudo o que o balanço ensina: o
 # primeiro dia com o reservatório vazio, um dia de abastecimento parcial, um dia com chuva abaixo da
 # lâmina de descarte (perdido por inteiro), um extravasamento maior do que o próprio reservatório e um
 # dia de extravasamento com o reservatório já cheio. Busca determinística: a janela mais recente que
@@ -94,11 +94,11 @@ CASO_23 = {
     "demanda_total": 200.0,   # L/dia
     "rainwater_share": 0.40,  # 40% da procura é não potável
     "volume": 2000.0,         # L
-    "inicio": "11/12/2019",   # data do primeiro dia, na série de Lisboa
-    "dia_na_serie": 10571,    # posição do primeiro dia na série (0 = 01/01/1991)
+    "inicio": "15/12/2013",   # data do primeiro dia, na série de Lisboa
+    "dia_na_serie": 10210,    # posição do primeiro dia na série (0 = 01/01/1986)
 }
 
-CHUVA_23 = [0.0, 2.1, 0.0, 1.2, 6.0, 13.5, 0.7, 8.1, 35.7, 25.8]
+CHUVA_23 = [0.0, 0.6, 2.6, 7.2, 33.9, 3.7, 0.9, 0.1, 4.9, 50.9]
 
 
 def tabela_dez_dias():
@@ -181,7 +181,7 @@ def entrada_dez_dias():
         f"= {n(c['demanda_total'] * c['rainwater_share'], 0)} L/dia |",
         f"| volume do reservatório inferior | {n(c['volume'], 0)} L |",
         "| reservatório superior | nenhum |",
-        "| chuva | Lisboa, 11 a 20 de dezembro de 2019 (E-OBS, por concelho) |",
+        "| chuva | Lisboa, 15 a 24 de dezembro de 2013 (Iberia01, município PT-1106) |",
         "",
         "A série de chuva dos dez dias, em milímetros:",
         "",
@@ -195,16 +195,18 @@ def entrada_dez_dias():
 # Parte 2 — o projeto do tutorial: moradia unifamiliar em Lisboa
 # ──────────────────────────────────────────────────────────────────────────────
 #
-# Um projeto só, que cresce ao longo de dez capítulos. A série de Lisboa é longa (30 anos, E-OBS por
-# concelho, normal 1991-2020), o tarifário da EPAL e da Câmara é público e verificável
+# Um projeto só, que cresce ao longo de dez capítulos. A série de Lisboa é longa (30 anos, Iberia01,
+# normal 1986-2015), o tarifário da EPAL e da Câmara é público e verificável
 # (``examples/LEIA.md``) e a cidade tem um regime mediterrânico (chuva de outono e inverno, verão seco):
 # o Porto (atlântico, mais chuvoso) e o Funchal (ilha, com pouca chuva na costa sul) comparam-se com ele.
 
 CHUVAS = os.path.join(RAIZ, "data", "rainfall")
-SERIE_TUTORIAL = None            # a série do tutorial vem da base E-OBS (data/portugal_eobs.db)
+SERIE_TUTORIAL = None            # a série do tutorial vem do Iberia01 (data/chuva_iberia01_p*.db)
 ANOS_TUTORIAL = 30
-INICIO_DA_SERIE = "01/01/1991"
-FIM_DA_SERIE = "31/12/2020"
+INICIO_DA_SERIE = "01/01/1986"
+FIM_DA_SERIE = "31/12/2015"
+#: O município de cada cidade do manual na base ibérica (Porto repete-se em Espanha: vale o código).
+CODIGO_DA_CIDADE = {"Lisboa": "PT-1106", "Porto": "PT-1312", "Funchal": "PT-3103"}
 
 TUTORIAL = {
     "area": 150.0,             # m² de cobertura, projeção horizontal
@@ -242,15 +244,12 @@ VOLUMES_VARREDURA = [0, 1000, 2000, 3000, 4000, 5000, 6000, 8000,
 
 @lru_cache(maxsize=None)
 def _serie_cache(chave):
-    from triton.core import base_climatica_portugal as pt
-    from triton.core.parser import load_precipitation
-    if chave == "Funchal":
-        return load_precipitation(os.path.join(CHUVAS, "Funchal.csv"))
-    return pt.carregar_serie(chave, INICIO_DA_SERIE, FIM_DA_SERIE)[0]
+    from triton.core import base_climatica_iberica as ib
+    return ib.carregar_serie(CODIGO_DA_CIDADE[chave], INICIO_DA_SERIE, FIM_DA_SERIE)[0]
 
 
 def _serie(chave="Lisboa"):
-    """A série diária (mm) de 1991-2020 da cidade: E-OBS por concelho (Lisboa, Porto) ou ERA5 (Funchal)."""
+    """A série diária (mm) de 1986-2015 da cidade: Iberia01 (Lisboa, Porto) ou ERA5 de ilha (Funchal)."""
     return _serie_cache(chave)
 
 
@@ -875,9 +874,9 @@ NOMES_CIDADES = {"Lisboa": "Lisboa", "Porto": "Porto", "Funchal": "Funchal"}
 
 
 def mes_a_mes(serie):
-    """Chuva média de cada mês (mm), a partir de 01/01/1991 com o calendário real."""
+    """Chuva média de cada mês (mm), a partir de 01/01/1986 com o calendário real."""
     from datetime import datetime, timedelta
-    d0 = datetime(1991, 1, 1)
+    d0 = datetime(1986, 1, 1)
     meses = np.zeros(12)
     for i, v in enumerate(serie):
         meses[(d0 + timedelta(days=int(i))).month - 1] += float(v)
@@ -933,7 +932,7 @@ LEGENDAS = {
     ],
     'cap23_entrada.md': [
         'Dados de entrada do caso resolvido de dez dias',
-        'Série de precipitação dos dez dias do caso resolvido (Lisboa, dezembro de 2019)',
+        'Série de precipitação dos dez dias do caso resolvido (Lisboa, dezembro de 2013)',
     ],
     'cap23_dez_dias.md': [
         'Balanço hídrico diário do caso resolvido, dia a dia, com captação, consumo, extravasamento e armazenamento',
@@ -1168,8 +1167,10 @@ def tabela_custos_series_publicas():
     import json
 
     pasta = os.environ.get("TRITON_IBE_AUTOMATICOS") or os.path.join(RAIZ, "scripts", "dados", "dados_automaticos")
-    if not os.path.isdir(pasta):
-        return None
+    necessarios = ("eurostat_eletricidade_domestica", "eurostat_preco_eletricidade_sem_impostos",
+                   "eurostat_inflacao_anual", "bce_taxa_refinanciamento")
+    if not os.path.isdir(pasta) or not all(os.path.isfile(os.path.join(pasta, x + ".json")) for x in necessarios):
+        return None          # as séries recolhidas ficam fora do Git: sem elas a tabela fica como está
     L = ["| Série pública | Portugal | Espanha | Acesso | SHA-256 (início) |",
          "| :--- | ---: | ---: | :--- | :--- |"]
     unidade = {"eurostat_eletricidade_domestica": "€/kWh", "eurostat_preco_eletricidade_sem_impostos": "€/kWh",

@@ -63,7 +63,9 @@ def test_analyze_json_traz_so_o_nome_do_projeto_e_a_fonte_da_chuva(tmp_path):
         assert any("Open-Meteo" in l and "CC BY 4.0" in l for l in prov["rainfall_source"]["credit_and_licence"])
     else:
         texto = " ".join(prov["rainfall_source"]["credit_and_licence"])
-        assert "E-OBS" in texto and "não comerciais" in texto and "Cobertura" in texto
+        # o exemplo de referência da IBE usa o Iberia01 (ODbL, atribuição a Herrera et al.): nenhum aviso não comercial da E-OBS
+        assert "Iberia01" in texto and "ODbL" in texto and "Herrera" in texto and "Cobertura" in texto
+        assert "E-OBS" not in texto and "não comerciais" not in texto
 
 
 @pytest.mark.skipif(ED == "BRL", reason="a Brasil não muda")
@@ -71,7 +73,7 @@ def test_analyze_html_traz_a_fonte_da_chuva(tmp_path):
     destino = tmp_path / "saida.html"
     _cli("analyze", str(RAIZ / PROJETO), "--analysis", "technical", "--format", "html", "--output", str(destino))
     html = destino.read_text(encoding="utf-8")
-    assert ("Open-Meteo" if ED == "INT" else "E-OBS") in html
+    assert ("Open-Meteo" if ED == "INT" else "Iberia01") in html and "E-OBS" not in html
 
 
 def test_o_rodape_do_laudo_traz_o_credito_cc_by_das_series_era5():

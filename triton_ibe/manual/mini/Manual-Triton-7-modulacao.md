@@ -248,8 +248,8 @@ o volume, é ele que desloca o volume de menor período de recuperação.
 ### 7.2.3. A incerteza da chuva
 
 A Edição Ibérica não tem base de séries de modelos climáticos, pelo que a incerteza da chuva
-entra pelo **fator da chuva**. O fator multiplica toda a série diária do projeto — a série E-OBS
-do concelho, a do Funchal ou um ficheiro do utilizador — e por isso mantém a sua estrutura
+entra pelo **fator da chuva**. O fator multiplica toda a série diária do projeto — a série do Iberia01
+do município, a ERA5 de uma ilha ou um ficheiro do utilizador — e por isso mantém a sua estrutura
 temporal: a sequência de estiagens e de dias chuvosos não muda, só o nível. Um fator sorteado com
 média 1 e desvio de 0,10 representa uma chuva 10% mais húmida ou mais seca do que o registo, que
 é a maneira de representar um clima futuro mais seco ou mais húmido do que o passado. Para testar
@@ -396,10 +396,10 @@ percentis das realizações.
 <!-- tabela: **Tabela 5** — Resultados no volume escolhido pelo estudo do tutorial: estudo determinístico e estatísticas das realizações (valores em €, ilustrativos, não são preços de mercado) -->
 | Grandeza | Estudo determinístico | Média | Desvio-padrão | CV (%) | P5 | P50 | P95 |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Poupança de água potável (%) | 23,7 | 23,5 | 4,5 | 18,9 | 16,4 | 23,4 | 31,2 |
-| VAL (€, ilustrativo, não é preço de mercado) | −4 839 | −5 150 | 1 440 | 28,0 | −7 485 | −5 167 | −2 828 |
-| Período de recuperação descontado (anos) | — | 14,3 | 0,0 | 0,0 | 14,3 | 14,3 | 14,3 |
-| Saldo de CO₂ no ciclo de vida (kg) | −803 | −803 | 1 | 0,1 | −804 | −803 | −801 |
+| Poupança de água potável (%) | 24,3 | 23,8 | 4,5 | 18,9 | 16,5 | 23,7 | 31,5 |
+| VAL (€, ilustrativo, não é preço de mercado) | −4 798 | −5 123 | 1 456 | 28,4 | −7 486 | −5 143 | −2 778 |
+| Período de recuperação descontado (anos) | — | 13,8 | 0,0 | 0,0 | 13,8 | 13,8 | 13,8 |
+| Saldo de CO₂ no ciclo de vida (kg) | −838 | −838 | 1 | 0,1 | −839 | −838 | −836 |
 
 Duas leituras importam. A primeira é a **largura**: o intervalo entre P5 e P95 contém 90% das
 realizações e é o número que deve acompanhar o resultado publicado. A segunda é a **posição do
@@ -449,24 +449,24 @@ em que nenhum volume se paga aparece como «nenhum se paga» na coluna económic
 <!-- tabela: **Tabela 7** — Frequência com que cada volume é escolhido nas realizações do exemplo, por critério (%) -->
 | Volume (m³) | Ideal técnico | Ótimo económico (recuperação) | Vencedor TOPSIS |
 | :--- | ---: | ---: | ---: |
-| 3 | 0 | 0 | 0 |
-| 4 | 13 | 0 | 0 |
-| 5 | 57 | 0 | 0 |
-| 6 | 25 | 0 | 0 |
-| 7 | 4 | 0 | 1 |
+| 3 | 1 | 0 | 0 |
+| 4 | 19 | 0 | 0 |
+| 5 | 59 | 0 | 0 |
+| 6 | 18 | 0 | 0 |
+| 7 | 3 | 0 | 1 |
 | 8 | 1 | 0 | 1 |
-| 9 | 0 | 0 | 1 |
-| 10 | 0 | 0 | 3 |
-| 11 | 0 | 0 | 3 |
-| 12 | 0 | 0 | 5 |
+| 9 | 0 | 0 | 2 |
+| 10 | 0 | 0 | 2 |
+| 11 | 0 | 0 | 4 |
+| 12 | 0 | 0 | 7 |
 | 13 | 0 | 0 | 8 |
-| 14 | 0 | 0 | 10 |
-| 15 | 0 | 0 | 11 |
-| 16 | 0 | 0 | 11 |
-| 17 | 0 | 0 | 10 |
-| 18 | 0 | 0 | 11 |
-| 19 | 0 | 0 | 8 |
-| 20 | 0 | 0 | 19 |
+| 14 | 0 | 0 | 12 |
+| 15 | 0 | 0 | 10 |
+| 16 | 0 | 0 | 10 |
+| 17 | 0 | 0 | 11 |
+| 18 | 0 | 0 | 10 |
+| 19 | 0 | 0 | 7 |
+| 20 | 0 | 0 | 16 |
 | nenhum se paga | 0 | 100 | 0 |
 
 ![A frequência com que cada volume é escolhido no exemplo do tutorial](../figuras/fig54_modulacao_frequencia.png)
@@ -488,12 +488,12 @@ distorcido por realizações extremas.
 <!-- tabela: **Tabela 8** — Sensibilidade no volume escolhido: força e sentido da influência de cada variável sorteada sobre os resultados do tutorial -->
 | Variável | ρ com a poupança | ρ com o VAL | ρ com o saldo de CO₂ |
 | :--- | ---: | ---: | ---: |
-| Número de pessoas | −0,57 | 0,57 | −0,67 |
-| Fator do investimento | −0,07 | −0,55 | −0,04 |
-| Consumo per capita | −0,41 | 0,42 | −0,44 |
-| Fração não potável interior | 0,53 | 0,16 | −0,47 |
+| Número de pessoas | −0,54 | 0,57 | −0,66 |
+| Fator do investimento | −0,07 | −0,54 | −0,04 |
+| Consumo per capita | −0,40 | 0,42 | −0,44 |
+| Fração não potável interior | 0,55 | 0,16 | −0,47 |
 | Fator das tarifas de água e saneamento | −0,01 | 0,15 | −0,03 |
-| Fator da chuva | 0,20 | 0,02 | −0,23 |
+| Fator da chuva | 0,21 | 0,02 | −0,24 |
 
 ![A sensibilidade no volume escolhido no exemplo do tutorial](../figuras/fig55_modulacao_sensibilidade.png)
 
@@ -519,13 +519,13 @@ monótonas.
 <!-- tabela: **Tabela 9** — Parte da variância do resultado explicada por cada variável sorteada no exemplo do tutorial, no volume escolhido (η²; as variáveis contínuas agrupadas em decis) -->
 | Fonte de incerteza | η² da poupança | η² do VAL | η² do saldo de CO₂ |
 | :--- | ---: | ---: | ---: |
-| Fator do investimento | 0,01 | 0,33 | 0,01 |
-| Número de pessoas | 0,32 | 0,30 | 0,53 |
-| Consumo per capita | 0,18 | 0,19 | 0,20 |
-| Fração não potável interior | 0,33 | 0,04 | 0,21 |
-| Fator das tarifas de água e saneamento | 0,01 | 0,03 | 0,01 |
-| Fator da chuva | 0,05 | 0,01 | 0,04 |
-| Soma | 0,91 | 0,90 | 0,99 |
+| Fator do investimento | 0,01 | 0,33 | 0,00 |
+| Número de pessoas | 0,30 | 0,31 | 0,52 |
+| Consumo per capita | 0,17 | 0,19 | 0,20 |
+| Fração não potável interior | 0,35 | 0,04 | 0,21 |
+| Fator das tarifas de água e saneamento | 0,01 | 0,03 | 0,00 |
+| Fator da chuva | 0,06 | 0,01 | 0,04 |
+| Soma | 0,90 | 0,90 | 0,98 |
 
 No exemplo, compare as colunas: as variáveis que dominam a variância da poupança raramente são as
 que dominam a variância do valor atual líquido, e os fatores sorteados com larguras de triagem
@@ -541,7 +541,7 @@ O segundo exemplo, gravado no ficheiro `10_modulacao_captacao.triton`, usa a mes
 Lisboa mas sorteia a incerteza da **captação** — área, coeficiente de escoamento e lâmina de
 descarte — em conjunto com o fator da chuva, o fator das tarifas e o fator do investimento, em mil
 realizações e semente 42. A Edição Ibérica não tem tabela por modelo climático, porque não tem
-base de modelos climáticos: a incerteza da chuva entra pelo fator da chuva sobre a série E-OBS de
+base de modelos climáticos: a incerteza da chuva entra pelo fator da chuva sobre a série do Iberia01 de
 Lisboa, e a tabela da variância lista as variáveis sorteadas, entre elas o fator da chuva.
 
 Leia este exemplo pelo que separa. Um coeficiente de escoamento ou uma área errados em alguns por
@@ -790,7 +790,7 @@ ao reservatório, em %/m³ ($\Delta E_{pot} / \Delta V$). Critério de escolha d
 **GRI** (*Global Reporting Initiative*). Padrão internacional de divulgação corporativa
 de desempenho socioambiental. Sua série 303 trata de água e efluentes.
 
-**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva E-OBS por concelho e os tarifários transcritos de Lisboa, Porto e Funchal. Hoje só os concelhos de Portugal têm dados; a linha de cobertura do programa diz quantos locais há em cada país (Espanha: 0). Os custos e os fatores de emissão são indicados pelo utilizador.
+**IBE**. Sigla da Edição Ibérica do programa («Triton IBE», para a Península Ibérica): abre em português europeu, em euros, com a chuva do Iberia01 por município e os tarifários transcritos de Lisboa, Porto e Funchal. A linha de cobertura do programa diz quantos locais há em cada país. Os custos e os fatores de emissão são indicados pelo utilizador.
 
 **IFC**. A sigla designa duas coisas distintas. Em certificação, é a *International
 Finance Corporation*, do Banco Mundial, que desenvolve o EDGE. No contexto BIM, é o

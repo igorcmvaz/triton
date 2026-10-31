@@ -35,11 +35,11 @@ dedução, e não de uma execução anterior do programa, um erro não se pode e
 
 O caso dos dez dias da secção {{n:23}} é pequeno o bastante para se acompanhar com papel e lápis:
 100 m², coeficiente de escoamento 0,85, descarte de 2,0 mm, reservatório de 2 000 L, procura
-pluvial de 80 L/dia, e a chuva de Lisboa de 11 a 20 de dezembro de 2019. O programa dá 6 732 L
-captados, dos quais 4 324 L extravasam, 488 L são consumidos e 1 920 L ficam no reservatório. As
-três saídas somam exatamente a entrada (6 732 − 4 324 − 488 = 1 920), e o resíduo do balanço é
-zero. Repetir dois dias à mão — o dia de 35,7 mm, que capta 2 865 L e extravasa 2 380 L por
-exceder o reservatório, e o dia de 1,2 mm, que fica abaixo da lâmina de descarte e não capta nada —
+pluvial de 80 L/dia, e a chuva de Lisboa de 15 a 24 de dezembro de 2013. O programa dá 7 752 L
+captados, dos quais 5 221 L extravasam, 611 L são consumidos e 1 920 L ficam no reservatório. As
+três saídas somam exatamente a entrada (7 752 − 5 221 − 611 = 1 920), e o resíduo do balanço é
+zero. Repetir dois dias à mão — o dia de 50,9 mm, que capta 4 156 L e extravasa 4 076 L por
+exceder o reservatório, e o dia de 0,6 mm, que fica abaixo da lâmina de descarte e não capta nada —
 é a maneira mais rápida de aprender o que o programa faz com cada regra.
 
 ---
@@ -51,16 +51,16 @@ tutorial (150 m², 600 L/dia, 28% satisfazível) foi dimensionada por cinco m�
 foi depois passado pela simulação diária para obter o potencial que efetivamente entrega, com a
 chuva de Lisboa.
 
-- regra prática de 6% da procura anual (método alemão): 3 750 L, potencial 16,32%;
-- simulação diária com critério de ganho marginal: 5 000 L, potencial 17,49%;
-- regra prática de 0,05 vezes a precipitação vezes a área (método britânico): 5 500 L, potencial
-  17,85%;
-- diagrama de Rippl mensal: 47 000 L, potencial 26,78%;
-- diagrama de Rippl diário: 51 500 L, potencial 26,92%.
+- regra prática de 6% da procura anual (método alemão): 3 750 L, potencial 16,71%;
+- simulação diária com critério de ganho marginal: 5 000 L, potencial 17,87%;
+- regra prática de 0,05 vezes a precipitação vezes a área (método britânico): 5 500 L, potencial
+  18,26%;
+- diagrama de Rippl mensal: 47 500 L, potencial 27,02%;
+- diagrama de Rippl diário: 50 250 L, potencial 27,10%.
 
 Os métodos discordam por um fator superior a treze no volume. A dispersão é o resultado útil. As
-duas regras práticas e a simulação ficam entre 3 750 e 5 500 L; o diagrama de Rippl pede 47 000 a
-51 500 L, porque dimensiona contra o verão seco de Lisboa para garantir o fornecimento, e a curva da
+duas regras práticas e a simulação ficam entre 3 750 e 5 500 L; o diagrama de Rippl pede 47 500 a
+50 250 L, porque dimensiona contra o verão seco de Lisboa para garantir o fornecimento, e a curva da
 secção {{n:7}} não satura nesse intervalo. Uma regra que dê um volume muito fora desta gama para as
 mesmas entradas merece uma segunda análise, e a diferença entre o ótimo hidráulico e o volume de
 Rippl é uma decisão de projeto, não um erro de nenhum dos dois.

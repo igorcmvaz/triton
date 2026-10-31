@@ -45,7 +45,7 @@ Somando os dois usos que a chuva atende, chega-se aos 28% do tutorial. É um val
 
 *Figura 99 — Repartição típica do consumo de uma moradia por uso final. A cinzento, os usos que exigem água potável; a verde, os que podem usar água da chuva, cuja soma é a fração atendível e o teto do potencial de economia: nenhum reservatório, por maior que seja, poupa mais do que esta fração.*
 
-> **Este número é o teto.** Com 28% de fração atendível, o potencial de economia **nunca** passa de 28%, por maior que seja o reservatório e por mais que chova. A tabela da secção {{n:7}} mostra a curva a aproximar-se desse limite sem o atingir: em Lisboa, a 20.000 L ainda só chega a 24,01%.
+> **Este número é o teto.** Com 28% de fração atendível, o potencial de economia **nunca** passa de 28%, por maior que seja o reservatório e por mais que chova. A tabela da secção {{n:7}} mostra a curva a aproximar-se desse limite sem o atingir: em Lisboa, a 20.000 L ainda só chega a 24,35%.
 >
 > Quem quer passar dos 28% tem de mudar o **uso**, não o reservatório: acrescentar um uso, como a lavagem de roupa, com o critério de qualidade declarado, ou reduzir o consumo potável.
 
@@ -114,9 +114,9 @@ O programa sabe agora a oferta e a procura. Antes de simular, uma comparação q
 <!-- tabela: Comparação entre a oferta anual de água da chuva e a procura atendível -->
 | | m³/ano |
 | :--- | ---: |
-| oferta bruta de água da chuva (precipitação × área × coeficiente) | 92 |
+| oferta bruta de água da chuva (precipitação × área × coeficiente) | 95 |
 | **procura pluvial do ano** | **61** |
 
-A oferta excede a procura: o volume bruto é **1,5 vez** o que se pretende usar, antes de deduzir o descarte. Se a oferta fosse o único limite, o sistema atenderia 100% da procura pluvial e chegaria ao teto de 28%.
+A oferta excede a procura: o volume bruto é **1,6 vez** o que se pretende usar, antes de deduzir o descarte. Se a oferta fosse o único limite, o sistema atenderia 100% da procura pluvial e chegaria ao teto de 28%.
 
 Não chega, e a secção {{n:6}} mostra porquê.

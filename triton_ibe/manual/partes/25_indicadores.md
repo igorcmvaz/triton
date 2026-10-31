@@ -73,11 +73,11 @@ Epot = Rv × f
 | `Rv` | fiabilidade volumétrica | % |
 | `f` | fração da procura total suprível por água da chuva | adimensional |
 
-==Um sistema com 55% de fiabilidade e 28% de fração suprível poupa 15,4% do consumo total, e os
+==Um sistema com 56% de fiabilidade e 28% de fração suprível poupa 15,8% do consumo total, e os
 três números dizem a mesma coisa de três maneiras.== É o caso da moradia de Lisboa do tutorial com
 uma cisterna de 3 000 L, a primeira simulação da secção {{n:6}}: o potencial de poupança é de
-15,39%, e dividindo pela fração suprível de 0,28 obtém-se uma fiabilidade volumétrica de cerca de
-55,0%. Relatar apenas um deles, sem declarar a fração suprível adotada, torna o resultado
+15,77%, e dividindo pela fração suprível de 0,28 obtém-se uma fiabilidade volumétrica de cerca de
+56,3%. Relatar apenas um deles, sem declarar a fração suprível adotada, torna o resultado
 impossível de comparar com o de outro estudo, e é a causa mais frequente de comparações indevidas
 na literatura da área.
 
@@ -108,12 +108,12 @@ Formalmente, o dia é **pleno** quando `V_con,t = D_pl,t`, com tolerância de 10
 quando `0 < V_con,t < D_pl,t`; e **nulo** quando `V_con,t = 0`.
 
 
-No tutorial de Lisboa com a cisterna de 3 000 L, 53,3% dos dias são plenos, 2,9% parciais e 43,8%
-nulos. Repare que a fiabilidade temporal, 53,3%, é menor do que a volumétrica, cerca de 55,0%.
+No tutorial de Lisboa com a cisterna de 3 000 L, 54,7% dos dias são plenos, 3,0% parciais e 42,3%
+nulos. Repare que a fiabilidade temporal, 54,7%, é menor do que a volumétrica, cerca de 56,3%.
 Não há contradição: os dias parciais não contam como plenos, mas contribuem com volume, e é essa
 água que a fiabilidade volumétrica soma e a temporal não. A diferença entre as duas é, por isso,
 uma medida indireta de quanto as falhas são falhas parciais. Com uma cisterna de 4 000 L os dias
-plenos sobem para 58,0%, e com 5 000 L para 61,3%.
+plenos sobem para 59,4%, e com 5 000 L para 62,7%.
 
 **O que mede:** com que frequência o utilizador pode contar com o sistema.
 
@@ -169,10 +169,10 @@ extravasamento. É a fração da água que chegou à cisterna, já descontado o 
 | `V_cap,t` | volume captado no dia `t`, depois do descarte | L |
 | `Σ` | somatório sobre todos os dias da série simulada | — |
 
-Na cisterna de 3 000 L do tutorial, o sistema consome 33,7 m³ por ano e extravasa em média
-106,4 L/dia, cerca de 39 m³ por ano; as duas parcelas, com o pouco que fica no reservatório,
-fecham o balanço de massa. Chegam assim à cisterna cerca de 73 m³ por ano, e é consumido pouco
-menos de metade, cerca de 46%. O número explica por que aumentar a cisterna rende tão pouco a
+Na cisterna de 3 000 L do tutorial, o sistema consome 34,6 m³ por ano e extravasa em média
+100,3 L/dia, cerca de 37 m³ por ano; as duas parcelas, com o pouco que fica no reservatório,
+fecham o balanço de massa. Chegam assim à cisterna cerca de 71 m³ por ano, e é consumido pouco
+menos de metade, cerca de 49%. O número explica por que aumentar a cisterna rende tão pouco a
 partir de certo ponto: a água não falta na cobertura, falta **procura** para a consumir. A oferta
 bruta da cobertura, de 92 m³ por ano, é 1,5 vez a procura pluvial de 61 m³ por ano; quando a
 oferta excede largamente a procura pluvial, a eficiência de uso da água captada é
@@ -197,7 +197,7 @@ médio nos dias de falha como fração da procura pluvial, uma medida de vulnera
 A leitura para o projeto é direta. Se as falhas são longas e quase totais, o abastecimento de
 reserva pela rede pública tem de ser automático e dimensionado para o caudal total dos pontos de
 utilização pluviais, e não apenas para completar pequenas faltas. Os dias nulos do tutorial
-(43,8% com 3 000 L) são deste tipo: a cisterna está vazia, e não ligeiramente em falta.
+(42,3% com 3 000 L) são deste tipo: a cisterna está vazia, e não ligeiramente em falta.
 
 ---
 

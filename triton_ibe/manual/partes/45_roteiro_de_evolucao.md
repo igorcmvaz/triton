@@ -19,8 +19,8 @@ pendências do próprio programa, descrito na secção «Limitações conhecidas
 
 ## O que já é estável na 0.1.0
 
-**Série climática.** Chuva diária E-OBS por concelho (278 concelhos de Portugal, com base de 1950 a
-2025), a série ERA5 do Funchal e séries diárias fornecidas pelo utilizador. **Tarifas.** Os
+**Série climática.** Chuva diária do Iberia01 por município (Portugal, Espanha e Baleares; normal 1986–2015), a E-OBS opcional (278 concelhos, 1950 a
+2025), a reanálise ERA5 das ilhas (nível C) e séries diárias fornecidas pelo utilizador. **Tarifas.** Os
 tarifários transcritos de Lisboa, do Porto e do Funchal, e estruturas introduzidas pelo utilizador,
 com escalões progressivos, partes fixas e atualização. **Balanço hídrico.** Simulação diária pela
 regra do Triton, com a YAS estrita, a YBS e o parâmetro φ de Fewkes (2000b) como opções para

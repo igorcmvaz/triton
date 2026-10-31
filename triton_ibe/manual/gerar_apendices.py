@@ -287,7 +287,7 @@ PADROES = {"Novo projeto Triton": "Novo projeto Triton", "CUSTOM": "personalizad
 #: original fica ao lado: quando a nota muda no código, a tradução é recusada até ser revista.
 NOTAS = {
     "climate_source_mode": ('"national_db" (base nacional) ou "custom_file" (arquivo próprio)',
-                            '"national_db" (a base E-OBS por concelho) ou "custom_file" (ficheiro do utilizador)'),
+                            '"national_db" (a base de chuva por município: Iberia01, ou a E-OBS opcional) ou "custom_file" (ficheiro do utilizador)'),
     "discard": ("mm", "mm"),
     "discard_mode": ("1 = todos os eventos, 2 = 1º evento após estiagem, 3 = a cada X dias",
                      "1 = todos os eventos, 2 = 1.º evento após período seco, 3 = a cada X dias"),
@@ -377,7 +377,7 @@ def padrao_em_portugues(padrao):
         return f"{padrao:g}".replace(".", ",")
     if padrao is None or padrao == "":
         return "—"
-    return PADROES.get(str(padrao), str(padrao))
+    return PADROES.get(str(padrao), str(padrao)).replace("|", chr(92) + "|")  # «PT|Lisboa» não pode partir a tabela
 
 
 def apendice_a():
@@ -419,8 +419,8 @@ def apendice_a():
         "diz que cálculo o usa. Um campo sem nenhuma das duas é um campo gravado no ficheiro e",
         "nunca lido, e está listado na secção {{n:36}}.",
         "",
-        "Os padrões são os do projeto com que a Edição Ibérica abre: a chuva é a normal 1991-2020",
-        "do concelho de Lisboa na base E-OBS, e os custos, os preços e a tarifa de eletricidade",
+        "Os padrões são os do projeto com que a Edição Ibérica abre: a chuva é a normal 1986-2015",
+        "do município de Lisboa [PT-1106] no Iberia01, e os custos, os preços e a tarifa de eletricidade",
         "partem de zero ou vazios, para o utilizador os introduzir em euros. Um traço significa",
         "que o campo não tem valor inicial.",
         "",

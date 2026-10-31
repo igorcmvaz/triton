@@ -18,13 +18,13 @@ Para o nosso projeto, uma cisterna de betão de 5 000 L com elevação para o re
 | Parcela | Valor |
 | :--- | ---: |
 | carbono incorporado no sistema | 1 026 kg CO₂e |
-| emissão evitada por ano | 19,6 kg CO₂e |
-| emissão anual de bombagem e tratamento | 2,2 kg CO₂e |
-| saldo líquido anual | 17,4 kg CO₂e |
-| **retorno do carbono** | **59,0 anos** |
-| saldo ao fim de 20 anos | **+678 kg CO₂e** |
+| emissão evitada por ano | 20,0 kg CO₂e |
+| emissão anual de bombagem e tratamento | 2,3 kg CO₂e |
+| saldo líquido anual | 17,8 kg CO₂e |
+| **retorno do carbono** | **57,7 anos** |
+| saldo ao fim de 20 anos | **+670 kg CO₂e** |
 
-São 59 anos para amortizar a dívida de carbono, contra uma vida útil adotada de vinte. ==O sistema não se paga, portanto, do ponto de vista ambiental:== quando for desativado, terá emitido 678 kg CO₂e a mais do que evitou durante toda a operação.
+São 58 anos para amortizar a dívida de carbono, contra uma vida útil adotada de vinte. ==O sistema não se paga, portanto, do ponto de vista ambiental:== quando for desativado, terá emitido 670 kg CO₂e a mais do que evitou durante toda a operação.
 
 E o resultado financeiro do mesmo projeto também foi negativo (secção {{n:10}}). Os dois veredictos coincidem, mas por razões diferentes, e as secções seguintes mostram-no: o carbono é decidido pela massa da cisterna, o dinheiro pela tarifa. É por isso que as dimensões de análise devem ser mantidas separadas até ao momento da decisão.
 
@@ -32,7 +32,7 @@ E o resultado financeiro do mesmo projeto também foi negativo (secção {{n:10}
 
 ## Porque a poupança de carbono é tão pequena
 
-Dezanove quilogramas e meio de CO₂e por ano parecem pouco para 39,2 metros cúbicos de água poupada, e com estes fatores são: 0,50 kg CO₂e por metro cúbico substituído, descontada a energia para o bombear.
+Vinte quilogramas de CO₂e por ano parecem pouco para 40,1 metros cúbicos de água poupada, e com estes fatores são: 0,50 kg CO₂e por metro cúbico substituído, descontada a energia para o bombear.
 
 A explicação está na natureza do produto substituído. A água tratada não é um bem intensivo em carbono. Captar, tratar e distribuir a água custa uma fração de quilograma de CO₂e por metro cúbico entregue, conforme o mix elétrico local e a origem da água, e isso é modesto quando comparado com o carbono do betão, do aço ou dos combustíveis. Substituir um produto de baixa intensidade de carbono por outro que exige o fabrico de um reservatório não produz, portanto, o ganho ambiental que a intuição sugere.
 
@@ -57,17 +57,17 @@ A dívida de carbono está quase toda na cisterna. E uma cisterna de 5 000 L pod
 
 ![Saldo de carbono acumulado ao longo da vida útil, por material](../figuras/fig06_carbono_no_tempo.png)
 
-*Figura 99 — Emissões líquidas acumuladas da cisterna de 5 000 L ao longo da vida útil, para polietileno e betão, com fatores ilustrativos. A curva parte do carbono incorporado no fabrico, acima de zero, e desce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 20,9 anos, logo depois do horizonte de vinte anos adotado, e o betão aos 59,0 anos.*
+*Figura 99 — Emissões líquidas acumuladas da cisterna de 5 000 L ao longo da vida útil, para polietileno e betão, com fatores ilustrativos. A curva parte do carbono incorporado no fabrico, acima de zero, e desce com o crédito anual da água potável evitada; o polietileno cruza o zero aos 20,4 anos, logo depois do horizonte de vinte anos adotado, e o betão aos 57,7 anos.*
 
 ![Emissões líquidas em vinte anos, por material da cisterna](../figuras/fig04_materiais.png)
 
-*Figura 99 — Emissões líquidas em vinte anos da cisterna de 5 000 L, por material, com fatores ilustrativos. Os quatro materiais encerram a vida útil a emitir mais do que evitaram; o polietileno fica praticamente na fronteira (+15 kg) e o betão, o mais pesado, longe dela (+678 kg).*
+*Figura 99 — Emissões líquidas em vinte anos da cisterna de 5 000 L, por material, com fatores ilustrativos. Os quatro materiais encerram a vida útil a emitir mais do que evitaram; o polietileno fica praticamente na fronteira (+8 kg) e o betão, o mais pesado, longe dela (+670 kg).*
 
 **A escolha do material muda a dimensão do problema, mas aqui não inverte o sinal.**
 
-Com a chuva de Lisboa, que dá pouca água poupada, nenhum material paga o próprio fabrico em vinte anos. O polietileno leva 20,9 anos e termina os vinte anos a emitir ainda 15 kg: está praticamente na fronteira. A fibra de vidro leva 24,7 anos e termina com +81 kg. O aço inoxidável leva 51,1 anos e termina com +541 kg. O betão leva 59,0 anos e termina com +678 kg. Com 28% de fração atendível e 39,2 m³ poupados por ano, só os materiais leves chegam perto de pagar o fabrico.
+Com a chuva de Lisboa, que dá pouca água poupada, nenhum material paga o próprio fabrico em vinte anos. O polietileno leva 20,4 anos e termina os vinte anos a emitir ainda 8 kg: está praticamente na fronteira. A fibra de vidro leva 24,1 anos e termina com +74 kg. O aço inoxidável leva 50,0 anos e termina com +533 kg. O betão leva 57,7 anos e termina com +670 kg. Com 28% de fração atendível e 40,1 m³ poupados por ano, só os materiais leves chegam perto de pagar o fabrico.
 
-A segunda tabela mostra o outro lado da mesma moeda: em betão, **quanto maior a cisterna, pior o carbono**. A de 2 000 L fecha os vinte anos a emitir 240 kg; a de 8 000 L, 1 147 kg, e o seu retorno do carbono estica-se até 80,0 anos. Cada metro cúbico de betão acrescenta cerca de 150 kg CO₂e e rende cada vez menos água.
+A segunda tabela mostra o outro lado da mesma moeda: em betão, **quanto maior a cisterna, pior o carbono**. A de 2 000 L fecha os vinte anos a emitir 234 kg; a de 8 000 L, 1 140 kg, e o seu retorno do carbono estica-se até 78,5 anos. Cada metro cúbico de betão acrescenta cerca de 150 kg CO₂e e rende cada vez menos água.
 
 ---
 ## Existe um volume ambientalmente ótimo
@@ -76,7 +76,7 @@ A observação anterior vale para o betão, mas é um caso particular de algo ma
 
 ![Emissões líquidas em vinte anos contra o volume da cisterna](../figuras/fig06b_otimizacao_ambiental.png)
 
-*Figura 99 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) betão, no projeto do tutorial, com fatores ilustrativos. Em polietileno (com o reservatório superior de 1 000 L), o balanço é o melhor, entre os volumes testados, aos 2 000 L, onde retira 25 kg; passa a emissão entre 4 000 e 5 000 L (retira 5 kg aos 4 000 L e emite 15 kg aos 5 000 L) e emite 194 kg aos 12 000 L. Em betão, as emissões líquidas são positivas em toda a gama.*
+*Figura 99 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) betão, no projeto do tutorial, com fatores ilustrativos. Em polietileno (com o reservatório superior de 1 000 L), o balanço é o melhor, entre os volumes testados, aos 2 000 L, onde retira 31 kg; passa a emissão entre 4 000 e 5 000 L (retira 12 kg aos 4 000 L e emite 8 kg aos 5 000 L) e emite 187 kg aos 12 000 L. Em betão, as emissões líquidas são positivas em toda a gama.*
 
 ==Mais armazenamento não é monotonicamente melhor para o clima.== É o contrário do que a intuição corrente sugere, e decorre de uma propriedade simples: a saturação do atendimento. O volume que minimiza as emissões (2 000 L) não é o que maximiza a poupança de água, nem o que o critério do ganho marginal escolheu (5 000 L) — e a secção {{n:12}} trata de como decidir entre eles.
 
@@ -90,7 +90,7 @@ A observação anterior vale para o betão, mas é um caso particular de algo ma
 
 A tabela não condena o betão. Diz que precisa de justificação.
 
-- **Vida útil maior.** O programa adota 20 anos para todos os materiais. É um piso, não uma previsão: uma cisterna de betão bem executada pode durar muito mais, e num horizonte superior a 59 anos o retorno do carbono paga-se, embora sem folga. Se adotar uma vida útil diferente, **declare-a** e justifique-a. Este manual não cita nenhuma norma para a vida útil; se fundamentar a sua por norma, indique a fonte aberta.
+- **Vida útil maior.** O programa adota 20 anos para todos os materiais. É um piso, não uma previsão: uma cisterna de betão bem executada pode durar muito mais, e num horizonte superior a 58 anos o retorno do carbono paga-se, embora sem folga. Se adotar uma vida útil diferente, **declare-a** e justifique-a. Este manual não cita nenhuma norma para a vida útil; se fundamentar a sua por norma, indique a fonte aberta.
 - **Volumes grandes.** Para volumes muito grandes, os reservatórios de polietileno de fábrica deixam de ser práticos e o betão moldado no local pode ser a única opção viável.
 - **Restrição de espaço.** Uma cisterna enterrada de betão adapta-se ao terreno; a de polietileno vem em formatos fixos.
 - **Estrutura já existente.** Um reservatório de betão reaproveitado de outra finalidade tem carbono incorporado **zero** para efeito deste projeto.
@@ -109,11 +109,11 @@ A tabela não condena o betão. Diz que precisa de justificação.
 | preço da cisterna | 2 600 € | 2 850 € |
 | investimento total | 6 650 € | 6 900 € |
 | período de recuperação | sem recuperação | sem recuperação |
-| VAL a 20 anos | −5 829 € | −6 079 € |
-| retorno do carbono | 59,0 anos | 20,9 anos |
-| emissões líquidas em 20 anos | +678 kg | +15 kg |
+| VAL a 20 anos | −5 803 € | −6 053 € |
+| retorno do carbono | 57,7 anos | 20,4 anos |
+| emissões líquidas em 20 anos | +670 kg | +8 kg |
 
-A troca custa 250 € a mais e empurra o VAL para −6 079 €, mas reduz o retorno do carbono de 59,0 para 20,9 anos e as emissões líquidas de 678 para 15 kg. O potencial de poupança não muda.
+A troca custa 250 € a mais e empurra o VAL para −6 053 €, mas reduz o retorno do carbono de 57,7 para 20,4 anos e as emissões líquidas de 670 para 8 kg. O potencial de poupança não muda.
 
 <!-- tabela: Estado do projeto do tutorial depois da análise ambiental (ilustrativo, não é preço de mercado) -->
 | Projeto até aqui (ilustrativo, não é preço de mercado) | |
@@ -121,9 +121,9 @@ A troca custa 250 € a mais e empurra o VAL para −6 079 €, mas reduz o reto
 | volume | 5 000 L |
 | **material** | **polietileno** |
 | investimento | 6 900 € |
-| VAL | −6 079 € |
+| VAL | −6 053 € |
 | período de recuperação | sem recuperação |
-| retorno do carbono | 20,9 anos |
+| retorno do carbono | 20,4 anos |
 
 ---
 

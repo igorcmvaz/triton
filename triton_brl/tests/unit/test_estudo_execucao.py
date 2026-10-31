@@ -113,9 +113,13 @@ def test_licenca_e_credito_da_chuva_herdados_do_analyze(saida_do_exemplo):
     if ED == "INT":
         assert "Open-Meteo" in fontes and "CC BY 4.0" in fontes
     elif ED == "IBE":
-        assert "E-OBS" in fontes and "comerciais" in fontes
-        assert "E-OBS" in resumo and "E-OBS" in (pasta / "tabela.md").read_text(encoding="utf-8")
-        assert "E-OBS" in (pasta / "tabela.tex").read_text(encoding="utf-8")
+        # Lisboa e Porto: Iberia01 (ODbL, atribuição a Herrera et al.); Funchal: ERA5 de ilha (CC BY 4.0). Nada de E-OBS.
+        assert "Iberia01" in fontes and "ODbL" in fontes and "Herrera" in fontes
+        assert "Open-Meteo" in fontes and "CC BY 4.0" in fontes
+        assert "comerciais" not in fontes and "E-OBS" not in fontes
+        assert "Iberia01" in resumo and "Iberia01" in (pasta / "tabela.md").read_text(encoding="utf-8")
+        assert "Iberia01" in (pasta / "tabela.tex").read_text(encoding="utf-8")
+        assert "E-OBS" not in resumo
     else:
         assert dados["fontes_da_chuva_e_licencas"] == []       # a BRL não muda: sem bloco de fonte
 

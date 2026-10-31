@@ -25,7 +25,7 @@ E_mês = F(V_tot) − F(V_pot)
 | `V_pot` | volume mensal de água potável adquirido da rede | m³ |
 
 A razão desta metodologia assenta na estrutura progressiva por escalões e na existência
-de componentes fixas nos tarifários. ==O metro cúbico poupado abate sempre nos escalões superiores de consumo, que são os mais onerosos por unidade de volume.== No tutorial de Lisboa, a fatura mensal desce de 46,25 € para 35,06 €, gerando uma poupança mensal de 11,19 €. Utilizar uma tarifa média linear induziria distorções significativas nos resultados.
+de componentes fixas nos tarifários. ==O metro cúbico poupado abate sempre nos escalões superiores de consumo, que são os mais onerosos por unidade de volume.== No tutorial de Lisboa, a fatura mensal desce de 46,25 € para 34,93 €, gerando uma poupança mensal de 11,32 €. Utilizar uma tarifa média linear induziria distorções significativas nos resultados.
 
 ---
 

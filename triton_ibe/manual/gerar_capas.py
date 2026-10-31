@@ -3,7 +3,7 @@
 
 Cada capa tem o mesmo esqueleto — painel azul-marinho no alto, título e créditos
 embaixo — e um desenho próprio no painel, na cor do volume. Os desenhos não são
-decoração inventada: saem da série de Lisboa (E-OBS, 1991-2020) e das simulações do tutorial,
+decoração inventada: saem da série de Lisboa (Iberia01, 1986-2015) e das simulações do tutorial,
 as mesmas que alimentam as tabelas e as figuras do texto.
 
 Saída: manual/figuras/capas/capa_<volume>.png, que o gerar_pdf.py põe na página.

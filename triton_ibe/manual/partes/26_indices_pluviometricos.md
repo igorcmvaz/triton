@@ -241,10 +241,10 @@ O separador de índices do programa apresenta cada indicador ano a ano: a precip
 a média anual sozinha.
 
 **Explicar o resultado.** Um CDD alto, ou um regime fortemente sazonal, explica um desempenho
-inferior ao que o total anual sugere: na secção {{n:14}}, Lisboa recebe chuva em 22% dos dias, o
-seu mês mais chuvoso tem 47,3 vezes a chuva do mais seco, e a mesma moradia rende 17,49% com
-5 000 L, contra 22,04% no Porto, onde chove em 31% dos dias e a razão entre o mês mais e o menos
-chuvoso é de 9,8.
+inferior ao que o total anual sugere: na secção {{n:14}}, Lisboa recebe chuva em 35% dos dias, o
+seu mês mais chuvoso tem 22,7 vezes a chuva do mais seco, e a mesma moradia rende 17,87% com
+5 000 L, contra 21,58% no Porto, onde chove em 48% dos dias e a razão entre o mês mais e o menos
+chuvoso é de 9,9.
 
 **Comparar cenários climáticos.** Entre a série histórica e a projetada, o que costuma mudar
 primeiro é o SDII e o CDD, e não o PRCPTOT. Reportar só o total anual esconde a mudança que mais

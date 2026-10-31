@@ -45,7 +45,7 @@ from triton.core.simulation import (                              # noqa: E402
     run_single_simulation, run_sweep_simulation,
 )
 
-INICIO = datetime(1980, 1, 1)
+INICIO = datetime(1986, 1, 1)     # início da série do Iberia01 usada no manual (1986-2015)
 MESES = ["jan", "fev", "mar", "abr", "mai", "jun",
          "jul", "ago", "set", "out", "nov", "dez"]
 
@@ -55,7 +55,7 @@ def _datas(n):
 
 
 def _serie_da_cidade(chave):
-    # E-OBS por concelho (Lisboa, Porto) ou ERA5 (Funchal), como nas tabelas do manual.
+    # Iberia01 (Lisboa, Porto) ou ERA5 de ilha (Funchal), como nas tabelas do manual.
     # Antes procurava o CSV na pasta da BRL, e a figura saía com cidades do Brasil.
     return _serie(chave)[: ANOS_TUTORIAL * 365]
 

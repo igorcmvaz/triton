@@ -10,19 +10,20 @@ ficheiro confere cada nome contra o fonte antes de a página ser montada.
 PROCESSOS = [
 (
  "PROC-01", "Carregar a série de precipitação", "chuva",
- "Separador Projeto: escolher o concelho na base E-OBS ou abrir um ficheiro CSV.",
- ["Concelho da base E-OBS v33.0e (278 concelhos com série, 1950 a 2025), ou ficheiro CSV diário em milímetros por dia",
-  "<code>climate_start_date</code> e <code>climate_end_date</code>, que recortam a série (a normal 1991-2020 é o recorte inicial)",
+ "Separador Projeto: escolher o município na base ibérica (Iberia01), o concelho na E-OBS opcional, ou abrir um ficheiro CSV.",
+ ["Município do Iberia01 v1.0 (8 319 municípios da Península e das Baleares, 1971 a 2015; ERA5 nas ilhas), concelho da E-OBS v33.0e opcional (278 concelhos, 1950 a 2025), ou ficheiro CSV diário em milímetros por dia",
+  "<code>climate_start_date</code> e <code>climate_end_date</code>, que recortam a série (a normal 1986-2015 do Iberia01 é o recorte inicial)",
   "<code>start_date</code>, data do primeiro dia da série"],
  ["A série vira um vetor <code>numpy</code> de milímetros por dia; o índice do vetor "
   "é o dia, e a data serve só para saber o dia da semana e o mês.",
-  "A série de um concelho é a média diária das células da grelha E-OBS (0,1°) com centro dentro do concelho (limites da CAOP2025). "
-  "Os Açores ficam fora do domínio da E-OBS e a Madeira não cumpre o limite de 1% de dias sem dado: 30 concelhos ficam sem série na base, "
-  "e nenhum recebe a série de um vizinho. Para esses, a série é um ficheiro do utilizador.",
+  "A série de um município é a média diária das células da grelha do Iberia01 (0,1°) com centro dentro do município (CAOP2025 em Portugal, LAU 2023 em Espanha); na E-OBS, a média das células da sua grelha. "
+  "As ilhas ficam fora do domínio do Iberia01: Canárias, Madeira e Açores usam a reanálise ERA5 de 0,25° (nível C, com aviso); Ceuta e Melilla ficam sem série, "
+  "e nenhum local recebe a série de um vizinho. Para esses, a série é um ficheiro do utilizador.",
   "Dia sem dado em todas as células é uma falha (NaN), e a simulação recusa a série em vez de o tratar como dia seco.",
   "Ano incompleto é descartado na leitura, para não enviesar totais anuais.",
-  "A base vem no programa, em <code>data/portugal_eobs.db</code>; o exemplo do Funchal usa uma série ERA5 em <code>data/rainfall/Funchal.csv</code>."],
- [("base_climatica_portugal.py", "carregar_serie"),
+  "As bases vêm no programa, em <code>data/chuva_iberia01_p1.db</code> a <code>p4.db</code>, <code>data/chuva_ilhas_era5.db</code> e <code>data/portugal_eobs.db</code> (opcional); o exemplo do Funchal usa a ERA5 de ilha, e <code>data/rainfall/Funchal.csv</code> é a série de exemplo da edição."],
+ [("base_climatica_iberica.py", "carregar_serie"),
+  ("base_climatica_portugal.py", "carregar_serie"),
   ("parser.py", "load_precipitation")],
  ["<code>precip_data</code>: vetor de mm/dia, que é a entrada de <b>dois</b> processos "
   "distintos — PROC-04 (descarte e captação) e PROC-03 (suspensão da rega)"],
