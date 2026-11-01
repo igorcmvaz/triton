@@ -1,7 +1,8 @@
-"""Os PDFs de exemplo da IBE (Lisboa e Porto, com a E-OBS) trazem o aviso vermelho de uso não comercial.
+"""Os PDFs de exemplo da IBE trazem a fonte e a licença certas: Iberia01 (ODbL), sem o aviso da E-OBS.
 
-Decisão do titular (25/10/2026). Os de série própria (Funchal) e os da INT não o levam. Regerar com
-``scripts/gerar_relatorios_exemplo.py``, que também confere o rodapé.
+Desde 31/10/2026 Lisboa e Porto usam o Iberia01 (uso comercial permitido, com atribuição); o aviso vermelho de
+uso não comercial é da E-OBS e só aparece em projetos que a escolhem. O Funchal usa a ERA5 de ilha (CC BY).
+Regerar com ``scripts/gerar_relatorios_exemplo.py``, que também confere o rodapé.
 """
 import os
 import re
@@ -20,16 +21,16 @@ def _texto(pdf: Path) -> str:
         return re.sub(r"\s+", " ", " ".join(p.get_text() for p in d))
 
 
-@pytest.mark.skipif(not IBE, reason="só a IBE usa a E-OBS")
+@pytest.mark.skipif(not IBE, reason="só a IBE usa o Iberia01")
 @pytest.mark.parametrize("cidade", ["lisboa", "porto"])
-def test_os_pdfs_da_e_obs_trazem_o_aviso_vermelho_a_licenca_e_a_qualidade(cidade):
+def test_os_pdfs_do_iberia01_trazem_a_licenca_a_atribuicao_e_a_qualidade_sem_o_aviso_da_e_obs(cidade):
     pdfs = sorted((EXEMPLOS / cidade).glob("*_pt.pdf"))
     assert len(pdfs) == 3
     for pdf in pdfs:
         t = _texto(pdf)
-        assert "NÃO PODE SER USADA COMERCIALMENTE" in t, pdf.name
-        assert "o titular do programa não responde por uso comercial" in t, pdf.name
-        assert "Cornes" in t and "Qualidade da chuva" in t and "Cobertura" in t, pdf.name
+        assert "NÃO PODE SER USADA COMERCIALMENTE" not in t and "E-OBS" not in t, pdf.name
+        assert "Iberia01" in t and "ODbL" in t and "Herrera" in t, pdf.name
+        assert "Qualidade da chuva" in t, pdf.name
 
 
 @pytest.mark.skipif(not IBE, reason="só a IBE tem o Funchal")
