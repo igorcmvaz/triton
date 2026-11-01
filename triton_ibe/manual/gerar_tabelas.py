@@ -343,6 +343,9 @@ def _config_base():
     for k, v in CUSTOS_TUTORIAL.items():
         setattr(cfg, k, v)
     cfg.op_costs = list(MANUTENCAO_TUTORIAL)
+    # A data do estudo entra no reajuste das tarifas (vigência 01/01/2026): sem fixá-la, os números do manual
+    # mudariam a cada dia e o teste que os confere com o programa quebraria na manhã seguinte à geração.
+    cfg.data_base_estudo = "31/10/2026"
     return cfg
 
 
