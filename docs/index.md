@@ -19,6 +19,7 @@ flowchart LR
 | saber o que foi verificado | [Verificação](int/en/verification.md) |
 | usar a linha de comando | [Linha de comando](int/CLI_USAGE.md) |
 | ver quem importa quem no código | [Grafo de dependências](grafo_de_dependencias.md) |
+| comparar a grade do Triton com a busca bayesiana (optuna) | [Experimento grade x optuna](experimento_optuna.md) |
 | gerar este site | [Este site (mkdocs)](documentacao_mkdocs.md) |
 
 Os documentos da pasta «Edição Internacional» vêm de `triton_int/docs/`. As edições Brasil e Ibérica têm os seus em

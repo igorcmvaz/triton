@@ -2436,8 +2436,8 @@ def test_full_ui_flow(ui_flow_qapp):
 def test_selector_exposes_smaa_vikor_as_one_method_with_simulation_profiles(qapp):
     tab = TabEconomicGlobalOptimizer()
     methods = [tab.combo_mcdm_method.itemData(i) for i in range(tab.combo_mcdm_method.count())]
-    assert methods == ['topsis', 'smaa_vikor']
-    tab.combo_mcdm_method.setCurrentIndex(1)
+    assert methods == ['topsis', 'vikor', 'smaa_vikor', 'promethee']
+    tab.combo_mcdm_method.setCurrentIndex(tab.combo_mcdm_method.findData('smaa_vikor'))
     assert tab.combo_smaa_profile.isVisibleTo(tab)
     assert not tab.combo_preset.isVisibleTo(tab)
     assert tab.lbl_profile.text() == 'Perfil de simulações:'
@@ -2456,6 +2456,15 @@ def test_selector_exposes_smaa_vikor_as_one_method_with_simulation_profiles(qapp
     tab.spin_v_param.setValue(0.75)
     assert tab.get_vikor_v_param() == 0.75
     assert 'VIKOR v=0.75' in tab.lbl_weight_validation.text()
+    tab.combo_mcdm_method.setCurrentIndex(tab.combo_mcdm_method.findData('vikor'))
+    assert not tab.combo_smaa_profile.isVisibleTo(tab)
+    assert tab.combo_preset.isVisibleTo(tab)
+    assert tab.spin_v_param.isVisibleTo(tab)
+    tab.combo_mcdm_method.setCurrentIndex(tab.combo_mcdm_method.findData('promethee'))
+    assert not tab.combo_smaa_profile.isVisibleTo(tab)
+    assert tab.combo_preset.isVisibleTo(tab)
+    assert not tab.spin_v_param.isVisibleTo(tab)
+    assert "PROMETHEE II" in tab.table.horizontalHeaderItem(13).text()
     tab.combo_mcdm_method.setCurrentIndex(0)
     assert not tab.combo_smaa_profile.isVisibleTo(tab)
     assert tab.combo_preset.isVisibleTo(tab)
@@ -2869,3 +2878,70 @@ def test_portugal_documentacao_em_portugues_de_portugal(qapp, portugal, monkeypa
     assert T.em_portugues_da_edicao('VPL') == 'VAL'
     monkeypatch.setenv('TRITON_EDITION', 'BRL')
     assert T.em_portugues_da_edicao('VPL') == 'VPL'
+
+
+def test_tab_economic_global_optimizer_all_4_methods_execution(qapp):
+    from triton.ui.tab_economic_global_optimizer import TabEconomicGlobalOptimizer
+    from triton.core.parser import TritonConfig
+    tab = TabEconomicGlobalOptimizer()
+    class DummyText:
+        def __init__(self, val='5.0'): self._val = val
+        def text(self): return self._val
+    class DummyItem:
+        lower_tank_vol = 1000.0
+        potential_potable_savings_pct = 25.0
+        pct_days_full_satisfaction = 30.0
+        pct_days_partial_satisfaction = 10.0
+        pct_days_null_satisfaction = 60.0
+        annual_pluvial_consumed_m3 = 30.0
+        annual_potable_consumed_m3 = 90.0
+        annual_spill_m3 = 10.0
+        full_satisfaction_days = 120
+        delta_potential_per_m3 = 0.5
+        total_days = 365
+        total_pumped_liters = 30000.0
+        total_pump_cycles = 100
+        monthly_pump_hours = [1.0] * 12
+    class DummyItem2:
+        lower_tank_vol = 3000.0
+        potential_potable_savings_pct = 50.0
+        pct_days_full_satisfaction = 60.0
+        pct_days_partial_satisfaction = 10.0
+        pct_days_null_satisfaction = 30.0
+        annual_pluvial_consumed_m3 = 60.0
+        annual_potable_consumed_m3 = 60.0
+        annual_spill_m3 = 5.0
+        full_satisfaction_days = 240
+        delta_potential_per_m3 = 0.2
+        total_days = 365
+        total_pumped_liters = 60000.0
+        total_pump_cycles = 200
+        monthly_pump_hours = [2.0] * 12
+    class DummySweep:
+        results_by_volume = [DummyItem(), DummyItem2()]
+        optimal_lower_tank_vol = 3000.0
+    class DummySimTab:
+        _is_technical_only = False
+        last_sweep_result = DummySweep()
+        last_single_result = None
+        txt_delta_ideal = DummyText('5.0')
+        def get_currency_symbol(self): return 'R$'
+    class DummyWindow:
+        tab_tanks_simulation = DummySimTab()
+        config = TritonConfig()
+    win = DummyWindow()
+    tab.window = lambda: win
+    try:
+        for method in ['topsis', 'vikor', 'smaa_vikor', 'promethee']:
+            idx = tab.combo_mcdm_method.findData(method)
+            assert idx >= 0
+            tab.combo_mcdm_method.setCurrentIndex(idx)
+            tab._do_recalculate_all()
+            assert tab.last_mcdm_result is not None
+            assert tab.table.rowCount() == 2
+            assert tab.table.item(0, 13) is not None
+            assert tab.table.item(0, 14) is not None
+            assert tab.table.item(1, 13) is not None
+            assert tab.table.item(1, 14) is not None
+    finally:
+        tab.close()

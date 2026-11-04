@@ -1640,8 +1640,10 @@ class DialogInitialCosts(QDialog):
             if volume <= 0:
                 return 0.0
             texto = normalizar_milhar(self.txt_lower.text().strip()) if hasattr(self, "txt_lower") else ""
+            custo_m3 = float(getattr(self.config, "cost_lower_tank_per_m3", 0.0) or 0.0)
             try:
-                return float(texto) if texto else 0.0
+                base = float(texto) if texto else 0.0
+                return round(base + (volume / 1000.0) * custo_m3, 2) if custo_m3 > 0.0 else base
             except ValueError:
                 return 0.0
         return self._estimate_costs(lower_volume=volume)[0]

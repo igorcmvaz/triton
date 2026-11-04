@@ -18,7 +18,7 @@ url: "https://github.com/igorcmvaz/triton"
 repository-code: "https://github.com/igorcmvaz/triton"
 abstract: >-
   Software for the design and simulation of rainwater harvesting systems in buildings: daily water balance (Yield-After-Spill),
-  economic analysis, simplified life-cycle assessment and multi-criteria decision support (TOPSIS and SMAA-VIKOR).
+  economic analysis, simplified life-cycle assessment and multi-criteria decision support (TOPSIS, VIKOR, SMAA-VIKOR, and PROMETHEE II).
   Developed by the Sustainable Environments Research Group (GPAS) at the Federal University of Santa Catarina (UFSC),
   as the successor of the Netuno programme (Netuno 4 is the reference of its validation).
   International Edition: region-neutral, with rainfall, tariffs, costs and currency supplied by the user.
@@ -28,7 +28,11 @@ keywords:
   - sustainability
   - life-cycle-assessment
   - multi-criteria-decision-making
+  - mcda
   - topsis
+  - vikor
+  - smaa-vikor
+  - promethee
   - engineering-economics
 preferred-citation:
   type: software

@@ -74,4 +74,5 @@ nav:
   - Desenvolvimento:
       - Grafo de dependências: grafo_de_dependencias.md
       - consolidar e --progresso: estudo_consolidar_e_progresso.md
+      - Experimento grade x optuna: experimento_optuna.md
       - Este site (mkdocs): documentacao_mkdocs.md

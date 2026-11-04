@@ -19,7 +19,7 @@ from triton.core.parser import TritonConfig, format_ptbr, parse_float
 from triton.core.economic import run_robust_economic_analysis, calculate_effective_tariff
 from triton.core.environmental import EnvironmentalConfig, run_environmental_sweep
 from triton.core.topsis import PESOS_PADRAO, payback_do_criterio, TopsisCandidate, calculate_topsis_scores
-from triton.core.mcdm_methods import run_smaa_vikor
+from triton.core.mcdm_methods import run_smaa_vikor, run_vikor, run_promethee, VikorResult, PrometheeResult
 from triton.core.cost_estimates import (
     precos_de_catalogo,
     annualize_operational_costs,
@@ -79,9 +79,11 @@ class TabEconomicGlobalOptimizer(QWidget):
         profile_row.addWidget(QLabel(f"<b>{tr('Método:')}</b>"))
         self.combo_mcdm_method = QComboBox()
         self.combo_mcdm_method.addItem(tr("🏆 TOPSIS (Pesos Fixos por Perfil de Decisão)"), "topsis")
+        self.combo_mcdm_method.addItem(tr("🤝 VIKOR (Solução de Compromisso Direta)"), "vikor")
         self.combo_mcdm_method.addItem(
             tr("🎲 SMAA-VIKOR (Simulações Estocásticas no Simplex / Cryspin)"), "smaa_vikor"
         )
+        self.combo_mcdm_method.addItem(tr("⚖️ PROMETHEE II (Superação Completa por Fluxos Líquidos)"), "promethee")
         self.combo_mcdm_method.currentIndexChanged.connect(self.on_method_changed)
         self.combo_mcdm_method.setFixedHeight(28)
         profile_row.addWidget(self.combo_mcdm_method)
@@ -280,11 +282,17 @@ class TabEconomicGlobalOptimizer(QWidget):
         self.lbl_best_vikor.setStyleSheet("color: #b45309; background: #fef3c7; padding: 6px 10px; border-radius: 4px;")
         self.lbl_best_vikor.setWordWrap(True)
 
+        self.lbl_best_promethee = QLabel(tr("⚖️ Ótimo PROMETHEE II: --"))
+        self.lbl_best_promethee.setFont(QFont("Segoe UI", 9.5, QFont.Bold))
+        self.lbl_best_promethee.setStyleSheet("color: #7c2d12; background: #ffedd5; padding: 6px 10px; border-radius: 4px;")
+        self.lbl_best_promethee.setWordWrap(True)
+
         grid_cards.addWidget(self.lbl_best_tech, 0, 0)
         grid_cards.addWidget(self.lbl_best_vpl, 0, 1)
         grid_cards.addWidget(self.lbl_best_env, 1, 0, 1, 2)
         grid_cards.addWidget(self.lbl_best_topsis, 2, 0)
         grid_cards.addWidget(self.lbl_best_vikor, 2, 1)
+        grid_cards.addWidget(self.lbl_best_promethee, 3, 0, 1, 2)
         lay_best.addLayout(grid_cards)
 
         self.lbl_tradeoff_desc = QLabel(tr("Comparação de Trade-off: --"))
@@ -390,7 +398,11 @@ class TabEconomicGlobalOptimizer(QWidget):
         return 0.50
 
     def _update_method_controls(self):
-        is_smaa_vikor = self.combo_mcdm_method.currentData() == "smaa_vikor"
+        method = self.combo_mcdm_method.currentData() if hasattr(self, "combo_mcdm_method") else "topsis"
+        is_smaa_vikor = method == "smaa_vikor"
+        is_vikor = method == "vikor"
+        is_promethee = method == "promethee"
+
         self.lbl_profile.setText(tr("Perfil de simulações:") if is_smaa_vikor else tr("Perfil de decisão:"))
         self.combo_preset.setVisible(not is_smaa_vikor)
         self.combo_smaa_profile.setVisible(is_smaa_vikor)
@@ -407,23 +419,34 @@ class TabEconomicGlobalOptimizer(QWidget):
             spin.setVisible(not is_smaa_vikor)
             spin.setEnabled(not is_smaa_vikor)
 
+        show_v = is_smaa_vikor or is_vikor
         if hasattr(self, "lbl_v_param"):
-            self.lbl_v_param.setVisible(is_smaa_vikor)
+            self.lbl_v_param.setVisible(show_v)
         if hasattr(self, "spin_v_param"):
-            self.spin_v_param.setVisible(is_smaa_vikor)
+            self.spin_v_param.setVisible(show_v)
 
         if hasattr(self, "table"):
-            label_score = tr("Aceit. 1º (%)\nSMAA-VIKOR") if is_smaa_vikor else tr("TOPSIS\nScore")
-            label_rank = tr("Rank\nSMAA-VIKOR") if is_smaa_vikor else tr("Rank\nTOPSIS")
+            if is_smaa_vikor:
+                label_score = tr("Aceit. 1º (%)") + "\n" + tr("SMAA-VIKOR")
+                label_rank = tr("Rank") + "\n" + tr("SMAA-VIKOR")
+            elif is_vikor:
+                label_score = tr("Índice Q") + "\n" + tr("VIKOR")
+                label_rank = tr("Rank") + "\n" + tr("VIKOR")
+            elif is_promethee:
+                label_score = tr("Fluxo Líq. (Φ)") + "\n" + tr("PROMETHEE II")
+                label_rank = tr("Rank") + "\n" + tr("PROMETHEE II")
+            else:
+                label_score = tr("TOPSIS") + "\n" + tr("Score")
+                label_rank = tr("Rank") + "\n" + tr("TOPSIS")
             self.table.setHorizontalHeaderItem(13, QTableWidgetItem(label_score))
             self.table.setHorizontalHeaderItem(14, QTableWidgetItem(label_rank))
         if hasattr(self, "gb_best"):
             self.gb_best.setTitle(tr("🏆 Conclusão da Decisão Multi-Critério"))
         if hasattr(self, "gb_chart"):
-            method_name = "SMAA-VIKOR" if is_smaa_vikor else "TOPSIS"
+            method_name = "SMAA-VIKOR" if is_smaa_vikor else ("VIKOR" if is_vikor else ("PROMETHEE II" if is_promethee else "TOPSIS"))
             self.gb_chart.setTitle(tr("📊 Gráfico de Decisão Multi-Critério por Volume") + f" ({method_name})")
         if hasattr(self, "tab_charts_topsis"):
-            method_name = "SMAA-VIKOR" if is_smaa_vikor else "TOPSIS"
+            method_name = "SMAA-VIKOR" if is_smaa_vikor else ("VIKOR" if is_vikor else ("PROMETHEE II" if is_promethee else "TOPSIS"))
             self.tab_charts_topsis.setTabText(0, tr("📊 Gráfico Decisão Multi-Critério") + f" ({method_name})")
         self._update_weight_validation()
 
@@ -530,6 +553,8 @@ class TabEconomicGlobalOptimizer(QWidget):
             self.lbl_best_topsis.setText(tr("🏆 Ótimo TOPSIS: --"))
         if hasattr(self, "lbl_best_vikor"):
             self.lbl_best_vikor.setText(tr("🎲 Ótimo VIKOR / SMAA: --"))
+        if hasattr(self, "lbl_best_promethee"):
+            self.lbl_best_promethee.setText(tr("⚖️ Ótimo PROMETHEE II: --"))
         if hasattr(self, "lbl_tradeoff_desc"):
             self.lbl_tradeoff_desc.setText(tr("Comparação de Trade-off: --"))
         if hasattr(self, "topsis_chart"):
@@ -802,7 +827,7 @@ class TabEconomicGlobalOptimizer(QWidget):
 
         best_econ_row = best_pb_row if best_pb_row >= 0 else best_vpl_row
 
-        # Calcula SEMPRE ambos os métodos (TOPSIS e SMAA-VIKOR) para apresentar ambos na conclusão executiva
+        # Calcula SEMPRE todos os métodos para apresentar ambos na conclusão executiva
         self.last_scenario_results = results_summary
         weights = self.get_current_weights()
         selected_method = self.combo_mcdm_method.currentData() if hasattr(self, 'combo_mcdm_method') else "topsis"
@@ -815,6 +840,12 @@ class TabEconomicGlobalOptimizer(QWidget):
         smaa_res = run_smaa_vikor(topsis_candidates, v_param=v_param_val, num_samples=smaa_samples)
         self.last_smaa_vikor_result = smaa_res
 
+        vikor_res = run_vikor(topsis_candidates, weights=weights, v_param=v_param_val)
+        self.last_vikor_result = vikor_res
+
+        promethee_res = run_promethee(topsis_candidates, weights=weights)
+        self.last_promethee_result = promethee_res
+
         if selected_method == "smaa_vikor":
             self.last_mcdm_result = smaa_res
             best_mcdm_row = smaa_res.best_index
@@ -825,6 +856,32 @@ class TabEconomicGlobalOptimizer(QWidget):
                 item_rk = QTableWidgetItem(f"#{rk}")
                 item_rk.setTextAlignment(Qt.AlignCenter)
                 if r == smaa_res.best_index:
+                    font = item_score.font(); font.setBold(True); item_score.setFont(font); item_rk.setFont(font)
+                self.table.setItem(r, 13, item_score)
+                self.table.setItem(r, 14, item_rk)
+        elif selected_method == "vikor":
+            self.last_mcdm_result = vikor_res
+            best_mcdm_row = vikor_res.best_index
+            mcdm_label_title = tr("🤝 Ótimo VIKOR (Compromisso v={0:.2f})").format(v_param_val)
+            for r, (q, rk) in enumerate(zip(vikor_res.q_scores, vikor_res.ranks)):
+                item_score = QTableWidgetItem(f"{q:.3f}")
+                item_score.setTextAlignment(Qt.AlignCenter)
+                item_rk = QTableWidgetItem(f"#{rk}")
+                item_rk.setTextAlignment(Qt.AlignCenter)
+                if r == vikor_res.best_index:
+                    font = item_score.font(); font.setBold(True); item_score.setFont(font); item_rk.setFont(font)
+                self.table.setItem(r, 13, item_score)
+                self.table.setItem(r, 14, item_rk)
+        elif selected_method == "promethee":
+            self.last_mcdm_result = promethee_res
+            best_mcdm_row = promethee_res.best_index
+            mcdm_label_title = tr("⚖️ Ótimo PROMETHEE II (Superação)")
+            for r, (phi, rk) in enumerate(zip(promethee_res.net_flows, promethee_res.ranks)):
+                item_score = QTableWidgetItem(f"{phi:+.3f}")
+                item_score.setTextAlignment(Qt.AlignCenter)
+                item_rk = QTableWidgetItem(f"#{rk}")
+                item_rk.setTextAlignment(Qt.AlignCenter)
+                if r == promethee_res.best_index:
                     font = item_score.font(); font.setBold(True); item_score.setFont(font); item_rk.setFont(font)
                 self.table.setItem(r, 13, item_score)
                 self.table.setItem(r, 14, item_rk)
@@ -844,7 +901,7 @@ class TabEconomicGlobalOptimizer(QWidget):
                     self.table.setItem(r, 13, item_score)
                     self.table.setItem(r, 14, item_rk)
 
-        # Atualiza ambos os cards de decisão multicritério (TOPSIS e VIKOR)
+        # Atualiza todos os cards de decisão multicritério (TOPSIS, VIKOR e PROMETHEE)
         is_equal_weights = (
             abs(weights[0] - 1/3) < 0.015 and
             abs(weights[1] - 1/3) < 0.015 and
@@ -863,22 +920,34 @@ class TabEconomicGlobalOptimizer(QWidget):
             self.lbl_best_topsis.setText(
                 f"🏆 {tr('Ótimo TOPSIS')} ({weights_short}): {best_top.lower_tank_vol:.0f} L (Score: {topsis_res.scores[topsis_res.best_index]:.2f})"
             )
-        if smaa_res:
+        if selected_method == "vikor" and vikor_res:
+            best_vik = vikor_res.best_candidate
+            self.lbl_best_vikor.setText(
+                f"🤝 {tr('Ótimo VIKOR')} ({weights_short}, v={v_param_val:.2f}): {best_vik.lower_tank_vol:.0f} L (Q: {vikor_res.q_scores[vikor_res.best_index]:.3f})"
+            )
+        elif smaa_res:
             best_sma = smaa_res.best_candidate
             self.lbl_best_vikor.setText(
                 milhar(tr('🎲 {0}: {1:.0f} L ({2:.1f}% em {3:,} simulações)').format(tr('Ótimo VIKOR / SMAA'), best_sma.lower_tank_vol, smaa_res.first_rank_acceptabilities[smaa_res.best_index]*100, smaa_samples))
+            )
+        if promethee_res:
+            best_prom = promethee_res.best_candidate
+            self.lbl_best_promethee.setText(
+                f"⚖️ {tr('Ótimo PROMETHEE II')} ({weights_short}): {best_prom.lower_tank_vol:.0f} L (Φ: {promethee_res.net_flows[promethee_res.best_index]:+.3f})"
             )
 
         if topsis_res:
             self.topsis_chart.update_chart(
                 topsis_result=topsis_res,
                 smaa_result=self.last_smaa_vikor_result,
+                vikor_result=self.last_vikor_result,
+                promethee_result=self.last_promethee_result,
                 method=selected_method
             )
             self.topsis_proximity_chart.update_chart(
                 topsis_res,
                 selected_best_index=best_mcdm_row,
-                method_label=("SMAA-VIKOR" if selected_method == "smaa_vikor" else "TOPSIS")
+                method_label=("SMAA-VIKOR" if selected_method == "smaa_vikor" else ("VIKOR" if selected_method == "vikor" else ("PROMETHEE II" if selected_method == "promethee" else "TOPSIS")))
             )
 
             best_t = topsis_candidates[topsis_res.technical_best_index]

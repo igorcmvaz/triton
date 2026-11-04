@@ -1,0 +1,282 @@
+{
+  "schema": {
+    "name": "triton-project",
+    "version": 2
+  },
+  "version": "0.1.0",
+  "metadata": {
+    "project_id": "N5-20261031-102004-0D94BBBD",
+    "name": "Exemplo - moradia do tutorial no Porto (Iberia01 1986-2015) [custos a informar pelo utilizador]",
+    "created_at": "15/10/2026 00:00",
+    "saved_at": "31/10/2026 10:20:04"
+  },
+  "rainfall": {
+    "source_mode": "national_db",
+    "climate_city_uf": "PT|Porto",
+    "climate_city_name": "Porto [PT-1312]",
+    "climate_model": "Iberia01 v1.0",
+    "climate_scenario": "IBERIA01",
+    "climate_start_date": "01/01/1986",
+    "climate_end_date": "31/12/2015",
+    "file_name": "",
+    "start_date": "01/01/1986",
+    "total_days": 10957,
+    "climbra_series": {
+      "origem": "Iberia01 (Ibéria)",
+      "pacote_id": "iberia01-v1.0-b214eb601c3d",
+      "cidade": "Porto [PT-1312]",
+      "uf": "PT|Porto",
+      "modelo": "Iberia01 v1.0",
+      "cenario": "IBERIA01",
+      "inicio": "01/01/1986",
+      "fim": "31/12/2015",
+      "dias": 10957,
+      "total_mm": 35917.4,
+      "sha256": "481baaf78c58f43e6fcb352dcb6ff02e90115e2fbb621e763f601f7ab2e2ca93"
+    },
+    "precipitation_mm": []
+  },
+  "inputs": {
+    "building_and_demand": {
+      "catchment_area_m2": 150.0,
+      "runoff_coeff": 0.85,
+      "residents_count": 4,
+      "residents_type": 0,
+      "residents_monthly": [],
+      "demand_value": 150.0,
+      "demand_type": 0,
+      "demand_monthly": [],
+      "use_variable": false,
+      "rainwater_share": 0.28
+    },
+    "demand_modulation": {
+      "demand_mode": "constant",
+      "weekly_demands": [],
+      "weekly_residents": [],
+      "weekly_shares": [],
+      "monthly_shares": [],
+      "daily_demands": [],
+      "daily_residents": [],
+      "daily_shares": []
+    },
+    "rainfall_discard": {
+      "discard_mm": 2.0,
+      "discard_mode": 1,
+      "discard_days_interval": 7
+    },
+    "reservoirs_and_pumping": {
+      "lower_tank_fixed_l": 2000.0,
+      "lower_tank_max_l": 20000.0,
+      "lower_tank_step_l": 1000.0,
+      "lower_tank_mode": 1,
+      "delta_ideal_pct": 1.0,
+      "phi_operation_rule": null,
+      "upper_tank_vol_l": 0.0,
+      "upper_tank_used": false,
+      "pumping_threshold_l": 50.0,
+      "supply_arrangement": "pressurizacao",
+      "pressurizer_pressure_m": 18.0,
+      "pressurizer_starts_per_person_day": 5.05,
+      "pressurizer_model": "personalizado",
+      "pressurizer_point_flow_l_min": 9.0,
+      "pressurizer_power_kw": 0.18,
+      "pressurizer_flow_l_min": 13.3,
+      "pressurizer_post_run_s": 0.0,
+      "pump": {
+        "count": 1,
+        "power_str": "1/2",
+        "power_kw": 0.36775,
+        "flow_rate_l_h": 0.0,
+        "efficiency_pct": 0.0,
+        "startup_time_h": 0.03,
+        "motor_efficiency": 0.0,
+        "unit_cost": 0.0,
+        "manometric_head_m": 0.0
+      }
+    },
+    "financial_and_economic": {
+      "analysis_period_years": 20,
+      "tma_monthly_pct": 2.0,
+      "inflation_monthly_pct": 0.2,
+      "sewage_mode": 3,
+      "sewage_rate_pct": 0.0,
+      "sewage_tariffs": [
+        [
+          0.0,
+          5.0,
+          0.45230200000000004
+        ],
+        [
+          5.0,
+          15.0,
+          0.8477880000000001
+        ],
+        [
+          15.0,
+          25.0,
+          1.5900000000000003
+        ],
+        [
+          25.0,
+          null,
+          2.63039
+        ]
+      ],
+      "sewage_volume_factor": 1.0,
+      "water_tax_fixed": 2.1147,
+      "water_tax_var_pct": 6.0,
+      "water_tariffs": [
+        [
+          0.0,
+          0.0,
+          3.726,
+          -1
+        ],
+        [
+          0.0,
+          5.0,
+          0.4945,
+          1
+        ],
+        [
+          5.0,
+          15.0,
+          0.9649,
+          1
+        ],
+        [
+          15.0,
+          25.0,
+          1.7657,
+          1
+        ],
+        [
+          25.0,
+          999999.0,
+          3.0016,
+          1
+        ]
+      ],
+      "tariff_city_uf": "Porto",
+      "tariff_city_name": "Porto",
+      "tariff_vigencia": "01/01/2026",
+      "data_base_estudo": "15/10/2026",
+      "tariff_category": "residencial",
+      "elec_city_uf": "Porto",
+      "elec_city_name": "Porto",
+      "tariff_escalation_months": 12.0,
+      "water_tariff_escalation_pct": 5.0,
+      "sewage_tariff_escalation_pct": 5.0,
+      "elec_tariff": 0.0,
+      "elec_tax_fixed": 0.0,
+      "elec_tax_var_pct": 0.0,
+      "elec_tariff_escalation_pct": 5.0
+    },
+    "water_quality_and_etap": {
+      "target_class": "classe_1",
+      "disinfection": "cloro",
+      "polishing_filter": false,
+      "first_flush_system_enabled": true,
+      "etap_enabled": true,
+      "precos_de_catalogo": false,
+      "chlorine_treatment_enabled": true,
+      "chlorine_dose_mg_l": 1.5,
+      "chlorine_product_purity": 0.65,
+      "chlorine_cost_per_kg": 0.0,
+      "chlorine_co2_kg_per_kg": 1.72
+    },
+    "materials_and_typology": {
+      "building_template_id": "res_medio",
+      "lower_tank_material": "PEAD",
+      "upper_tank_material": "PEAD"
+    },
+    "irrigation": {
+      "garden_area_m2": 0.0,
+      "rate_l_m2_day": 3.0,
+      "liters_per_day": 0.0,
+      "rain_threshold_mm": 2.0,
+      "potable_backup": true
+    },
+    "incentives_and_shares": {
+      "iptu_green_enabled": false,
+      "iptu_annual_value": 4000.0,
+      "iptu_discount_pct": 5.0,
+      "tariff_flag": "verde",
+      "tariff_customized": false,
+      "num_economias": 1,
+      "potable_indoor_share": 0.72,
+      "non_potable_indoor_share": 0.28,
+      "install_month": 0,
+      "econ_lower_tank_vol": 2000.0,
+      "demand_mode": "constant",
+      "edge_base_case_l_person_day": 0.0
+    },
+    "capex_and_opex": {
+      "cost_lower_tank": 0.0,
+      "cost_upper_tank": 0.0,
+      "cost_labor": 0.0,
+      "cost_piping": 0.0,
+      "cost_accessories": 0.0,
+      "capex_do_arranjo": false,
+      "mao_de_obra_automatica": false,
+      "operational_costs": [
+        [
+          "Inspeção e limpeza de calhas/pré-filtro",
+          12,
+          0.0,
+          0.0
+        ],
+        [
+          "Limpeza e inspeção do reservatório",
+          12,
+          0.0,
+          0.0
+        ],
+        [
+          "Manutenção preventiva da motobomba",
+          12,
+          0.0,
+          0.0
+        ]
+      ]
+    },
+    "global_optimizer_scenarios": []
+  },
+  "ui_state": {
+    "stage3": {
+      "currency_code": "EUR"
+    },
+    "project": {
+      "source_mode": "national_db",
+      "climate_uf": "PT|Porto",
+      "climate_city": "Porto [PT-1312]",
+      "climate_model": "Iberia01 v1.0",
+      "climate_scenario": "IBERIA01",
+      "start_date": "01/01/1986",
+      "end_date": "31/12/2015"
+    }
+  },
+  "analysis": {
+    "exemplo": "Exemplo - moradia do tutorial no Porto (Iberia01 1986-2015) [custos a informar pelo utilizador]",
+    "custos": "Os custos de obra, de bomba e de manutenção não estão definidos: introduza os seus (etapa 5). Até lá, a análise mostra apenas a poupança na fatura.",
+    "entidades_tarifarias": "Águas e Energia do Porto, EM",
+    "vigencia_tarifaria": "01/01/2026",
+    "fontes_tarifarias": [
+      "Águas e Energia do Porto, Tarifário Geral 2026 (tarifas_portugal/fontes/Aguas_do_Porto/Tarifario_Geral_2026.pdf)"
+    ],
+    "hipoteses_tarifarias": [
+      "Tarifa de disponibilidade de água, utilizador doméstico, contador ≤ 20 mm (Q3 ≤ 4 m³/h): 0,1242 €/dia (pág. 2 do PDF, sob «Utilizadores domésticos») × 30 = 3,726 €/mês. O PDF repete a tabela na pág. 3 com 0,1367 €/dia para o mesmo escalão de contador; essa repetição vem depois da «Tarifa variável» dos utilizadores não domésticos (pág. 2) e sem cabeçalho próprio, e as demais linhas coincidem com as da pág. 2, por isso foi lida como a tarifa de disponibilidade dos não domésticos. Leitura por inferência do layout, a confirmar com a entidade gestora.",
+      "Tarifa de disponibilidade de águas residuais: 0,0665 €/dia × 30 = 1,995 €/mês.",
+      "IVA: 6% na água e nas águas residuais (Águas e Energia do Porto, EM).",
+      "Taxa de Recursos Hídricos (TRH) da água: 0,0392 €/m³ devida à APA, com IVA a 6% (o PDF diz apenas que às tarifas acresce o IVA à taxa legal em vigor; os 6% são a taxa reduzida do Continente, não impressa no documento).",
+      "Resíduos urbanos: não constam do tarifário da Águas e Energia do Porto (são da Porto Ambiente) e ficam de fora desta fatura. Meses de 30 dias, como nos escalões do PDF («/30 dias»)."
+    ],
+    "chuva": "Porto [PT-1312]: Iberia01 v1.0 (ODbL 1.0), 1986-2015, nível de qualidade B (data/chuva_iberia01_p*.db). Herrera, S., Cardoso, R. M., Soares, P. M. M., Espírito-Santo, F., Viterbo, P., Gutiérrez, J. M. (2019). Iberia01: a new gridded dataset of daily precipitation and temperatures over Iberia. Earth System Science Data, 11, 1947-1956. doi:10.5194/essd-11-1947-2019",
+    "eletricidade": "Tarifa de eletricidade não definida neste exemplo: introduza a sua (o custo de bombagem fica a zero até lá)."
+  },
+  "bim_layout": {
+    "bim_components": [],
+    "pipe_runs": [],
+    "building_volume": {}
+  }
+}

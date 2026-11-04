@@ -600,8 +600,22 @@ class TOPSISComparisonChart(TritonBaseChart):
     def __init__(self, parent=None):
         super().__init__("", parent)
 
-    def update_chart(self, topsis_result=None, smaa_result=None, method="topsis"):
-        res = smaa_result if (method == "smaa_vikor" and smaa_result is not None) else (topsis_result or smaa_result)
+    def update_chart(
+        self,
+        topsis_result=None,
+        smaa_result=None,
+        vikor_result=None,
+        promethee_result=None,
+        method="topsis"
+    ):
+        if method == "smaa_vikor":
+            res = smaa_result if smaa_result is not None else topsis_result
+        elif method == "vikor":
+            res = vikor_result if vikor_result is not None else topsis_result
+        elif method == "promethee":
+            res = promethee_result if promethee_result is not None else topsis_result
+        else:
+            res = topsis_result or smaa_result
         if not res or not hasattr(res, 'candidates') or not res.candidates:
             self.plot_empty(tr("Execute o recálculo para gerar a otimização multicritério"))
             return
@@ -623,15 +637,16 @@ class TOPSISComparisonChart(TritonBaseChart):
         best_i = int(res.best_index)
 
         is_smaa = hasattr(res, "first_rank_probs") or method == "smaa_vikor"
+        is_vikor = method == "vikor"
+        is_promethee = method == "promethee"
+
+        min_y = 0.0
         if is_smaa:
-            # `first_rank_acceptabilities` é fração de 0 a 1, e o gráfico mostra
-            # percentual. A conversão é fixa: multiplicar só o que fosse <= 1
-            # misturava as duas unidades na mesma série de barras.
             raw_scores = getattr(res, "first_rank_acceptabilities", None)
             if raw_scores is not None:
                 scores = [float(s) * 100.0 for s in raw_scores]
             elif getattr(res, "first_rank_probs", None) is not None:
-                scores = [float(s) for s in res.first_rank_probs]  # já em percentual
+                scores = [float(s) for s in res.first_rank_probs]
             else:
                 scores = [0.0] * n_bars
             y_label = tr("Aceitabilidade de 1º Lugar — SMAA-VIKOR (%)")
@@ -640,19 +655,32 @@ class TOPSISComparisonChart(TritonBaseChart):
             samples_str = milhar(f" ({res.num_simulations:,} simulações)") if hasattr(res, "num_simulations") else ""
             annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L ({scores[best_i]:.1f}%{samples_str})"
 
-            # Eixo Y como múltiplo de 20 imediatamente superior ao maior valor
             highest_score = max(scores) if scores else 0.0
             if highest_score <= 0.0:
                 max_y = 20.0
             else:
                 max_y = float((floor(highest_score / 20.0) + 1) * 20.0)
+        elif is_vikor:
+            scores = [float(s) for s in getattr(res, "q_scores", [0.0]*n_bars)]
+            y_label = tr("Índice de Compromisso VIKOR (Q — menor é melhor)")
+            val_fmt = lambda s: f"{s:.2f}"
+            annot_best_label = tr("Ótimo VIKOR")
+            annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L (Q = {scores[best_i]:.2f})"
+            max_y = 1.20
+        elif is_promethee:
+            scores = [float(s) for s in getattr(res, "net_flows", [0.0]*n_bars)]
+            y_label = tr("Fluxo Líquido de Superação — PROMETHEE II (Φ)")
+            val_fmt = lambda s: f"{s:+.2f}"
+            annot_best_label = tr("Ótimo PROMETHEE II")
+            annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L (Φ = {scores[best_i]:+.2f})"
+            min_y = -1.15
+            max_y = 1.15
         else:
             scores = [float(s) for s in getattr(res, "scores", [0.0]*n_bars)]
             y_label = tr("Escore TOPSIS")
             val_fmt = lambda s: f"{s:.2f}"
             annot_best_label = tr("Ótimo TOPSIS")
             annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L ({scores[best_i]:.2f})"
-            # O escore vai de 0 a 1; a folga até 1,2 abriga a anotação do ótimo.
             max_y = 1.20
 
         if n_bars <= 15:
@@ -704,16 +732,21 @@ class TOPSISComparisonChart(TritonBaseChart):
                 arrowprops=dict(arrowstyle='->', color='#059669', lw=1.2)
             )
 
-        ax.set_ylim(0, max_y)
+        ax.set_ylim(min_y, max_y)
+        if is_promethee:
+            ax.axhline(0.0, color=grid_color, linestyle='--', linewidth=0.8)
         if n_bars > 15:
             ax.set_xlim(0.0, _upper_multiple(vols, 1000.0))
-        if not is_smaa:
+        if is_promethee:
             import matplotlib.ticker as ticker
-            ax.yaxis.set_major_locator(ticker.MultipleLocator(0.2))
-        if is_smaa:
+            ax.yaxis.set_major_locator(ticker.MultipleLocator(0.5))
+        elif is_smaa:
             import matplotlib.ticker as ticker
             step_ticks = 20.0 if max_y >= 40.0 else 10.0
             ax.yaxis.set_major_locator(ticker.MultipleLocator(step_ticks))
+        else:
+            import matplotlib.ticker as ticker
+            ax.yaxis.set_major_locator(ticker.MultipleLocator(0.2))
         ax.set_xlabel(tr("Volume do Reservatório Inferior (Litros)"), color=text_color, fontsize=8.5, fontweight='bold')
         ax.set_ylabel(y_label, color=text_color, fontsize=8.5, fontweight='bold')
         ax.tick_params(colors=text_color, labelsize=8)
