@@ -228,3 +228,28 @@ def test_so_a_internacional_leva_o_manual_ingles(tmp_path):
     esperado = {e: [f for f in b.verificar_pasta_para_instalador(tmp_path, e) if "Triton-User-Manual" in f]
                 for e in ("brl", "int", "ibe")}
     assert esperado["int"] and not esperado["brl"] and not esperado["ibe"]
+
+
+def test_os_modulos_dos_subpacotes_de_core_chegam_ao_executavel():
+    """Os «shims» da raiz de core/ trocam a entrada em sys.modules; o PyInstaller só enxerga o import estático.
+
+    Cada shim precisa de um `from triton.core.<subpacote>.<modulo> import ...` de topo, e as duas listas de
+    empacotamento precisam coletar todo `triton.core` (que é pacote de espaço de nomes, sem __init__).
+    """
+    core = os.path.join(PACOTE, "core")
+    sem_import_estatico = []
+    for arquivo in sorted(os.listdir(core)):
+        if not arquivo.endswith(".py"):
+            continue
+        texto = open(os.path.join(core, arquivo), encoding="utf-8").read()
+        if "sys.modules[__name__]" not in texto:
+            continue
+        arvore = ast.parse(texto)
+        alvos = [no.module for no in arvore.body
+                 if isinstance(no, ast.ImportFrom) and (no.module or "").count(".") >= 3
+                 and no.module.startswith("triton.core.")]
+        if not alvos:
+            sem_import_estatico.append(arquivo)
+    assert not sem_import_estatico, ("shims sem import estático do módulo canônico: " + ", ".join(sem_import_estatico))
+    assert "collect_submodules('triton.core')" in open(os.path.join(RAIZ, "Triton.spec"), encoding="utf-8").read()
+    assert '"--collect-submodules", "triton.core"' in open(os.path.join(RAIZ, "build_exe.py"), encoding="utf-8").read()

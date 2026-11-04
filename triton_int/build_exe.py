@@ -299,6 +299,9 @@ def build_pyinstaller(args, base_dir: Path) -> bool:
     ]
     for hi in hidden_imports:
         cmd.append(f"--hidden-import={hi}")
+    # Os módulos canônicos dos subpacotes de core/ (hydrology, climate, ...) são alcançados pelos "shims" da raiz,
+    # que trocam a entrada em sys.modules; o PyInstaller lê só o import estático. Coletar todos evita surpresa.
+    cmd += ["--collect-submodules", "triton.core"]
 
     main_script = getattr(args, "main_script", None) or (base_dir / "main.py")
     cmd.append(str(main_script))
@@ -482,8 +485,11 @@ MANIFESTO_CLIMBRA = Path("data") / "climbra_partes.json"
 
 
 def modelos_climbra() -> list:
-    """Os 19 modelos CMIP6 da base, na ordem do programa (lidos de triton/core/climate_database.py, sem importá-lo)."""
-    texto = (Path(__file__).resolve().parent / "triton" / "core" / "climate_database.py").read_text(encoding="utf-8")
+    """Os 19 modelos CMIP6 da base, na ordem do programa (lidos de triton/core/climate/climate_database.py, sem importá-lo)."""
+    core = Path(__file__).resolve().parent / "triton" / "core"
+    # O módulo canônico está em core/climate; core/climate_database.py é só a fachada de retrocompatibilidade.
+    arquivo = core / "climate" / "climate_database.py"
+    texto = (arquivo if arquivo.exists() else core / "climate_database.py").read_text(encoding="utf-8")
     bloco = re.search(r"CLIMATE_MODELS:\s*List\[str\]\s*=\s*\[(.*?)\]", texto, re.S)
     return re.findall(r'"([^"]+)"', bloco.group(1)) if bloco else []
 

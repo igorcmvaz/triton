@@ -28,7 +28,7 @@ PALAVRA_LATINA = re.compile(r"\b[A-Za-zÀ-ÿ]{4,}\b")
 #: Siglas, nomes próprios e unidades que ficam em alfabeto latino também em
 #: chinês, como é praxe em texto técnico.
 ESTRANGEIRISMOS = re.compile(
-    r"(Triton|PDF|CSV|CAD|BIM|TOPSIS|VIKOR|SMAA|ESG|LEED|EDGE|GRI|AQUA|HQE|ETAP|"
+    r"(Triton|PDF|CSV|CAD|BIM|TOPSIS|VIKOR|PROMETHEE|SMAA|ESG|LEED|EDGE|GRI|AQUA|HQE|ETAP|"
     r"YAS|CAPEX|OPEX|CMIP|INMET|ABNT|NBR|ANEEL|CLIMBra|Excel|JSON|HTML|SVG|DXF|"
     r"ACV|LCA|SSP|GCM|QDM|TIR|VPL|PRCPTOT|SDII|CDD|CWD|ETCCDI|INM|IPCA|INPC|"
     r"Selic|SINAPI|CUB|CREA|UFSC|CASAN|Joinville|AISI|HDPE|PEAD|PRFV|TFDI|"
