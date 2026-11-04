@@ -91,6 +91,8 @@ def test_versao_do_material_fixada_e_fora_do_requirements():
 def test_site_gerado_vai_para_o_gitignore_e_nada_do_mkdocs_no_empacotamento():
     assert re.search(r"^/site/\s*$", (RAIZ / ".gitignore").read_text(encoding="utf-8"), re.M)
     for nome in ("Triton.spec", "build_exe.py"):
+        if not (RAIZ_EDICAO / nome).is_file():
+            continue  # o empacotamento não vai ao Git (só o necessário para a linha de comando)
         assert "mkdocs" not in (RAIZ_EDICAO / nome).read_text(encoding="utf-8").lower(), nome
 
 

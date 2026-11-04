@@ -203,15 +203,15 @@ Na Edição Brasil o relatório da análise não traz bloco de fonte da chuva: r
 
 > **O programa organiza; quem decide é o analista.** Nenhum campo do esqueleto vem preenchido, e um «XX» ou um `null` impede a execução. Área, demanda, número de usuários e fração atendível de cada edifício precisam vir de uma fonte que o estudo cite. O resumo avisa quando os custos não foram informados (CAPEX igual a zero), porque então o valor presente líquido e o retorno não são resultados.
 
-### Seis estudos de Santa Catarina, prontos para refinar
+### Um estudo por município e por modelo climático
 
-A pasta `estudos/santa-catarina/` da Edição Brasil traz seis estudos `triton-estudo` (escolar, comercial, residencial unifamiliar, residencial multifamiliar, hospitalar e aeroportuário), todos com o mesmo desenho: um **arquétipo** de edificação em `padroes.substituicoes`, as tarifas do catálogo do programa e uma `expansao` que gera um caso por município, por um dos 19 modelos da CLIMBra e por um dos sete recortes sugeridos pelo programa (histórico 1981–2010 e, em SSP2-4.5 e SSP5-8.5, 2021–2050, 2041–2070 e 2071–2100). Os cinco primeiros cobrem os 32 municípios de Santa Catarina que existem na CLIMBra (dos 295 do IBGE); o aeroportuário cobre os municípios com aeroporto de voos regulares em 2025 (critério da ANAC, no `LEIA.md`) que estão na CLIMBra.
+Na Edição Brasil, um `estudo.json` pode ter uma `expansao` que gera um caso por município, por um dos 19 modelos da CLIMBra e por um dos sete recortes sugeridos pelo programa (histórico 1981–2010 e, em SSP2-4.5 e SSP5-8.5, 2021–2050, 2041–2070 e 2071–2100). Um estudo para a lista de municípios de um estado, por exemplo, tem milhares de casos (município × 19 modelos × 7 recortes): rode um estudo por vez e estime o custo antes, com `triton estudo validate`.
 
-Os números de edificação (área de captação, usuários, demanda por usuário, fração atendível, volumes da varredura) são **estimativas de arquétipo, a refinar pelo autor**: não são dados medidos nem de norma, e cada `estudo.json` e `LEIA.md` o declara. Para refinar, edite `padroes.substituicoes` (ou, para variar por município, troque `expansao` por `casos` explícitos) e cite a fonte de cada valor. As fontes abertas (IBGE e ANAC, com URL, data de acesso e SHA-256 em `FONTES.json`) ficam guardadas em `estudos/santa-catarina/_fontes/`.
+Os números da edificação (área de captação, usuários, demanda por usuário, fração atendível, volumes da varredura) são **estimativas de arquétipo, a refinar pelo autor**: não são dados medidos nem de norma. Edite `padroes.substituicoes` (ou, para variar por município, troque `expansao` por `casos` explícitos) e cite a fonte de cada valor. O programa não distribui estudos regionais prontos: o exemplo `examples/estudos/tres-tipologias-exemplo/` mostra o desenho do arquivo, e os estudos de Santa Catarina do grupo de pesquisa são trabalho próprio, publicado à parte.
 
 ```powershell
-triton estudo validate estudos\santa-catarina\escolar\estudo.json
-triton estudo run estudos\santa-catarina\escolar\estudo.json --saida estudos\santa-catarina\_saida\escolar --paralelo 4 --retomar
+triton estudo validate meu-estudo\estudo.json
+triton estudo run meu-estudo\estudo.json --saida meu-estudo\_saida --paralelo 4 --retomar
 ```
 
-Cada estudo tem milhares de casos (município × 19 modelos × 7 recortes): rode um estudo por vez e veja o custo no `LEIA.md` da pasta `santa-catarina`. A pasta `_saida/` fica fora do Git.
+A pasta de saída reúne milhares de arquivos: mantenha-a fora do controle de versão.

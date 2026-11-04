@@ -12,12 +12,12 @@ O texto da descrição está apresentado em **Português (pt-BR)** e em **Inglê
 | Campo / Field | Valor / Value |
 | :--- | :--- |
 | **Title / Título** | Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings (Editions: Brasil, International, and Ibérica) |
-| **Publication Date / Data de Publicação** | 2026-11-03 (ou data do lançamento do release v0.1.0) |
+| **Publication Date / Data de Publicação** | 2026-11-05 |
 | **Resource Type / Tipo de Recurso** | Software |
 | **Authors / Autores** | **Vaz, Igor Catão Martins** (UFSC - Universidade Federal de Santa Catarina, Departamento de Engenharia Civil, Laboratório de Eficiência Energética em Edificações - LabEEE / GPAS)<br>**Ghisi, Enedir** (UFSC - Universidade Federal de Santa Catarina, Departamento de Engenharia Civil, Laboratório de Eficiência Energética em Edificações - LabEEE / GPAS) |
 | **License / Licença** | Other (Non-Commercial): licença acadêmica de código-fonte disponível, todos os direitos reservados, uso não comercial; texto integral em `LICENSE.md` (cada edição). NÃO é GPL |
 | **Access / Acesso** | Open Access (Acesso Aberto) |
-| **Digital Object Identifier (DOI)** | *Atribuído automaticamente pelo Zenodo após publicação (ex: 10.5281/zenodo.XXXXXXX)* |
+| **Digital Object Identifier (DOI)** | 10.5281/zenodo.23402916 (reservado antes da publicação) |
 | **Language / Idioma** | Multilingual (pt-BR, en-GB, es, zh) |
 | **Related Identifiers / Identificadores Relacionados** | - IsSupplementTo / IsDocumentedBy: Manual do Usuário Triton (UFSC, 2026)<br>- Continues / IsNewVersionOf: Netuno (Software de Aproveitamento de Água de Chuva em Edifícios - Netuno 4, UFSC/LabEEE)<br>- References: NBR 15527 (ABNT); EN 16941-1 (CEN); CLIMBra CMIP6 (UFSC/INPE); Iberia01; E-OBS |
 | **Communities / Comunidades Zenodo** | - ufsc: Universidade Federal de Santa Catarina<br>- water-management: Sustainable Water Resource Management & Building Hydrology<br>- uilding-sustainability: Architecture, Civil Engineering & Urban Sustainability |
@@ -132,7 +132,7 @@ Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater
   year         = 2026,
   publisher    = {Zenodo},
   version      = {0.1.0},
-  doi          = {10.5281/zenodo.XXXXXXX},
+  doi          = {10.5281/zenodo.23402916},
   url          = {https://github.com/igorcmvaz/triton},
   institution  = {Universidade Federal de Santa Catarina (UFSC)},
   organization = {Laboratório de Eficiência Energética em Edificações (LabEEE) / GPAS}

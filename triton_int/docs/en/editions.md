@@ -95,14 +95,13 @@ and in the CLI.
 | | International |
 | :--- | :--- |
 | entry point | `main.py` in `triton_int` |
-| build | `python build_exe.py`, inside the folder |
 | folder | `dist/Triton_INT/`, `Triton_INT.exe` |
 | installer | `Triton_INT_Setup_0_1_0.exe` (`/DEdition=INT`) |
 | installation folder | `Triton International` |
 | `.triton` file association | unticked |
 | national databases | none: the package carries no climate or tariff database |
 
-Installer details in [`../instalador.md`](../instalador.md) (Portuguese).
+The installer is published in the Zenodo record (DOI 10.5281/zenodo.23402916); the packaging tools are not in the repository.
 
 ---
 

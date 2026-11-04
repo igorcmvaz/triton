@@ -125,7 +125,7 @@ Chaves que começam por `_` são comentários e o programa as ignora. Campo vazi
 
 Na International e na Ibérica, `clima.climbra`, `tarifa` e `expansao` são recusados na validação com a mensagem de que só existem na Edição Brasil; `clima.arquivo` continua valendo.
 
-Com `expansao`, o `resultados.csv` ganha as colunas `municipio`, `ibge`, `modelo`, `recorte`, `cenario`, `inicio` e `fim` entre `grupo` e `metrica`: uma linha por município, modelo, recorte e métrica. Os 6 estudos de Santa Catarina (`estudos/santa-catarina/`) usam este esquema.
+Com `expansao`, o `resultados.csv` ganha as colunas `municipio`, `ibge`, `modelo`, `recorte`, `cenario`, `inicio` e `fim` entre `grupo` e `metrica`: uma linha por município, modelo, recorte e métrica.
 
 ### Apelidos das substituições
 

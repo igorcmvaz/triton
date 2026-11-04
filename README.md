@@ -60,25 +60,20 @@ logo, versioning and one edition for each region.
 </table>
 
 All three share the same engine and the same version number. Each folder is self-contained, with its own source,
-tests, manual and Windows installer, so you only need the one you use.
+tests, and manual, so you only need the one you use.
 
 ## Download
+The Windows installers are **not** in this repository. They are released in a single Zenodo record, so that each release can be cited and kept as it was released: DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916), with the installers' SHA-256 checksums. Installers are not code-signed.
+To run from the source code instead, see the [Quick start](#quick-start).
 
-*The repository is private at this stage; it will be made public later, and these links will then work.*
-
-The Windows installers are **not** in this repository, and they are not published yet. They will be released
-in a single Zenodo record, so that each release can be cited and kept as it was released. This README will
-link to that record, with the installers' SHA-256 checksums, when it exists. Installers are not code-signed.
-Until then, run Triton from the source code (see [Quick start](#quick-start)).
-
-| Edition | Installer (when published) |
+| Edition | Installer (in the Zenodo record) |
 |---|---|
-| Brasil (BRL) | `Triton_Setup_0_1_0.exe` |
-| International (INT) | `Triton_INT_Setup_0_1_0.exe` |
-| Ibérica (IBE) | `Triton_IBE_Setup_0_1_0.exe` |
+| Brasil (BRL) | `Triton_Brasil_Setup_v0.1.0.exe` |
+| International (INT) | `Triton_Internacional_Setup_v0.1.0.exe` |
+| Ibérica (IBE) | `Triton_Iberica_Setup_v0.1.0.exe` |
 
-The source code in this repository is the same one the installers are built from; to build an installer yourself,
-run `python build_exe.py --installer` inside the edition folder.
+The source code in this repository is the same one the installers are built from. The repository holds what is needed
+to run Triton from the command line and the graphical interface; the packaging tools are kept by the maintainer.
 
 ## What Triton does
 

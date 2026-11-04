@@ -9,7 +9,7 @@ Federal University of Santa Catarina
 
 International Edition · 2026
 
-Version 0.1.0 · revised 2026-10-30
+Version 0.1.0 · revised 2026-11-04
 
 ---
 
@@ -9247,11 +9247,11 @@ repository, the site or the manual read the same record.
 <!-- tabela: **Table 143** — **Table 99** — Overview of the published versions -->
 | Version | Date | What it brought | Fixes that change results |
 | :--- | :--- | :--- | ---: |
-| **0.1.0 (beta)** | October 2026 | First beta of Triton, with its own name for each edition, in the same repository and with the same version numbering. | 0 |
+| **0.1.0 (beta)** | 5 November 2026 | First beta of Triton, with its own name for each edition, in the same repository and with the same version numbering. | 0 |
 
 ---
 
-### 6.3.3. Version 0.1.0 (beta) — October 2026
+### 6.3.3. Version 0.1.0 (beta) — 5 November 2026
 
 > **In one sentence.** First beta of Triton, with its own name for each edition, in the same repository and with the same version numbering.
 
@@ -10031,7 +10031,7 @@ sensitivity indices — see Saltelli et al. (2008).
 
 ## Appendix A — The project parameters
 
-There are **118 parameters**. This is the complete list of what a project
+There are **119 parameters**. This is the complete list of what a project
 stores in this edition, with the exact name of each field inside the `.triton` file.
 
 The list was not transcribed by hand: it is extracted from the program itself for
@@ -10068,13 +10068,13 @@ editions. They have no effect in this one and are not listed.
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Main window, Project | Automation, Scenarios, Spreadsheets |
-| `climate_source_mode` | custom_file | — | Main window, Project | — |
-| `climate_city_uf` | — | — | Main window, Project, Reports | — |
-| `climate_city_name` | — | — | Main window, Project, Reports | — |
-| `climate_model` | — | — | Main window, Project, Reports | — |
-| `climate_scenario` | — | — | Main window, Project, Reports | — |
-| `climate_start_date` | 1980-01-01 | — | Main window, Project, Reports | — |
-| `climate_end_date` | 2013-12-31 | — | Main window, Project, Reports | — |
+| `climate_source_mode` | custom_file | — | Main window, Project, Reports | Automation |
+| `climate_city_uf` | — | — | Main window, Project, Reports | Automation |
+| `climate_city_name` | — | — | Main window, Project, Reports | Automation |
+| `climate_model` | — | — | Main window, Project, Reports | Automation |
+| `climate_scenario` | — | — | Main window, Project, Reports | Automation |
+| `climate_start_date` | 1980-01-01 | — | Main window, Project, Reports | Automation |
+| `climate_end_date` | 2013-12-31 | — | Main window, Project, Reports | Automation |
 | `start_date` | 1980-01-01 | — | Export, Main window, Project, Tariffs and costs | Automation, Climate, Spreadsheets |
 
 Notes from the code:
@@ -10197,7 +10197,7 @@ Notes from the code:
 
 ### A.8. Tanks
 
-12 parameters.
+13 parameters.
 
 <!-- tabela: **Table 163** — Project parameters: tanks -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
@@ -10213,6 +10213,7 @@ Notes from the code:
 | `lower_tank_material` | PEAD | — | Economic, Optimiser, Tariffs and costs | Automation, LCA, Prices |
 | `upper_tank_material` | PEAD | — | Economic, Optimiser, Tariffs and costs | Automation, LCA, Prices |
 | `cost_lower_tank` | 0 | currency | Economic, Sweep, Tariffs and costs | Automation, Economic, Prices |
+| `cost_lower_tank_per_m3` | 0 | — | Tariffs and costs | Prices |
 | `cost_upper_tank` | 0 | currency | Economic, Sweep, Tariffs and costs | Automation, Economic |
 
 Notes from the code:
@@ -10302,7 +10303,7 @@ Notes from the code:
 | `tariff_customized` | no | — | Project | — |
 | `water_tariffs` | — | — | Project, Sweep, Tariffs, Tariffs and costs | Economic |
 | `tariff_city_uf` | custom | — | Main window, Project, Reports, Tariffs, Tariffs and costs | — |
-| `tariff_city_name` | custom | — | Main window, Project, Reports, Tariffs, Tariffs and costs | — |
+| `tariff_city_name` | custom | — | Main window, Project, Reports, Tariffs, Tariffs and costs | Automation |
 | `tariff_vigencia` | — | — | Project, Tariffs and costs | — |
 | `tariff_category` | residencial | — | Economic, Tariffs, Tariffs and costs | Tariffs |
 | `sewage_rate` | 100 | % of water | Project, Tariffs, Tariffs and costs | Automation, Economic, Tariffs |

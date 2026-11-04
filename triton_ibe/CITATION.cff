@@ -10,10 +10,9 @@ authors:
     given-names: Enedir
     affiliation: "Universidade Federal de Santa Catarina"
 version: "0.1.0"
-date-released: "2026-10-24"  # provisória: a data de lançamento será definida pelo titular
-# DOI será atribuído na publicação do release (um só registro para os instaladores das três edições).
+date-released: "2026-11-05"
+doi: "10.5281/zenodo.23402916"
 license-url: https://github.com/igorcmvaz/triton/blob/main/triton_ibe/LICENSE.md
-# O repositório é privado nesta fase; os endereços abaixo valerão quando for tornado público.
 url: "https://github.com/igorcmvaz/triton"
 repository-code: "https://github.com/igorcmvaz/triton"
 abstract: >-

@@ -1946,6 +1946,8 @@ def test_relatorios_e_prancha_trazem_a_edicao(internacional):
 
 def test_instalador_por_edicao():
     from pathlib import Path
+    if not (Path(_ARQUIVO_EDICOES).resolve().parents[2] / 'setup_script.iss').is_file():
+        pytest.skip('o empacotamento não faz parte do repositório (só o necessário para a linha de comando)')
     iss = (Path(_ARQUIVO_EDICOES).resolve().parents[2] / 'setup_script.iss').read_text(encoding='utf-8')
     assert '#if Edition == "INT"' in iss and '#elif Edition == "IBE"' in iss
     assert iss.count('#define AppGuid') == 3  # BRL, INT e POR instalam-se lado a lado

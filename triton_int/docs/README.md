@@ -28,7 +28,6 @@ method and verification reports also exist in Portuguese.
 | [`../triton/docs/relatorio_validacao_en.md`](../triton/docs/relatorio_validacao_en.md) | technical verification of the algorithms |
 | [`certificacao_edge.md`](certificacao_edge.md) | EDGE certification and the water credit |
 | [`en/editions.md`](en/editions.md), [`edicoes.md`](edicoes.md) | the edition map: what the user sees and where it is in the code |
-| [`instalador.md`](instalador.md) | how to build the installer |
 | [`../infos_licenses/CLI_USAGE.md`](../infos_licenses/CLI_USAGE.md) | command-line usage |
 
 ## Running the verification

@@ -62,7 +62,7 @@ the release is published). Until then, run Triton from the source code.
 
 Triton needs **Python 3.12 or later** and runs from source on Windows, Linux and macOS.
 
-The repository is private at this stage: ask the maintainers for access.
+The repository is public at https://github.com/igorcmvaz/triton.
 
 ```bash
 git clone https://github.com/igorcmvaz/triton.git
@@ -98,7 +98,7 @@ The DOI will be assigned when the release is published.
 
 ## Contributing and support
 
-The repository is private at this stage; send reports to the maintainers (sustainability@contato.ufsc.br). For a bug
+Send reports to the maintainers (sustainability@contato.ufsc.br). For a bug
 report, attach the `.triton` project file and the precipitation series that reproduce it: the project
 file carries every premise.
 

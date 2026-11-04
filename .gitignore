@@ -36,3 +36,21 @@ PROGRESSO_INTEGRACAO.md
 
 # Site de documentacao tecnica gerado pelo mkdocs (mkdocs.yml da raiz; so desenvolvimento)
 /site/
+
+# Empacotamento (PyInstaller, Inno Setup) e instaladores: ficam com o mantenedor, fora do Git.
+# O Git leva só o necessário para rodar em linha de comando. Cópia de segurança: auditoria/empacotamento/.
+**/Triton.spec
+**/build_exe.py
+**/setup_script.iss
+**/docs/instalador.md
+**/tests/unit/test_build_git.py
+**/tests/unit/test_empacotamento.py
+**/tests/unit/test_icones.py
+**/tests/unit/test_icone_e_appid_da_edicao.py
+**/tests/unit/test_instalador.py
+*.exe
+
+# Estudos de Santa Catarina (pesquisa própria do grupo): ficam fora do Git, no disco do autor.
+**/estudos/
+**/scripts/gerar_estudos_sc.py
+**/scripts/gerar_graficos_artigos.py

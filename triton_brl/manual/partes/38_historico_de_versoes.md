@@ -57,7 +57,7 @@ mesmo registro.
 
 ---
 
-## Versão 0.1.0 (beta) — 24 de outubro de 2026
+## Versão 0.1.0 (beta) — 5 de novembro de 2026
 
 > **Em uma frase.** Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com
 > nome próprio para cada edição, com o mesmo repositório e a mesma numeração; a 1.0.0, a primeira oficial, virá depois.

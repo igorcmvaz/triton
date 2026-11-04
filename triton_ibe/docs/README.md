@@ -28,7 +28,6 @@ Ponto de entrada único da documentação.
 | [`../triton/docs/relatorio_validacao.md`](../triton/docs/relatorio_validacao.md) | verificação técnica dos algoritmos |
 | [`certificacao_edge.md`](certificacao_edge.md) | certificação EDGE e o crédito de água |
 | [`edicoes.md`](edicoes.md), [`en/editions.md`](en/editions.md) | o mapa das edições: o que o utilizador vê e onde está no código |
-| [`instalador.md`](instalador.md) | como gerar o instalador |
 | [`en/README.md`](en/README.md) | resumo em inglês |
 
 ## Executar a verificação

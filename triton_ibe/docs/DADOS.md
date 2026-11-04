@@ -1,6 +1,6 @@
 # Dados da Edição Ibérica (IBE): o que existe, de onde vem e quanto confiar
 
-Versão 0.1.0, 24/10/2026 (secções ibéricas atualizadas em 30/10/2026). Este documento descreve cada conjunto de dados da edição: o que é, a fonte (URL e data), a licença, a cobertura, a resolução, o período, o tratamento de falhas, o nível de qualidade, o tamanho, como o programa o carrega e como o reproduzir. Todo o número vem de um ficheiro (citado); onde a informação não existe no repositório, o texto diz «não verificado».
+Versão 0.1.0, 05/11/2026 (secções ibéricas atualizadas em 30/10/2026). Este documento descreve cada conjunto de dados da edição: o que é, a fonte (URL e data), a licença, a cobertura, a resolução, o período, o tratamento de falhas, o nível de qualidade, o tamanho, como o programa o carrega e como o reproduzir. Todo o número vem de um ficheiro (citado); onde a informação não existe no repositório, o texto diz «não verificado».
 
 Tamanhos em MiB (1 MiB = 1 048 576 bytes, a unidade do aviso de 50 MB do GitHub). **Regra do projeto: nenhum ficheiro rastreado passa de 50 MiB.** O script `scripts/verificar_tamanhos.py` (na raiz do repositório) falha se isso acontecer, e a verificação do GitHub corre-o a cada envio. O maior ficheiro de dados desta edição é `data/chuva_iberia01_p1.db`, com 15,19 MiB (cada parte do Iberia01 tem menos de 43 MiB).
 
@@ -271,6 +271,6 @@ O titular dos direitos do software (UFSC/GPAS) decidiu as duas questões que est
 
 ### 9.3 Outros registos de 25/10/2026
 
-- **Repositório:** privado nesta fase; o README não promete ligação pública.
+- **Repositório:** público em https://github.com/igorcmvaz/triton.
 - **DOI do Zenodo:** ainda não criado. **Data de lançamento:** a definir pelo titular.
 - **Eletricidade do Funchal:** fonte secundária, estado amarelo (§4); mantida e rotulada.

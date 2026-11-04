@@ -96,7 +96,6 @@ outras e na CLI.
 | | Portugal |
 | :--- | :--- |
 | ponto de entrada | `main.py` em `triton_ibe` |
-| compilação | `python build_exe.py`, dentro da pasta |
 | pasta | `dist/Triton_IBE/`, `Triton_IBE.exe` |
 | instalador | `Triton_IBE_Setup_0_1_0.exe` (`/DEdition=IBE`) |
 | pasta de instalação | `Triton IBE` |
@@ -104,7 +103,7 @@ outras e na CLI.
 | base E-OBS de Portugal (`data/portugal_eobs.db`, ~6 MB, no git) | embutida; a compilação para se faltar |
 | fontes brutas de Portugal (`data/portugal/fontes`, ~3 GB, fora do git) | retiradas |
 
-Detalhes do instalador em [`instalador.md`](instalador.md).
+O instalador sai no registro do Zenodo (DOI 10.5281/zenodo.23402916); as ferramentas de empacotamento não ficam no repositório.
 
 ---
 

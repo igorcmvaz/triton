@@ -58,11 +58,10 @@ in the [release notes](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) and the [changelog](CH
 
 ## Install and run
 
-**Windows installer.** Not published yet, and not code-signed. When it exists it will be listed in the
-[repository README](../README.md#download) with its SHA-256 checksum (`Triton_INT_Setup_0_1_0.exe`). No Python is
-needed. Until then, run from source.
+**Windows installer.** In the Zenodo record, DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916)
+(`Triton_Internacional_Setup_v0.1.0.exe`, SHA-256 in `SHA256SUMS.txt`; not code-signed). No Python is needed.
 
-**From source** (Python 3.12 or later; the repository is private at this stage):
+**From source** (Python 3.12 or later):
 
 ```bash
 cd triton_int
@@ -88,17 +87,6 @@ TRITON_EDITION=INT python -m pytest tests/unit tests/test_essencial.py
 On Windows PowerShell: `$env:TRITON_EDITION = "INT"; python -m pytest tests/unit tests/test_essencial.py`.
 The Qt interface tests are collected only when PySide6 is installed.
 
-## Build the installer
-
-```bash
-python build_exe.py --installer      # dist/Triton_INT/ and dist/Triton_INT_Setup_0_1_0.exe
-```
-
-It needs Python 3.12 or later, PyInstaller (`requirements-dev.txt`) and [Inno Setup 6](https://jrsoftware.org/isinfo.php).
-The package carries no regional database.
-
-**Requirements.** Windows for the installer (the checks of this version were made on Windows); Python 3.12 or later and the packages in `requirements.txt` to run from source.
-
 ## Documentation
 
 - [User manual (PDF)](manual/en/Triton-User-Manual.pdf)
@@ -122,7 +110,6 @@ triton_int/
 ├── scripts/           Maintenance tools (see scripts/README.md)
 ├── infos_licenses/    Licence texts, installer texts and third-party notices
 ├── pyproject.toml     Package metadata
-├── build_exe.py       Executable (PyInstaller) and installer (Inno Setup) build
 └── main.py            Entry point of the desktop application
 ```
 

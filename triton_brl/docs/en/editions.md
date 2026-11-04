@@ -93,7 +93,6 @@ without being listed in this table.
 | | Brazil | International | Portugal |
 | :--- | :--- | :--- | :--- |
 | entry point | `main.py` in `triton_brl` | `main.py` in `triton_int` | `main.py` in `triton_ibe` |
-| build | `python build_exe.py`, inside each folder | same | same |
 | folder | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_IBE/`, `Triton_IBE.exe` |
 | installer | `Triton_Setup_0_1_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_0_1_0.exe` (`/DEdition=INT`) | `Triton_IBE_Setup_0_1_0.exe` (`/DEdition=IBE`) |
 | installation folder | `Triton` | `Triton International` | `Triton IBE` |
@@ -104,9 +103,8 @@ without being listed in this table.
 | `tarifas/` folder (official documents and transcriptions, ~150 MB) | included, without `entrada` | removed after PyInstaller | removed after PyInstaller |
 | manuals in the package | Portuguese and English | Portuguese and English | Portuguese and English |
 
-`python build_exe.py --edition all` builds the three.
 
-Installer details in [`../instalador.md`](../instalador.md) (Portuguese).
+The installer is published in the Zenodo record (DOI 10.5281/zenodo.23402916); the packaging tools are not in the repository.
 
 ---
 

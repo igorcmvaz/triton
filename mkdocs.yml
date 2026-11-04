@@ -54,7 +54,6 @@ extra:
     int/equacoes_balanco.md: triton_int/docs/equacoes_balanco.md
     int/verificacao_e_validacao.md: triton_int/docs/verificacao_e_validacao.md
     int/conferencia_dos_casos_analiticos.md: triton_int/docs/conferencia_dos_casos_analiticos.md
-    int/instalador.md: triton_int/docs/instalador.md
     int/CLI_USAGE.md: triton_int/infos_licenses/CLI_USAGE.md
 
 nav:
@@ -70,7 +69,6 @@ nav:
       - Casos analíticos (pt): int/conferencia_dos_casos_analiticos.md
       - Edições: int/en/editions.md
       - Linha de comando: int/CLI_USAGE.md
-      - Instalador: int/instalador.md
   - Desenvolvimento:
       - Grafo de dependências: grafo_de_dependencias.md
       - consolidar e --progresso: estudo_consolidar_e_progresso.md

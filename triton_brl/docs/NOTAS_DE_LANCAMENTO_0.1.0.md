@@ -10,7 +10,7 @@ O Triton dimensiona sistemas de aproveitamento de água da chuva em edificaçõe
 
 | | |
 | :--- | :--- |
-| Instalador para Windows | `Triton_Setup_0_1_0.exe`, ainda não publicado (e sem assinatura digital); o repositório é privado nesta fase e o DOI do Zenodo ainda não foi criado. Compilação local de 25/10/2026: 859.3 MiB, SHA-256 `9f04b541aec0f6efcb83fd2adfdfe126a5e3e26bf511d9779f58a98f4b22e89a`. O hash do instalador publicado, como o endereço do registro no Zenodo, será indicado na publicação do release (o instalador não é reprodutível bit a bit: cada compilação grava a data). Não precisa de Python. Até lá, execute a partir do código. |
+| Instalador para Windows | `Triton_Brasil_Setup_v0.1.0.exe`, publicado no registro do Zenodo (DOI 10.5281/zenodo.23402916), sem assinatura digital: o Windows pode mostrar o aviso do SmartScreen. O SHA-256 de cada instalador está no arquivo `SHA256SUMS.txt` do registro (o instalador não é reprodutível bit a bit: cada compilação grava a data). Não precisa de Python. |
 | A partir do código | Python 3.12 ou superior; `pip install -r requirements.txt`; `python main.py` (interface) ou `python -m triton.cli --help` (linha de comando) |
 | Espaço | A base climática embutida tem 785,1 MiB (19 arquivos); o repositório rastreado soma cerca de 872 MiB nesta pasta |
 

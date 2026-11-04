@@ -55,6 +55,9 @@ def test_o_instalador_leva_o_marcador_e_o_build_o_regrava(tmp_path):
     """``triton/data`` entra inteira no pacote (e o marcador com ela); o build regrava o da edição compilada."""
     import importlib.util
 
+    import pytest
+    if not (RAIZ / "build_exe.py").is_file():
+        pytest.skip("build_exe.py não faz parte do repositório (só o necessário para a linha de comando)")
     spec = importlib.util.spec_from_file_location("build_exe_da_pasta", RAIZ / "build_exe.py")
     build = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(build)

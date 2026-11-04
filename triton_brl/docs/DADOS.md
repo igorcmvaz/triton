@@ -1,6 +1,6 @@
 # Dados da Edição Brasil (BRL): o que há, de onde vem e quanto confiar
 
-Versão 0.1.0, 24/10/2026. Este documento descreve cada conjunto de dados da edição: o que é, a fonte (URL e data), a licença, a cobertura, a resolução, o período, o tratamento de falhas, o nível de qualidade, o tamanho, como o programa o carrega e como reproduzi-lo. Todo número vem de um arquivo do repositório (os arquivos estão citados); onde a informação não existe no repositório, o texto diz «não verificado».
+Versão 0.1.0, 05/11/2026. Este documento descreve cada conjunto de dados da edição: o que é, a fonte (URL e data), a licença, a cobertura, a resolução, o período, o tratamento de falhas, o nível de qualidade, o tamanho, como o programa o carrega e como reproduzi-lo. Todo número vem de um arquivo do repositório (os arquivos estão citados); onde a informação não existe no repositório, o texto diz «não verificado».
 
 Tamanhos em MiB (1 MiB = 1.048.576 bytes, a unidade do aviso de 50 MB do GitHub). **Regra do projeto: nenhum arquivo rastreado passa de 50 MiB.** O script `scripts/verificar_tamanhos.py` (na raiz do repositório) falha se isso acontecer e a verificação do GitHub o roda a cada envio. O maior arquivo da edição é `data/climbra_KACE.db`, com 43,02 MiB.
 
@@ -193,7 +193,9 @@ Cite o CLIMBra (Ballarin et al., 2023) ao usar a base climática, a fonte de cad
 - Decididas em 25/10/2026: planilhas do Netuno 4 e logotipo CLIMBra mantidos (autorização dos criadores, registrada pelo titular); ANEEL (ODbL) e MCTI (CC BY-ND) aprovados com atribuição. Seguem sem verificação os portais dos prestadores.
 - `tarifas/transcricoes/.cobertura_cache.json` (cache gerado) saiu do controle de versão e entrou no `.gitignore`.
 
-## 10. Estudos de caso de Santa Catarina (`estudos/santa-catarina/`)
+## 10. Estudos de caso de Santa Catarina (`estudos/santa-catarina/`, fora do repositório)
+
+> Estes estudos são pesquisa própria do grupo e **não vão no repositório nem no instalador**; a descrição abaixo documenta como foram feitos. O programa traz apenas o mecanismo (`expansao`, `clima.climbra`, `tarifa`).
 
 Seis estudos `triton-estudo` (escolar, comercial, residencial unifamiliar, residencial multifamiliar, hospitalar, aeroportuário), gerados por `scripts/gerar_estudos_sc.py`. O esquema ganhou, só na BRL, `clima.climbra` (município, UF, modelo, cenário e recorte da CLIMBra), `tarifa` (município e categoria do catálogo de tarifas) e `expansao` (município × modelo × recorte); ver apêndice F do manual.
 

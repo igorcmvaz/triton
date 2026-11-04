@@ -138,9 +138,6 @@ triton_brl/
 ├── pyproject.toml              # Metadados do pacote (PEP 621); o estado de lançamento é declarado aqui
 ├── requirements.txt            # Dependências de produção
 ├── requirements-dev.txt        # Dependências de desenvolvimento e testes
-├── build_exe.py                # Compilação do executável (PyInstaller) e do instalador
-├── Triton.spec                 # Especificação do PyInstaller
-├── setup_script.iss            # Script do instalador Inno Setup 6
 ├── CITATION.cff                # Como citar o programa
 ├── LICENSE.md                  # Licença: código-fonte disponível para fins acadêmicos
 └── main.py                     # Ponto de entrada da aplicação desktop
@@ -161,7 +158,7 @@ referência), `tmp/`, e os laudos gerados em `reports/` (exceto `reports/exemplo
 ## 🚀 Instalação e Execução
 
 ### Pré-requisitos
-- Para usar sem Python: o instalador `.exe` para Windows (traz tudo) ainda não está publicado; até lá, rode a partir do código.
+- Para usar sem Python: o instalador `.exe` para Windows (traz tudo) está no registro do Zenodo, DOI 10.5281/zenodo.23402916 (`Triton_Brasil_Setup_v0.1.0.exe`).
 - Para desenvolver ou rodar a partir do código: Python 3.12 ou superior (o código usa a sintaxe de f-strings do 3.12).
 
 ### 1. Instalação em Modo de Desenvolvimento
@@ -199,36 +196,9 @@ triton --help
 
 ---
 
-## 📦 Compilação do Executável Windows (.exe e Instalador)
+## 📦 Instalador Windows
 
-O script [`build_exe.py`](build_exe.py) automatiza a compilação do executável standalone e do instalador oficial:
-
-```bash
-# Compilação padrão (pasta standalone em dist/Triton/):
-python build_exe.py
-
-# Compilação limpa com executável único:
-python build_exe.py --clean --onefile
-
-# Compilação com geração automática do instalador Inno Setup (.exe):
-python build_exe.py --clean --installer
-
-# Outras edições (dist/Triton_INT/, dist/Triton_IBE/), cada uma no seu repositório de código:
-python build_exe.py --edition int         # só faz sentido a partir de triton_int/
-python build_exe.py --edition all --clean # as três
-```
-
-O instalador compilado sai em `dist/Triton_Setup_0_1_0.exe`, a partir de `dist/Triton/`. A compilação exige
-Python 3.12 ou superior, PyInstaller e [Inno Setup 6](https://jrsoftware.org/isinfo.php) (para `--installer`).
-O que muda entre os pacotes das três edições está em [`docs/edicoes.md`](docs/edicoes.md).
-
-A Edição Brasil sai com a base CLIMBra embutida (os 19 bancos `data/climbra_<modelo>.db`, 652 cidades): o
-`build_exe.py` confere os 19; se faltarem e houver o `climbra.db` único, divide-o
-(`scripts/dividir_base_climbra.py`); se não, compila-os a partir de `climbra_data/` (CSV brutos) e interrompe se não
-houver nenhum, em vez de gerar um instalador sem a base. Documentos de terceiros (`tarifas/fontes/`, o
-manual do Netuno 4) e as saídas do Netuno 4 não vão no pacote. O manual embarcado é o PDF versionado em
-`manual/`; se os geradores estiverem na máquina de compilação, o `build_exe.py` o regera antes de empacotar.
-Detalhes em [`docs/instalador.md`](docs/instalador.md).
+O instalador não faz parte deste repositório: é publicado no registro do Zenodo (DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916)). O repositório traz só o que é preciso para rodar o programa e a linha de comando a partir do código; as ferramentas de empacotamento ficam com o mantenedor. O que muda entre os pacotes das três edições está em [`docs/edicoes.md`](docs/edicoes.md).
 
 ---
 

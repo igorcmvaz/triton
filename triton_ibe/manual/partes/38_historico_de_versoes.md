@@ -50,7 +50,7 @@ programa pelo repositório, pelo sítio ou pelo manual lê o mesmo registo.
 
 ---
 
-## Versão 0.1.0 (beta) — 24 de outubro de 2026
+## Versão 0.1.0 (beta) — 5 de novembro de 2026
 
 > **Numa frase.** Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração.
 

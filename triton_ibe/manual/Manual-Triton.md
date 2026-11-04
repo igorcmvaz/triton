@@ -9,7 +9,7 @@ Universidade Federal de Santa Catarina
 
 2026
 
-Versão 0.1.0 · revisão de 31/10/2026
+Versão 0.1.0 · revisão de 04/11/2026
 
 ---
 
@@ -7852,11 +7852,11 @@ programa pelo repositório, pelo sítio ou pelo manual lê o mesmo registo.
 <!-- tabela: **Tabela 140** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **0.1.0** | 24 de outubro de 2026 | Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração. | 0 |
+| **0.1.0** | 5 de novembro de 2026 | Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração. | 0 |
 
 ---
 
-### 6.3.3. Versão 0.1.0 (beta) — 24 de outubro de 2026
+### 6.3.3. Versão 0.1.0 (beta) — 5 de novembro de 2026
 
 > **Numa frase.** Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração.
 
@@ -8645,7 +8645,7 @@ Saltelli et al. (2008).
 
 ## Apêndice A — Os parâmetros do projeto
 
-São **118 parâmetros**. É a lista completa do que um projeto guarda nesta
+São **119 parâmetros**. É a lista completa do que um projeto guarda nesta
 edição, com o nome exato de cada campo dentro do ficheiro `.triton`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada versão, e por
@@ -8811,7 +8811,7 @@ Observações do código:
 
 ### A.8. Reservatórios
 
-12 parâmetros.
+13 parâmetros.
 
 <!-- tabela: **Tabela 160** — Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se introduz | Quem consome |
@@ -8827,6 +8827,7 @@ Observações do código:
 | `lower_tank_material` | PEAD | — | Económico, Otimizador, Tarifário e custos | ACV, Automação, Preços |
 | `upper_tank_material` | PEAD | — | Económico, Otimizador, Tarifário e custos | ACV, Automação, Preços |
 | `cost_lower_tank` | 0 | — | Económico, Tarifário e custos, Varrimento | Automação, Económico, Preços |
+| `cost_lower_tank_per_m3` | 0 | — | Tarifário e custos | Preços |
 | `cost_upper_tank` | 0 | — | Económico, Tarifário e custos, Varrimento | Automação, Económico |
 
 Observações do código:

@@ -68,11 +68,10 @@ e no [histórico de versões](CHANGELOG.md).
 
 ## Instalar e executar
 
-**Instalador para Windows.** Ainda não está publicado (nem tem assinatura digital). Quando existir, será
-indicado no [README do repositório](../README.md#download) com a soma de verificação SHA-256
-(`Triton_IBE_Setup_0_1_0.exe`). Não precisa de Python. Até lá, execute a partir do código.
+**Instalador para Windows.** Está no registo do Zenodo, DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916)
+(`Triton_Iberica_Setup_v0.1.0.exe`, com a soma de verificação SHA-256 em `SHA256SUMS.txt`; sem assinatura digital). Não precisa de Python.
 
-**A partir do código** (Python 3.12 ou superior; o repositório é privado nesta fase):
+**A partir do código** (Python 3.12 ou superior):
 
 ```bash
 cd triton_ibe
@@ -98,18 +97,9 @@ TRITON_EDITION=IBE python -m pytest tests/unit tests/test_essencial.py
 No PowerShell do Windows: `$env:TRITON_EDITION = "IBE"; python -m pytest tests/unit tests/test_essencial.py`.
 Os testes da interface Qt só são recolhidos com o PySide6 instalado.
 
-## Construir o instalador
+## Instalador
 
-```bash
-python build_exe.py --installer      # dist/Triton_IBE/ e dist/Triton_IBE_Setup_0_1_0.exe
-```
-
-Requer Python 3.12 ou superior, PyInstaller (`requirements-dev.txt`) e o [Inno Setup 6](https://jrsoftware.org/isinfo.php).
-O pacote leva a base `data/portugal_eobs.db` (6 MB), que se gera com `scripts/dados/compilar_base_eobs_portugal.py` a
-partir dos ficheiros E-OBS e CAOP (cerca de 3 GB, fora do Git; ver `scripts/dados/LEIA.md`). Para um pacote de teste
-sem a base: `--sem-base-climatica`.
-
-**Requisitos.** Windows para o instalador (as verificações desta versão foram feitas em Windows); Python 3.12 ou superior e os pacotes de `requirements.txt` para executar a partir do código.
+O instalador não faz parte deste repositório: sai no registo do Zenodo (DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916)). A base `data/portugal_eobs.db` (6 MB) gera-se com `scripts/dados/compilar_base_eobs_portugal.py` a partir dos ficheiros E-OBS e CAOP (cerca de 3 GB, fora do Git; ver `scripts/dados/LEIA.md`).
 
 ## Documentação
 
@@ -135,7 +125,6 @@ triton_ibe/
 ├── scripts/           Ferramentas de manutenção (ver scripts/README.md)
 ├── infos_licenses/    Textos de licença, do instalador e avisos de terceiros
 ├── pyproject.toml     Metadados do pacote
-├── build_exe.py       Construção do executável (PyInstaller) e do instalador (Inno Setup)
 └── main.py            Ponto de entrada da aplicação de ambiente de trabalho
 ```
 

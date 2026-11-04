@@ -250,7 +250,6 @@ O progresso apresenta barra, combinações concluídas, tempo decorrido e ETA. A
 ```text
 triton_int/
 ├── main.py                  # Inicialização da aplicação desktop
-├── build_exe.py             # Empacotamento com PyInstaller
 ├── triton/
 │   ├── core/                # Simulação, economia, ACV, TOPSIS e relatórios
 │   ├── ui/                  # Interface PySide6, gráficos e diálogos

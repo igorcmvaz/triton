@@ -58,7 +58,6 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | :--- | :--- |
 | [`edicoes.md`](edicoes.md) | As duas edições: o que o usuário vê em cada uma, onde está no código, o que vai em cada pacote, que documentos são só da Brasil |
 | [`en/editions.md`](en/editions.md) | Idem, em inglês |
-| [`instalador.md`](instalador.md) | Como gerar os instaladores das duas edições |
 
 ### Base tarifária (só Edição Brasil)
 

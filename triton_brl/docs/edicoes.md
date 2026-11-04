@@ -95,7 +95,6 @@ edição sem constar desta tabela.
 | | Brasil | International | Portugal |
 | :--- | :--- | :--- | :--- |
 | ponto de entrada | `main.py` em `triton_brl` | `main.py` em `triton_int` | `main.py` em `triton_ibe` |
-| compilação | `python build_exe.py`, dentro de cada pasta | idem | idem |
 | pasta | `dist/Triton/`, `Triton.exe` | `dist/Triton_INT/`, `Triton_INT.exe` | `dist/Triton_IBE/`, `Triton_IBE.exe` |
 | instalador | `Triton_Setup_0_1_0.exe` (`/DEdition=BRL`) | `Triton_INT_Setup_0_1_0.exe` (`/DEdition=INT`) | `Triton_IBE_Setup_0_1_0.exe` (`/DEdition=IBE`) |
 | pasta de instalação | `Triton` | `Triton International` | `Triton IBE` |
@@ -106,9 +105,8 @@ edição sem constar desta tabela.
 | pasta `tarifas/` (documentos oficiais e transcrições, ~150 MB) | vai, sem a `entrada` | retirada após o PyInstaller | retirada após o PyInstaller |
 | manuais no pacote | português e inglês | português e inglês | português e inglês |
 
-`python build_exe.py --edition all` compila as três.
 
-Detalhes do instalador em [`instalador.md`](instalador.md).
+O instalador sai no registro do Zenodo (DOI 10.5281/zenodo.23402916); as ferramentas de empacotamento não ficam no repositório.
 
 ---
 

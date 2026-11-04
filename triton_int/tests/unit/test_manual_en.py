@@ -137,6 +137,8 @@ def test_o_manual_ingles_existe_e_e_o_que_o_textos_en_declara():
 
 def test_o_executavel_e_o_instalador_levam_o_manual_ingles():
     import triton.core.edition as ed
+    if not all(os.path.isfile(os.path.join(RAIZ, n)) for n in ("build_exe.py", "Triton.spec", "setup_script.iss")):
+        pytest.skip("o empacotamento não faz parte do repositório (só o necessário para a linha de comando)")
     assert ed.MANUAL_EN in _ler(os.path.join(RAIZ, "build_exe.py"))
     assert ed.MANUAL_EN in _ler(os.path.join(RAIZ, "Triton.spec"))
     iss = _ler(os.path.join(RAIZ, "setup_script.iss"))

@@ -50,7 +50,7 @@ repository, the site or the manual read the same record.
 
 ---
 
-## Version 0.1.0 (beta) — October 2026
+## Version 0.1.0 (beta) — 5 November 2026
 
 > **In one sentence.** First beta of Triton, with its own name for each edition, in the same repository and with the same version numbering.
 

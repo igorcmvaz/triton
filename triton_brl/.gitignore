@@ -158,8 +158,6 @@ scripts/**/*.py
 # ...exceto os que reproduzem a base climática versionada (partes data/climbra_<modelo>.db)
 !scripts/dividir_base_climbra.py
 !scripts/compilar_base_climbra.py
-# ...e o gerador dos estudos de Santa Catarina (estudos/santa-catarina/)
-!scripts/gerar_estudos_sc.py
 tarifas/*.py
 tarifas_portugal/*.py
 docs/gerar_figuras.py

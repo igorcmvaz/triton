@@ -8,9 +8,9 @@ name: Verificação
 
 on:
   push:
-    branches: [main, revisao-geral, monorepo-triton]
+    branches: [main]
   pull_request:
-    branches: [main, revisao-geral, monorepo-triton]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
