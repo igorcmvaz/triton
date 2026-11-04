@@ -56,7 +56,7 @@ def _find_database_file() -> str:
     zerada em 464 delas. Manter uma única cópia elimina a classe do problema; o teste
     `tests/unit/test_tariffs_structure.py` impede o reaparecimento de uma segunda.
     """
-    diretorio_do_pacote = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    diretorio_do_pacote = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))   # triton/
 
     candidatos = []
     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):

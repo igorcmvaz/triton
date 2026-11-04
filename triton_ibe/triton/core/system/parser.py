@@ -83,9 +83,8 @@ def load_precipitation(file_path: str) -> np.ndarray:
     Handles comma and dot decimals. Returns numpy array of daily rainfall in mm.
     """
     base_name = os.path.basename(file_path)
-    _b1 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    _b2 = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-    base_dir = _b1 if os.path.isdir(os.path.join(_b1, "data")) or os.path.isdir(os.path.join(_b1, "triton")) else _b2
+    # triton/core/system/parser.py: quatro níveis acima é a raiz da edição (ou o _MEIPASS do executável), onde mora data/rainfall.
+    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
     
     candidate_paths = [
         file_path,

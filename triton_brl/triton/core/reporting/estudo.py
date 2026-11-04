@@ -1273,7 +1273,7 @@ def resolver_caminho(base_dir: Path, texto: str) -> Path:
 def resolver_serie(base_dir: Path, texto: str) -> Optional[Path]:
     """O arquivo de chuva: ao lado do estudo ou, como no ``load_precipitation``, no diretório atual ou em ``data/rainfall``."""
     candidatos = [resolver_caminho(base_dir, texto), Path(texto), Path(Path(texto).name)]
-    raiz = Path(__file__).resolve().parent.parent.parent
+    raiz = Path(__file__).resolve().parents[3]   # triton/core/reporting/estudo.py -> raiz da edição
     candidatos.append(raiz / "data" / "rainfall" / Path(texto).name)
     for c in candidatos:
         if c.is_file():

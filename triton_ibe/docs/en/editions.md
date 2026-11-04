@@ -20,20 +20,20 @@ The question every screen asks before offering a national datum is `usa_dados_do
 | `triton/cli.py` | `init`, `init-catalog` and the scenario spreadsheet template start from the edition factory (`configuracao_da_edicao`) and its sample series; outside Brazil there is no preset tariff, price, green-tax incentive or grid factor; `compare-mass` and `run-vaz-study` (replication of the Brazilian study) exist only in the Brazil Edition; the help is in English (INT) or European Portuguese (IBE) |
 | `triton/cli_estudo.py` | `triton estudo` (`init`, `validate`, `run`, `resumo`, `lote`, `texto`, `esquema`, `apelidos`): arguments, messages and exit codes (0 ok, 1 a case failed, 2 invalid use); the help text goes through `cli_textos`, and the catalogue of aliases and metrics is printed in the language of the edition |
 | `triton/cli_textos.py` | help and message texts of the command line by edition (English in the International Edition, the Portugal glossary in the Iberian Edition) |
-| `triton/core/cost_estimates.py` | cost bank: outside the Brazil Edition `costs_database.json` carries no prices and the estimator returns zero (the user enters the costs) |
-| `triton/core/bibliography.py` | outside Brazil the reference list leaves out the records that cite Brazilian standards, databases and manufacturers |
-| `triton/core/cad_exporter.py` | title block and layers of the technical drawing (DXF and SVG) without a national standard outside Brazil |
-| `triton/core/dados_do_relatorio.py` | report data that depends on the edition: standards, professional registration and the entity that supplies the site |
-| `triton/core/diagnostico.py` | the CLIMBra database «does not apply» outside Brazil; the diagnosis states the edition |
-| `triton/core/edition.py` | the active edition, label, language, currency and manual; the factories `configuracao_da_edicao`, `projeto_novo_da_edicao`, `tarifa_de_agua_de_reserva` and `serie_de_exemplo_da_edicao`; `neutralizar_para_a_internacional` clears the tariffs, electricity, pump, chlorine, maintenance, green-tax incentive and locality of a new project |
-| `triton/core/licenca_eobs.py` | Portugal only (IBE): E-OBS licence notice, remembered choice of use, blocking behind a constant that is off, and the licence and citation footer of the reports |
-| `triton/core/environmental_justifications.py` | LCA rationale without national manufacturers, standards and inventories outside Brazil |
-| `triton/core/esg_certifications.py` | ESG summary and credit matrix with the international certifications only outside Brazil |
-| `triton/core/estudo.py` | batch studies from JSON: schema of `estudo.json`, parameter aliases, metrics and paper-ready tables; the language of the outputs (`auto`) is pt-BR in Brazil, pt-PT in Portugal and English in the International Edition; the project template «edicao» starts from the edition factory; with no currency declared in the project, the real (BRL), the euro (IBE) or none (INT) applies |
-| `triton/core/parser.py` | the `.triton` and CSV reader starts from `configuracao_da_edicao()`: what the file does not carry falls back to the historical default (BRL) or the neutral one (INT and IBE) |
-| `triton/core/numero.py` | numeric convention of the interface: decimal comma and dotted thousands in Portuguese and Spanish and in the BRL edition; decimal point and comma thousands in English and Chinese outside the BRL edition (showing and reading numbers both go through it) |
-| `triton/core/report_generator.py` | reports without national certifications, standards and references outside Brazil |
-| `triton/core/tariff_category.py` | no tariff-category warning (there is no catalogue) |
+| `triton/core/economics/cost_estimates.py` | cost bank: outside the Brazil Edition `costs_database.json` carries no prices and the estimator returns zero (the user enters the costs) |
+| `triton/core/system/bibliography.py` | outside Brazil the reference list leaves out the records that cite Brazilian standards, databases and manufacturers |
+| `triton/core/cad_bim/cad_exporter.py` | title block and layers of the technical drawing (DXF and SVG) without a national standard outside Brazil |
+| `triton/core/reporting/dados_do_relatorio.py` | report data that depends on the edition: standards, professional registration and the entity that supplies the site |
+| `triton/core/system/diagnostico.py` | the CLIMBra database «does not apply» outside Brazil; the diagnosis states the edition |
+| `triton/core/system/edition.py` | the active edition, label, language, currency and manual; the factories `configuracao_da_edicao`, `projeto_novo_da_edicao`, `tarifa_de_agua_de_reserva` and `serie_de_exemplo_da_edicao`; `neutralizar_para_a_internacional` clears the tariffs, electricity, pump, chlorine, maintenance, green-tax incentive and locality of a new project |
+| `triton/core/climate/licenca_eobs.py` | Portugal only (IBE): E-OBS licence notice, remembered choice of use, blocking behind a constant that is off, and the licence and citation footer of the reports |
+| `triton/core/lca/environmental_justifications.py` | LCA rationale without national manufacturers, standards and inventories outside Brazil |
+| `triton/core/lca/esg_certifications.py` | ESG summary and credit matrix with the international certifications only outside Brazil |
+| `triton/core/reporting/estudo.py` | batch studies from JSON: schema of `estudo.json`, parameter aliases, metrics and paper-ready tables; the language of the outputs (`auto`) is pt-BR in Brazil, pt-PT in Portugal and English in the International Edition; the project template «edicao» starts from the edition factory; with no currency declared in the project, the real (BRL), the euro (IBE) or none (INT) applies |
+| `triton/core/system/parser.py` | the `.triton` and CSV reader starts from `configuracao_da_edicao()`: what the file does not carry falls back to the historical default (BRL) or the neutral one (INT and IBE) |
+| `triton/core/system/numero.py` | numeric convention of the interface: decimal comma and dotted thousands in Portuguese and Spanish and in the BRL edition; decimal point and comma thousands in English and Chinese outside the BRL edition (showing and reading numbers both go through it) |
+| `triton/core/reporting/report_generator.py` | reports without national certifications, standards and references outside Brazil |
+| `triton/core/tariffs/tariff_category.py` | no tariff-category warning (there is no catalogue) |
 | `triton/ui/dialogs/dialog_economic.py` | no municipality selector for tariff and electricity; piping-cost guide and billing regime without a national reference |
 | `triton/ui/dialogs/pump_wizard_dialog.py` | catalogue of «reference models» (curves, nozzles and ratings) without brand or price outside Brazil |
 | `triton/ui/laudo_em_ingles.py` | English texts of the report, for the International Edition |

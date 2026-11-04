@@ -31,7 +31,7 @@ class Armazem:
 
 def test_a_constante_do_bloqueio_esta_ligada_por_decisao_do_titular():
     assert L.BLOQUEAR_E_OBS_EM_USO_COMERCIAL is True
-    fonte = open(os.path.join(RAIZ, "triton", "core", "licenca_eobs.py"), encoding="utf-8").read()
+    fonte = open(os.path.join(RAIZ, "triton", "core", "climate", "licenca_eobs.py"), encoding="utf-8").read()
     assert re.search(r"decisão do usuário \(D1, 25/10/2026\): ligado\n(#.*\n)*BLOQUEAR_E_OBS_EM_USO_COMERCIAL = True", fonte)
 
 

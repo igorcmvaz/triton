@@ -23,7 +23,7 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 PACOTE = os.path.join(RAIZ, "triton")
 
 #: O módulo dos padrões é onde os números podem aparecer escritos.
-DONO = os.path.join(PACOTE, "core", "hydrology_defaults.py")
+DONO = os.path.join(PACOTE, "core", "hydrology", "hydrology_defaults.py")
 
 #: Argumentos cujo valor de recurso é a lâmina de descarte.
 NOMES_DA_LAMINA = ("discard", "discard_mm", "discard_depth")

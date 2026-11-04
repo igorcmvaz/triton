@@ -1,6 +1,6 @@
 # Os parâmetros do projeto
 
-São **122 parâmetros**. É a lista completa do que um projeto
+São **123 parâmetros**. É a lista completa do que um projeto
 guarda, com o nome exato de cada campo dentro do arquivo `.triton`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada
@@ -29,13 +29,13 @@ gravado no arquivo e nunca lido, e está listado na seção {{n:36}}.
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
-| `climate_source_mode` | national_db | — | Janela principal, Projeto | — |
-| `climate_city_uf` | SC | — | Janela principal, Projeto, Relatórios | — |
-| `climate_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios | — |
-| `climate_model` | INM-CM4 | — | Janela principal, Projeto, Relatórios | — |
-| `climate_scenario` | HIST | — | Janela principal, Projeto, Relatórios | — |
-| `climate_start_date` | 01/01/1980 | — | Janela principal, Projeto, Relatórios | — |
-| `climate_end_date` | 31/12/2013 | — | Janela principal, Projeto, Relatórios | — |
+| `climate_source_mode` | national_db | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_city_uf` | SC | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_model` | INM-CM4 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_scenario` | HIST | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_start_date` | 01/01/1980 | — | Janela principal, Projeto, Relatórios | Automação |
+| `climate_end_date` | 31/12/2013 | — | Janela principal, Projeto, Relatórios | Automação |
 | `start_date` | 01/01/1980 | — | Exportação, Janela principal, Projeto, Tarifas e custos | Automação, Clima, Planilhas |
 
 Observações do código:
@@ -158,7 +158,7 @@ Observações do código:
 
 ## Reservatórios
 
-12 parâmetros.
+13 parâmetros.
 
 <!-- tabela: Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
@@ -174,6 +174,7 @@ Observações do código:
 | `lower_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV, Automação, Preços |
 | `upper_tank_material` | PEAD | — | Econômico, Otimizador, Tarifas e custos | ACV, Automação, Preços |
 | `cost_lower_tank` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico, Preços |
+| `cost_lower_tank_per_m3` | 0 | — | Tarifas e custos | Preços |
 | `cost_upper_tank` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
 
 Observações do código:
@@ -263,7 +264,7 @@ Observações do código:
 | `tariff_customized` | não | — | Projeto | — |
 | `water_tariffs` | — | — | Projeto, Tarifas, Tarifas e custos, Varredura | Econômico |
 | `tariff_city_uf` | SC | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
-| `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | — |
+| `tariff_city_name` | Florianópolis | — | Janela principal, Projeto, Relatórios, Tarifas, Tarifas e custos | Automação |
 | `tariff_vigencia` | — | — | Projeto, Tarifas e custos | — |
 | `tariff_category` | residencial | — | Econômico, Tarifas, Tarifas e custos | Tarifas |
 | `sewage_rate` | 100 | % da água | Projeto, Tarifas, Tarifas e custos | Automação, Econômico, Tarifas |
@@ -277,7 +278,7 @@ Observações do código:
 | `sewage_tariff_escalation` | 5 | % por período | Econômico, Otimizador, Tarifas e custos | Automação, Econômico |
 | `elec_tariff_escalation` | 5 | % por período | Econômico, Otimizador, Varredura | Automação, Econômico |
 | `tariff_flag` | verde | — | Econômico | Automação, Econômico |
-| `elec_tariff` | 0,6957 | R$/kWh | Econômico, Gráficos, Otimizador, Projeto, Tarifas e custos, Varredura | Automação, Econômico |
+| `elec_tariff` | 0,6957 | R$/kWh | Econômico, Gráficos, Otimizador, Projeto, Relatórios, Tarifas e custos, Varredura | Automação, Econômico |
 
 Observações do código:
 

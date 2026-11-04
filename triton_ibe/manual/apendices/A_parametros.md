@@ -1,6 +1,6 @@
 # Os parâmetros do projeto
 
-São **118 parâmetros**. É a lista completa do que um projeto guarda nesta
+São **119 parâmetros**. É a lista completa do que um projeto guarda nesta
 edição, com o nome exato de cada campo dentro do ficheiro `.triton`.
 
 A lista não foi transcrita à mão: é extraída do próprio programa a cada versão, e por
@@ -166,7 +166,7 @@ Observações do código:
 
 ## Reservatórios
 
-12 parâmetros.
+13 parâmetros.
 
 <!-- tabela: Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se introduz | Quem consome |
@@ -182,6 +182,7 @@ Observações do código:
 | `lower_tank_material` | PEAD | — | Económico, Otimizador, Tarifário e custos | ACV, Automação, Preços |
 | `upper_tank_material` | PEAD | — | Económico, Otimizador, Tarifário e custos | ACV, Automação, Preços |
 | `cost_lower_tank` | 0 | — | Económico, Tarifário e custos, Varrimento | Automação, Económico, Preços |
+| `cost_lower_tank_per_m3` | 0 | — | Tarifário e custos | Preços |
 | `cost_upper_tank` | 0 | — | Económico, Tarifário e custos, Varrimento | Automação, Económico |
 
 Observações do código:

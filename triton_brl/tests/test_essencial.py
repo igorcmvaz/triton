@@ -3607,7 +3607,7 @@ def test_so_o_nucleo_converte_rendimento_percentual_em_fracao():
     O rendimento entra na energia específica, que vive em `pump_energy.py` e
     `economic.py`. Qualquer outro módulo que o converta está refazendo a conta.
     """
-    permitidos = {'triton/core/pump_energy.py', 'triton/core/economic.py'}
+    permitidos = {'triton/core/hydraulics/pump_energy.py', 'triton/core/economics/economic.py'}
     fora = [rel for rel, texto in _fontes() if rel not in permitidos and re.search('pump_efficiency\\s*/\\s*100', texto)]
     assert not fora, fora
 

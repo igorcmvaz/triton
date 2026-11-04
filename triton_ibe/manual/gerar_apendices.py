@@ -175,6 +175,15 @@ def fontes():
             if n.endswith(".py"):
                 p = os.path.join(raiz, n)
                 rel = os.path.relpath(p, PKG).replace("\\", "/")
+                # core/<subpacote>/x.py conta como core/x.py (os módulos de core/ foram reorganizados em subpacotes;
+                # a fachada de retrocompatibilidade da raiz não tem código e fica de fora).
+                partes = rel.split("/")
+                if len(partes) == 3 and partes[0] == "core" and partes[2] != "__init__.py":
+                    rel = "core/" + partes[2]
+                elif rel.startswith("core/") and len(partes) == 2 and "sys.modules[__name__]" in open(p, encoding="utf-8", errors="replace").read():
+                    continue
+                if rel in out and len(open(p, encoding="utf-8", errors="replace").read()) < len(out[rel]):
+                    continue
                 out[rel] = open(p, encoding="utf-8", errors="replace").read()
     return out
 
@@ -185,7 +194,7 @@ def campos_do_projeto():
     Os nomes de seção, de tela e de módulo saem em português; o manual em inglês os
     traduz em `manual/en/apendices_en.py`.
     """
-    src = open(os.path.join(PKG, "core", "parser.py"), encoding="utf-8").read()
+    src = open(os.path.join(PKG, "core", "system", "parser.py"), encoding="utf-8").read()
     linhas_fonte = src.split(NL)
     arv = ast.parse(src)
     FONTES = fontes()

@@ -65,7 +65,7 @@ def _localizar_arquivo(nome: str = NOME_DO_ARQUIVO) -> str:
     Segue o mesmo desenho de :func:`triton.core.tariffs_database._find_database_file`:
     cópia **única** dentro do pacote, em ``triton/data/``.
     """
-    diretorio_do_pacote = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    diretorio_do_pacote = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))   # triton/
 
     candidatos = []
     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):

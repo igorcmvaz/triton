@@ -112,7 +112,7 @@ def test_os_textos_dizem_diferenca_para_o_iberia01_e_nao_vies():
 
 
 def test_nenhum_outro_arquivo_do_nucleo_repete_os_limiares():
-    """Os limiares moram em qualidade_chuva.py: nenhum outro módulo do pacote os redefine."""
+    """Os limiares moram em core/hydrology/qualidade_chuva.py (o da raiz de core/ é só a fachada): nenhum outro módulo do pacote os redefine."""
     padrao = re.compile(r"LIMIARES\s*=\s*\{|\"drx\"\s*:\s*(15|25)\b")
     donos = []
     for raiz, _, nomes in os.walk(os.path.join(RAIZ, "triton")):
@@ -121,7 +121,7 @@ def test_nenhum_outro_arquivo_do_nucleo_repete_os_limiares():
                 caminho = os.path.join(raiz, nome)
                 if padrao.search(open(caminho, encoding="utf-8").read()):
                     donos.append(os.path.relpath(caminho, RAIZ).replace("\\", "/"))
-    assert donos == ["triton/core/qualidade_chuva.py"], donos
+    assert donos == ["triton/core/hydrology/qualidade_chuva.py"], donos
 
 
 def test_limiares_em_texto_e_json_dos_limiares():

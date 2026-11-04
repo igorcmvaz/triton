@@ -38,7 +38,7 @@ _CACHE: Optional[Dict[str, Any]] = None
 
 def _localizar_arquivo() -> str:
     """Mesma estratégia de :mod:`triton.core.tariffs_database`: cópia única no pacote."""
-    diretorio_do_pacote = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    diretorio_do_pacote = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))   # triton/
 
     candidatos = []
     if getattr(sys, "frozen", False) and hasattr(sys, "_MEIPASS"):

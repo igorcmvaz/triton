@@ -24,7 +24,12 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 
 
 def _ler(*partes):
-    return open(os.path.join(RAIZ, *partes), encoding="utf-8").read()
+    """O texto do arquivo; se for a fachada de retrocompatibilidade de core/, o do módulo canônico do subpacote."""
+    texto = open(os.path.join(RAIZ, *partes), encoding="utf-8").read()
+    alvo = re.search(r'sys\.modules\[__name__\] = importlib\.import_module\("([\w.]+)"\)', texto)
+    if alvo:
+        return open(os.path.join(RAIZ, *alvo.group(1).split(".")) + ".py", encoding="utf-8").read()
+    return texto
 
 
 def _normal(texto):
