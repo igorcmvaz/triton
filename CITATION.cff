@@ -23,7 +23,7 @@ abstract: >-
   as the successor of the Netuno programme (Netuno 4 is the reference of its validation).
   Three editions share one calculation engine and one version number: Brasil (BRL), International (INT) and Ibérica (IBE).
   The Brasil edition adds Brazilian rainfall (CLIMBra), audited tariffs of 652 municipalities and costs in reais;
-  the International edition is region-neutral; the Iberian edition (Triton IBE, Iberian Peninsula) adds E-OBS rainfall by municipality and Portuguese tariffs in euros; today only Portuguese municipalities have data (Spain: 0 sites).
+  the International edition is region-neutral; the Iberian edition (Triton IBE, Iberian Peninsula) adds daily rainfall by municipality from Iberia01 (ODbL; Portugal, Spain and the Balearic Islands), ERA5 for the Canary Islands, Madeira and the Azores (quality level C), E-OBS as an optional non-commercial source, Portuguese tariffs and a first layer of transcribed Spanish tariffs (seven municipalities, not yet double-checked), in euros.
 keywords:
   - rainwater-harvesting
   - water-conservation

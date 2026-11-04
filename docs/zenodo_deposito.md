@@ -15,7 +15,7 @@ O texto da descrição está apresentado em **Português (pt-BR)** e em **Inglê
 | **Publication Date / Data de Publicação** | 2026-11-03 (ou data do lançamento do release v0.1.0) |
 | **Resource Type / Tipo de Recurso** | Software |
 | **Authors / Autores** | **Vaz, Igor Catão Martins** (UFSC - Universidade Federal de Santa Catarina, Departamento de Engenharia Civil, Laboratório de Eficiência Energética em Edificações - LabEEE / GPAS)<br>**Ghisi, Enedir** (UFSC - Universidade Federal de Santa Catarina, Departamento de Engenharia Civil, Laboratório de Eficiência Energética em Edificações - LabEEE / GPAS) |
-| **License / Licença** | GNU General Public License v3.0 or later (GPL-3.0-or-later) |
+| **License / Licença** | Other (Non-Commercial): licença acadêmica de código-fonte disponível, todos os direitos reservados, uso não comercial; texto integral em `LICENSE.md` (cada edição). NÃO é GPL |
 | **Access / Acesso** | Open Access (Acesso Aberto) |
 | **Digital Object Identifier (DOI)** | *Atribuído automaticamente pelo Zenodo após publicação (ex: 10.5281/zenodo.XXXXXXX)* |
 | **Language / Idioma** | Multilingual (pt-BR, en-GB, es, zh) |
@@ -149,4 +149,4 @@ Ao criar o release no Zenodo, recomenda-se anexar:
 3. 	riton_int_setup.exe: Instalador compilado da Edição Internacional.
 4. 	riton-0.1.0-source.zip: Arquivo compactado com o código-fonte integral de todas as edições, documentação técnica e suíte de testes automatizados.
 5. CITATION.cff: Arquivo legível por máquina para indexação de citações no GitHub, Zotero e Zenodo.
-6. README.md e LICENSE.md: Termos de licenciamento GPL-3.0 e apresentação técnica do projeto.
+6. README.md e LICENSE.md: termos da licença acadêmica de código-fonte disponível (uso não comercial, citação obrigatória, cláusula 4) e apresentação técnica do projeto.

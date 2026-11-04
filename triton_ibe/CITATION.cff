@@ -20,8 +20,10 @@ abstract: >-
   Plataforma computacional para dimensionamento e simulação de sistemas de
   aproveitamento de água da chuva em edifícios, com balanço hídrico diário
   Yield-After-Spill, análise económica sobre tarifários portugueses de água,
-  precipitação E-OBS por concelho, avaliação simplificada do ciclo de vida e
-  decisão multicritério por TOPSIS e SMAA-VIKOR. Edição Ibérica, em euros.
+  precipitação diária por município do Iberia01 (Portugal, Espanha e Baleares) e da
+  ERA5 nas ilhas (nível C), com a E-OBS como fonte opcional não comercial, avaliação
+  simplificada do ciclo de vida e decisão multicritério por TOPSIS, VIKOR,
+  SMAA-VIKOR e PROMETHEE II. Edição Ibérica, em euros.
   Desenvolvida pelo Grupo de Pesquisa em Ambientes Sustentáveis da UFSC como
   sucessora do programa Netuno (o Netuno 4 é a referência da validação).
 keywords:

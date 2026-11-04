@@ -127,7 +127,13 @@ def _dados_iberia() -> Verificacao:
 
 
 def _manual() -> Verificacao:
-    raiz = getattr(sys, "_MEIPASS", None) or os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    raiz = getattr(sys, "_MEIPASS", None)
+    if not raiz:
+        # No código-fonte, a raiz da edição é a pasta que tem `manual/` (o módulo mora em triton/core/system).
+        atual = os.path.dirname(os.path.abspath(__file__))
+        while atual and not os.path.isdir(os.path.join(atual, "manual")) and os.path.dirname(atual) != atual:
+            atual = os.path.dirname(atual)
+        raiz = atual
     from triton.core.edition import is_int_edition
 
     # A Internacional abre o manual em inglês (manual/en); as outras, o português.
@@ -152,8 +158,8 @@ def revisao_compilada() -> str:
     from pathlib import Path
 
     _r1 = Path(__file__).resolve().parent.parent / "data" / "revisao.json"
-_r2 = Path(__file__).resolve().parent.parent.parent / "data" / "revisao.json"
-arquivo = _r1 if _r1.exists() else _r2
+    _r2 = Path(__file__).resolve().parent.parent.parent / "data" / "revisao.json"
+    arquivo = _r1 if _r1.exists() else _r2
     try:
         dados = json.loads(arquivo.read_text(encoding="utf-8"))
     except (OSError, ValueError):
