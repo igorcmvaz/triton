@@ -135,6 +135,7 @@ MODULOS_QUE_EXIGEM_INTERFACE = [
     "unit/test_traducao_sem_mistura.py",
     "unit/test_o_que_se_comunica.py",
     "unit/test_figuras_sem_corte.py",
+    "unit/test_dialogo_tarifas_moeda_do_projeto.py",
 ]
 
 collect_ignore = [] if TEM_INTERFACE_GRAFICA else list(MODULOS_QUE_EXIGEM_INTERFACE)
