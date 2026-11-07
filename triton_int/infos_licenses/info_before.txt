@@ -9,7 +9,7 @@ rainfall series, the tariffs and the costs, in the currency of your choice.
 
 AUTHORS:
 Igor Catão Martins Vaz and Enedir Ghisi
-Sustainable Environments Research Group (GPAS)
+Sustainable Environments Research Group
 Federal University of Santa Catarina (UFSC), Brazil
 
 DISCLAIMER:

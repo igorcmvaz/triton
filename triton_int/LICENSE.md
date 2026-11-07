@@ -8,7 +8,7 @@
 *(Texto regido pelas Leis Federais nº 9.609/1998 — Lei de Software, nº 9.610/1998 — Lei de Direitos Autorais, nº 9.279/1996 — Lei da Propriedade Industrial, e nº 12.527/2011 — Lei de Acesso à Informação)*
 
 ### PREÂMBULO E IDENTIFICAÇÃO DE TITULARIDADE
-**Copyright © 2026 Igor Catão Martins Vaz, Enedir Ghisi, e Grupo de Pesquisa em Ambientes Sustentáveis (GPAS) da Universidade Federal de Santa Catarina (UFSC). Todos os direitos reservados.**
+**Copyright © 2026 Igor Catão Martins Vaz, Enedir Ghisi, e Grupo de Pesquisa em Ambientes Sustentáveis da Universidade Federal de Santa Catarina (UFSC). Todos os direitos reservados.**
 
 O **Triton** (compreendendo seu código-fonte, módulos de cálculo, algoritmos de dimensionamento, modelos comportamentais de balanço hídrico, modelos de decisão multicritério, interfaces gráficas, rotinas de linha de comando, bibliotecas de dados e documentação técnica correlata) é obra intelectual protegida pela legislação brasileira e pelos tratados internacionais de propriedade intelectual dos quais o Brasil é signatário, em especial a Convenção de Berna para a Proteção das Obras Literárias e Artísticas.
 
@@ -70,14 +70,14 @@ Como condição essencial e indissociável da concessão de uso gratuito previst
 ---
 
 ### CLÁUSULA 8 — MARCAS, VEDAÇÃO DE ENDOSSO E INTEGRIDADE CIENTÍFICA
-1. **Proteção de Marcas:** Os nomes "Triton", "GPAS" e "UFSC", bem como logotipos e identidades visuais associadas, são propriedades intelectuais exclusivas de seus respectivos titulares. É estritamente vedado o uso de tais denominações em nomes comerciais de empresas, títulos de aplicativos terceiros, marcas registradas, materiais publicitários ou campanhas de marketing sem autorização prévia, expressa e formal por escrito;
+1. **Proteção de Marcas:** Os nomes "Triton" e "UFSC", bem como logotipos e identidades visuais associadas, são propriedades intelectuais exclusivas de seus respectivos titulares. É estritamente vedado o uso de tais denominações em nomes comerciais de empresas, títulos de aplicativos terceiros, marcas registradas, materiais publicitários ou campanhas de marketing sem autorização prévia, expressa e formal por escrito;
 2. **Vedação de Falso Endosso:** É expressamente proibido afirmar ou sugerir a órgãos públicos, clientes, investidores ou terceiros que qualquer projeto hidrossanitário, edificação, laudo executivo, produto físico ou reservatório comercial foi "aprovado", "certificado", "validado" ou "chancelado" pelos autores, pelo laboratório ou pela UFSC;
 3. **Integridade de Versões Modificadas:** Caso o Usuário realize alterações no código-fonte no exercício das permissões acadêmicas da Cláusula 1, qualquer distribuição pública dessa versão modificada deverá, obrigatoriamente: (a) conter aviso claro e proeminente declarando tratar-se de *"Versão Modificada Não Oficial do Triton"*; e (b) abster-se de atribuir aos Licenciantes a autoria ou a responsabilidade pelos novos resultados de cálculo decorrentes das modificações introduzidas.
 
 ---
 
 ### CLÁUSULA 9 — PROTEÇÃO DAS BASES DE DADOS E RESTRIÇÃO A INTELIGÊNCIAS ARTIFICIAIS COMERCIAIS
-1. **Direito *Sui Generis* sobre as Bases de Dados Compiladas:** As bases de dados integradas ao Triton — notadamente o catálogo de estruturas tarifárias auditadas de 652 municípios brasileiros, a série histórica de transcrições documentais, os fatores de emissão locais de GEE e os conjuntos de dados climáticos processados — resultam de substancial investimento de pesquisa, tempo e esforço científico do GPAS/UFSC, constituindo bases de dados protegidas. É terminantemente proibida a extração automatizada massiva (*scraping*), apropriação, revenda, redistribuição ou exploração comercial dessas bases isoladamente do software;
+1. **Direito *Sui Generis* sobre as Bases de Dados Compiladas:** As bases de dados integradas ao Triton — notadamente o catálogo de estruturas tarifárias auditadas de 652 municípios brasileiros, a série histórica de transcrições documentais, os fatores de emissão locais de GEE e os conjuntos de dados climáticos processados — resultam de substancial investimento de pesquisa, tempo e esforço científico da UFSC, constituindo bases de dados protegidas. É terminantemente proibida a extração automatizada massiva (*scraping*), apropriação, revenda, redistribuição ou exploração comercial dessas bases isoladamente do software;
 2. **Restrição ao Treinamento de Modelos Comerciais de IA:** É vedada a utilização do código-fonte, algoritmos, documentação técnica, dados históricos e compilações tarifárias do Triton para o treinamento, pré-treinamento, ajuste fino (*fine-tuning*) ou destilação de modelos de Inteligência Artificial proprietários e comerciais, sem contrato formal e específico de licenciamento de dados celebrado com os Licenciantes.
 
 ---
@@ -98,7 +98,7 @@ Como condição essencial e indissociável da concessão de uso gratuito previst
 *(International Repository Version compliant with the Berne Convention, International Copyright Treaties, and Nominative Fair Use Doctrines)*
 
 ### PREAMBLE AND COPYRIGHT NOTICE
-**Copyright © 2026 Igor Catão Martins Vaz, Enedir Ghisi, and Sustainable Environments Research Group (GPAS), Federal University of Santa Catarina (UFSC), Brazil. All rights reserved.**
+**Copyright © 2026 Igor Catão Martins Vaz, Enedir Ghisi, and Sustainable Environments Research Group, Federal University of Santa Catarina (UFSC), Brazil. All rights reserved.**
 
 **Triton** (including its source code, computational engines, sizing algorithms, behavioural water balance models, multi-criteria decision-making models, graphical interfaces, command-line interfaces, auxiliary data repositories, and technical documentation) is proprietary intellectual property protected by Brazilian copyright and software laws (Federal Laws No. 9.609/1998, No. 9.610/1998, and No. 9.279/1996) and international treaties, including the Berne Convention for the Protection of Literary and Artistic Works.
 
@@ -160,7 +160,7 @@ As a material condition precedent to the free permissions granted under Section 
 ---
 
 ### SECTION 8 — TRADEMARKS, NON-ENDORSEMENT, AND SCIENTIFIC INTEGRITY
-1. **Trademark Protection:** The names "Triton", "GPAS", and "UFSC", as well as related logos and branding, are the exclusive intellectual property of their respective owners. No right or license to use these trademarks in commercial advertisements, company naming, or commercial product promotions is granted hereunder;
+1. **Trademark Protection:** The names "Triton" and "UFSC", as well as related logos and branding, are the exclusive intellectual property of their respective owners. No right or license to use these trademarks in commercial advertisements, company naming, or commercial product promotions is granted hereunder;
 2. **No False Endorsement:** The User shall not represent, state, or imply to building authorities, clients, or third parties that any plumbing design, commercial reservoir, or executive calculation has been "certified", "approved", or "endorsed" by the Licensors or UFSC;
 3. **Integrity of Modified Works:** If the User modifies the source code for research purposes, any publicly distributed derivative work must: (a) prominently state that it is an *"Unofficial Modified Version of Triton"*; and (b) disclaim any attribution of official sponsorship or computational accuracy by the original authors.
 

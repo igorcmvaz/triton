@@ -254,7 +254,7 @@ Fonte da camada 3: INE, *Encuesta sobre el suministro y saneamiento del agua* 20
 
 ## 9. Decisões do titular (25/10/2026)
 
-O titular dos direitos do software (UFSC/GPAS) decidiu as duas questões que estavam pendentes. Princípio: segurança jurídica, com avisos de «não pode ser usado comercialmente» onde houver dúvida.
+O titular dos direitos do software (UFSC) decidiu as duas questões que estavam pendentes. Princípio: segurança jurídica, com avisos de «não pode ser usado comercialmente» onde houver dúvida.
 
 ### 9.1 E-OBS: uso comercial bloqueado e avisado
 

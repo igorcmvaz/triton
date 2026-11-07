@@ -144,5 +144,5 @@ E-OBS do projeto UERRA do 6.º Programa-Quadro da UE (https://www.uerra.eu), o C
 e os fornecedores de dados do projeto ECA&D (https://www.ecad.eu). Os limites dos concelhos são da CAOP 2025, da
 Direção-Geral do Território.
 
-Desenvolvido pelo Grupo de Pesquisa em Ambientes Sustentáveis (GPAS), Universidade Federal de Santa Catarina.
+Desenvolvido pelo Grupo de Pesquisa em Ambientes Sustentáveis, Universidade Federal de Santa Catarina.
 Dúvidas e erros: igor.catao@posgrad.ufsc.br.

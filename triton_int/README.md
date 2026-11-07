@@ -121,5 +121,5 @@ mandatory in any work that uses its results. The full terms are in [`LICENSE.md`
 
 > Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings.* Federal University of Santa Catarina (UFSC).
 
-Developed by the Sustainable Environments Research Group (GPAS), Federal University of Santa Catarina.
+Developed by the Sustainable Environments Research Group, Federal University of Santa Catarina.
 Questions and bug reports: igor.catao@posgrad.ufsc.br.

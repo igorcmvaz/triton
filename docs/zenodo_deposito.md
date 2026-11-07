@@ -14,12 +14,12 @@ O texto da descrição está apresentado em **Português (pt-BR)** e em **Inglê
 | **Title / Título** | Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings (Editions: Brasil, International, and Ibérica) |
 | **Publication Date / Data de Publicação** | 2026-11-05 |
 | **Resource Type / Tipo de Recurso** | Software |
-| **Authors / Autores** | **Vaz, Igor Catão Martins** (UFSC - Universidade Federal de Santa Catarina, Departamento de Engenharia Civil, Laboratório de Eficiência Energética em Edificações - LabEEE / GPAS)<br>**Ghisi, Enedir** (UFSC - Universidade Federal de Santa Catarina, Departamento de Engenharia Civil, Laboratório de Eficiência Energética em Edificações - LabEEE / GPAS) |
+| **Authors / Autores** | **Vaz, Igor Catão Martins** (UFSC - Universidade Federal de Santa Catarina, Departamento de Engenharia Civil, Grupo de Pesquisa em Ambientes Sustentáveis)<br>**Ghisi, Enedir** (UFSC - Universidade Federal de Santa Catarina, Departamento de Engenharia Civil, Grupo de Pesquisa em Ambientes Sustentáveis) |
 | **License / Licença** | Other (Non-Commercial): licença acadêmica de código-fonte disponível, todos os direitos reservados, uso não comercial; texto integral em `LICENSE.md` (cada edição). NÃO é GPL |
 | **Access / Acesso** | Open Access (Acesso Aberto) |
 | **Digital Object Identifier (DOI)** | 10.5281/zenodo.23402916 (reservado antes da publicação) |
 | **Language / Idioma** | Multilingual (pt-BR, en-GB, es, zh) |
-| **Related Identifiers / Identificadores Relacionados** | - IsSupplementTo / IsDocumentedBy: Manual do Usuário Triton (UFSC, 2026)<br>- Continues / IsNewVersionOf: Netuno (Software de Aproveitamento de Água de Chuva em Edifícios - Netuno 4, UFSC/LabEEE)<br>- References: NBR 15527 (ABNT); EN 16941-1 (CEN); CLIMBra CMIP6 (UFSC/INPE); Iberia01; E-OBS |
+| **Related Identifiers / Identificadores Relacionados** | - IsSupplementTo / IsDocumentedBy: Manual do Usuário Triton (UFSC, 2026)<br>- Continues / IsNewVersionOf: Netuno (Software de Aproveitamento de Água de Chuva em Edifícios - Netuno 4, UFSC)<br>- References: NBR 15527 (ABNT); EN 16941-1 (CEN); CLIMBra CMIP6 (UFSC/INPE); Iberia01; E-OBS |
 | **Communities / Comunidades Zenodo** | - ufsc: Universidade Federal de Santa Catarina<br>- water-management: Sustainable Water Resource Management & Building Hydrology<br>- uilding-sustainability: Architecture, Civil Engineering & Urban Sustainability |
 | **Keywords / Palavras-chave** | rainwater harvesting; building hydrology; yield-after-spill; life-cycle assessment; multi-criteria decision-making; topsis; vikor; smaa-vikor; promethee; engineering economics; climate change; cmip6; water conservation; netuno; aproveitamento de água pluvial |
 
@@ -28,7 +28,7 @@ O texto da descrição está apresentado em **Português (pt-BR)** e em **Inglê
 ## 2. Descrição para o Zenodo em Português (pt-BR)
 
 ### Resumo (Abstract)
-O **Triton** é uma plataforma computacional científica de alta precisão desenvolvida pelo Grupo de Pesquisa em Ambientes Sustentáveis (GPAS) e pelo Laboratório de Eficiência Energética em Edificações (LabEEE) da Universidade Federal de Santa Catarina (UFSC), atuando como o sucessor tecnológico do amplamente difundido programa **Netuno** (tendo o Netuno 4 como referência primária de validação de balanço hídrico). O Triton foi concebido para modelar, simular, dimensionar e otimizar sistemas prediais de aproveitamento de água de chuva (pluvial), integrando hidrologia diária contínua, engenharia econômica detalhada, avaliação simplificada do ciclo de vida (ACV) e métodos científicos avançados de apoio à tomada de decisão multicritério (MCDA).
+O **Triton** é uma plataforma computacional científica de alta precisão desenvolvida pelo Grupo de Pesquisa em Ambientes Sustentáveis da Universidade Federal de Santa Catarina (UFSC), atuando como o sucessor tecnológico do amplamente difundido programa **Netuno** (tendo o Netuno 4 como referência primária de validação de balanço hídrico). O Triton foi concebido para modelar, simular, dimensionar e otimizar sistemas prediais de aproveitamento de água de chuva (pluvial), integrando hidrologia diária contínua, engenharia econômica detalhada, avaliação simplificada do ciclo de vida (ACV) e métodos científicos avançados de apoio à tomada de decisão multicritério (MCDA).
 
 A plataforma é distribuída em três edições compartilhando o mesmo núcleo de cálculo validado (	riton-core):
 1. **Triton Brasil (BRL):** Especializada na realidade técnica, tarifária e climática brasileira. Incorpora malha de dados pluviométricos de alta resolução do CLIMBra (CMIP6: histórico e projeções de cenários de mudanças climáticas SSP2-4.5 e SSP5-8.5), catálogo de estruturas tarifárias auditadas de abastecimento de água e esgotamento sanitário para 652 municípios brasileiros, base de custos prediais de reservatórios em Reais (R$), normas brasileiras (ABNT NBR 15527, NBR 5626) e modelagem de estações de tratamento de água de chuva (ETAP / cloração conforme Portaria GM/MS 888/2021).
@@ -73,7 +73,7 @@ A plataforma é distribuída em três edições compartilhando o mesmo núcleo d
 ## 3. Zenodo Description in English (en-GB)
 
 ### Abstract
-**Triton** is a state-of-the-art scientific computational platform developed by the Sustainable Environments Research Group (GPAS) and the Energy Efficiency in Buildings Laboratory (LabEEE) at the Federal University of Santa Catarina (UFSC), Brazil. Serving as the next-generation successor to the widely recognised **Netuno** software (with Netuno 4 serving as the benchmark for water-balance validation), Triton is designed for the comprehensive design, daily continuous simulation, techno-economic feasibility analysis, life-cycle impact evaluation, and multi-criteria decision support of rainwater harvesting (RWH) systems in residential, commercial, and public buildings.
+**Triton** is a state-of-the-art scientific computational platform developed by the Sustainable Environments Research Group at the Federal University of Santa Catarina (UFSC), Brazil. Serving as the next-generation successor to the widely recognised **Netuno** software (with Netuno 4 serving as the benchmark for water-balance validation), Triton is designed for the comprehensive design, daily continuous simulation, techno-economic feasibility analysis, life-cycle impact evaluation, and multi-criteria decision support of rainwater harvesting (RWH) systems in residential, commercial, and public buildings.
 
 The platform is distributed across three specialized editions sharing a unified, mathematically verified calculation kernel (	riton-core):
 1. **Triton Brasil (BRL):** Tailored to Brazilian engineering practice, regulations (ABNT NBR 15527, NBR 5626), and environmental context. It incorporates high-resolution synthetic and observed rainfall records from the CLIMBra database (CMIP6: historical baseline and climate projection scenarios SSP2-4.5 and SSP5-8.5), audited water and sewerage progressive block tariffs for 652 Brazilian municipalities, cost estimation bases in Brazilian Reais (BRL / R$), and models for on-site rainwater treatment plants (ETAP / chlorination according to Ministry of Health Ordinance GM/MS 888/2021).
@@ -135,7 +135,7 @@ Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater
   doi          = {10.5281/zenodo.23402916},
   url          = {https://github.com/igorcmvaz/triton},
   institution  = {Universidade Federal de Santa Catarina (UFSC)},
-  organization = {Laboratório de Eficiência Energética em Edificações (LabEEE) / GPAS}
+  organization = {Grupo de Pesquisa em Ambientes Sustentáveis, UFSC}
 }
 `
 

@@ -138,6 +138,6 @@ work that uses its results. The full terms are in `LICENSE.md` inside each editi
   `CITATION.cff` with the edition's abstract.
 
 <div align="center">
-<sub>Igor Catão Martins Vaz and Enedir Ghisi · Sustainable Environments Research Group (GPAS) ·
+<sub>Igor Catão Martins Vaz and Enedir Ghisi · Sustainable Environments Research Group ·
 Federal University of Santa Catarina (UFSC), Florianópolis, Brazil</sub>
 </div>
