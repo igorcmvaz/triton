@@ -121,8 +121,7 @@ Machine-readable metadata is in [`CITATION.cff`](CITATION.cff).
 
 ## Roadmap
 
-Planned versions (1.1 and 2.0) and the evidence behind them are in [`ROADMAP.md`](ROADMAP.md). The same numbering
-applies to the three editions.
+What comes after version 0.1.0 is in [`ROADMAP.md`](ROADMAP.md). It applies to the three editions.
 
 ## Licence
 
