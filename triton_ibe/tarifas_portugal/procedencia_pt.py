@@ -24,7 +24,7 @@ diferentes (EPAL e Câmara de Lisboa; Águas do Porto e EMAP), por isso cada ser
 seu documento; o saneamento cobra-se por escalões; o IVA vem de cada documento; a TRH é parcela própria; a
 tarifa fixa depende do calibre. Só se avalia o utilizador doméstico.
 
-Uso (na pasta ``triton_prt``):
+Uso (na pasta ``triton_ibe``):
     python tarifas_portugal/procedencia_pt.py        # regera CONFIANCA_POR_CONCELHO.csv e .md
 """
 

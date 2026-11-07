@@ -22,7 +22,7 @@ fica «a identificar».
     tarifário pode ter vários ficheiros), com entidade, serviços, vigência e se nomeiam o concelho.
 Os ``documentos`` são curados à mão (abaixo, ``DOCUMENTOS``) e preservados quando o ficheiro já existe.
 
-Uso (na pasta ``triton_prt``):
+Uso (na pasta ``triton_ibe``):
     python tarifas_portugal/importar_ersar.py [--indice caminho/tarifa-concelho.json] [--cabecas cabecas.json]
 """
 

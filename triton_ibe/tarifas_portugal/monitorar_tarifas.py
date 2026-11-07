@@ -16,7 +16,7 @@ recolha: abrir o documento, arquivá-lo em ``fontes/``, registá-lo em FONTES.ts
 Páginas HTML (Águas de Santarém) podem mudar de hash por razões triviais (scripts, datas): conferir
 à vista antes de concluir que o tarifário mudou. Não altera FONTES.tsv.
 
-Uso (na pasta ``triton_prt``):
+Uso (na pasta ``triton_ibe``):
     python tarifas_portugal/monitorar_tarifas.py [--pausa 3] [--so-listar]
 """
 

@@ -31,9 +31,9 @@ Triton is the official successor to [Netuno](https://sustainability.ufsc.br/#/ne
       <sub><code>triton_int/</code></sub>
     </td>
     <td align="center" width="33%">
-      <a href="triton_prt"><img src="triton_prt/icons/triton_prt.png" width="140" alt="Triton Ibérica / Portugal"></a><br>
-      <h3>Ibérica / Portugal (PRT)</h3>
-      <sub><code>triton_prt/</code></sub>
+      <a href="triton_ibe"><img src="triton_ibe/icons/triton_ibe.png" width="140" alt="Triton Ibérica"></a><br>
+      <h3>Ibérica (IBE)</h3>
+      <sub><code>triton_ibe/</code></sub>
     </td>
   </tr>
   <tr>
@@ -53,7 +53,7 @@ Triton is the official successor to [Netuno](https://sustainability.ufsc.br/#/ne
   <tr>
     <td align="center"><a href="triton_brl/README.md">README (pt)</a> · <a href="triton_brl/docs/en/README.md">README (en)</a></td>
     <td align="center"><a href="triton_int/README.md">README (pt)</a> · <a href="triton_int/docs/en/README.md">README (en)</a></td>
-    <td align="center"><a href="triton_prt/README.md">README (pt)</a> · <a href="triton_prt/docs/en/README.md">README (en)</a></td>
+    <td align="center"><a href="triton_ibe/README.md">README (pt)</a> · <a href="triton_ibe/docs/en/README.md">README (en)</a></td>
   </tr>
 </table>
 
@@ -75,12 +75,12 @@ After a quick registration on the portal (Name, Email, Institution/Company, Edit
 | Edition | Windows Installer (`.exe`) | Technical Manual (`.pdf`) |
 |---|---|---|
 | **Brasil (BRL)** | `Triton_Brasil_Setup_v0.1.0.exe` | `Manual_Triton_Brasil_v0.1.0.pdf` |
-| **Ibérica / Portugal (PRT)** | `Triton_Iberica_Setup_v0.1.0.exe` | `Manual_Triton_Iberica_v0.1.0_PT.pdf` |
+| **Ibérica (IBE)** | `Triton_Iberica_Setup_v0.1.0.exe` | `Manual_Triton_Iberica_v0.1.0_PT.pdf` |
 | **International (INT)** | `Triton_Internacional_Setup_v0.1.0.exe` | `Manual_Triton_Internacional_v0.1.0_EN.pdf` |
 
 > **Beta Feedback & Model Detailing:** Because water/sewer tariff calibration, daily precipitation series, and normative parameters are specific to each regional model, users are encouraged to collaborate by reporting any errors or suggested adjustments in the detailing via email (`igorcmvaz@gmail.com`) or through GitHub Issues.
 
-The source code in this repository is the exact one the installers are built from; to build an installer yourself from source, run `python build_exe.py --installer` inside the respective edition folder.
+The source code in this repository is the exact one the installers are built from.
 
 ## What Triton does
 
@@ -97,7 +97,7 @@ The source code in this repository is the exact one the installers are built fro
 To run from source (the compiled Windows installers are available via the [official portal](https://sustainability.ufsc.br/#/triton)):
 
 ```bash
-cd triton_int                 # or triton_brl / triton_prt
+cd triton_int                 # or triton_brl / triton_ibe
 pip install -r requirements.txt
 python main.py
 ```
@@ -105,9 +105,9 @@ python main.py
 To run the tests of one edition (the edition is set by `TRITON_EDITION`):
 
 ```bash
-cd triton_brl                 # or triton_int / triton_prt
+cd triton_brl                 # or triton_int / triton_ibe
 pip install -r requirements.txt -r requirements-dev.txt
-TRITON_EDITION=BRL python -m pytest tests/unit tests/test_essencial.py   # INT, PRT for the others
+TRITON_EDITION=BRL python -m pytest tests/unit tests/test_essencial.py   # INT, IBE for the others
 # Windows PowerShell: $env:TRITON_EDITION = "BRL"; python -m pytest tests/unit tests/test_essencial.py
 ```
 
