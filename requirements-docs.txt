@@ -1,6 +1,0 @@
-# Triton: dependências OPCIONAIS do site de documentação técnica (mkdocs.yml da raiz do monorepo).
-# Só para desenvolvimento: não entram no instalador nem em requirements.txt.
-# Instalação (da raiz do monorepo):  pip install -r requirements-docs.txt
-# Os mesmos pacotes estão no extra «docs» de cada edição:  pip install -e "triton_int[docs]"
-mkdocs-material==9.8.0   # o autor só mantém correções críticas até 05/05/2027
-mkdocs<2
