@@ -17,7 +17,7 @@ A base compilada é um banco SQLite **por modelo CMIP6**, `data/climbra_<modelo>
 
 | Script | O que faz |
 | :--- | :--- |
-| `compilar_base_climbra.py` | CSV do CLIMBra (`climbra_data/`, ~6,5 GB, fora do Git) -> as 19 partes. `--formato unico` gera o `climbra.db` antigo; `--modelo X` compila só um modelo; `--verify-only` confere. |
+| `compilar_base_climbra.py` | CSV do CLIMBra (`climbra_data/`, ~6,5 GB, fora do Git) -> as 19 partes. `--modelo X` compila só um modelo; `--verify-only` confere. |
 | `dividir_base_climbra.py` | `data/climbra.db` (banco único, ~820 MB, fora do Git) -> as 19 partes, com verificação byte a byte contra o original. `--verificar` confere as partes que estão em `data/` (hash do arquivo, hash do conteúdo, contagens, limite de tamanho); com o `climbra.db` ao lado, compara cada série com a dele. |
 
 ```bash
@@ -59,7 +59,7 @@ como arquivos da release/Zenodo e deixar de versioná-las (`.gitignore`).
 **Onde o programa as procura.** `triton/core/climate_database.py` varre, nesta ordem: a variável
 `TRITON_CLIMBRA_DIR` (pasta), `TRITON_CLIMBRA_DB`/`TRITON_CLIMATE_DB` (arquivo ou pasta), a pasta `data/` do
 executável instalado (`_internal/data/`), do código e do diretório atual. Vale a primeira pasta que tiver
-bancos. Se existirem partes e o `climbra.db` antigo, vale a parte do modelo e o antigo cobre o que faltar.
+bancos.
 
 ## Tarifas e custos (Brasil)
 
@@ -91,13 +91,6 @@ bancos. Se existirem partes e o `climbra.db` antigo, vale a parte do modelo e o 
 | Script | O que faz |
 | :--- | :--- |
 | `gerar_avisos_de_terceiros.py` | gera `infos_licenses/AVISOS_DE_TERCEIROS.txt` da edição (a CLIMBra só na Brasil); o `build_exe.py` o roda antes de empacotar |
-
-## Legado
-
-`split_climates.py` e `split_climates_vaz.py` recortavam as séries do CLIMBra em horizontes fixos
-(futuro próximo e distante) para estudos antigos. O programa não usa mais janelas fixas (o usuário
-recorta o período que quiser), e a base compilada traz as séries inteiras. Ficam só como registro;
-se não houver estudo antigo a repetir, podem sair.
 
 ## Estudos e artigos
 

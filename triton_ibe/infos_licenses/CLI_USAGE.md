@@ -85,13 +85,10 @@ Valide primeiro o projeto-base e preserve a folha de cálculo de entrada junto d
 
 ## Simulação em massa e comparação com TesteMassivo
 
-Para executar em massa a separação de séries futuras e comparar a nova versão do motor contra a base de dados de referência (`TesteMassivo/`):
+Para comparar a nova versão do motor contra a base de dados de referência (`TesteMassivo/`):
 
 ```powershell
-# 1. Separe as séries climáticas futuras em Near Future (2015-2059) e Far Future (2060-2100):
-python scripts/split_climates.py
-
-# 2. Execute a simulação paralela multi-core dos 4 casos de reservatórios combinados da Tabela 2 e gera o relatório comparativo:
+# Execute a simulação paralela multi-core dos 4 casos de reservatórios combinados da Tabela 2 e gera o relatório comparativo:
 python -m triton.cli compare-mass
 ```
 
@@ -105,13 +102,10 @@ Parâmetros opcionais de `compare-mass`:
 
 ## Estudo massivo de tipologias residenciais de Vaz
 
-Para executar a divisão em quatro horizontes temporais (Histórico, Near, Middle e Far) e executar o estudo completo em Parquet:
+Para rodar o estudo completo das cinco tipologias em Parquet:
 
 ```powershell
-# 1. Separar séries climáticas futuras em Near (2015-2044), Middle (2045-2074) e Far Future (2075-2100):
-python scripts/split_climates_vaz.py
-
-# 2. Executar o estudo massivo das cinco tipologias e exportar em Parquet:
+# Executar o estudo massivo das cinco tipologias e exportar em Parquet:
 python -m triton.cli run-vaz-study
 ```
 

@@ -132,8 +132,7 @@ work that uses its results. The full terms are in `LICENSE.md` inside each editi
 ## Notes
 
 - The Brasil edition's climate database is versioned as one SQLite file per CMIP6 model,
-  `triton_brl/data/climbra_<model>.db` (19 files of 40 to 44 MB, 785 MB in all, each below GitHub's 100 MB limit). The
-  single 820 MB `climbra.db` of earlier builds is not in Git; the program still reads it if present. See
+  `triton_brl/data/climbra_<model>.db` (19 files of 40 to 44 MB, 785 MB in all, each below GitHub's 100 MB limit). See
   [`triton_brl/scripts/README.md`](triton_brl/scripts/README.md).
 - «Netuno 1» to «Netuno 4» are the previous programme, kept as history in the manuals and in the comparisons.
 - To cite Triton, use **Cite this repository** on GitHub (the root [`CITATION.cff`](CITATION.cff)); each edition also has its own

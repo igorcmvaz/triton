@@ -5,11 +5,8 @@ Converte os 37.164 arquivos CSV (~6,5 GB) em bancos SQLite com cada série em fl
 compactado por zlib, otimizados para leitura de alta velocidade (sub-milissegundo) e para o
 empacotamento no executável do Triton.
 
-Formato padrão (`--formato partes`): um banco por modelo, `data/climbra_<modelo>.db`, cada
-um com 40 a 44 MB (cabe no GitHub, que recusa arquivos acima de 100 MB), mais o manifesto
-`data/climbra_partes.json`. O formato antigo (`--formato unico`) gera o `data/climbra.db`,
-de ~820 MB, que o programa ainda lê. Para dividir um `climbra.db` já compilado, sem refazer a
-leitura dos CSV, use `scripts/dividir_base_climbra.py`.
+Gera um banco por modelo, `data/climbra_<modelo>.db`, cada um com 40 a 44 MB (cabe no GitHub,
+que recusa arquivos acima de 100 MB), mais o manifesto `data/climbra_partes.json`.
 
 Referência dos dados:
 - Artigo: BALLARIN et al. (2023), Nature Scientific Data, doi:10.1038/s41597-023-01956-z
@@ -438,10 +435,6 @@ if __name__ == "__main__":
         except (AttributeError, ValueError):
             pass
     _default_input = os.path.join(os.path.dirname(__file__), "..", "climbra_data")
-    if not os.path.isdir(_default_input):
-        _legacy_input = os.path.join(os.path.dirname(__file__), "..", "Triton future files for 652 cities")
-        if os.path.isdir(_legacy_input):
-            _default_input = _legacy_input
 
     parser = argparse.ArgumentParser(description="Compilador da Base Climatológica CLIMBra para SQLite")
     parser.add_argument(
@@ -451,21 +444,15 @@ if __name__ == "__main__":
         help="Diretório contendo os arquivos CSV brutos",
     )
     parser.add_argument(
-        "--formato",
-        choices=["partes", "unico"],
-        default="partes",
-        help="partes: um banco por modelo (data/climbra_<modelo>.db, padrão); unico: data/climbra.db (formato antigo)",
-    )
-    parser.add_argument(
         "--output",
         "-o",
         default=None,
-        help="destino: a pasta das partes (padrão: data/) ou, com --formato unico, o arquivo (padrão: data/climbra.db)",
+        help="destino: a pasta das partes (padrão: data/)",
     )
     parser.add_argument(
         "--modelo",
         action="append",
-        help="compila só este modelo (repetível; só com --formato partes)",
+        help="compila só este modelo (repetível)",
     )
     parser.add_argument(
         "--dtype",
@@ -488,21 +475,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     pasta_data = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data")
-    saida = args.output or (pasta_data if args.formato == "partes" else os.path.join(pasta_data, "climbra.db"))
+    saida = args.output or pasta_data
 
     if args.verify_only:
-        success = verify_partes(saida) if args.formato == "partes" else verify_database(saida)
+        success = verify_partes(saida)
         sys.exit(0 if success else 1)
 
-    if args.formato == "partes":
-        compile_partes(args.input, saida, args.dtype, args.workers, args.modelo)
-        sys.exit(0 if verify_partes(saida) else 1)
-
-    compile_database(
-        input_dir=args.input,
-        output_db_path=saida,
-        dtype_str=args.dtype,
-        num_workers=args.workers,
-    )
-
-    verify_database(saida, sample_csv_dir=args.input)
+    compile_partes(args.input, saida, args.dtype, args.workers, args.modelo)
+    sys.exit(0 if verify_partes(saida) else 1)

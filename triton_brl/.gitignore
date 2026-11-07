@@ -61,9 +61,6 @@ Triton_future_files_split/
 # 19 arquivos, ~785 MB), VERSIONADOS. O GitHub avisa a partir de 50 MiB e recusa acima de 100 MiB
 # por arquivo; o projeto adota 50 MiB e a maior parte tem 43 MiB (ver scripts/README.md). Não os apague nem os
 # regere sem necessidade: cada regeração grava no histórico outra cópia de ~785 MB.
-# O climbra.db ÚNICO das versões antigas (~820 MB) passa do limite e fica fora do Git; o
-# programa ainda o lê, e scripts/dividir_base_climbra.py o converte nas partes.
-data/climbra.db
 
 # ---------------------------------------------------------------------------
 # Saídas de simulação em lote (~514 MB, 4.055 arquivos gerados)

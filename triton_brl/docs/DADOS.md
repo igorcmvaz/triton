@@ -22,7 +22,7 @@ Tamanhos em MiB (1 MiB = 1.048.576 bytes, a unidade do aviso de 50 MB do GitHub)
 | Visualizador 3D (HDR e JS) | `triton/data/volumetria/` | HDR, JS | 2,1 MiB | sim | CC0 (céu) e MIT (three.js) |
 | Manual (PDF, site, figuras) | `manual/` | PDF, HTML, PNG | 53,3 MiB (456 arquivos) | sim | do projeto |
 
-Ficam **de fora do Git** (e do instalador) o banco único antigo `data/climbra.db` (784 MiB, passaria do limite; o leitor ainda o aceita), os 6,24 GB de CSV originais do CLIMBra (medida em disco; os textos que dizem «~6,5 GB» arredondam por excesso), `dist/`, `build/` e os registros de compilação.
+Ficam **de fora do Git** (e do instalador) os 6,24 GB de CSV originais do CLIMBra (medida em disco; os textos que dizem «~6,5 GB» arredondam por excesso), `dist/`, `build/` e os registros de compilação.
 
 Os dados de **tarifas** e de **pluviometria** estão em arquivos separados entre si e separados da base CLIMBra: a chuva dos exemplos fica em `data/rainfall/`, as tarifas em `triton/data/` e `tarifas/`, a base climática em `data/climbra_*.db`.
 
@@ -188,7 +188,6 @@ Cite o CLIMBra (Ballarin et al., 2023) ao usar a base climática, a fonte de cad
 
 - **Resolvido em 24/10/2026:** origem das séries `data/rainfall/` (CLIMBra, não INMET) corrigida no `bibliography.py`; artigo do CLIMBra confirmado como Scientific Data 10, art. 47 (Crossref, doi 10.1038/s41597-023-01956-z, 20/01/2023) e corrigido no `bibliography.py`, na aba de documentação e nos scripts de compilação.
 - O metadado `source_article` **dentro das 19 partes** ainda diz «Nature Scientific Data, 10, art. 48». Corrigi-lo mudaria os 19 arquivos (e o histórico do Git ganharia outros ~785 MiB); fica para a próxima regeração, e os scripts já gravam 47. O `content_sha256` das séries não muda.
-- `docs/base_climatica_climbra.md` ainda descreve o `climbra.db` único e «~1,1 GB»; vale este documento e `scripts/README.md`.
 - Panorama tarifário: explicado acima e com nota de atualização; os números completos (global, por componente) não foram regerados (pendente).
 - Decididas em 25/10/2026: planilhas do Netuno 4 e logotipo CLIMBra mantidos (autorização dos criadores, registrada pelo titular); ANEEL (ODbL) e MCTI (CC BY-ND) aprovados com atribuição. Seguem sem verificação os portais dos prestadores.
 - `tarifas/transcricoes/.cobertura_cache.json` (cache gerado) saiu do controle de versão e entrou no `.gitignore`.

@@ -145,8 +145,7 @@ triton_brl/
 
 A base climática compilada está **no Git**: um banco SQLite por modelo CMIP6, `data/climbra_<modelo>.db`
 (19 arquivos de 40 a 43 MiB, 785 MiB no total, abaixo do limite de 50 MiB por arquivo do projeto, mais rígido que os 100 MiB do GitHub), mais o manifesto
-`data/climbra_partes.json`. O programa as lê direto e, se existir, ainda lê o `data/climbra.db` único das versões
-anteriores (~820 MB, fora do Git). Como foram geradas, divididas e verificadas: [`scripts/README.md`](scripts/README.md).
+`data/climbra_partes.json`. O programa as lê direto. Como foram geradas, divididas e verificadas: [`scripts/README.md`](scripts/README.md).
 
 Fora do controle de versão, por tamanho, por serem regeneráveis ou por serem de terceiros: os CSV brutos da
 CLIMBra (`climbra_data/`, ~6,5 GB), os documentos dos prestadores de saneamento (`tarifas/fontes/`) e o banco
