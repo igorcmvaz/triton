@@ -1,0 +1,76 @@
+# Site de documentação TÉCNICA do Triton: só para desenvolvimento, sem deploy e sem GitHub Pages.
+# Nada disto entra no instalador (fica na raiz do monorepo, fora de docs/ e das pastas das edições).
+# Uso: ver docs/documentacao_mkdocs.md   ->   pip install -r requirements-docs.txt ; mkdocs serve
+site_name: Triton, documentação técnica
+site_description: Documentação técnica do monorepo Triton (uso em desenvolvimento)
+docs_dir: docs
+site_dir: site
+use_directory_urls: true
+
+theme:
+  name: material
+  language: pt-BR
+  features:
+    - navigation.sections
+    - content.code.copy
+
+# Os documentos técnicos de triton_int/ ficam fora de docs/: o gancho abaixo os acrescenta ao site sob
+# os caminhos de «extra.docs_externos» (destino no site -> origem, relativa a este arquivo), sem copiá-los.
+hooks:
+  - scripts/mkdocs_hooks.py
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js
+
+# Os documentos externos trazem links relativos pensados para o repositório (README, código): aqui são só avisos.
+validation:
+  omitted_files: info
+  absolute_links: info
+  unrecognized_links: info
+  not_found: info
+
+extra:
+  docs_externos:
+    int/README.md: triton_int/docs/README.md
+    int/en/getting-started.md: triton_int/docs/en/getting-started.md
+    int/en/model.md: triton_int/docs/en/model.md
+    int/en/verification.md: triton_int/docs/en/verification.md
+    int/en/editions.md: triton_int/docs/en/editions.md
+    int/metodologia.md: triton_int/docs/metodologia.md
+    int/equacoes_balanco.md: triton_int/docs/equacoes_balanco.md
+    int/verificacao_e_validacao.md: triton_int/docs/verificacao_e_validacao.md
+    int/conferencia_dos_casos_analiticos.md: triton_int/docs/conferencia_dos_casos_analiticos.md
+    int/CLI_USAGE.md: triton_int/infos_licenses/CLI_USAGE.md
+
+nav:
+  - Início: index.md
+  - Edição Internacional (referência):
+      - Mapa da documentação: int/README.md
+      - Primeiros passos: int/en/getting-started.md
+      - Modelo: int/en/model.md
+      - Metodologia (pt): int/metodologia.md
+      - Equações do balanço (pt): int/equacoes_balanco.md
+      - Verificação: int/en/verification.md
+      - Verificação e validação (pt): int/verificacao_e_validacao.md
+      - Casos analíticos (pt): int/conferencia_dos_casos_analiticos.md
+      - Edições: int/en/editions.md
+      - Linha de comando: int/CLI_USAGE.md
+  - Desenvolvimento:
+      - Grafo de dependências: grafo_de_dependencias.md
+      - consolidar e --progresso: estudo_consolidar_e_progresso.md
+      - Experimento grade x optuna: experimento_optuna.md
+      - Este site (mkdocs): documentacao_mkdocs.md

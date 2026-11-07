@@ -1,0 +1,21 @@
+# Testes que dependem de dado só da Edição Ibérica (tarifários portugueses, base E-OBS); fora dela não rodam.
+# Critério e formato: ver so_da_brl.txt e tests/conftest.py.
+
+# --- Base E-OBS por concelho (data/portugal_eobs.db) e tarifários transcritos (triton/data/portugal_tarifarios.json) ---
+tests/test_essencial.py::test_base_portugal_lisboa_normal_completa_e_plausivel
+tests/test_essencial.py::test_base_portugal_so_serve_concelho_sem_falha
+tests/test_essencial.py::test_projeto_com_chuva_da_e_obs_guarda_referencia_e_relê_igual_na_cli
+tests/test_essencial.py::test_tarifario_portugues_reproduz_as_contas_impressas
+tests/test_essencial.py::test_esgoto_por_escaloes_sobrevive_ao_arquivo_e_entra_na_economia
+tests/unit/test_tarifarios_porto_funchal.py
+tests/test_essencial_interface.py::test_janela_da_portugal
+tests/test_essencial_interface.py::test_etapa_1_da_portugal_carrega_a_serie_do_concelho
+
+# --- Procedência e confiança dos tarifários por concelho (tarifas_portugal/entidades.json, CONFIANCA_POR_CONCELHO.csv) ---
+tests/unit/test_procedencia_tarifaria_pt.py
+
+# --- Qualidade da chuva, reprodutibilidade, licença da E-OBS e linha de cobertura (edição IBE; tarefas B a E) ---
+tests/unit/test_qualidade_chuva_ibe.py
+tests/unit/test_reprodutibilidade_eobs_ibe.py
+tests/unit/test_licenca_eobs_ibe.py
+tests/unit/test_ibe_interface.py
