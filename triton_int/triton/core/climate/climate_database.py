@@ -16,8 +16,7 @@ climatológicas.
 Onde ficam as séries compiladas: um banco SQLite por modelo, `data/climbra_<modelo>.db`
 (cerca de 40 a 44 MB cada, abaixo do limite de arquivo do GitHub). Se algum modelo
 passar do limite, o banco do modelo pode ser dividido por cenário, em
-`climbra_<modelo>__<cenário>.db`. O `data/climbra.db` único das versões anteriores
-continua sendo lido, quando existe. Ver `scripts/dividir_base_climbra.py`.
+`climbra_<modelo>__<cenário>.db`. Ver `scripts/dividir_base_climbra.py`.
 """
 
 import atexit
@@ -109,7 +108,6 @@ _LAYOUT_CACHE: Optional[Dict[str, Any]] = None
 
 #: `climbra_<modelo>.db` ou `climbra_<modelo>__<cenário>.db`.
 _PADRAO_DA_PARTE = re.compile(r"^climbra_(?P<modelo>.+?)(?:__(?P<cenario>HIST|SSP245|SSP585))?\.db$")
-_NOME_DO_BANCO_UNICO = "climbra.db"
 
 
 def _normalize_name(name: str) -> str:
@@ -151,13 +149,12 @@ def limpar_cache_da_base() -> None:
 
 
 def _varrer_pasta(pasta: str) -> Optional[Dict[str, Any]]:
-    """Bancos CLIMBra de uma pasta: as partes por modelo e, se houver, o banco único antigo."""
+    """Bancos CLIMBra de uma pasta: as partes por modelo."""
     try:
         nomes = sorted(os.listdir(pasta))
     except OSError:
         return None
     partes: Dict[str, Dict[Optional[str], str]] = {}
-    legado: Optional[str] = None
     for nome in nomes:
         caminho = os.path.join(pasta, nome)
         if os.path.isdir(caminho):
@@ -166,15 +163,12 @@ def _varrer_pasta(pasta: str) -> Optional[Dict[str, Any]]:
                 caminho = sub
         if not os.path.isfile(caminho):
             continue
-        if nome == _NOME_DO_BANCO_UNICO:
-            legado = os.path.abspath(caminho)
-            continue
         achado = _PADRAO_DA_PARTE.match(nome)
         if achado:
             partes.setdefault(achado.group("modelo"), {})[achado.group("cenario")] = os.path.abspath(caminho)
-    if not partes and not legado:
+    if not partes:
         return None
-    return {"pasta": os.path.abspath(pasta), "partes": partes, "legado": legado}
+    return {"pasta": os.path.abspath(pasta), "partes": partes}
 
 
 def _pastas_de_busca() -> List[str]:
@@ -202,13 +196,11 @@ def _pastas_de_busca() -> List[str]:
 
 def _arquivos_do_layout(layout: Dict[str, Any]) -> List[str]:
     arquivos = [c for por_cenario in layout["partes"].values() for c in por_cenario.values()]
-    if layout["legado"]:
-        arquivos.append(layout["legado"])
     return arquivos
 
 
 def _layout_dos_bancos() -> Optional[Dict[str, Any]]:
-    """Descobre os bancos CLIMBra: `{"pasta", "partes": {modelo: {cenário|None: caminho}}, "legado"}`.
+    """Descobre os bancos CLIMBra: `{"pasta", "partes": {modelo: {cenário|None: caminho}}}`.
 
     Ordem: variáveis de ambiente (TRITON_CLIMBRA_DB e TRITON_CLIMATE_DB, que aceitam um arquivo
     ou uma pasta; TRITON_CLIMBRA_DIR, uma pasta), depois as pastas do programa. Vale a primeira
@@ -230,11 +222,11 @@ def _layout_dos_bancos() -> Optional[Dict[str, Any]]:
         elif os.path.isfile(valor):
             nome = os.path.basename(valor)
             parte = _PADRAO_DA_PARTE.match(nome)
-            achado = {"pasta": os.path.dirname(os.path.abspath(valor)), "partes": {}, "legado": None}
-            if parte and nome != _NOME_DO_BANCO_UNICO:
+            achado = {"pasta": os.path.dirname(os.path.abspath(valor)), "partes": {}}
+            if parte:
                 achado["partes"] = {parte.group("modelo"): {parte.group("cenario"): os.path.abspath(valor)}}
             else:
-                achado["legado"] = os.path.abspath(valor)
+                achado = None
         if achado:
             _LAYOUT_CACHE = achado
             return achado
@@ -250,16 +242,13 @@ def _layout_dos_bancos() -> Optional[Dict[str, Any]]:
 def _caminhos_dos_bancos(model_name: str, scenario_key: str) -> List[str]:
     """Bancos que podem ter a série (modelo, cenário), na ordem de preferência.
 
-    Primeiro o banco do modelo dividido por cenário, depois o banco do modelo inteiro e, por
-    último, o `climbra.db` único antigo.
+    Primeiro o banco do modelo dividido por cenário, depois o banco do modelo inteiro.
     """
     layout = _layout_dos_bancos()
     if not layout:
         return []
     por_cenario = layout["partes"].get(model_name, {})
     caminhos = [por_cenario[c] for c in (scenario_key, None) if c in por_cenario]
-    if layout["legado"]:
-        caminhos.append(layout["legado"])
     return caminhos
 
 
@@ -338,7 +327,7 @@ def get_climate_db_path() -> Optional[str]:
     """Caminho de um banco SQLite CLIMBra compilado, se existir.
 
     Com a base dividida por modelo, devolve o banco do modelo padrão (ou do primeiro disponível);
-    com o `climbra.db` único antigo, devolve-o. Para todos os arquivos, use `get_climate_db_paths()`.
+    Para todos os arquivos, use `get_climate_db_paths()`.
     """
     global _DB_PATH_CACHE
     if _DB_PATH_CACHE and os.path.isfile(_DB_PATH_CACHE):
@@ -346,17 +335,14 @@ def get_climate_db_path() -> Optional[str]:
     layout = _layout_dos_bancos()
     if not layout:
         return None
-    if layout["partes"]:
-        modelo = DEFAULT_CLIMATE_MODEL if DEFAULT_CLIMATE_MODEL in layout["partes"] else sorted(layout["partes"])[0]
-        por_cenario = layout["partes"][modelo]
-        _DB_PATH_CACHE = por_cenario.get(None) or por_cenario[sorted(c for c in por_cenario if c)[0]]
-    else:
-        _DB_PATH_CACHE = layout["legado"]
+    modelo = DEFAULT_CLIMATE_MODEL if DEFAULT_CLIMATE_MODEL in layout["partes"] else sorted(layout["partes"])[0]
+    por_cenario = layout["partes"][modelo]
+    _DB_PATH_CACHE = por_cenario.get(None) or por_cenario[sorted(c for c in por_cenario if c)[0]]
     return _DB_PATH_CACHE
 
 
 def get_climate_db_paths() -> List[str]:
-    """Todos os bancos CLIMBra encontrados (as partes por modelo e o banco único antigo, se houver)."""
+    """Todos os bancos CLIMBra encontrados (as partes por modelo)."""
     layout = _layout_dos_bancos()
     if not layout:
         return []
@@ -366,21 +352,12 @@ def get_climate_db_paths() -> List[str]:
 def get_available_climate_models() -> List[str]:
     """Modelos CMIP6 que têm série nos bancos encontrados, na ordem de `CLIMATE_MODELS`.
 
-    Com o banco único antigo, são os modelos que ele contém. Sem banco nenhum, a lista é vazia.
+    Sem banco nenhum, a lista é vazia.
     """
     layout = _layout_dos_bancos()
     if not layout:
         return []
     modelos = set(layout["partes"])
-    if layout["legado"]:
-        try:
-            conn = _abrir_somente_leitura(layout["legado"])
-            try:
-                modelos.update(m for (m,) in conn.execute("SELECT DISTINCT model FROM climbra_series;"))
-            finally:
-                conn.close()
-        except sqlite3.Error:
-            pass
     return [m for m in CLIMATE_MODELS if m in modelos] + sorted(m for m in modelos if m not in CLIMATE_MODELS)
 
 
@@ -449,7 +426,7 @@ def _build_city_filename_map() -> Dict[str, str]:
 
     city_map = {}
 
-    # 1. Prioriza os bancos SQLite compilados (um por modelo, ou o climbra.db único antigo).
+    # 1. Prioriza os bancos SQLite compilados (um por modelo).
     #    Todos os bancos trazem a tabela completa de cidades; basta ler o primeiro que responder.
     layout = _layout_dos_bancos()
     candidatos = []
@@ -601,7 +578,7 @@ def load_national_climate_series(
     raw_data: Optional[np.ndarray] = None
     file_path: Optional[str] = None
 
-    # 1. Tenta carregar dos bancos SQLite compilados (um por modelo; ou o climbra.db único antigo)
+    # 1. Tenta carregar dos bancos SQLite compilados (um por modelo)
     for db_path in _caminhos_dos_bancos(model_name, scenario_key):
         arr = _carregar_array_serie(db_path, matched_city, model_name, scenario_key)
         if arr is not None:

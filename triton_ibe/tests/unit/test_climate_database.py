@@ -90,7 +90,7 @@ def test_nonexistent_city_raises():
 
 
 def test_climbra_db_integration():
-    """Valida integração e leitura direta da base compilada (um banco por modelo, ou o climbra.db único antigo)."""
+    """Valida integração e leitura direta da base compilada (um banco por modelo)."""
     from triton.core.climate_database import get_climate_db_path, get_available_climate_cities
     import os
 

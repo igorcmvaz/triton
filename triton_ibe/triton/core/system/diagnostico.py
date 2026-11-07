@@ -69,7 +69,7 @@ def _base_climatica() -> Verificacao:
     if not usa_dados_do_brasil():
         return ("Base climática CLIMBra", None, f"não se aplica à {rotulo_da_edicao()}")
     if not banco or cidades == 0:
-        return ("Base climática CLIMBra", False, "banco climbra.db não encontrado")
+        return ("Base climática CLIMBra", False, "bancos climbra_<modelo>.db não encontrados")
     return ("Base climática CLIMBra", True, f"{cidades} cidades em {banco}")
 
 

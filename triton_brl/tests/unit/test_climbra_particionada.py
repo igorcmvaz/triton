@@ -4,8 +4,7 @@ Base CLIMBra dividida por modelo (`data/climbra_<modelo>.db`): descoberta, leitu
 Duas frentes:
 - o leitor (`triton/core/climate_database.py`), que roda nas três edições, com bancos sintéticos;
 - a base real da Edição Brasil (`data/climbra_<modelo>.db`, 19 partes): integridade contra o manifesto
-  `data/climbra_partes.json` (é o que a verificação de integração contínua roda) e, se o
-  `data/climbra.db` único estiver no disco, igualdade das séries lidas.
+  `data/climbra_partes.json` (é o que a verificação de integração contínua roda).
 """
 
 import hashlib
@@ -124,25 +123,6 @@ def test_caminho_do_banco_aponta_para_uma_parte(pasta_de_bancos):
     assert os.path.isfile(caminho)
 
 
-def test_continua_lendo_o_banco_unico_antigo(pasta_de_bancos):
-    esperado = _criar_banco(pasta_de_bancos / "climbra.db", MODELOS)
-    assert [Path(p).name for p in cd.get_climate_db_paths()] == ["climbra.db"]
-    assert Path(cd.get_climate_db_path()).name == "climbra.db"
-    assert cd.get_available_climate_models() == ["INM-CM4", "ACCESS-CM2"]
-    for (c, m, s), arr in esperado.items():
-        assert np.array_equal(_ler(c, m, s), arr.astype(np.float64))
-
-
-def test_a_parte_tem_precedencia_e_o_banco_unico_cobre_o_que_falta(pasta_de_bancos):
-    unico = _criar_banco(pasta_de_bancos / "climbra.db", MODELOS, deslocamento=1.0)     # valores distintos
-    parte = _criar_banco(pasta_de_bancos / "climbra_INM-CM4.db", ["INM-CM4"])
-    cd.limpar_cache_da_base()
-    # modelo com parte: vale a parte
-    assert np.array_equal(_ler("Belém", "INM-CM4", "HIST"), parte[("Belém", "INM-CM4", "HIST")].astype(np.float64))
-    # modelo sem parte: cai no banco único
-    assert np.array_equal(_ler("Belém", "ACCESS-CM2", "HIST"), unico[("Belém", "ACCESS-CM2", "HIST")].astype(np.float64))
-
-
 def test_modelo_dividido_por_cenario(pasta_de_bancos):
     esperado = {}
     for cen in DIAS:
@@ -188,7 +168,6 @@ def test_sem_bancos_nao_ha_caminho(tmp_path, monkeypatch):
 
 DATA = RAIZ / "data"
 PARTES_REAIS = sorted(DATA.glob("climbra_*.db"))
-BANCO_UNICO = DATA / "climbra.db"
 
 
 @pytest.fixture
@@ -210,29 +189,6 @@ def test_partes_reais_cabem_no_github(base_real):
         assert parte.stat().st_size < 50 * 1024 * 1024, f"{parte.name} passa do aviso de 50 MB do GitHub"
     assert cd.get_available_climate_models() == cd.CLIMATE_MODELS
     assert len(cd.get_available_climate_cities()) == 652
-
-
-@pytest.mark.skipif(not BANCO_UNICO.is_file(), reason="climbra.db único ausente nesta máquina")
-def test_partes_reais_dao_a_mesma_serie_que_o_banco_unico(base_real):
-    cidades = ["São Paulo", "Florianópolis", "Manaus", "Brasília", "Salvador", "Cruzeiro do Sul"]
-    modelos = ["INM-CM4", "ACCESS-CM2", "KACE", "UKESM1-0-LL", "NorESM2-MM"]   # com e sem calendário de 360 dias
-    unico = sqlite3.connect(f"file:{BANCO_UNICO.as_posix()}?mode=ro", uri=True)
-    try:
-        for c in cidades:
-            real = cd.find_matching_climate_city_name(c)
-            for m in modelos:
-                for s in cd.CLIMATE_SCENARIOS:
-                    contagem, blob = unico.execute(
-                        "SELECT count, data FROM climbra_series WHERE city = ? AND model = ? AND scenario = ?",
-                        (real, m, s)).fetchone()
-                    bruto = zlib.decompress(blob)
-                    dtype = np.float16 if len(bruto) == contagem * 2 else np.float32
-                    esperado = np.frombuffer(bruto, dtype=dtype).astype(np.float64)
-                    lida, _i, _f, total, _sel, _p = cd.load_national_climate_series(c, m, s)
-                    assert total == contagem
-                    assert np.array_equal(lida, esperado), (c, m, s)
-    finally:
-        unico.close()
 
 
 def test_as_partes_reais_batem_com_o_manifesto():
