@@ -10,7 +10,7 @@ logo, versioning and one edition for each region.
 
 ![Version](https://img.shields.io/badge/version-0.1.0-1f497d)
 ![Python](https://img.shields.io/badge/python-3.12%2B-1f497d)
-![Installers](https://img.shields.io/badge/installers-in%20preparation-lightgrey)
+[![Official Portal & Download](https://img.shields.io/badge/download%20%26%20portal-sustainability.ufsc.br-059669)](https://sustainability.ufsc.br/#/triton)
 [![Licence: academic source-available](https://img.shields.io/badge/licence-academic%20source--available-lightgrey)](#licence)
 
 </div>
@@ -60,10 +60,10 @@ logo, versioning and one edition for each region.
 </table>
 
 All three share the same engine and the same version number. Each folder is self-contained, with its own source,
-tests, and manual, so you only need the one you use.
+and data, so you only need the one you use.
 
 ## Download
-The Windows installers are **not** in this repository. They are released in a single Zenodo record, so that each release can be cited and kept as it was released: DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916), with the installers' SHA-256 checksums. Installers are not code-signed.
+The Windows installers are **not** in this repository. Register your use and download the Beta at the official portal: **[sustainability.ufsc.br/#/triton](https://sustainability.ufsc.br/#/triton)**. They are released in a single Zenodo record, so that each release can be cited and kept as it was released: DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916), with the installers' SHA-256 checksums. Installers are not code-signed.
 To run from the source code instead, see the [Quick start](#quick-start).
 
 | Edition | Installer (in the Zenodo record) |
@@ -73,7 +73,7 @@ To run from the source code instead, see the [Quick start](#quick-start).
 | Ibérica (IBE) | `Triton_Iberica_Setup_v0.1.0.exe` |
 
 The source code in this repository is the same one the installers are built from. The repository holds what is needed
-to run Triton from the command line and the graphical interface; the packaging tools are kept by the maintainer.
+to run Triton from the command line and the graphical interface; the packaging tools, tests and manuals are kept by the maintainer.
 
 ## What Triton does
 
@@ -87,7 +87,7 @@ to run Triton from the command line and the graphical interface; the packaging t
 
 ## Quick start
 
-To run from source (the installers are not published yet, see [Download](#download)):
+To run from source (installers: see [Download](#download)):
 
 ```bash
 cd triton_int                 # or triton_brl / triton_ibe
