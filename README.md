@@ -70,7 +70,7 @@ To download the latest **Beta** release (`v0.1.0`) and log your academic, teachi
 
 *(PT: Para registrar o uso da ferramenta e baixar a versão mais recente do Beta com os instaladores e manuais oficiais, acesse o portal principal em **[https://sustainability.ufsc.br/#/triton](https://sustainability.ufsc.br/#/triton)**).*
 
-After a quick registration on the portal (Name, Email, Institution/Company, Edition, and Purpose), you will immediately unlock the official release page containing the installers and manuals for all three editions:
+After a quick registration on the portal (Name, Email, Institution/Company, Edition, and Purpose), your download request is sent via email to receive the official installers and manuals for your chosen edition:
 
 | Edition | Windows Installer (`.exe`) | Technical Manual (`.pdf`) |
 |---|---|---|
@@ -84,9 +84,9 @@ The source code in this repository is the exact one the installers are built fro
 
 ## What Triton does
 
-- **Water balance.** Daily simulation of the reservoir with the Triton operating rule (and Fewkes' φ rule as an option
+- **Water balance.** Daily simulation of the tank with the Triton operating rule (and Fewkes' φ rule as an option
   for a single tank), with mass-closure checks.
-- **Sizing.** Reservoir volume curves, ideal volume by marginal gain, one or two tanks, first-flush discard.
+- **Sizing.** Tank volume curves, ideal volume by marginal gain, one or two tanks, first-flush discard.
 - **Economics.** Water, sewer and energy tariffs, CAPEX and OPEX, payback and net present value.
 - **Environment.** Life-cycle carbon and certification scoring (LEED, EDGE, AQUA-HQE and others).
 - **Decision.** Multi-criteria ranking with TOPSIS, VIKOR, SMAA-VIKOR and PROMETHEE II.
