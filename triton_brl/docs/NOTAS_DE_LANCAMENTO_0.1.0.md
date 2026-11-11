@@ -1,6 +1,6 @@
 # Triton, Edição Brasil (BRL): notas de lançamento da versão 0.1.0
 
-Versão 0.1.0 (beta), data de lançamento a definir. É a primeira versão do Triton e a primeira da Edição Brasil. Este documento diz o que a versão traz, o que ela não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
+Versão 0.1.0 (beta), lançada em 5 de novembro de 2026. É a primeira versão do Triton e a primeira da Edição Brasil. Este documento diz o que a versão traz, o que ela não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
 
 ## O que é
 

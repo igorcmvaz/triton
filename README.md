@@ -46,23 +46,24 @@ Triton is the official successor to [Netuno](https://sustainability.ufsc.br/#/ne
       York, London and Cape Town.
     </td>
     <td valign="top">
-      European rainfall (E-OBS & Iberia01) by municipality, Portuguese water tariffs (ERSAR), costs in euros and European Portuguese.
-      Worked examples for Lisbon, Porto and Funchal.
+      Rainfall by municipality for Portugal and Spain (Iberia01; ERA5 for the islands; E-OBS optional), Portuguese water
+      tariffs and a first layer of Spanish tariffs, euros and European Portuguese. Worked examples for Lisbon, Porto,
+      Funchal, Madrid and Palma.
     </td>
   </tr>
   <tr>
-    <td align="center"><a href="triton_brl/README.md">README (pt)</a> · <a href="triton_brl/docs/en/README.md">README (en)</a></td>
-    <td align="center"><a href="triton_int/README.md">README (pt)</a> · <a href="triton_int/docs/en/README.md">README (en)</a></td>
-    <td align="center"><a href="triton_ibe/README.md">README (pt)</a> · <a href="triton_ibe/docs/en/README.md">README (en)</a></td>
+    <td align="center"><a href="triton_brl/README.md">README (pt-BR)</a> · <a href="triton_brl/docs/en/README.md">README (en)</a></td>
+    <td align="center"><a href="triton_int/README.md">README (en)</a> · <a href="triton_int/docs/README.md">Docs (en)</a></td>
+    <td align="center"><a href="triton_ibe/README.md">README (pt-PT)</a> · <a href="triton_ibe/docs/en/README.md">README (en)</a></td>
   </tr>
 </table>
 
 All three share the same engine and the same version number. Each folder is self-contained, with its own source,
-tests, manual and Windows installer build scripts, so you only need the one you use.
+tests, data and manual, so you only need the one you use. The installer build scripts are not in this repository.
 
 ## Download & Usage Registration (Beta)
 
-The standalone Windows installers (`.exe`) and technical manuals (`.pdf`) are **not** stored directly in this Git repository.
+The standalone Windows installers (`.exe`) are **not** stored in this Git repository. Each edition folder carries its manual as PDF (`manual/`); the release copies below are named per edition.
 
 To download the latest **Beta** release (`v0.1.0`) and log your academic, teaching, or professional usage of the platform, please use the official UFSC portal as the primary entry point:
 

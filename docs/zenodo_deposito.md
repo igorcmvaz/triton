@@ -20,7 +20,7 @@ O texto da descrição está apresentado em **Português (pt-BR)** e em **Inglê
 | **Digital Object Identifier (DOI)** | 10.5281/zenodo.23402916 (reservado antes da publicação) |
 | **Language / Idioma** | Multilingual (pt-BR, en-GB, es, zh) |
 | **Related Identifiers / Identificadores Relacionados** | - IsSupplementTo / IsDocumentedBy: Manual do Usuário Triton (UFSC, 2026)<br>- Continues / IsNewVersionOf: Netuno (Software de Aproveitamento de Água de Chuva em Edifícios - Netuno 4, UFSC)<br>- References: NBR 15527 (ABNT); EN 16941-1 (CEN); CLIMBra CMIP6 (UFSC/INPE); Iberia01; E-OBS |
-| **Communities / Comunidades Zenodo** | - ufsc: Universidade Federal de Santa Catarina<br>- water-management: Sustainable Water Resource Management & Building Hydrology<br>- uilding-sustainability: Architecture, Civil Engineering & Urban Sustainability |
+| **Communities / Comunidades Zenodo** | - ufsc: Universidade Federal de Santa Catarina<br>- water-management: Sustainable Water Resource Management & Building Hydrology<br>- `building-sustainability`: Architecture, Civil Engineering & Urban Sustainability |
 | **Keywords / Palavras-chave** | rainwater harvesting; building hydrology; yield-after-spill; life-cycle assessment; multi-criteria decision-making; topsis; vikor; smaa-vikor; promethee; engineering economics; climate change; cmip6; water conservation; netuno; aproveitamento de água pluvial |
 
 ---
@@ -30,7 +30,7 @@ O texto da descrição está apresentado em **Português (pt-BR)** e em **Inglê
 ### Resumo (Abstract)
 O **Triton** é uma plataforma computacional científica de alta precisão desenvolvida pelo Grupo de Pesquisa em Ambientes Sustentáveis da Universidade Federal de Santa Catarina (UFSC), atuando como o sucessor tecnológico do amplamente difundido programa **Netuno** (tendo o Netuno 4 como referência primária de validação de balanço hídrico). O Triton foi concebido para modelar, simular, dimensionar e otimizar sistemas prediais de aproveitamento de água de chuva (pluvial), integrando hidrologia diária contínua, engenharia econômica detalhada, avaliação simplificada do ciclo de vida (ACV) e métodos científicos avançados de apoio à tomada de decisão multicritério (MCDA).
 
-A plataforma é distribuída em três edições compartilhando o mesmo núcleo de cálculo validado (	riton-core):
+A plataforma é distribuída em três edições compartilhando o mesmo núcleo de cálculo validado (`triton-core`):
 1. **Triton Brasil (BRL):** Especializada na realidade técnica, tarifária e climática brasileira. Incorpora malha de dados pluviométricos de alta resolução do CLIMBra (CMIP6: histórico e projeções de cenários de mudanças climáticas SSP2-4.5 e SSP5-8.5), catálogo de estruturas tarifárias auditadas de abastecimento de água e esgotamento sanitário para 652 municípios brasileiros, base de custos prediais de reservatórios em Reais (R$), normas brasileiras (ABNT NBR 15527, NBR 5626) e modelagem de estações de tratamento de água de chuva (ETAP / cloração conforme Portaria GM/MS 888/2021).
 2. **Triton Ibérica (IBE):** Voltada para Portugal e a Península Ibérica, com dados de precipitação diária de alta resolução provenientes das bases E-OBS e Iberia01, regulamentação técnica em Português de Portugal (terminologias normalizadas como VAL, VPL, autossuficiência, autoclismos), estruturas tarifárias auditadas de entidades gestoras portuguesas (ERSAR) em Euros (€) e conformidade com a norma europeia EN 16941-1.
 3. **Triton Internacional (INT):** Versão neutra geograficamente e totalmente flexível, permitindo importação customizada de séries de precipitação diária globais, parametrização aberta de moedas, taxas de juros, inflação e escalonamentos tarifários, e interface multilíngue (Português, Inglês, Espanhol e Mandarim).
@@ -65,8 +65,8 @@ A plataforma é distribuída em três edições compartilhando o mesmo núcleo d
 - **Ambiente de Execução:** Python 3.10+ (ou executáveis compilados autônomos *standalone* sem necessidade de pré-instalação de dependências).
 - **Dependências Principais:** PySide6 (Qt 6), NumPy, SciPy, Matplotlib.
 - **Instalação:**
-  - Usuários finais: Baixar o instalador executável correspondente (	riton_brl_setup.exe, 	riton_ibe_setup.exe ou 	riton_int_setup.exe) e executar o assistente passo a passo.
-  - Desenvolvedores e pesquisadores: Clonar o repositório, criar ambiente virtual Python (python -m venv .venv) e instalar os pacotes via pip install -e triton_brl (ou 	riton_int / 	riton_ibe).
+  - Usuários finais: Baixar o instalador executável correspondente (`Triton_Brasil_Setup_v0.1.0.exe`, `Triton_Iberica_Setup_v0.1.0.exe` ou `Triton_Internacional_Setup_v0.1.0.exe`) e executar o assistente passo a passo.
+  - Desenvolvedores e pesquisadores: Clonar o repositório, criar ambiente virtual Python (python -m venv .venv) e instalar os pacotes via pip install -e triton_brl (ou `triton_int` / `triton_ibe`).
 
 ---
 
@@ -75,7 +75,7 @@ A plataforma é distribuída em três edições compartilhando o mesmo núcleo d
 ### Abstract
 **Triton** is a state-of-the-art scientific computational platform developed by the Sustainable Environments Research Group at the Federal University of Santa Catarina (UFSC), Brazil. Serving as the next-generation successor to the widely recognised **Netuno** software (with Netuno 4 serving as the benchmark for water-balance validation), Triton is designed for the comprehensive design, daily continuous simulation, techno-economic feasibility analysis, life-cycle impact evaluation, and multi-criteria decision support of rainwater harvesting (RWH) systems in residential, commercial, and public buildings.
 
-The platform is distributed across three specialized editions sharing a unified, mathematically verified calculation kernel (	riton-core):
+The platform is distributed across three specialized editions sharing a unified, mathematically verified calculation kernel (`triton-core`):
 1. **Triton Brasil (BRL):** Tailored to Brazilian engineering practice, regulations (ABNT NBR 15527, NBR 5626), and environmental context. It incorporates high-resolution synthetic and observed rainfall records from the CLIMBra database (CMIP6: historical baseline and climate projection scenarios SSP2-4.5 and SSP5-8.5), audited water and sewerage progressive block tariffs for 652 Brazilian municipalities, cost estimation bases in Brazilian Reais (BRL / R$), and models for on-site rainwater treatment plants (ETAP / chlorination according to Ministry of Health Ordinance GM/MS 888/2021).
 2. **Triton Ibérica (IBE):** Geared towards Portugal and the Iberian Peninsula, featuring daily gridded precipitation datasets from E-OBS and Iberia01, technical terminology in European Portuguese (e.g., VAL, autossuficiência, autoclismos), audited multi-tier utility tariffs from Portuguese regulatory authorities (ERSAR) in Euros (€), and alignment with European Standard EN 16941-1.
 3. **Triton International (INT):** Region-neutral and globally configurable edition, supporting the import of user-defined daily rainfall time series, arbitrary currencies and financial parameters, and a multi-language graphical interface (English, Portuguese, Spanish, and Simplified Chinese).
@@ -110,21 +110,21 @@ The platform is distributed across three specialized editions sharing a unified,
 - **Runtime Environment:** Python 3.10+ (or standalone pre-compiled executable installers requiring no prior dependencies).
 - **Core Dependencies:** PySide6 (Qt 6), NumPy, SciPy, Matplotlib.
 - **Installation Procedure:**
-  - End Users: Download and run the appropriate executable installer (	riton_brl_setup.exe, 	riton_ibe_setup.exe, or 	riton_int_setup.exe).
-  - Developers / Researchers: Clone the source repository, establish a Python virtual environment (python -m venv .venv), and perform editable installation via pip install -e triton_brl (or 	riton_int / 	riton_ibe).
+  - End Users: Download and run the appropriate executable installer (`Triton_Brasil_Setup_v0.1.0.exe`, `Triton_Iberica_Setup_v0.1.0.exe`, or `Triton_Internacional_Setup_v0.1.0.exe`).
+  - Developers / Researchers: Clone the source repository, establish a Python virtual environment (python -m venv .venv), and perform editable installation via pip install -e triton_brl (or `triton_int` / `triton_ibe`).
 
 ---
 
 ## 4. Como Citar / How to Cite
 
 ### Citação ABNT (Brasil)
-VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edifícios**. Versão 0.1.0. Florianópolis: Universidade Federal de Santa Catarina (UFSC), 2026. DOI: [Atribuído pelo Zenodo]. Disponível em: https://github.com/igorcmvaz/triton.
+VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edifícios**. Versão 0.1.0. Florianópolis: Universidade Federal de Santa Catarina (UFSC), 2026. DOI: 10.5281/zenodo.23402916. Disponível em: https://github.com/igorcmvaz/triton.
 
 ### APA Citation (7th Edition)
-Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings* (Version 0.1.0) [Computer software]. Universidade Federal de Santa Catarina (UFSC). https://doi.org/[Assigned-by-Zenodo]
+Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings* (Version 0.1.0) [Computer software]. Universidade Federal de Santa Catarina (UFSC). https://doi.org/10.5281/zenodo.23402916
 
 ### BibTeX Entry
-`ibtex
+```bibtex
 @software{vaz_ghisi_2026_triton,
   author       = {Vaz, Igor Catão Martins and Ghisi, Enedir},
   title        = {{Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings}},
@@ -137,16 +137,16 @@ Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater
   institution  = {Universidade Federal de Santa Catarina (UFSC)},
   organization = {Grupo de Pesquisa em Ambientes Sustentáveis, UFSC}
 }
-`
+```
 
 ---
 
 ## 5. Arquivos Sugeridos para o Upload no Zenodo / Suggested Release Files
 
 Ao criar o release no Zenodo, recomenda-se anexar:
-1. 	riton_brl_setup.exe: Instalador compilado da Edição Brasil.
-2. 	riton_ibe_setup.exe: Instalador compilado da Edição Ibérica.
-3. 	riton_int_setup.exe: Instalador compilado da Edição Internacional.
-4. 	riton-0.1.0-source.zip: Arquivo compactado com o código-fonte integral de todas as edições, documentação técnica e suíte de testes automatizados.
+1. `Triton_Brasil_Setup_v0.1.0.exe`: Instalador compilado da Edição Brasil.
+2. `Triton_Iberica_Setup_v0.1.0.exe`: Instalador compilado da Edição Ibérica.
+3. `Triton_Internacional_Setup_v0.1.0.exe`: Instalador compilado da Edição Internacional.
+4. `triton-0.1.0-source.zip`: Arquivo compactado com o código-fonte integral de todas as edições, documentação técnica e suíte de testes automatizados.
 5. CITATION.cff: Arquivo legível por máquina para indexação de citações no GitHub, Zotero e Zenodo.
 6. README.md e LICENSE.md: termos da licença acadêmica de código-fonte disponível (uso não comercial, citação obrigatória, cláusula 4) e apresentação técnica do projeto.

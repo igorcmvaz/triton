@@ -40,10 +40,10 @@ Os dados de **tarifas** e de **pluviometria** estão em arquivos separados entre
 | Tratamento do Triton | Nenhum valor é alterado além da compactação: float16 e zlib nível 6. A diferença no balanço diário entre float64 e float16 é de 0,000045% (`docs/base_climatica_climbra.md`) |
 | Qualidade | O Triton **não recalcula** a qualidade do CLIMBra: ela é a do artigo. Não há medida regional própria neste repositório. Todos os 652 municípios têm as 57 séries (19 modelos × 3 cenários); a integridade das partes é conferida por SHA-256 |
 | Tamanho | 785,1 MiB em 19 partes (39,98 MiB IPSL-CM6A-LR a 43,02 MiB KACE). Limite do projeto: 50 MiB por arquivo; margem mínima de 6,98 MiB |
-| Carregamento | `triton/core/climate_database.py` procura `TRITON_CLIMBRA_DIR`, `TRITON_CLIMBRA_DB`/`TRITON_CLIMATE_DB`, depois `data/` do executável, do código e do diretório atual. Abre em modo somente leitura. A parte do modelo vale primeiro; o `climbra.db` antigo cobre o que faltar |
+| Carregamento | `triton/core/climate_database.py` procura `TRITON_CLIMBRA_DIR`, `TRITON_CLIMBRA_DB`/`TRITON_CLIMATE_DB`, depois `data/` do executável, do código e do diretório atual. Abre em modo somente leitura, uma parte por modelo |
 | Manifesto | `data/climbra_partes.json`: arquivo, modelo, bytes, séries, SHA-256 do arquivo e do conteúdo, `limite_github_mb` = 50 |
-| Reprodução | Os CSV originais (6,24 GB) são compilados por `scripts/compilar_base_climbra.py` e divididos por `scripts/dividir_base_climbra.py` (ferramentas do mantenedor, fora do Git; ver `scripts/README.md`). Se uma parte passar do limite, o divisor separa o modelo por cenário (`climbra_<modelo>__HIST.db` etc.) e o leitor entende os dois nomes. Use `--limite-mb 50` |
-| Verificação | `python -m pytest tests/unit/test_climbra_particionada.py -k reais -p no:cacheprovider`: SHA-256 de cada parte contra o manifesto e séries idênticas ao banco único |
+| Reprodução | Os CSV originais (6,24 GB) são compilados por `scripts/compilar_base_climbra.py` e divididos por `scripts/dividir_base_climbra.py` (os dois scripts estão no Git; os CSV, não; ver `scripts/README.md`). Se uma parte passar do limite, o divisor separa o modelo por cenário (`climbra_<modelo>__HIST.db` etc.) e o leitor entende os dois nomes. Use `--limite-mb 50` |
+| Verificação | `python -m pytest tests/unit/test_climbra_particionada.py -k reais -p no:cacheprovider`: SHA-256 de cada parte e contagem de séries contra o manifesto |
 
 Por região: as cinco macrorregiões e as 27 UF têm cobertura completa (todos os municípios, todos os modelos e cenários); a tabela de municípios por UF está em §4.
 
@@ -154,7 +154,7 @@ O `tarifas/catalogo_tarifas_auditado_652.csv` traz só o cabeçalho (274 bytes, 
 
 - O programa lê só `triton/data/brazil_cities_tariffs.json` (`triton/core/tariffs_database.py`); a pasta `tarifas/` acompanha a edição como procedência consultável.
 - Atualização: ferramentas do mantenedor (fora do Git), descritas em `tarifas/README.md`: coleta e registro do documento (`processar_entrada.py`), transcrição (`transcricoes/<prestador>.json`, à mão, com o documento aberto), gravação com antes e depois (`aplicar_transcricoes.py --aplicar`) e energia ANEEL (`atualizar_tarifas.py --aneel-only`). Cada transcrição traz contas de conferência que os testes exigem reproduzidas ao centavo.
-- Reprodução da auditoria: `scripts/audit_tariffs.py` sobre a cópia oficial da ANEEL.
+- Reprodução da auditoria: `scripts/audit_tariffs.py` sobre a cópia oficial da ANEEL (ferramenta do mantenedor, fora do Git).
 
 ## 5. Outros dados
 
@@ -170,9 +170,9 @@ O `tarifas/catalogo_tarifas_auditado_652.csv` traz só o cabeçalho (274 bytes, 
 
 ## 6. Limites de tamanho e verificação
 
-- Limite: 50 MiB por arquivo rastreado. Maior arquivo da edição: 43,02 MiB (`climbra_KACE.db`). A edição rastreada soma 872,0 MiB: 785,1 MiB de clima e 86,8 MiB do resto, dos quais 53,3 MiB são o manual.
+- Limite: 50 MiB por arquivo rastreado. Maior arquivo da edição: 43,02 MiB (`climbra_KACE.db`). A edição rastreada soma 873,0 MiB: 785,1 MiB de clima e 87,9 MiB do resto, dos quais 53,4 MiB são o manual.
 - Conferência: `python scripts/verificar_tamanhos.py` (da raiz do repositório) e `tests/unit/test_tamanho_dos_dados.py`.
-- O repositório inteiro tem cerca de 976 MiB rastreados e o `.git`, 1,4 GB (as 19 partes respondem por 785 MiB). O plano de lançamento sem inflar o histórico (publicar as partes como *release assets* nas próximas versões e não regerá-las sem necessidade) não faz parte do repositório; é decisão do mantenedor.
+- O repositório inteiro tem cerca de 1 043 MiB rastreados e o `.git`, 1,4 GB (as 19 partes respondem por 785 MiB). O plano de lançamento sem inflar o histórico (publicar as partes como *release assets* nas próximas versões e não regerá-las sem necessidade) não faz parte do repositório; é decisão do mantenedor.
 
 ## 7. Como atualizar sem estourar o limite
 

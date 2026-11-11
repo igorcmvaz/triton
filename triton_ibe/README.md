@@ -17,8 +17,9 @@ Esta é a **Edição Ibérica** (**Triton IBE**, Península Ibérica; chamou-se 
   municípios, chave por código INE ou DTMN). Canárias, Madeira e Açores (118 locais) usam a reanálise ERA5, sempre
   com nível C; Ceuta e Melilla ficam sem série. A E-OBS (1950–2025, só uso não comercial) é uma fonte opcional.
 - **Tarifários de água e saneamento** de Lisboa, Porto e Funchal, com a entidade gestora, a vigência e a fonte
-  de cada valor.
-- **Exemplos completos** para Lisboa, Porto e Funchal.
+  de cada valor. Em Espanha, 7 municípios com tarifário transcrito (ainda não conferido) e a média regional do INE
+  para os restantes, só indicativa.
+- **Exemplos completos** para Lisboa, Porto, Funchal, Madrid e Palma.
 
 As restantes edições usam o mesmo motor e o mesmo número de versão. Ver o
 [README do repositório](../README.md).
@@ -56,7 +57,7 @@ qualidade A, B ou C (A 461, B 7 857, C 119; as ilhas são C); Lisboa, Porto e Fu
 | Chuva, Espanha e Baleares | pronta: 8 041 municípios (Iberia01), nível A (321), B (7 719) ou C (1) |
 | Chuva, ilhas | Canárias, Madeira e Açores: 118 locais pela ERA5, nível C; Ceuta e Melilla sem série |
 | Tarifários, Portugal | Lisboa, Porto e Funchal transcritos; nenhum concelho em verde |
-| Tarifas, Espanha | média regional do INE para os 8 131 municípios (indicativa); nenhum município transcrito |
+| Tarifas, Espanha | 7 municípios com tarifário transcrito, ainda não conferido (Madrid, Sevilla, Murcia, A Coruña, Las Palmas de Gran Canaria, Gijón e Valladolid); os outros 8 124 usam a média regional do INE (indicativa) |
 | Preços e CAPEX | partem de zero e são do utilizador; o programa não traz preços de Portugal |
 | Fator de emissão da rede | sem valor até o utilizador o indicar |
 | Correção de escala da chuva | não faz parte desta versão |
@@ -120,7 +121,7 @@ triton_ibe/
 ├── manual/            O manual pronto: PDF, sítio offline, volumes curtos e casos
 ├── docs/              Documentação técnica (método, equações, verificação)
 ├── examples/          Exemplos e modelos de projeto (.triton)
-├── data/              Pacotes de idioma, séries de exemplo e a base E-OBS por concelho
+├── data/              Chuva do Iberia01 (4 partes) e da ERA5 das ilhas, municípios e níveis, E-OBS opcional, idiomas
 ├── templates/         Modelos de projeto e de folha de cálculo
 ├── scripts/           Ferramentas de manutenção (ver scripts/README.md)
 ├── infos_licenses/    Textos de licença, do instalador e avisos de terceiros
@@ -139,10 +140,15 @@ A citação do programa é obrigatória em qualquer trabalho que use os seus res
 
 > Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações.* Universidade Federal de Santa Catarina (UFSC).
 
-Os dados de precipitação são do E-OBS (Cornes et al., 2018, doi:10.1029/2017JD028200): reconhecemos o conjunto
-E-OBS do projeto UERRA do 6.º Programa-Quadro da UE (https://www.uerra.eu), o Copernicus Climate Change Service
-e os fornecedores de dados do projeto ECA&D (https://www.ecad.eu). Os limites dos concelhos são da CAOP 2025, da
-Direção-Geral do Território.
+A chuva da Península e das Baleares vem do Iberia01 v1.0 (Herrera et al., 2019, doi:10.5194/essd-11-1947-2019):
+*Contains information from Iberia01, made available under the Open Database License (ODbL 1.0).* A chuva das
+Canárias, da Madeira e dos Açores vem da reanálise ERA5 (Hersbach et al., 2020, doi:10.1002/qj.3803; dados
+Open-Meteo.com, CC BY 4.0): *Contains modified Copernicus Climate Change Service information.* A E-OBS, opcional e
+só para uso não comercial, pede a citação de Cornes et al. (2018, doi:10.1029/2017JD028200) e o reconhecimento do
+projeto UERRA (https://www.uerra.eu), do Copernicus Climate Change Service e dos fornecedores de dados do ECA&D
+(https://www.ecad.eu). Os limites são da CAOP 2025 (Direção-Geral do Território) e do Eurostat/GISCO LAU 2023
+(© EuroGeographics). As atribuições completas estão em [`data/LICENCA_DOS_DADOS.md`](data/LICENCA_DOS_DADOS.md) e
+em [`docs/DADOS.md`](docs/DADOS.md).
 
 Desenvolvido pelo Grupo de Pesquisa em Ambientes Sustentáveis, Universidade Federal de Santa Catarina.
 Dúvidas e erros: igor.catao@posgrad.ufsc.br.

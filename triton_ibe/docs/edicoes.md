@@ -4,10 +4,12 @@ O Triton sai em edições a partir do **mesmo código**: Brasil (BRL), Internati
 Ibérica (IBE). O motor de cálculo — balanço diário, descarte inicial, coeficientes de
 escoamento, análise económica, ACV, TOPSIS — é um só. O que separa as edições são os
 **dados nacionais**. A Edição Ibérica parte do núcleo neutro, está em português de Portugal,
-trabalha em euros e traz dados de Portugal: precipitação diária por concelho (E-OBS) e os
-tarifários de Lisboa, do Porto e do Funchal.
+trabalha em euros e traz dados de Portugal e de Espanha: precipitação diária por município
+(Iberia01, ODbL; ERA5 nas ilhas, nível C; E-OBS opcional no Continente), os tarifários de Lisboa,
+do Porto e do Funchal e, em Espanha, 7 tarifários transcritos ainda não conferidos e a média
+regional do INE para os restantes.
 
-**Nome e códigos.** A edição chamava-se «Portugal» (código `PRT`, antes `POR`) e passou a chamar-se **Triton IBE**, de Península Ibérica. O valor interno é `IBE`; `PRT` e `POR` continuam aceites como sinónimos (variável `TRITON_EDITION`, `--edition`, `set_current_edition`) e normalizam para `IBE`, e `is_prt_edition` é alias de `is_ibe_edition`. Hoje só os concelhos de Portugal têm dados (a linha de cobertura mostra «Espanha: 0 locais»); não há dados espanhóis inventados.
+**Nome e códigos.** A edição chamava-se «Portugal» (código `PRT`, antes `POR`) e passou a chamar-se **Triton IBE**, de Península Ibérica. O valor interno é `IBE`; `PRT` e `POR` continuam aceites como sinónimos (variável `TRITON_EDITION`, `--edition`, `set_current_edition`) e normalizam para `IBE`, e `is_prt_edition` é alias de `is_ibe_edition`. A linha de cobertura mostra «Portugal 308 locais, Espanha 8131 locais; chuva Iberia01 8319, ERA5 (nível C) 118, sem série 2»; não há dados espanhóis inventados.
 
 Este documento é o mapa para quem mantém o programa. English version:
 [`en/editions.md`](en/editions.md).
@@ -20,7 +22,7 @@ Este documento é o mapa para quem mantém o programa. English version:
 | :--- | :--- |
 | idioma ao abrir | português de Portugal (VAL, entidade gestora, ficheiro, escalões) |
 | selo na barra lateral, título da janela, rodapé dos relatórios e exportações | «Edição Ibérica (IBE)», vermelho |
-| chuva | base E-OBS por concelho (278 do Continente, observada, 1950–2025) ou série própria; Açores e Madeira só com série própria; série de exemplo do Funchal (reanálise ERA5) |
+| chuva | Iberia01 por município (Portugal continental, Espanha peninsular e Baleares, 8 319 locais, 1971–2015), ERA5 nas Canárias, na Madeira e nos Açores (118 locais, nível C), E-OBS opcional (278 concelhos do Continente, 1950–2025) ou série própria; Ceuta e Melilla só com série própria |
 | tarifas de água, saneamento e resíduos | tarifários transcritos dos documentos oficiais de Lisboa (EPAL e Câmara Municipal), do Porto e do Funchal; nos outros concelhos, digitadas |
 | energia | digitada |
 | moeda | euro, a única oferecida |
@@ -109,7 +111,8 @@ O instalador sai no registro do Zenodo (DOI 10.5281/zenodo.23402916); as ferrame
 
 ## 4. Dados e documentos desta edição
 
-**Precipitação.** Precipitação diária por concelho extraída da E-OBS v33.0e
+**Precipitação.** A fonte principal é o Iberia01 v1.0 (ODbL), por município, com a ERA5 nas ilhas
+(`DADOS.md`, §2A). A fonte opcional é a precipitação diária por concelho extraída da E-OBS v33.0e
 (Copernicus/KNMI, grelha de 0,1°, 1950–2025; citar Cornes et al., 2018,
 doi:10.1029/2017JD028200, e reconhecer UERRA, C3S e ECA&D), com os limites da CAOP2025 (DGT):
 a série é a média das células com centro dentro do concelho. O script

@@ -3,10 +3,12 @@
 Triton ships in editions built from **the same code**: Brazil (BRL), International (INT)
 and Ibérica (IBE). The engine is one; what separates the editions is national data. The
 Iberian Edition starts from the neutral core, speaks European Portuguese, works in euros
-and carries Portuguese data: daily rainfall by municipality (E-OBS) and the tariffs of
-Lisbon, Porto and Funchal.
+and carries Portuguese and Spanish data: daily rainfall by municipality (Iberia01, ODbL; ERA5 for
+the islands, level C; E-OBS as an optional source for mainland Portugal), the tariffs of Lisbon, Porto
+and Funchal and, in Spain, seven transcribed tariffs not yet double-checked and the INE regional
+average for the rest.
 
-**Name and codes.** The edition used to be called "Portugal" (code `PRT`, earlier `POR`) and is now **Triton IBE**, for the Iberian Peninsula. The internal value is `IBE`; `PRT` and `POR` are still accepted as synonyms (`TRITON_EDITION`, `--edition`, `set_current_edition`) and normalise to `IBE`, and `is_prt_edition` is an alias of `is_ibe_edition`. Today only Portuguese municipalities have data (the coverage line reads "Spain: 0 sites"); no Spanish data is invented.
+**Name and codes.** The edition used to be called "Portugal" (code `PRT`, earlier `POR`) and is now **Triton IBE**, for the Iberian Peninsula. The internal value is `IBE`; `PRT` and `POR` are still accepted as synonyms (`TRITON_EDITION`, `--edition`, `set_current_edition`) and normalise to `IBE`, and `is_prt_edition` is an alias of `is_ibe_edition`. The coverage line reads «Portugal 308 locais, Espanha 8131 locais; chuva Iberia01 8319, ERA5 (nível C) 118, sem série 2»; no Spanish data is invented.
 
 The full map is in Portuguese: [`../edicoes.md`](../edicoes.md). The table below is the same.
 

@@ -1,6 +1,6 @@
 # Triton, International Edition (INT): release notes for version 0.1.0
 
-Version 0.1.0 (beta), release date to be set. This is the first version of Triton and the first of the International Edition. These notes say what the version brings, what it does not, what is known not to be perfect and what was not verified. The datasets are described in [`DADOS.md`](DADOS.md); the full history is in [`../CHANGELOG.md`](../CHANGELOG.md); the manual is [`../manual/en/Triton-User-Manual.pdf`](../manual/en/Triton-User-Manual.pdf).
+Version 0.1.0 (beta), released on 5 November 2026. This is the first version of Triton and the first of the International Edition. These notes say what the version brings, what it does not, what is known not to be perfect and what was not verified. The datasets are described in [`DADOS.md`](DADOS.md); the full history is in [`../CHANGELOG.md`](../CHANGELOG.md); the manual is [`../manual/en/Triton-User-Manual.pdf`](../manual/en/Triton-User-Manual.pdf).
 
 **In short: this edition is region-neutral.** It ships no regional rainfall, tariff, cost or emission-factor data. You supply them. Three worked examples (New York, London, Cape Town) are included so that the program opens with something to run.
 
@@ -14,7 +14,7 @@ Triton sizes rainwater harvesting systems for buildings. It runs a daily water b
 | :--- | :--- |
 | Windows installer | `Triton_Internacional_Setup_v0.1.0.exe`, published in the Zenodo record (DOI 10.5281/zenodo.23402916), not code-signed: Windows may show a SmartScreen warning. The SHA-256 of each installer is in the record's `SHA256SUMS.txt` (the installer is not bit-for-bit reproducible: each build records the date). No Python needed. |
 | From source | Python 3.12 or later; `pip install -r requirements.txt`; `python main.py` (interface) or `python -m triton.cli --help` (command line) |
-| Size | The tracked edition totals about 43 MiB, 28 MiB of which is the manual; the data files together are under 3 MiB |
+| Size | The tracked edition totals about 44 MiB, 28 MiB of which is the manual; the data files together are under 3 MiB |
 
 The checks for this version were made on Windows. The licence is academic source-available, free for non-commercial use, and citing the program is mandatory (`LICENSE.md`, `CITATION.cff`).
 

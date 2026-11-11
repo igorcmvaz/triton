@@ -33,9 +33,9 @@ Ponto de entrada único da documentação.
 ## Executar a verificação
 
 ```bash
-python scripts/qa_runner.py
-python scripts/qa_runner.py --layer ciencia
-python docs/gerar_figuras.py
+cd triton_ibe
+pip install -r requirements.txt -r requirements-dev.txt
+TRITON_EDITION=IBE python -m pytest tests/unit tests/test_essencial.py
 ```
 
 ## Convenções

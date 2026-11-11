@@ -56,7 +56,7 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 
 | Documento | Conteúdo |
 | :--- | :--- |
-| [`edicoes.md`](edicoes.md) | As duas edições: o que o usuário vê em cada uma, onde está no código, o que vai em cada pacote, que documentos são só da Brasil |
+| [`edicoes.md`](edicoes.md) | As três edições: o que o usuário vê em cada uma, onde está no código, o que vai em cada pacote, que documentos são só da Brasil |
 | [`en/editions.md`](en/editions.md) | Idem, em inglês |
 
 ### Base tarifária (só Edição Brasil)
@@ -86,21 +86,16 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | Documento | Conteúdo |
 | :--- | :--- |
 | Manual do Netuno 4 (junho de 2014; documento de terceiros, fora do repositório) | Manual do Netuno 4, software antecessor |
-| ROCHA, V. L. *Validação do algoritmo do programa Triton para avaliação do potencial de economia de água potável e dimensionamento de reservatórios de sistemas de aproveitamento de água pluvial em edificações*. Dissertação (Mestrado em Engenharia Civil) — UFSC, 2009. [Registro institucional](https://repositorio.ufsc.br/handle/123456789/92966). | Dissertação de referência (validação do algoritmo original) |
+| ROCHA, V. L. *Validação do algoritmo do programa Netuno para avaliação do potencial de economia de água potável e dimensionamento de reservatórios de sistemas de aproveitamento de água pluvial em edificações*. Dissertação (Mestrado em Engenharia Civil) — UFSC, 2009. [Registro institucional](https://repositorio.ufsc.br/handle/123456789/92966). | Dissertação de referência (validação do algoritmo original) |
 
 ---
 
 ## Executando a verificação
 
 ```bash
-# suíte completa com portões de qualidade
-python scripts/qa_runner.py
-
-# apenas as propriedades científicas do motor hidrológico
-python scripts/qa_runner.py --layer ciencia
-
-# regerar as figuras do relatório de V&V
-python docs/gerar_figuras.py
+cd triton_brl
+pip install -r requirements.txt -r requirements-dev.txt
+TRITON_EDITION=BRL python -m pytest tests/unit tests/test_essencial.py
 ```
 
 ---

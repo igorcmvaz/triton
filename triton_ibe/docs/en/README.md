@@ -14,10 +14,14 @@ It is developed by the Sustainable Environments Research Group (*Grupo de Pesqui
 Sustentáveis*) at the Federal University of Santa Catarina (UFSC), and succeeds the Netuno programme (Netuno 4 is the reference of its validation).
 
 This is the **Iberian Edition (IBE, Triton IBE)**. It opens in European Portuguese and works in euros.
-For now it carries data for Portugal only (Spain: no sites). It brings E-OBS daily rainfall for 278 of the
-308 Portuguese municipalities (1950 to 2025, with a quality level A, B or C for each), and the water and
-sewer tariffs of Lisbon, Porto and Funchal with the managing entity, validity period and source of each
-value. It carries no price database and no emission factors: costs and the grid emission factor start at
+It covers Portugal (308 municipalities) and Spain (8,131 municipalities). Daily rainfall comes from
+Iberia01 v1.0 (ODbL, 1971 to 2015) for mainland Portugal, peninsular Spain and the Balearic Islands
+(8,319 municipalities); the Canary Islands, Madeira and the Azores (118 municipalities) use the ERA5
+reanalysis, always at quality level C; Ceuta and Melilla have no series. Every municipality has a quality
+level A, B or C. E-OBS (1950 to 2025, non-commercial use only) is an optional source for mainland Portugal.
+It brings the water and sewer tariffs of Lisbon, Porto and Funchal with the managing entity, validity
+period and source of each value; in Spain, seven municipalities have a transcribed tariff not yet
+double-checked, and the others use the INE regional average, which is only indicative. It carries no price database and no emission factors: costs and the grid emission factor start at
 zero and are yours to enter. The user manual is written in European Portuguese, and so is the interface
 on opening; the other interface languages are English, Spanish and Chinese (the last two only partly
 translated). This English documentation is a summary for reviewers and reusers.
@@ -31,7 +35,7 @@ The other editions use the same engine and the same version number; see
 
 | Stage | What it computes |
 | :--- | :--- |
-| **Rainfall** | reads a daily precipitation series (CSV), or takes the E-OBS series of a Portuguese municipality from the embedded base `data/portugal_eobs.db`; computes rainfall indices |
+| **Rainfall** | reads a daily precipitation series (CSV), or takes the series of a Portuguese or Spanish municipality from the embedded Iberia01 and ERA5 bases (or, optionally, E-OBS in `data/portugal_eobs.db`); computes rainfall indices |
 | **Building** | catchment area, runoff coefficient, first-flush discard depth, non-potable demand (constant, weekly, monthly or a full daily series) |
 | **Daily balance** | yield-after-spillage balance, day by day, for every candidate tank capacity; one or two tanks |
 | **Indicators** | potable water savings, volumetric and temporal reliability, days of full, partial and no supply, overflow |
@@ -53,19 +57,18 @@ all three on one sweep so that the divergence is visible.
   ISO 14040/14044.
 - It supplies **no prices or emission factors**. A new project starts with every cost at zero and no grid
   emission factor, and payback and NPV say little until you enter your own values.
-- The E-OBS base covers the 278 mainland municipalities. The 30 island municipalities have no series:
-  the 19 in the Azores lie outside the E-OBS domain, and the 11 in Madeira have more than 1% of missing
-  days in 1991-2020. For them, use your own series. The Funchal example uses an ERA5 reanalysis series,
-  labelled as such, and its electricity tariff comes from a secondary source (a price comparison site)
-  and is flagged yellow in `docs/DADOS.md`.
+- Gridded rainfall is not a gauge record. The island series (ERA5, level C) underestimated the rainfall
+  of the island stations tested by 8% to 47%: for a real project there, use the station series. The
+  Funchal example uses the ERA5 island base, labelled as such, and its electricity tariff comes from a
+  secondary source (a price comparison site) and is flagged yellow in `docs/DADOS.md`.
 
 ---
 
 ## Installation
 
-There is no installer yet: the Windows installer is not published and is not signed. The release
-page will give its address and SHA-256 checksum when it exists (the DOI will be assigned when
-the release is published). Until then, run Triton from the source code.
+The Windows installer (`Triton_Iberica_Setup_v0.1.0.exe`) is in the Zenodo record, DOI
+[10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916), with its SHA-256 checksum in
+`SHA256SUMS.txt`. It is not code-signed. It needs no Python. To run from the source code:
 
 Triton needs **Python 3.12 or later** and runs from source on Windows, Linux and macOS.
 
@@ -100,8 +103,8 @@ For the test suite, add `requirements-dev.txt`. Full instructions are in
 
 ## Citing
 
-If you use Triton in academic work, cite it as declared in [`CITATION.cff`](../../CITATION.cff).
-The DOI will be assigned when the release is published.
+If you use Triton in academic work, cite it as declared in [`CITATION.cff`](../../CITATION.cff)
+(DOI 10.5281/zenodo.23402916).
 
 ## Contributing and support
 
@@ -113,5 +116,7 @@ file carries every premise.
 
 Academic source-available, all rights reserved, free for non-commercial use; see
 [`LICENSE.md`](../../LICENSE.md). Third-party data keep their own licences (see
-[`DADOS.md`](../DADOS.md) and `infos_licenses/AVISOS_DE_TERCEIROS.txt`). In particular, the E-OBS rainfall
-is licensed for non-commercial research and education only.
+[`DADOS.md`](../DADOS.md) and `infos_licenses/AVISOS_DE_TERCEIROS.txt`). In particular, the Iberia01 rainfall
+is under the ODbL (attribution: «Contains information from Iberia01, made available under the Open Database
+License (ODbL 1.0)»), the ERA5 island rainfall under CC BY 4.0, and the optional E-OBS rainfall is licensed
+for non-commercial research and education only.

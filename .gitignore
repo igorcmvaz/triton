@@ -52,5 +52,7 @@ PROGRESSO_INTEGRACAO.md
 
 # Estudos de Santa Catarina (pesquisa própria do grupo): ficam fora do Git, no disco do autor.
 **/estudos/
+# Os exemplos de estudo em lote (examples/estudos/) são do programa e ficam no Git.
+!**/examples/estudos/
 **/scripts/gerar_estudos_sc.py
 **/scripts/gerar_graficos_artigos.py

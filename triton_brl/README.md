@@ -5,7 +5,7 @@
 [![Python Version](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)](https://www.python.org/)
 [![GUI Framework](https://img.shields.io/badge/GUI-PySide6%20(Qt6)-green)](https://www.qt.io/)
 [![Licence: academic source-available](https://img.shields.io/badge/Licence-academic%20source--available-lightgrey.svg)](LICENSE.md)
-[![Research Group](https://img.shields.io/badge/UFSC-Gestão%20do%20Espaço%20Sustentável-005a36)](https://sustainability.ufsc.br/)
+[![Research Group](https://img.shields.io/badge/UFSC-Ambientes%20Sustent%C3%A1veis-005a36)](https://sustainability.ufsc.br/)
 
 *English: [docs/en/README.md](docs/en/README.md) — resumo em inglês, com a documentação técnica em [`docs/en/`](docs/en/).*
 
@@ -91,7 +91,7 @@ por verificar. A lista completa está nas [notas de lançamento](docs/NOTAS_DE_L
 - [Manual do usuário (PDF)](manual/Manual-Triton.pdf) — a Edição Internacional publica o manual em inglês
 - [Notas de lançamento 0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) e [histórico de versões](CHANGELOG.md)
 - [Dados da edição: fontes, licenças, cobertura e qualidade](docs/DADOS.md)
-- [As duas edições, Brasil e International](docs/edicoes.md)
+- [As três edições: Brasil, International e Ibérica](docs/edicoes.md)
 - [Metodologia, equações e fronteiras do modelo](docs/metodologia.md)
 - [Relatório de Verificação e Validação](docs/verificacao_e_validacao.md)
 - [Fluxogramas Metodológicos](triton/docs/fluxogramas_metodologicos.md)
@@ -149,8 +149,8 @@ A base climática compilada está **no Git**: um banco SQLite por modelo CMIP6, 
 
 Fora do controle de versão, por tamanho, por serem regeneráveis ou por serem de terceiros: os CSV brutos da
 CLIMBra (`climbra_data/`, ~6,5 GB), os documentos dos prestadores de saneamento (`tarifas/fontes/`) e o banco
-que os reúne, as saídas de simulação em lote em `data/simulation_outputs/` (exceto as `Planilha.csv` de
-referência), `tmp/`, e os laudos gerados em `reports/` (exceto `reports/exemplos/`).
+que os reúne, as saídas de simulação em lote em `data/simulation_outputs/` (exceto as duas `Planilha.csv` de
+referência do Netuno 4 e os três arquivos de teste do leitor), `tmp/`, e os laudos gerados em `reports/` (exceto `reports/exemplos/`).
 
 ---
 
@@ -209,7 +209,7 @@ Para executar a suíte de testes unitários, testes de interface e validações 
 # Executar todos os testes:
 pytest
 
-# Só a base climática dividida por modelo (equivalência com o climbra.db):
+# Só a base climática dividida por modelo (partes, manifesto e leitor):
 pytest tests/unit/test_climbra_particionada.py tests/unit/test_climate_database.py -v
 
 # Testes específicos com cobertura detalhada:

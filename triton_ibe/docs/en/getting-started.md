@@ -38,13 +38,14 @@ TRITON_EDITION=IBE python -m pytest tests/unit tests/test_essencial.py
 
 ### Windows installer
 
-There is no published installer yet. When the release is published, the installer
-(`Triton_IBE_Setup_0_1_0.exe`) will be listed on the release page with its SHA-256 checksum. It
-is **not code-signed**, so Windows may warn that the publisher is unknown. Until then, run from
-source as above.
+The installer (`Triton_Iberica_Setup_v0.1.0.exe`) is in the Zenodo record, DOI
+[10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916), with its SHA-256 checksum in
+`SHA256SUMS.txt`. It is **not code-signed**, so Windows may warn that the publisher is unknown.
 
-The Iberian Edition ships the E-OBS rainfall base for the Portuguese municipalities
-(`data/portugal_eobs.db`, about 6 MB) and the tariffs of Lisbon, Porto and Funchal. Costs, other
+The Iberian Edition ships daily rainfall by municipality for Portugal and Spain (Iberia01, ODbL, in four
+parts of `data/chuva_iberia01_p*.db`; ERA5 for the islands, level C), the optional E-OBS base for mainland
+Portugal (`data/portugal_eobs.db`, about 6 MB), the tariffs of Lisbon, Porto and Funchal, seven Spanish
+municipal tariffs not yet double-checked and the INE regional average for the rest of Spain. Costs, other
 tariffs and emission factors are yours to enter. Everything that differs between the editions is
 listed in [`editions.md`](editions.md); the data, their licences and their quality are in
 [`../DADOS.md`](../DADOS.md) (in European Portuguese).
@@ -62,7 +63,7 @@ be changed at any time; changing it restarts the application.
 
 The window has a sidebar of steps on the left and the working area on the right: you start at
 **1. Project & Rainfall**, then **2. Building & Demand**, **3. Quality & Treatment** and
-**4. Reservoir & Costs**, and go on to the economic, environmental and export steps. The steps
+**4. Tank & Costs**, and go on to the economic, environmental and export steps. The steps
 follow the order of the data dependencies: changing the building invalidates the simulation that
 used it, and the software says so rather than silently keeping a stale result. The user manual
 (`manual/Manual-Triton.pdf`, in European Portuguese, opened from the Documentation tab) describes every step, and
@@ -75,7 +76,7 @@ used it, and the software says so rather than silently keeping a stale result. T
 
 Everything else has a documented default. These five do not:
 
-1. **A daily precipitation series** — two columns, date and depth in millimetres, as CSV, or a Portuguese municipality from the embedded E-OBS base.
+1. **A daily precipitation series** — two columns, date and depth in millimetres, as CSV, or a Portuguese or Spanish municipality from the embedded rainfall bases (Iberia01, ERA5 for the islands, optional E-OBS).
    
 2. **Catchment area**, in square metres, *in horizontal projection* — not the sloped area
    of the roof. Rain falls vertically; using the sloped area overestimates the yield.

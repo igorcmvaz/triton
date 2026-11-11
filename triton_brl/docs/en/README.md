@@ -23,16 +23,18 @@ the code.
 
 ---
 
-## Two editions: Brazil (BRL) and International (INT)
+## Three editions: Brazil (BRL), International (INT) and Ibérica (IBE)
 
-The program ships in two editions, built from the same code and with the same calculation
+The program ships in three editions, built from the same code and with the same calculation
 engine. The **Brazil Edition** carries the audited Brazilian data: the CLIMBra climate
 database (652 cities, CMIP6), water and sewage tariffs of 652 municipalities with
 provenance by document, ANEEL electricity tariffs, costs in reais, MCTI emission factors
 and the national certifications and incentives (AQUA-HQE, Selo Casa Azul, IPTU Verde).
 The **International Edition** is the neutral core: it opens in English, with the currency
 chosen by the user and the tariff, costs and emission factors entered by them, and only
-the international certifications (LEED, EDGE, GRI). The full map — what the user sees,
+the international certifications (LEED, EDGE, GRI). The **Iberian Edition** opens in European
+Portuguese, works in euros and carries rainfall by municipality for Portugal and Spain (Iberia01 and
+ERA5) and Portuguese and Spanish tariffs. The full map — what the user sees,
 where it is in the code, what goes into each package — is in
 [`docs/en/editions.md`](../../docs/en/editions.md).
 

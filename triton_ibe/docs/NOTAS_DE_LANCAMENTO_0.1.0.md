@@ -1,8 +1,8 @@
 # Triton IBE, Edição Ibérica: notas de lançamento da versão 0.1.0
 
-Versão 0.1.0 (beta), data de lançamento a definir. É a primeira versão do Triton e a primeira da Edição Ibérica (antes Edição Portugal, PRT; os projetos e os scripts que ainda dizem `PRT` ou `POR` abrem como IBE). Este documento diz o que a versão traz, o que não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
+Versão 0.1.0 (beta), lançada a 5 de novembro de 2026. É a primeira versão do Triton e a primeira da Edição Ibérica (antes Edição Portugal, PRT; os projetos e os scripts que ainda dizem `PRT` ou `POR` abrem como IBE). Este documento diz o que a versão traz, o que não traz, o que se sabe que não está perfeito e o que não foi verificado. Os dados de cada conjunto estão em [`DADOS.md`](DADOS.md); o histórico completo, em [`../CHANGELOG.md`](../CHANGELOG.md); o manual, em [`../manual/Manual-Triton.pdf`](../manual/Manual-Triton.pdf).
 
-**Em resumo: a chuva cobre toda a Península Ibérica e as ilhas.** O Iberia01 serve Portugal (308 locais), Espanha (8 131 municípios) e as Baleares; Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C; Ceuta e Melilla ficam sem série. As tarifas de Espanha são a média regional do INE (indicativa), com 7 municípios (12,0 % da população) de tarifa transcrita ainda não conferida; só 3 concelhos de Portugal têm tarifário transcrito.
+**Em resumo: a chuva cobre toda a Península Ibérica e as ilhas.** O Iberia01 serve Portugal continental, Espanha peninsular e as Baleares (8 319 municípios); Canárias, Madeira e Açores usam a reanálise ERA5, sempre com nível C; Ceuta e Melilla ficam sem série. As tarifas de Espanha são a média regional do INE (indicativa), com 7 municípios (12,0 % da população) de tarifa transcrita ainda não conferida; só 3 concelhos de Portugal têm tarifário transcrito.
 
 ## O que é
 
@@ -12,18 +12,18 @@ O Triton dimensiona sistemas de aproveitamento de água da chuva em edifícios. 
 
 | | |
 | :--- | :--- |
-| Instalador para Windows | `Triton_Iberica_Setup_v0.1.0.exe`, publicado no registro do Zenodo (DOI 10.5281/zenodo.23402916), sem assinatura digital: o Windows pode mostrar o aviso do SmartScreen. O SHA-256 de cada instalador está no arquivo `SHA256SUMS.txt` do registro (o instalador não é reprodutível bit a bit: cada compilação grava a data). Não precisa de Python. |
+| Instalador para Windows | `Triton_Iberica_Setup_v0.1.0.exe`, publicado no registo do Zenodo (DOI 10.5281/zenodo.23402916), sem assinatura digital: o Windows pode mostrar o aviso do SmartScreen. O SHA-256 de cada instalador está no ficheiro `SHA256SUMS.txt` do registo (o instalador não é reprodutível bit a bit: cada compilação grava a data). Não precisa de Python. |
 | A partir do código | Python 3.12 ou superior; `pip install -r requirements.txt`; `python main.py` (interface) ou `python -m triton.cli --help` (linha de comandos) |
-| Espaço | A base de chuva embutida tem 5,74 MiB; a edição rastreada soma cerca de 62 MiB, dos quais 41,6 MiB são o manual |
+| Espaço | A chuva embutida (quatro partes do Iberia01, ERA5 das ilhas, municípios e qualidade) soma 59,1 MiB, mais 5,66 MiB da E-OBS opcional; a edição rastreada soma cerca de 126 MiB, dos quais 42,1 MiB são o manual |
 
 As verificações desta versão foram feitas em Windows. A licença é de código-fonte disponível para fins académicos, uso gratuito não comercial, com citação obrigatória (`LICENSE.md`, `CITATION.cff`).
 
 ## O que a Edição Ibérica traz
 
 - **Chuva.** A precipitação diária de 8 319 municípios (Portugal continental, Espanha peninsular e Baleares), de 1971 a 2015 (16 436 dias), calculada a partir das 6 523 células de 0,1° do Iberia01 v1.0 (ODbL), em quatro partes de 13 a 15 MiB e ficheiros separados do programa; período padrão 1986–2015; chave por código INE/DTMN; pacote `iberia01-v1.0-b214eb601c3d`. Canárias, Madeira e Açores (118 locais): ERA5 de 0,25°, nível C. A E-OBS (1950–2025, só uso não comercial) é uma fonte opcional.
-- **Nível de qualidade da chuva.** Cada município tem um nível A, B ou C pela representação espacial na grade (A: 3 ou mais células; B: 1 ou 2, ou contido numa célula; C: célula emprestada ou ERA5): A 461, B 7 857 e C 119; as ilhas são todas C. Não é uma validação com pluviómetros.
+- **Nível de qualidade da chuva.** Cada município tem um nível A, B ou C pela representação espacial na grelha (A: 3 ou mais células; B: 1 ou 2, ou contido numa célula; C: célula emprestada ou ERA5): A 461, B 7 857 e C 119; as ilhas são todas C. Não é uma validação com pluviómetros.
 - **Aviso de licença.** No primeiro arranque, o programa mostra a licença da E-OBS (só uso não comercial, em investigação e educação) e regista nos laudos o uso declarado. Por decisão do titular (25/10/2026), o uso comercial da chuva E-OBS é bloqueado e os relatórios que usam a E-OBS avisam, em vermelho e em tamanho grande, que não pode ser usada comercialmente; quem a usa assume o uso não comercial. O Iberia01 (ODbL) não tem esse bloqueio: pede só a atribuição, que o rodapé dos laudos leva.
-- **Tarifários.** Água, saneamento e resíduos de Lisboa, do Porto e do Funchal, transcritos de documentos oficiais com endereço e SHA-256; a entidade gestora de cada serviço em 280 concelhos (índice da ERSAR); um estado de confiança por concelho e por serviço. Espanha: média regional do INE (2024) para os 8 131 municípios, rotulada como indicativa (camada 3); nenhum município transcrito (camada 1).
+- **Tarifários.** Água, saneamento e resíduos de Lisboa, do Porto e do Funchal, transcritos de documentos oficiais com endereço e SHA-256; a entidade gestora de cada serviço em 280 concelhos (índice da ERSAR); um estado de confiança por concelho e por serviço. Espanha: 7 municípios com tarifário transcrito, ainda não conferido (camada 1); os outros 8 124 usam a média regional do INE (2024), rotulada como indicativa (camada 3).
 - **Valores e língua.** Euros; português europeu na interface, nos laudos e no manual.
 - **Análise.** Balanço diário, volume ideal, economia, ACV simplificada, linha de tratamento, certificações (LEED, EDGE, GRI), decisão multicritério, modulação probabilística.
 - **Saídas.** Laudos em PDF (executivo, ambiental/ESG e dossiê técnico), folha de auditoria, DXF, glTF/HTML e manifesto BIM; exemplos completos para Lisboa, Porto, Funchal, Madrid e Palma (31/10/2026: regerados com o Iberia01, normal 1986–2015, por código do município; o Funchal usa a ERA5 de ilha, nível C; Madrid mostra a tarifa de Espanha ainda não conferida e Palma a média regional do INE). Os exemplos, os 15 relatórios de exemplo e o tutorial do manual não usam a E-OBS e não levam o aviso vermelho de uso não comercial.
@@ -69,4 +69,4 @@ Indique a versão (0.1.0), a edição, os passos e anexe o ficheiro `.triton`. C
 
 ## Como citar
 
-Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações.* Universidade Federal de Santa Catarina (UFSC). Para a chuva, cite também Cornes et al. (2018), doi:10.1029/2017JD028200, e repita o reconhecimento exigido pela E-OBS (`DADOS.md`, secção 7).
+Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações.* Universidade Federal de Santa Catarina (UFSC). Para a chuva, cite também a fonte usada: Herrera et al. (2019), doi:10.5194/essd-11-1947-2019, com a atribuição ODbL do Iberia01; Hersbach et al. (2020), doi:10.1002/qj.3803, para a ERA5 das ilhas; ou Cornes et al. (2018), doi:10.1029/2017JD028200, com o reconhecimento exigido pela E-OBS (`DADOS.md`, secção 7).

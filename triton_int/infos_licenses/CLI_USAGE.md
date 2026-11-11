@@ -1,121 +1,87 @@
-# Triton CLI — guia prático
+# Triton CLI — practical guide
 
-Use a linha de comando para execuções reproduzíveis, automação e comparação em lote. Ela aceita projetos CSV legados e projetos estruturados `.triton` (JSON).
+Use the command line for reproducible runs, automation and batch comparison. It accepts legacy CSV projects and structured `.triton` projects (JSON).
 
-Execute os exemplos a partir da raiz do repositório, com o mesmo ambiente usado pela aplicação desktop. Consulte a ajuda efetiva da versão instalada com:
+Run the examples from the edition folder, in the same environment as the desktop application. To see the help of the installed version:
 
 ```powershell
 python -m triton.cli --help
 python -m triton.cli analyze --help
 ```
 
-## Escolha do formato de projeto
+## Choosing the project format
 
-| Formato | Uso recomendado | Rastreabilidade |
+| Format | Recommended use | Traceability |
 | --- | --- | --- |
-| `.triton` | novos estudos, intercâmbio e automação | preserva entradas técnicas, econômicas, ambientais e TOPSIS; pode incorporar a chuva |
-| CSV legado | compatibilidade e casos técnicos existentes | possui estrutura mais limitada; documente externamente as premissas não representadas |
+| `.triton` | new studies, exchange and automation | keeps the technical, economic, environmental and TOPSIS inputs; can embed the rainfall |
+| Legacy CSV | compatibility and existing technical cases | more limited structure; record outside the file the assumptions it cannot hold |
 
-Prefira `.triton` com `--embed-rainfall` quando o estudo precisar ser reproduzido em outro computador. Mesmo autocontido, o arquivo não substitui o registro de fonte, período, tratamento e controle de qualidade da série.
+Prefer `.triton` with `--embed-rainfall` when the study must be reproduced on another computer. Even self-contained, the file does not replace the record of the source, period, treatment and quality control of the series.
 
-## Fluxo recomendado
+## Recommended workflow
 
 ```powershell
-# 1. Crie um projeto portátil, incorporando a chuva diária.
-python -m triton.cli init .\projeto.triton --rainfall NewYork.csv --embed-rainfall
+# 1. Create a portable project with the daily rainfall embedded.
+python -m triton.cli init .\project.triton --rainfall data\rainfall\NewYork.csv --embed-rainfall
 
-# 2. Valide o arquivo antes de calcular.
-python -m triton.cli validate .\projeto.triton
+# 2. Validate the file before calculating.
+python -m triton.cli validate .\project.triton
 
-# 3. Rode técnica, economia, ACV e TOPSIS, com resultado auditável.
-python -m triton.cli analyze .\projeto.triton --analysis all --format json --output .\saida\resultado.json
+# 3. Run the technical, economic, LCA and TOPSIS analyses, with an auditable result.
+python -m triton.cli analyze .\project.triton --analysis all --format json --output .\out\result.json
 ```
 
-O comando `run` executa o balanço hídrico técnico. `analyze --analysis all` aplica, para cada volume da varredura, o balanço técnico, a análise econômica, o balanço ambiental e o ranking TOPSIS. Assim, todas as escolhas usam as mesmas alternativas simuladas.
+The `run` command runs the technical water balance. `analyze --analysis all` applies, to every volume of the sweep, the technical balance, the economic analysis, the environmental balance and the TOPSIS ranking, so every choice uses the same simulated alternatives.
 
-## Comandos mais usados
+## Most-used commands
 
-| Objetivo | Comando |
+| Goal | Command |
 | --- | --- |
-| Simular um volume específico | `python -m triton.cli run .\projeto.triton --volume 5000 --analysis all` |
-| Alterar premissas sem editar o projeto | `python -m triton.cli analyze .\projeto.triton --set area=150 --set rainwater_share=0.5` |
-| Ajustar pesos TOPSIS | `python -m triton.cli analyze .\projeto.triton --analysis topsis --weights 0.40,0.35,0.25` |
-| Avaliar robustez dos pesos | `python -m triton.cli analyze .\projeto.triton --analysis topsis --weight-sensitivity 1000 --seed 42 --format json --output .\saida\pesos.json` |
-| Propagar incertezas | `python -m triton.cli uncertainty .\projeto.triton --samples 1000 --rainfall-cv 10 --demand-cv 15 --capex-cv 20 --format json --output .\saida\monte-carlo.json` |
-| Gerar HTML ou XLSX | Troque `--format json` por `html` ou `xlsx` e informe `--output` |
-| Executar planilha de cenários | `python -m triton.cli batch .\cenarios.xlsx --base .\projeto.triton --analysis all --format xlsx --output .\saida\lote.xlsx` |
-| Combinar vários projetos e chuvas | `python -m triton.cli matrix-projects --projects .\projetos --rainfall-dir .\chuvas --recursive --output-dir .\saida\matriz` |
+| Simulate one volume | `python -m triton.cli run .\project.triton --volume 5000 --analysis all` |
+| Change assumptions without editing the project | `python -m triton.cli analyze .\project.triton --set area=150 --set rainwater_share=0.5` |
+| Set the TOPSIS weights | `python -m triton.cli analyze .\project.triton --analysis topsis --weights 0.40,0.35,0.25` |
+| Test the robustness of the weights | `python -m triton.cli analyze .\project.triton --analysis topsis --weight-sensitivity 1000 --seed 42 --format json --output .\out\weights.json` |
+| Propagate uncertainty | `python -m triton.cli uncertainty .\project.triton --samples 1000 --rainfall-cv 10 --demand-cv 15 --capex-cv 20 --format json --output .\out\monte-carlo.json` |
+| Produce HTML or XLSX | Replace `--format json` with `html` or `xlsx` and give `--output` |
+| Run a scenario spreadsheet | `python -m triton.cli batch .\scenarios.xlsx --base .\project.triton --analysis all --format xlsx --output .\out\batch.xlsx` |
+| Combine several projects and rainfall series | `python -m triton.cli matrix-projects --projects .\projects --rainfall-dir .\rainfall --recursive --output-dir .\out\matrix` |
 
-Os valores de `--weights` são, nesta ordem: técnico, econômico e ambiental. A CLI normaliza a soma automaticamente. As saídas gerais aceitam `text`, `json`, `csv`, `html` e `xlsx`; o comando `uncertainty` aceita `text`, `json` e `csv`. Formatos estruturados exigem `--output`. XLSX requer `pandas` e `openpyxl`.
+The `--weights` values are, in this order: technical, economic and environmental. The CLI normalises their sum. The general outputs accept `text`, `json`, `csv`, `html` and `xlsx`; `uncertainty` accepts `text`, `json` and `csv`. Structured formats need `--output`. XLSX needs `pandas` and `openpyxl`.
 
-`--set CAMPO=VALOR` pode ser repetido e altera a premissa somente para aquela execução. Registre o comando completo no protocolo do estudo, pois o arquivo de origem permanece inalterado.
+`--set FIELD=VALUE` can be repeated and changes the assumption for that run only. Record the full command in the study protocol, because the source file stays unchanged.
 
-## Matriz edifícios × climas
+## Buildings × climates matrix
 
-Mantenha os dois catálogos independentes: um de premissas do edifício e outro de arquivos climáticos. Isso permite comparar várias cidades para o mesmo edifício, ou vários edifícios para a mesma cidade, sem duplicar dados.
-
-```powershell
-python -m triton.cli init-catalog premises .\premissas.json
-python -m triton.cli init-catalog climates .\climas.json
-python -m triton.cli matrix .\premissas.json .\climas.json --analysis all --output-dir .\resultado-matriz
-```
-
-O terminal informa progresso, combinações concluídas, tempo decorrido e ETA. A pasta de saída contém `triton-matriz-resumo.csv` (uma decisão por combinação), `triton-matriz-alternativas.csv` (todos os volumes), `triton-matriz-detalhado.json` (auditoria) e `triton-matriz-painel.html` (leitura consolidada).
-
-### Matriz de projetos
-
-Use `matrix-projects` quando cada configuração já estiver em um ou mais arquivos `.triton`, ou quando o próprio projeto declarar fatores experimentais em `cli_factorial`:
+Keep the two catalogues separate: one of building assumptions and one of climate files. You can then compare several cities for the same building, or several buildings for the same city, without duplicating data.
 
 ```powershell
-python -m triton.cli matrix-projects --projects .\projetos --output-dir .\resultado-projetos
-python -m triton.cli matrix-projects --projects .\projetos --rainfall-dir .\chuvas --recursive --output-dir .\resultado-climas
+python -m triton.cli init-catalog premises .\premises.json
+python -m triton.cli init-catalog climates .\climates.json
+python -m triton.cli matrix .\premises.json .\climates.json --analysis all --output-dir .\matrix-result
 ```
 
-Use `--ignore-project-factors` para desconsiderar temporariamente o bloco fatorial gravado nos projetos. Fixe `--seed` quando houver sensibilidade estocástica dos pesos.
+The terminal shows the progress, the combinations finished, the elapsed time and the ETA. The output folder holds `triton-matriz-resumo.csv` (one decision per combination), `triton-matriz-alternativas.csv` (every volume), `triton-matriz-detalhado.json` (audit) and `triton-matriz-painel.html` (consolidated view).
 
-## Cenários em planilha
+### Projects matrix
 
-`batch` lê CSV ou XLSX. Com `--base`, as linhas herdam do projeto-base as premissas econômicas e ambientais que a planilha não substitui:
+Use `matrix-projects` when each configuration is already in one or more `.triton` files, or when the project itself declares experimental factors in `cli_factorial`:
 
 ```powershell
-python -m triton.cli batch .\examples\triton-cli-scenarios.csv --base .\projeto.triton --analysis all --format csv --output .\saida\cenarios.csv
+python -m triton.cli matrix-projects --projects .\projects --output-dir .\projects-result
+python -m triton.cli matrix-projects --projects .\projects --rainfall-dir .\rainfall --recursive --output-dir .\climates-result
 ```
 
-Valide primeiro o projeto-base e preserve a planilha de entrada junto do resultado. Um lote compara cenários declarados; ele não cria automaticamente distribuições de incerteza.
+Use `--ignore-project-factors` to ignore, for that run, the factorial block saved in the projects. Fix `--seed` when the weights are perturbed at random.
 
-## Simulação em massa e comparação com TesteMassivo
+## Scenarios in a spreadsheet
 
-Para comparar a nova versão do motor contra a base de dados de referência (`TesteMassivo/`):
+`batch` reads CSV or XLSX. With `--base`, the rows inherit from the base project the economic and environmental assumptions that the spreadsheet does not override:
 
 ```powershell
-# Execute a simulação paralela multi-core dos 4 casos de reservatórios combinados da Tabela 2 e gera o relatório comparativo:
-python -m triton.cli compare-mass
+python -m triton.cli batch .\examples\triton-cli-scenarios.csv --base .\project.triton --analysis all --format csv --output .\out\scenarios.csv
 ```
 
-Parâmetros opcionais de `compare-mass`:
-
-- `--input-dir`: Pasta com os arquivos de chuva divididos (`TesteMassivo/Triton_future_files_split`)
-- `--reference-dir`: Pasta com os arquivos CSVs consolidados de referência (`TesteMassivo`)
-- `--output-dir`: Pasta de destino dos novos CSVs consolidados e relatórios (`TesteMassivo/nova_versao`)
-- `--area`, `--residents`, `--demand`, `--share`, `--runoff` e `--discard`: premissas do caso comparado
-- `--workers`: Número de núcleos de CPU para processamento em paralelo
-
-## Estudo massivo de tipologias residenciais de Vaz
-
-Para rodar o estudo completo das cinco tipologias em Parquet:
-
-```powershell
-# Executar o estudo massivo das cinco tipologias e exportar em Parquet:
-python -m triton.cli run-vaz-study
-```
-
-Parâmetros opcionais de `run-vaz-study`:
-
-- `--input-dir`: Pasta com as séries climáticas divididas (`TesteMassivo/Triton_vaz_files_split`)
-- `--output-dir`: Pasta de destino para o arquivo Parquet e relatórios (`TesteMassivo/estudo_vaz`)
-- `--workers`: Número de processos paralelos; por padrão, o comando preserva um núcleo para o sistema quando possível
-
-O estudo Vaz requer `pyarrow` para Parquet. Avalie espaço em disco, memória e temperatura da máquina antes de aumentar `--workers`; mais processos não garantem ganho linear.
+Validate the base project first and keep the input spreadsheet with the result. A batch compares declared scenarios; it does not create uncertainty distributions.
 
 ## Batch studies from JSON
 
@@ -221,23 +187,23 @@ The example `examples/estudos/residencial-unifamiliar-exemplo/` runs the tutoria
 
 The example uses the projects already shipped and invents no numbers. To add a case, copy a block of `casos` and change `id`, `nome` and the `projeto` (or the `clima.arquivo` and the `substituicoes`); record the source of every value you fill in.
 
-## Reprodutibilidade e auditoria
+## Reproducibility and audit
 
-Para cada execução usada em relatório ou publicação, preserve:
+For every run used in a report or a publication, keep:
 
-- arquivo `.triton`, catálogos ou planilha de cenários efetivamente usados;
-- série de chuva e sua proveniência, salvo quando incorporada ao projeto;
-- comando completo, versão do Triton e versão do Python;
-- semente de qualquer análise estocástica;
-- arquivos de saída sem edição manual e um registro das interpretações posteriores.
+- the `.triton` file, catalogues or scenario spreadsheet actually used;
+- the rainfall series and its provenance, unless it is embedded in the project;
+- the full command, the Triton version and the Python version;
+- the seed of any stochastic analysis;
+- the output files, unedited, and a record of any later interpretation.
 
-Sensibilidade de pesos e Monte Carlo respondem a perguntas diferentes. A primeira mede estabilidade do ranking diante das preferências; a segunda propaga incerteza das entradas declaradas. Nenhuma delas corrige dados de baixa qualidade ou hipóteses omitidas.
+Weight sensitivity and Monte Carlo answer different questions. The first measures how stable the ranking is to the preferences; the second propagates the uncertainty of the declared inputs. Neither corrects poor data or omitted assumptions.
 
-## Boas práticas
+## Good practice
 
-- Use `--embed-rainfall` quando o projeto precisar circular entre computadores.
-- Execute `validate` antes de processar lotes.
-- Use caminhos de saída diferentes para cenários diferentes e não sobrescreva evidências sem revisão.
-- Fixe `--seed` em análises de pesos e Monte Carlo para reproduzir exatamente uma execução.
-- Comece lotes grandes com uma amostra pequena e confira unidades, colunas e ordem de grandeza.
-- Use `python -m triton.cli <comando> --help` quando este guia e a versão instalada divergirem.
+- Use `--embed-rainfall` when the project has to move between computers.
+- Run `validate` before processing batches.
+- Use different output paths for different scenarios and do not overwrite evidence without review.
+- Fix `--seed` in weight and Monte Carlo analyses to reproduce a run exactly.
+- Start large batches with a small sample and check units, columns and orders of magnitude.
+- Use `python -m triton.cli <command> --help` when this guide and the installed version differ.

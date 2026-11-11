@@ -2,7 +2,7 @@
 
 Use a linha de comando para execuções reproduzíveis, automação e comparação em lote. Ela aceita projetos CSV legados e projetos estruturados `.triton` (JSON).
 
-Execute os exemplos a partir da raiz do repositório, com o mesmo ambiente usado pela aplicação desktop. Consulte a ajuda efetiva da versão instalada com:
+Execute os exemplos a partir da raiz do repositório, com o mesmo ambiente usado pela aplicação de ambiente de trabalho. Consulte a ajuda efetiva da versão instalada com:
 
 ```powershell
 python -m triton.cli --help
@@ -13,10 +13,10 @@ python -m triton.cli analyze --help
 
 | Formato | Uso recomendado | Rastreabilidade |
 | --- | --- | --- |
-| `.triton` | novos estudos, intercâmbio e automação | preserva entradas técnicas, econômicas, ambientais e TOPSIS; pode incorporar a chuva |
+| `.triton` | novos estudos, intercâmbio e automação | preserva entradas técnicas, económicas, ambientais e TOPSIS; pode incorporar a chuva |
 | CSV legado | compatibilidade e casos técnicos existentes | possui estrutura mais limitada; documente externamente as premissas não representadas |
 
-Prefira `.triton` com `--embed-rainfall` quando o estudo precisar ser reproduzido em outro computador. Mesmo autocontido, o ficheiro não substitui o registro de fonte, período, tratamento e controle de qualidade da série.
+Prefira `.triton` com `--embed-rainfall` quando o estudo precisar ser reproduzido em outro computador. Mesmo autocontido, o ficheiro não substitui o registo da fonte, do período, do tratamento e do controlo de qualidade da série.
 
 ## Fluxo recomendado
 
@@ -27,11 +27,11 @@ python -m triton.cli init .\projeto.triton --rainfall Funchal.csv --embed-rainfa
 # 2. Valide o ficheiro antes de calcular.
 python -m triton.cli validate .\projeto.triton
 
-# 3. Rode técnica, economia, ACV e TOPSIS, com resultado auditável.
+# 3. Execute a análise técnica, a economia, a ACV e o TOPSIS, com resultado auditável.
 python -m triton.cli analyze .\projeto.triton --analysis all --format json --output .\saida\resultado.json
 ```
 
-O comando `run` executa o balanço hídrico técnico. `analyze --analysis all` aplica, para cada volume da varredura, o balanço técnico, a análise econômica, o balanço ambiental e o ranking TOPSIS. Assim, todas as escolhas usam as mesmas alternativas simuladas.
+O comando `run` executa o balanço hídrico técnico. `analyze --analysis all` aplica, para cada volume da varredura, o balanço técnico, a análise económica, o balanço ambiental e o ranking TOPSIS. Assim, todas as escolhas usam as mesmas alternativas simuladas.
 
 ## Comandos mais usados
 
@@ -46,9 +46,9 @@ O comando `run` executa o balanço hídrico técnico. `analyze --analysis all` a
 | Executar folha de cálculo de cenários | `python -m triton.cli batch .\cenarios.xlsx --base .\projeto.triton --analysis all --format xlsx --output .\saida\lote.xlsx` |
 | Combinar vários projetos e chuvas | `python -m triton.cli matrix-projects --projects .\projetos --rainfall-dir .\chuvas --recursive --output-dir .\saida\matriz` |
 
-Os valores de `--weights` são, nesta ordem: técnico, econômico e ambiental. A CLI normaliza a soma automaticamente. As saídas gerais aceitam `text`, `json`, `csv`, `html` e `xlsx`; o comando `uncertainty` aceita `text`, `json` e `csv`. Formatos estruturados exigem `--output`. XLSX requer `pandas` e `openpyxl`.
+Os valores de `--weights` são, nesta ordem: técnico, económico e ambiental. A CLI normaliza a soma automaticamente. As saídas gerais aceitam `text`, `json`, `csv`, `html` e `xlsx`; o comando `uncertainty` aceita `text`, `json` e `csv`. Formatos estruturados exigem `--output`. XLSX requer `pandas` e `openpyxl`.
 
-`--set CAMPO=VALOR` pode ser repetido e altera a premissa somente para aquela execução. Registre o comando completo no protocolo do estudo, pois o ficheiro de origem permanece inalterado.
+`--set CAMPO=VALOR` pode ser repetido e altera a premissa somente para aquela execução. Registe o comando completo no protocolo do estudo, pois o ficheiro de origem permanece inalterado.
 
 ## Matriz edifícios × climas
 
@@ -64,7 +64,7 @@ O terminal informa progresso, combinações concluídas, tempo decorrido e ETA. 
 
 ### Matriz de projetos
 
-Use `matrix-projects` quando cada configuração já estiver em um ou mais ficheiros `.triton`, ou quando o próprio projeto declarar fatores experimentais em `cli_factorial`:
+Use `matrix-projects` quando cada configuração já estiver num ou mais ficheiros `.triton`, ou quando o próprio projeto declarar fatores experimentais em `cli_factorial`:
 
 ```powershell
 python -m triton.cli matrix-projects --projects .\projetos --output-dir .\resultado-projetos
@@ -75,7 +75,7 @@ Use `--ignore-project-factors` para desconsiderar temporariamente o bloco fatori
 
 ## Cenários em folha de cálculo
 
-`batch` lê CSV ou XLSX. Com `--base`, as linhas herdam do projeto-base as premissas econômicas e ambientais que a folha de cálculo não substitui:
+`batch` lê CSV ou XLSX. Com `--base`, as linhas herdam do projeto-base as premissas económicas e ambientais que a folha de cálculo não substitui:
 
 ```powershell
 python -m triton.cli batch .\examples\triton-cli-scenarios.csv --base .\projeto.triton --analysis all --format csv --output .\saida\cenarios.csv
@@ -83,43 +83,20 @@ python -m triton.cli batch .\examples\triton-cli-scenarios.csv --base .\projeto.
 
 Valide primeiro o projeto-base e preserve a folha de cálculo de entrada junto do resultado. Um lote compara cenários declarados; ele não cria automaticamente distribuições de incerteza.
 
-## Simulação em massa e comparação com TesteMassivo
+## Procurar um município (só nesta edição)
 
-Para comparar a nova versão do motor contra a base de dados de referência (`TesteMassivo/`):
-
-```powershell
-# Execute a simulação paralela multi-core dos 4 casos de reservatórios combinados da Tabela 2 e gera o relatório comparativo:
-python -m triton.cli compare-mass
-```
-
-Parâmetros opcionais de `compare-mass`:
-
-- `--input-dir`: Pasta com os ficheiros de chuva divididos (`TesteMassivo/Triton_future_files_split`)
-- `--reference-dir`: Pasta com os ficheiros CSVs consolidados de referência (`TesteMassivo`)
-- `--output-dir`: Pasta de destino dos novos CSVs consolidados e relatórios (`TesteMassivo/nova_versao`)
-- `--area`, `--residents`, `--demand`, `--share`, `--runoff` e `--discard`: premissas do caso comparado
-- `--workers`: Número de núcleos de CPU para processamento em paralelo
-
-## Estudo massivo de tipologias residenciais de Vaz
-
-Para rodar o estudo completo das cinco tipologias em Parquet:
+`locais` procura um concelho ou município pelo nome ou pelo código e mostra a fonte da chuva e o nível de qualidade:
 
 ```powershell
-# Executar o estudo massivo das cinco tipologias e exportar em Parquet:
-python -m triton.cli run-vaz-study
+python -m triton.cli locais Sevilla --pais ES --limite 3
+python -m triton.cli locais PT-1106 --format json
 ```
 
-Parâmetros opcionais de `run-vaz-study`:
-
-- `--input-dir`: Pasta com as séries climáticas divididas (`TesteMassivo/Triton_vaz_files_split`)
-- `--output-dir`: Pasta de destino para o ficheiro Parquet e relatórios (`TesteMassivo/estudo_vaz`)
-- `--workers`: Número de processos paralelos; por padrão, o comando preserva um núcleo para o sistema quando possível
-
-O estudo Vaz requer `pyarrow` para Parquet. Avalie espaço em disco, memória e temperatura da máquina antes de aumentar `--workers`; mais processos não garantem ganho linear.
+A primeira linha da saída resume a cobertura da base (locais de Portugal e de Espanha, Iberia01, ERA5 e sem série).
 
 ## Estudos em lote por JSON
 
-Para comparar vários edifícios por tipologia (escolas, comerciais, residências, hospitais, aeroportos) e levar os resultados a um artigo, organize o estudo num ficheiro `estudo.json` e rode tudo com `triton estudo`. O ficheiro reúne o projeto base, os casos, o que muda de um caso para o outro, a análise e as saídas; o programa roda os casos numa ordem estável e grava tabelas prontas para o texto (CSV tidy, JSON com proveniência, Markdown, LaTeX, XLSX).
+Para comparar vários edifícios por tipologia (escolas, comerciais, residências, hospitais, aeroportos) e levar os resultados a um artigo, organize o estudo num ficheiro `estudo.json` e execute tudo com `triton estudo`. O ficheiro reúne o projeto base, os casos, o que muda de um caso para o outro, a análise e as saídas; o programa roda os casos numa ordem estável e grava tabelas prontas para o texto (CSV tidy, JSON com proveniência, Markdown, LaTeX, XLSX).
 
 ```powershell
 # 1. Esqueleto do estudo, com os rótulos da tipologia e nenhum valor preenchido.
@@ -205,7 +182,7 @@ As substituições passam pela mesma conciliação de frações do `--set`, e o 
 
 As saídas não levam caminho absoluto: os projetos aparecem com caminho relativo ao `estudo.json` (ou só o nome). Duas execuções do mesmo estudo dão ficheiros idênticos; a data de execução é a única diferença, e a variável de ambiente `SOURCE_DATE_EPOCH` a fixa. O `xlsx` guarda a data de criação nas propriedades do ficheiro e não é idêntico byte a byte, só no conteúdo.
 
-**Retomada e códigos de saída.** Numa pasta de saída que já tem resultados, `run` exige `--retomar` (pula os casos prontos e inalterados: a impressão digital do caso inclui o estudo, os ficheiros, a versão e a edição) ou `--sobrescrever` (refaz tudo). O código de saída é 0 se todos os casos foram calculados, 1 se algum caso terminou com erro (as saídas dos demais são gravadas e o caso com erro aparece com `status` `erro`) e 2 se o estudo ou os argumentos são inválidos.
+**Retomada e códigos de saída.** Numa pasta de saída que já tem resultados, `run` exige `--retomar` (salta os casos prontos e inalterados: a impressão digital do caso inclui o estudo, os ficheiros, a versão e a edição) ou `--sobrescrever` (refaz tudo). O código de saída é 0 se todos os casos foram calculados, 1 se algum caso terminou com erro (as saídas dos demais são gravadas e o caso com erro aparece com `status` `erro`) e 2 se o estudo ou os argumentos são inválidos.
 
 **Métricas.** O volume de cada caso é, por padrão, o ótimo técnico da varredura (`volume: "otimo_tecnico"`); com `"topsis"`, o primeiro do ranking; com um número, o volume fixo. As métricas disponíveis incluem `volume_l`, `economia_agua_potavel_pct`, `agua_pluvial_m3_ano`, `agua_potavel_m3_ano`, `extravasamento_m3_ano`, os dias com atendimento total, parcial e nulo, `capex`, `vpl`, `economia_anual_agua`, `opex_anual`, `tir_anual_pct`, `payback_descontado_meses`, `co2_liquido_vida_kg`, `indice_topsis` e `aceitabilidade_smaa_pct`, além das entradas do caso (`area_captacao_m2`, `usuarios`, `demanda_total_l_dia`, `chuva_media_anual_mm`). As métricas económicas pedem `analise.tipo` `economic` ou `all`; as ambientais, `environmental` ou `all`. Os nomes crus do relatório (`potable_savings_pct`) também valem. Valores monetários saem na moeda de cada projeto; se os casos têm moedas diferentes, o resumo avisa que não são comparáveis e o comparativo não os agrega. Com CAPEX igual a zero (custos não informados), o resumo avisa que VAL, TIR e payback não são resultados.
 
@@ -213,13 +190,13 @@ As saídas não levam caminho absoluto: os projetos aparecem com caminho relativ
 
 ### Fonte da chuva e licença
 
-Quando a chuva vem da E-OBS (uso restrito a pesquisa e educação não comerciais), as saídas herdam do `analyze` o aviso de licença e a citação que ele regista em `provenance`: o resumo, a `tabela.md`, a `tabela.tex` e o `resultados.json` os repetem, e o aviso sobre o uso não comercial vai primeiro. As séries ERA5 do exemplo trazem o crédito Open-Meteo (CC BY 4.0). Projetos com a chuva de outra origem (série própria) não levam o bloco da E-OBS.
+Com a chuva do Iberia01 (a fonte principal da edição), o `analyze` regista em `provenance` a fonte, a atribuição ODbL, o nível de qualidade do município e o pacote de dados. Quando a chuva vem da E-OBS (uso restrito a pesquisa e educação não comerciais), as saídas herdam do `analyze` o aviso de licença e a citação que ele regista em `provenance`: o resumo, a `tabela.md`, a `tabela.tex` e o `resultados.json` os repetem, e o aviso sobre o uso não comercial vai primeiro. A chuva ERA5 das ilhas traz o crédito Open-Meteo e Copernicus (CC BY 4.0). Projetos com a chuva de outra origem (série própria) não levam o bloco da E-OBS.
 
 ### Exemplo
 
-O exemplo `examples/estudos/residencial-unifamiliar-exemplo/` roda a moradia do tutorial em Lisboa, no Porto e no Funchal (`portugal/lisboa.triton`, `portugal/porto.triton`, `portugal/funchal.triton`): `python -m triton.cli estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida saida\exemplo`.
+O exemplo `examples/estudos/residencial-unifamiliar-exemplo/` calcula a moradia do tutorial em Lisboa, no Porto e no Funchal (`portugal/lisboa.triton`, `portugal/porto.triton`, `portugal/funchal.triton`): `python -m triton.cli estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida saida\exemplo`.
 
-Os exemplos usam os projetos já distribuídos e não inventam números. Para acrescentar um caso, copie um bloco de `casos` e troque `id`, `nome` e o `projeto` (ou o `clima.arquivo` e as `substituicoes`); registre a fonte de cada valor que você preencher.
+Os exemplos usam os projetos já distribuídos e não inventam números. Para acrescentar um caso, copie um bloco de `casos` e troque `id`, `nome` e o `projeto` (ou o `clima.arquivo` e as `substituicoes`); registe a fonte de cada valor que preencher.
 
 ## Reprodutibilidade e auditoria
 
@@ -229,7 +206,7 @@ Para cada execução usada em relatório ou publicação, preserve:
 - série de chuva e sua proveniência, salvo quando incorporada ao projeto;
 - comando completo, versão do Triton e versão do Python;
 - semente de qualquer análise estocástica;
-- ficheiros de saída sem edição manual e um registro das interpretações posteriores.
+- ficheiros de saída sem edição manual e um registo das interpretações posteriores.
 
 Sensibilidade de pesos e Monte Carlo respondem a perguntas diferentes. A primeira mede estabilidade do ranking diante das preferências; a segunda propaga incerteza das entradas declaradas. Nenhuma delas corrige dados de baixa qualidade ou hipóteses omitidas.
 

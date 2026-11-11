@@ -23,9 +23,9 @@ Tamanhos em MiB (1 MiB = 1 048 576 bytes, a unidade do aviso de 50 MB do GitHub)
 | Banco que reúne esses documentos | `tarifas_portugal/tarifas_portugal_fontes.db` | SQLite | 16 MB | **não** | de terceiros |
 | Fontes brutas E-OBS e CAOP | `data/portugal/fontes/` | NetCDF, GeoPackage | cerca de 3 GB | **não** | E-OBS (não comercial); CAOP (cc-by) |
 | Fatores de emissão, custos, rotas de produção de água | `triton/data/*.json` | JSON | 0,02 MiB | sim | do projeto; sem valor local (§4) |
-| Exemplos (Lisboa, Porto, Funchal, Madrid, Palma) e relatórios de exemplo (15 PDF) | `examples/`, `reports/exemplos/` | `.triton`, PDF | 0,06 MiB e 9,26 MiB | sim | do projeto; chuva do Iberia01 (ODbL) ou da ERA5 das ilhas (CC BY 4.0), sem a E-OBS |
+| Exemplos (Lisboa, Porto, Funchal, Madrid, Palma) e relatórios de exemplo (15 PDF) | `examples/`, `reports/exemplos/` | `.triton`, PDF | 0,07 MiB e 9,26 MiB | sim | do projeto; chuva do Iberia01 (ODbL) ou da ERA5 das ilhas (CC BY 4.0), sem a E-OBS |
 | Visualizador 3D (HDR e JS) | `triton/data/volumetria/` | HDR, JS | 2,1 MiB | sim | CC0 (céu) e MIT (three.js) |
-| Manual (PDF, sítio, figuras) | `manual/` | PDF, HTML, PNG | 41,7 MiB (445 ficheiros) | sim | do projeto |
+| Manual (PDF, sítio, figuras) | `manual/` | PDF, HTML, PNG | 42,1 MiB (445 ficheiros) | sim | do projeto |
 
 Os dados de **tarifas** e de **pluviometria** estão em ficheiros separados entre si: a chuva em `data/`, as tarifas em `triton/data/` e `tarifas_portugal/`. Esta edição não leva a base CLIMBra (só a Edição Brasil).
 
@@ -35,7 +35,7 @@ Os dados de **tarifas** e de **pluviometria** estão em ficheiros separados entr
 | :--- | :--- |
 | O que é | Precipitação diária (mm) de cada município de Portugal continental, Espanha peninsular e Baleares, calculada na leitura como a média, ponderada, das células de 0,1° do Iberia01 que o servem |
 | Fonte | Iberia01 v1.0, «Iberia010reg», Santander Meteorology Group (UC-CSIC), precipitação diária, grelha regular de 0,1° (79 × 137), 01/01/1971 a 31/12/2015 (16 436 dias), 6 523 células válidas, `kg m-2` (= mm/dia). Citação: Herrera, S., Cardoso, R. M., Soares, P. M. M., Espírito-Santo, F., Viterbo, P., Gutiérrez, J. M. (2019), *Earth System Science Data* 11, 1947-1956, doi:10.5194/essd-11-1947-2019; dados: doi:10.20350/digitalCSIC/8641. SHA-256 do ficheiro NetCDF de origem: `9c0393487f0d0e12accc0538681d02448f58ac123d08011d7ec7bfa008307022` (678,7 MiB, fora do Git) |
-| Limites | Portugal: CAOP 2025, DGT (308 municípios, chave DTMN). Espanha: Eurostat/GISCO, Local Administrative Units 2023 (`LAU_RG_01M_2023_4326`, SHA-256 `c0636cb1010ea5e1c6b336c60a469af80d7919033ccfac35a4aa4bdddf100e29`), 8 131 municípios com o código INE de 5 dígitos. O pedido original apontava para o CNIG/IGN (CC BY 4.0), cujo centro de descargas não oferece ligação estável nem acesso por script: ver `auditoria/iberia/DECISOES_ASSUMIDAS.md` |
+| Limites | Portugal: CAOP 2025, DGT (308 municípios, chave DTMN). Espanha: Eurostat/GISCO, Local Administrative Units 2023 (`LAU_RG_01M_2023_4326`, SHA-256 `c0636cb1010ea5e1c6b336c60a469af80d7919033ccfac35a4aa4bdddf100e29`), 8 131 municípios com o código INE de 5 dígitos. O pedido original apontava para o CNIG/IGN (CC BY 4.0), cujo centro de descargas não oferece ligação estável nem acesso por script (registo do mantenedor, fora do Git) |
 | Licença | **ODbL 1.0**: uso comercial permitido, com atribuição; a base derivada tem de ser distribuída também em ODbL e fica em ficheiros **separados do programa** (as quatro partes, `ibe_unidades.db` e `qualidade_eobs_odbl.db`). Relatórios e gráficos são «Produced Works»: pedem só a atribuição, que o rodapé do laudo leva: «Contains information from Iberia01, made available under the Open Database License (ODbL 1.0).» A licença foi confirmada no artigo da ESSD e nos metadados do ficheiro; a página do registo no DIGITAL.CSIC bloqueou o acesso automático (confirmar num navegador) |
 | Método | Média das células com centro dentro do limite do município; sem nenhum centro dentro, a célula válida mais próxima do ponto representativo (até 0,25°), registada em `metodo`. Quantização em inteiros de 0,1 mm (planos de bytes + zlib); viés medido no total anual: −0,06% (amostra de 20 células). Dia sem dado seria NaN (falha), nunca zero; o Iberia01 não tem falhas nas células válidas |
 | Células e partes | Quatro partes por faixa de longitude (1 631, 1 631, 1 631 e 1 630 células; 15,19 / 13,46 / 13,55 / 13,16 MiB). SHA-256 de cada parte no manifesto `iberia01_partes.json`. `pacote_id` `iberia01-v1.0-b214eb601c3d` (SHA-256 do conteúdo das células). O programa abre só as células de que precisa; uma parte em falta dá uma mensagem clara e não impede as outras |
@@ -226,7 +226,7 @@ Fonte da camada 3: INE, *Encuesta sobre el suministro y saneamiento del agua* 20
 
 ## 6. Limites de tamanho e verificação
 
-- Limite: 50 MiB por ficheiro rastreado. Maior ficheiro de dados: 15,19 MiB. Dados ibéricos novos: 59,9 MiB em oito ficheiros (`tests/unit/test_dados_iberia_ibe.py` confere tamanhos e SHA-256 contra o manifesto).
+- Limite: 50 MiB por ficheiro rastreado. Maior ficheiro de dados: 15,19 MiB. Dados ibéricos novos: 59,1 MiB em oito ficheiros (`tests/unit/test_dados_iberia_ibe.py` confere tamanhos e SHA-256 contra o manifesto).
 - Verificação: `python scripts/verificar_tamanhos.py` (da raiz) e `tests/unit/test_tamanho_dos_dados.py`.
 - Atualização da chuva: o Iberia01 v1.0 acaba em 2015 (não há versão posterior encontrada); a extensão 2016–2025 só existe na E-OBS (não comercial) e não se mistura com o Iberia01 sem correção de homogeneidade (0.2.0).
 
@@ -272,5 +272,5 @@ O titular dos direitos do software (UFSC) decidiu as duas questões que estavam 
 ### 9.3 Outros registos de 25/10/2026
 
 - **Repositório:** público em https://github.com/igorcmvaz/triton.
-- **DOI do Zenodo:** ainda não criado. **Data de lançamento:** a definir pelo titular.
+- **DOI do Zenodo e data de lançamento:** por definir a 25/10/2026; definidos depois: DOI 10.5281/zenodo.23402916, lançamento a 05/11/2026.
 - **Eletricidade do Funchal:** fonte secundária, estado amarelo (§4); mantida e rotulada.
