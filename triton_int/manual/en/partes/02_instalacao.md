@@ -146,7 +146,7 @@ work. For the first simulation four of them are enough.
    a runoff coefficient of 0.85 and a first flush of 2.0 mm.
 2. **Building & Demand.** Choose a single-family house, 4 residents, 150 litres
    per person per day, and a rainwater-suppliable fraction of 28%.
-3. **Reservoir & Costs.** Enter a fixed volume of 4,000 L.
+3. **Tank & Costs.** Enter a fixed volume of 4,000 L.
 4. Run it, and go to **Technical Results**.
 
 You should get a saving potential of about **27%**.

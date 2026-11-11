@@ -14,7 +14,7 @@ question, and using the wrong one costs time without producing the information w
 <!-- tabela: The three ways of comparing alternatives depending on what varies between them -->
 | If what changes is | Use | Where |
 | :--- | :--- | :--- |
-| **only the cistern volume** | the sweep | step 4. Reservoir & Costs |
+| **only the cistern volume** | the sweep | step 4. Tank & Costs |
 | **the volume, and you want to decide** | the multi-criteria table | step 8. Multi-Criteria Decision |
 | **any other assumption** | saved projects, one per case | `.triton` file |
 
@@ -24,7 +24,7 @@ The first is automatic, the second too, and the third needs organisation.
 
 ## The sweep: dozens of volumes in one pass
 
-In step **4. Reservoir & Costs**, choose the **sweep** mode and enter the maximum volume and
+In step **4. Tank & Costs**, choose the **sweep** mode and enter the maximum volume and
 the step. The program simulates all the volumes of the grid and draws the curve.
 
 The sweep is the normal way of working, not an advanced function reserved for special cases:

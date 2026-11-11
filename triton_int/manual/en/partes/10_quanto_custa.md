@@ -151,7 +151,7 @@ calculation uses it; the costs are the ones you enter.
 
 ### How to enter your values
 
-In step **4. Reservoir & Costs**, the button *1. Initial Investment (CAPEX)* has fields for the upper
+In step **4. Tank & Costs**, the button *1. Initial Investment (CAPEX)* has fields for the upper
 tank, labour, piping and accessories; the button *2. Motor Pump & Energy Cost* has the price of the
 pump set and the electricity tariff; the button *3. Other Operational Costs* has the maintenance
 routines; and the button *4. Water and Sewage Tariffs* has the tariff. Enter the values of your
@@ -198,7 +198,7 @@ section {{n:14}} compares the three cities on saving potential, not on payback.
 7.7 kWh per year of section {{n:8}} at an illustrative US$ 0.20 per kilowatt-hour, and US$ 1.10
 is chlorine, 0.14 kg of product per year at an illustrative US$ 8 per kilogram. The
 energy comes from the same function that feeds the environmental assessment, according to
-the arrangement declared in step **4. Reservoir & Costs**: pumping to an upper tank,
+the arrangement declared in step **4. Tank & Costs**: pumping to an upper tank,
 direct pressurisation or gravity. This figure does not include the three maintenance routines of
 US$ 90 per year, which enter the cash flow separately; the next section shows how much they weigh.
 

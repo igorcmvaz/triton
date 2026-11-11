@@ -236,7 +236,7 @@ def info_etapas():
             (2, "Building" + NL + "& Demand", "occupancy, demand," + NL +
              "suppliable fraction"),
             (3, "Quality & Treatment", "water quality class" + NL + "& treatment line"),
-            (4, "Reservoirs" + NL + "& Costs", "volume or sweep," + NL +
+            (4, "Tanks" + NL + "& Costs", "volume or sweep," + NL +
              "and budget"),
         ]),
         (VERDE, "RESULTS", [

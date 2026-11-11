@@ -10,7 +10,7 @@ One input is missing before simulating: the volume of the tank. Let us guess.
 without much thought. Section {{n:7}} will ask
 whether it is the right volume. Here we only want to see the program run.
 
-In step **4. Reservoir & Costs**, choose a fixed volume, enter 3,000 L, leave the upper
+In step **4. Tank & Costs**, choose a fixed volume, enter 3,000 L, leave the upper
 tank unticked, and run.
 
 ---

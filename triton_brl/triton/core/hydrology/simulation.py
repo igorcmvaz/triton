@@ -1051,8 +1051,8 @@ def run_single_simulation(
         )
 
     # State variables (Pure Python fallback and detailed daily results)
-    v_lower = 0.0  # Lower reservoir starts empty
-    v_upper = 0.0  # Upper reservoir starts empty
+    v_lower = 0.0  # Lower tank starts empty
+    v_upper = 0.0  # Upper tank starts empty
 
     total_pluvial_consumed = 0.0
     total_pluvial_indoor_consumed = 0.0
@@ -1119,7 +1119,7 @@ def run_single_simulation(
         cycles_today = 0
         
         if not upper_tank_used or upper_tank_vol <= 0:
-            # === SINGLE TANK SYSTEM (Only Lower Reservoir) ===
+            # === SINGLE TANK SYSTEM (Only Lower Tank) ===
             if phi_kernel < 0.0:
                 v_available_before_c = v_lower + v_ac
                 if v_available_before_c > lower_tank_vol:
@@ -1144,7 +1144,7 @@ def run_single_simulation(
                 v_upper = 0.0
             
         else:
-            # === DUAL TANK SYSTEM (Lower + Upper Reservoir) ===
+            # === DUAL TANK SYSTEM (Lower + Upper Tank) ===
             v_available_before_c = v_lower + v_ac
             if v_available_before_c > lower_tank_vol:
                 v_spill_today = v_available_before_c - lower_tank_vol
@@ -1311,9 +1311,9 @@ def run_sweep_simulation(
     phi_rule: Optional[float] = None,
 ) -> SweepSimulationResult:
     """
-    Runs simulations on a bounded lower-reservoir grid.
+    Runs simulations on a bounded lower-tank grid.
     Supports constant, weekly, monthly and full daily modulated demand series.
-    Calculates marginal delta potential (%/m3) and determines Optimal Reservoir Volume (V_ideal).
+    Calculates marginal delta potential (%/m3) and determines Optimal Tank Volume (V_ideal).
     """
     if phi_rule is None and building_config is not None and building_config.get("phi_operation_rule") is not None:
         phi_rule = _phi_do_projeto(float(building_config["phi_operation_rule"]), upper_tank_used, upper_tank_vol)

@@ -15,7 +15,7 @@ is what the program calls a **sweep**.
 
 ## Running the sweep
 
-In step **4. Reservoir & Costs**, choose the sweep mode and enter the maximum volume and
+In step **4. Tank & Costs**, choose the sweep mode and enter the maximum volume and
 the step. For our project: a maximum of 20,000 L, a step of 1,000 L.
 
 Two particularities of how the grid is built are worth knowing before interpreting the

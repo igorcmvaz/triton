@@ -27,7 +27,7 @@ doing it with a pump.
   does the rest.
 
 When the cistern is above the points of use, there is a third one: **gravity**, with no
-pump. Step **4. Reservoir & Costs** asks which of the three arrangements the project
+pump. Step **4. Tank & Costs** asks which of the three arrangements the project
 adopts, and it is this answer that defines the energy and the pump sets in the cost and
 in the carbon.
 

@@ -179,7 +179,7 @@ which counts it twice. The chain presented in this section is explicit precisely
 ## The pump sizing wizard
 
 When the power, flow rate and manometric head of the pump set are not known, the *Pump Sizing Wizard*
-button, in step **4. Reservoir & Costs** and in the economic dialog, estimates the three values and
+button, in step **4. Tank & Costs** and in the economic dialog, estimates the three values and
 selects a commercial model. The wizard follows the usual sizing sequence of a building rising main:
 
 1. **Pumping flow rate.** `Q = V_sup ÷ t_fill`, with the volume of the upper tank and the desired

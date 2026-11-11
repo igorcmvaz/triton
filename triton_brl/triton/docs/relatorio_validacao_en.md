@@ -12,7 +12,7 @@ This report describes automated **internal verification** evidence for Triton. I
 
 | Evidence | Automated case | Acceptance criterion | Scope |
 | :--- | :--- | :--- | :--- |
-| **Daily mass conservation** | 100 synthetic days, two reservoirs | absolute residual ≤ `1×10⁻⁷ L` per day | internal invariant |
+| **Daily mass conservation** | 100 synthetic days, two tanks | absolute residual ≤ `1×10⁻⁷ L` per day | internal invariant |
 | **Optional legacy-output comparison** | up to 20 rows of `Planilha.csv`, when available | MAE < 3 percentage points for optimum potential | sample regression, not 4,050 cases |
 | **Tiered tariff and sewage** | unit cases with analytical answers | `pytest.approx` numerical tolerance | equation verification |
 | **Pump, CAPEX, O&M, chlorine and LCA** | unit cases and three-model study | residuals shown in the generated study | equations/assumptions |
@@ -22,17 +22,17 @@ This report describes automated **internal verification** evidence for Triton. I
 
 ## 2. DAILY WATER BALANCE VALIDATION METHODOLOGY
 
-The invariant test uses a reproducible 100-day synthetic series and checks non-negativity, reservoir bounds and equality between inputs and outputs on every day. The three-model study adds long working rainfall series and one audited day per climate. The legacy-spreadsheet regression runs only when its external dataset is present; it samples up to 20 rows and uses the criterion declared by the test itself.
+The invariant test uses a reproducible 100-day synthetic series and checks non-negativity, tank bounds and equality between inputs and outputs on every day. The three-model study adds long working rainfall series and one audited day per climate. The legacy-spreadsheet regression runs only when its external dataset is present; it samples up to 20 rows and uses the criterion declared by the test itself.
 
 ### Key Mass Conservation Equations:
 1. **Effective rainfall and daily capturable volume** (the first-flush depth is subtracted):
    $$P_{\text{eff},t}=\max(0,\,P_t-d_f)\;\text{when the rule applies};\quad P_{\text{eff},t}=P_t\;\text{otherwise}$$
    $$V_{\text{harvested},t}=P_{\text{eff},t}\,C_{\text{runoff}}\,A_{\text{catchment}}$$
    The engine subtracts $d_f$ from the rainfall of each day on which the rule applies, so a day with rainfall at or below $d_f$ yields no capture. This differs deliberately from Netuno 4, which treated $d_f$ as an event threshold.
-2. **YAS lower-reservoir balance**:
+2. **YAS lower-tank balance**:
    $$I_t=\min(V_{\text{inf,max}},S_{t-1}+V_{\text{harvested},t});\quad O_t=\max(0,S_{t-1}+V_{\text{harvested},t}-V_{\text{inf,max}})$$
    $$Y_t=\min(D_{\text{rainwater},t},I_t);\quad S_t=I_t-Y_t$$
-3. **Two-reservoir invariant** (pumping is an internal transfer):
+3. **Two-tank invariant** (pumping is an internal transfer):
    $$S_{\text{inf},t-1}+S_{\text{sup},t-1}+V_{\text{harvested},t}=S_{\text{inf},t}+S_{\text{sup},t}+Y_t+O_t$$
 
 ---

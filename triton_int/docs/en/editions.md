@@ -110,7 +110,7 @@ The installer is published in the Zenodo record (DOI 10.5281/zenodo.23402916); t
 [`model.md`](model.md), [`verification.md`](verification.md) and
 [`getting-started.md`](getting-started.md) are the English documents. The user manual of
 this edition is distributed separately; the Documentation tab of the program lists the
-topics (method, rainfall indices, reservoirs, water quality, economics, LCA, references,
+topics (method, rainfall indices, tanks, water quality, economics, LCA, references,
 command line) without national sources.
 
 ## 5. When adding a national datum

@@ -9,7 +9,7 @@ Federal University of Santa Catarina
 
 International Edition · 2026
 
-Version 0.1.0 · revised 2026-11-04
+Version 0.1.0 · revised 2026-11-10
 
 ---
 
@@ -1289,7 +1289,7 @@ work. For the first simulation four of them are enough.
    a runoff coefficient of 0.85 and a first flush of 2.0 mm.
 2. **Building & Demand.** Choose a single-family house, 4 residents, 150 litres
    per person per day, and a rainwater-suppliable fraction of 28%.
-3. **Reservoir & Costs.** Enter a fixed volume of 4,000 L.
+3. **Tank & Costs.** Enter a fixed volume of 4,000 L.
 4. Run it, and go to **Technical Results**.
 
 You should get a saving potential of about **27%**.
@@ -3210,7 +3210,7 @@ which counts it twice. The chain presented in this section is explicit precisely
 ### 2.6.5. The pump sizing wizard
 
 When the power, flow rate and manometric head of the pump set are not known, the *Pump Sizing Wizard*
-button, in step **4. Reservoir & Costs** and in the economic dialog, estimates the three values and
+button, in step **4. Tank & Costs** and in the economic dialog, estimates the three values and
 selects a commercial model. The wizard follows the usual sizing sequence of a building rising main:
 
 1. **Pumping flow rate.** `Q = V_sup ÷ t_fill`, with the volume of the upper tank and the desired
@@ -5376,7 +5376,7 @@ question, and using the wrong one costs time without producing the information w
 <!-- tabela: **Table 84** — The three ways of comparing alternatives depending on what varies between them -->
 | If what changes is | Use | Where |
 | :--- | :--- | :--- |
-| **only the cistern volume** | the sweep | step 4. Reservoir & Costs |
+| **only the cistern volume** | the sweep | step 4. Tank & Costs |
 | **the volume, and you want to decide** | the multi-criteria table | step 8. Multi-Criteria Decision |
 | **any other assumption** | saved projects, one per case | `.triton` file |
 
@@ -5386,7 +5386,7 @@ The first is automatic, the second too, and the third needs organisation.
 
 ### 3.6.2. The sweep: dozens of volumes in one pass
 
-In step **4. Reservoir & Costs**, choose the **sweep** mode and enter the maximum volume and
+In step **4. Tank & Costs**, choose the **sweep** mode and enter the maximum volume and
 the step. The program simulates all the volumes of the grid and draws the curve.
 
 The sweep is the normal way of working, not an advanced function reserved for special cases:
@@ -6625,7 +6625,7 @@ One input is missing before simulating: the volume of the tank. Let us guess.
 without much thought. Section 4.4 will ask
 whether it is the right volume. Here we only want to see the program run.
 
-In step **4. Reservoir & Costs**, choose a fixed volume, enter 3,000 L, leave the upper
+In step **4. Tank & Costs**, choose a fixed volume, enter 3,000 L, leave the upper
 tank unticked, and run.
 
 ---
@@ -6804,7 +6804,7 @@ is what the program calls a **sweep**.
 
 ### 4.4.1. Running the sweep
 
-In step **4. Reservoir & Costs**, choose the sweep mode and enter the maximum volume and
+In step **4. Tank & Costs**, choose the sweep mode and enter the maximum volume and
 the step. For our project: a maximum of 20,000 L, a step of 1,000 L.
 
 Two particularities of how the grid is built are worth knowing before interpreting the
@@ -7088,7 +7088,7 @@ doing it with a pump.
   does the rest.
 
 When the cistern is above the points of use, there is a third one: **gravity**, with no
-pump. Step **4. Reservoir & Costs** asks which of the three arrangements the project
+pump. Step **4. Tank & Costs** asks which of the three arrangements the project
 adopts, and it is this answer that defines the energy and the pump sets in the cost and
 in the carbon.
 
@@ -7591,7 +7591,7 @@ calculation uses it; the costs are the ones you enter.
 
 #### 4.7.4.1. How to enter your values
 
-In step **4. Reservoir & Costs**, the button *1. Initial Investment (CAPEX)* has fields for the upper
+In step **4. Tank & Costs**, the button *1. Initial Investment (CAPEX)* has fields for the upper
 tank, labour, piping and accessories; the button *2. Motor Pump & Energy Cost* has the price of the
 pump set and the electricity tariff; the button *3. Other Operational Costs* has the maintenance
 routines; and the button *4. Water and Sewage Tariffs* has the tariff. Enter the values of your
@@ -7638,7 +7638,7 @@ section 3.1 compares the three cities on saving potential, not on payback.
 7.7 kWh per year of section 4.5 at an illustrative US$ 0.20 per kilowatt-hour, and US$ 1.10
 is chlorine, 0.14 kg of product per year at an illustrative US$ 8 per kilogram. The
 energy comes from the same function that feeds the environmental assessment, according to
-the arrangement declared in step **4. Reservoir & Costs**: pumping to an upper tank,
+the arrangement declared in step **4. Tank & Costs**: pumping to an upper tank,
 direct pressurisation or gravity. This figure does not include the three maintenance routines of
 US$ 90 per year, which enter the cash flow separately; the next section shows how much they weigh.
 

@@ -61,7 +61,7 @@ changed at any time; changing it restarts the application.
 
 The window has a sidebar of steps on the left and the working area on the right: you start at
 **1. Project & Rainfall**, then **2. Building & Demand**, **3. Quality & Treatment** and
-**4. Reservoir & Costs**, and go on to the economic, environmental and export steps. The steps
+**4. Tank & Costs**, and go on to the economic, environmental and export steps. The steps
 follow the order of the data dependencies: changing the building invalidates the simulation that
 used it, and the software says so rather than silently keeping a stale result. The user manual
 (`manual/en/Triton-User-Manual.pdf`, opened from the Documentation tab) describes every step, and

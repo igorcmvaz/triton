@@ -477,7 +477,7 @@ class TabDocumentation(QWidget):
             return ("Where: <i>Dpl,t</i> is daily rainwater demand; <i>N</i> is the number of occupants; <i>q</i> is per-capita demand; and <i>s</i> is the non-potable rainwater share."
                     if en else "Onde: <i>Dpl,t</i> é a demanda pluvial diária; <i>N</i> é o número de ocupantes; <i>q</i> é a demanda per capita; e <i>s</i> é a fração não potável atendida por água pluvial.")
         if clean.startswith(("st=", "vinf")):
-            return ("Where: <i>S<sub>t</sub></i> / <i>Vinf,t</i> is end-of-day stored volume; <i>V</i> is reservoir capacity; <i>Vcap,t</i> is captured water; and <i>Dpl,t</i> is the requested demand."
+            return ("Where: <i>S<sub>t</sub></i> / <i>Vinf,t</i> is end-of-day stored volume; <i>V</i> is tank capacity; <i>Vcap,t</i> is captured water; and <i>Dpl,t</i> is the requested demand."
                     if en else "Onde: <i>S<sub>t</sub></i> / <i>Vinf,t</i> é o volume armazenado no fim do dia; <i>V</i> é a capacidade do reservatório; <i>Vcap,t</i> é a água captada; e <i>Dpl,t</i> é a demanda solicitada.")
         if clean.startswith("epot"):
             return ("Where: <i>Epot</i> is potable-water saving potential; the numerator is rainwater actually supplied; and the denominator is total potable-water demand."
@@ -740,16 +740,16 @@ class TabDocumentation(QWidget):
             <p><code>Peff,t = max(0, Pt − df)</code> on days when the first-flush rule applies, and <code>Peff,t = Pt</code> otherwise; <code>Vcap,t = A × C × Peff,t</code>.</p>
             <p>The first-flush depth <code>df</code> is subtracted from the day's rainfall, so a day with rainfall at or below <code>df</code> yields no capture. This differs deliberately from Netuno 4, which treated <code>df</code> as an event threshold. Since 1 mm over 1 m² equals 1 L, no additional conversion is required. Daily non-potable demand is calculated as follows.</p>
             <p><code>Dpl,t = N × q × s</code></p>
-            <h3 style='color:#0369a1;'>Step 3 — Reservoir sweep and daily balance</h3>
-            <p>Each candidate lower-reservoir volume is simulated over every day in the input series using yield after spillage (YAS):</p>
+            <h3 style='color:#0369a1;'>Step 3 — Tank sweep and daily balance</h3>
+            <p>Each candidate lower-tank volume is simulated over every day in the input series using yield after spillage (YAS):</p>
             <p><code>It = min(V, St−1 + Vcap,t)</code>; <code>Ot = max(0, St−1 + Vcap,t − V)</code>; <code>Yt = min(Dpl,t, It)</code>; <code>St = It − Yt</code>.</p>
             <p>This order matters: storage is capped and spillage occurs before demand is withdrawn. When an upper tank is enabled, transfer cycles are simulated explicitly; pump energy is then calculated from transferred volume, starts, nominal flow, power and global efficiency. The sweep repeats the same state transition for each candidate volume.</p>
             <h3 style='color:#0369a1;'>Step 4 — Technical indicators</h3>
             <p>Water-saving potential is calculated by:</p>
             <p><code>Epot = 100 × Σ(supplied rainwater) / Σ(total potable demand)</code></p>
-            <p>The program also reports full, partial and zero-supply days, annual rainwater use, mean overflow and the marginal gain between adjacent reservoir volumes. The technical optimum is identified after the configured marginal-gain threshold is reached.</p>
+            <p>The program also reports full, partial and zero-supply days, annual rainwater use, mean overflow and the marginal gain between adjacent tank volumes. The technical optimum is identified after the configured marginal-gain threshold is reached.</p>
             <h3 style='color:#0369a1;'>Step 5 — Economic assessment</h3>
-            <p>CAPEX combines reservoirs, pump (when applicable), pipes, filters, labour and user-adjusted costs. Automatic reservoir costs are screening estimates obtained by piecewise linear interpolation of the explicit internal table; definitive studies must replace them with dated local quotations. Other operational costs preserve the Netuno 4 semantics: a fixed term plus an optional coefficient per m³ of rainwater consumed in the month when the expense occurs. The default maintenance items are fixed because there is no universal, scientifically transferable cost per m³ of tank capacity.</p>
+            <p>CAPEX combines tanks, pump (when applicable), pipes, filters, labour and user-adjusted costs. Automatic tank costs are screening estimates obtained by piecewise linear interpolation of the explicit internal table; definitive studies must replace them with dated local quotations. Other operational costs preserve the Netuno 4 semantics: a fixed term plus an optional coefficient per m³ of rainwater consumed in the month when the expense occurs. The default maintenance items are fixed because there is no universal, scientifically transferable cost per m³ of tank capacity.</p>
             <p>Annual gross saving is potable-water and, where applicable, sewage savings less pumping electricity and O&amp;M. Net present value is calculated by:</p>
             <p><code>NPV = −CAPEX + Σ[FCt/(1+i)^t]</code></p>
             <p>IRR is the rate that makes NPV equal zero; simple and discounted payback are the first years with non-negative accumulated nominal and discounted cash flow, respectively.</p>
@@ -940,7 +940,7 @@ class TabDocumentation(QWidget):
         if get_current_lang() != "pt":
             introduction = """
             <h2 style='color:#0284c7; margin-top:0;'>🍃 Life-Cycle Assessment (LCA): Assumptions and Rationale</h2>
-            <p>This chapter documents the simplified LCA inventory used by Triton. It separates <b>embodied impacts</b> (reservoirs, pipes and pump), <b>operational impacts</b> (electricity and treatment), and the <b>avoided potable-water impact</b>. Default factors are transparent, editable starting assumptions—not a substitute for an EPD, supplier declaration, or local inventory.</p>
+            <p>This chapter documents the simplified LCA inventory used by Triton. It separates <b>embodied impacts</b> (tanks, pipes and pump), <b>operational impacts</b> (electricity and treatment), and the <b>avoided potable-water impact</b>. Default factors are transparent, editable starting assumptions—not a substitute for an EPD, supplier declaration, or local inventory.</p>
             <h3 style='color:#0369a1;'>Calculation chain and interpretation</h3>
             <p>For each component, the embodied impact is calculated by:</p>
             <p><code>CO2emb = quantity × emission factor</code></p>
@@ -951,12 +951,12 @@ class TabDocumentation(QWidget):
             <p><code>CO2avoid = saved potable water × potable-water factor</code></p>
             <p><b>Carbon Accounting Convention & Color Coding:</b></p>
             <ul>
-                <li><b>Atmospheric Emissions are POSITIVE (+) in RED:</b> Initial embodied emissions from reservoirs, pipes, and pumps, plus operational emissions from electricity (pumping) and chlorination inputs.</li>
+                <li><b>Atmospheric Emissions are POSITIVE (+) in RED:</b> Initial embodied emissions from tanks, pipes, and pumps, plus operational emissions from electricity (pumping) and chlorination inputs.</li>
                 <li><b>Avoided / Removed Carbon is NEGATIVE (−) in GREEN:</b> Displaced municipal water treatment and pumping avoids GHG emissions, functioning as an ecological carbon offset.</li>
                 <li><b>20-Year Net Climate Balance:</b> <code>Net Balance = (CO2emb + CO2op) − CO2avoid</code>. A <b>negative (−)</b> final balance represents net carbon abatement/removal from the atmosphere (highlighted in <b>green</b>). A <b>positive (+)</b> balance indicates net carbon addition (highlighted in <b>red</b>).</li>
                 <li><b>Eco-Payback:</b> <code>Payback (years) = CO2emb / (CO2avoid,annual − CO2op,annual)</code>.</li>
             </ul>
-            <p><b>How to use this section:</b> first check quantities (material, reservoir volume, pipe lengths and pump power), then validate factors and sources, and finally test sensitivity using local suppliers, grid mix and service life. Piping adopts a baseline estimate of 5m suction and 20m discharge, sized automatically by pump hydraulics.</p>
+            <p><b>How to use this section:</b> first check quantities (material, tank volume, pipe lengths and pump power), then validate factors and sources, and finally test sensitivity using local suppliers, grid mix and service life. Piping adopts a baseline estimate of 5m suction and 20m discharge, sized automatically by pump hydraulics.</p>
             """
         else:
             introduction = """
@@ -1731,9 +1731,9 @@ class TabDocumentation(QWidget):
     def create_tab_tanks_pumping(self) -> QWidget:
         if get_current_lang() != "pt":
             html = r"""
-            <h2 style='color: #0284c7; margin-top: 0px;'>🚰 Reservoirs and Pumping System</h2>
+            <h2 style='color: #0284c7; margin-top: 0px;'>🚰 Tanks and Pumping System</h2>
             
-            <h3 style='color: #0369a1;'>Daily Water Balance in the Lower Reservoir (Cistern)</h3>
+            <h3 style='color: #0369a1;'>Daily Water Balance in the Lower Tank (Cistern)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 The lower cistern follows the <b>Yield After Spillage (YAS)</b> operational rule: storage capacity and spillage are evaluated prior to demand abstraction:<br/>
                 <code style='background-color: #f1f5f9; padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #0284c7; display: inline-block; margin: 4px 0;'>
@@ -1781,7 +1781,7 @@ class TabDocumentation(QWidget):
 
             <h3 style='color: #0369a1;'>Pumping Activation Threshold ($T_{pump}$)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                The percentage level of the upper reservoir below which the pump triggers to transfer water from the lower cistern to the upper tank (e.g., 30–50%).
+                The percentage level of the upper tank below which the pump triggers to transfer water from the lower cistern to the upper tank (e.g., 30–50%).
             </p>
 
             <h3 style='color: #0369a1;'>Electric Consumption of the Pumping System</h3>
@@ -1794,7 +1794,7 @@ class TabDocumentation(QWidget):
 
             <h3 style='color: #0369a1;'>Hydraulic Piping Sizing (NBR 5626 / Forchheimer Formula)</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Piping estimates in Triton adopt standard baseline lengths of <b>5 meters for suction</b> (from cistern to pump) and <b>20 meters for discharge/recalque</b> (from pump to elevated upper reservoir).
+                Piping estimates in Triton adopt standard baseline lengths of <b>5 meters for suction</b> (from cistern to pump) and <b>20 meters for discharge/recalque</b> (from pump to elevated upper tank).
                 Diameters are automatically synchronized with the selected pump using Forchheimer's economic diameter formula:
                 <br/>
                 <code style='background-color: #f1f5f9; padding: 6px 10px; border-radius: 4px; font-size: 13px; color: #0284c7; display: inline-block; margin: 4px 0;'>
@@ -2209,9 +2209,9 @@ class TabDocumentation(QWidget):
             <p style='font-size: 12.5px; line-height: 1.5;'>
                 Classification of days of the year based on the rainwater demand satisfaction level:
                 <ul>
-                    <li><b>Full Satisfaction (100%):</b> The pluvial reservoir fully met the daily rainwater demand.</li>
-                    <li><b>Partial Satisfaction:</b> The reservoir only met a fraction of the demand.</li>
-                    <li><b>No Satisfaction (0%):</b> The reservoir was completely empty.</li>
+                    <li><b>Full Satisfaction (100%):</b> The pluvial tank fully met the daily rainwater demand.</li>
+                    <li><b>Partial Satisfaction:</b> The tank only met a fraction of the demand.</li>
+                    <li><b>No Satisfaction (0%):</b> The tank was completely empty.</li>
                 </ul>
             </p>
 
@@ -2398,7 +2398,7 @@ class TabDocumentation(QWidget):
             </p>
             <h3 style='color: #0369a1;'>4. CAPEX and Pumping System</h3>
             <p style='font-size: 12.5px; line-height: 1.5;'>
-                Automatic CAPEX interpolates tank costs based on volume, estimates piping/filters, accessories, and labor according to system scale, and only includes a pump when there is an upper reservoir. The reference residential pump is 1/2 HP, 0,37 kW, and about 2.280 L/h, with an initial unit cost of BRL 300.
+                Automatic CAPEX interpolates tank costs based on volume, estimates piping/filters, accessories, and labor according to system scale, and only includes a pump when there is an upper tank. The reference residential pump is 1/2 HP, 0,37 kW, and about 2.280 L/h, with an initial unit cost of BRL 300.
                 <br/><b>Mandatory Review:</b> freight, excavation, base, electrical, plumbing, manometric head, filtration, brands, warranty, and labor vary locally and can substantially change the required investment.
             </p>
             <div style='background-color: #fff7ed; border-left: 4px solid #ea580c; padding: 12px; margin-top: 15px; border-radius: 4px;'>
