@@ -54,6 +54,7 @@ def test_extensao_para_salvar_preserva_a_do_projeto_aberto():
 
 
 def test_filtro_de_salvar_oferece_as_duas_extensoes_sem_mudar_a_chave():
+    pytest.importorskip("PySide6")  # o catálogo de tradução vive na interface (Qt)
     from triton.ui.translation import tr
     chave = '{0} (*.triton);;{1} (*.json);;CSV legado — não preserva todas as etapas (*.csv)'
     for lang in ("pt", "en", "es", "zh"):
