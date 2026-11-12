@@ -5,7 +5,7 @@
 > gostaria de ter.
 
 Esta secção resume o `ROADMAP.md` da raiz do repositório do Triton, que vale para as três edições e
-reflete o estado da versão beta 0.1.0. Nada do que está abaixo da linha «Estável» existe nesta
+reflete o estado da versão beta 0.2.0. Nada do que está abaixo da linha «Estável» existe nesta
 versão: são intenções do grupo de investigação, sem data de entrega. Quando um item é
 implementado, sai daqui e entra no histórico de versões, com a indicação de se muda os resultados
 de estudos já feitos.
@@ -17,14 +17,14 @@ pendências do próprio programa, descrito na secção «Limitações conhecidas
 
 ---
 
-## O que já é estável na 0.1.0
+## O que já é estável na 0.2.0
 
 **Série climática.** Chuva diária do Iberia01 por município (Portugal, Espanha e Baleares; normal 1986–2015), a E-OBS opcional (278 concelhos, 1950 a
 2025), a reanálise ERA5 das ilhas (nível C) e séries diárias fornecidas pelo utilizador. **Tarifas.** Os
 tarifários transcritos de Lisboa, do Porto e do Funchal, e estruturas introduzidas pelo utilizador,
 com escalões progressivos, partes fixas e atualização. **Balanço hídrico.** Simulação diária pela
 regra do Triton, com a YAS estrita, a YBS e o parâmetro φ de Fewkes (2000b) como opções para
-reservatório único. **Decisão.** Multicritério por TOPSIS e por SMAA-VIKOR. **Incerteza.**
+reservatório único. **Decisão.** Multicritério por TOPSIS e por SMAA-VIKOR, com oito critérios em quatro eixos (técnico, económico, ambiental e estrutural) e o peso do sistema. **Incerteza.**
 Modulação probabilística das premissas (secção «O que é a modulação probabilística»).
 **Edição.** Portugal.
 

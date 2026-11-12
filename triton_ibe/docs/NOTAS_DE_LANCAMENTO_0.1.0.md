@@ -65,7 +65,7 @@ Não verificado: a janela com ecrã real (a verificação foi em modo sem ecrã)
 
 ## Comunicar um problema
 
-Indique a versão (0.1.0), a edição, os passos e anexe o ficheiro `.triton`. Contacto: igor.catao@posgrad.ufsc.br.
+Indique a versão (0.1.0), a edição, os passos e anexe o ficheiro `.triton`. Contacto: igorcmvaz@gmail.com.
 
 ## Como citar
 

@@ -7,8 +7,8 @@
 
 O **Triton** dimensiona sistemas de aproveitamento de água da chuva em edifícios. Simula o balanço hídrico
 diário sobre uma série de precipitação, varre uma gama de volumes de reservatório e indica o que cada volume
-rende em água poupada, em dinheiro e em carbono do ciclo de vida; depois ordena as alternativas por decisão
-multicritério (TOPSIS e SMAA-VIKOR).
+rende em água poupada, em dinheiro, em carbono do ciclo de vida e em peso do sistema; depois ordena as
+alternativas por decisão multicritério (TOPSIS e SMAA-VIKOR), com oito critérios em quatro eixos.
 
 Esta é a **Edição Ibérica** (**Triton IBE**, Península Ibérica; chamou-se Edição Portugal, PRT). Abre em português de Portugal, trabalha em euros e traz a chuva de toda a Península (Portugal 308 locais; Espanha 8 131 locais; as ilhas com ERA5, nível C). Os projetos e os scripts que ainda dizem `PRT` ou `POR` continuam a funcionar: abrem como IBE.
 
@@ -37,21 +37,27 @@ As restantes edições usam o mesmo motor e o mesmo número de versão. Ver o
 - **Ambiente.** Avaliação simplificada do ciclo de vida e balanço de carbono; pontuação em LEED v4/v4.1 (até
   8 pontos em Eficiência Hídrica; o WEc2, uso interno, vale de 1 a 6 pontos para reduções de 25% a 50%, com
   pré-requisito de 20%), EDGE e GRI 303.
-- **Decisão.** Ordenação multicritério com TOPSIS e SMAA-VIKOR.
+- **Decisão.** Ordenação multicritério com TOPSIS, VIKOR, SMAA-VIKOR e PROMETHEE II, sobre oito critérios em
+  quatro eixos: técnico (fiabilidade volumétrica e eficiência de armazenamento), económico (economia financeira
+  líquida, custo nivelado da água e período de recuperação descontado), ambiental (CO₂e de ciclo de vida) e
+  estrutural (massa a seco dos materiais e extravasamento anual). Quatro pesos de eixo, 25% cada por omissão,
+  repartidos pelas partes no eixo; ou oito pesos de critério.
+- **Peso do sistema.** Massa a seco, carga de água e carga em operação, em kg e kN, no subsolo, na cobertura e
+  nas prumadas e rede, com alertas quando a carga passa um limiar de atenção do programa (não de norma).
 - **Resultados.** Relatório executivo, auditoria ambiental e dossiê técnico em PDF; exportação para folha de
   cálculo, CAD (DXF) e BIM; planta 3D e modelos glTF/HTML da tubagem.
 
-## Estado da versão 0.1.0
+## Estado da versão 0.2.0
 
 **Pronto.** O balanço diário, o varrimento de volumes, a economia (escalões, VAL, TIR, período de recuperação),
-a avaliação do ciclo de vida, a linha de tratamento, as certificações, a decisão multicritério, a modulação
+a avaliação do ciclo de vida, a linha de tratamento, as certificações, a decisão multicritério de oito critérios, o peso do sistema, a modulação
 probabilística, os laudos (PDF), a folha de cálculo, as exportações DXF/glTF/BIM, o manual completo e a
 documentação de cada conjunto de dados. A chuva de cada município tem nível de
 qualidade A, B ou C (A 461, B 7 857, C 119; as ilhas são C); Lisboa, Porto e Funchal têm tarifário transcrito e exemplo completo.
 
 **Cobertura e o que falta.**
 
-| Área | Estado na versão 0.1.0 |
+| Área | Estado na versão 0.2.0 |
 | :--- | :--- |
 | Chuva, Portugal continental | pronta: 278 concelhos (Iberia01), nível A (140) ou B (138) |
 | Chuva, Espanha e Baleares | pronta: 8 041 municípios (Iberia01), nível A (321), B (7 719) ou C (1) |
@@ -64,13 +70,22 @@ qualidade A, B ou C (A 461, B 7 857, C 119; as ilhas são C); Lisboa, Porto e Fu
 
 **Limitações conhecidas.** A licença da E-OBS é de uso não comercial em investigação e educação e omissa quanto à
 redistribuição; o diálogo do CAPEX não tem campo para o preço da cisterna (o manual dá o contorno); o espanhol e o
-chinês estão traduzidos em parte. A lista completa está nas [notas de lançamento](docs/NOTAS_DE_LANCAMENTO_0.1.0.md)
-e no [histórico de versões](CHANGELOG.md).
+chinês estão traduzidos em parte. A lista completa está nas notas de lançamento da
+[0.2.0](docs/NOTAS_DE_LANCAMENTO_0.2.0.md) e da [0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) e no
+[histórico de versões](CHANGELOG.md).
+
+**O que muda na 0.2.0.** O multicritério passa de sete critérios em três eixos a oito critérios em quatro eixos,
+e o volume que ele escolhe pode mudar: no tutorial de Lisboa, com pesos iguais, o TOPSIS passa de 5 000 L para
+3 000 L. Projetos e estudos com três pesos de eixo continuam a abrir (o eixo estrutural recebe a média dos três);
+sete pesos ou sete partes são recusados. Para reproduzir um estudo feito com a 0.1.0, use a 0.1.0.
 
 ## Instalar e executar
 
-**Instalador para Windows.** Está no registo do Zenodo, DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916)
-(`Triton_Iberica_Setup_v0.1.0.exe`, com a soma de verificação SHA-256 em `SHA256SUMS.txt`; sem assinatura digital). Não precisa de Python.
+**Instalador para Windows.** Os registos do Zenodo estão reunidos no DOI de todas as versões,
+[10.5281/zenodo.23402915](https://doi.org/10.5281/zenodo.23402915), que aponta sempre para a mais recente. O da 0.1.0
+(`Triton_Iberica_Setup_v0.1.0.exe`, com a soma de verificação SHA-256 em `SHA256SUMS.txt`; sem assinatura digital) está
+no registo da 0.1.0, DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916); a 0.2.0 ainda não tem
+registo próprio. Não precisa de Python.
 
 **A partir do código** (Python 3.12 ou superior):
 
@@ -100,12 +115,12 @@ Os testes da interface Qt só são recolhidos com o PySide6 instalado.
 
 ## Instalador
 
-O instalador não faz parte deste repositório: sai no registo do Zenodo (DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916)). A base `data/portugal_eobs.db` (6 MB) gera-se com `scripts/dados/compilar_base_eobs_portugal.py` a partir dos ficheiros E-OBS e CAOP (cerca de 3 GB, fora do Git; ver `scripts/dados/LEIA.md`).
+O instalador não faz parte deste repositório: sai no registo do Zenodo de cada versão (DOI de todas as versões [10.5281/zenodo.23402915](https://doi.org/10.5281/zenodo.23402915)). A base `data/portugal_eobs.db` (6 MB) gera-se com `scripts/dados/compilar_base_eobs_portugal.py` a partir dos ficheiros E-OBS e CAOP (cerca de 3 GB, fora do Git; ver `scripts/dados/LEIA.md`).
 
 ## Documentação
 
 - [Manual do utilizador (PDF)](manual/Manual-Triton.pdf)
-- [Notas de lançamento 0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) e [histórico de versões](CHANGELOG.md)
+- Notas de lançamento da [0.2.0](docs/NOTAS_DE_LANCAMENTO_0.2.0.md) e da [0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md), e [histórico de versões](CHANGELOG.md)
 - [Guia de início](docs/en/getting-started.md), [modelo](docs/en/model.md), [verificação](docs/en/verification.md)
   e [as três edições](docs/en/editions.md) (em inglês)
 - [Dados da edição: fontes, licenças, cobertura e qualidade](docs/DADOS.md)
@@ -138,7 +153,10 @@ Código-fonte disponível para fins académicos, com todos os direitos reservado
 A citação do programa é obrigatória em qualquer trabalho que use os seus resultados. Os termos completos estão em
 [`LICENSE.md`](LICENSE.md); a forma de citar, em [`CITATION.cff`](CITATION.cff):
 
-> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações.* Universidade Federal de Santa Catarina (UFSC).
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações* (versão 0.2.0). Universidade Federal de Santa Catarina (UFSC). https://doi.org/10.5281/zenodo.23402915
+
+O DOI 10.5281/zenodo.23402915 reúne todas as versões e aponta sempre para a mais recente; a 0.2.0 ainda não tem DOI
+próprio. A 0.1.0 tem o DOI 10.5281/zenodo.23402916.
 
 A chuva da Península e das Baleares vem do Iberia01 v1.0 (Herrera et al., 2019, doi:10.5194/essd-11-1947-2019):
 *Contains information from Iberia01, made available under the Open Database License (ODbL 1.0).* A chuva das
@@ -151,4 +169,4 @@ projeto UERRA (https://www.uerra.eu), do Copernicus Climate Change Service e dos
 em [`docs/DADOS.md`](docs/DADOS.md).
 
 Desenvolvido pelo Grupo de Pesquisa em Ambientes Sustentáveis, Universidade Federal de Santa Catarina.
-Dúvidas e erros: igor.catao@posgrad.ufsc.br.
+Dúvidas e erros: igorcmvaz@gmail.com.

@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> Correções, bugs e versionamento. Versão 0.1.0. Florianópolis: Universidade Federal de Santa
+> Correções, bugs e versionamento. Versão 0.2.0. Florianópolis: Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -73,7 +73,7 @@ Tabela 3 — Divergência em três configurações sucessivamente mais controlad
 
 Tabela 4 — Atribuição da divergência às suas três fontes
 
-Tabela 5 — Variáveis da Equação 53
+Tabela 5 — Variáveis da Equação 54
 
 Tabela 6 — Mensagens de validação física da entrada e a providência de cada uma
 
@@ -97,17 +97,19 @@ Tabela 15 — Avisos que não interrompem o cálculo e precisam constar do estud
 
 Tabela 16 — **Tabela 99** — Panorama das versões publicadas
 
-Tabela 17 — Correções que alteram resultados na versão 0.1.0
+Tabela 17 — Correções que alteram resultados na versão 0.2.0
 
-Tabela 18 — Itens previstos para a versão 1.1
+Tabela 18 — Correções que alteram resultados na versão 0.1.0
 
-Tabela 19 — Itens previstos para a versão 2.0
+Tabela 19 — Itens previstos para a versão 1.1
+
+Tabela 20 — Itens previstos para a versão 2.0
 
 ---
 
 ## Lista de equações
 
-Equação 53 — Transformação da série para emular o Netuno 4
+Equação 54 — Transformação da série para emular o Netuno 4
 
 ---
 
@@ -246,11 +248,11 @@ não alterando o código do balanço hídrico. A distinção metodológica é es
 divergência com um código modificado validaria um programa que não é o distribuído ao
 usuário, o que anularia o propósito da verificação.
 
-```equacao:emulacao:53
+```equacao:emulacao:54
 P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
 ```
 
-<!-- tabela: **Tabela 5** — Variáveis da Equação 53 -->
+<!-- tabela: **Tabela 5** — Variáveis da Equação 54 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `P′` | precipitação transformada, a ser fornecida ao Triton | mm |
@@ -414,10 +416,23 @@ e não o passo originalmente pedido.
 <!-- tabela: **Tabela 12** — Mensagens de erro da decisão multicritério e a providência de cada uma -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
-| «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» | quantidade de pesos diferente de 3 ou de 7 | informe um peso por eixo ou um por critério |
+| «Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural) ou 8 pesos de critério TOPSIS» | quantidade de pesos diferente de 4 ou de 8 (três também valem; veja a linha seguinte) | informe um peso por eixo ou um por critério |
+| «O multicritério da versão 0.2.0 tem oito critérios em quatro eixos, e os sete valores do modelo anterior não correspondem a eles. Informe quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito pesos de critério.» | sete pesos ou sete partes no eixo, do modelo até a 0.1.0 | refaça a ponderação nos quatro eixos; três pesos de eixo antigos continuam aceitos, e o eixo estrutural recebe a média dos três |
+| «Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios).» | quantidade de partes no eixo diferente de 8 | informe uma parte por critério, na ordem da seção 2.10 (volume O método) |
+| «As partes no eixo devem ser finitas e não negativas.» | parte vazia ou negativa | corrija; parte zero é válida e tira o critério da conta |
+| «Ao menos um critério do eixo … deve ter parte maior que zero.» | todas as partes de um eixo zeradas | dê parte a pelo menos um critério do eixo; para tirar o eixo inteiro, zere o peso do eixo |
 | «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; peso zero é válido e exclui o critério |
 | «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos zerados | atribua peso a pelo menos um critério |
 | «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente payback sem retorno | confira a alternativa indicada antes de decidir |
+
+Na linha de comando, `--weights` e `--criterion-shares` conferem os valores antes de calcular, com
+mensagem própria: «Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito de
+critério, não negativos e separados por vírgula; a soma deve ser positiva. Os sete pesos do modelo
+anterior à 0.2.0 não valem mais.» e «Use oito partes não negativas separadas por vírgula (uma por
+critério TOPSIS), com ao menos uma positiva em cada dimensão», seguida da causa. No estudo
+declarativo, as mensagens começam pelo campo: «analise.pesos: quatro números não negativos (técnico,
+econômico, ambiental, estrutural) ou oito (um por critério), com soma positiva» e
+«analise.partes_no_eixo:», seguida da causa.
 
 ---
 
@@ -459,6 +474,7 @@ interpretação do número e nenhuma delas fica evidente no resultado isolado.
 | estrutura tarifária incompleta | a tabela do município tem lacuna; confira contra a resolução |
 | passo de varredura ajustado | o passo efetivo difere do pedido |
 | extrapolação de preço com R² baixo | o volume está fora da tabela de preços e a regressão não é confiável |
+| alerta de carga do peso do sistema | a carga passou de um limiar de atenção do programa, e não de norma: 500 kg na cobertura com o reservatório cheio, reservatório superior acima de 1.500 L, cisterna acima de 3.000 kg a seco ou cisterna de concreto; confirme a carga com o projeto estrutural ou de fundações (seção 2.10 (volume O método)) |
 
 ---
 
@@ -519,7 +535,7 @@ história do programa.
 
 A versão 0.1.0 é a primeira versão pública do Triton e é um beta: o programa ainda está em
 desenvolvimento, e a numeração sobe (0.2.0, 0.3.0 e assim por diante) até a 1.0.0, que será a
-primeira versão oficial. Os números anteriores à 0.1.0 foram de desenvolvimento, e nunca chegaram
+primeira versão oficial. A versão atual, descrita neste manual, é a 0.2.0, também beta. Os números anteriores à 0.1.0 foram de desenvolvimento, e nunca chegaram
 a circular; nenhum estudo foi feito com eles.
 
 ---
@@ -545,16 +561,72 @@ mesmo registro.
 <!-- tabela: **Tabela 16** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
+| **0.2.0** (beta) | 11 de novembro de 2026 | O multicritério passa de sete critérios em três eixos a oito critérios em quatro eixos (técnico, econômico, ambiental e estrutural), com o custo nivelado da água e a massa a seco do sistema, e a linha de comando passa a calcular o peso do sistema. | 1 |
 | **0.1.0** (beta) | 5 de novembro de 2026 | Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com nome próprio para cada edição, com o mesmo repositório e a mesma numeração; a 1.0.0, a primeira oficial, virá depois. | 0 |
 
 ---
 
-### 6.3.3. Versão 0.1.0 (beta) — 5 de novembro de 2026
+### 6.3.3. Versão 0.2.0 (beta) — 11 de novembro de 2026
+
+> **Em uma frase.** O multicritério passa de sete critérios em três eixos a oito critérios em
+> quatro eixos (técnico, econômico, ambiental e estrutural), com o custo nivelado da água e a massa
+> a seco do sistema, e a linha de comando passa a calcular o peso do sistema.
+
+#### 6.3.3.1. Novidades
+
+- **Oito critérios em quatro eixos.** Técnico: confiabilidade volumétrica e eficiência de
+  armazenamento. Econômico: economia financeira líquida (o VPL contra a linha de base sem cisterna),
+  custo nivelado da água (LCOW) e payback descontado. Ambiental: CO₂e de ciclo de vida. Estrutural:
+  massa a seco do sistema e extravasamento anual. No modelo anterior, três critérios (potencial de
+  economia, extravasamento e consumo de água potável) mediam a mesma água economizada; o novo reduz
+  essa colinearidade e leva o peso do sistema à decisão. A seção 2.10 (volume O método) traz a definição de cada um.
+- **Pesos.** Quatro pesos de eixo, 25% cada por padrão, repartidos dentro de cada eixo pelas *partes
+  no eixo* (padrão: partes iguais), ou oito pesos diretos, um por critério. A aba de decisão tem os
+  quatro pesos, os perfis «Equilibrado: 25% em cada eixo» e «Priorizar …» para cada eixo (inclusive
+  «🏗️ Priorizar Leveza e Drenagem») e a linha «Partes no eixo», com o botão «Partes iguais». Na linha
+  de comando, `--weights` (quatro ou oito valores) e `--criterion-shares` (oito valores); no arquivo de
+  projeto, `analysis.topsis_weights` e `analysis.topsis_criterion_shares`; no estudo declarativo,
+  `analise.pesos` e `analise.partes_no_eixo`. Todos os métodos de ordenação ponderam pela mesma regra; o
+  SMAA-VIKOR sorteia oito pesos e informa os pesos centrais agregados nos quatro eixos.
+- **Peso do sistema.** `triton analyze` com `--analysis system_weight` (ou `all`) informa a massa a
+  seco, a carga de água e a carga em operação, em kg e em kN, separadas em subsolo ou nível inferior,
+  cobertura ou nível superior, e prumadas e rede. O texto do terminal, o HTML e o XLSX mostram o bloco
+  (aba `system_weight`, com o resumo do volume escolhido; os valores por volume ficam na aba
+  `alternatives`). Quatro alertas pedem confirmação com o projeto estrutural ou de fundações: mais de
+  500 kg na cobertura com o reservatório cheio, reservatório superior acima de 1.500 L, cisterna acima
+  de 3.000 kg a seco e cisterna de concreto. São limiares de atenção do programa, e não de norma.
+- **Custo nivelado da água.** A análise econômica informa o LCOW: investimento mais o custeio anual
+  descontado, sobre a água de chuva entregue descontada, à mesma taxa e no mesmo horizonte.
+
+#### 6.3.3.2. Correções que alteram resultados
+
+Uma, no multicritério (tabela a seguir). Para reproduzir um estudo feito na 0.1.0, use a 0.1.0, pelo
+DOI daquela versão, 10.5281/zenodo.23402916.
+
+<!-- tabela: **Tabela 17** — Correções que alteram resultados na versão 0.2.0 -->
+| O que foi corrigido | Efeito no resultado |
+| :--- | :--- |
+| Os sete critérios em três eixos (potencial de economia e extravasamento; VPL, payback descontado e TIR; CO₂e e consumo de água potável) dão lugar a oito critérios em quatro eixos, e todos os métodos de ordenação passam a usar a regra de pesos do TOPSIS (antes, o VIKOR sem pesos declarados dava 1/7 a cada critério, e não a mesma parte a cada eixo). | O escore e o volume escolhido de todos os métodos de ordenação, do TOPSIS ao SMAA-VIKOR, mudam. No tutorial desta edição, com pesos iguais, o TOPSIS indicava 4.000 L e passa a indicar 2.000 L. Três pesos de eixo, de projetos e estudos até a 0.1.0, continuam aceitos: o eixo estrutural recebe a média dos três, e pesos iguais continuam iguais. Sete valores, de pesos ou de partes do modelo anterior, são recusados com mensagem (seção 6.2). |
+
+#### 6.3.3.3. Correções que não alteram resultados
+
+Nenhuma.
+
+#### 6.3.3.4. Documentação
+
+O manual descreve os oito critérios, a regra dos pesos e o peso do sistema (seção 2.10 (volume O método)), refaz a
+decisão do tutorial com o modelo novo (seção 4.9 (volume Tutorial)), lista as mensagens novas (seção 6.2) e as
+opções de peso da linha de comando e do estudo declarativo (seção 3.6 (volume Guias de uso) e apêndice F (volume Apêndices)). As
+notas de lançamento estão em `docs/NOTAS_DE_LANCAMENTO_0.2.0.md`.
+
+---
+
+### 6.3.4. Versão 0.1.0 (beta) — 5 de novembro de 2026
 
 > **Em uma frase.** Primeira versão beta do Triton, programa derivado do Netuno 5.0.1, com
 > nome próprio para cada edição, com o mesmo repositório e a mesma numeração; a 1.0.0, a primeira oficial, virá depois.
 
-#### 6.3.3.1. Novidades
+#### 6.3.4.1. Novidades
 
 O Triton é o filho do Netuno. Mantém o motor de simulação, a avaliação de ciclo de vida, a linha de
 tratamento, a decisão multicritério e a modulação probabilística do Netuno 5.0.1, e passa a ser
@@ -589,25 +661,25 @@ operação de Fewkes (φ) como opção em todos os módulos.
 - A licença de reutilização dos portais dos prestadores, a das planilhas do Netuno 4 e a do logotipo do CLIMBra não foram verificadas; a base aberta da ANEEL declara a ODbL e o fator do MCTI/SIRENE, o CC BY-ND 3.0 para o site. Em 25/10/2026 o titular aprovou o uso dos JSON extraídos da ANEEL e do MCTI/SIRENE, com atribuição, e manteve as planilhas do Netuno 4 e o logotipo do CLIMBra, com a autorização dos criadores registada pelo titular (sem documento anexo); ver `docs/DADOS.md`.
 - O metadado `source_article` dentro das 19 partes do CLIMBra ainda diz «art. 48»; o artigo é Scientific Data 10, art. 47. O texto corrigido está no programa e na documentação, e as partes serão regeradas quando houver outra razão.
 
-#### 6.3.3.2. Correções que alteram resultados
+#### 6.3.4.2. Correções que alteram resultados
 
 Nenhuma em relação ao Netuno 5.0.1, de que o Triton 0.1.0 parte.
 
-<!-- tabela: **Tabela 17** — Correções que alteram resultados na versão 0.1.0 -->
+<!-- tabela: **Tabela 18** — Correções que alteram resultados na versão 0.1.0 -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 
-#### 6.3.3.3. Correções que não alteram resultados
+#### 6.3.4.3. Correções que não alteram resultados
 
 O nome, o logo, o pacote (`triton`) e a extensão dos arquivos de projeto (`.triton`) mudaram; o cálculo não.
 
-#### 6.3.3.4. Documentação
+#### 6.3.4.4. Documentação
 
 O manual ganhou as seções «Particularidades de região e país» e «Descrição dos dados e sua qualidade» no apêndice E (volume Apêndices), e o texto sobre a base CLIMBra passou a descrever os 19 bancos por modelo e a origem das séries de exemplo (recortes do CLIMBra, e não do INMET).
 
 ---
 
-### 6.3.4. Como saber se a sua versão tem uma correção
+### 6.3.5. Como saber se a sua versão tem uma correção
 
 O procedimento é direto e não depende de consultar ninguém: abra um dos arquivos de
 exemplo que acompanham o programa, descritos no apêndice J (volume Apêndices), rode-o, e compare o
@@ -622,7 +694,7 @@ uma diferença de versão que precisa ser identificada antes de qualquer estudo.
 
 ---
 
-### 6.3.5. O que declarar num trabalho publicado
+### 6.3.6. O que declarar num trabalho publicado
 
 A boa prática de reprodutibilidade computacional exige que um trabalho identifique de
 modo inequívoco o programa que produziu os resultados. No caso do Triton, quatro
@@ -771,7 +843,7 @@ e Portugal.
 
 ### 6.5.2. Versão 1.1: consolidação e confiabilidade
 
-<!-- tabela: **Tabela 18** — Itens previstos para a versão 1.1 -->
+<!-- tabela: **Tabela 19** — Itens previstos para a versão 1.1 -->
 | Eixo | Item | Método |
 | :--- | :--- | :--- |
 | Edição Internacional | Provedores globais de chuva | Reanálises ERA5-Land e NOAA GHCN-Daily |
@@ -788,7 +860,7 @@ e Portugal.
 
 ### 6.5.3. Versão 2.0: fronteira metodológica
 
-<!-- tabela: **Tabela 19** — Itens previstos para a versão 2.0 -->
+<!-- tabela: **Tabela 20** — Itens previstos para a versão 2.0 -->
 | Eixo | Item | Método |
 | :--- | :--- | :--- |
 | Física do sistema | Passo de tempo horário | Modelo horário com dados de pluviógrafo |

@@ -48,8 +48,11 @@ Step **8. Multi-Criteria Decision** shows, in a single table, each volume of the
 - the TOPSIS score and the SMAA-VIKOR acceptability.
 
 It is the densest way of comparing alternatives the program offers: ten answer columns for
-each volume row. The **decision profile** changes the weights of the dimensions and re-ranks
-the table on the spot. Section {{n:32}} explains the methods behind it.
+each volume row. The ranking itself uses the eight criteria of section {{n:32}}, in four
+dimensions — technical, economic, environmental and structural. The **decision profile** changes
+the four dimension weights (25% each by default, or 70% on one dimension and 10% on each of the
+others), the **Criterion shares** row splits each dimension weight among its criteria, and the
+table is re-ranked on the spot. Section {{n:32}} explains the methods behind it.
 
 ---
 
@@ -132,7 +135,7 @@ command itself documents the assumptions changed.
 | :--- | :--- |
 | `validate` | checks the structure of the project, the rainfall series and the essential assumptions, without simulating |
 | `run` | simulates the project; by default, only the technical analysis |
-| `analyze` | runs the complete chain: technical, economic, environmental and TOPSIS |
+| `analyze` | runs the complete chain: technical, economic, environmental, weight of the system and TOPSIS |
 | `econ` | runs the economic analysis |
 | `init` | creates a template `.triton` project, editable, with the rainfall series referenced or embedded |
 | `init-catalog` | creates a template JSON catalogue of building or climate assumptions |
@@ -145,13 +148,27 @@ command itself documents the assumptions changed.
 | `estudo` | organises, runs and reports batch studies from JSON (`estudo.json`): many buildings per typology, with paper-ready tables |
 
 The subcommands `run`, `analyze` and `econ` accept the same options: `--analysis` chooses the
-analysis (`technical`, `economic`, `environmental`, `topsis` or `all`); `--volume` fixes the
-lower tank volume, in litres; `--rainfall` replaces the project's rainfall series;
-`--set FIELD=VALUE` changes a project field and can be repeated; `--weights` gives the
-technical, economic and environmental TOPSIS weights; `--weight-sensitivity N` draws N weight
-vectors and reports how often each volume wins; `--format` and `--output` set the output
-format and file; and `--seed` fixes the seed of the stochastic analyses, so that the result is
-reproducible.
+analysis (`technical`, `economic`, `environmental`, `system_weight`, `topsis` or `all`); `--volume`
+fixes the lower tank volume, in litres; `--rainfall` replaces the project's rainfall series;
+`--set FIELD=VALUE` changes a project field and can be repeated; `--weights t,e,a,s` gives the
+four TOPSIS dimension weights — technical, economic, environmental and structural — or eight
+weights, one per criterion (three weights, as in version 0.1.0, are still accepted, and the
+structural dimension receives their mean; seven are refused); `--criterion-shares` gives the eight
+criterion shares, in the order reliability, storage efficiency, net saving, LCOW, payback, CO₂, dry
+mass and overflow (default `1,1,1,1,1,1,1,1`); `--weight-sensitivity N` draws N weight vectors and
+reports how often each volume wins; `--format` and `--output` set the output format and file; and
+`--seed` fixes the seed of the stochastic analyses, so that the result is reproducible. In the
+project file, the same weights go in `analysis.topsis_weights` (four or eight values) and the shares
+in `analysis.topsis_criterion_shares` (eight values).
+
+With `--analysis all` (or `system_weight`), `analyze` also reports the **weight of the system**: the
+dry mass, the water load and the operating load, in kg and kN, split into basement or lower level,
+roof or upper level, and risers and network. The HTML report, the spreadsheet (sheet
+`system_weight` for the chosen volume; the values per volume are in the sheet `alternatives`) and
+the terminal text show it. Its warnings are attention thresholds of the program, not limits of any
+standard — 500 kg on the roof with the upper tank full, an upper tank above 1,500 L, a cistern
+above 3,000 kg dry, and any concrete cistern — and each asks you to confirm the load with the
+structural or foundation design.
 
 Applied to the tutorial project, `validate` and `run` look like this (the command line prints
 a confirmation in the language of the program's interface):
@@ -237,6 +254,8 @@ The typologies (`escolar` school, `comercial` commercial, `residencial-unifamili
 The `consolidar` action searches every `resultados.csv` under the given folders (several studies, batches, repeated runs) and writes `consolidado.csv` and `consolidado.md` to the output folder: one row per typology (`grupo`), case and metric, with `n`, minimum, mean, median and maximum of the values of the cases that finished (`status` ok). The unit is part of the group key, so different currencies are never mixed. Numbers have the same format as in `resultados.csv` (decimal point, ten significant digits); the Markdown table follows `--idioma`. If the optional `duckdb` package is installed (optional `analise` extra, not part of the installer), it reads and groups the files; without it the standard library does the same, and the two paths give the same bytes (`--motor csv` forces the second; `--motor duckdb` demands the package).
 
 `estudo run` and `estudo lote` show their progress on the error stream. `--progresso simples` writes one line per case (`[i/N] id: ok (t s)`); `--progresso rich` draws a progress bar and needs the optional `rich` package (optional `cli` extra; without it the program warns once and uses `simples`); the default `auto` uses `rich` only if it is installed and the error stream is a terminal. The result files are identical in bytes in every mode, and `--quiet` turns the progress off.
+
+In the `analise` section, `pesos` takes the four dimension weights or eight criterion weights (three, from studies made up to version 0.1.0, are still accepted) and `partes_no_eixo` the eight criterion shares; a study that declares seven values, from the model of version 0.1.0, is refused at validation.
 
 What each section of `estudo.json` contains, the aliases of the substitutions (catchment area, demand, users, share, tank volume and others) and the output files are in the appendix «Files, folders and formats». The example `examples/estudos/residencial-unifamiliar-exemplo/` runs the tutorial house in New York, London and Cape Town (`new_york.triton`, `london.triton`, `cape_town.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida out\example`.
 

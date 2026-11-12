@@ -99,8 +99,12 @@ method.
 
 - If it came from a sweep: **the marginal-gain threshold adopted**. Without it, «ideal
   volume» means nothing.
-- If it came from multi-criteria: **the weights of the seven criteria** and the method,
-  TOPSIS or SMAA-VIKOR.
+- If it came from multi-criteria: **the four dimension weights and the criterion shares**
+  (or the eight criterion weights) and the method, TOPSIS or SMAA-VIKOR.
+- If the volume adopted is not the one the multi-criteria analysis indicated, **both
+  volumes**, and the criterion that decided.
+- The version of the program: the eight criteria are those of version 0.2.0, and a study
+  made with version 0.1.0 used seven.
 - That the TOPSIS normalisation is a **variant** with a shift by `x − min(x)`.
 
 ### Economic analysis
@@ -135,7 +139,7 @@ method.
 
 For our project, the method would read like this:
 
-> The simulation was carried out in Triton 0.1.0, International Edition, with a daily-step
+> The simulation was carried out in Triton 0.2.0, International Edition, with a daily-step
 > behavioural model (overflow calculated before the demand is withdrawn, with the day's
 > rain available for the day's consumption, an order between YAS and YBS), on a
 > 30-year ERA5 reanalysis precipitation series for New York (10,958 days, mean of 1,125
@@ -144,10 +148,12 @@ For our project, the method would read like this:
 > first flush on every event, subtracted from the daily depth. The total demand adopted
 > was 600 L/day (4 residents, 150 L/person·day), with a fraction suppliable by rainwater
 > of 28%, corresponding to the toilet and the outdoor uses. The 4,000 L volume resulted
-> from the marginal-gain criterion with a 1 %/m³ threshold and was confirmed by a TOPSIS
-> multi-criteria analysis with seven criteria and equal weights across the technical,
-> economic and environmental dimensions, with normalisation in a variant of Hwang and Yoon
-> shifted by x − min(x). The points of use are supplied by pumping to a 1,000 L upper tank,
+> from the marginal-gain criterion with a 1 %/m³ threshold. A TOPSIS multi-criteria
+> analysis with eight criteria in four dimensions (technical, economic, environmental and
+> structural, 25% each, with equal criterion shares), with normalisation in a variant of
+> Hwang and Yoon shifted by x − min(x), indicated 2,000 L instead; 4,000 L was kept for its
+> higher volumetric reliability and lower overflow, at a higher levelised cost of water.
+> The points of use are supplied by pumping to a 1,000 L upper tank,
 > with a 100 L trigger level, a 0.5 hp pump, a manometric head of 12 m and the program's
 > default motor efficiency. The economic analysis used the New York City Water Board
 > tariff in force from 1 July 2026 (a single volumetric water rate and sewer at 159% of

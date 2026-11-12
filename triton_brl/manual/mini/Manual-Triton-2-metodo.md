@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> O método. Versão 0.1.0. Florianópolis: Universidade Federal de Santa
+> O método. Versão 0.2.0. Florianópolis: Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -130,7 +130,7 @@ Figura 22 — Fronteira da avaliação ambiental do programa: (a) processos incl
 
 Figura 23 — Os limiares de redução do consumo de água potável com que o programa enquadra o projeto no LEED v4 (créditos WEc1 e WEc2), no LEED v5 (crédito WEc2, opções 1, 2 e 4), no AQUA-HQE Residencial e no EDGE, na mesma escala
 
-Figura 24 — Escore TOPSIS de cada volume da varredura do projeto do tutorial, de 1 a 20 m³, com cisterna de polietileno e pesos iguais entre os sete critérios; a estrela marca o volume de maior escore
+Figura 24 — Escore TOPSIS de cada volume da varredura do projeto do tutorial, de 1 a 20 m³, com cisterna de polietileno, 25% de peso em cada um dos quatro eixos e partes iguais dentro de cada eixo; a estrela marca o volume de maior escore
 
 Figura 25 — Aceitabilidade de primeiro lugar (b¹) de cada volume candidato, obtida com cinco mil vetores de pesos sorteados no simplex
 
@@ -282,67 +282,71 @@ Tabela 70 — Itens do tema consumo de água do AQUA-HQE Residencial ligados ao 
 
 Tabela 71 — Pontuação do critério 3.6 do Selo Casa Azul + CAIXA conforme a abrangência do uso
 
-Tabela 72 — Os sete critérios de decisão, a direção de preferência e o grupo de cada um
+Tabela 72 — Os oito critérios de decisão, o eixo, a direção de preferência e a definição de cada um no programa
 
 Tabela 73 — Variáveis da Equação 52
 
-Tabela 74 — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial
+Tabela 74 — Variáveis da Equação 53
 
-Tabela 75 — Parâmetros do projeto: identificação
+Tabela 75 — Escore de proximidade TOPSIS com 25% de peso em cada um dos quatro eixos e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de oito pesos sorteados, para os volumes do tutorial
 
-Tabela 76 — Parâmetros do projeto: chuva
+Tabela 76 — Onde se declaram os pesos de eixo e as partes no eixo
 
-Tabela 77 — Parâmetros do projeto: captação
+Tabela 77 — Parâmetros do projeto: identificação
 
-Tabela 78 — Parâmetros do projeto: edificação
+Tabela 78 — Parâmetros do projeto: chuva
 
-Tabela 79 — Parâmetros do projeto: demanda
+Tabela 79 — Parâmetros do projeto: captação
 
-Tabela 80 — Parâmetros do projeto: irrigação
+Tabela 80 — Parâmetros do projeto: edificação
 
-Tabela 81 — Parâmetros do projeto: qualidade da água
+Tabela 81 — Parâmetros do projeto: demanda
 
-Tabela 82 — Parâmetros do projeto: reservatórios
+Tabela 82 — Parâmetros do projeto: irrigação
 
-Tabela 83 — Parâmetros do projeto: motobomba
+Tabela 83 — Parâmetros do projeto: qualidade da água
 
-Tabela 84 — Parâmetros do projeto: tubulação
+Tabela 84 — Parâmetros do projeto: reservatórios
 
-Tabela 85 — Parâmetros do projeto: investimento
+Tabela 85 — Parâmetros do projeto: motobomba
 
-Tabela 86 — Parâmetros do projeto: operação
+Tabela 86 — Parâmetros do projeto: tubulação
 
-Tabela 87 — Parâmetros do projeto: tarifas
+Tabela 87 — Parâmetros do projeto: investimento
 
-Tabela 88 — Parâmetros do projeto: energia
+Tabela 88 — Parâmetros do projeto: operação
 
-Tabela 89 — Parâmetros do projeto: incentivos
+Tabela 89 — Parâmetros do projeto: tarifas
 
-Tabela 90 — Parâmetros do projeto: financeiro
+Tabela 90 — Parâmetros do projeto: energia
 
-Tabela 91 — Parâmetros do projeto: certificações
+Tabela 91 — Parâmetros do projeto: incentivos
 
-Tabela 92 — Parâmetros do projeto: outros
+Tabela 92 — Parâmetros do projeto: financeiro
 
-Tabela 93 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
+Tabela 93 — Parâmetros do projeto: certificações
 
-Tabela 94 — Fatores de emissão dos insumos de tratamento
+Tabela 94 — Parâmetros do projeto: outros
 
-Tabela 95 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
+Tabela 95 — Fatores de emissão dos materiais de reservatório, com massa e fronteira
 
-Tabela 96 — Procedência do fator de emissão do hipoclorito
+Tabela 96 — Fatores de emissão dos insumos de tratamento
 
-Tabela 97 — Conteúdo da base climática nacional
+Tabela 97 — Emissão de fabricação da motobomba por potência, com a massa de catálogo
 
-Tabela 98 — Séries de precipitação de exemplo distribuídas com o programa
+Tabela 98 — Procedência do fator de emissão do hipoclorito
 
-Tabela 99 — Grau de confiança do componente de saneamento do banco tarifário, por macrorregião (banco de 05/10/2026)
+Tabela 99 — Conteúdo da base climática nacional
 
-Tabela 100 — Os conjuntos de dados da Edição Brasil, a fonte e a licença
+Tabela 100 — Séries de precipitação de exemplo distribuídas com o programa
 
-Tabela 101 — Padronização terminológica de água de chuva e água pluvial
+Tabela 101 — Grau de confiança do componente de saneamento do banco tarifário, por macrorregião (banco de 05/10/2026)
 
-Tabela 102 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
+Tabela 102 — Os conjuntos de dados da Edição Brasil, a fonte e a licença
+
+Tabela 103 — Padronização terminológica de água de chuva e água pluvial
+
+Tabela 104 — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial
 
 ---
 
@@ -450,7 +454,9 @@ Equação 50 — Saldo de carbono ao fim da vida útil
 
 Equação 51 — Emissão específica por litro entregue
 
-Equação 52 — Coeficiente de proximidade do TOPSIS
+Equação 52 — Custo nivelado da água
+
+Equação 53 — Coeficiente de proximidade do TOPSIS
 
 ---
 
@@ -3273,27 +3279,60 @@ os esconde atrás de um resultado aparentemente objetivo.
 
 ---
 
-### 2.10.1. Os sete critérios
+### 2.10.1. Os oito critérios
 
-O programa avalia cada volume da varredura segundo sete critérios, agrupados em três
-dimensões. Cada critério tem uma direção de preferência: em uns, mais é melhor; em
-outros, menos.
+O programa avalia cada volume da varredura segundo oito critérios, agrupados em quatro
+eixos: técnico, econômico, ambiental e estrutural. Cada critério tem uma direção de
+preferência: nos de benefício, mais é melhor; nos de custo, menos.
 
-<!-- tabela: **Tabela 72** — Os sete critérios de decisão, a direção de preferência e o grupo de cada um -->
-| # | Critério | Direção | Grupo |
-| :-- | :--- | :--- | :--- |
-| 1 | potencial de economia | maximizar | técnico |
-| 2 | extravasamento | minimizar | técnico |
-| 3 | valor presente líquido | maximizar | econômico |
-| 4 | payback descontado | minimizar | econômico |
-| 5 | taxa interna de retorno | maximizar | econômico |
-| 6 | CO₂e no fim da vida | minimizar | ambiental |
-| 7 | consumo de água potável | minimizar | ambiental |
+<!-- tabela: **Tabela 72** — Os oito critérios de decisão, o eixo, a direção de preferência e a definição de cada um no programa -->
+| # | Eixo | Critério | Direção | Definição no programa |
+| :-- | :--- | :--- | :--- | :--- |
+| 1 | técnico | confiabilidade volumétrica | maximizar | água de chuva consumida ÷ demanda de água de chuva (uso não potável mais irrigação), em % (seção 2.3) |
+| 2 | técnico | eficiência de armazenamento | maximizar | água de chuva entregue por dia ÷ volume da cisterna inferior, em %: a renovação diária do volume, ou o giro anual ÷ 365 |
+| 3 | econômico | economia financeira líquida | maximizar | o VPL do sistema contra a linha de base sem cisterna: a conta de água evitada menos o investimento e o custeio, descontados (seção 2.7) |
+| 4 | econômico | custo nivelado da água (LCOW) | minimizar | Equação 52, na moeda do projeto por m³ |
+| 5 | econômico | payback descontado | minimizar | o tempo para o fluxo de caixa descontado se pagar; quem não se paga recebe o pior payback observado mais 10%, com ao menos um ano a mais e ao menos 20 anos |
+| 6 | ambiental | CO₂e de ciclo de vida | minimizar | o CO₂e líquido no fim da vida útil; negativo é carbono evitado (seção 2.8) |
+| 7 | estrutural | massa a seco do sistema | minimizar | a massa a seco de cisternas, tubos, motobomba e acessórios, da calculadora de peso descrita adiante |
+| 8 | estrutural | extravasamento anual | minimizar | o volume extravasado por ano, em m³ |
+
+Dois eixos puxam em sentidos opostos por dentro, e é de propósito. No técnico, a
+confiabilidade sobe com o volume e a eficiência de armazenamento cai: a cisterna grande
+atende mais dias, mas guarda água que ninguém usa. A eficiência não é a ocupação média da
+cisterna, que em clima úmido sobe com o volume justamente porque a cisterna grande fica
+cheia de água parada. No estrutural, a massa sobe com o volume e o extravasamento cai.
+
+==O modelo de sete critérios, até a versão 0.1.0, contava três vezes a mesma água
+economizada==: o potencial de economia, o extravasamento e o consumo de água potável
+melhoravam todos com o volume, e empurravam a escolha para tanques grandes. O modelo de oito
+critérios reduz essa colinearidade e leva o peso do sistema à decisão.
+
+O custo nivelado da água divide tudo o que o sistema custa por toda a água que ele entrega,
+os dois descontados à mesma taxa e no mesmo horizonte do projeto:
+
+```equacao:lcow:52
+LCOW = ( I + Σ C_t × FD_t ) ÷ ( Σ V_t × FD_t )
+```
+
+<!-- tabela: **Tabela 73** — Variáveis da Equação 52 -->
+| Símbolo | Significado | Unidade |
+| :--- | :--- | :--- |
+| `LCOW` | custo nivelado da água de chuva | R$/m³ |
+| `I` | investimento inicial | R$ |
+| `C_t` | custeio do período `t`: energia, operação e manutenção, cloro e linha de tratamento | R$ |
+| `V_t` | água de chuva entregue no período `t` | m³ |
+| `FD_t` | fator de desconto do período `t`, à taxa mínima de atratividade | adimensional |
+
+O LCOW desenha um U ao longo do volume. Na cisterna pequena, pouca água divide o custo
+fixo da instalação; na grande, o volume acrescentado custa mais do que a água a mais que
+entrega. A alternativa sem cisterna não entrega água e não tem LCOW: recebe o pior valor
+observado mais 10%.
 
 As alternativas submetidas à ordenação são os volumes simulados na varredura, e cada uma
-delas comparece com os sete valores acima, calculados nas seções 2.1, 2.7 e
-2.8. Não há critério inventado nesta etapa: o método apenas ordena o que as
-dimensões anteriores já produziram.
+delas comparece com os oito valores acima, calculados nas seções 2.1, 2.3,
+2.7 e 2.8 e pela calculadora de peso. Não há critério inventado nesta etapa: o
+método apenas ordena o que as dimensões anteriores já produziram.
 
 ---
 
@@ -3301,7 +3340,7 @@ dimensões anteriores já produziram.
 
 O TOPSIS — *Technique for Order of Preference by Similarity to Ideal Solution*, proposto
 por Hwang e Yoon em 1981 — parte de uma ideia geométrica simples. Se cada alternativa é
-um ponto num espaço de sete dimensões, uma por critério, então existem dois pontos de
+um ponto num espaço de oito dimensões, uma por critério, então existem dois pontos de
 referência: a **solução ideal**, composta pelo melhor valor de cada critério, e a
 **solução anti-ideal**, composta pelos piores. Nenhuma alternativa real ocupa qualquer
 um dos dois, porque nenhuma vence em tudo nem perde em tudo, e a melhor alternativa é a
@@ -3313,29 +3352,29 @@ em pontos percentuais e em quilogramas passem a ocupar escalas comparáveis; apl
 pesos declarados; identifica as soluções ideal e anti-ideal; e ordena as alternativas
 pela proximidade relativa ao ideal.
 
-```equacao:topsis:52
+```equacao:topsis:53
 C_i = d_i⁻ ÷ ( d_i⁺ + d_i⁻ )
 ```
 
-<!-- tabela: **Tabela 73** — Variáveis da Equação 52 -->
+<!-- tabela: **Tabela 74** — Variáveis da Equação 53 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `C_i` | coeficiente de proximidade da alternativa `i`, entre 0 e 1 | adimensional |
 | `d_i⁺` | distância euclidiana da alternativa `i` à solução ideal | adimensional |
 | `d_i⁻` | distância euclidiana da alternativa `i` à solução anti-ideal | adimensional |
 
-O coeficiente da Equação 52 valeria 1 para uma alternativa que coincidisse com
+O coeficiente da Equação 53 valeria 1 para uma alternativa que coincidisse com
 a solução ideal em todos os critérios, e 0 para uma que coincidisse com a anti-ideal.
 Como nenhuma alternativa real ocupa esses extremos, o que interessa não é o valor
 absoluto do coeficiente, e sim a ordenação que ele produz.
 
 ---
 
-Aplicado à varredura completa do projeto do tutorial, de 1 a 20 m³ com passo de 1 m³ e pesos iguais, o escore cresce até um máximo interior e decresce nos volumes maiores, em que o investimento e o carbono incorporado passam a pesar mais que o ganho de água (Figura 24). O máximo, em 7 m³, difere dos 5 m³ obtidos na seção 4.9 (volume Tutorial) com seis candidatos, porque o ideal e o anti-ideal são construídos a partir do conjunto avaliado: acrescentar ou retirar alternativas desloca os pontos de referência e pode alterar a ordenação, fenômeno conhecido como inversão de ordem (*rank reversal*).
+Aplicado à varredura completa do projeto do tutorial, de 1 a 20 m³ com passo de 1 m³ e 25% de peso em cada eixo, o escore sobe até 2 m³ e cai daí em diante: além desse volume, o que se perde em eficiência de armazenamento, custo, carbono e massa pesa mais que o ganho de confiabilidade (Figura 24). O máximo, em 2 m³, coincide com o dos sete candidatos da seção 4.9 (volume Tutorial), mas a coincidência não é garantida. O ideal e o anti-ideal são construídos a partir do conjunto avaliado: acrescentar ou retirar alternativas desloca os pontos de referência e pode alterar a ordenação, fenômeno conhecido como inversão de ordem (*rank reversal*). Na varredura, a margem entre 2 e 3 m³ cai a sete milésimos de escore.
 
 ![O escore TOPSIS ao longo da varredura completa](../figuras/fig22_topsis.png)
 
-*Figura 24 — Escore TOPSIS de cada volume da varredura do projeto do tutorial, de 1 a 20 m³, com cisterna de polietileno e pesos iguais entre os sete critérios; a estrela marca o volume de maior escore. Figura gerada pelo próprio programa.*
+*Figura 24 — Escore TOPSIS de cada volume da varredura do projeto do tutorial, de 1 a 20 m³, com cisterna de polietileno, 25% de peso em cada um dos quatro eixos e partes iguais dentro de cada eixo; a estrela marca o volume de maior escore. Figura gerada pelo próprio programa.*
 
 ---
 
@@ -3398,38 +3437,60 @@ de ser formalidade e passa a ser a única informação que sustenta a recomenda�
 
 #### 2.10.4.1. O tutorial, pelos dois métodos
 
-A tabela põe lado a lado o escore TOPSIS, com pesos iguais entre as três dimensões, e a
-aceitabilidade de primeiro lugar do SMAA-VIKOR, com cinco mil vetores de pesos
+A tabela põe lado a lado o escore TOPSIS, com 25% de peso em cada um dos quatro eixos, e
+a aceitabilidade de primeiro lugar do SMAA-VIKOR, com cinco mil vetores de oito pesos
 sorteados, para os sete volumes do tutorial em polietileno com caixa superior.
 
-<!-- tabela: **Tabela 74** — Escore de proximidade TOPSIS com pesos iguais entre as dimensões e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de pesos sorteados, para os volumes do tutorial -->
+<!-- tabela: **Tabela 75** — Escore de proximidade TOPSIS com 25% de peso em cada um dos quatro eixos e aceitabilidade de primeiro lugar no SMAA-VIKOR, com 5.000 vetores de oito pesos sorteados, para os volumes do tutorial -->
 | Volume | Escore TOPSIS | Posição TOPSIS | Primeiro lugar no SMAA-VIKOR, b¹ |
 | ---: | ---: | ---: | ---: |
-| 1 000 L | 0,401 | 7º | 0,0% |
-| 2 000 L | 0,688 | 5º | 5,0% |
-| 3 000 L | 0,800 | 3º | 14,2% |
-| 4 000 L | 0,854 | 1º | 45,4% |
-| 5 000 L | 0,847 | 2º | 34,5% |
-| 8 000 L | 0,693 | 4º | 1,0% |
-| 12 000 L | 0,542 | 6º | 0,0% |
+| 1 000 L | 0,653 | 5º | 5,9% |
+| 2 000 L | 0,773 | 1º | 44,8% |
+| 3 000 L | 0,754 | 2º | 21,6% |
+| 4 000 L | 0,717 | 3º | 21,5% |
+| 5 000 L | 0,668 | 4º | 6,1% |
+| 8 000 L | 0,484 | 6º | 0,1% |
+| 12 000 L | 0,310 | 7º | 0,0% |
 
-Os dois métodos concordam no vencedor, 4.000 L, e discordam na margem. O TOPSIS separa o
-primeiro do segundo colocado por sete milésimos de escore, diferença que nenhum dado de
-entrada sustenta. O SMAA mede essa fragilidade: 4.000 L vence em 45% dos sorteios e
-5.000 L em 35%, e os dois juntos somam quatro de cada cinco sorteios. Pela régua da seção
-3.7 (volume Guias de uso), a recomendação é razoável, e o estudo deve declarar os 5.000 L como segunda
-opção. Os extremos, 1.000 L e 12.000 L, não vencem em sorteio nenhum: nenhuma ponderação
-plausível os recomenda, e isso também é resultado.
+Os dois métodos concordam no vencedor, 2.000 L, e discordam na margem. O TOPSIS separa o
+primeiro do segundo colocado por dezenove milésimos de escore, diferença que nenhum dado de
+entrada sustenta. O SMAA mede essa fragilidade: 2.000 L vencem em 45% dos sorteios, e
+3.000 e 4.000 L em 22% cada. Pela régua da seção 3.7 (volume Guias de uso), a recomendação é razoável, e o
+estudo deve declarar a segunda opção, que aqui são duas, quase empatadas. Os 12.000 L não
+vencem em sorteio nenhum, e os 8.000 L quase nunca: nenhuma ponderação plausível os
+recomenda, e isso também é resultado.
 
 ---
 
 ### 2.10.5. Os pesos
 
-O programa aceita um peso por dimensão, técnica, econômica e ambiental, ou um peso por
-critério. Com pesos iguais entre as dimensões, cada uma vale um terço, repartido
-igualmente entre os seus critérios: os dois técnicos e os dois ambientais valem um sexto
-cada, e os três econômicos, um nono cada. A escolha, contudo, não é técnica: é uma declaração de valor, e por isso
-precisa aparecer no texto do estudo. ==A afirmação «volume ótimo pelo TOPSIS», sem os
+O programa aceita quatro pesos de eixo — técnico, econômico, ambiental e estrutural — ou
+oito pesos de critério. O peso de cada eixo se reparte entre os critérios do eixo pelas
+*partes no eixo*: o critério recebe o peso do eixo vezes a sua parte, dividida pela soma das
+partes do eixo. Só a proporção dentro do eixo importa, e parte zero tira o critério da conta.
+No padrão, cada eixo vale 25% e as partes são iguais: a confiabilidade e a eficiência valem
+12,5% cada; o VPL, o LCOW e o payback, 8,33% cada; o CO₂e, 25%; a massa e o extravasamento,
+12,5% cada. Oito pesos diretos valem como estão, normalizados pela soma.
+
+Três pesos, de projetos e estudos feitos até a 0.1.0, são lidos como técnico, econômico e
+ambiental, e o eixo estrutural recebe a média dos três: pesos iguais continuam iguais. Sete
+valores, de pesos ou de partes do modelo anterior, são recusados com a mensagem da seção
+6.2 (volume Correções, bugs e versionamento), porque não correspondem a nenhum dos oito critérios. TOPSIS, VIKOR e PROMETHEE II
+usam a mesma regra; o SMAA-VIKOR sorteia oito pesos no simplex e informa, para cada volume,
+os pesos centrais agregados nos quatro eixos.
+
+<!-- tabela: **Tabela 76** — Onde se declaram os pesos de eixo e as partes no eixo -->
+| Onde | Pesos de eixo | Partes no eixo |
+| :--- | :--- | :--- |
+| aba de decisão | quatro controles (Técnico, Econômico, Ambiental, Estrutural; 25% cada) e os perfis «Equilibrado» e «Priorizar …», 70% no eixo e 10% em cada outro | a linha «Partes no eixo», com oito controles e o botão «Partes iguais» |
+| linha de comando | `--weights t,e,a,s`, ou oito valores; três ainda valem | `--criterion-shares`, oito valores; padrão 1,1,1,1,1,1,1,1 |
+| arquivo de projeto | `analysis.topsis_weights`, com quatro ou oito valores | `analysis.topsis_criterion_shares`, com oito valores |
+| estudo declarativo | `analise.pesos`, com quatro ou oito valores; três ainda valem | `analise.partes_no_eixo`, com oito valores |
+
+As partes seguem a ordem da tabela de critérios: confiabilidade, eficiência, economia
+líquida, LCOW, payback, CO₂e, massa e extravasamento. A escolha dos pesos, contudo, não é
+técnica: é uma declaração de valor, e por isso precisa aparecer no texto do estudo, com os
+quatro pesos e as partes. ==A afirmação «volume ótimo pelo TOPSIS», sem os
 pesos, é impossível de reproduzir,== e dois estudos com pesos diferentes chegam a volumes
 diferentes sem que nenhum dos dois esteja errado.
 
@@ -3443,9 +3504,13 @@ resultados em vez de um vencedor único, é a conduta mais completa quando não 
 
 ### 2.10.6. Os melhores por critério isolado
 
-Além da ordenação ponderada, o programa identifica o vencedor de cada grupo de critérios
-— técnico, financeiro e ambiental — e reporta os três separadamente. São números que
-valem ser publicados em conjunto, porque cada um responde a uma pergunta legítima e
+Além da ordenação ponderada, o programa identifica o vencedor isolado de três eixos e
+reporta os três separadamente: o técnico, que é o volume ideal pelo limiar de ganho marginal
+da varredura ou, quando os candidatos não trazem esse limiar, como nas tabelas da seção
+4.9 (volume Tutorial), o de maior confiabilidade volumétrica; o financeiro, de menor payback descontado,
+com desempate pelo VPL; e o ambiental, de menor CO₂e de ciclo de vida. O eixo estrutural não
+tem vencedor isolado, porque os seus dois critérios puxam em sentidos opostos. São números
+que valem ser publicados em conjunto, porque cada um responde a uma pergunta legítima e
 diferente.
 
 Quando os três coincidem, a recomendação é forte e a decisão dispensa ponderação. Quando
@@ -3455,7 +3520,31 @@ uma conclusão que ele não tem como avaliar.
 
 ---
 
-### 2.10.7. O que o método não faz
+### 2.10.7. O peso do sistema
+
+A massa a seco do eixo estrutural sai da calculadora de peso do programa, que soma a
+cisterna inferior, o reservatório superior, a motobomba, o quadro e as válvulas do recalque,
+o descarte inicial, os tubos e os acessórios. Ela informa também a carga de água e a carga em
+operação, em kg e em kN, separadas em três posições: subsolo ou nível inferior, cobertura ou
+nível superior, e prumadas e rede.
+
+Na linha de comando, `triton analyze` com `--analysis system_weight` (ou `all`) traz esse
+bloco no texto do terminal, no HTML e no XLSX: a aba `system_weight` guarda o resumo do volume
+escolhido, e os valores de cada volume ficam na aba `alternatives`. No multicritério da aba de
+decisão e da linha de comando, a massa sai da configuração do projeto; nas tabelas deste
+manual, da configuração padrão da calculadora. A diferença entre as duas é uma parcela que
+não muda com o volume, e o TOPSIS, que desloca cada critério pelo mínimo da coluna, chega à
+mesma ordem.
+
+Quatro alertas pedem confirmação com o projeto estrutural ou de fundações: mais de 500 kg na
+cobertura com o reservatório cheio, reservatório superior acima de 1.500 L, cisterna acima de
+3.000 kg a seco e cisterna de concreto. ==São limiares de atenção do programa, e não de
+norma==: o alerta não aprova nem reprova a estrutura, só diz quando vale perguntar a quem a
+calcula.
+
+---
+
+### 2.10.8. O que o método não faz
 
 Convém encerrar pelos limites, porque métodos multicritério são frequentemente
 apresentados com uma autoridade que não têm.
@@ -3493,7 +3582,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2 (volume Enganos,
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 75** — Parâmetros do projeto: identificação -->
+<!-- tabela: **Tabela 77** — Parâmetros do projeto: identificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `project_name` | Novo projeto Triton | — | Exportação, Janela principal, Relatórios | Automação, CAD e BIM, Planilhas, Relatórios |
@@ -3504,7 +3593,7 @@ gravado no arquivo e nunca lido, e está listado na seção 5.2 (volume Enganos,
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 76** — Parâmetros do projeto: chuva -->
+<!-- tabela: **Tabela 78** — Parâmetros do projeto: chuva -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Janela principal, Projeto | Automação, Cenários, Planilhas |
@@ -3525,7 +3614,7 @@ Observações do código:
 
 7 parâmetros.
 
-<!-- tabela: **Tabela 77** — Parâmetros do projeto: captação -->
+<!-- tabela: **Tabela 79** — Parâmetros do projeto: captação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `discard` | — | mm | Ambiental, Documentação, Gráficos, Janela principal, Projeto, Qualidade, Relatórios | ACV, Automação, CAD e BIM, Cenários, ETAP, Planilhas, Relatórios |
@@ -3549,7 +3638,7 @@ Observações do código:
 
 2 parâmetros.
 
-<!-- tabela: **Tabela 78** — Parâmetros do projeto: edificação -->
+<!-- tabela: **Tabela 80** — Parâmetros do projeto: edificação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `num_economias` | 1 | un | Ambiental, Edificação | Automação, Econômico |
@@ -3563,7 +3652,7 @@ Observações do código:
 
 17 parâmetros.
 
-<!-- tabela: **Tabela 79** — Parâmetros do projeto: demanda -->
+<!-- tabela: **Tabela 81** — Parâmetros do projeto: demanda -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | código | — | — |
@@ -3596,7 +3685,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 80** — Parâmetros do projeto: irrigação -->
+<!-- tabela: **Tabela 82** — Parâmetros do projeto: irrigação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `irrigation_liters_per_day` | 0 | L/dia | Ambiental, Edificação, Janela principal, Relatórios | Automação, Balanço diário |
@@ -3615,7 +3704,7 @@ Observações do código:
 
 9 parâmetros.
 
-<!-- tabela: **Tabela 81** — Parâmetros do projeto: qualidade da água -->
+<!-- tabela: **Tabela 83** — Parâmetros do projeto: qualidade da água -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `water_quality_target_class` | classe_1 | — | Ambiental, Qualidade | ACV, Automação, ETAP |
@@ -3639,7 +3728,7 @@ Observações do código:
 
 13 parâmetros.
 
-<!-- tabela: **Tabela 82** — Parâmetros do projeto: reservatórios -->
+<!-- tabela: **Tabela 84** — Parâmetros do projeto: reservatórios -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Ambiental, Assistente da bomba, Caixa superior, Econômico, Exportação, Janela principal, Otimizador, Relatórios, Tarifas e custos, Varredura | Automação, Balanço diário, CAD e BIM, Cenários, Multicritério, Planilhas, Preços |
@@ -3672,7 +3761,7 @@ Observações do código:
 
 18 parâmetros.
 
-<!-- tabela: **Tabela 83** — Parâmetros do projeto: motobomba -->
+<!-- tabela: **Tabela 85** — Parâmetros do projeto: motobomba -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Janela principal, Varredura | Automação, Balanço diário, Cenários, Planilhas |
@@ -3708,7 +3797,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 84** — Parâmetros do projeto: tubulação -->
+<!-- tabela: **Tabela 86** — Parâmetros do projeto: tubulação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Econômico, Tarifas e custos | ACV, Automação |
@@ -3717,7 +3806,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 85** — Parâmetros do projeto: investimento -->
+<!-- tabela: **Tabela 87** — Parâmetros do projeto: investimento -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `cost_labor` | 0 | R$ | Econômico, Tarifas e custos, Varredura | Automação, Econômico |
@@ -3728,7 +3817,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 86** — Parâmetros do projeto: operação -->
+<!-- tabela: **Tabela 88** — Parâmetros do projeto: operação -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
@@ -3737,7 +3826,7 @@ Observações do código:
 
 18 parâmetros.
 
-<!-- tabela: **Tabela 87** — Parâmetros do projeto: tarifas -->
+<!-- tabela: **Tabela 89** — Parâmetros do projeto: tarifas -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | não | — | Projeto | — |
@@ -3776,7 +3865,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 88** — Parâmetros do projeto: energia -->
+<!-- tabela: **Tabela 90** — Parâmetros do projeto: energia -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | SC | — | Janela principal, Projeto, Tarifas e custos | — |
@@ -3793,7 +3882,7 @@ Observações do código:
 
 3 parâmetros.
 
-<!-- tabela: **Tabela 89** — Parâmetros do projeto: incentivos -->
+<!-- tabela: **Tabela 91** — Parâmetros do projeto: incentivos -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `iptu_green_enabled` | não | — | Econômico, Otimizador | Automação, Econômico |
@@ -3809,7 +3898,7 @@ Observações do código:
 
 4 parâmetros.
 
-<!-- tabela: **Tabela 90** — Parâmetros do projeto: financeiro -->
+<!-- tabela: **Tabela 92** — Parâmetros do projeto: financeiro -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `inflation` | 0,2 | % ao mês | Documentação, Econômico, Otimizador, Tarifas e custos, Varredura | Automação, Econômico |
@@ -3827,7 +3916,7 @@ Observações do código:
 
 1 parâmetro.
 
-<!-- tabela: **Tabela 91** — Parâmetros do projeto: certificações -->
+<!-- tabela: **Tabela 93** — Parâmetros do projeto: certificações -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/pessoa·dia | Ambiental | — |
@@ -3836,7 +3925,7 @@ Observações do código:
 
 6 parâmetros.
 
-<!-- tabela: **Tabela 92** — Parâmetros do projeto: outros -->
+<!-- tabela: **Tabela 94** — Parâmetros do projeto: outros -->
 | Parâmetro | Padrão | Unidade | Onde se informa | Quem consome |
 | :--- | ---: | :--- | :--- | :--- |
 | `phi_operation_rule` | — | — | Janela principal, Varredura | Automação, Balanço diário, Planilhas |
@@ -4424,15 +4513,16 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 **Entradas**
 
-- um candidato por volume da varredura, cada um com potencial, extravasamento, VPL, payback descontado, TIR, CO₂ de ciclo de vida e consumo de potável
-- pesos dos sete critérios
+- um candidato por volume da varredura, cada um com confiabilidade volumétrica, eficiência de armazenamento, VPL, custo nivelado da água (LCOW), payback descontado, CO₂ de ciclo de vida, massa a seco do sistema e extravasamento
+- quatro pesos de eixo (técnico, econômico, ambiental, estrutural) e as partes no eixo, ou oito pesos de critério
 
 **Regras**
 
-1. Sete critérios: **maximizar** potencial, VPL e TIR; **minimizar** extravasamento, payback, CO₂ e consumo de potável.
-2. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VPL negativo. É variante deliberada, e precisa ser declarada como variante.
-3. O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.
-4. As condições C1 e C2 de Opricovic não estão implementadas.
+1. Oito critérios em quatro eixos: **maximizar** confiabilidade volumétrica, eficiência de armazenamento e VPL; **minimizar** LCOW, payback, CO₂, massa a seco e extravasamento.
+2. O peso de cada eixo é repartido entre os seus critérios pelas partes no eixo (padrão: partes iguais). Três pesos, de projetos até a 0.1.0, dão ao eixo estrutural a média dos três; sete valores, do modelo anterior, são recusados.
+3. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VPL negativo. É variante deliberada, e precisa ser declarada como variante.
+4. O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.
+5. As condições C1 e C2 de Opricovic não estão implementadas.
 
 **Saídas**
 
@@ -4524,7 +4614,7 @@ de confiança. O detalhamento completo, com as fontes item a item, está em
 
 ### C.1. Materiais de reservatório
 
-<!-- tabela: **Tabela 93** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
+<!-- tabela: **Tabela 95** — Fatores de emissão dos materiais de reservatório, com massa e fronteira -->
 | Material | Massa por m³ útil | Fator | Fronteira |
 | :--- | ---: | ---: | :--- |
 | polietileno de alta densidade | 22 kg/m³ | 1,612 kg CO₂e/kg | berço ao portão |
@@ -4566,7 +4656,7 @@ foi usada.
 
 ### C.4. Insumos de tratamento
 
-<!-- tabela: **Tabela 94** — Fatores de emissão dos insumos de tratamento -->
+<!-- tabela: **Tabela 96** — Fatores de emissão dos insumos de tratamento -->
 | Insumo | Fator |
 | :--- | ---: |
 | hipoclorito de cálcio em pastilha a 65% | 1,72 kg CO₂e/kg de produto |
@@ -4585,7 +4675,7 @@ programa compõe o valor com duas fontes lidas: a massa de cada potência, do ca
 Dancor, e a intensidade de 4,77 kg CO₂e por quilo de bomba, da EPD da Grundfos
 EPD-GRU-20250340-CBA1-EN (2025, módulos A1 a A3).
 
-<!-- tabela: **Tabela 95** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
+<!-- tabela: **Tabela 97** — Emissão de fabricação da motobomba por potência, com a massa de catálogo -->
 | Potência | Massa | Emissão de fabricação |
 | ---: | ---: | ---: |
 | 1/4 CV | 6,1 kg | 29,1 kg CO₂e |
@@ -4610,7 +4700,7 @@ as massas por metro cúbico útil do polietileno, do concreto e do aço inoxidá
 cenários geométricos, e qualquer fator digitado sem fonte. Na revisão de setembro de 2026,
 o último fator de emissão padrão sem procedência, o do hipoclorito, passou a tê-la:
 
-<!-- tabela: **Tabela 96** — Procedência do fator de emissão do hipoclorito -->
+<!-- tabela: **Tabela 98** — Procedência do fator de emissão do hipoclorito -->
 | Etapa | Valor |
 | :--- | :--- |
 | base e modelo | Ecoinvent 3.8, *cutoff* |
@@ -4644,7 +4734,7 @@ o último fator de emissão padrão sem procedência, o do hipoclorito, passou a
 
 ### E.1. O que a base contém
 
-<!-- tabela: **Tabela 97** — Conteúdo da base climática nacional -->
+<!-- tabela: **Tabela 99** — Conteúdo da base climática nacional -->
 | O que a base traz | Quantidade |
 | :--- | ---: |
 | cidades brasileiras | 652 |
@@ -4694,7 +4784,7 @@ Doze séries de exemplo acompanham a instalação, na pasta `data/rainfall` do p
 três para cada uma de quatro cidades. **Cada uma é um recorte do CLIMBra** (um município,
 um modelo e um cenário), e não um registro de pluviômetro:
 
-<!-- tabela: **Tabela 98** — Séries de precipitação de exemplo distribuídas com o programa -->
+<!-- tabela: **Tabela 100** — Séries de precipitação de exemplo distribuídas com o programa -->
 | Cidade | Arquivos |
 | :--- | ---: |
 | Florianópolis | 3 |
@@ -4737,7 +4827,7 @@ A Edição Brasil é a única que traz dados do Brasil, e os traz de ponta a pon
 
 **Confiança tarifária por região.** Cada município tem um grau de confiança, de A a D (apêndice D (volume Apêndices)); o grau do banco acompanha o componente de saneamento. Em 05/10/2026:
 
-<!-- tabela: **Tabela 99** — Grau de confiança do componente de saneamento do banco tarifário, por macrorregião (banco de 05/10/2026) -->
+<!-- tabela: **Tabela 101** — Grau de confiança do componente de saneamento do banco tarifário, por macrorregião (banco de 05/10/2026) -->
 | Região | Municípios | A | B | C |
 | :--- | ---: | ---: | ---: | ---: |
 | Centro-Oeste | 44 | 40 | 4 | 0 |
@@ -4761,7 +4851,7 @@ Os cinco municípios de grau C estão no Tocantins, onde a estrutura tarifária 
 
 Esta seção resume os dados que a edição traz. O inventário completo, com tamanhos, endereços das fontes, licenças e o modo de reproduzir cada item, está em `docs/DADOS.md` do repositório, e os números abaixo são os de lá. Nenhum arquivo rastreado do repositório passa de 50 MiB; o maior é `data/climbra_KACE.db`, com 43,02 MiB.
 
-<!-- tabela: **Tabela 100** — Os conjuntos de dados da Edição Brasil, a fonte e a licença -->
+<!-- tabela: **Tabela 102** — Os conjuntos de dados da Edição Brasil, a fonte e a licença -->
 | Conjunto | O que é | Fonte e licença |
 | :--- | :--- | :--- |
 | Base climática | 19 arquivos SQLite (`climbra_<modelo>.db`), 785,1 MiB no total, 37.164 séries diárias de precipitação | CLIMBra, Ballarin et al. (2023); CC0 1.0 |
@@ -4963,6 +5053,11 @@ EAU.1.5.
 da International Finance Corporation, do Banco Mundial. Mede economia percentual contra
 um caso-base local em três dimensões independentes e exige que cada uma cruze o limiar.
 
+**Eficiência de armazenamento**. Água de chuva entregue por dia dividida pelo volume da
+cisterna inferior, em %: a renovação diária do volume construído. Cai com o volume, e é o
+critério do multicritério que freia o superdimensionamento. Não é a ocupação média da
+cisterna, que em clima úmido sobe com o volume.
+
 **EN** (*Europäische Norm*, norma europeia). Norma publicada pelo Comitê Europeu de
 Normalização. Neste manual, a EN 15978, que define os módulos do ciclo de vida da
 edificação, e a EN 15804, que rege as declarações ambientais de produtos de construção.
@@ -5030,16 +5125,20 @@ cada fluxo e revisão crítica externa, requisitos que uma avaliação de triage
 **JSON** (*JavaScript object notation*). Formato de arquivo de texto estruturado, legível
 por pessoas e por programas. É o formato interno do arquivo `.triton`.
 
-**LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
-de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
-produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em R$/m³. Permite confrontar a viabilidade econômica do sistema diretamente
+**LCOW** (*levelized cost of water*). Custo nivelado da água: o investimento mais o custeio
+anual descontado (energia, operação e manutenção, cloro e linha de tratamento), dividido pela
+água de chuva entregue, descontada à mesma taxa e no mesmo horizonte de análise, em R$/m³.
+É critério do eixo econômico do multicritério. Permite confrontar a viabilidade econômica do sistema diretamente
 com a tarifa da concessionária.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
 ambiental de edificações do *U.S. Green Building Council*, o mais difundido
 internacionalmente. Trata eficiência hídrica na categoria *Water Efficiency*: na versão 4,
 pelos créditos WEc1 e WEc2; na versão 5, pelo crédito WEc2, *Enhanced Water Efficiency*.
+
+**Massa a seco do sistema**. Peso próprio do sistema vazio: cisternas, motobomba, tubos
+e acessórios, pela calculadora de peso do programa. É critério do eixo estrutural do
+multicritério; com a água, dá a carga em operação.
 
 **m.c.a.** Metro de coluna d'água, unidade de pressão equivalente à exercida por uma
 coluna de água de um metro de altura, cerca de 9,81 kPa. É a unidade usual em instalações
@@ -5090,6 +5189,10 @@ em inglês, na íntegra.
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
 pluviais, a NBR 5626, de sistemas prediais de água fria e quente, e a NBR 17094-2, de
 motores de indução.
+
+**Partes no eixo**. Proporção em que o peso de um eixo do multicritério se reparte entre
+os critérios do eixo. Só a razão dentro do eixo importa; o padrão são partes iguais, e parte
+zero tira o critério da conta.
 
 **Payback de carbono**. Tempo para a economia anual líquida de emissões pagar o
 carbono incorporado na fabricação do sistema.
@@ -5212,7 +5315,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 #### G.1.1. 1. Água de Chuva versus Água Pluvial versus «Água da Chuva»
 
-<!-- tabela: **Tabela 101** — Padronização terminológica de água de chuva e água pluvial -->
+<!-- tabela: **Tabela 103** — Padronização terminológica de água de chuva e água pluvial -->
 | Termo | Definição e Contexto de Aplicação | Situação no Triton | Referência |
 | :--- | :--- | :--- | :--- |
 | **Água de chuva** (*rainwater*) | Precipitação atmosférica coletada diretamente na cobertura (telhado/laje impermeabilizada), antes de atingir o solo ou galerias. Refere-se à **fonte hídrica** e ao recurso ambiental. | **Canônico e preferencial** para o recurso captado («aproveitamento de água de chuva», «precipitação de água de chuva»). | ABNT NBR 15527:2019, título e item 3.1. |
@@ -5223,7 +5326,7 @@ As convenções a seguir detalham a distinção de termos correlatos frequenteme
 
 Para evitar ambiguidades matemáticas e conceituais frequentemente encontradas na literatura:
 
-<!-- tabela: **Tabela 102** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
+<!-- tabela: **Tabela 104** — Grandezas fundamentais do balanço hídrico e relações entre fração e potencial -->
 | Grandeza | Símbolo / Código | Definição | Fórmula | Relação / Teto |
 | :--- | :--- | :--- | :--- | :--- |
 | **Fração atendível por água pluvial** | $f$ / `rainwater_share` | Proporção da demanda total da edificação correspondente a pontos de consumo não potável conectáveis ao SAAP. | $f = D_{pl} / D_{tot}$ | Parâmetro de projeto ($0 \le f \le 1$). Constitui o **teto assintótico** de $E_{pot}$. |

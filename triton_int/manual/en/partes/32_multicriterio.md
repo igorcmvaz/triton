@@ -16,34 +16,71 @@ apparently objective result.
 
 ---
 
-## The seven criteria
+## The eight criteria
 
-The program evaluates each volume of the sweep by seven criteria, grouped into three dimensions.
-Each criterion has a direction of preference: in some, more is better; in others, less.
+The program evaluates each volume of the sweep by eight criteria, grouped into four dimensions:
+technical, economic, environmental and structural. Each criterion has a direction of preference:
+in some, more is better; in others, less.
 
-<!-- tabela: The seven decision criteria, the direction of preference and the group of each one -->
-| # | Criterion | Direction | Group |
-| :-- | :--- | :--- | :--- |
-| 1 | saving potential | maximise | technical |
-| 2 | overflow | minimise | technical |
-| 3 | net present value | maximise | economic |
-| 4 | discounted payback | minimise | economic |
-| 5 | internal rate of return | maximise | economic |
-| 6 | CO₂e at end of life | minimise | environmental |
-| 7 | potable water consumption | minimise | environmental |
+Version 0.2.0 replaced the seven criteria in three dimensions of version 0.1.0. Three of the old
+criteria — the saving potential, the potable water consumption and, through the bill, the net
+present value — measured the same water saved, so the same effect was counted three times. The
+new set gives each dimension criteria that pull in different directions, and adds the weight of
+the system.
+
+<!-- tabela: The eight decision criteria, their dimension, the direction of preference and the definition the program uses -->
+| # | Criterion | Dimension | Direction | Definition in the program |
+| :-- | :--- | :--- | :--- | :--- |
+| 1 | volumetric reliability | technical | maximise | rainwater consumed ÷ rainwater demand (non-potable use plus irrigation), in % |
+| 2 | storage efficiency | technical | maximise | rainwater delivered per day ÷ volume of the lower cistern, in %: the daily turnover of the volume, the annual turnover ÷ 365. It falls with the volume and curbs oversizing. It is not the mean occupancy, which rises with the volume in a wet climate because a large cistern stays full of standing water |
+| 3 | net financial savings | economic | maximise | the net present value of the system against the baseline without a cistern: avoided water bill minus investment and running costs, discounted |
+| 4 | levelised cost of water (LCOW) | economic | minimise | Equation {{eq:lcow}}, in the project currency per m³. U-shaped in the volume. The alternative with no cistern receives the worst LCOW observed plus 10% |
+| 5 | discounted payback | economic | minimise | as in version 0.1.0; an alternative that does not pay back receives the worst payback observed plus 10%, at least one year more and at least 20 years |
+| 6 | net life-cycle CO₂e | environmental | minimise | the net CO₂e at the end of the service life (negative = avoided), as in version 0.1.0 |
+| 7 | dry mass of materials | structural | minimise | dry mass of the system from the program's weight calculator (`triton.core.system.system_weight`): cisterns, pipes, pump and fittings |
+| 8 | annual overflow | structural | minimise | volume overflowed per year, in m³/year |
+
+The levelised cost divides everything the system costs over its life by all the rainwater it
+delivers, both discounted at the same rate and over the same horizon as the project:
+
+```equacao:lcow
+LCOW = ( CAPEX + Σ [ OPEX_m ÷ ( 1 + MARR )^m ] ) ÷ Σ [ V_m ÷ ( 1 + MARR )^m ]
+```
+
+| Symbol | Meaning | Unit |
+| :--- | :--- | :--- |
+| `LCOW` | levelised cost of the rainwater delivered | currency/m³ |
+| `CAPEX` | initial investment (section {{n:29}}) | currency |
+| `OPEX_m` | running cost of month `m`: pumping energy, operation and maintenance, chlorine and the treatment line | currency |
+| `V_m` | rainwater delivered in month `m` | m³ |
+| `MARR` | minimum attractive rate of return of the project, per month | dimensionless |
+| `m` | month of the analysis horizon | — |
+
+A small cistern spreads the fixed costs over little water; a large one pays for volume that stands
+idle. Between the two the LCOW reaches a minimum, which is why it does not simply follow the
+investment.
 
 The alternatives submitted to the ranking are the volumes simulated in the sweep, and each of them
-appears with the seven values above, calculated in sections {{n:23}}, {{n:29}} and {{n:30}}. No
-criterion is invented at this stage: the method only ranks what the previous dimensions have
-already produced.
+appears with the eight values above, calculated in sections {{n:23}}, {{n:25}}, {{n:29}} and
+{{n:30}} and by the weight calculator. No criterion is invented at this stage: the method only
+ranks what the previous analyses have already produced.
+
+> **The weight of the system.** `triton analyze … --analysis all` (and `--analysis system_weight`) also
+> reports the dry mass, the water load and the operating load, in kg and kN, split into three
+> positions: basement or lower level, roof or upper level, and risers and network. The HTML
+> report, the spreadsheet (sheet `system_weight`, with the summary of the chosen volume; the values
+> per volume are in the sheet `alternatives`) and the terminal text show the block. Its warnings
+> use attention thresholds of the **program**, not of any standard: 500 kg on the roof with the
+> upper tank full, an upper tank above 1,500 L, a cistern above 3,000 kg dry, and any concrete
+> cistern. Each asks you to confirm the load with the structural or foundation design.
 
 ---
 
 ## TOPSIS
 
 TOPSIS — *Technique for Order of Preference by Similarity to Ideal Solution*, proposed by Hwang and
-Yoon in 1981 — starts from a simple geometric idea. If each alternative is a point in a
-seven-dimensional space, one dimension per criterion, then there are two reference points: the
+Yoon in 1981 — starts from a simple geometric idea. If each alternative is a point in an
+eight-dimensional space, one axis per criterion, then there are two reference points: the
 **ideal solution**, made up of the best value of each criterion, and the **anti-ideal solution**,
 made up of the worst. No real alternative occupies either of them, because none wins at everything
 or loses at everything, and the best alternative is the one that is at the same time closest to
@@ -72,17 +109,17 @@ the ranking it produces.
 
 ---
 
-Applied to a full sweep of the tutorial project (New York) in steps of 1 m³ with equal
-weights, the score rises to an interior maximum and falls at the larger volumes, where the
-investment and the embodied carbon come to weigh more than the gain in water
-({{fig:fig22_topsis}}). The maximum of the full sweep can differ from the volume obtained in
-section {{n:12}} with seven candidates, because the ideal and the anti-ideal are built from the set evaluated: adding
-or removing alternatives shifts the reference points and can change the ranking, a phenomenon known
-as rank reversal.
+Applied to a full sweep of the tutorial project (New York) in steps of 1 m³ with the four
+dimensions weighted equally, the score peaks at a small volume and falls steadily at the larger
+ones, where the investment, the embodied carbon, the idle volume and the mass come to weigh more
+than the gain in water ({{fig:fig22_topsis}}). In this project the peak of the full sweep is the
+volume section {{n:12}} obtained with seven candidates, but that is not guaranteed: the ideal and
+the anti-ideal are built from the set evaluated, so adding or removing alternatives shifts the
+reference points and can change the ranking, a phenomenon known as rank reversal.
 
 ![The TOPSIS score along the full sweep](../figuras/fig22_topsis.png)
 
-*Figure 99 — TOPSIS score of each volume of the sweep of the tutorial project, with a polyethylene cistern and equal weights among the seven criteria; the star marks the volume with the highest score. Figure generated by the program itself.*
+*Figure 99 — TOPSIS score of each volume of the sweep of the tutorial project, with a polyethylene cistern, the four dimensions weighted equally and equal criterion shares; the star marks the volume with the highest score. Figure generated by the program itself.*
 
 ---
 
@@ -143,30 +180,66 @@ only information supporting the recommendation ({{fig:fig23_smaa}}).
 
 ### The tutorial, by both methods
 
-The table sets side by side the TOPSIS score, with equal weights among the three dimensions, and
-the SMAA-VIKOR first-rank acceptability, with five thousand weight vectors drawn, for the seven
-volumes of the tutorial in polyethylene with an upper tank. The investment and the carbon behind
-the scores are the illustrative figures of section {{n:10}} (illustrative, not a market price).
+The table sets side by side the TOPSIS score, with the four dimensions weighted equally, and the
+SMAA-VIKOR first-rank acceptability, with five thousand vectors of eight criterion weights drawn,
+for the seven volumes of the tutorial in polyethylene with an upper tank. The investment and the
+carbon behind the scores are the illustrative figures of section {{n:10}} (illustrative, not a
+market price).
 
 <!-- inclui: _tabelas/cap32_decisao.md -->
 
-The two methods agree on the winner, 4,000 L, and disagree on the margin. TOPSIS separates first
-from second place by fourteen thousandths of score, a difference no input data supports. SMAA measures
-that fragility: 4,000 L wins in 46% of the draws, 3,000 L in 27% and 5,000 L in 22%, and the three
-together account for nineteen out of every twenty draws. By the yardstick of section {{n:20}}, the
-recommendation is reasonable, and the study should declare 5,000 L, the TOPSIS runner-up, and 3,000 L
-as the alternatives. The extremes, 1,000 L and
-12,000 L, win in no draw at all: no plausible weighting recommends them, and that is also a result.
+The two methods agree on the winner, 2,000 L, and disagree on the margin. TOPSIS separates first
+from second place, 3,000 L, by under two hundredths of score, a difference no input data supports.
+SMAA measures that fragility: 2,000 L wins in 39.2% of the draws, 3,000 L in 25.0%, 4,000 L in 18.2%
+and 1,000 L in 14.2%. By the yardstick of section {{n:20}}, a winner below 40% is a choice that
+depends on the weights, and the study should say so and declare 3,000 L and 4,000 L as the
+alternatives. The largest volumes, 8,000 L and 12,000 L, win in almost no draw: no plausible
+weighting recommends them, and that is also a result.
 
 ---
 
 ## The weights
 
-The program accepts one weight per dimension, technical, economic and environmental, or one weight
-per criterion. With equal weights among the dimensions, each is worth a third, shared equally among
-its criteria: the two technical and the two environmental ones are worth a sixth each, and the
-three economic ones, a ninth each. The choice, however, is not technical: it is a statement of
-value, and therefore needs to appear in the text of the study. ==The statement «optimal volume by
+The program takes four dimension weights — technical, economic, environmental and structural, 25%
+each by default — and shares each one among the criteria of its dimension by the **criterion
+shares**. The shares are equal by default; only the proportion within the dimension matters, and a
+share of zero removes the criterion from the calculation. With the default, each technical and
+each structural criterion weighs 12.5%, each economic criterion 8.33% and the single environmental
+criterion 25%.
+
+```equacao:pesos_dos_criterios
+w_j = W_d × s_j ÷ Σ s_k
+```
+
+| Symbol | Meaning | Unit |
+| :--- | :--- | :--- |
+| `w_j` | weight of criterion `j` in TOPSIS, VIKOR and PROMETHEE II | dimensionless |
+| `W_d` | weight of the dimension `d` of criterion `j`, normalised so that the four add up to 1 | dimensionless |
+| `s_j` | share of criterion `j` within its dimension | dimensionless |
+| `Σ s_k` | sum of the shares of the criteria `k` of the same dimension | dimensionless |
+
+Eight direct weights, one per criterion, are also accepted, and then the shares do not apply.
+VIKOR, PROMETHEE II and TOPSIS use the same rule. SMAA-VIKOR draws eight weights on the simplex,
+and gives the central weight vector of each volume per criterion and summed into the four dimensions.
+
+**Weights from version 0.1.0.** Three weights — technical, economic, environmental, as projects and
+studies up to version 0.1.0 declared them — are still accepted: the structural dimension receives
+their mean, so equal weights stay equal. Seven values, weights or shares of the old seven-criterion
+model, are refused with a message that says why (section {{n:37}}): they cannot be mapped onto the
+eight new criteria. To reproduce a study made with version 0.1.0, use version 0.1.0.
+
+**Where the weights are declared.**
+
+<!-- tabela: Where the multi-criteria weights and the criterion shares are declared -->
+| Where | Dimension weights | Criterion shares |
+| :--- | :--- | :--- |
+| decision tab | four boxes, Technical, Economic, Environmental and Structural, 25% each; the profiles «Balanced: 25% on each dimension» and «Prioritise …» with 70% on one dimension and 10% on each of the others | the «Criterion shares» row, with eight boxes (Reliability, Efficiency, Savings, LCOW, Payback, CO₂, Mass, Overflow) and the «Equal shares» button |
+| command line | `--weights t,e,a,s`, or eight values; three are still accepted | `--criterion-shares` with eight values, default `1,1,1,1,1,1,1,1` |
+| project file | `analysis.topsis_weights`, four or eight values | `analysis.topsis_criterion_shares`, eight values |
+| declarative study | `analise.pesos`, four or eight values; three are still accepted | `analise.partes_no_eixo`, eight values |
+
+The choice of weights, however, is not technical: it is a statement of value, and therefore needs to
+appear in the text of the study, with the four dimension weights and the criterion shares. ==The statement «optimal volume by
 TOPSIS», without the weights, is impossible to reproduce,== and two studies with different weights
 reach different volumes without either of them being wrong.
 
@@ -180,8 +253,10 @@ most complete course when there is no consensus.
 
 ## The best by each criterion alone
 
-Besides the weighted ranking, the program identifies the winner of each group of criteria —
-technical, financial and environmental — and reports the three separately. They are numbers worth
+Besides the weighted ranking, the program identifies the winner of the technical, financial and
+environmental dimensions taken alone — the most reliable volume, the one with the shortest payback
+(ties broken by the net saving) and the one with the lowest life-cycle carbon — and reports the three
+separately. They are numbers worth
 publishing together, because each one answers a legitimate and different question.
 
 When the three coincide, the recommendation is strong and the decision needs no weighting. When

@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> Modulação probabilística. Versão 0.1.0. Florianópolis: Universidade Federal de Santa
+> Modulação probabilística. Versão 0.2.0. Florianópolis: Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -96,7 +96,7 @@ Tabela 8 — Sensibilidade no volume escolhido: força e sentido da influência 
 
 Tabela 9 — Parte da variância do resultado explicada por cada variável sorteada no exemplo do tutorial, no volume escolhido (η²; as variáveis contínuas agrupadas em decis)
 
-Tabela 10 — Resultados no volume escolhido (5 m³) por modelo climático sorteado, em Florianópolis no cenário SSP2-4.5 de 2025 a 2054, com as três variáveis de consumo também sorteadas
+Tabela 10 — Resultados no volume escolhido (2 m³) por modelo climático sorteado, em Florianópolis no cenário SSP2-4.5 de 2025 a 2054, com as três variáveis de consumo também sorteadas
 
 Tabela 11 — Parte da variância do resultado explicada por cada fonte de incerteza no exemplo dos modelos climáticos, no volume escolhido (η²; as variáveis contínuas agrupadas em decis)
 
@@ -320,8 +320,8 @@ anos de série (Silva e Ghisi, 2016; seção 3.6 (volume Guias de uso), subcoman
 
 A ferramenta fica no fim da barra lateral, em **13. Modulação Probabilística**, nas duas
 edições. Ela parte do estudo que as etapas 1 a 4 descrevem — a mesma configuração que o
-programa grava no arquivo `.triton` —, com os pesos do TOPSIS e as premissas ambientais da
-tela. Sem série de chuva carregada, a ferramenta avisa e não roda. Para começar, abra o
+programa grava no arquivo `.triton` —, com os pesos do TOPSIS (os quatro pesos de eixo e as partes no eixo) e as premissas
+ambientais da tela. Sem série de chuva carregada, a ferramenta avisa e não roda. Para começar, abra o
 caso `10_modulacao_tutorial.triton` ou o `11_modulacao_climbra.triton` (apêndice J): os
 dois chegam com a ferramenta montada, e basta clicar em **Simular**.
 
@@ -423,10 +423,10 @@ variação e os percentis das realizações.
 <!-- tabela: **Tabela 5** — Resultados no volume escolhido pelo estudo do tutorial: estudo determinístico e estatísticas das realizações -->
 | Grandeza | Estudo determinístico | Média | Desvio-padrão | CV (%) | P5 | P50 | P95 |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Economia de água potável (%) | 27,1 | 27,0 | 4,5 | 16,8 | 19,1 | 27,1 | 34,6 |
-| VPL (R$) | 5.926 | 3.379 | 13.583 | 402,0 | -20.104 | 3.589 | 25.514 |
-| Payback descontado (anos) | 12,2 | 10,6 | 4,1 | 38,7 | 4,7 | 10,2 | 17,9 |
-| Saldo de CO₂ no ciclo de vida (kg) | 76 | 60 | 108 | 179,1 | -109 | 60 | 249 |
+| Economia de água potável (%) | 25,0 | 25,0 | 4,1 | 16,5 | 18,1 | 25,0 | 31,8 |
+| VPL (R$) | 5.079 | 2.480 | 11.525 | 464,7 | -18.760 | 3.122 | 20.105 |
+| Payback descontado (anos) | 12,3 | 10,9 | 4,0 | 36,9 | 4,9 | 10,5 | 18,2 |
+| Saldo de CO₂ no ciclo de vida (kg) | 120 | 103 | 86 | 83,3 | -39 | 108 | 247 |
 
 Duas leituras importam. A primeira é a **largura**: o intervalo entre P5 e P95 contém 90%
 das realizações e é o número que deve acompanhar o resultado publicado. A segunda é a
@@ -441,8 +441,8 @@ realizações em que isso acontece, e a tela diz quantas foram.
 <!-- tabela: **Tabela 6** — Probabilidades no volume escolhido, com o intervalo de confiança de 95% de Wilson -->
 | Evento | Probabilidade (%) | IC 95%, limite inferior (%) | IC 95%, limite superior (%) |
 | :--- | ---: | ---: | ---: |
-| o investimento se paga (VPL > 0) | 61,8 | 58,7 | 64,8 |
-| o saldo de CO₂ no ciclo de vida é positivo | 69,7 | 66,8 | 72,5 |
+| o investimento se paga (VPL > 0) | 63,0 | 60,0 | 65,9 |
+| o saldo de CO₂ no ciclo de vida é positivo | 87,5 | 85,3 | 89,4 |
 
 A probabilidade de o investimento se pagar é a proporção de realizações com valor presente
 líquido positivo. O intervalo de confiança de 95% ao lado é o de Wilson (1927), adequado a amostras pequenas e a proporções perto de 0% ou de 100%. Ele
@@ -473,15 +473,12 @@ se paga aparece como «nenhum se paga» na coluna econômica.
 <!-- tabela: **Tabela 7** — Frequência com que cada volume é escolhido nas realizações do exemplo, por critério (%) -->
 | Volume (m³) | Ideal técnico | Ótimo econômico (payback) | Vencedor TOPSIS |
 | :--- | ---: | ---: | ---: |
-| 1 | 0 | 0 | 2 |
-| 2 | 4 | 14 | 22 |
-| 3 | 34 | 10 | 14 |
-| 4 | 40 | 36 | 22 |
-| 5 | 20 | 3 | 22 |
-| 6 | 3 | 0 | 12 |
-| 7 | 0 | 0 | 5 |
-| 8 | 0 | 0 | 1 |
-| 9 | 0 | 0 | 0 |
+| 1 | 0 | 0 | 49 |
+| 2 | 4 | 14 | 50 |
+| 3 | 34 | 10 | 1 |
+| 4 | 40 | 36 | 0 |
+| 5 | 20 | 3 | 0 |
+| 6 | 3 | 0 | 0 |
 | nenhum se paga | 0 | 37 | 0 |
 
 ![A frequência com que cada volume é escolhido no exemplo do tutorial](../figuras/fig54_modulacao_frequencia.png)
@@ -504,12 +501,12 @@ distorcido por realizações extremas.
 <!-- tabela: **Tabela 8** — Sensibilidade no volume escolhido: força e sentido da influência de cada variável sorteada sobre os resultados do tutorial -->
 | Variável | ρ com a economia | ρ com o VPL | ρ com o saldo de CO₂ |
 | :--- | ---: | ---: | ---: |
-| Número de pessoas | -0,15 | 0,70 | 0,70 |
-| Consumo per capita | -0,12 | 0,49 | 0,47 |
-| Fração não potável interna | 0,95 | 0,35 | 0,49 |
-| Fator das tarifas de água e esgoto | 0,03 | 0,23 | 0,04 |
-| Fator do investimento | -0,05 | -0,08 | 0,04 |
-| Fator da chuva | 0,08 | 0,01 | 0,03 |
+| Número de pessoas | -0,35 | 0,69 | 0,69 |
+| Consumo per capita | -0,26 | 0,48 | 0,47 |
+| Fração não potável interna | 0,84 | 0,34 | 0,49 |
+| Fator das tarifas de água e esgoto | 0,01 | 0,26 | 0,04 |
+| Fator do investimento | -0,06 | -0,08 | 0,04 |
+| Fator da chuva | 0,11 | 0,02 | 0,06 |
 
 ![A sensibilidade no volume escolhido no exemplo do tutorial](../figuras/fig55_modulacao_sensibilidade.png)
 
@@ -517,7 +514,7 @@ distorcido por realizações extremas.
 
 O exemplo mostra um efeito que a análise de uma premissa por vez não deixa ver. A fração não
 potável é a variável que mais move a economia **percentual**, porque define a demanda que a
-água de chuva pode atender. O número de pessoas e o per capita movem pouco a porcentagem —
+água de chuva pode atender. O número de pessoas e o per capita movem menos a porcentagem —
 e no sentido contrário, porque aumentam o consumo total —, mas são os que mais movem o
 valor presente líquido: mais consumo empurra a conta para as faixas caras da tarifa
 progressiva, e cada metro cúbico poupado passa a valer mais.
@@ -534,17 +531,17 @@ próprios valores. O η² estima o índice de sensibilidade de primeira ordem (S
 <!-- tabela: **Tabela 9** — Parte da variância do resultado explicada por cada variável sorteada no exemplo do tutorial, no volume escolhido (η²; as variáveis contínuas agrupadas em decis) -->
 | Fonte de incerteza | η² da economia | η² do VPL | η² do saldo de CO₂ |
 | :--- | ---: | ---: | ---: |
-| Número de pessoas | 0,04 | 0,53 | 0,50 |
-| Consumo per capita | 0,02 | 0,27 | 0,25 |
-| Fração não potável interna | 0,89 | 0,10 | 0,23 |
+| Número de pessoas | 0,13 | 0,54 | 0,52 |
+| Consumo per capita | 0,08 | 0,26 | 0,24 |
+| Fração não potável interna | 0,72 | 0,09 | 0,23 |
 | Fator das tarifas de água e esgoto | 0,01 | 0,05 | 0,01 |
 | Fator do investimento | 0,01 | 0,01 | 0,01 |
 | Fator da chuva | 0,02 | 0,01 | 0,01 |
-| Soma | 0,99 | 0,96 | 1,01 |
+| Soma | 0,97 | 0,96 | 1,02 |
 
 No exemplo, o número de pessoas e o per capita respondem por cerca de quatro quintos da
-variância do valor presente líquido, e a fração não potável por quase toda a variância da
-economia. Os três fatores econômicos e o da chuva, com as larguras de triagem, pesam pouco.
+variância do valor presente líquido, e a fração não potável por cerca de três quartos da
+variância da economia. Os três fatores econômicos e o da chuva, com as larguras de triagem, pesam pouco.
 Com variáveis independentes e efeitos aditivos, a soma fica perto de 1; uma soma bem abaixo
 de 1 indica interação entre as variáveis. A estimativa por classes tem um pequeno viés para
 cima, da ordem do número de classes dividido pelo número de realizações, e por isso a soma
@@ -562,43 +559,43 @@ base CLIMBra para Florianópolis, cenário
 SSP2-4.5, de 2025 a 2054, os dezenove modelos marcados e as três variáveis de consumo
 sorteadas, em mil realizações e semente 42.
 
-<!-- tabela: **Tabela 10** — Resultados no volume escolhido (5 m³) por modelo climático sorteado, em Florianópolis no cenário SSP2-4.5 de 2025 a 2054, com as três variáveis de consumo também sorteadas -->
+<!-- tabela: **Tabela 10** — Resultados no volume escolhido (2 m³) por modelo climático sorteado, em Florianópolis no cenário SSP2-4.5 de 2025 a 2054, com as três variáveis de consumo também sorteadas -->
 | Modelo | Realizações | Chuva média (mm/ano) | Economia média (%) | VPL médio (R$) | P(VPL > 0) (%) |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| HadGEM3-GC31-LL | 52 | 2.093 | 27,7 | 5.319 | 67 |
-| KACE | 52 | 2.050 | 28,8 | 2.680 | 62 |
-| ACCESS-ESM1-5 | 52 | 2.040 | 27,5 | 9.997 | 75 |
-| ACCESS-CM2 | 56 | 1.998 | 27,3 | 2.551 | 55 |
-| MPI-ESM1-2 | 49 | 1.980 | 27,7 | 3.525 | 65 |
-| TaiESM1 | 45 | 1.934 | 28,1 | 1.105 | 56 |
-| EC-EARTH3 | 66 | 1.896 | 26,2 | 1.987 | 62 |
-| UKESM1-0-LL | 44 | 1.884 | 27,7 | 5.162 | 70 |
-| KIOST | 47 | 1.883 | 24,9 | 1.320 | 66 |
-| GFDL-CM4 | 60 | 1.848 | 26,9 | 4.999 | 68 |
-| INM-CM5 | 62 | 1.844 | 27,7 | 7.654 | 76 |
-| MRI-ESM2 | 47 | 1.842 | 29,3 | 4.955 | 62 |
-| GFDL-ESM4 | 50 | 1.836 | 26,3 | 2.793 | 64 |
-| IPSL-CM6A-LR | 55 | 1.798 | 24,9 | -1.353 | 51 |
-| CMCC-ESM2 | 53 | 1.776 | 26,7 | 623 | 57 |
-| MIROC6 | 59 | 1.772 | 26,0 | 2.118 | 54 |
-| INM-CM4 | 43 | 1.756 | 26,4 | 1.525 | 58 |
-| NESM3 | 59 | 1.728 | 27,8 | 1.659 | 59 |
-| NorESM2-MM | 49 | 1.644 | 26,8 | 1.119 | 65 |
+| HadGEM3-GC31-LL | 52 | 2.093 | 25,4 | 4.348 | 71 |
+| KACE | 52 | 2.050 | 26,9 | 2.403 | 69 |
+| ACCESS-ESM1-5 | 52 | 2.040 | 25,0 | 8.107 | 81 |
+| ACCESS-CM2 | 56 | 1.998 | 25,2 | 1.903 | 62 |
+| MPI-ESM1-2 | 49 | 1.980 | 25,4 | 2.928 | 69 |
+| TaiESM1 | 45 | 1.934 | 25,5 | 266 | 58 |
+| EC-EARTH3 | 66 | 1.896 | 23,6 | 868 | 62 |
+| UKESM1-0-LL | 44 | 1.884 | 25,4 | 4.111 | 75 |
+| KIOST | 47 | 1.883 | 22,2 | 343 | 66 |
+| GFDL-CM4 | 60 | 1.848 | 24,4 | 3.829 | 70 |
+| INM-CM5 | 62 | 1.844 | 24,9 | 6.052 | 77 |
+| MRI-ESM2 | 47 | 1.842 | 26,3 | 3.529 | 66 |
+| GFDL-ESM4 | 50 | 1.836 | 23,7 | 1.553 | 64 |
+| IPSL-CM6A-LR | 55 | 1.798 | 22,3 | -1.979 | 45 |
+| CMCC-ESM2 | 53 | 1.776 | 24,1 | -307 | 60 |
+| MIROC6 | 59 | 1.772 | 23,7 | 1.213 | 56 |
+| INM-CM4 | 43 | 1.756 | 23,9 | 845 | 60 |
+| NESM3 | 59 | 1.728 | 24,6 | 14 | 61 |
+| NorESM2-MM | 49 | 1.644 | 23,9 | -185 | 69 |
 
 <!-- tabela: **Tabela 11** — Parte da variância do resultado explicada por cada fonte de incerteza no exemplo dos modelos climáticos, no volume escolhido (η²; as variáveis contínuas agrupadas em decis) -->
 | Fonte de incerteza | η² da economia | η² do VPL | η² do saldo de CO₂ |
 | :--- | ---: | ---: | ---: |
-| Número de pessoas | 0,03 | 0,56 | 0,50 |
-| Consumo per capita | 0,02 | 0,28 | 0,25 |
-| Fração não potável interna | 0,89 | 0,10 | 0,23 |
-| Modelo climático | 0,06 | 0,04 | 0,04 |
-| Soma | 0,99 | 0,98 | 1,02 |
+| Número de pessoas | 0,14 | 0,58 | 0,51 |
+| Consumo per capita | 0,08 | 0,27 | 0,24 |
+| Fração não potável interna | 0,68 | 0,09 | 0,23 |
+| Modelo climático | 0,08 | 0,05 | 0,07 |
+| Soma | 0,97 | 0,99 | 1,04 |
 
 Os modelos discordam em mais de um quarto da chuva anual, e ainda assim o modelo explica só
 uma pequena parte da variância. Em Florianópolis, a chuva sobra para uma cisterna desse
 porte: o que limita a economia é a demanda que a água de chuva pode atender, e não a chuva
 que chega. Com cerca de cinquenta realizações por modelo, o erro-padrão do VPL médio de
-cada um é da ordem de R$ 1.900, e as diferenças entre as médias da tabela são, na maior
+cada um é da ordem de R$ 1.500, e as diferenças entre as médias da tabela são, na maior
 parte, ruído do sorteio do consumo. O η² separa as duas coisas; ler a tabela modelo a
 modelo, sem ele, levaria a atribuir ao clima o que é efeito da ocupação. Num clima mais seco,
 ou numa cisterna maior, o peso do modelo pode ser outro, e a tabela o mostra.
@@ -874,6 +871,11 @@ EAU.1.5.
 da International Finance Corporation, do Banco Mundial. Mede economia percentual contra
 um caso-base local em três dimensões independentes e exige que cada uma cruze o limiar.
 
+**Eficiência de armazenamento**. Água de chuva entregue por dia dividida pelo volume da
+cisterna inferior, em %: a renovação diária do volume construído. Cai com o volume, e é o
+critério do multicritério que freia o superdimensionamento. Não é a ocupação média da
+cisterna, que em clima úmido sobe com o volume.
+
 **EN** (*Europäische Norm*, norma europeia). Norma publicada pelo Comitê Europeu de
 Normalização. Neste manual, a EN 15978, que define os módulos do ciclo de vida da
 edificação, e a EN 15804, que rege as declarações ambientais de produtos de construção.
@@ -941,16 +943,20 @@ cada fluxo e revisão crítica externa, requisitos que uma avaliação de triage
 **JSON** (*JavaScript object notation*). Formato de arquivo de texto estruturado, legível
 por pessoas e por programas. É o formato interno do arquivo `.triton`.
 
-**LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
-de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
-produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em R$/m³. Permite confrontar a viabilidade econômica do sistema diretamente
+**LCOW** (*levelized cost of water*). Custo nivelado da água: o investimento mais o custeio
+anual descontado (energia, operação e manutenção, cloro e linha de tratamento), dividido pela
+água de chuva entregue, descontada à mesma taxa e no mesmo horizonte de análise, em R$/m³.
+É critério do eixo econômico do multicritério. Permite confrontar a viabilidade econômica do sistema diretamente
 com a tarifa da concessionária.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
 ambiental de edificações do *U.S. Green Building Council*, o mais difundido
 internacionalmente. Trata eficiência hídrica na categoria *Water Efficiency*: na versão 4,
 pelos créditos WEc1 e WEc2; na versão 5, pelo crédito WEc2, *Enhanced Water Efficiency*.
+
+**Massa a seco do sistema**. Peso próprio do sistema vazio: cisternas, motobomba, tubos
+e acessórios, pela calculadora de peso do programa. É critério do eixo estrutural do
+multicritério; com a água, dá a carga em operação.
 
 **m.c.a.** Metro de coluna d'água, unidade de pressão equivalente à exercida por uma
 coluna de água de um metro de altura, cerca de 9,81 kPa. É a unidade usual em instalações
@@ -1001,6 +1007,10 @@ em inglês, na íntegra.
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
 pluviais, a NBR 5626, de sistemas prediais de água fria e quente, e a NBR 17094-2, de
 motores de indução.
+
+**Partes no eixo**. Proporção em que o peso de um eixo do multicritério se reparte entre
+os critérios do eixo. Só a razão dentro do eixo importa; o padrão são partes iguais, e parte
+zero tira o critério da conta.
 
 **Payback de carbono**. Tempo para a economia anual líquida de emissões pagar o
 carbono incorporado na fabricação do sistema.

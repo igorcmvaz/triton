@@ -160,7 +160,7 @@ recomendação em sentido diferente.
 São três critérios e três respostas distintas para a mesma pergunta, e nenhuma delas é
 mais legítima que as outras em abstrato. É por essa razão que o tutorial não se encerra
 aqui: as seções {{n:10}} e {{n:11}} acrescentam respectivamente o dinheiro e o carbono à
-análise, e a seção {{n:12}} põe as três dimensões na mesma mesa, com pesos declarados,
+análise, e a seção {{n:12}} põe os quatro eixos na mesma mesa, com pesos declarados,
 para chegar a um volume de compromisso que se possa defender.
 
 > **O engano mais comum, e está na seção {{n:33}}.** Publicar o volume de maior economia

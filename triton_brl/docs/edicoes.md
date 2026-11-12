@@ -1,8 +1,8 @@
 # As três edições: Brasil (BRL), International (INT) e Ibérica (IBE)
 
 O Triton sai em três edições a partir do **mesmo código**. O motor de cálculo — balanço
-diário, descarte inicial, coeficientes de escoamento, análise econômica, ACV, TOPSIS — é
-um só. O que separa as edições são **dados nacionais**: a Brasil traz os brasileiros
+diário, descarte inicial, coeficientes de escoamento, análise econômica, ACV, peso do
+sistema, TOPSIS de oito critérios em quatro eixos — é um só. O que separa as edições são **dados nacionais**: a Brasil traz os brasileiros
 auditados; a International é o núcleo neutro, em que o usuário informa os dados do país do
 projeto; a Portugal parte do núcleo neutro, fala português de Portugal, trabalha em euros e
 recebe os dados portugueses — precipitação por concelho e tarifários das entidades gestoras —

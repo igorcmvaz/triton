@@ -1,8 +1,8 @@
 # The three editions: Brazil (BRL), International (INT) and Ibérica (IBE)
 
 Triton ships in three editions built from **the same code**. The calculation engine —
-daily balance, first flush, runoff coefficients, economic analysis, LCA, TOPSIS — is a
-single one. What separates the editions is **national data**: the Brazil Edition carries
+daily balance, first flush, runoff coefficients, economic analysis, LCA, system weight,
+eight-criterion TOPSIS — is a single one. What separates the editions is **national data**: the Brazil Edition carries
 the Brazilian data, audited; the International Edition is the neutral core, in which the
 user enters the data of the project's country; the Iberian Edition starts from the neutral
 core, speaks European Portuguese, works in euros and receives Portuguese data — rainfall by
@@ -104,7 +104,7 @@ without being listed in this table.
 | manuals in the package | Portuguese and English | Portuguese and English | Portuguese and English |
 
 
-The installer is published in the Zenodo record (DOI 10.5281/zenodo.23402916); the packaging tools are not in the repository.
+The installer is published in the Zenodo record (DOI 10.5281/zenodo.23402915, which covers every version and resolves to the latest; 0.1.0 is DOI 10.5281/zenodo.23402916); the packaging tools are not in the repository.
 
 ---
 

@@ -2,7 +2,7 @@
 
 O Triton sai em edições a partir do **mesmo código**: Brasil (BRL), International (INT) e
 Ibérica (IBE). O motor de cálculo — balanço diário, descarte inicial, coeficientes de
-escoamento, análise económica, ACV, TOPSIS — é um só. O que separa as edições são os
+escoamento, análise económica, ACV, peso do sistema, multicritério de oito critérios em quatro eixos — é um só. O que separa as edições são os
 **dados nacionais**. A Edição Ibérica parte do núcleo neutro, está em português de Portugal,
 trabalha em euros e traz dados de Portugal e de Espanha: precipitação diária por município
 (Iberia01, ODbL; ERA5 nas ilhas, nível C; E-OBS opcional no Continente), os tarifários de Lisboa,
@@ -99,13 +99,13 @@ outras e na CLI.
 | :--- | :--- |
 | ponto de entrada | `main.py` em `triton_ibe` |
 | pasta | `dist/Triton_IBE/`, `Triton_IBE.exe` |
-| instalador | `Triton_IBE_Setup_0_1_0.exe` (`/DEdition=IBE`) |
+| instalador | `Triton_IBE_Setup_<versão>.exe` (`/DEdition=IBE`); o da 0.1.0 é `Triton_IBE_Setup_0_1_0.exe` |
 | pasta de instalação | `Triton IBE` |
 | associação dos `.triton` | desmarcada |
 | base E-OBS de Portugal (`data/portugal_eobs.db`, ~6 MB, no git) | embutida; a compilação para se faltar |
 | fontes brutas de Portugal (`data/portugal/fontes`, ~3 GB, fora do git) | retiradas |
 
-O instalador sai no registro do Zenodo (DOI 10.5281/zenodo.23402916); as ferramentas de empacotamento não ficam no repositório.
+O instalador sai no registo do Zenodo de cada versão: o DOI de todas as versões, 10.5281/zenodo.23402915, aponta sempre para a mais recente; o da 0.1.0 é 10.5281/zenodo.23402916, e a 0.2.0 ainda não tem DOI próprio. As ferramentas de empacotamento não ficam no repositório.
 
 ---
 

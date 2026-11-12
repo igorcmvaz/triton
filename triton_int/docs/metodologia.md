@@ -190,21 +190,30 @@ publica massa por potência.
 
 ## 8. TOPSIS e novo diagnóstico da concessão
 
-São **sete** os critérios avaliados, quatro de benefício e três de custo:
+Desde a versão 0.2.0 são **oito** critérios em **quatro eixos**, três de benefício e cinco de custo
+(ordem de `triton.core.topsis.CRITERION_KEYS`):
 
-| Critério | Sentido |
-| :--- | :--- |
-| Potencial de economia de água potável | benefício |
-| Extravasamento | custo |
-| Valor presente líquido | benefício |
-| Payback descontado | custo |
-| Taxa interna de retorno | benefício |
-| CO₂ de ciclo de vida | custo |
-| Água potável consumida | custo |
+| Eixo | Critério | Sentido | Definição no programa |
+| :--- | :--- | :--- | :--- |
+| técnico | confiabilidade volumétrica | benefício | água de chuva consumida ÷ demanda de água de chuva (uso não potável + irrigação), em % |
+| técnico | eficiência de armazenamento | benefício | água de chuva entregue por dia ÷ volume da cisterna inferior, em % (giro anual ÷ 365); cai com o volume e freia o superdimensionamento; não é a ocupação média |
+| econômico | economia financeira líquida | benefício | VPL do sistema contra a linha de base sem cisterna |
+| econômico | custo nivelado da água (LCOW) | custo | (investimento + Σ custeio anual descontado: energia, O&M, cloro, ETAP) ÷ Σ água de chuva entregue descontada, à mesma taxa e no mesmo horizonte do projeto; a alternativa sem cisterna recebe o pior LCOW observado + 10% |
+| econômico | payback descontado | custo | quem não se paga recebe o pior observado + 10% (ao menos +1 ano e ao menos 20 anos) |
+| ambiental | CO₂e líquido de ciclo de vida | custo | CO₂e líquido no fim da vida útil (negativo = evitado) |
+| estrutural | massa a seco dos materiais | custo | massa a seco de cisternas, tubos, bomba e acessórios (`triton.core.system.system_weight`) |
+| estrutural | extravasamento anual | custo | volume extravasado por ano, em m³/ano |
 
-> Esta seção já descreveu **três** critérios — água pluvial consumida,
-> VPL e CO₂e líquido evitado. O motor (`triton/core/topsis.py`) já usava sete; a
-> documentação é que estava defasada.
+> Até a versão 0.1.0 eram sete critérios em três eixos (potencial de economia, extravasamento,
+> VPL, payback descontado, TIR, CO₂ de ciclo de vida e água potável consumida), e três deles
+> mediam a mesma água economizada.
+
+**Pesos.** Quatro pesos de eixo `W_e` (técnico, econômico, ambiental, estrutural; 25% cada por
+padrão), repartidos dentro de cada eixo pelas partes no eixo `p_j` (padrão: partes iguais):
+`w_j = W_e · p_j / Σ_{k∈e} p_k`. Também se aceitam oito pesos diretos, um por critério. Três pesos
+(projetos e estudos de até a 0.1.0): o eixo estrutural recebe a média dos três, de modo que pesos
+iguais continuam iguais. Sete valores (pesos ou partes do modelo anterior) são recusados. VIKOR,
+PROMETHEE II e TOPSIS usam a mesma regra; o SMAA-VIKOR sorteia oito pesos no simplex.
 
 Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo pior valor observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
 
@@ -215,11 +224,12 @@ O VIKOR implementado em `triton/core/mcdm_methods.py` calcula `S`, `R` e `Q` con
 Além do escore agregado, o programa calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
 
 ```text
-gapij = [max(xj) − xij] / [max(xj) − min(xj)]
+gapij = [max(xj) − xij] / [max(xj) − min(xj)]    (critério de benefício)
+gapij = [xij − min(xj)] / [max(xj) − min(xj)]    (critério de custo)
 proximidadeij = 1 − gapij
 ```
 
-No gráfico, 100% significa o melhor resultado observado naquele critério e 0% o pior. Os valores são invertidos, não o sentido do eixo Y: maior proximidade permanece visualmente mais alta. A segunda sub-aba permite distinguir um vencedor próximo dos três ótimos de uma concessão com perdas relevantes em um ou mais eixos. TOPSIS é sensível aos pesos e ao conjunto de alternativas; use a análise de sensibilidade e não interprete o ranking como verdade física.
+No gráfico, 100% significa o melhor resultado observado naquele critério e 0% o pior. Os valores são invertidos, não o sentido do eixo Y: maior proximidade permanece visualmente mais alta. A segunda sub-aba permite distinguir um vencedor próximo dos ótimos de todos os eixos de uma concessão com perdas relevantes em um ou mais eixos. TOPSIS é sensível aos pesos e ao conjunto de alternativas; use a análise de sensibilidade e não interprete o ranking como verdade física.
 
 ## 9. Reprodutibilidade e validação
 

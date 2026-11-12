@@ -27,11 +27,13 @@ python -m triton.cli init .\project.triton --rainfall data\rainfall\NewYork.csv 
 # 2. Validate the file before calculating.
 python -m triton.cli validate .\project.triton
 
-# 3. Run the technical, economic, LCA and TOPSIS analyses, with an auditable result.
+# 3. Run the technical, economic, LCA, system-weight and TOPSIS analyses, with an auditable result.
 python -m triton.cli analyze .\project.triton --analysis all --format json --output .\out\result.json
 ```
 
-The `run` command runs the technical water balance. `analyze --analysis all` applies, to every volume of the sweep, the technical balance, the economic analysis, the environmental balance and the TOPSIS ranking, so every choice uses the same simulated alternatives.
+The `run` command runs the technical water balance. `analyze --analysis all` applies, to every volume of the sweep, the technical balance, the economic analysis, the environmental balance, the weight of the system and the TOPSIS ranking, so every choice uses the same simulated alternatives.
+
+**Weight of the system.** `--analysis all` (and `--analysis system_weight`) reports `system_weight`: the dry mass, the water load and the operating load, in kg and kN, split into basement or lower level, roof or upper level, and risers and network. The HTML report, the XLSX (sheet `system_weight` with the summary of the chosen volume; the values per volume are in the sheet `alternatives`) and the terminal text show the block. Its warnings are attention thresholds of the program, not limits of any standard — 500 kg on the roof with the upper tank full, an upper tank above 1,500 L, a cistern above 3,000 kg dry, and any concrete cistern — and ask for a check by the structural or foundation design.
 
 ## Most-used commands
 
@@ -39,14 +41,15 @@ The `run` command runs the technical water balance. `analyze --analysis all` app
 | --- | --- |
 | Simulate one volume | `python -m triton.cli run .\project.triton --volume 5000 --analysis all` |
 | Change assumptions without editing the project | `python -m triton.cli analyze .\project.triton --set area=150 --set rainwater_share=0.5` |
-| Set the TOPSIS weights | `python -m triton.cli analyze .\project.triton --analysis topsis --weights 0.40,0.35,0.25` |
+| Set the TOPSIS weights | `python -m triton.cli analyze .\project.triton --analysis topsis --weights 0.40,0.30,0.20,0.10` |
+| Set the criterion shares | `python -m triton.cli analyze .\project.triton --analysis topsis --criterion-shares 1,0,1,1,1,1,1,1` |
 | Test the robustness of the weights | `python -m triton.cli analyze .\project.triton --analysis topsis --weight-sensitivity 1000 --seed 42 --format json --output .\out\weights.json` |
 | Propagate uncertainty | `python -m triton.cli uncertainty .\project.triton --samples 1000 --rainfall-cv 10 --demand-cv 15 --capex-cv 20 --format json --output .\out\monte-carlo.json` |
 | Produce HTML or XLSX | Replace `--format json` with `html` or `xlsx` and give `--output` |
 | Run a scenario spreadsheet | `python -m triton.cli batch .\scenarios.xlsx --base .\project.triton --analysis all --format xlsx --output .\out\batch.xlsx` |
 | Combine several projects and rainfall series | `python -m triton.cli matrix-projects --projects .\projects --rainfall-dir .\rainfall --recursive --output-dir .\out\matrix` |
 
-The `--weights` values are, in this order: technical, economic and environmental. The CLI normalises their sum. The general outputs accept `text`, `json`, `csv`, `html` and `xlsx`; `uncertainty` accepts `text`, `json` and `csv`. Structured formats need `--output`. XLSX needs `pandas` and `openpyxl`.
+The multi-criteria decision of version 0.2.0 has eight criteria in four dimensions. `--weights` takes four dimension weights, in this order: technical, economic, environmental and structural (default 0.25 each), or eight criterion weights; the CLI normalises their sum. Three weights, as in projects of version 0.1.0, are still accepted, and the structural dimension receives their mean; seven are refused. `--criterion-shares` takes eight shares, one per criterion, in the order volumetric reliability, storage efficiency, net financial savings, LCOW, payback, life-cycle CO₂, dry mass and annual overflow (default `1,1,1,1,1,1,1,1`); each dimension weight is shared among its criteria in proportion to them, and a share of zero removes the criterion. In the project file the same values go in `analysis.topsis_weights` (four or eight) and `analysis.topsis_criterion_shares` (eight). The general outputs accept `text`, `json`, `csv`, `html` and `xlsx`; `uncertainty` accepts `text`, `json` and `csv`. Structured formats need `--output`. XLSX needs `pandas` and `openpyxl`.
 
 `--set FIELD=VALUE` can be repeated and changes the assumption for that run only. Record the full command in the study protocol, because the source file stays unchanged.
 
@@ -127,7 +130,7 @@ The `consolidar` action searches every `resultados.csv` under the given folders 
 | `padroes` | `substituicoes` (substitutions) and `clima` (climate) applied to every case; what a case declares wins over the default |
 | `casos` | list; each case has `id`, `nome` (name), `grupo` (group; by default the typology), `projeto` (another `.triton` for this case), `clima` and `substituicoes` |
 | `clima` | `arquivo` (daily rainfall series, CSV), `data_inicio` (dd/mm/yyyy), `nome` and `fonte` (labels that go into the provenance) |
-| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` or `all`), `volume` (`otimo_tecnico` technical optimum, `topsis` or a volume in litres), `pesos` (TOPSIS weights) and `semente` (seed) |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` or `all`), `volume` (`otimo_tecnico` technical optimum, `topsis`, `smaa_vikor` or a volume in litres), `pesos` (four dimension weights — technical, economic, environmental, structural — or eight criterion weights; three, from studies up to version 0.1.0, are still accepted and seven are refused), `partes_no_eixo` (eight criterion shares) and `semente` (seed) |
 | `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (one integer or one per metric), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar` (thousands separator), `legenda` (caption) and `orientacao` (`casos_nas_linhas` or `metricas_nas_linhas`) |
 
 Keys that start with `_` are comments and the program ignores them. An empty field, `null` or «XX» means «to be filled in»: the validation refuses it and says where it is. An unknown key is an error, with the closest match suggested. `triton estudo esquema` prints the JSON Schema of the file, for completion and checking in an editor.

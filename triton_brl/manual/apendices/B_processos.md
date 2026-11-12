@@ -574,15 +574,16 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 **Entradas**
 
-- um candidato por volume da varredura, cada um com potencial, extravasamento, VPL, payback descontado, TIR, CO₂ de ciclo de vida e consumo de potável
-- pesos dos sete critérios
+- um candidato por volume da varredura, cada um com confiabilidade volumétrica, eficiência de armazenamento, VPL, custo nivelado da água (LCOW), payback descontado, CO₂ de ciclo de vida, massa a seco do sistema e extravasamento
+- quatro pesos de eixo (técnico, econômico, ambiental, estrutural) e as partes no eixo, ou oito pesos de critério
 
 **Regras**
 
-1. Sete critérios: **maximizar** potencial, VPL e TIR; **minimizar** extravasamento, payback, CO₂ e consumo de potável.
-2. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VPL negativo. É variante deliberada, e precisa ser declarada como variante.
-3. O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.
-4. As condições C1 e C2 de Opricovic não estão implementadas.
+1. Oito critérios em quatro eixos: **maximizar** confiabilidade volumétrica, eficiência de armazenamento e VPL; **minimizar** LCOW, payback, CO₂, massa a seco e extravasamento.
+2. O peso de cada eixo é repartido entre os seus critérios pelas partes no eixo (padrão: partes iguais). Três pesos, de projetos até a 0.1.0, dão ao eixo estrutural a média dos três; sete valores, do modelo anterior, são recusados.
+3. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VPL negativo. É variante deliberada, e precisa ser declarada como variante.
+4. O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.
+5. As condições C1 e C2 de Opricovic não estão implementadas.
 
 **Saídas**
 

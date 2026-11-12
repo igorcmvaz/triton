@@ -5,7 +5,7 @@
 > os descobrir por conta própria.
 
 Esta secção deriva do registo de pendências que o grupo de investigação mantém, e reflete o estado
-da versão beta atual, a 0.1.0. Uma limitação sai desta lista quando é efetivamente resolvida, e
+da versão beta atual, a 0.2.0. Uma limitação sai desta lista quando é efetivamente resolvida, e
 não quando deixa de ser mencionada — distinção que parece óbvia e que a documentação dos programas
 científicos muitas vezes não observa.
 
@@ -121,6 +121,14 @@ deve ser lida com a análise de sensibilidade aos pesos ao lado.
 
 **A normalização do TOPSIS é uma variante**, com translação por `x − min(x)`, para admitir um
 valor atual líquido negativo.
+
+**O resultado do TOPSIS depende do conjunto de candidatos.** O ideal e o anti-ideal saem dos
+volumes avaliados: no tutorial, sete candidatos elegem 3 000 L, e a varredura de 1 a 20 m³ elege
+1 000 L (secção {{n:32}}). Declare os candidatos junto com os pesos.
+
+**Os limiares do peso do sistema são do programa**, e não de norma: 500 kg na cobertura com o
+reservatório cheio, 1 500 L de reservatório superior e 3 000 kg de cisterna a seco servem para
+pedir a confirmação do projeto estrutural ou de fundações, e não para a dispensar.
 
 **A atualização das tarifas é uma percentagem única** ao longo de todo o período de análise, o que
 torna frágil a projeção a vinte anos. É a premissa que mais move o resultado económico.

@@ -51,7 +51,8 @@ where it is in the code, what goes into each package — is in
 | **Water quality** | four use classes, a screening treatment train, and the operating cost and energy of disinfection |
 | **Economics** | parametric CAPEX, progressive water and sewerage tariffs for 652 municipalities, ANEEL electricity tariffs, OPEX, NPV, IRR, simple and discounted payback |
 | **Carbon** | screening life-cycle assessment: embodied carbon in materials, operational carbon of pumping and treatment, and the credit of mains water avoided |
-| **Decision** | TOPSIS and SMAA-VIKOR over the candidate capacities, plus placement against LEED v4/v4.1 and LEED v5, EDGE, AQUA-HQE, Selo Casa Azul and GRI 303 |
+| **System weight** | dry mass, water load and operating load (kg and kN) on the lower level, the roof and the pipework, with the software's own load-attention alerts (not limits from any standard) |
+| **Decision** | TOPSIS and SMAA-VIKOR over the candidate capacities on eight criteria in four axes — technical (volumetric reliability, storage efficiency), economic (net financial savings, levelised cost of water, discounted payback), environmental (life-cycle CO₂e) and structural (dry mass, annual overflow) — with four axis weights (25% each by default) split by the criterion shares, plus placement against LEED v4/v4.1 and LEED v5, EDGE, AQUA-HQE, Selo Casa Azul and GRI 303 |
 | **Piping in 3D** | pipe runs organised by the designer from component connection points, with destination checks, gravity slopes and clash detection; 3D plant in DXF, a schematic with real measurements, an orbitable WebGL volumetric model (three.js, PBR materials, Poly Haven HDRI, shadows, animated flow, section by elevation, measuring), glTF and interactive HTML export, and a BIM manifest for Revit |
 
 The three optima — technical, economic and environmental — do not in general coincide.
@@ -120,7 +121,7 @@ series-length analysis, and stochastic daily demand.
 ```bash
 triton init projeto.triton            # create an editable project template
 triton run projeto.triton             # simulate; technical sizing
-triton analyze projeto.triton         # full chain: technical, economic, LCA, TOPSIS
+triton analyze projeto.triton         # full chain: technical, economic, LCA, system weight, TOPSIS
 triton series-length projeto.triton   # how many years of rainfall this project needs
 triton uncertainty projeto.triton     # Monte Carlo over the sizing decision
 ```
@@ -190,8 +191,14 @@ marker; run it with `pytest -m replicacao`.
 If you use Triton in academic work, please cite it as declared in
 [`CITATION.cff`](../../CITATION.cff):
 
-> Vaz, I. C. M., & Ghisi, E. (2026). *Triton* (version 0.1.0) [Computer software].
-> Universidade Federal de Santa Catarina. https://github.com/igorcmvaz/triton
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton* (version 0.2.0) [Computer software].
+> Universidade Federal de Santa Catarina. https://doi.org/10.5281/zenodo.23402915
+
+The DOI 10.5281/zenodo.23402915 covers every version and always resolves to the latest;
+state the version you used. A study made with 0.1.0 cites 0.1.0, DOI
+10.5281/zenodo.23402916, and is reproduced with it: version 0.2.0 replaced the
+seven-criterion multi-criteria model with the eight-criterion one, and the capacity it
+selects changes.
 
 ---
 
@@ -203,7 +210,7 @@ attach the `.triton` project file and the precipitation series that reproduce it
 project file carries every premise, so the two together are enough to reproduce any
 result.
 
-Contact: sustainability@contato.ufsc.br
+Contact: igorcmvaz@gmail.com
 
 ---
 

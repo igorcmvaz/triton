@@ -245,17 +245,28 @@ This is a screening assessment. It is **not** an inventory compliant with ISO 14
 
 ## 8. Multi-criteria decision
 
-Seven criteria, four of benefit and three of cost:
+Eight criteria in four dimensions (version 0.2.0), three of benefit and five of cost:
 
-| Criterion | Sense |
-| :--- | :--- |
-| potable water savings | benefit |
-| overflow | cost |
-| net present value | benefit |
-| discounted payback | cost |
-| internal rate of return | benefit |
-| life-cycle CO₂ | cost |
-| potable water consumed | cost |
+| Dimension | Criterion | Sense | Definition |
+| :--- | :--- | :--- | :--- |
+| technical | volumetric reliability | benefit | rainwater consumed ÷ rainwater demand (non-potable use plus irrigation), % |
+| technical | storage efficiency | benefit | rainwater delivered per day ÷ lower-cistern volume, % (annual turnover ÷ 365); falls with the volume |
+| economic | net financial savings | benefit | NPV of the system against the baseline without a cistern |
+| economic | levelised cost of water (LCOW) | cost | (investment + Σ discounted running cost: energy, O&M, chlorine, treatment line) ÷ Σ discounted rainwater delivered, same rate and horizon as the project; no-cistern alternative: worst LCOW + 10% |
+| economic | discounted payback | cost | no payback: worst observed + 10%, at least +1 year and at least 20 years |
+| environmental | net life-cycle CO₂e | cost | net CO₂e at end of service life (negative = avoided) |
+| structural | dry mass of materials | cost | dry mass of cisterns, pipes, pump and fittings (`triton.core.system.system_weight`) |
+| structural | annual overflow | cost | volume overflowed per year, m³/year |
+
+Version 0.1.0 used seven criteria in three dimensions (potable water savings, overflow, NPV,
+discounted payback, IRR, life-cycle CO₂ and potable water consumed); three of them measured the same
+water saved.
+
+**Weights.** Four dimension weights `W_d` (technical, economic, environmental, structural; 25% each
+by default) are shared among the criteria of each dimension by the criterion shares `s_j` (equal by
+default): `w_j = W_d · s_j / Σ_{k∈d} s_k`. Eight direct criterion weights are also accepted. Three
+weights (projects of version 0.1.0) give the structural dimension their mean; seven values are
+refused. TOPSIS, VIKOR, PROMETHEE II and SMAA-VIKOR use the same rule.
 
 To admit negative values without a conditional correction, each column is translated by
 its worst observed value, `z_ij = x_ij − min(x_j)`, then vector-normalised,
@@ -273,21 +284,22 @@ Tzeng (2004) but **does not apply conditions C1 (acceptable advantage) and C2 (a
 stability)**. The ranking is therefore an ordering by `Q`, not a claim that the leader is
 a stable compromise.
 
-SMAA-VIKOR follows Lahdelma and Salminen (2001), sampling the weight simplex by a
-symmetric Dirichlet. It is an independent NumPy implementation following the design of the
+SMAA-VIKOR follows Lahdelma and Salminen (2001), sampling the simplex of the eight criterion
+weights by a symmetric Dirichlet. It is an independent NumPy implementation following the design of the
 `crispyn` library (A. Bączkiewicz, MIT licence), which serves as a comparison baseline and
 not as the origin of the code.
 
 Alongside the aggregate score the software reports a weight-independent gap:
 
 ```text
-gap_ij       = [max(x_j) − x_ij] / [max(x_j) − min(x_j)]
+gap_ij       = [max(x_j) − x_ij] / [max(x_j) − min(x_j)]    (benefit criterion)
+gap_ij       = [x_ij − min(x_j)] / [max(x_j) − min(x_j)]    (cost criterion)
 proximity_ij = 1 − gap_ij
 ```
 
 so that 100% is the best result observed on that criterion and 0% the worst. This
-separates a winner that is close to all three optima from a compromise that loses heavily
-on one axis. TOPSIS is sensitive to the weights and to the set of alternatives; use the
+separates a winner that is close to the optima of every dimension from a compromise that
+loses heavily on one of them. TOPSIS is sensitive to the weights and to the set of alternatives; use the
 sensitivity analysis, and do not read the ranking as physical truth.
 
 ---

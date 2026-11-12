@@ -47,33 +47,10 @@ MATERIAL = "PEAD"
 
 
 def _candidatos():
-    """Os seis volumes do capítulo multicritério, com os sete critérios."""
-    from triton.core.economic import run_economic_analysis
-    from triton.core.environmental import EnvironmentalConfig, calculate_lca
-    from triton.core.topsis import TopsisCandidate
+    """Os sete volumes do capítulo multicritério, com os oito critérios montados pelo programa."""
+    from gerar_tabelas import candidatos_multicriterio
 
-    serie = _serie()
-    cfg_sim = _config_projeto()
-    cands = []
-    for v in VOLUMES:
-        r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
-                                  **cfg_sim)
-        e = run_economic_analysis(_config_economica(v, MATERIAL), r)
-        from gerar_tabelas import _config_ambiental
-        amb = _config_ambiental(r)
-        amb.lower_material_key = MATERIAL
-        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v),
-            water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
-            capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct,
-            overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years,
-            irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
-    return cands
+    return candidatos_multicriterio(VOLUMES, MATERIAL)
 
 
 # ══════════════════════════════════════════════════════════════════════════════

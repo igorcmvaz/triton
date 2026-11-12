@@ -11,7 +11,8 @@ O Triton é uma aplicação desktop voltada a estudos de viabilidade e apoio ao 
 - Configuração de reservatório superior, motobomba, recalque, energia e OPEX.
 - Avaliação financeira com CAPEX, economia tarifária, VPL, TIR, payback simples e descontado e sensibilidade.
 - ACV simplificada: impactos incorporados, operação, emissões evitadas e balanço de CO2e.
-- TOPSIS para comparar alternativas pelos eixos técnico, econômico e ambiental.
+- TOPSIS para comparar alternativas por oito critérios em quatro eixos: técnico, econômico, ambiental e estrutural (versão 0.2.0).
+- Peso do sistema: massa a seco, carga de água e carga em operação por posição, com limiares de atenção do programa (não de norma).
 - Gráficos interativos, exportação de figuras e relatórios em PDF/HTML.
 - Interface em Português (Brasil), Inglês (US), Espanhol e Chinês simplificado, com temas claro e escuro de alto contraste.
 
@@ -194,8 +195,11 @@ python -m triton.cli analyze .\projeto.triton --analysis all
 # Somente uma alternativa, com saída estruturada para automação
 python -m triton.cli run .\projeto.triton --volume 5000 --analysis all --format json --output .\resultado.json
 
-# Pesos TOPSIS: técnico, econômico, ambiental (a soma é normalizada automaticamente)
-python -m triton.cli analyze .\projeto.triton --analysis topsis --weights 0.40,0.35,0.25
+# Pesos TOPSIS: técnico, econômico, ambiental, estrutural (a soma é normalizada automaticamente)
+python -m triton.cli analyze .\projeto.triton --analysis topsis --weights 0.40,0.30,0.20,0.10
+
+# Partes no eixo: oito valores, um por critério (padrão 1,1,1,1,1,1,1,1)
+python -m triton.cli analyze .\projeto.triton --analysis topsis --criterion-shares 1,0,1,1,1,1,1,1
 
 # Robustez da decisão TOPSIS para combinações distintas de pesos
 python -m triton.cli analyze .\projeto.triton --analysis topsis --weight-sensitivity 1000 --seed 42 --format json --output .\robustez-pesos.json
@@ -204,7 +208,7 @@ python -m triton.cli analyze .\projeto.triton --analysis topsis --weight-sensiti
 python -m triton.cli uncertainty .\projeto.triton --samples 1000 --rainfall-cv 10 --demand-cv 15 --capex-cv 20 --format json --output .\monte-carlo.json
 ```
 
-`--analysis` aceita `technical`, `economic`, `environmental`, `topsis` e `all`. As análises econômica e ambiental usam, para cada volume, respectivamente o fluxo de caixa e o inventário de ciclo de vida associados àquela alternativa; o TOPSIS recebe os três indicadores já calculados. A seção `analysis.environmental` no `.triton` permite registrar materiais, tubulações, bomba e fatores de emissão específicos.
+`--analysis` aceita `technical`, `economic`, `environmental`, `system_weight`, `topsis` e `all`. As análises econômica e ambiental usam, para cada volume, respectivamente o fluxo de caixa e o inventário de ciclo de vida associados àquela alternativa; o TOPSIS recebe os oito critérios já calculados (confiabilidade volumétrica, eficiência de armazenamento, economia financeira líquida, LCOW, payback descontado, CO₂e de ciclo de vida, massa a seco e extravasamento anual). `--weights` aceita quatro pesos de eixo ou oito de critério; três pesos (projetos da 0.1.0) ainda são aceitos, com a média no eixo estrutural, e sete são recusados. A seção `analysis.environmental` no `.triton` permite registrar materiais, tubulações, bomba e fatores de emissão específicos.
 
 Use `validate` antes de processar um projeto e `--set` para substituir uma premissa sem alterar o arquivo:
 
@@ -267,16 +271,19 @@ triton_int/
 
 ## Citação
 
-> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings* (version 0.1.0) [Computer software]. Federal University of Santa Catarina (UFSC).
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings* (version 0.2.0) [Computer software]. Federal University of Santa Catarina (UFSC). https://doi.org/10.5281/zenodo.23402915
 
 ```bibtex
-@software{triton_0_1_0,
+@software{triton_0_2_0,
   author    = {Vaz, Igor Catão Martins and Ghisi, Enedir},
   title     = {Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings},
   year      = {2026},
   publisher = {Federal University of Santa Catarina (UFSC)},
-  version   = {0.1.0}
+  version   = {0.2.0},
+  doi       = {10.5281/zenodo.23402915}
 }
 ```
+
+O DOI 10.5281/zenodo.23402915 reúne todas as versões e aponta sempre para a mais recente; a 0.1.0 tem o DOI 10.5281/zenodo.23402916.
 
 Consulte também a licença em [license.txt](license.txt).

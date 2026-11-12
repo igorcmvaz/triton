@@ -48,8 +48,9 @@ pacote está em [`docs/edicoes.md`](docs/edicoes.md).
    - Balanço de carbono ao longo de 20 anos: emissões incorporadas nos materiais + energia operacional vs. emissões evitadas no tratamento da água da rede.
 
 5. **Tomada de Decisão Multicritério Integrada:**
-   - **🏆 TOPSIS:** Ordenação por proximidade relativa às soluções ideais sob perfis de pesos declarados (Equilibrado, Econômico, Ambiental, Técnico ou Customizado).
+   - **🏆 TOPSIS:** Ordenação por proximidade relativa às soluções ideais sobre **oito critérios em quatro eixos**: técnico (confiabilidade volumétrica e eficiência de armazenamento), econômico (economia financeira líquida, custo nivelado da água — LCOW — e payback descontado), ambiental (CO₂e de ciclo de vida) e estrutural (massa a seco do sistema e extravasamento anual). Quatro pesos de eixo, 25% cada por padrão, repartidos dentro do eixo pelas *partes no eixo* (padrão: partes iguais), ou oito pesos diretos; perfis Equilibrado e Priorizar Técnico, Econômico, Ambiental ou Leveza e Drenagem (70% no eixo, 10% em cada outro), ou Customizado.
    - **🎲 SMAA-VIKOR:** Análise de aceitabilidade estocástica via simulações Monte Carlo (1.000 a 50.000 simulações) no simplex uniforme de pesos, calculando índices de aceitabilidade de 1º lugar ($b_i^1$), fatores de confiança e vetor central de pesos ($w_i^c$). Implementação independente sobre NumPy, seguindo o desenho de [`crispyn`](https://github.com/energyinpython/crispyn) (A. Bączkiewicz, MIT) e as formulações de Lahdelma & Salminen (2001) e Opricovic & Tzeng (2004).
+   - **🏗️ Peso do sistema:** massa a seco, carga de água e carga em operação, em kg e kN, no subsolo ou nível inferior, na cobertura ou nível superior e nas prumadas e rede (`triton analyze --analysis system_weight`). Alertas de atenção do programa, e não de norma — 500 kg na cobertura com o reservatório cheio, reservatório superior acima de 1.500 L, cisterna acima de 3.000 kg a seco, cisterna de concreto — pedem confirmação com o projeto estrutural ou de fundações.
 
 6. **Enquadramento em Certificações Sustentáveis & Critérios ESG:**
    - **🌱 LEED v4 / v4.1 (BD+C & O+M):** Até 8 pontos diretos na Categoria Eficiência Hídrica (WEc1 Uso Externo: 0 a 2 pts; WEc2 Uso Interno: 1 a 6 pts para reduções de 25% a 50%, com pré-requisito de 20%). Registro de projetos aberto até 30/06/2027.
@@ -68,7 +69,14 @@ pacote está em [`docs/edicoes.md`](docs/edicoes.md).
 
 ---
 
-## Estado da versão 0.1.0
+## Estado da versão 0.2.0
+
+**Novo na 0.2.0.** O multicritério passou de sete critérios em três eixos a oito critérios em quatro eixos, e a
+linha de comando passou a calcular o peso do sistema. O volume escolhido pelo multicritério muda: no tutorial do
+manual, com pesos iguais, o TOPSIS indicava 4.000 L e passa a indicar 2.000 L. Três pesos de eixo, de projetos e
+estudos da 0.1.0, continuam aceitos (o eixo estrutural recebe a média dos três); sete valores do modelo anterior são
+recusados. Para reproduzir um estudo feito na 0.1.0, use a 0.1.0. Detalhes nas
+[notas de lançamento da 0.2.0](docs/NOTAS_DE_LANCAMENTO_0.2.0.md).
 
 **Pronto.** Balanço diário, dimensionamento, economia com a base tarifária de 652 municípios, ACV, linha de
 tratamento, certificações, decisão multicritério, modulação probabilística, laudos em PDF, exportações CAD/BIM, o
@@ -81,15 +89,15 @@ têm); estrutura tarifária conferida nos 5 municípios do Tocantins (grau C).
 
 **Limitações conhecidas.** 140 municípios com a referência de energia expirada; custo anual do resumo sem as rotinas
 de manutenção (entram no fluxo de caixa à parte); espanhol e chinês traduzidos em parte; algumas licenças de dados
-por verificar. A lista completa está nas [notas de lançamento](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) e no
-[histórico de versões](CHANGELOG.md).
+por verificar. A lista completa está nas notas de lançamento da [0.2.0](docs/NOTAS_DE_LANCAMENTO_0.2.0.md) e da
+[0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) e no [histórico de versões](CHANGELOG.md).
 
 ---
 
 ## 📚 Documentação e Artigos Técnicos
 
 - [Manual do usuário (PDF)](manual/Manual-Triton.pdf) — a Edição Internacional publica o manual em inglês
-- [Notas de lançamento 0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) e [histórico de versões](CHANGELOG.md)
+- Notas de lançamento da [0.2.0](docs/NOTAS_DE_LANCAMENTO_0.2.0.md) e da [0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md), e [histórico de versões](CHANGELOG.md)
 - [Dados da edição: fontes, licenças, cobertura e qualidade](docs/DADOS.md)
 - [As três edições: Brasil, International e Ibérica](docs/edicoes.md)
 - [Metodologia, equações e fronteiras do modelo](docs/metodologia.md)
@@ -109,7 +117,8 @@ por verificar. A lista completa está nas [notas de lançamento](docs/NOTAS_DE_L
 | [`triton.core.cost_estimates`](triton/core/cost_estimates.py) | Engenharia de custos paramétricos, composições SINAPI e fatores regionais por UF |
 | [`triton.core.tariffs_database`](triton/core/tariffs_database.py) | Catálogo auditado de tarifas de saneamento e eletricidade ANEEL para 652 cidades |
 | [`triton.core.environmental_sync`](triton/core/environmental_sync.py) | Sincronização física de materiais, energia e pegada de carbono para ACV |
-| [`triton.core.topsis`](triton/core/topsis.py) | Algoritmo de tomada de decisão multicritério (TOPSIS e SMAA-VIKOR) |
+| [`triton.core.topsis`](triton/core/topsis.py) | Algoritmo de tomada de decisão multicritério (TOPSIS e SMAA-VIKOR), com oito critérios em quatro eixos |
+| [`triton.core.system_weight`](triton/core/system_weight.py) | Peso do sistema: massa a seco, carga de água e carga em operação por posição, com os alertas de carga |
 
 ---
 
@@ -157,7 +166,7 @@ referência do Netuno 4 e os três arquivos de teste do leitor), `tmp/`, e os la
 ## 🚀 Instalação e Execução
 
 ### Pré-requisitos
-- Para usar sem Python: o instalador `.exe` para Windows (traz tudo) está no registro do Zenodo, DOI 10.5281/zenodo.23402916 (`Triton_Brasil_Setup_v0.1.0.exe`).
+- Para usar sem Python: o instalador `.exe` para Windows (traz tudo) é publicado no registro do Zenodo. O DOI 10.5281/zenodo.23402915 reúne todas as versões e aponta sempre para a mais recente; o da 0.1.0 (`Triton_Brasil_Setup_v0.1.0.exe`) é 10.5281/zenodo.23402916.
 - Para desenvolver ou rodar a partir do código: Python 3.12 ou superior (o código usa a sintaxe de f-strings do 3.12).
 
 ### 1. Instalação em Modo de Desenvolvimento
@@ -197,7 +206,7 @@ triton --help
 
 ## 📦 Instalador Windows
 
-O instalador não faz parte deste repositório: é publicado no registro do Zenodo (DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916)). O repositório traz só o que é preciso para rodar o programa e a linha de comando a partir do código; as ferramentas de empacotamento ficam com o mantenedor. O que muda entre os pacotes das três edições está em [`docs/edicoes.md`](docs/edicoes.md).
+O instalador não faz parte deste repositório: é publicado no registro do Zenodo (DOI de todas as versões [10.5281/zenodo.23402915](https://doi.org/10.5281/zenodo.23402915); o da 0.1.0 é [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916)). O repositório traz só o que é preciso para rodar o programa e a linha de comando a partir do código; as ferramentas de empacotamento ficam com o mantenedor. O que muda entre os pacotes das três edições está em [`docs/edicoes.md`](docs/edicoes.md).
 
 ---
 
@@ -223,6 +232,8 @@ pytest tests/test_essencial.py tests/test_essencial_interface.py -v
 Desenvolvido pelo **Grupo de Pesquisa em Ambientes Sustentáveis** — Universidade Federal de Santa Catarina (UFSC).
 Código-fonte disponível para fins acadêmicos, com todos os direitos reservados e uso gratuito não comercial. Consulte o arquivo [`LICENSE.md`](LICENSE.md) para os termos completos. A citação do programa é obrigatória em qualquer trabalho que use os seus resultados ([`CITATION.cff`](CITATION.cff)):
 
-> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações.* Universidade Federal de Santa Catarina (UFSC), Florianópolis, Brasil.
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Plataforma Computacional para Simulação de Aproveitamento de Água de Chuva em Edificações* (versão 0.2.0). Universidade Federal de Santa Catarina (UFSC), Florianópolis, Brasil. https://doi.org/10.5281/zenodo.23402915
 
-Dados: CLIMBra (Ballarin et al., 2023, *Scientific Data*, doi:10.1038/s41597-023-01956-z; CC0 1.0). Dúvidas e erros: igor.catao@posgrad.ufsc.br.
+Cite a versão usada. O DOI 10.5281/zenodo.23402915 reúne todas as versões; um estudo feito na 0.1.0 cita a 0.1.0, pelo DOI 10.5281/zenodo.23402916.
+
+Dados: CLIMBra (Ballarin et al., 2023, *Scientific Data*, doi:10.1038/s41597-023-01956-z; CC0 1.0). Dúvidas e erros: igorcmvaz@gmail.com.

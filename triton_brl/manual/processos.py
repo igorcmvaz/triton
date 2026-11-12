@@ -410,11 +410,16 @@ PROCESSOS = [
 (
  "PROC-21", "Ordenar volumes por múltiplos critérios", "mcdm",
  "Aba Otimizador, com a varredura pronta.",
- ["um candidato por volume da varredura, cada um com potencial, extravasamento, VPL, "
-  "payback descontado, TIR, CO₂ de ciclo de vida e consumo de potável",
-  "pesos dos sete critérios"],
- ["Sete critérios: <b>maximizar</b> potencial, VPL e TIR; <b>minimizar</b> extravasamento, "
-  "payback, CO₂ e consumo de potável.",
+ ["um candidato por volume da varredura, cada um com confiabilidade volumétrica, eficiência "
+  "de armazenamento, VPL, custo nivelado da água (LCOW), payback descontado, CO₂ de ciclo de "
+  "vida, massa a seco do sistema e extravasamento",
+  "quatro pesos de eixo (técnico, econômico, ambiental, estrutural) e as partes no eixo, ou "
+  "oito pesos de critério"],
+ ["Oito critérios em quatro eixos: <b>maximizar</b> confiabilidade volumétrica, eficiência de "
+  "armazenamento e VPL; <b>minimizar</b> LCOW, payback, CO₂, massa a seco e extravasamento.",
+  "O peso de cada eixo é repartido entre os seus critérios pelas partes no eixo (padrão: "
+  "partes iguais). Três pesos, de projetos até a 0.1.0, dão ao eixo estrutural a média dos "
+  "três; sete valores, do modelo anterior, são recusados.",
   "A normalização translada por <code>x − min(x)</code> <b>antes</b> da normalização "
   "vetorial de Hwang e Yoon, para admitir VPL negativo. É variante deliberada, e precisa "
   "ser declarada como variante.",

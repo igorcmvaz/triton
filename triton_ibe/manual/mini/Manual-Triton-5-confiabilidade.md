@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do utilizador**.
-> Enganos, limitações e confiabilidade. Versão 0.1.0. Universidade Federal de Santa
+> Enganos, limitações e confiabilidade. Versão 0.2.0. Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -263,7 +263,7 @@ incorporado** (3 546 contra 1 026 kg CO₂e), para entregar 6,47 pontos perce
 o maior volume testado é escolher o limite da varredura, e não um ótimo.
 
 **Como evitar.** Declare o critério de escolha. Se for hidráulico, o limiar de ganho marginal; se
-for multicritério, os pesos. E reporte os vencedores de cada critério isolado, porque a divergência
+for multicritério, os quatro pesos de eixo, as partes no eixo e os volumes candidatos. E reporte os vencedores de cada critério isolado, porque a divergência
 entre eles **é** o resultado.
 
 ---
@@ -289,7 +289,7 @@ correto que seja o cálculo.
 > os descobrir por conta própria.
 
 Esta secção deriva do registo de pendências que o grupo de investigação mantém, e reflete o estado
-da versão beta atual, a 0.1.0. Uma limitação sai desta lista quando é efetivamente resolvida, e
+da versão beta atual, a 0.2.0. Uma limitação sai desta lista quando é efetivamente resolvida, e
 não quando deixa de ser mencionada — distinção que parece óbvia e que a documentação dos programas
 científicos muitas vezes não observa.
 
@@ -405,6 +405,14 @@ deve ser lida com a análise de sensibilidade aos pesos ao lado.
 
 **A normalização do TOPSIS é uma variante**, com translação por `x − min(x)`, para admitir um
 valor atual líquido negativo.
+
+**O resultado do TOPSIS depende do conjunto de candidatos.** O ideal e o anti-ideal saem dos
+volumes avaliados: no tutorial, sete candidatos elegem 3 000 L, e a varredura de 1 a 20 m³ elege
+1 000 L (secção 2.10 (volume O método)). Declare os candidatos junto com os pesos.
+
+**Os limiares do peso do sistema são do programa**, e não de norma: 500 kg na cobertura com o
+reservatório cheio, 1 500 L de reservatório superior e 3 000 kg de cisterna a seco servem para
+pedir a confirmação do projeto estrutural ou de fundações, e não para a dispensar.
 
 **A atualização das tarifas é uma percentagem única** ao longo de todo o período de análise, o que
 torna frágil a projeção a vinte anos. É a premissa que mais move o resultado económico.
@@ -750,6 +758,10 @@ de entrada, desinfeção e filtro de polimento.
 internacional que padronizou os índices de extremos climáticos, dos quais o programa
 calcula oito.
 
+**Eficiência de armazenamento** (*storage efficiency*). Água de chuva entregue por dia
+dividida pelo volume da cisterna inferior, em %: a renovação diária do volume construído. Cai
+com o volume e trava o sobredimensionamento. Não é a ocupação média da cisterna.
+
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
 
@@ -789,9 +801,9 @@ cada fluxo e revisão crítica externa, requisitos que uma avaliação de triage
 por pessoas e por programas. É o formato interno do ficheiro `.triton`.
 
 **LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
-de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
-produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em €/m³. Permite confrontar a viabilidade económica do sistema diretamente
+dos custos do sistema (o investimento e os custos de exploração: energia, manutenção,
+cloro e linha de tratamento) e o volume atualizado de água pluvial entregue ao longo do
+horizonte de análise, à mesma taxa, em €/m³. É um dos oito critérios do multicritério. Permite confrontar a viabilidade económica do sistema diretamente
 com a tarifa da entidade gestora.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
@@ -844,6 +856,13 @@ Os PDFs acompanham o programa e abrem pela etapa 9. Documentação.
 carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
+
+**Partes no eixo**. A repartição do peso de um eixo do multicritério pelos seus critérios.
+Só a proporção dentro do eixo importa; por omissão, as partes são iguais.
+
+**Peso do sistema**. Massa a seco, carga de água e carga em operação do sistema, em kg e kN,
+no subsolo, na cobertura e nas prumadas e rede. Os alertas usam limiares de atenção do
+programa, e não de norma.
 
 **PB**. Preço-base, em €/m³, da fórmula exponencial `PB × Cⁿ`, em que `C` é o consumo do mês e
 `n` o expoente da tabela exponencial para esse consumo. É um dos seis regimes que o programa reconhece; os
@@ -899,7 +918,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos e devolve a probabilidade de cada alternativa vencer.
+pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
+vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
@@ -911,7 +931,8 @@ líquido.
 **taxa de atualização**. Taxa de atualização. A taxa de desconto adotada.
 
 **TOPSIS** (*technique for order of preference by similarity to ideal solution*).
-Método de ordenação multicritério de Hwang e Yoon.
+Método de ordenação multicritério de Hwang e Yoon. No programa, ordena os volumes por oito
+critérios em quatro eixos: técnico, económico, ambiental e estrutural.
 
 **TRH** (*taxa de recursos hídricos*). Taxa por m³ que acresce à fatura de água e de águas residuais. No tarifário do Porto, a TRH da água é devida à Agência Portuguesa do Ambiente (APA) e leva IVA; no de Lisboa, a TRH do saneamento acresce por m³ recolhido.
 
@@ -1203,3 +1224,8 @@ Ao publicar um estudo feito com o Triton, cite o programa **com a versão** e a 
 secção 4.10 (volume Tutorial). Um estudo que cita o programa sem versão não é reproduzível: as correções entre versões mudam
 resultados, e a secção 2.6 (volume O método) traz o exemplo do consumo da eletrobomba, que mudou 65% entre duas versões
 consecutivas.
+
+O programa está depositado no Zenodo. O DOI de todas as versões, 10.5281/zenodo.23402915, aponta sempre para a
+mais recente; a versão 0.1.0 tem o DOI próprio 10.5281/zenodo.23402916, e a 0.2.0 ainda não tem DOI próprio.
+Num estudo, cite o DOI de todas as versões e escreva a versão usada: para reproduzir um estudo feito com a
+0.1.0, use a 0.1.0, porque o multicritério da 0.2.0 ordena os volumes de outra maneira (secção 6.3 (volume Correções, bugs e versionamento)).

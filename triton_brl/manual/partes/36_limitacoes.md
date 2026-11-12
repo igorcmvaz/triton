@@ -114,6 +114,11 @@ compromisso deve ser lida com a análise de sensibilidade de pesos ao lado.
 **A normalização do TOPSIS é uma variante** com translação por `x − min(x)`, para
 admitir valor presente líquido negativo.
 
+**Os alertas do peso do sistema usam limiares de atenção do programa**, e não de norma:
+500 kg na cobertura com o reservatório cheio, reservatório superior acima de 1.500 L,
+cisterna acima de 3.000 kg a seco e cisterna de concreto. A massa vem de pesos de
+referência dos componentes, e não substitui o cálculo estrutural da edificação.
+
 **O reajuste tarifário é percentual único** ao longo de todo o período de análise, o
 que torna frágil a projeção de vinte anos. É a premissa que mais move o resultado
 econômico.

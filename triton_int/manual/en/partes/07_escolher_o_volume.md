@@ -165,8 +165,8 @@ in a different direction.
 Three criteria and three different answers to the same question, and none of them is
 more legitimate than the others in the abstract. That is why the tutorial does not end
 here: sections {{n:10}} and {{n:11}} add money and carbon to the analysis, and section
-{{n:12}} puts the three dimensions on the same table, with declared weights, to reach a
-compromise volume that can be defended.
+{{n:12}} puts four dimensions — technical, economic, environmental and structural — on the same
+table, with declared weights, to see which volume each declared priority favours.
 
 > **The most common mistake, and it is in section {{n:33}}.** Publishing the volume with
 > the largest water saving as if it were the recommended volume. According to the table,

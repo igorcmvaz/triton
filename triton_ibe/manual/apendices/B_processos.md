@@ -569,19 +569,21 @@ Os nomes em `código` são os campos do ficheiro de projeto, listados no apêndi
 
 *Multicritério*
 
-**Gatilho.** Separador Otimizador, com a varrimento pronta.
+**Gatilho.** Separador Otimizador, com o varrimento pronto.
 
 **Entradas**
 
-- um candidato por volume da varrimento, cada um com potencial, extravasamento, VAL, período de recuperação descontado, TIR, CO₂ de ciclo de vida e consumo de potável
-- pesos dos sete critérios
+- um candidato por volume do varrimento, montado por `candidato_dos_resultados` com a simulação, a análise económica, o CO₂ de ciclo de vida e a massa a seco
+- quatro pesos de eixo e oito partes no eixo, ou oito pesos de critério
 
 **Regras**
 
-1. Sete critérios: **maximizar** potencial, VAL e TIR; **minimizar** extravasamento, período de recuperação, CO₂ e consumo de potável.
-2. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VAL negativo. É variante deliberada, e precisa ser declarada como variante.
-3. O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.
-4. As condições C1 e C2 de Opricovic não estão implementadas.
+1. Oito critérios em quatro eixos. Técnico: **maximizar** fiabilidade volumétrica e eficiência de armazenamento. Económico: **maximizar** VAL; **minimizar** LCOW e período de recuperação descontado. Ambiental: **minimizar** CO₂ de ciclo de vida. Estrutural: **minimizar** massa a seco e extravasamento anual.
+2. O peso de cada eixo reparte-se pelos critérios do eixo segundo as partes no eixo. Três pesos de eixo (projetos até à 0.1.0) dão ao eixo estrutural a média dos três; sete valores são recusados.
+3. Quem não recupera o investimento recebe no período de recuperação o pior observado mais 10% (ao menos mais um ano e ao menos 20 anos); o volume zero recebe no LCOW o pior observado mais 10%.
+4. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VAL negativo. É variante deliberada, e precisa ser declarada como variante.
+5. O SMAA-VIKOR sorteia oito pesos e devolve as probabilidades de cada volume ocupar cada posição.
+6. As condições C1 e C2 de Opricovic não estão implementadas.
 
 **Saídas**
 

@@ -5,7 +5,7 @@
 > discover them for themselves.
 
 This section derives from the issue register the research group keeps, and reflects the state of
-the current beta version, 0.1.0. A limitation leaves this list when it is actually resolved, not when it stops being
+the current beta version, 0.2.0. A limitation leaves this list when it is actually resolved, not when it stops being
 mentioned — a distinction that seems obvious and that the documentation of scientific programs often
 does not observe.
 
@@ -102,6 +102,17 @@ read with the weight sensitivity analysis alongside.
 
 **The TOPSIS normalisation is a variant** with translation by `x − min(x)`, to admit a negative net
 present value.
+
+**The dry mass in the multi-criteria decision uses the default configuration** of the weight
+calculator when the volumes are compared: the cistern of each volume, its fittings and the pump. The
+upper tank and the pipes, the same for every volume, would add the same mass to each and do not change
+the ranking, but they are not in the criterion value. The full weight of the project is in the
+`system_weight` block of `analyze`.
+
+**The structural warnings are attention thresholds of the program**, not limits of any standard: 500 kg
+on the roof with the upper tank full, an upper tank above 1,500 L, a cistern above 3,000 kg dry, and
+any concrete cistern. They ask for a check by the structural or foundation design; they do not replace
+it.
 
 **The tariff adjustment is a single percentage** over the whole analysis period, which makes the
 twenty-year projection fragile. It is the assumption that most moves the economic result.

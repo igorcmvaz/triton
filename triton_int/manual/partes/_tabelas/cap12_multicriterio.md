@@ -1,18 +1,19 @@
-<!-- tabela: Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices) -->
-| Volume | Potential | NPV (illustrative, not a market price) | Payback | 20-year carbon balance | Investment (illustrative, not a market price) |
-| ---: | ---: | ---: | ---: | ---: | ---: |
-| 1,000 L | 21.57% | −US$ 2,338 | no payback | 196 kg | US$ 4,700 |
-| 2,000 L | 25.26% | −US$ 2,241 | no payback | 234 kg | US$ 5,250 |
-| 3,000 L | 26.39% | −US$ 2,592 | no payback | 222 kg | US$ 5,800 |
-| 4,000 L | 27.09% | −US$ 3,020 | no payback | 200 kg | US$ 6,350 |
-| 5,000 L | 27.40% | −US$ 3,516 | no payback | 171 kg | US$ 6,900 |
-| 8,000 L | 27.79% | −US$ 5,098 | no payback | 72 kg | US$ 8,550 |
-| 12,000 L | 27.96% | −US$ 7,269 | no payback | −66 kg | US$ 10,750 |
+<!-- tabela: Multi-criteria decision matrix: the eight criteria of each candidate volume, as the program computes them (costs are illustrative, not market prices) -->
+| Volume | Volumetric reliability | Storage efficiency | Net saving (NPV) | LCOW | Discounted payback | Net life-cycle CO₂e | Dry mass | Overflow |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| L | % | % of the volume per day | US$ | US$/m³ | years | kg | kg | m³/year |
+| 1,000 | 77.03 | 12.94 | −US$ 2,338 | US$ 10.13 | no payback | −196 | 68 | 64.8 |
+| 2,000 | 90.21 | 7.58 | −US$ 2,241 | US$ 9.43 | no payback | −234 | 90 | 56.7 |
+| 3,000 | 94.26 | 5.28 | −US$ 2,592 | US$ 9.76 | no payback | −222 | 112 | 54.2 |
+| 4,000 | 96.76 | 4.06 | −US$ 3,020 | US$ 10.24 | no payback | −200 | 134 | 52.6 |
+| 5,000 | 97.86 | 3.29 | −US$ 3,516 | US$ 10.83 | no payback | −171 | 156 | 51.9 |
+| 8,000 | 99.25 | 2.08 | −US$ 5,098 | US$ 12.79 | no payback | −72 | 222 | 50.9 |
+| 12,000 | 99.84 | 1.40 | −US$ 7,269 | US$ 15.51 | no payback | 66 | 310 | 50.4 |
 
-<!-- tabela: Winning volume under each criterion taken alone -->
-| Single criterion | Winning volume |
+<!-- tabela: Winning volume under each dimension taken alone, and the TOPSIS compromise -->
+| Dimension taken alone | Winning volume |
 | :--- | ---: |
-| highest saving potential | 12,000 L |
-| shortest discounted payback, ties broken by NPV | 2,000 L |
-| highest carbon balance | 2,000 L |
-| **compromise, equal weights** | **4,000 L** |
+| technical: highest volumetric reliability | 12,000 L |
+| economic: shortest discounted payback, ties broken by the net saving | 2,000 L |
+| environmental: lowest net life-cycle CO₂e | 2,000 L |
+| **compromise, TOPSIS with the four dimensions equal** | **2,000 L** |

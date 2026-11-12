@@ -93,7 +93,7 @@ distorcido por realizações extremas.
 
 O exemplo mostra um efeito que a análise de uma premissa por vez não deixa ver. A fração não
 potável é a variável que mais move a economia **percentual**, porque define a demanda que a
-água de chuva pode atender. O número de pessoas e o per capita movem pouco a porcentagem —
+água de chuva pode atender. O número de pessoas e o per capita movem menos a porcentagem —
 e no sentido contrário, porque aumentam o consumo total —, mas são os que mais movem o
 valor presente líquido: mais consumo empurra a conta para as faixas caras da tarifa
 progressiva, e cada metro cúbico poupado passa a valer mais.
@@ -110,8 +110,8 @@ próprios valores. O η² estima o índice de sensibilidade de primeira ordem (S
 <!-- inclui: _tabelas/cap43_variancia.md -->
 
 No exemplo, o número de pessoas e o per capita respondem por cerca de quatro quintos da
-variância do valor presente líquido, e a fração não potável por quase toda a variância da
-economia. Os três fatores econômicos e o da chuva, com as larguras de triagem, pesam pouco.
+variância do valor presente líquido, e a fração não potável por cerca de três quartos da
+variância da economia. Os três fatores econômicos e o da chuva, com as larguras de triagem, pesam pouco.
 Com variáveis independentes e efeitos aditivos, a soma fica perto de 1; uma soma bem abaixo
 de 1 indica interação entre as variáveis. A estimativa por classes tem um pequeno viés para
 cima, da ordem do número de classes dividido pelo número de realizações, e por isso a soma
@@ -137,7 +137,7 @@ Os modelos discordam em mais de um quarto da chuva anual, e ainda assim o modelo
 uma pequena parte da variância. Em Florianópolis, a chuva sobra para uma cisterna desse
 porte: o que limita a economia é a demanda que a água de chuva pode atender, e não a chuva
 que chega. Com cerca de cinquenta realizações por modelo, o erro-padrão do VPL médio de
-cada um é da ordem de R$ 1.900, e as diferenças entre as médias da tabela são, na maior
+cada um é da ordem de R$ 1.500, e as diferenças entre as médias da tabela são, na maior
 parte, ruído do sorteio do consumo. O η² separa as duas coisas; ler a tabela modelo a
 modelo, sem ele, levaria a atribuir ao clima o que é efeito da ocupação. Num clima mais seco,
 ou numa cisterna maior, o peso do modelo pode ser outro, e a tabela o mostra.

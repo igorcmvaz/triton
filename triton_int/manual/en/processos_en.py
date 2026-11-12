@@ -403,15 +403,21 @@ PROCESSOS = [
 (
  "PROC-21", "Rank volumes by multiple criteria", "mcdm",
  "Optimiser tab, with the sweep done.",
- ["one candidate per sweep volume, each with potential, overflow, NPV, "
-  "discounted payback, IRR, life-cycle CO₂ and potable consumption",
-  "weights of the seven criteria"],
- ["Seven criteria: <b>maximise</b> potential, NPV and IRR; <b>minimise</b> overflow, "
-  "payback, CO₂ and potable consumption.",
+ ["one candidate per sweep volume, each with volumetric reliability, storage efficiency, "
+  "net financial savings, LCOW, discounted payback, life-cycle CO₂, dry mass and annual overflow",
+  "four dimension weights (technical, economic, environmental, structural) and eight criterion "
+  "shares, or eight criterion weights"],
+ ["Eight criteria in four dimensions: <b>maximise</b> volumetric reliability, storage efficiency "
+  "and net financial savings; <b>minimise</b> LCOW, payback, CO₂, dry mass and overflow.",
+  "Each dimension weight is shared among its criteria by the criterion shares (equal by default). "
+  "Three weights, from version 0.1.0, give the structural dimension their mean; seven values are "
+  "refused.",
+  "A volume that does not pay back receives the worst payback observed plus 10% (at least one year "
+  "more and at least 20 years); the volume with no cistern receives the worst LCOW plus 10%.",
   "Normalisation shifts by <code>x − min(x)</code> <b>before</b> the vector normalisation "
   "of Hwang and Yoon, to admit a negative NPV. It is a deliberate variant, and must be "
   "declared as a variant.",
-  "SMAA-VIKOR draws weights and returns the probabilities of each volume taking each rank.",
+  "SMAA-VIKOR draws eight weights and returns the probabilities of each volume taking each rank.",
   "Opricovic's conditions C1 and C2 are not implemented."],
  [("topsis.py", "calculate_topsis_scores"), ("mcdm_methods.py", "run_vikor")],
  ["Ranking of the volumes, distance to the ideal per criterion, compromise volume"],

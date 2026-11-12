@@ -18,7 +18,7 @@ do computador.
 | 6 | Qualidade | classe, desinfecção, filtros | {{n:9}} |
 | 7 | Economia | tarifa real, CAPEX, fluxo de caixa | {{n:10}} |
 | 8 | Carbono | inventário, material, payback | {{n:11}} |
-| 9 | Decisão | sete critérios, pesos declarados | {{n:12}} |
+| 9 | Decisão | oito critérios em quatro eixos, pesos e partes declarados | {{n:12}} |
 | 10 | Relatório | saídas e lista de declaração | {{n:13}} |
 
 **Antes de publicar:** seção {{n:13}}, a lista de declaração. Seção {{n:33}}, os dez
@@ -99,8 +99,8 @@ atendível** e os usos que a compõem.
 
 **Descarte:** lâmina e modo; a divergência contra o Netuno 4, se comparar versões.
 
-**Volume:** critério de escolha — limiar de ganho marginal, ou pesos do
-multicritério.
+**Volume:** critério de escolha — limiar de ganho marginal, ou os quatro pesos de eixo e
+as partes no eixo do multicritério.
 
 **Economia:** município, concessionária, vigência da tabela, **regime de mínimo**,
 percentual de esgoto, TMA, inflação, reajustes e período.

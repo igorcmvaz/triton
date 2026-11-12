@@ -214,3 +214,8 @@ Ao publicar um estudo feito com o Triton, cite o programa **com a versão** e a 
 secção {{n:13}}. Um estudo que cita o programa sem versão não é reproduzível: as correções entre versões mudam
 resultados, e a secção {{n:28}} traz o exemplo do consumo da eletrobomba, que mudou 65% entre duas versões
 consecutivas.
+
+O programa está depositado no Zenodo. O DOI de todas as versões, 10.5281/zenodo.23402915, aponta sempre para a
+mais recente; a versão 0.1.0 tem o DOI próprio 10.5281/zenodo.23402916, e a 0.2.0 ainda não tem DOI próprio.
+Num estudo, cite o DOI de todas as versões e escreva a versão usada: para reproduzir um estudo feito com a
+0.1.0, use a 0.1.0, porque o multicritério da 0.2.0 ordena os volumes de outra maneira (secção {{n:38}}).

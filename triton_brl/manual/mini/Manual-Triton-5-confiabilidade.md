@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> Enganos, limitações e confiabilidade. Versão 0.1.0. Florianópolis: Universidade Federal de Santa
+> Enganos, limitações e confiabilidade. Versão 0.2.0. Florianópolis: Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -268,7 +268,7 @@ vezes mais carbono incorporado**, para entregar 0,88 ponto percentual a mais. E,
 volume maior é ambientalmente **pior** em termos absolutos.
 
 **Como evitar.** Declare o critério de escolha. Se for hidráulico, o limiar de ganho
-marginal; se for multicritério, os pesos. E reporte os vencedores de cada critério
+marginal; se for multicritério, os quatro pesos de eixo e as partes no eixo. E reporte os vencedores de cada critério
 isolado, porque a divergência entre eles **é** o resultado.
 
 ---
@@ -403,6 +403,11 @@ compromisso deve ser lida com a análise de sensibilidade de pesos ao lado.
 
 **A normalização do TOPSIS é uma variante** com translação por `x − min(x)`, para
 admitir valor presente líquido negativo.
+
+**Os alertas do peso do sistema usam limiares de atenção do programa**, e não de norma:
+500 kg na cobertura com o reservatório cheio, reservatório superior acima de 1.500 L,
+cisterna acima de 3.000 kg a seco e cisterna de concreto. A massa vem de pesos de
+referência dos componentes, e não substitui o cálculo estrutural da edificação.
 
 **O reajuste tarifário é percentual único** ao longo de todo o período de análise, o
 que torna frágil a projeção de vinte anos. É a premissa que mais move o resultado
@@ -797,6 +802,11 @@ EAU.1.5.
 da International Finance Corporation, do Banco Mundial. Mede economia percentual contra
 um caso-base local em três dimensões independentes e exige que cada uma cruze o limiar.
 
+**Eficiência de armazenamento**. Água de chuva entregue por dia dividida pelo volume da
+cisterna inferior, em %: a renovação diária do volume construído. Cai com o volume, e é o
+critério do multicritério que freia o superdimensionamento. Não é a ocupação média da
+cisterna, que em clima úmido sobe com o volume.
+
 **EN** (*Europäische Norm*, norma europeia). Norma publicada pelo Comitê Europeu de
 Normalização. Neste manual, a EN 15978, que define os módulos do ciclo de vida da
 edificação, e a EN 15804, que rege as declarações ambientais de produtos de construção.
@@ -864,16 +874,20 @@ cada fluxo e revisão crítica externa, requisitos que uma avaliação de triage
 **JSON** (*JavaScript object notation*). Formato de arquivo de texto estruturado, legível
 por pessoas e por programas. É o formato interno do arquivo `.triton`.
 
-**LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
-de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
-produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em R$/m³. Permite confrontar a viabilidade econômica do sistema diretamente
+**LCOW** (*levelized cost of water*). Custo nivelado da água: o investimento mais o custeio
+anual descontado (energia, operação e manutenção, cloro e linha de tratamento), dividido pela
+água de chuva entregue, descontada à mesma taxa e no mesmo horizonte de análise, em R$/m³.
+É critério do eixo econômico do multicritério. Permite confrontar a viabilidade econômica do sistema diretamente
 com a tarifa da concessionária.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
 ambiental de edificações do *U.S. Green Building Council*, o mais difundido
 internacionalmente. Trata eficiência hídrica na categoria *Water Efficiency*: na versão 4,
 pelos créditos WEc1 e WEc2; na versão 5, pelo crédito WEc2, *Enhanced Water Efficiency*.
+
+**Massa a seco do sistema**. Peso próprio do sistema vazio: cisternas, motobomba, tubos
+e acessórios, pela calculadora de peso do programa. É critério do eixo estrutural do
+multicritério; com a água, dá a carga em operação.
 
 **m.c.a.** Metro de coluna d'água, unidade de pressão equivalente à exercida por uma
 coluna de água de um metro de altura, cerca de 9,81 kPa. É a unidade usual em instalações
@@ -924,6 +938,10 @@ em inglês, na íntegra.
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
 pluviais, a NBR 5626, de sistemas prediais de água fria e quente, e a NBR 17094-2, de
 motores de indução.
+
+**Partes no eixo**. Proporção em que o peso de um eixo do multicritério se reparte entre
+os critérios do eixo. Só a razão dentro do eixo importa; o padrão são partes iguais, e parte
+zero tira o critério da conta.
 
 **Payback de carbono**. Tempo para a economia anual líquida de emissões pagar o
 carbono incorporado na fabricação do sistema.

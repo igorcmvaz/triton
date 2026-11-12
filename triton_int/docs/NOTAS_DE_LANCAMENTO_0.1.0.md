@@ -54,7 +54,7 @@ Not verified: the window on a real display beyond its title (the window opened a
 
 ## Report a problem
 
-State the version (0.1.0), the edition and the steps, and attach the `.triton` file. Contact: igor.catao@posgrad.ufsc.br.
+State the version (0.1.0), the edition and the steps, and attach the `.triton` file. Contact: igorcmvaz@gmail.com.
 
 ## How to cite
 

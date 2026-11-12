@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do utilizador**.
-> Apêndices. Versão 0.1.0. Universidade Federal de Santa
+> Apêndices. Versão 0.2.0. Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -1125,19 +1125,21 @@ Os nomes em `código` são os campos do ficheiro de projeto, listados no apêndi
 
 *Multicritério*
 
-**Gatilho.** Separador Otimizador, com a varrimento pronta.
+**Gatilho.** Separador Otimizador, com o varrimento pronto.
 
 **Entradas**
 
-- um candidato por volume da varrimento, cada um com potencial, extravasamento, VAL, período de recuperação descontado, TIR, CO₂ de ciclo de vida e consumo de potável
-- pesos dos sete critérios
+- um candidato por volume do varrimento, montado por `candidato_dos_resultados` com a simulação, a análise económica, o CO₂ de ciclo de vida e a massa a seco
+- quatro pesos de eixo e oito partes no eixo, ou oito pesos de critério
 
 **Regras**
 
-1. Sete critérios: **maximizar** potencial, VAL e TIR; **minimizar** extravasamento, período de recuperação, CO₂ e consumo de potável.
-2. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VAL negativo. É variante deliberada, e precisa ser declarada como variante.
-3. O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.
-4. As condições C1 e C2 de Opricovic não estão implementadas.
+1. Oito critérios em quatro eixos. Técnico: **maximizar** fiabilidade volumétrica e eficiência de armazenamento. Económico: **maximizar** VAL; **minimizar** LCOW e período de recuperação descontado. Ambiental: **minimizar** CO₂ de ciclo de vida. Estrutural: **minimizar** massa a seco e extravasamento anual.
+2. O peso de cada eixo reparte-se pelos critérios do eixo segundo as partes no eixo. Três pesos de eixo (projetos até à 0.1.0) dão ao eixo estrutural a média dos três; sete valores são recusados.
+3. Quem não recupera o investimento recebe no período de recuperação o pior observado mais 10% (ao menos mais um ano e ao menos 20 anos); o volume zero recebe no LCOW o pior observado mais 10%.
+4. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VAL negativo. É variante deliberada, e precisa ser declarada como variante.
+5. O SMAA-VIKOR sorteia oito pesos e devolve as probabilidades de cada volume ocupar cada posição.
+6. As condições C1 e C2 de Opricovic não estão implementadas.
 
 **Saídas**
 
@@ -2027,7 +2029,7 @@ Usado por `triton estudo` (capítulo «Comparar muitos casos de uma vez»). Esqu
 | `padroes` | `substituicoes` e `clima` aplicados a todos os casos; o que o caso declara vence o padrão |
 | `casos` | lista; cada caso tem `id`, `nome`, `grupo` (por padrão, a tipologia), `projeto` (outro `.triton` para este caso), `clima` e `substituicoes` |
 | `clima` | `arquivo` (série diária de chuva, CSV), `data_inicio` (dd/mm/aaaa), `nome` e `fonte` (rótulos que vão para a procedência) |
-| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis` ou um volume em litros), `pesos` (TOPSIS) e `semente` |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis`, `smaa_vikor` ou um volume em litros), `pesos` (quatro de eixo — técnico, económico, ambiental, estrutural — ou oito de critério; três, de estudos anteriores à 0.2.0, ainda aceites), `partes_no_eixo` (oito valores) e `semente` |
 | `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (um inteiro ou uma por métrica), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar`, `legenda` e `orientacao` (`casos_nas_linhas` ou `metricas_nas_linhas`) |
 
 Chaves que começam por `_` são comentários e o programa as ignora. Campo vazio, `null` ou «XX» é «a preencher»: a validação o recusa e diz onde está. Uma chave desconhecida é erro, com a sugestão da mais parecida. `triton estudo esquema` imprime o JSON Schema do ficheiro, para completar e conferir no editor.
@@ -2235,6 +2237,10 @@ de entrada, desinfeção e filtro de polimento.
 internacional que padronizou os índices de extremos climáticos, dos quais o programa
 calcula oito.
 
+**Eficiência de armazenamento** (*storage efficiency*). Água de chuva entregue por dia
+dividida pelo volume da cisterna inferior, em %: a renovação diária do volume construído. Cai
+com o volume e trava o sobredimensionamento. Não é a ocupação média da cisterna.
+
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
 
@@ -2274,9 +2280,9 @@ cada fluxo e revisão crítica externa, requisitos que uma avaliação de triage
 por pessoas e por programas. É o formato interno do ficheiro `.triton`.
 
 **LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
-de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
-produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em €/m³. Permite confrontar a viabilidade económica do sistema diretamente
+dos custos do sistema (o investimento e os custos de exploração: energia, manutenção,
+cloro e linha de tratamento) e o volume atualizado de água pluvial entregue ao longo do
+horizonte de análise, à mesma taxa, em €/m³. É um dos oito critérios do multicritério. Permite confrontar a viabilidade económica do sistema diretamente
 com a tarifa da entidade gestora.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
@@ -2329,6 +2335,13 @@ Os PDFs acompanham o programa e abrem pela etapa 9. Documentação.
 carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
+
+**Partes no eixo**. A repartição do peso de um eixo do multicritério pelos seus critérios.
+Só a proporção dentro do eixo importa; por omissão, as partes são iguais.
+
+**Peso do sistema**. Massa a seco, carga de água e carga em operação do sistema, em kg e kN,
+no subsolo, na cobertura e nas prumadas e rede. Os alertas usam limiares de atenção do
+programa, e não de norma.
 
 **PB**. Preço-base, em €/m³, da fórmula exponencial `PB × Cⁿ`, em que `C` é o consumo do mês e
 `n` o expoente da tabela exponencial para esse consumo. É um dos seis regimes que o programa reconhece; os
@@ -2384,7 +2397,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos e devolve a probabilidade de cada alternativa vencer.
+pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
+vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
@@ -2396,7 +2410,8 @@ líquido.
 **taxa de atualização**. Taxa de atualização. A taxa de desconto adotada.
 
 **TOPSIS** (*technique for order of preference by similarity to ideal solution*).
-Método de ordenação multicritério de Hwang e Yoon.
+Método de ordenação multicritério de Hwang e Yoon. No programa, ordena os volumes por oito
+critérios em quatro eixos: técnico, económico, ambiental e estrutural.
 
 **TRH** (*taxa de recursos hídricos*). Taxa por m³ que acresce à fatura de água e de águas residuais. No tarifário do Porto, a TRH da água é devida à Agência Portuguesa do Ambiente (APA) e leva IVA; no de Lisboa, a TRH do saneamento acresce por m³ recolhido.
 
@@ -2689,6 +2704,11 @@ secção 4.10 (volume Tutorial). Um estudo que cita o programa sem versão não 
 resultados, e a secção 2.6 (volume O método) traz o exemplo do consumo da eletrobomba, que mudou 65% entre duas versões
 consecutivas.
 
+O programa está depositado no Zenodo. O DOI de todas as versões, 10.5281/zenodo.23402915, aponta sempre para a
+mais recente; a versão 0.1.0 tem o DOI próprio 10.5281/zenodo.23402916, e a 0.2.0 ainda não tem DOI próprio.
+Num estudo, cite o DOI de todas as versões e escreva a versão usada: para reproduzir um estudo feito com a
+0.1.0, use a 0.1.0, porque o multicritério da 0.2.0 ordena os volumes de outra maneira (secção 6.3 (volume Correções, bugs e versionamento)).
+
 ---
 
 ## Apêndice I — Fichas de uma página
@@ -2711,7 +2731,7 @@ do computador.
 | 6 | Qualidade | classe, desinfeção, filtros | 4.6 (volume Tutorial) |
 | 7 | Economia | tarifa real, CAPEX, fluxo de caixa | 4.7 (volume Tutorial) |
 | 8 | Carbono | inventário, material, período de recuperação | 4.8 (volume Tutorial) |
-| 9 | Decisão | sete critérios, pesos declarados | 4.9 (volume Tutorial) |
+| 9 | Decisão | oito critérios em quatro eixos, pesos declarados | 4.9 (volume Tutorial) |
 | 10 | Relatório | saídas e lista de declaração | 4.10 (volume Tutorial) |
 
 **Antes de publicar:** secção 4.10 (volume Tutorial), a lista de declaração. Secção 5.1 (volume Enganos, limitações e confiabilidade), os dez erros. Secção 5.2 (volume Enganos, limitações e confiabilidade), as limitações que afetam o seu caso.
@@ -2795,8 +2815,8 @@ atendível** e os usos que a compõem.
 
 **Descarte:** lâmina e modo; e a diferença de método, se comparar programas.
 
-**Volume:** critério de escolha — limiar de ganho marginal, ou pesos do
-multicritério.
+**Volume:** critério de escolha — limiar de ganho marginal, ou os quatro pesos
+de eixo, as partes no eixo e os candidatos do multicritério.
 
 **Economia:** concelho, entidade gestora, vigência da tabela, **regime de mínimo**,
 regra do saneamento, taxas de IVA de cada parcela, taxa de atualização, inflação, atualizações e período, e a moeda.

@@ -569,15 +569,17 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 
 **Inputs**
 
-- one candidate per sweep volume, each with potential, overflow, NPV, discounted payback, IRR, life-cycle CO₂ and potable consumption
-- weights of the seven criteria
+- one candidate per sweep volume, each with volumetric reliability, storage efficiency, net financial savings, LCOW, discounted payback, life-cycle CO₂, dry mass and annual overflow
+- four dimension weights (technical, economic, environmental, structural) and eight criterion shares, or eight criterion weights
 
 **Rules**
 
-1. Seven criteria: **maximise** potential, NPV and IRR; **minimise** overflow, payback, CO₂ and potable consumption.
-2. Normalisation shifts by `x − min(x)` **before** the vector normalisation of Hwang and Yoon, to admit a negative NPV. It is a deliberate variant, and must be declared as a variant.
-3. SMAA-VIKOR draws weights and returns the probabilities of each volume taking each rank.
-4. Opricovic's conditions C1 and C2 are not implemented.
+1. Eight criteria in four dimensions: **maximise** volumetric reliability, storage efficiency and net financial savings; **minimise** LCOW, payback, CO₂, dry mass and overflow.
+2. Each dimension weight is shared among its criteria by the criterion shares (equal by default). Three weights, from version 0.1.0, give the structural dimension their mean; seven values are refused.
+3. A volume that does not pay back receives the worst payback observed plus 10% (at least one year more and at least 20 years); the volume with no cistern receives the worst LCOW plus 10%.
+4. Normalisation shifts by `x − min(x)` **before** the vector normalisation of Hwang and Yoon, to admit a negative NPV. It is a deliberate variant, and must be declared as a variant.
+5. SMAA-VIKOR draws eight weights and returns the probabilities of each volume taking each rank.
+6. Opricovic's conditions C1 and C2 are not implemented.
 
 **Outputs**
 

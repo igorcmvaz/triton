@@ -190,21 +190,25 @@ publica massa por potência.
 
 ## 8. TOPSIS e novo diagnóstico da concessão
 
-São **sete** os critérios avaliados, quatro de benefício e três de custo:
+Desde a versão 0.2.0, são **oito** os critérios avaliados, em quatro eixos; três de benefício e cinco de custo:
 
-| Critério | Sentido |
-| :--- | :--- |
-| Potencial de economia de água potável | benefício |
-| Extravasamento | custo |
-| Valor presente líquido | benefício |
-| Payback descontado | custo |
-| Taxa interna de retorno | benefício |
-| CO₂ de ciclo de vida | custo |
-| Água potável consumida | custo |
+| Eixo | Critério | Sentido | Definição no programa |
+| :--- | :--- | :--- | :--- |
+| Técnico | Confiabilidade volumétrica | benefício | água de chuva consumida ÷ demanda de água de chuva (uso não potável + irrigação), em % |
+| Técnico | Eficiência de armazenamento | benefício | água de chuva entregue por dia ÷ volume da cisterna inferior, em % (giro anual ÷ 365); cai com o volume |
+| Econômico | Economia financeira líquida | benefício | VPL do sistema contra a linha de base sem cisterna |
+| Econômico | Custo nivelado da água (LCOW) | custo | (investimento + Σ custeio anual descontado: energia, O&M, cloro, ETAP) ÷ Σ água de chuva entregue descontada, à mesma taxa e no mesmo horizonte; em R$/m³. A alternativa sem cisterna recebe o pior LCOW observado + 10% |
+| Econômico | Payback descontado | custo | quem não se paga recebe o pior observado + 10% (ao menos +1 ano e ao menos 20 anos) |
+| Ambiental | CO₂e de ciclo de vida | custo | CO₂e líquido no fim da vida útil (negativo = evitado) |
+| Estrutural | Massa a seco do sistema | custo | massa a seco de cisternas, tubos, motobomba e acessórios (`triton/core/system_weight.py`) |
+| Estrutural | Extravasamento anual | custo | volume extravasado por ano, em m³ |
 
-> Esta seção já descreveu **três** critérios — água pluvial consumida,
-> VPL e CO₂e líquido evitado. O motor (`triton/core/topsis.py`) já usava sete; a
-> documentação é que estava defasada.
+> Até a 0.1.0 eram sete critérios em três eixos: potencial de economia e extravasamento;
+> VPL, payback descontado e TIR; CO₂e e água potável consumida. Potencial, extravasamento e
+> consumo de água potável mediam a mesma água economizada. O modelo de oito reduz essa
+> colinearidade e inclui o peso do sistema.
+
+**Pesos.** Quatro pesos de eixo (técnico, econômico, ambiental, estrutural; 25% cada por padrão) são repartidos dentro de cada eixo pelas *partes no eixo* (padrão: partes iguais): `wj = We × pj / Σ pk`, com `k` percorrendo os critérios do eixo `e`. Oito pesos diretos valem como estão, normalizados pela soma. Três pesos (projetos e estudos até a 0.1.0) dão ao eixo estrutural a média dos três, de modo que pesos iguais continuam iguais; sete valores são recusados. VIKOR, PROMETHEE II e TOPSIS usam a mesma regra; o SMAA-VIKOR sorteia oito pesos no simplex e informa os pesos centrais agregados nos quatro eixos. Na linha de comando, `--weights` e `--criterion-shares`; no arquivo de projeto, `analysis.topsis_weights` e `analysis.topsis_criterion_shares`; no estudo declarativo, `analise.pesos` e `analise.partes_no_eixo`.
 
 Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo pior valor observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
 

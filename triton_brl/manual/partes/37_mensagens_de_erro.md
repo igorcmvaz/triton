@@ -118,10 +118,23 @@ e não o passo originalmente pedido.
 <!-- tabela: Mensagens de erro da decisão multicritério e a providência de cada uma -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
-| «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» | quantidade de pesos diferente de 3 ou de 7 | informe um peso por eixo ou um por critério |
+| «Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural) ou 8 pesos de critério TOPSIS» | quantidade de pesos diferente de 4 ou de 8 (três também valem; veja a linha seguinte) | informe um peso por eixo ou um por critério |
+| «O multicritério da versão 0.2.0 tem oito critérios em quatro eixos, e os sete valores do modelo anterior não correspondem a eles. Informe quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito pesos de critério.» | sete pesos ou sete partes no eixo, do modelo até a 0.1.0 | refaça a ponderação nos quatro eixos; três pesos de eixo antigos continuam aceitos, e o eixo estrutural recebe a média dos três |
+| «Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios).» | quantidade de partes no eixo diferente de 8 | informe uma parte por critério, na ordem da seção {{n:32}} |
+| «As partes no eixo devem ser finitas e não negativas.» | parte vazia ou negativa | corrija; parte zero é válida e tira o critério da conta |
+| «Ao menos um critério do eixo … deve ter parte maior que zero.» | todas as partes de um eixo zeradas | dê parte a pelo menos um critério do eixo; para tirar o eixo inteiro, zere o peso do eixo |
 | «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; peso zero é válido e exclui o critério |
 | «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos zerados | atribua peso a pelo menos um critério |
 | «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente payback sem retorno | confira a alternativa indicada antes de decidir |
+
+Na linha de comando, `--weights` e `--criterion-shares` conferem os valores antes de calcular, com
+mensagem própria: «Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito de
+critério, não negativos e separados por vírgula; a soma deve ser positiva. Os sete pesos do modelo
+anterior à 0.2.0 não valem mais.» e «Use oito partes não negativas separadas por vírgula (uma por
+critério TOPSIS), com ao menos uma positiva em cada dimensão», seguida da causa. No estudo
+declarativo, as mensagens começam pelo campo: «analise.pesos: quatro números não negativos (técnico,
+econômico, ambiental, estrutural) ou oito (um por critério), com soma positiva» e
+«analise.partes_no_eixo:», seguida da causa.
 
 ---
 
@@ -163,6 +176,7 @@ interpretação do número e nenhuma delas fica evidente no resultado isolado.
 | estrutura tarifária incompleta | a tabela do município tem lacuna; confira contra a resolução |
 | passo de varredura ajustado | o passo efetivo difere do pedido |
 | extrapolação de preço com R² baixo | o volume está fora da tabela de preços e a regressão não é confiável |
+| alerta de carga do peso do sistema | a carga passou de um limiar de atenção do programa, e não de norma: 500 kg na cobertura com o reservatório cheio, reservatório superior acima de 1.500 L, cisterna acima de 3.000 kg a seco ou cisterna de concreto; confirme a carga com o projeto estrutural ou de fundações (seção {{n:32}}) |
 
 ---
 

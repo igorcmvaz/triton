@@ -586,6 +586,25 @@ def amarrar_titulos(fluxo):
         except Exception:
             return 0.0
 
+    def inicio_divisivel(elemento):
+        """A menor parte de um bloco grande que desce para a página: até a primeira linha da tabela."""
+        if isinstance(elemento, KeepTogether):
+            soma = 0.0
+            for parte in elemento._content:
+                if isinstance(parte, Table):
+                    return soma + inicio_divisivel(parte)
+                soma += medir(parte)
+            return soma
+        if isinstance(elemento, Table):
+            try:
+                elemento.wrapOn(tela, UTIL, altura_util)
+                repetidas = elemento.repeatRows
+                n = (repetidas if isinstance(repetidas, int) else len(repetidas)) + 1
+                return float(sum(elemento._rowHeights[:n]))
+            except Exception:
+                return 0.25 * altura_util
+        return 0.25 * altura_util
+
     saida = []
     i = 0
     while i < len(fluxo):
@@ -615,8 +634,18 @@ def amarrar_titulos(fluxo):
                     if m < len(fluxo) and isinstance(fluxo[m], KeepTogether):
                         h += medir(fluxo[m])
                 if h > altura_util:
-                    # Bloco maior que a página se divide de qualquer modo.
-                    h = 0.25 * altura_util
+                    # Bloco maior que a página se divide de qualquer modo, e a tabela
+                    # só se divide depois do cabeçalho e da primeira linha: é isso,
+                    # com a legenda, que tem de caber junto do título.
+                    h = min(inicio_divisivel(primeiro), altura_util)
+                    if isinstance(primeiro, KeepTogether):
+                        # O reportlab leva para a página seguinte, inteiro, o bloco
+                        # indivisível maior que o espaço que resta, mesmo quando ele
+                        # é maior que a página, e o título ficava sozinho no pé da
+                        # página («A cadeia de cálculo», seção 10, na montagem da
+                        # 0.2.0). Maior que a página, a legenda e a tabela seguem
+                        # soltas, e a quebra condicional acima as mantém juntas.
+                        fluxo[k:k + 1] = list(primeiro._content)
             necessario += h
         # Folga para o espaçamento que o reportlab acrescenta entre os blocos.
         saida.append(CondPageBreak(necessario * 1.08 + 14))
@@ -899,6 +928,12 @@ def converter(texto):
         if (isinstance(elemento, PageBreak) and enxuto
                 and isinstance(enxuto[-1], PageBreak)):
             continue
+        if isinstance(elemento, PageBreak):
+            # O espaçador que fecha uma seção não serve antes da quebra, e, se não
+            # cabe no pé da página, abre sozinho uma folha que a quebra deixa em
+            # branco (três folhas assim na montagem da 0.2.0).
+            while enxuto and type(enxuto[-1]) is Spacer:
+                enxuto.pop()
         enxuto.append(elemento)
     return enxuto
 

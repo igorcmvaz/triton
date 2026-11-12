@@ -137,6 +137,10 @@ de entrada, desinfeção e filtro de polimento.
 internacional que padronizou os índices de extremos climáticos, dos quais o programa
 calcula oito.
 
+**Eficiência de armazenamento** (*storage efficiency*). Água de chuva entregue por dia
+dividida pelo volume da cisterna inferior, em %: a renovação diária do volume construído. Cai
+com o volume e trava o sobredimensionamento. Não é a ocupação média da cisterna.
+
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
 
@@ -176,9 +180,9 @@ cada fluxo e revisão crítica externa, requisitos que uma avaliação de triage
 por pessoas e por programas. É o formato interno do ficheiro `.triton`.
 
 **LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
-de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
-produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em €/m³. Permite confrontar a viabilidade económica do sistema diretamente
+dos custos do sistema (o investimento e os custos de exploração: energia, manutenção,
+cloro e linha de tratamento) e o volume atualizado de água pluvial entregue ao longo do
+horizonte de análise, à mesma taxa, em €/m³. É um dos oito critérios do multicritério. Permite confrontar a viabilidade económica do sistema diretamente
 com a tarifa da entidade gestora.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
@@ -231,6 +235,13 @@ Os PDFs acompanham o programa e abrem pela etapa 9. Documentação.
 carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
+
+**Partes no eixo**. A repartição do peso de um eixo do multicritério pelos seus critérios.
+Só a proporção dentro do eixo importa; por omissão, as partes são iguais.
+
+**Peso do sistema**. Massa a seco, carga de água e carga em operação do sistema, em kg e kN,
+no subsolo, na cobertura e nas prumadas e rede. Os alertas usam limiares de atenção do
+programa, e não de norma.
 
 **PB**. Preço-base, em €/m³, da fórmula exponencial `PB × Cⁿ`, em que `C` é o consumo do mês e
 `n` o expoente da tabela exponencial para esse consumo. É um dos seis regimes que o programa reconhece; os
@@ -286,7 +297,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos e devolve a probabilidade de cada alternativa vencer.
+pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
+vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
@@ -298,7 +310,8 @@ líquido.
 **taxa de atualização**. Taxa de atualização. A taxa de desconto adotada.
 
 **TOPSIS** (*technique for order of preference by similarity to ideal solution*).
-Método de ordenação multicritério de Hwang e Yoon.
+Método de ordenação multicritério de Hwang e Yoon. No programa, ordena os volumes por oito
+critérios em quatro eixos: técnico, económico, ambiental e estrutural.
 
 **TRH** (*taxa de recursos hídricos*). Taxa por m³ que acresce à fatura de água e de águas residuais. No tarifário do Porto, a TRH da água é devida à Agência Portuguesa do Ambiente (APA) e leva IVA; no de Lisboa, a TRH do saneamento acresce por m³ recolhido.
 

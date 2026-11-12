@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do usuário**.
-> Apêndices. Versão 0.1.0. Florianópolis: Universidade Federal de Santa
+> Apêndices. Versão 0.2.0. Florianópolis: Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -1144,15 +1144,16 @@ Os nomes em `código` são os campos do arquivo de projeto, listados no apêndic
 
 **Entradas**
 
-- um candidato por volume da varredura, cada um com potencial, extravasamento, VPL, payback descontado, TIR, CO₂ de ciclo de vida e consumo de potável
-- pesos dos sete critérios
+- um candidato por volume da varredura, cada um com confiabilidade volumétrica, eficiência de armazenamento, VPL, custo nivelado da água (LCOW), payback descontado, CO₂ de ciclo de vida, massa a seco do sistema e extravasamento
+- quatro pesos de eixo (técnico, econômico, ambiental, estrutural) e as partes no eixo, ou oito pesos de critério
 
 **Regras**
 
-1. Sete critérios: **maximizar** potencial, VPL e TIR; **minimizar** extravasamento, payback, CO₂ e consumo de potável.
-2. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VPL negativo. É variante deliberada, e precisa ser declarada como variante.
-3. O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.
-4. As condições C1 e C2 de Opricovic não estão implementadas.
+1. Oito critérios em quatro eixos: **maximizar** confiabilidade volumétrica, eficiência de armazenamento e VPL; **minimizar** LCOW, payback, CO₂, massa a seco e extravasamento.
+2. O peso de cada eixo é repartido entre os seus critérios pelas partes no eixo (padrão: partes iguais). Três pesos, de projetos até a 0.1.0, dão ao eixo estrutural a média dos três; sete valores, do modelo anterior, são recusados.
+3. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VPL negativo. É variante deliberada, e precisa ser declarada como variante.
+4. O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.
+5. As condições C1 e C2 de Opricovic não estão implementadas.
 
 **Saídas**
 
@@ -7406,7 +7407,7 @@ Usado por `triton estudo` (capítulo «Comparar muitos casos de uma vez»). Esqu
 | `expansao` | **só na Edição Brasil.** Gera um caso por município × modelo × recorte da CLIMBra: `municipios` (lista de `municipio`, `uf`, `ibge`), `uf` (padrão dos municípios), `modelos` (`"todos"` ou uma lista dos 19) e `recortes` (lista de `id`, `rotulo`, `cenario` `HIST`, `SSP245` ou `SSP585`, `inicio`, `fim`). Os casos expandidos somam-se aos explícitos |
 | `clima` | `arquivo` (série diária de chuva, CSV) **ou** `climbra` (só na Edição Brasil, veja abaixo), `data_inicio` (dd/mm/aaaa), `nome` e `fonte` (rótulos que vão para a procedência) |
 | `tarifa` | **só na Edição Brasil.** `municipio`, `uf` (por padrão, os de `clima.climbra`), `categoria` (`residencial`, `comercial`, `publica`, `industrial` ou `social`) e `se_ausente` (`erro`, o padrão, ou `residencial`): aplica as tarifas de água, esgoto e energia do catálogo do programa, como a aba Projeto. Não aceita preços |
-| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis` ou um volume em litros), `pesos` (TOPSIS) e `semente` |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis` ou um volume em litros), `pesos` (TOPSIS: quatro pesos de eixo, técnico, econômico, ambiental e estrutural, ou oito, um por critério; três, de estudos até a 0.1.0, ainda valem, e o eixo estrutural recebe a média deles), `partes_no_eixo` (oito valores, na ordem dos critérios da seção 2.10 (volume O método); padrão: partes iguais) e `semente` |
 | `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (um inteiro ou uma por métrica), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar`, `legenda` `orientacao` (`casos_nas_linhas` ou `metricas_nas_linhas`) e `gravar_analise` (`true` por padrão; `false` não grava `analise.json` por caso, o que poupa disco em estudos com milhares de casos) |
 
 Chaves que começam por `_` são comentários e o programa as ignora. Campo vazio, `null` ou «XX» é «a preencher»: a validação o recusa e diz onde está. Uma chave desconhecida é erro, com a sugestão da mais parecida. `triton estudo esquema` imprime o JSON Schema do arquivo, para completar e conferir no editor.
@@ -7663,6 +7664,11 @@ EAU.1.5.
 da International Finance Corporation, do Banco Mundial. Mede economia percentual contra
 um caso-base local em três dimensões independentes e exige que cada uma cruze o limiar.
 
+**Eficiência de armazenamento**. Água de chuva entregue por dia dividida pelo volume da
+cisterna inferior, em %: a renovação diária do volume construído. Cai com o volume, e é o
+critério do multicritério que freia o superdimensionamento. Não é a ocupação média da
+cisterna, que em clima úmido sobe com o volume.
+
 **EN** (*Europäische Norm*, norma europeia). Norma publicada pelo Comitê Europeu de
 Normalização. Neste manual, a EN 15978, que define os módulos do ciclo de vida da
 edificação, e a EN 15804, que rege as declarações ambientais de produtos de construção.
@@ -7730,16 +7736,20 @@ cada fluxo e revisão crítica externa, requisitos que uma avaliação de triage
 **JSON** (*JavaScript object notation*). Formato de arquivo de texto estruturado, legível
 por pessoas e por programas. É o formato interno do arquivo `.triton`.
 
-**LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
-de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
-produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em R$/m³. Permite confrontar a viabilidade econômica do sistema diretamente
+**LCOW** (*levelized cost of water*). Custo nivelado da água: o investimento mais o custeio
+anual descontado (energia, operação e manutenção, cloro e linha de tratamento), dividido pela
+água de chuva entregue, descontada à mesma taxa e no mesmo horizonte de análise, em R$/m³.
+É critério do eixo econômico do multicritério. Permite confrontar a viabilidade econômica do sistema diretamente
 com a tarifa da concessionária.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
 ambiental de edificações do *U.S. Green Building Council*, o mais difundido
 internacionalmente. Trata eficiência hídrica na categoria *Water Efficiency*: na versão 4,
 pelos créditos WEc1 e WEc2; na versão 5, pelo crédito WEc2, *Enhanced Water Efficiency*.
+
+**Massa a seco do sistema**. Peso próprio do sistema vazio: cisternas, motobomba, tubos
+e acessórios, pela calculadora de peso do programa. É critério do eixo estrutural do
+multicritério; com a água, dá a carga em operação.
 
 **m.c.a.** Metro de coluna d'água, unidade de pressão equivalente à exercida por uma
 coluna de água de um metro de altura, cerca de 9,81 kPa. É a unidade usual em instalações
@@ -7790,6 +7800,10 @@ em inglês, na íntegra.
 15527, de aproveitamento de água de chuva, a NBR 10844, de instalações prediais de águas
 pluviais, a NBR 5626, de sistemas prediais de água fria e quente, e a NBR 17094-2, de
 motores de indução.
+
+**Partes no eixo**. Proporção em que o peso de um eixo do multicritério se reparte entre
+os critérios do eixo. Só a razão dentro do eixo importa; o padrão são partes iguais, e parte
+zero tira o critério da conta.
 
 **Payback de carbono**. Tempo para a economia anual líquida de emissões pagar o
 carbono incorporado na fabricação do sistema.
@@ -8251,7 +8265,7 @@ do computador.
 | 6 | Qualidade | classe, desinfecção, filtros | 4.6 (volume Tutorial) |
 | 7 | Economia | tarifa real, CAPEX, fluxo de caixa | 4.7 (volume Tutorial) |
 | 8 | Carbono | inventário, material, payback | 4.8 (volume Tutorial) |
-| 9 | Decisão | sete critérios, pesos declarados | 4.9 (volume Tutorial) |
+| 9 | Decisão | oito critérios em quatro eixos, pesos e partes declarados | 4.9 (volume Tutorial) |
 | 10 | Relatório | saídas e lista de declaração | 4.10 (volume Tutorial) |
 
 **Antes de publicar:** seção 4.10 (volume Tutorial), a lista de declaração. Seção 5.1 (volume Enganos, limitações e confiabilidade), os dez
@@ -8332,8 +8346,8 @@ atendível** e os usos que a compõem.
 
 **Descarte:** lâmina e modo; a divergência contra o Netuno 4, se comparar versões.
 
-**Volume:** critério de escolha — limiar de ganho marginal, ou pesos do
-multicritério.
+**Volume:** critério de escolha — limiar de ganho marginal, ou os quatro pesos de eixo e
+as partes no eixo do multicritério.
 
 **Economia:** município, concessionária, vigência da tabela, **regime de mínimo**,
 percentual de esgoto, TMA, inflação, reajustes e período.

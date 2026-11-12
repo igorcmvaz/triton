@@ -57,7 +57,9 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 
 - **Versão do Triton**, com o número completo. Correções de cálculo entre versões
   deslocam resultados, e sem a versão declarada não há como saber qual conta produziu o
-  número publicado.
+  número publicado. A 0.2.0 trocou o multicritério de sete critérios pelo de oito: um
+  estudo feito na 0.1.0 declara a 0.1.0, e se reproduz com ela, pelo DOI daquela versão
+  (10.5281/zenodo.23402916).
 
 ### Série de precipitação
 
@@ -94,8 +96,10 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 
 - Se veio de varredura: **limiar de ganho marginal adotado**. Sem ele, «volume
   ideal» não significa nada.
-- Se veio de multicritério: **os pesos dos sete critérios** e o método, TOPSIS ou
-  SMAA-VIKOR.
+- Se veio de multicritério: **os quatro pesos de eixo e as partes no eixo**, ou os oito
+  pesos de critério, e o método, TOPSIS ou SMAA-VIKOR.
+- Se o volume adotado não for o que o multicritério indica, os dois volumes e a razão da
+  escolha, como a seção {{n:12}} faz.
 - Que a normalização do TOPSIS é uma **variante** com translação por `x − min(x)`.
 
 ### Análise econômica
@@ -128,7 +132,7 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 
 Para o nosso projeto, o método ficaria assim:
 
-> A simulação foi conduzida no Triton 0.1.0, com modelo comportamental de base
+> A simulação foi conduzida no Triton 0.2.0, com modelo comportamental de base
 > diária (extravasamento calculado antes da retirada da demanda, com a chuva do dia
 > disponível para o consumo do dia, ordem intermediária entre YAS e YBS), sobre série de
 > precipitação de Florianópolis com 30 anos (10.950 dias, média de 1.795 mm/ano).
@@ -140,9 +144,11 @@ Para o nosso projeto, o método ficaria assim:
 > 600 L/dia (4 moradores, 150 L/hab·dia), com fração atendível por água pluvial de
 > 28%, correspondente à bacia sanitária e aos usos externos, dentro da lista do item
 > 4.1.7 da ABNT NBR 15527:2019. O volume de 4.000 L resultou do critério de ganho
-> marginal com limiar de 1 %/m³ e foi confirmado por análise multicritério TOPSIS com
-> sete critérios e pesos iguais entre as dimensões técnica, econômica e ambiental,
-> com normalização em variante de Hwang e Yoon translada por x − min(x). O
+> marginal com limiar de 1 %/m³. A análise multicritério TOPSIS, com oito critérios em
+> quatro eixos (técnico, econômico, ambiental e estrutural), 25% de peso por eixo, partes
+> iguais dentro de cada eixo e normalização em variante de Hwang e Yoon translada por
+> x − min(x), indicou 2.000 L e classificou os 4.000 L em terceiro lugar; adotou-se o
+> volume do critério hidráulico, que prioriza o atendimento da demanda. O
 > abastecimento dos pontos de uso é feito por recalque para caixa superior de 1.000 L,
 > com limiar de acionamento de 100 L, motobomba de 0,5 CV, altura manométrica de 12 m e
 > rendimento de motor da Tabela 13 da ABNT NBR 17094-2. A análise
@@ -152,7 +158,7 @@ Para o nosso projeto, o método ficaria assim:
 > anos. A avaliação de ciclo de vida adotou fronteira de água entregue, reservatório
 > em polietileno e vida útil de 20 anos.
 
-São cerca de duzentas e cinquenta palavras, e elas são a diferença entre um estudo que
+São cerca de trezentas e quarenta palavras, e elas são a diferença entre um estudo que
 outro pesquisador consegue repetir e um número solto que ninguém pode verificar. A
 extensão é modesta diante do que se ganha: um método assim redigido responde
 antecipadamente à maior parte das perguntas que um parecerista faria.

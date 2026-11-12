@@ -26,8 +26,9 @@ change the architecture. A first number of zero marks a beta: the program is usa
 describes, but its interface, file format and defaults may still change, and a change may alter
 results.
 
-The current version is the beta **0.1.0**. No earlier version circulated, and no study was done
-with one.
+The current version is the beta **0.2.0**. The only earlier version is the beta 0.1.0, published
+on 5 November 2026 with its own DOI, 10.5281/zenodo.23402916. Version 0.2.0 changes the
+multi-criteria decision, so a study made with 0.1.0 is reproduced with 0.1.0.
 
 ---
 
@@ -47,6 +48,37 @@ and the maintainers keep the other two equal to it. Those following the program 
 repository, the site or the manual read the same record.
 
 <!-- inclui: _tabelas/cap38_versoes.md -->
+
+---
+
+## Version 0.2.0 (beta) — 11 November 2026
+
+> **In one sentence.** The multi-criteria decision moves from seven criteria in three dimensions to eight criteria in four — technical, economic, environmental and structural — and the program now calculates the weight of the system.
+
+### What is new
+
+- **Eight criteria in four dimensions.** Technical: volumetric reliability and storage efficiency. Economic: net financial savings (the NPV against the baseline without a cistern), the levelised cost of water (LCOW) and the discounted payback. Environmental: the net life-cycle CO₂e. Structural: the dry mass of the materials and the annual overflow. Section {{n:32}} defines each one as the program computes it, with the LCOW equation.
+- **Weights by dimension, with criterion shares.** Four dimension weights, 25% each by default, each shared among the criteria of its dimension by the criterion shares, equal by default. Eight direct weights, one per criterion, are also accepted. TOPSIS, VIKOR and PROMETHEE II use the same rule; SMAA-VIKOR draws eight weights and gives the central weights per criterion and per dimension.
+- **The decision tab.** Four weight boxes (Technical, Economic, Environmental, Structural), the profiles «Balanced: 25% on each dimension» and «Prioritise …» with 70% on one dimension and 10% on each of the others, including «Prioritise Lightness and Drainage», and the «Criterion shares» row with eight boxes and the «Equal shares» button.
+- **Command line, project file and declarative study.** `--weights t,e,a,s` (or eight values) and `--criterion-shares` with eight values (default `1,1,1,1,1,1,1,1`); `analysis.topsis_weights` (four or eight values) and `analysis.topsis_criterion_shares` (eight) in the project file; `analise.pesos` (four or eight) and `analise.partes_no_eixo` (eight) in `estudo.json`.
+- **Weight of the system.** `triton analyze … --analysis all` (and `--analysis system_weight`) reports the dry mass, the water load and the operating load, in kg and kN, split into basement or lower level, roof or upper level, and risers and network. The HTML report, the spreadsheet (sheet `system_weight`) and the terminal text show the block. Its warnings are attention thresholds of the program, not of any standard — 500 kg on the roof with the upper tank full, an upper tank above 1,500 L, a cistern above 3,000 kg dry, and any concrete cistern — and ask for a check with the structural or foundation design.
+
+### Fixes that change results
+
+The multi-criteria model was replaced. A study that ranked volumes with version 0.1.0 can rank them differently with this version.
+
+<!-- tabela: Fixes that change results in version 0.2.0 -->
+| What was corrected | Effect on the result |
+| :--- | :--- |
+| The multi-criteria decision used seven criteria in three dimensions, and three of them — the saving potential, the potable water consumption and, through the bill, the NPV — measured the same water saved. It now uses eight criteria in four dimensions, with the weight of the system. | The volume chosen by TOPSIS, VIKOR, PROMETHEE II and SMAA-VIKOR can change. In the New York tutorial, with equal weights, TOPSIS moves from 4,000 L to 2,000 L. Three weights from a project or study of version 0.1.0 are still accepted: the structural dimension receives their mean, so equal weights stay equal. Seven values, weights or shares of the old model, are refused with a message that says why. To reproduce a study made with version 0.1.0, use version 0.1.0 (DOI 10.5281/zenodo.23402916). |
+
+### Fixes that do not change results
+
+None.
+
+### Documentation
+
+Sections {{n:12}}, {{n:19}}, {{n:32}} and {{n:37}} describe the eight criteria, the LCOW, the weight rule, the options of the command line and the weight of the system. Section {{n:12}} now says plainly that the multi-criteria analysis with equal weights indicates 2,000 L, why the tutorial keeps the 4,000 L of the hydraulic criterion, and what that choice gives up. The interactive figure of the decision on the site has four dimension weights and the criterion shares. The release notes are in `docs/NOTAS_DE_LANCAMENTO_0.2.0.md`. Version 0.2.0 has no DOI of its own yet: cite the DOI of all versions, 10.5281/zenodo.23402915, which always resolves to the most recent one.
 
 ---
 

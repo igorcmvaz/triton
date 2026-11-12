@@ -217,7 +217,8 @@ TUTORIAL = {
     "caixa_superior_l": 1000.0,
     "limiar_recalque_l": 100.0,
     # O volume que o tutorial escolhe: ideal pelo ganho marginal de 1 %/m³ em Nova York, Londres e
-    # Cidade do Cabo, e vencedor do multicritério com pesos iguais.
+    # Cidade do Cabo. O multicritério de oito critérios da 0.2.0, com os quatro eixos iguais, indica
+    # 2.000 L; o capítulo 12 mostra o que a escolha de 4.000 L cede e quando o menor é defensável.
     "volume": 4000.0,
 }
 
@@ -656,77 +657,113 @@ def tabela_materiais():
     return NL.join(L)
 
 
-def tabela_multicriterio():
-    """Capítulo 12: três critérios, três respostas."""
+#: Os volumes candidatos do capítulo 12 e da seção 32.
+VOLUMES_MULTICRITERIO = (1000, 2000, 3000, 4000, 5000, 8000, 12000)
+
+
+def candidatos_multicriterio(material="PEAD", volumes=VOLUMES_MULTICRITERIO):
+    """As alternativas do multicritério, montadas como o programa as monta.
+
+    ``candidato_dos_resultados`` é a mesma montagem da linha de comando e da interface: a
+    simulação, a análise econômica e o CO₂e de ciclo de vida de cada volume, e a massa a seco da
+    calculadora de peso com a configuração padrão. Devolve também as simulações e as análises
+    econômicas, que as tabelas e as figuras citam.
+    """
     from triton.core.economic import run_economic_analysis
     from triton.core.environmental import calculate_lca
-    from triton.core.topsis import TopsisCandidate, calculate_topsis_scores
+    from triton.core.topsis import candidato_dos_resultados
 
     serie = _serie()
     cfg_sim = _config_projeto()
-    cands, linhas = [], [
-        f"| Volume | Potential | NPV ({ILUSTRATIVO}) | Payback | 20-year carbon balance | Investment ({ILUSTRATIVO}) |",
-        "| ---: | ---: | ---: | ---: | ---: | ---: |",
-    ]
-    for v in (1000, 2000, 3000, 4000, 5000, 8000, 12000):
+    cands, sims, econs = [], [], []
+    for v in volumes:
         r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **cfg_sim)
-        e = run_economic_analysis(_config_economica(v, "PEAD"), r)
+        e = run_economic_analysis(_config_economica(v, material), r)
         amb = _config_ambiental(r)
-        amb.lower_material_key = "PEAD"
+        amb.lower_material_key = material
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
-        linhas.append(
-            f"| {n(v, 0)} L | {n(r.potential_potable_savings_pct, 2)}% "
-            f"| {usd(e.vpl)} | {anos_ou_nunca(e.payback_years)} "
-            f"| {n(lca.lifetime_net_co2_saved_kg, 0)} kg | {usd(e.capex_total)} |")
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
-            capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct,
-            overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years,
-            irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+        cands.append(candidato_dos_resultados(r, e, lca.lifetime_net_co2_saved_kg))
+        sims.append(r)
+        econs.append(e)
+    return cands, sims, econs
 
+
+def tabela_multicriterio():
+    """Capítulo 12: oito critérios em quatro eixos, e o vencedor de cada eixo sozinho."""
+    from triton.core.topsis import calculate_topsis_scores
+
+    cands, _, _ = candidatos_multicriterio()
     res = calculate_topsis_scores(cands)
+    m = res.decision_matrix
+    linhas = [
+        "| Volume | Volumetric reliability | Storage efficiency | Net saving (NPV) | LCOW "
+        "| Discounted payback | Net life-cycle CO₂e | Dry mass | Overflow |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+        "| L | % | % of the volume per day | US$ | US$/m³ | years | kg | kg | m³/year |",
+    ]
+    for i, c in enumerate(cands):
+        pb = n(m[i, 4], 1) if c.discounted_payback_years else "no payback"
+        linhas.append(
+            f"| {n(c.lower_tank_vol, 0)} | {n(m[i, 0], 2)} | {n(m[i, 1], 2)} | {usd(m[i, 2])} "
+            f"| {usd(m[i, 3], 2)} | {pb} | {n(m[i, 5], 0)} | {n(m[i, 6], 0)} | {n(m[i, 7], 1)} |")
+
     global _CANDIDATOS_MULTICRITERIO
     _CANDIDATOS_MULTICRITERIO = cands
     linhas += [
         "",
-        "| Single criterion | Winning volume |",
+        "| Dimension taken alone | Winning volume |",
         "| :--- | ---: |",
-        f"| highest saving potential | {n(cands[res.technical_best_index].lower_tank_vol, 0)} L |",
-        f"| shortest discounted payback, ties broken by NPV | {n(cands[res.financial_best_index].lower_tank_vol, 0)} L |",
-        f"| highest carbon balance | {n(cands[res.environmental_best_index].lower_tank_vol, 0)} L |",
-        f"| **compromise, equal weights** | **{n(cands[res.best_index].lower_tank_vol, 0)} L** |",
+        f"| technical: highest volumetric reliability | {n(cands[res.technical_best_index].lower_tank_vol, 0)} L |",
+        "| economic: shortest discounted payback, ties broken by the net saving "
+        f"| {n(cands[res.financial_best_index].lower_tank_vol, 0)} L |",
+        f"| environmental: lowest net life-cycle CO₂e | {n(cands[res.environmental_best_index].lower_tank_vol, 0)} L |",
+        f"| **compromise, TOPSIS with the four dimensions equal** | **{n(cands[res.best_index].lower_tank_vol, 0)} L** |",
     ]
     return NL.join(linhas)
 
 
 _CANDIDATOS_MULTICRITERIO = None
 
-#: Pesos por dimensão (técnica, econômica, ambiental) da tabela de sensibilidade.
+#: Pesos dos quatro eixos (técnico, econômico, ambiental, estrutural) da tabela de sensibilidade:
+#: os quatro iguais, e 70% no eixo dominante com 10% em cada um dos outros três.
 PESOS_SENSIBILIDADE = (
-    ("equal weights", (1 / 3, 1 / 3, 1 / 3)),
-    ("technical, 60%", (0.6, 0.2, 0.2)),
-    ("economic, 60%", (0.2, 0.6, 0.2)),
-    ("environmental, 60%", (0.2, 0.2, 0.6)),
+    ("equal weights, 25% on each dimension", (0.25, 0.25, 0.25, 0.25)),
+    ("technical, 70%", (0.7, 0.1, 0.1, 0.1)),
+    ("economic, 70%", (0.1, 0.7, 0.1, 0.1)),
+    ("environmental, 70%", (0.1, 0.1, 0.7, 0.1)),
+    ("structural, 70%", (0.1, 0.1, 0.1, 0.7)),
+)
+
+#: Partes no eixo com a eficiência de armazenamento fora da conta: o eixo técnico passa a medir só a
+#: confiabilidade volumétrica. É o caso que o capítulo 12 discute para o volume do tutorial.
+PARTES_SEM_EFICIENCIA = (1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+PESOS_SEM_EFICIENCIA = (
+    ("equal weights, 25% on each dimension", (0.25, 0.25, 0.25, 0.25)),
+    ("technical, 70%", (0.7, 0.1, 0.1, 0.1)),
 )
 
 
-def tabela_pesos():
-    """Capítulo 12: o volume escolhido pelo TOPSIS conforme o peso dominante."""
+def _linha_de_pesos(cands, rotulo, pesos, partes=None):
     from triton.core.topsis import calculate_topsis_scores
+    res = calculate_topsis_scores(cands, weights=pesos, parts=partes)
+    ordem = sorted(range(len(cands)), key=lambda i: (-res.scores[i], cands[i].lower_tank_vol))
+    margem = res.scores[ordem[0]] - res.scores[ordem[1]]
+    return (f"| {rotulo} | {n(cands[ordem[0]].lower_tank_vol, 0)} L "
+            f"| {n(cands[ordem[1]].lower_tank_vol, 0)} L | {n(margem, 3)} |")
 
+
+def tabela_pesos():
+    """Capítulo 12: o volume escolhido pelo TOPSIS conforme o peso dominante, e sem a eficiência."""
     if _CANDIDATOS_MULTICRITERIO is None:
         tabela_multicriterio()
     cands = _CANDIDATOS_MULTICRITERIO
-    L = ["| Dominant weight | Volume | Runner-up |", "| :--- | ---: | ---: |"]
+    L = ["| Dominant weight | Volume | Runner-up | Score margin |", "| :--- | ---: | ---: | ---: |"]
     for rotulo, pesos in PESOS_SENSIBILIDADE:
-        res = calculate_topsis_scores(cands, weights=pesos)
-        ordem = sorted(range(len(cands)), key=lambda i: -res.scores[i])
-        L.append(f"| {rotulo} | {n(cands[ordem[0]].lower_tank_vol, 0)} L "
-                 f"| {n(cands[ordem[1]].lower_tank_vol, 0)} L |")
+        L.append(_linha_de_pesos(cands, rotulo, pesos))
+    L += ["", "| Weights, with the storage-efficiency share at zero | Volume | Runner-up | Score margin |",
+          "| :--- | ---: | ---: | ---: |"]
+    for rotulo, pesos in PESOS_SEM_EFICIENCIA:
+        L.append(_linha_de_pesos(cands, rotulo, pesos, PARTES_SEM_EFICIENCIA))
     return NL.join(L)
 
 
@@ -841,7 +878,7 @@ def tabela_decisao():
     cands = _CANDIDATOS_MULTICRITERIO
     topsis = calculate_topsis_scores(cands)
     smaa = run_smaa_analysis(cands, num_samples=5000, random_seed=42)
-    ordem = sorted(range(len(cands)), key=lambda i: -topsis.scores[i])
+    ordem = sorted(range(len(cands)), key=lambda i: (-topsis.scores[i], cands[i].lower_tank_vol))
     posicao = {i: k + 1 for k, i in enumerate(ordem)}
     ordinal = {1: "st", 2: "nd", 3: "rd"}
     L = ["| Volume | TOPSIS score | TOPSIS rank | First place in SMAA-VIKOR, b¹ |",
@@ -944,7 +981,7 @@ LEGENDAS = {
         'Effect of the concrete cistern volume on the net carbon emissions',
     ],
     'cap32_decisao.md': [
-        'TOPSIS closeness score with equal weights across the dimensions and first-rank acceptability in SMAA-VIKOR, with 5,000 random weight vectors, for the tutorial volumes',
+        'TOPSIS closeness score with the four dimensions weighted equally and first-rank acceptability in SMAA-VIKOR, with 5,000 random vectors of eight criterion weights, for the tutorial volumes',
     ],
     'cap20_sensibilidade.md': [
         'Potential, net present value and payback of the final tutorial project with each assumption varied alone, from the low to the high value (costs are illustrative, not market prices)',
@@ -953,11 +990,12 @@ LEGENDAS = {
         'Annual energy of six generic pressure pumps (illustrative curves, no brand) in the tutorial direct pressurisation, with the toilet flow limiting the pump flow',
     ],
     'cap12_pesos.md': [
-        'Volume chosen by TOPSIS according to the dimension given the dominant weight, and the runner-up',
+        'Volume chosen by TOPSIS according to the dimension given the dominant weight (70% on it, 10% on each of the other three), with the runner-up and the score margin between them',
+        'The same choice with the share of storage efficiency set to zero, so that the technical dimension measures volumetric reliability alone',
     ],
     'cap12_multicriterio.md': [
-        'Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices)',
-        'Winning volume under each criterion taken alone',
+        'Multi-criteria decision matrix: the eight criteria of each candidate volume, as the program computes them (costs are illustrative, not market prices)',
+        'Winning volume under each dimension taken alone, and the TOPSIS compromise',
     ],
     'cap14_cidades.md': [
         'The same tutorial project simulated in New York, London and Cape Town',

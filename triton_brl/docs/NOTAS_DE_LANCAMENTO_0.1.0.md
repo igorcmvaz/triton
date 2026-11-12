@@ -56,7 +56,7 @@ Não verificado: a janela com tela real (a verificação foi em modo sem tela); 
 
 ## Relatar um problema
 
-Descreva a versão (0.1.0), a edição, os passos e anexe o arquivo `.triton`. Contato: igor.catao@posgrad.ufsc.br. O manual, na seção «Relatar um problema», diz o que anexar.
+Descreva a versão (0.1.0), a edição, os passos e anexe o arquivo `.triton`. Contato: igorcmvaz@gmail.com. O manual, na seção «Relatar um problema», diz o que anexar.
 
 ## Como citar
 

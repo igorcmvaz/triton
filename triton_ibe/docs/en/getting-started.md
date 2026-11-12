@@ -16,7 +16,7 @@ python --version
 
 ### From source
 
-The repository is public at https://github.com/igorcmvaz/triton; questions go to sustainability@contato.ufsc.br.
+The repository is public at https://github.com/igorcmvaz/triton; questions go to igorcmvaz@gmail.com.
 
 ```bash
 git clone https://github.com/igorcmvaz/triton.git
@@ -38,9 +38,12 @@ TRITON_EDITION=IBE python -m pytest tests/unit tests/test_essencial.py
 
 ### Windows installer
 
-The installer (`Triton_Iberica_Setup_v0.1.0.exe`) is in the Zenodo record, DOI
+The Zenodo records are gathered under the all-versions DOI
+[10.5281/zenodo.23402915](https://doi.org/10.5281/zenodo.23402915), which always resolves to the latest
+version. The installer of version 0.1.0 (`Triton_Iberica_Setup_v0.1.0.exe`) is in the 0.1.0 record, DOI
 [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916), with its SHA-256 checksum in
-`SHA256SUMS.txt`. It is **not code-signed**, so Windows may warn that the publisher is unknown.
+`SHA256SUMS.txt`; version 0.2.0 has no record of its own yet. The installer is **not code-signed**, so
+Windows may warn that the publisher is unknown.
 
 The Iberian Edition ships daily rainfall by municipality for Portugal and Spain (Iberia01, ODbL, in four
 parts of `data/chuva_iberia01_p*.db`; ERA5 for the islands, level C), the optional E-OBS base for mainland
@@ -135,9 +138,27 @@ overflow.
 triton analyze study.triton --analysis all --format xlsx --output results.xlsx
 ```
 
-This adds the economic analysis, the screening life-cycle assessment and the
+This adds the economic analysis, the screening life-cycle assessment, the system weight and the
 multi-criteria ranking. `--format` accepts `text`, `json`, `csv`, `html` and `xlsx`; pass
 `--seed` whenever the run involves sampling, so that the result is reproducible.
+
+**Declare the weights.** The ranking uses eight criteria on four axes: technical (volumetric
+reliability, storage efficiency), economic (net financial savings, levelised cost of water, discounted
+payback), environmental (life-cycle CO₂e) and structural (dry material mass, annual overflow).
+`--weights t,e,a,s` gives the four axis weights (25% each by default) or eight criterion weights;
+`--criterion-shares` gives eight shares that split each axis weight among its criteria (equal by default,
+`1,1,1,1,1,1,1,1`). Three axis weights, from projects and studies made up to version 0.1.0, are still
+accepted, with the structural axis taking their mean; seven values, from the old seven-criterion model, are
+refused. In the project file the same settings are `analysis.topsis_weights` and
+`analysis.topsis_criterion_shares`.
+
+**System weight.** `--analysis all` (or `--analysis system_weight`) also reports the dry mass, the water
+load and the operating load of the system, in kg and kN, in the basement or lower level, on the roof or upper
+level and in the risers and network. The HTML report, the XLSX workbook (sheet `system_weight` with the summary
+of the selected capacity; the per-capacity values are in sheet `alternatives`) and the terminal text show it.
+The alerts use the programme's own attention thresholds — 500 kg on the roof with the tank full, an upper tank
+above 1,500 L, a lower tank above 3,000 kg dry, any concrete lower tank — and not those of any standard: they
+ask you to confirm the load with the structural or foundation design.
 
 ---
 
@@ -226,8 +247,8 @@ recommendation; the criterion is part of the result.
 
 ## 8. Reporting a problem
 
-Send the report to the maintainers (sustainability@contato.ufsc.br) and
+Send the report to the maintainers (igorcmvaz@gmail.com) and
 attach the `.triton` project file and the precipitation series. The project file carries
 every premise, so the two together are enough for anyone to reproduce what you saw.
 
-Contact: sustainability@contato.ufsc.br
+Contact: igorcmvaz@gmail.com

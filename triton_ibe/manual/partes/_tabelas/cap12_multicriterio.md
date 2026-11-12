@@ -1,18 +1,18 @@
-<!-- tabela: Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise (os custos são ilustrativos, não são preços de mercado) -->
-| Volume | Potencial | VAL (ilustrativo, não é preço de mercado) | Período de recuperação | Saldo de carbono em 20 anos | Investimento (ilustrativo, não é preço de mercado) |
-| ---: | ---: | ---: | ---: | ---: | ---: |
-| 1 000 L | 12,31% | −4 503 € | sem recuperação | 17 kg | 4 700 € |
-| 2 000 L | 14,83% | −4 770 € | sem recuperação | 31 kg | 5 250 € |
-| 3 000 L | 16,43% | −5 140 € | sem recuperação | 27 kg | 5 800 € |
-| 4 000 L | 17,46% | −5 575 € | sem recuperação | 12 kg | 6 350 € |
-| 5 000 L | 18,28% | −6 053 € | sem recuperação | −8 kg | 6 900 € |
-| 8 000 L | 20,03% | −7 586 € | sem recuperação | −80 kg | 8 550 € |
-| 12 000 L | 21,81% | −9 668 € | sem recuperação | −187 kg | 10 750 € |
+<!-- tabela: Matriz de decisão multicritério: os oito critérios de cada volume candidato, em polietileno, com o reservatório superior de 1 000 L (os custos são ilustrativos, não são preços de mercado) -->
+| Volume | Fiabilidade volumétrica | Eficiência de armazenamento | VAL | LCOW | Período de recuperação | Emissões líquidas em 20 anos | Massa a seco | Extravasamento |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 000 L | 44,0% | 7,39% ao dia | −4 503 € | 17,70 €/m³ | sem recuperação | −17 kg CO₂e | 91 kg | 44,3 m³/ano |
+| 2 000 L | 53,0% | 4,45% ao dia | −4 770 € | 16,02 €/m³ | sem recuperação | −31 kg CO₂e | 113 kg | 38,7 m³/ano |
+| 3 000 L | 58,7% | 3,29% ao dia | −5 140 € | 15,65 €/m³ | sem recuperação | −27 kg CO₂e | 135 kg | 35,1 m³/ano |
+| 4 000 L | 62,4% | 2,62% ao dia | −5 575 € | 15,85 €/m³ | sem recuperação | −12 kg CO₂e | 157 kg | 32,9 m³/ano |
+| 5 000 L | 65,3% | 2,19% ao dia | −6 053 € | 16,22 €/m³ | sem recuperação | 8 kg CO₂e | 179 kg | 31,0 m³/ano |
+| 8 000 L | 71,5% | 1,50% ao dia | −7 586 € | 17,73 €/m³ | sem recuperação | 80 kg CO₂e | 245 kg | 27,1 m³/ano |
+| 12 000 L | 77,9% | 1,09% ao dia | −9 668 € | 19,87 €/m³ | sem recuperação | 187 kg CO₂e | 333 kg | 23,1 m³/ano |
 
-<!-- tabela: Volume vencedor segundo cada critério isolado -->
+<!-- tabela: Volume vencedor segundo cada critério isolado e o compromisso do TOPSIS -->
 | Critério isolado | Volume vencedor |
 | :--- | ---: |
-| maior potencial de poupança | 12 000 L |
+| maior fiabilidade volumétrica | 12 000 L |
 | menor período de recuperação descontado, desempate pelo VAL | 1 000 L |
-| maior saldo de carbono | 2 000 L |
-| **compromisso, pesos iguais** | **5 000 L** |
+| menores emissões líquidas de carbono | 2 000 L |
+| **compromisso TOPSIS, 25% em cada eixo** | **3 000 L** |

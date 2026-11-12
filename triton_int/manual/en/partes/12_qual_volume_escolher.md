@@ -5,61 +5,70 @@
 
 ---
 
-## Three criteria, three answers
+## Four questions, different answers
 
-The previous sections of this tutorial asked the same project three different questions
-— how much water it delivers, how much money it returns and how much carbon it avoids —
-and received three answers that do not coincide. This disagreement is not a defect of the
-analysis or an inconsistency in the data: it shows that the three criteria measure
-different things and behave differently with respect to the tank volume.
+The previous sections asked the same project how much water it delivers, how much money it
+returns and how much carbon it avoids. Version 0.2.0 adds a fourth question: how heavy the
+system is and how much water it still throws away. The answers do not coincide. That is not a
+defect of the analysis or of the data: the criteria measure different things and respond
+differently to the tank volume.
+
+The program judges each volume by eight criteria in four dimensions. Section {{n:32}} defines
+each one as the program computes it.
+
+<!-- tabela: The eight multi-criteria criteria, their dimension and the direction of preference of each one -->
+| Dimension | Criterion | Direction |
+| :--- | :--- | :--- |
+| technical | volumetric reliability | maximise |
+| technical | storage efficiency | maximise |
+| economic | net financial savings (NPV) | maximise |
+| economic | levelised cost of water (LCOW) | minimise |
+| economic | discounted payback | minimise |
+| environmental | net life-cycle CO₂e | minimise |
+| structural | dry mass of materials | minimise |
+| structural | annual overflow | minimise |
 
 <!-- inclui: _tabelas/cap12_multicriterio.md -->
 
-The first table is the portrait of the problem. Notice how the columns disagree:
+The first table is the portrait of the problem. Read it dimension by dimension:
 
-- The **potential** grows monotonically: the larger the cistern, the more water. Maximum
-  at 12,000 L.
-- The **NPV** is negative at every volume (the costs are illustrative, not market prices).
-  Its best value, the smallest loss, is at 2,000 L, and it worsens steadily beyond that
-  point, because each additional cubic metre of tank costs more than the saving it adds. No
-  volume has a payback.
-- The **carbon** rises and falls much earlier: maximum at 2,000 L, practically tied with
-  3,000 L. After that, each cubic metre of polyethylene adds more debt than credit, and
-  at 12,000 L the balance turns to emission.
+- **Technical.** Volumetric reliability rises with the volume, from 77.03% of the rainwater
+  demand at 1,000 L to 99.84% at 12,000 L. Storage efficiency falls: a 1,000 L cistern delivers
+  12.94% of its volume each day, a 12,000 L one only 1.40%. The two criteria pull in opposite
+  directions on purpose. One rewards the water delivered; the other counts the cubic metres that
+  stand idle.
+- **Economic.** The net saving is negative at every volume (the costs are illustrative, not
+  market prices); the smallest loss is at 2,000 L. The LCOW traces a U, with its minimum at
+  2,000 L. No volume pays back, so every one receives the same payback penalty and the payback
+  weighs nothing in this tutorial.
+- **Environmental.** The most carbon avoided is at 2,000 L, closely followed by 3,000 L. At
+  12,000 L the life-cycle balance turns to emission.
+- **Structural.** The dry mass grows with the volume; the overflow falls. This dimension also
+  pulls both ways.
 
-==There is no volume that wins on all three criteria at once.== Each one has its optimum
-at a different point of the curve, and the choice between them is not a technical
-question with a single answer: it is a question of priority, which must be declared by
-whoever decides and cannot be discovered by the program. That is exactly the gap that
-multi-criteria methods fill.
+==No volume wins on all eight criteria at once.== Each has its optimum at a different point of
+the curve, and the choice between them is not a technical question with a single answer. It is a
+question of priority, which whoever decides must declare and the program cannot discover. That is
+the gap multi-criteria methods fill.
 
 ---
 
 ## How TOPSIS solves it
 
-The program uses TOPSIS over **seven criteria**:
+The method works in four linked steps. First it normalises the decision matrix, so that criteria
+measured in incomparable units — percentages, currency, kilograms and cubic metres — come to occupy
+the same scale. Then it applies the declared weights. It then calculates, for each volume, the
+Euclidean distance to the ideal solution, made up of the best value of each criterion, and to the
+anti-ideal solution, made up of the worst. Finally it ranks the volumes by their relative closeness
+to the ideal, as formulated in section {{n:32}}.
 
-<!-- tabela: The seven multi-criteria criteria and the direction of preference of each one -->
-| Criterion | Direction |
-| :--- | :--- |
-| saving potential | maximise |
-| overflow | minimise |
-| net present value | maximise |
-| discounted payback | minimise |
-| internal rate of return | maximise |
-| CO₂e at the end of life | minimise |
-| potable water consumption | minimise |
+The weights are declared per dimension. Each dimension weight is shared among its criteria by the
+**criterion shares**, equal by default. With the four dimensions at 25%, each technical and each
+structural criterion weighs 12.5%, each economic criterion 8.33% and the single environmental
+criterion 25%.
 
-The method works in four linked steps. First it normalises the decision matrix, so that
-criteria measured in incomparable units — percentage points, currency, kilograms of carbon
-dioxide equivalent and years — come to occupy the same scale. Then it applies the declared
-weights. It then calculates, for each volume alternative, the Euclidean distance to the
-ideal solution, made up of the best values of each criterion, and to the anti-ideal
-solution, made up of the worst. Finally it ranks the alternatives by their relative
-closeness to the ideal, as formulated in section {{n:32}}.
-
-Applied to the tutorial project with equal weights across the three dimensions, split
-equally among the criteria of each one, the method points to the 4,000 L volume.
+Applied to the tutorial project with the four dimensions equal, the method points to **2,000 L**,
+with 3,000 L and 4,000 L close behind (section {{n:32}} gives the scores).
 
 > **Three statements a published study must make.**
 >
@@ -80,69 +89,81 @@ The decision tab shows the score of each candidate volume ({{fig:fig51_programa_
 
 ![The multi-criteria score of each candidate volume](../figuras/fig51_programa_topsis.png)
 
-*Figure 99 — The chart of the decision tab: the closeness-to-ideal score of each candidate volume, with the winner highlighted. Scores close to one another mean technically equivalent alternatives, and in that case the choice comes to depend on the declared weight. Figure generated by the program itself.*
+*Figure 99 — The chart of the decision tab: the closeness-to-ideal score of each candidate volume, with the four dimensions weighted equally and the winner highlighted. Scores close to one another mean technically equivalent alternatives, and in that case the choice comes to depend on the declared weight. Figure generated by the program itself.*
 
 ---
 ## The weight changes the answer
 
-The table below shows what happens when the weight is shifted.
+The table below gives 70% of the weight to one dimension and 10% to each of the other three.
 
 <!-- inclui: _tabelas/cap12_pesos.md -->
 
-Favouring the technical criterion moves the recommendation to 5,000 L, which was
-expected: the saving potential grows monotonically with the volume, and a dominant weight
-on that dimension pushes the choice up. The shift is small because the potential is
-already close to the ceiling, and the extra cubic metre yields little. The economic and
-environmental criteria, in turn, both converge to 4,000 L.
+A dominant technical weight does not push the volume up, as one might expect. It pulls it down
+to 1,000 L. Reliability gains 13 points from 1,000 to 2,000 L and fewer than 10 more all the way
+to 12,000 L, while storage efficiency keeps falling. With equal shares the two count the same, and
+the smallest cistern, the best on efficiency, comes first. Set the share of storage efficiency to zero, so that the technical dimension measures
+reliability alone, and the technical answer rises to 5,000 L.
 
-That convergence, however, is not a general rule, and reading it as one would wrongly
-generalise a particular case. Taken alone, the economic and the environmental criteria
-both prefer 2,000 L; the ranking lands on 4,000 L because TOPSIS also weighs the other
-criteria of each dimension, and because 4,000 L still ends its service life removing
-carbon. With a different tariff or different costs the economic optimum would move, and
-the divergence between the criteria would show clearly.
+This is also why the technical optimum depends on the question asked. The most reliable volume of
+the candidates is 12,000 L. The marginal-gain threshold of section {{n:7}} stops at 4,000 L. And
+the technical dimension of TOPSIS, with its two criteria, prefers 1,000 L. The three answers are
+consistent; they answer different questions, and the study must say which one it used.
 
-The multi-criteria ranking chooses a volume; it does not say whether to build. In this
-tutorial every volume has a negative NPV and no payback at the illustrative costs, so the
-financial dimension argues against building at all. If the project goes ahead, it is for
-the reasons the other dimensions give or for a purpose the cash flow does not measure,
-and the report must say so.
+The economic and environmental dimensions both stay at 2,000 L, the LCOW minimum and the carbon
+minimum. Only the structural dimension moves the choice to 4,000 L: the dry mass rises with the
+volume while the overflow falls, and the balance between the two lies there. The score margins are
+small throughout, a few hundredths at most.
 
-> **Declare the weights.** «Optimal volume by TOPSIS» without the weights is an
-> impossible statement to reproduce. Two papers with different weights reach different
-> volumes and both are right.
+The multi-criteria ranking chooses a volume; it does not say whether to build. In this tutorial
+every volume has a negative NPV and no payback at the illustrative costs, so the financial
+dimension argues against building at all. If the project goes ahead, it is for the reasons the
+other dimensions give or for a purpose the cash flow does not measure, and the report must say so.
+
+> **Declare the weights.** «Optimal volume by TOPSIS» without the weights is an impossible
+> statement to reproduce. State the four dimension weights and the criterion shares. Two papers
+> with different weights reach different volumes and both are right.
 
 ---
 
-A compromise solution gives up something, and it is worth knowing what. The program
-unfolds the single score into seven, one per criterion, and shows the distance separating
-the chosen alternative from the best value reached in each of them
-({{fig:fig52_programa_proximidade}}).
+A compromise solution gives up something, and it is worth knowing what. The program unfolds the
+single score into eight, one per criterion, and shows how close each volume comes to the best value
+reached in each of them ({{fig:fig52_programa_proximidade}}).
 
-![The closeness of the chosen volume to the optimum of each criterion](../figuras/fig52_programa_proximidade.png)
+![The closeness of each volume to the optimum of each criterion](../figuras/fig52_programa_proximidade.png)
 
-*Figure 99 — The second chart of the decision tab: how close the chosen volume comes to the best possible value on each of the seven criteria. It is the figure that shows what the compromise solution is giving up, and in which dimension. Figure generated by the program itself.*
+*Figure 99 — The second chart of the decision tab: how close each volume comes to the best observed value on each of the eight criteria, with the volume chosen by TOPSIS marked. It is the figure that shows what a choice gives up, and in which dimension. Figure generated by the program itself.*
 
 ---
 ## The tutorial's recommendation
 
-The tutorial's recommendation, if the project is built, is the **4,000 L polyethylene**
-tank, and the reason to adopt it is not only that it wins under equal weights. It is the
-compromise volume, not the financial optimum, which lies at 2,000 L. It also wins under a dominant
-economic weight and under a dominant environmental weight, and comes second under a dominant
-technical weight. Under the simulated weight uncertainty (SMAA), it ranks first in 45.8% of the draws, against 21.5% for 5,000 L. ==A recommendation that survives four different
-weightings is robust precisely because it does not depend on any of them.==
+The multi-criteria analysis with eight criteria and equal weights indicates **2,000 L**. The
+tutorial keeps the **4,000 L polyethylene** tank, the volume the hydraulic criterion of section
+{{n:7}} gave with a marginal-gain threshold of 1 %/m³, and carries it through sections {{n:8}} to
+{{n:13}}. The two routes do not agree in this project, and the choice deserves a plain account
+of what it gives up.
 
-It is also worth recording that this is the same volume the hydraulic criterion of section
-{{n:7}} had pointed to, with a marginal-gain threshold of 1 %/m³. Two methodologically
-independent routes — one that looks only at the yield curve and another that weighs seven
-criteria from three dimensions — reached the same result, and that agreement increases
-confidence in the recommendation.
+Against 2,000 L, the 4,000 L tank gives up money, carbon and lightness: a net saving of
+−US$ 3,020 instead of −US$ 2,241, an LCOW of US$ 10.24/m³ instead of US$ 9.43/m³, a dry mass of
+134 kg instead of 90 kg, and a storage efficiency of 4.06% of the volume a day instead of 7.58%.
+In return it meets 96.76% of the rainwater demand instead of 90.21%, and sends 52.6 m³ a year to
+the drain instead of 56.7 m³. The proximity chart shows the same trade, criterion by criterion.
 
-The agreement, however, is not guaranteed in any other case, and that is why the tutorial
-took the long road instead of stopping at section {{n:7}}. The purpose was not to reach
-the volume faster, but to know that the two routes agree in **this** project, instead of
-assuming they always agree.
+Under the simulated weight uncertainty (SMAA-VIKOR), 2,000 L comes first in 39.2% of the draws,
+3,000 L in 25.0% and 4,000 L in 18.2%. By the yardstick of section {{n:20}}, no volume is a
+robust choice: the answer depends on the weights, and the study must say so.
+
+**When the smaller volume is the defensible choice.** If cost and carbon lead the decision, or if
+the dimensions are weighted equally and idle volume counts against the tank, 2,000 L is the
+answer. It is the LCOW minimum, the carbon minimum and the smallest financial loss.
+
+**When the tutorial's volume is defensible.** If the decision weighs the water delivered and the
+overflow sent to the drainage system above money and mass, 4,000 L is the answer. It wins under a
+dominant structural weight, and it wins with equal weights when the storage-efficiency share is
+set to zero — by a thousandth of score over 3,000 L, which is a tie in practice.
+
+The tutorial keeps 4,000 L so that the following sections build on the volume the hydraulic
+criterion gave. A real study should choose with its own weights, declare them, and report both
+volumes: the one adopted, with its criterion, and the one the multi-criteria analysis indicated.
 
 ---
 

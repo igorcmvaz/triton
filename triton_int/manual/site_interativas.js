@@ -807,28 +807,43 @@ function topsisEscores(matriz, pesos, beneficio, volumes) {
   return {escores, postos, proximidade: prox, pesos: w};
 }
 
-/* The winner for a weight on each of the three axes (2 + 3 + 2 criteria). */
-function vencedorDosEixos(D, p3) {
-  const w7 = [p3[0] / 2, p3[0] / 2, p3[1] / 3, p3[1] / 3, p3[1] / 3, p3[2] / 2, p3[2] / 2];
-  const r = topsisEscores(D.matriz, w7, D.criterios.map(c => c.beneficio), D.volumes);
+/* The eight criterion weights: the weight of each dimension shared among its criteria by the
+ * criterion shares, as pesos_dos_criterios in triton/core/topsis.py (only the proportion
+ * within the dimension matters). */
+function pesosDosCriterios(D, p4, partes) {
+  const eixos = D.eixos.map(([k]) => k);
+  const total = p4.reduce((a, b) => a + b, 0) || 1;
+  return D.criterios.map((c, j) => {
+    const soma = D.criterios.reduce((a, cc, jj) => a + (cc.eixo === c.eixo ? partes[jj] : 0), 0);
+    return soma > 0 ? p4[eixos.indexOf(c.eixo)] / total * partes[j] / soma : 0;
+  });
+}
+
+/* The winner for a weight on each of the four dimensions, with the default criterion shares. */
+function vencedorDosEixos(D, p4) {
+  const w = pesosDosCriterios(D, p4, D.partes_padrao || D.criterios.map(() => 1));
+  const r = topsisEscores(D.matriz, w, D.criterios.map(c => c.beneficio), D.volumes);
   return D.volumes[r.postos.indexOf(1)];
 }
+
+/* The colour of each dimension in the proximity bars. */
+const COR_DO_EIXO = {technical: 3, economic: 2, environmental: 4, structural: 1};
 
 FI["fig51_programa_topsis.png"] = {
   curto: "The multi-criteria decision",
   pergunta: "Which volume does the multi-criteria method choose, and with what weights?",
-  controles: "technical · economic · environmental weight",
-  experimente: D => {
-    const e = 0.001;
-    return `With the three axes equal, as the program opens, the ${fmt(vencedorDosEixos(D, [1, 1, 1]))} L cistern wins. Put the whole weight on the technical axis and it is ${fmt(vencedorDosEixos(D, [1, e, e]))} L; on the economic axis, ${fmt(vencedorDosEixos(D, [e, 1, e]))} L; on the environmental axis, ${fmt(vencedorDosEixos(D, [e, e, 1]))} L. The criterion that changes the decision shows in the proximity bars.`;
-  },
-  fonte: "The seven criteria of the program, computed for seven candidate volumes with the tutorial project and a polyethylene cistern. The score is computed on the page by the same calculation as triton/core/topsis.py, checked against the program by an automatic test.",
+  controles: "technical · economic · environmental · structural weight · criterion shares",
+  experimente: D => `With the four dimensions equal, as the program opens, the ${fmt(vencedorDosEixos(D, [1, 1, 1, 1]))} L cistern wins. Give 70% to one dimension and 10% to each of the others: technical, ${fmt(vencedorDosEixos(D, [0.7, 0.1, 0.1, 0.1]))} L; economic, ${fmt(vencedorDosEixos(D, [0.1, 0.7, 0.1, 0.1]))} L; environmental, ${fmt(vencedorDosEixos(D, [0.1, 0.1, 0.7, 0.1]))} L; structural, ${fmt(vencedorDosEixos(D, [0.1, 0.1, 0.1, 0.7]))} L. The technical dimension does not push the volume up: reliability rises with the volume, but storage efficiency falls. Set the share of storage efficiency to zero and watch the technical answer move.`,
+  fonte: "The eight criteria of the program in four dimensions, computed for seven candidate volumes with the tutorial project and a polyethylene cistern. The score is computed on the page by the same calculation as triton/core/topsis.py, checked against the program by an automatic test.",
   montar(p, D, id) {
-    let pesos = [1 / 3, 1 / 3, 1 / 3], sete = false, pc = null, sel = D.volumes.indexOf(4000);
-    const W = 640, EIXOS = D.eixos, benef = D.criterios.map(c => c.beneficio);
+    const PADRAO = (D.partes_padrao || D.criterios.map(() => 1)).slice();
+    const EIXOS = D.eixos, benef = D.criterios.map(c => c.beneficio), W = 640;
+    const IGUAIS = EIXOS.map(() => 1 / EIXOS.length);
+    let pesos = IGUAIS.slice(), partes = PADRAO.slice(), abertas = false, sel = D.volumes.indexOf(4000);
+    if (sel < 0) sel = 0;
     const desenha = () => {
-      const w7 = sete ? pc.slice() : [pesos[0] / 2, pesos[0] / 2, pesos[1] / 3, pesos[1] / 3, pesos[1] / 3, pesos[2] / 2, pesos[2] / 2];
-      const Res = topsisEscores(D.matriz, w7, benef, D.volumes);
+      const w8 = pesosDosCriterios(D, pesos, partes);
+      const Res = topsisEscores(D.matriz, w8, benef, D.volumes);
       const vencedor = Res.postos.indexOf(1);
       const ey = escala(0, Math.max(...Res.escores) * 1.12, 4);
       const A = plano({W, H: 250, l: 58, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, ey.max], ym: ey.marcas,
@@ -848,70 +863,69 @@ FI["fig51_programa_topsis.png"] = {
         i => dicaHTML(`${fmt(D.volumes[i])} L`, [[S(1), "score", fmt(Res.escores[i], 4)], ["", "rank", `#${Res.postos[i]}`]]),
         i => { sel = i; desenha(); });
 
-      const B = plano({W, H: 250, l: 268, r: 60, t: 34, b: 36, x: [0, 1], y: [D.criterios.length - 0.4, -0.6],
+      const H2 = 290;
+      const B = plano({W, H: H2, l: 300, r: 60, t: 34, b: 36, x: [0, 1], y: [D.criterios.length - 0.4, -0.6],
         xm: [0, 0.25, 0.5, 0.75, 1], xf: v => fmt(v * 100) + "%", xr: "proximity to the best observed", painel: "(b)"});
       let t = B.s;
       D.criterios.forEach((c, j) => {
         const v = Res.proximidade[sel][j], y = B.Y(j), h = 16;
         t += `<rect x="${B.X(0)}" y="${y - h / 2}" width="${B.X(1) - B.X(0)}" height="${h}" rx="3" style="fill:var(--grid)"/>`;
-        t += `<rect x="${B.X(0)}" y="${y - h / 2}" width="${Math.max(2, B.X(v) - B.X(0))}" height="${h}" rx="3" style="fill:${S(c.eixo === "technical" ? 3 : c.eixo === "economic" ? 2 : 4)}"/>`;
+        t += `<rect x="${B.X(0)}" y="${y - h / 2}" width="${Math.max(2, B.X(v) - B.X(0))}" height="${h}" rx="3" style="fill:${S(COR_DO_EIXO[c.eixo] || 1)}"/>`;
         t += `<text class="g-t" x="${B.X(0) - 8}" y="${y + 4}" text-anchor="end">${c.rotulo} · weight ${fmt(Res.pesos[j] * 100, 1)}%</text>`;
         t += `<text class="g-t" x="${B.X(1) + 8}" y="${y + 4}">${fmt(v * 100, 0)}%</text>`;
       });
       p.querySelector(`#${id}h`).innerHTML = t;
 
       EIXOS.forEach(([k], i) => { const o = p.querySelector(`#${id}${k}-o`); if (o) o.textContent = fmt(pesos[i] * 100, 0) + "%"; });
-      if (sete) D.criterios.forEach((c, j) => { const o = p.querySelector(`#${id}c${j}-o`); if (o) o.textContent = fmt(Res.pesos[j] * 100, 1) + "%"; });
+      if (abertas) D.criterios.forEach((c, j) => { const o = p.querySelector(`#${id}c${j}-o`); if (o) o.textContent = fmt(partes[j] * 100, 0); });
+      const padrao = partes.every((x, j) => x === PADRAO[j]);
       p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Chosen: ${fmt(D.volumes[vencedor])} L</p>
         <div class="fi-n">${cartao("Score of the chosen volume", fmt(Res.escores[vencedor], 3))}
         ${cartao("Highlighted", fmt(D.volumes[sel]) + " L", `rank ${Res.postos[sel]}, score ${fmt(Res.escores[sel], 3)}`)}</div>
-        <p class="fi-sub">The seven criteria of the highlighted volume</p>
-        <table class="fi-tabela"><tbody>${D.criterios.map((c, j) => `<tr><td>${c.rotulo}<small>${c.beneficio ? "higher is better" : "lower is better"}</small></td>
-          <td class="n">${c.unidade === "US$" ? din(D.matriz[sel][j]) : menos(D.matriz[sel][j], c.casas) + " " + c.unidade}</td></tr>`).join("")}</tbody></table>
-        <p class="fi-nota">The score measures the distance to two references: the ideal alternative, made of the best value of each criterion, and the anti-ideal, made of the worst. ${D.sem_retorno.some(Boolean) ? "Volumes that do not pay back within the horizon receive the payback penalty the program applies, and are not left out of the calculation. " : ""}Equal weights on the three axes reproduce the program's result. ${ILUSTRATIVO}</p>`;
+        <p class="fi-sub">The eight criteria of the highlighted volume</p>
+        <table class="fi-tabela"><tbody>${D.criterios.map((c, j) => `<tr><td>${c.rotulo}<small>${c.eixo} · ${c.beneficio ? "higher is better" : "lower is better"}</small></td>
+          <td class="n">${D.sem_retorno[sel] && c.chave === "payback_years" ? "no payback" : c.unidade === "US$" ? din(D.matriz[sel][j]) : menos(D.matriz[sel][j], c.casas) + " " + c.unidade}</td></tr>`).join("")}</tbody></table>
+        <p class="fi-nota">The score measures the distance to two references: the ideal alternative, made of the best value of each criterion, and the anti-ideal, made of the worst. ${D.sem_retorno.some(Boolean) ? "Volumes that do not pay back within the horizon receive the payback penalty the program applies (the worst observed plus 10%, at least 20 years); when no volume pays back, the payback column is constant and weighs nothing. " : ""}The weight of each dimension is shared among its criteria by the criterion shares; ${padrao ? "the shares are the default, equal within each dimension, and" : "with the default shares, equal within each dimension,"} equal weights on the four dimensions reproduce the program's result. ${ILUSTRATIVO}</p>`;
     };
     p.innerHTML = `<div class="fi-ctls">
       ${EIXOS.map(([k, r], i) => ctlFaixa(id + k, r + " weight", 101, Math.round(pesos[i] * 100))).join("")}
-      <div class="fi-ctl"><span class="fi-rot">&nbsp;</span><div class="linha-ctl"><button type="button" class="bt" id="${id}igual">Equal weights</button><button type="button" class="bt" id="${id}sete">Open the seven criteria</button></div></div>
-    </div><div class="fi-ctls" id="${id}s7" hidden></div>
+      <div class="fi-ctl"><span class="fi-rot">&nbsp;</span><div class="linha-ctl"><button type="button" class="bt" id="${id}igual">Equal weights</button><button type="button" class="bt" id="${id}abrir">Criterion shares</button></div></div>
+    </div><div class="fi-ctls" id="${id}s8" hidden></div>
     <div class="fi-corpo"><div>
       <svg id="${id}g" viewBox="0 0 ${W} 250" role="img" aria-label="TOPSIS score of each candidate volume"></svg>
-      <svg id="${id}h" viewBox="0 0 ${W} 250" role="img" aria-label="Proximity of the highlighted volume to the best observed in each criterion"></svg>
-      ${legenda([["var(--accent)", "(a) chosen volume"], ["var(--ink2)", "(a) outline: highlighted volume"], [S(3), "(b) technical axis"], [S(2), "(b) economic axis"], [S(4), "(b) environmental axis"]])}
+      <svg id="${id}h" viewBox="0 0 ${W} 290" role="img" aria-label="Proximity of the highlighted volume to the best observed in each criterion"></svg>
+      ${legenda([["var(--accent)", "(a) chosen volume"], ["var(--ink2)", "(a) outline: highlighted volume"], [S(3), "(b) technical"], [S(2), "(b) economic"], [S(4), "(b) environmental"], [S(1), "(b) structural"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
-    const ajustar = () => {
-      const soma = pesos.reduce((a, b) => a + b, 0);
-      if (soma <= 0) pesos = [1 / 3, 1 / 3, 1 / 3];
-      else pesos = pesos.map(x => x / soma);
-    };
     EIXOS.forEach(([k], i) => p.querySelector(`#${id}${k}`).addEventListener("input", e => {
       pesos = pesos.map((x, j) => j === i ? +e.target.value / 100 : x);
       if (pesos.reduce((a, b) => a + b, 0) <= 0) pesos[i] = 0.01;
       desenha();
     }));
+    /* A dimension needs at least one criterion with a share above zero, as in the program. */
+    const ligarPartes = () => D.criterios.forEach((c, j) => p.querySelector(`#${id}c${j}`).addEventListener("input", ev => {
+      partes[j] = +ev.target.value / 100;
+      const soma = D.criterios.reduce((a, cc, jj) => a + (cc.eixo === c.eixo ? partes[jj] : 0), 0);
+      if (soma <= 0) partes[j] = 0.01;
+      desenha();
+    }));
     p.querySelector(`#${id}igual`).addEventListener("click", () => {
-      pesos = [1 / 3, 1 / 3, 1 / 3];
-      EIXOS.forEach(([k], i) => { p.querySelector(`#${id}${k}`).value = 33; });
-      if (sete) { pc = [1 / 6, 1 / 6, 1 / 9, 1 / 9, 1 / 9, 1 / 6, 1 / 6]; D.criterios.forEach((c, j) => { p.querySelector(`#${id}c${j}`).value = Math.round(pc[j] * 100); }); }
+      pesos = IGUAIS.slice();
+      partes = PADRAO.slice();
+      EIXOS.forEach(([k], i) => { p.querySelector(`#${id}${k}`).value = Math.round(pesos[i] * 100); });
+      if (abertas) D.criterios.forEach((c, j) => { p.querySelector(`#${id}c${j}`).value = Math.round(partes[j] * 100); });
       desenha();
     });
-    p.querySelector(`#${id}sete`).addEventListener("click", e => {
-      sete = !sete;
-      const caixa = p.querySelector(`#${id}s7`);
-      if (sete && !pc) pc = [1 / 6, 1 / 6, 1 / 9, 1 / 9, 1 / 9, 1 / 6, 1 / 6];
-      if (sete) {
-        caixa.innerHTML = D.criterios.map((c, j) => ctlFaixa(id + "c" + j, c.rotulo, 101, Math.round(pc[j] * 100))).join("");
-        D.criterios.forEach((c, j) => p.querySelector(`#${id}c${j}`).addEventListener("input", ev => {
-          pc[j] = +ev.target.value / 100;
-          if (pc.reduce((a, b) => a + b, 0) <= 0) pc[j] = 0.01;
-          desenha();
-        }));
+    p.querySelector(`#${id}abrir`).addEventListener("click", e => {
+      abertas = !abertas;
+      const caixa = p.querySelector(`#${id}s8`);
+      if (abertas) {
+        caixa.innerHTML = D.criterios.map((c, j) => ctlFaixa(id + "c" + j, (c.curto || c.rotulo) + " share", 101, Math.round(partes[j] * 100))).join("");
+        ligarPartes();
       }
-      caixa.hidden = !sete;
-      e.target.textContent = sete ? "Back to the three axes" : "Open the seven criteria";
+      caixa.hidden = !abertas;
+      e.target.textContent = abertas ? "Hide the criterion shares" : "Criterion shares";
       desenha();
     });
-    ajustar();
     desenha();
   }
 };
@@ -922,7 +936,7 @@ FI["fig23_smaa.png"] = {
   pergunta: "If nobody can say the weights, which volume wins most often?",
   controles: "ranking method · VIKOR strategy",
   experimente: "Swap VIKOR for TOPSIS and see whether the winner survives the change of method. Move the VIKOR strategy from consensus (0.5) to minimum regret (0) and watch which volume gains stability.",
-  fonte: D => `The program's own SMAA: ${fmt(D.sorteios)} draws of weights from a uniform Dirichlet distribution over the seven criteria, seed ${D.semente}, with the same seven candidates as the multi-criteria decision. ${ILUSTRATIVO}`,
+  fonte: D => `The program's own SMAA: ${fmt(D.sorteios)} draws of weights from a uniform Dirichlet distribution over the eight criteria, seed ${D.semente}, with the same seven candidates as the multi-criteria decision. ${ILUSTRATIVO}`,
   montar(p, D, id) {
     let motor = D.padrao[0], v = D.padrao[1], sel = 3;
     const W = 640;

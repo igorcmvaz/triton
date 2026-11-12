@@ -6,61 +6,78 @@
 
 ---
 
-## Três critérios, três respostas
+## Três perguntas, muitas respostas
 
 As seções anteriores deste tutorial formularam três perguntas distintas ao mesmo projeto
 — quanta água ele entrega, quanto dinheiro ele rende e quanto carbono ele evita — e
-receberam três respostas que não coincidem. Essa discordância não é defeito da análise
-nem inconsistência dos dados: é a manifestação de que os três critérios medem coisas
-diferentes e têm comportamentos diferentes em relação ao volume do reservatório.
+receberam respostas que não coincidem. Essa discordância não é defeito da análise nem
+inconsistência dos dados: os critérios medem coisas diferentes e se comportam de modo
+diferente em relação ao volume do reservatório. O multicritério do programa acrescenta uma
+quarta pergunta, a do peso do sistema, e avalia cada volume em oito critérios.
 
 <!-- inclui: _tabelas/cap12_multicriterio.md -->
 
 A primeira tabela é o retrato do problema. Repare em como as colunas discordam:
 
-- O **potencial** cresce monotonicamente: quanto maior a cisterna, mais água.
-  Máximo em 12.000 L.
-- O **VPL** sobe, achata e começa a cair: máximo em 4.000 L, praticamente empatado
-  com 2.000 e 3.000 L, e caindo desde 5.000 L, porque o investimento adicional deixa de
-  se pagar.
-- O **carbono** sobe e cai bem antes: máximo em 2.000 L, praticamente empatado com
-  1.000 L. Depois disso, cada metro cúbico de polietileno acrescenta mais dívida do
-  que crédito.
+- A **confiabilidade volumétrica** cresce sempre com o volume, de 83,2% a 100,0% da demanda
+  de água de chuva. Máximo em 12.000 L.
+- A **eficiência de armazenamento** faz o caminho inverso: a cisterna de 1.000 L entrega por
+  dia 13,98% do seu volume; a de 12.000 L, 1,40%. Volume que guarda água que ninguém usa é
+  volume ocioso, e é este critério que o cobra.
+- O **VPL** sobe, achata e começa a cair: máximo em 4.000 L, praticamente empatado com 2.000
+  e 3.000 L, e caindo desde 5.000 L, porque o investimento adicional deixa de se pagar.
+- O **custo nivelado da água** (LCOW) desenha um U, com mínimo em 2.000 L, R$ 34,84 por m³.
+  O **payback** também é menor em 2.000 L.
+- O **CO₂e** líquido é mais negativo, isto é, mais carbono evitado, em 2.000 L, praticamente
+  empatado com 1.000 L. A partir de 8.000 L, o polietileno incorporado supera o crédito e o
+  sistema termina a vida emitindo.
+- A **massa a seco** cresce com o volume. O **extravasamento** cai, mas pouco, de 136,3 para
+  125,7 m³/ano: a cobertura capta muito mais do que a casa consome.
 
-==Não existe volume que vença nos três critérios simultaneamente.== Cada um deles tem
-ótimo em posição distinta da curva, e a escolha entre eles não é uma questão técnica que
-admita resposta única: é uma questão de prioridade, que precisa ser declarada por quem
-decide e não pode ser descoberta pelo programa. É exatamente essa a lacuna que os
-métodos multicritério vêm preencher.
+==Não existe volume que vença em todos os critérios.== Cada um tem ótimo em posição
+distinta da curva, e a escolha entre eles não é uma questão técnica que admita resposta
+única: é uma questão de prioridade, que precisa ser declarada por quem decide e não pode
+ser descoberta pelo programa. É exatamente essa a lacuna que os métodos multicritério vêm
+preencher.
 
 ---
 
 ## Como o TOPSIS resolve
 
-O programa usa TOPSIS sobre **sete critérios**:
+O programa usa TOPSIS sobre **oito critérios em quatro eixos**:
 
-<!-- tabela: Os sete critérios do multicritério e a direção de preferência de cada um -->
-| Critério | Direção |
-| :--- | :--- |
-| potencial de economia | maximizar |
-| extravasamento | minimizar |
-| valor presente líquido | maximizar |
-| payback descontado | minimizar |
-| taxa interna de retorno | maximizar |
-| CO₂e no fim da vida | minimizar |
-| consumo de água potável | minimizar |
+<!-- tabela: Os oito critérios do multicritério, o eixo e a direção de preferência de cada um -->
+| Eixo | Critério | Direção |
+| :--- | :--- | :--- |
+| técnico | confiabilidade volumétrica | maximizar |
+| técnico | eficiência de armazenamento | maximizar |
+| econômico | economia financeira líquida (VPL) | maximizar |
+| econômico | custo nivelado da água (LCOW) | minimizar |
+| econômico | payback descontado | minimizar |
+| ambiental | CO₂e de ciclo de vida | minimizar |
+| estrutural | massa a seco do sistema | minimizar |
+| estrutural | extravasamento anual | minimizar |
 
 O método opera em quatro etapas encadeadas. Primeiro normaliza a matriz de decisão, de
 modo que critérios medidos em unidades incomparáveis — pontos percentuais, reais,
-quilogramas de dióxido de carbono equivalente e anos — passem a ocupar a mesma escala.
-Em seguida aplica os pesos declarados. Calcula então, para cada alternativa de volume, a
-distância euclidiana até a solução ideal, composta pelos melhores valores de cada
-critério, e até a solução anti-ideal, composta pelos piores. Ordena, por fim, as
-alternativas pela proximidade relativa ao ideal, conforme a formulação apresentada na
-seção {{n:32}}.
+quilogramas e anos — passem a ocupar a mesma escala. Em seguida aplica os pesos
+declarados. Calcula então, para cada alternativa de volume, a distância euclidiana até a
+solução ideal, composta pelos melhores valores de cada critério, e até a solução
+anti-ideal, composta pelos piores. Ordena, por fim, as alternativas pela proximidade
+relativa ao ideal, conforme a formulação apresentada na seção {{n:32}}.
 
-Aplicado ao projeto do tutorial com pesos iguais entre as três dimensões, repartidos
-igualmente entre os critérios de cada uma, o método indica o volume de 4.000 L.
+**Os pesos têm dois níveis.** Cada eixo recebe um peso, 25% no padrão, e esse peso se
+reparte entre os critérios do eixo pelas *partes no eixo*, iguais no padrão: a confiabilidade
+e a eficiência valem 12,5% cada; VPL, LCOW e payback, um terço de 25% cada; o CO₂e, 25%; a
+massa e o extravasamento, 12,5% cada. Na interface, os quatro pesos e a linha «Partes no
+eixo» ficam na aba de decisão; na linha de comando, nas opções `--weights` e
+`--criterion-shares`; no arquivo de projeto, em `analysis.topsis_weights` e
+`analysis.topsis_criterion_shares`; no estudo declarativo, em `analise.pesos` e
+`analise.partes_no_eixo`. Também é possível informar oito pesos diretos, um por critério.
+
+Aplicado ao projeto do tutorial com 25% em cada eixo e partes iguais, o método indica
+**2.000 L**, à frente de 3.000 L por dezenove milésimos de escore. Os 4.000 L do tutorial
+ficam em terceiro.
 
 > **Três declarações que um estudo publicado precisa fazer.**
 >
@@ -81,58 +98,69 @@ A aba de decisão apresenta o escore de cada volume candidato ({{fig:fig51_progr
 
 ![O escore multicritério de cada volume candidato](../figuras/fig51_programa_topsis.png)
 
-*Figura 99 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
+*Figura 99 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com 25% de peso em cada eixo e o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
 
 ---
 ## O peso muda a resposta
 
-A tabela a seguir mostra o que acontece ao deslocar o peso.
+A tabela a seguir desloca o peso: 70% num eixo e 10% em cada um dos outros três, como os
+perfis «Priorizar …» da aba de decisão.
 
 <!-- inclui: _tabelas/cap12_pesos.md -->
 
-Privilegiar o critério técnico desloca a recomendação para 5.000 L, o que era
-esperado: o potencial de economia cresce monotonicamente com o volume, e um peso
-dominante nessa dimensão empurra a escolha para cima. O deslocamento é pequeno porque o
-potencial já está perto do teto, e o metro cúbico a mais rende pouco. Os critérios
-econômico e ambiental, por sua vez, convergem ambos para 4.000 L.
+O peso técnico dominante leva ao **menor** volume, 1.000 L, embora a confiabilidade cresça
+com o volume. A razão está no outro critério do eixo. A confiabilidade já passa de 92% em
+2.000 L e quase não ganha depois; a eficiência de armazenamento cai à metade de 1.000 para
+2.000 L e continua caindo. Com os dois em partes iguais, a perda de eficiência pesa mais que
+o ganho de confiabilidade. São, portanto, três respostas «técnicas» diferentes, e nenhuma
+está errada: o critério isolado da confiabilidade aponta 12.000 L; o critério hidráulico da
+seção {{n:7}}, com limiar de 1 %/m³, 4.000 L; o eixo técnico do multicritério, 1.000 L.
 
-Essa convergência, contudo, não constitui regra geral, e interpretá-la como tal seria
-generalizar indevidamente um caso particular. Ela ocorre aqui porque o volume de 4.000 L
-está no máximo, pouco pronunciado, da curva de valor presente líquido e ainda encerra a
-vida útil retirando carbono. Em município de tarifa mais baixa, o ótimo econômico se deslocaria
-para baixo e a divergência entre os dois critérios apareceria com clareza.
+Os pesos econômico e ambiental dominantes levam a 2.000 L, o volume de menor LCOW, menor
+payback e maior carbono evitado. O peso estrutural dominante é o único que elege 4.000 L: o
+eixo junta a massa, que cresce com o volume, e o extravasamento, que cai, e com partes
+iguais o equilíbrio fica nesse volume.
 
-> **Declare os pesos.** «Volume ótimo pelo TOPSIS» sem os pesos é uma afirmação
-> impossível de reproduzir. Dois artigos com pesos diferentes chegam a volumes
-> diferentes e ambos estão certos.
+> **Declare os pesos e as partes.** «Volume ótimo pelo TOPSIS» sem os quatro pesos de eixo
+> e as partes no eixo é uma afirmação impossível de reproduzir. Dois artigos com pesos
+> diferentes chegam a volumes diferentes e ambos estão certos.
 
 ---
 
-Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em sete, um por critério, e mostra a distância que separa a alternativa escolhida do melhor valor alcançado em cada um deles ({{fig:fig52_programa_proximidade}}).
+Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O programa desdobra o escore único em oito, um por critério, e mostra a distância que separa cada volume do melhor valor alcançado em cada um deles ({{fig:fig52_programa_proximidade}}).
 
-![A proximidade do volume escolhido ao ótimo de cada critério](../figuras/fig52_programa_proximidade.png)
+![A proximidade de cada volume ao ótimo de cada critério](../figuras/fig52_programa_proximidade.png)
 
-*Figura 99 — O segundo gráfico da aba de decisão: quanto o volume escolhido se aproxima do melhor valor possível em cada um dos sete critérios. É a figura que mostra o que a solução de compromisso está cedendo, e em qual dimensão. Figura gerada pelo próprio programa.*
+*Figura 99 — O segundo gráfico da aba de decisão: quanto cada volume se aproxima do melhor valor possível em cada um dos oito critérios, com o volume eleito pelo TOPSIS marcado. Lida na vertical de outro volume, a figura mostra o que ele cede, e em qual eixo. Figura gerada pelo próprio programa.*
 
 ---
 ## A recomendação do tutorial
 
-A recomendação do tutorial é o reservatório de **4.000 L em polietileno**, e a razão de
-adotá-la não é apenas o fato de ele vencer sob pesos iguais. Ele vence também sob peso
-econômico dominante e sob peso ambiental dominante, e fica em segundo lugar por margem
-estreita sob peso técnico dominante. ==Uma recomendação que sobrevive a quatro
-ponderações diferentes é robusta precisamente porque não depende de nenhuma delas.==
+O tutorial mantém o reservatório de **4.000 L em polietileno**, o volume do critério
+hidráulico da seção {{n:7}}, com limiar de ganho marginal de 1 %/m³. Não é o volume que o
+multicritério indica. Neste projeto, as duas rotas discordam: com 25% em cada eixo, o TOPSIS
+prefere 2.000 L e põe os 4.000 L em terceiro, e só o peso estrutural dominante os elege.
 
-Vale registrar ainda que esse é o mesmo volume que o critério hidráulico da seção
-{{n:7}} havia indicado, com limiar de ganho marginal de 1 %/m³. Duas rotas
-metodologicamente independentes — uma que olha apenas para a curva de aproveitamento e
-outra que pondera sete critérios de três dimensões — chegaram ao mesmo resultado, e essa
-concordância aumenta a confiança na recomendação.
+Na vertical de 4.000 L da figura de proximidade, e na primeira tabela, lê-se o que a escolha
+cede em relação a 2.000 L. Os 4.000 L entregam mais água, com confiabilidade de 97,5% contra
+92,5%, e um VPL pouco maior, R$ 5.524 contra R$ 5.374. Em troca, a eficiência de
+armazenamento cai quase à metade, de 7,77% para 4,09% ao dia; o LCOW sobe de R$ 34,84 para
+R$ 35,04 por m³, e o payback, de 12,4 para 12,8 anos; o carbono evitado em 20 anos cai de
+124 para 74 kg; e a massa a seco cresce 44 kg.
 
-A concordância, porém, não é garantida em nenhum outro caso, e é por isso que o tutorial
-percorreu o caminho longo em vez de parar na seção {{n:7}}. O propósito não era chegar
-mais depressa ao volume, e sim saber que as duas rotas concordam **neste** projeto, em
-vez de supor que concordem sempre.
+A margem entre os três primeiros é pequena, e o SMAA-VIKOR da seção {{n:32}} a mede:
+2.000 L vencem em 45% dos sorteios de pesos, e 3.000 e 4.000 L em cerca de 22% cada.
+
+==Os 4.000 L são defensáveis quando a prioridade declarada é a água:== quem decide valoriza
+o atendimento da demanda e o VPL acima da eficiência do volume construído, e aceita pagar
+por isso algum carbono e alguma massa. Quando a prioridade é o menor custo por metro cúbico,
+o retorno mais rápido, o carbono evitado ou nenhuma em particular, ==os 2.000 L são a escolha
+defensável==, e o estudo deve adotá-los.
+
+O tutorial segue com 4.000 L porque as seções {{n:8}} a {{n:11}} foram construídas sobre esse
+volume, e porque a lição desta seção é justamente a discordância: o volume do critério
+hidráulico e o do multicritério não precisam coincidir. O estudo publicado precisa dizer
+qual dos dois adotou, com que pesos, e o que a escolha cede.
 
 ---
 

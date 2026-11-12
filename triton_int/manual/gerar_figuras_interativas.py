@@ -250,62 +250,56 @@ VOLUMES_MCDM = (1000, 2000, 3000, 4000, 5000, 8000, 12000)
 MATERIAL_MCDM = "PEAD"
 
 
-#: Os rótulos dos sete critérios do núcleo (em português) na versão do manual em inglês.
+#: Os rótulos dos oito critérios do núcleo (em português) na versão do manual em inglês: os mesmos
+#: que a interface mostra em inglês. Ordem de ``CRITERION_KEYS``.
 ROTULOS_DOS_CRITERIOS = (
-    "Maximum potential", "Minimum overflow", "Highest NPV", "Shortest discounted payback",
-    "Highest IRR", "Lowest end-of-life CO₂", "Lowest potable water use",
+    "Volumetric reliability", "Storage efficiency", "Net financial savings",
+    "Levelised cost of water (LCOW)", "Payback time", "Life-cycle CO₂",
+    "Dry mass of materials", "Annual overflow volume",
 )
+#: Os nomes curtos da linha «Criterion shares» da aba de decisão, em inglês.
+ROTULOS_CURTOS = ("Reliability", "Efficiency", "Savings", "LCOW", "Payback", "CO₂", "Mass", "Overflow")
 
 
 def _candidatos_mcdm():
-    """Os mesmos candidatos da figura do programa, com os sete critérios."""
-    from triton.core.economic import run_economic_analysis
-    from triton.core.environmental import calculate_lca
-    from triton.core.topsis import TopsisCandidate
-    serie = _serie()
-    cands = []
-    for v in VOLUMES_MCDM:
-        r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **_config_projeto())
-        e = run_economic_analysis(_config_economica(v, MATERIAL_MCDM), r)
-        amb = _config_ambiental(r)
-        amb.lower_material_key = MATERIAL_MCDM
-        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
-            capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct,
-            overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years,
-            irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+    """Os mesmos candidatos da figura do programa e das tabelas, com os oito critérios.
+
+    A montagem é a de ``gerar_tabelas.candidatos_multicriterio`` (``candidato_dos_resultados``).
+    """
+    from gerar_tabelas import candidatos_multicriterio
+    cands, _, _ = candidatos_multicriterio(MATERIAL_MCDM, VOLUMES_MCDM)
     return cands
 
 
 def multicriterio():
     """A matriz de decisão do TOPSIS; o escore sai do peso escolhido na página."""
     from triton.core.topsis import (
-        CRITERION_GROUPS, CRITERION_IS_BENEFIT, CRITERION_KEYS, CRITERION_LABELS,
-        _decision_matrix, calculate_topsis_scores)
+        CRITERION_GROUPS, CRITERION_IS_BENEFIT, CRITERION_KEYS,
+        PARTES_IGUAIS_NO_EIXO, PARTES_NO_EIXO_PADRAO, _decision_matrix,
+        calculate_topsis_scores)
     cands = _candidatos_mcdm()
     matriz = _decision_matrix(cands)
-    # Com pesos iguais por eixo, o mesmo resultado que o programa mostra.
+    # Os quatro eixos iguais e as partes no eixo do padrão: o que o programa mostra ao abrir.
+    # Na 0.2.0 o padrão já são partes iguais, e as duas listas coincidem; as duas chaves ficam.
     padrao = calculate_topsis_scores(cands, None)
+    iguais = calculate_topsis_scores(cands, None, PARTES_IGUAIS_NO_EIXO)
     return {
         "volumes": [int(c.lower_tank_vol) for c in cands],
-        "criterios": [{"chave": k, "rotulo": r, "eixo": g, "beneficio": bool(b),
+        "criterios": [{"chave": k, "rotulo": r, "curto": c, "eixo": g, "beneficio": bool(b),
                        "unidade": u, "casas": d}
-                      for k, r, g, b, u, d in zip(
-                          CRITERION_KEYS, ROTULOS_DOS_CRITERIOS, CRITERION_GROUPS,
+                      for k, r, c, g, b, u, d in zip(
+                          CRITERION_KEYS, ROTULOS_DOS_CRITERIOS, ROTULOS_CURTOS, CRITERION_GROUPS,
                           CRITERION_IS_BENEFIT,
-                          ["%", "m³/yr", "US$", "years", "% p.a.", "kg CO₂e", "m³/yr"],
-                          [2, 1, 0, 1, 1, 0, 1])],
+                          ["%", "%/day", "US$", "US$/m³", "years", "kg CO₂e", "kg", "m³/yr"],
+                          [2, 2, 0, 2, 1, 0, 0, 1])],
         "matriz": [[_r(x, 4) for x in linha] for linha in matriz],
         "eixos": [("technical", "Technical"), ("economic", "Economic"),
-                  ("environmental", "Environmental")],
+                  ("environmental", "Environmental"), ("structural", "Structural")],
         "capex": [_r(c.capex_brl) for c in cands],
         "sem_retorno": [c.discounted_payback_years is None for c in cands],
+        "partes_padrao": [float(x) for x in PARTES_NO_EIXO_PADRAO],
         "escores_padrao": [_r(x, 6) for x in padrao.scores],
+        "escores_iguais": [_r(x, 6) for x in iguais.scores],
         "material": MATERIAL_MCDM,
     }
 

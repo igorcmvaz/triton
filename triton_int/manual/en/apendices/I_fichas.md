@@ -18,7 +18,7 @@ computer.
 | 6 | Quality | class, disinfection, filters | {{n:9}} |
 | 7 | Economics | real tariff, CAPEX, cash flow | {{n:10}} |
 | 8 | Carbon | inventory, material, payback | {{n:11}} |
-| 9 | Decision | seven criteria, declared weights | {{n:12}} |
+| 9 | Decision | eight criteria in four dimensions, declared weights | {{n:12}} |
 | 10 | Report | outputs and the list of what to declare | {{n:13}} |
 
 **Before publishing:** section {{n:13}}, the list of what to declare. Section {{n:33}}, the ten

@@ -410,16 +410,22 @@ PROCESSOS = [
 ),
 (
  "PROC-21", "Ordenar volumes por múltiplos critérios", "mcdm",
- "Separador Otimizador, com a varrimento pronta.",
- ["um candidato por volume da varrimento, cada um com potencial, extravasamento, VAL, "
-  "período de recuperação descontado, TIR, CO₂ de ciclo de vida e consumo de potável",
-  "pesos dos sete critérios"],
- ["Sete critérios: <b>maximizar</b> potencial, VAL e TIR; <b>minimizar</b> extravasamento, "
-  "período de recuperação, CO₂ e consumo de potável.",
+ "Separador Otimizador, com o varrimento pronto.",
+ ["um candidato por volume do varrimento, montado por <code>candidato_dos_resultados</code> "
+  "com a simulação, a análise económica, o CO₂ de ciclo de vida e a massa a seco",
+  "quatro pesos de eixo e oito partes no eixo, ou oito pesos de critério"],
+ ["Oito critérios em quatro eixos. Técnico: <b>maximizar</b> fiabilidade volumétrica e eficiência "
+  "de armazenamento. Económico: <b>maximizar</b> VAL; <b>minimizar</b> LCOW e período de recuperação "
+  "descontado. Ambiental: <b>minimizar</b> CO₂ de ciclo de vida. Estrutural: <b>minimizar</b> massa a "
+  "seco e extravasamento anual.",
+  "O peso de cada eixo reparte-se pelos critérios do eixo segundo as partes no eixo. Três pesos de "
+  "eixo (projetos até à 0.1.0) dão ao eixo estrutural a média dos três; sete valores são recusados.",
+  "Quem não recupera o investimento recebe no período de recuperação o pior observado mais 10% "
+  "(ao menos mais um ano e ao menos 20 anos); o volume zero recebe no LCOW o pior observado mais 10%.",
   "A normalização translada por <code>x − min(x)</code> <b>antes</b> da normalização "
   "vetorial de Hwang e Yoon, para admitir VAL negativo. É variante deliberada, e precisa "
   "ser declarada como variante.",
-  "O SMAA-VIKOR sorteia pesos e devolve as probabilidades de cada volume ocupar cada posição.",
+  "O SMAA-VIKOR sorteia oito pesos e devolve as probabilidades de cada volume ocupar cada posição.",
   "As condições C1 e C2 de Opricovic não estão implementadas."],
  [("topsis.py", "calculate_topsis_scores"), ("mcdm_methods.py", "run_vikor")],
  ["Ordenação dos volumes, distância ao ideal por critério, volume de compromisso"],

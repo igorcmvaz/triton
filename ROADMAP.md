@@ -1,6 +1,6 @@
 # Roadmap do Triton
 
-O que vem depois da versão 0.1.0 (Beta). Vale para as três edições (Brasil, International e Ibérica), que compartilham o mesmo motor e a mesma numeração de versões. Os itens não têm data nem ordem fixas.
+O que vem depois da versão 0.2.0 (Beta). Vale para as três edições (Brasil, International e Ibérica), que compartilham o mesmo motor e a mesma numeração de versões. Os itens não têm data nem ordem fixas.
 
 ## Próximas direções
 

@@ -27,11 +27,13 @@ python -m triton.cli init .\projeto.triton --rainfall Funchal.csv --embed-rainfa
 # 2. Valide o ficheiro antes de calcular.
 python -m triton.cli validate .\projeto.triton
 
-# 3. Execute a análise técnica, a economia, a ACV e o TOPSIS, com resultado auditável.
+# 3. Execute a análise técnica, a economia, a ACV, o peso do sistema e o TOPSIS, com resultado auditável.
 python -m triton.cli analyze .\projeto.triton --analysis all --format json --output .\saida\resultado.json
 ```
 
-O comando `run` executa o balanço hídrico técnico. `analyze --analysis all` aplica, para cada volume da varredura, o balanço técnico, a análise económica, o balanço ambiental e o ranking TOPSIS. Assim, todas as escolhas usam as mesmas alternativas simuladas.
+O comando `run` executa o balanço hídrico técnico. `analyze --analysis all` aplica, para cada volume da varredura, o balanço técnico, a análise económica, o balanço ambiental, o peso do sistema e o ranking TOPSIS. Assim, todas as escolhas usam as mesmas alternativas simuladas.
+
+O **peso do sistema** (`--analysis all` ou `--analysis system_weight`) traz a massa a seco, a carga de água e a carga em operação, em kg e kN, no subsolo ou nível inferior, na cobertura ou nível superior e nas prumadas e rede. O HTML, o XLSX (folha `system_weight` com o resumo do volume escolhido; os valores por volume ficam na folha `alternatives`) e o texto do terminal mostram o bloco. Os alertas usam limiares de atenção do **programa**, e não de norma — 500 kg sobre a cobertura com o reservatório cheio, reservatório superior acima de 1 500 L, cisterna acima de 3 000 kg a seco, cisterna de betão — e pedem a confirmação do projeto estrutural ou de fundações.
 
 ## Comandos mais usados
 
@@ -39,14 +41,15 @@ O comando `run` executa o balanço hídrico técnico. `analyze --analysis all` a
 | --- | --- |
 | Simular um volume específico | `python -m triton.cli run .\projeto.triton --volume 5000 --analysis all` |
 | Alterar premissas sem editar o projeto | `python -m triton.cli analyze .\projeto.triton --set area=150 --set rainwater_share=0.5` |
-| Ajustar pesos TOPSIS | `python -m triton.cli analyze .\projeto.triton --analysis topsis --weights 0.40,0.35,0.25` |
+| Ajustar pesos TOPSIS | `python -m triton.cli analyze .\projeto.triton --analysis topsis --weights 0.40,0.30,0.20,0.10` |
+| Repartir o peso dentro dos eixos | `python -m triton.cli analyze .\projeto.triton --analysis topsis --weights 0.25,0.25,0.25,0.25 --criterion-shares 1,1,2,1,1,1,1,1` |
 | Avaliar robustez dos pesos | `python -m triton.cli analyze .\projeto.triton --analysis topsis --weight-sensitivity 1000 --seed 42 --format json --output .\saida\pesos.json` |
 | Propagar incertezas | `python -m triton.cli uncertainty .\projeto.triton --samples 1000 --rainfall-cv 10 --demand-cv 15 --capex-cv 20 --format json --output .\saida\monte-carlo.json` |
 | Gerar HTML ou XLSX | Troque `--format json` por `html` ou `xlsx` e informe `--output` |
 | Executar folha de cálculo de cenários | `python -m triton.cli batch .\cenarios.xlsx --base .\projeto.triton --analysis all --format xlsx --output .\saida\lote.xlsx` |
 | Combinar vários projetos e chuvas | `python -m triton.cli matrix-projects --projects .\projetos --rainfall-dir .\chuvas --recursive --output-dir .\saida\matriz` |
 
-Os valores de `--weights` são, nesta ordem: técnico, económico e ambiental. A CLI normaliza a soma automaticamente. As saídas gerais aceitam `text`, `json`, `csv`, `html` e `xlsx`; o comando `uncertainty` aceita `text`, `json` e `csv`. Formatos estruturados exigem `--output`. XLSX requer `pandas` e `openpyxl`.
+O multicritério tem oito critérios em quatro eixos: técnico (fiabilidade volumétrica, eficiência de armazenamento), económico (economia financeira líquida, custo nivelado da água, período de recuperação descontado), ambiental (CO₂e de ciclo de vida) e estrutural (massa a seco dos materiais, extravasamento anual). Os valores de `--weights` são, nesta ordem, os pesos dos eixos técnico, económico, ambiental e estrutural (25% cada por omissão), ou oito pesos, um por critério; três valores, de projetos e estudos até à 0.1.0, ainda são aceites, e o eixo estrutural recebe a média dos três. `--criterion-shares` reparte o peso de cada eixo pelos seus critérios, com oito valores pela ordem acima (por omissão, `1,1,1,1,1,1,1,1`, partes iguais). A CLI normaliza a soma automaticamente. Sete valores, do modelo de sete critérios anterior à 0.2.0, são recusados. No ficheiro de projeto, os mesmos dados são `analysis.topsis_weights` (quatro ou oito valores) e `analysis.topsis_criterion_shares` (oito). As saídas gerais aceitam `text`, `json`, `csv`, `html` e `xlsx`; o comando `uncertainty` aceita `text`, `json` e `csv`. Formatos estruturados exigem `--output`. XLSX requer `pandas` e `openpyxl`.
 
 `--set CAMPO=VALOR` pode ser repetido e altera a premissa somente para aquela execução. Registe o comando completo no protocolo do estudo, pois o ficheiro de origem permanece inalterado.
 
@@ -138,7 +141,7 @@ A ação `consolidar` procura todos os `resultados.csv` sob as pastas indicadas 
 | `padroes` | `substituicoes` e `clima` aplicados a todos os casos; o que o caso declara vence o padrão |
 | `casos` | lista; cada caso tem `id`, `nome`, `grupo` (por padrão, a tipologia), `projeto` (outro `.triton` para este caso), `clima` e `substituicoes` |
 | `clima` | `arquivo` (série diária de chuva, CSV), `data_inicio` (dd/mm/aaaa), `nome` e `fonte` (rótulos que vão para a procedência) |
-| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis` ou um volume em litros), `pesos` (TOPSIS) e `semente` |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis`, `smaa_vikor` ou um volume em litros), `pesos` (quatro de eixo — técnico, económico, ambiental, estrutural — ou oito de critério; três, de estudos anteriores à 0.2.0, ainda aceites), `partes_no_eixo` (oito valores) e `semente` |
 | `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (um inteiro ou uma por métrica), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar`, `legenda` e `orientacao` (`casos_nas_linhas` ou `metricas_nas_linhas`) |
 
 Chaves que começam por `_` são comentários e o programa as ignora. Campo vazio, `null` ou «XX» é «a preencher»: a validação o recusa e diz onde está. Uma chave desconhecida é erro, com a sugestão da mais parecida. `triton estudo esquema` imprime o JSON Schema do ficheiro, para completar e conferir no editor.

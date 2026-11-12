@@ -250,10 +250,10 @@ MATERIAL_MCDM = "PEAD"
 
 
 def _candidatos_mcdm():
-    """Os mesmos candidatos da figura do programa, com os sete critérios."""
+    """Os mesmos candidatos da figura do programa, com os oito critérios."""
     from triton.core.economic import run_economic_analysis
     from triton.core.environmental import calculate_lca
-    from triton.core.topsis import TopsisCandidate
+    from triton.core.topsis import candidato_dos_resultados
     serie = _serie()
     cands = []
     for v in VOLUMES_MCDM:
@@ -262,15 +262,8 @@ def _candidatos_mcdm():
         amb = _config_ambiental(r)
         amb.lower_material_key = MATERIAL_MCDM
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
-            capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct,
-            overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years,
-            irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+        # A mesma montagem da linha de comando e da interface.
+        cands.append(candidato_dos_resultados(r, e, lca.lifetime_net_co2_saved_kg))
     return cands
 
 
@@ -278,11 +271,15 @@ def multicriterio():
     """A matriz de decisão do TOPSIS; o escore sai do peso escolhido na página."""
     from triton.core.topsis import (
         CRITERION_GROUPS, CRITERION_IS_BENEFIT, CRITERION_KEYS, CRITERION_LABELS,
-        _decision_matrix, calculate_topsis_scores)
+        PARTES_IGUAIS_NO_EIXO, PARTES_NO_EIXO_PADRAO, _decision_matrix,
+        calculate_topsis_scores)
     cands = _candidatos_mcdm()
     matriz = _decision_matrix(cands)
-    # Com pesos iguais por eixo, o mesmo resultado que o programa mostra.
+    # 25% em cada eixo e as partes no eixo do padrão (iguais): o que o programa mostra ao abrir.
+    # Desde a 0.2.0 o padrão das partes é a divisão igual, e as duas listas coincidem;
+    # as duas chaves ficam, porque a página e o teste leem ambas.
     padrao = calculate_topsis_scores(cands, None)
+    iguais = calculate_topsis_scores(cands, None, PARTES_IGUAIS_NO_EIXO)
     return {
         "volumes": [int(c.lower_tank_vol) for c in cands],
         "criterios": [{"chave": k, "rotulo": r, "eixo": g, "beneficio": bool(b),
@@ -290,14 +287,16 @@ def multicriterio():
                       for k, r, g, b, u, d in zip(
                           CRITERION_KEYS, CRITERION_LABELS, CRITERION_GROUPS,
                           CRITERION_IS_BENEFIT,
-                          ["%", "m³/ano", "R$", "anos", "% a.a.", "kg CO₂e", "m³/ano"],
-                          [2, 1, 0, 1, 1, 0, 1])],
+                          ["%", "% ao dia", "R$", "R$/m³", "anos", "kg CO₂e", "kg", "m³/ano"],
+                          [1, 2, 0, 2, 1, 0, 0, 1])],
         "matriz": [[_r(x, 4) for x in linha] for linha in matriz],
         "eixos": [("technical", "Técnico"), ("economic", "Econômico"),
-                  ("environmental", "Ambiental")],
+                  ("environmental", "Ambiental"), ("structural", "Estrutural")],
         "capex": [_r(c.capex_brl) for c in cands],
         "sem_retorno": [c.discounted_payback_years is None for c in cands],
+        "partes_padrao": [float(x) for x in PARTES_NO_EIXO_PADRAO],
         "escores_padrao": [_r(x, 6) for x in padrao.scores],
+        "escores_iguais": [_r(x, 6) for x in iguais.scores],
         "material": MATERIAL_MCDM,
     }
 

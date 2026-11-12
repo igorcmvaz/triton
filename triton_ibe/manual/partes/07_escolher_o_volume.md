@@ -103,7 +103,7 @@ O critério do ganho marginal é puramente hidráulico: olha para a curva de apr
 - Se a cisterna for cara ou o espaço escasso, o inverso.
 - Uma cisterna de betão de 20 m³ pesa 24 toneladas e traz, com o resto do sistema, cerca de **3,5 toneladas de CO₂e** incorporado (3 546 kg), contra cerca de uma tonelada na de 5 m³ (1 026 kg). Os últimos metros cúbicos acrescentam pouca economia, e não têm como compensar a diferença.
 
-São três critérios e três respostas diferentes para a mesma pergunta, e nenhuma é mais legítima do que as outras em abstrato. É por isso que o tutorial não acaba aqui: as secções {{n:10}} e {{n:11}} acrescentam à análise, respetivamente, o dinheiro e o carbono, e a secção {{n:12}} põe as três dimensões na mesma mesa, com pesos declarados, para chegar a um volume de compromisso que se possa defender.
+São três critérios e três respostas diferentes para a mesma pergunta, e nenhuma é mais legítima do que as outras em abstrato. É por isso que o tutorial não acaba aqui: as secções {{n:10}} e {{n:11}} acrescentam à análise, respetivamente, o dinheiro e o carbono, e a secção {{n:12}} põe as três dimensões na mesma mesa, com o peso do sistema como quarta, e pesos declarados, para chegar a um volume de compromisso que se possa defender.
 
 > **O engano mais comum, e está na secção {{n:33}}.** Publicar o volume de maior economia de água como se fosse o volume recomendado. Pela tabela, 20 000 L dão o maior potencial, 24,35%. A cisterna de betão custa **3,3 vezes mais** do que a de 5 000 L (2 600 € contra 8 600 €; preços ilustrativos, não são preços de mercado) e traz **3,5 vezes mais carbono incorporado**, para entregar 6,47 pontos percentuais a mais.
 

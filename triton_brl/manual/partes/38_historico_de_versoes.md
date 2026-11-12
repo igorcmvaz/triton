@@ -30,7 +30,7 @@ história do programa.
 
 A versão 0.1.0 é a primeira versão pública do Triton e é um beta: o programa ainda está em
 desenvolvimento, e a numeração sobe (0.2.0, 0.3.0 e assim por diante) até a 1.0.0, que será a
-primeira versão oficial. Os números anteriores à 0.1.0 foram de desenvolvimento, e nunca chegaram
+primeira versão oficial. A versão atual, descrita neste manual, é a 0.2.0, também beta. Os números anteriores à 0.1.0 foram de desenvolvimento, e nunca chegaram
 a circular; nenhum estudo foi feito com eles.
 
 ---
@@ -54,6 +54,61 @@ divergirem. Quem acompanha o programa pelo repositório, pelo site ou pelo manua
 mesmo registro.
 
 <!-- inclui: _tabelas/cap38_versoes.md -->
+
+---
+
+## Versão 0.2.0 (beta) — 11 de novembro de 2026
+
+> **Em uma frase.** O multicritério passa de sete critérios em três eixos a oito critérios em
+> quatro eixos (técnico, econômico, ambiental e estrutural), com o custo nivelado da água e a massa
+> a seco do sistema, e a linha de comando passa a calcular o peso do sistema.
+
+### Novidades
+
+- **Oito critérios em quatro eixos.** Técnico: confiabilidade volumétrica e eficiência de
+  armazenamento. Econômico: economia financeira líquida (o VPL contra a linha de base sem cisterna),
+  custo nivelado da água (LCOW) e payback descontado. Ambiental: CO₂e de ciclo de vida. Estrutural:
+  massa a seco do sistema e extravasamento anual. No modelo anterior, três critérios (potencial de
+  economia, extravasamento e consumo de água potável) mediam a mesma água economizada; o novo reduz
+  essa colinearidade e leva o peso do sistema à decisão. A seção {{n:32}} traz a definição de cada um.
+- **Pesos.** Quatro pesos de eixo, 25% cada por padrão, repartidos dentro de cada eixo pelas *partes
+  no eixo* (padrão: partes iguais), ou oito pesos diretos, um por critério. A aba de decisão tem os
+  quatro pesos, os perfis «Equilibrado: 25% em cada eixo» e «Priorizar …» para cada eixo (inclusive
+  «🏗️ Priorizar Leveza e Drenagem») e a linha «Partes no eixo», com o botão «Partes iguais». Na linha
+  de comando, `--weights` (quatro ou oito valores) e `--criterion-shares` (oito valores); no arquivo de
+  projeto, `analysis.topsis_weights` e `analysis.topsis_criterion_shares`; no estudo declarativo,
+  `analise.pesos` e `analise.partes_no_eixo`. Todos os métodos de ordenação ponderam pela mesma regra; o
+  SMAA-VIKOR sorteia oito pesos e informa os pesos centrais agregados nos quatro eixos.
+- **Peso do sistema.** `triton analyze` com `--analysis system_weight` (ou `all`) informa a massa a
+  seco, a carga de água e a carga em operação, em kg e em kN, separadas em subsolo ou nível inferior,
+  cobertura ou nível superior, e prumadas e rede. O texto do terminal, o HTML e o XLSX mostram o bloco
+  (aba `system_weight`, com o resumo do volume escolhido; os valores por volume ficam na aba
+  `alternatives`). Quatro alertas pedem confirmação com o projeto estrutural ou de fundações: mais de
+  500 kg na cobertura com o reservatório cheio, reservatório superior acima de 1.500 L, cisterna acima
+  de 3.000 kg a seco e cisterna de concreto. São limiares de atenção do programa, e não de norma.
+- **Custo nivelado da água.** A análise econômica informa o LCOW: investimento mais o custeio anual
+  descontado, sobre a água de chuva entregue descontada, à mesma taxa e no mesmo horizonte.
+
+### Correções que alteram resultados
+
+Uma, no multicritério (tabela a seguir). Para reproduzir um estudo feito na 0.1.0, use a 0.1.0, pelo
+DOI daquela versão, 10.5281/zenodo.23402916.
+
+<!-- tabela: Correções que alteram resultados na versão 0.2.0 -->
+| O que foi corrigido | Efeito no resultado |
+| :--- | :--- |
+| Os sete critérios em três eixos (potencial de economia e extravasamento; VPL, payback descontado e TIR; CO₂e e consumo de água potável) dão lugar a oito critérios em quatro eixos, e todos os métodos de ordenação passam a usar a regra de pesos do TOPSIS (antes, o VIKOR sem pesos declarados dava 1/7 a cada critério, e não a mesma parte a cada eixo). | O escore e o volume escolhido de todos os métodos de ordenação, do TOPSIS ao SMAA-VIKOR, mudam. No tutorial desta edição, com pesos iguais, o TOPSIS indicava 4.000 L e passa a indicar 2.000 L. Três pesos de eixo, de projetos e estudos até a 0.1.0, continuam aceitos: o eixo estrutural recebe a média dos três, e pesos iguais continuam iguais. Sete valores, de pesos ou de partes do modelo anterior, são recusados com mensagem (seção {{n:37}}). |
+
+### Correções que não alteram resultados
+
+Nenhuma.
+
+### Documentação
+
+O manual descreve os oito critérios, a regra dos pesos e o peso do sistema (seção {{n:32}}), refaz a
+decisão do tutorial com o modelo novo (seção {{n:12}}), lista as mensagens novas (seção {{n:37}}) e as
+opções de peso da linha de comando e do estudo declarativo (seção {{n:19}} e apêndice {{n:F}}). As
+notas de lançamento estão em `docs/NOTAS_DE_LANCAMENTO_0.2.0.md`.
 
 ---
 

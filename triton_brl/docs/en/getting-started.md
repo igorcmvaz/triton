@@ -16,7 +16,7 @@ python --version
 
 ### From source
 
-The repository is public at https://github.com/igorcmvaz/triton; questions go to sustainability@contato.ufsc.br.
+The repository is public at https://github.com/igorcmvaz/triton; questions go to igorcmvaz@gmail.com.
 
 ```bash
 git clone https://github.com/igorcmvaz/triton.git
@@ -134,8 +134,10 @@ overflow.
 triton analyze study.triton --analysis all --format xlsx --output results.xlsx
 ```
 
-This adds the economic analysis, the screening life-cycle assessment and the
-multi-criteria ranking. `--format` accepts `text`, `json`, `csv`, `html` and `xlsx`; pass
+This adds the economic analysis, the screening life-cycle assessment, the weight of the
+system and the multi-criteria ranking. The ranking uses eight criteria on four axes; set the
+four axis weights (technical, economic, environmental, structural) with `--weights` and the
+split within each axis with `--criterion-shares` (eight values; default equal shares). `--format` accepts `text`, `json`, `csv`, `html` and `xlsx`; pass
 `--seed` whenever the run involves sampling, so that the result is reproducible.
 
 ---
@@ -225,8 +227,8 @@ recommendation; the criterion is part of the result.
 
 ## 8. Reporting a problem
 
-Send the report to the maintainers (sustainability@contato.ufsc.br) and
+Send the report to the maintainers (igorcmvaz@gmail.com) and
 attach the `.triton` project file and the precipitation series. The project file carries
 every premise, so the two together are enough for anyone to reproduce what you saw.
 
-Contact: sustainability@contato.ufsc.br
+Contact: igorcmvaz@gmail.com

@@ -9,7 +9,7 @@ Federal University of Santa Catarina
 
 International Edition · 2026
 
-Version 0.1.0 · revised 2026-11-10
+Version 0.2.0 · revised 2026-11-12
 
 ---
 
@@ -19,7 +19,7 @@ Version 0.1.0 · revised 2026-11-10
 | :--- | :--- |
 | **Title** | Triton: user manual |
 | **Authors** | Igor Catão Martins Vaz; Enedir Ghisi |
-| **Edition** | Version 0.1.0, International Edition |
+| **Edition** | Version 0.2.0, International Edition |
 | **Publisher** | Federal University of Santa Catarina |
 | **Research group** | Sustainable Environments |
 | **Year** | 2026 |
@@ -30,7 +30,7 @@ Version 0.1.0 · revised 2026-11-10
 **Author-date style**
 
 > Vaz, I. C. M., & Ghisi, E. (2026). *Triton: user manual*
-> (Version 0.1.0). Federal University of Santa Catarina.
+> (Version 0.2.0). Federal University of Santa Catarina.
 
 **BibTeX**
 
@@ -38,7 +38,7 @@ Version 0.1.0 · revised 2026-11-10
 @manual{tritonmanual2026en,
   title     = {Triton: user manual},
   author    = {Vaz, Igor Catão Martins and Ghisi, Enedir},
-  edition   = {Version 0.1.0},
+  edition   = {Version 0.2.0},
   publisher = {Federal University of Santa Catarina},
   year      = {2026}
 }
@@ -302,7 +302,7 @@ Figure 30 — Boundary of the program's environmental assessment: (a) processes 
 
 Figure 31 — The thresholds of reduction in potable water consumption with which the program places the project in LEED v4 (credits WEc1 and WEc2), LEED v5 (credit WEc2, options 1, 2 and 4) and EDGE, on the same scale
 
-Figure 32 — TOPSIS score of each volume of the sweep of the tutorial project, with a polyethylene cistern and equal weights among the seven criteria; the star marks the volume with the highest score
+Figure 32 — TOPSIS score of each volume of the sweep of the tutorial project, with a polyethylene cistern, the four dimensions weighted equally and equal criterion shares; the star marks the volume with the highest score
 
 Figure 33 — First-rank acceptability (b¹) of each candidate volume, obtained with five thousand weight vectors drawn on the simplex
 
@@ -364,9 +364,9 @@ Figure 61 — Net emissions over twenty years of the 4,000 L cistern, by materia
 
 Figure 62 — Net emissions over twenty years against the cistern volume, for (a) polyethylene and (b) concrete, in the tutorial project, with illustrative factors
 
-Figure 63 — The chart of the decision tab: the closeness-to-ideal score of each candidate volume, with the winner highlighted
+Figure 63 — The chart of the decision tab: the closeness-to-ideal score of each candidate volume, with the four dimensions weighted equally and the winner highlighted
 
-Figure 64 — The second chart of the decision tab: how close the chosen volume comes to the best possible value on each of the seven criteria
+Figure 64 — The second chart of the decision tab: how close each volume comes to the best observed value on each of the eight criteria, with the volume chosen by TOPSIS marked
 
 Figure 65 — Catchment area as the horizontal projection of the roof
 
@@ -538,259 +538,269 @@ Table 74 — Variables of Equation 51
 
 Table 75 — Options of LEED v5 credit WEc2 to which rainwater harvesting contributes
 
-Table 76 — The seven decision criteria, the direction of preference and the group of each one
+Table 76 — The eight decision criteria, their dimension, the direction of preference and the definition the program uses
 
 Table 77 — Variables of Equation 52
 
-Table 78 — TOPSIS closeness score with equal weights across the dimensions and first-rank acceptability in SMAA-VIKOR, with 5,000 random weight vectors, for the tutorial volumes
+Table 78 — Variables of Equation 53
 
-Table 79 — The same tutorial project simulated in New York, London and Cape Town
+Table 79 — TOPSIS closeness score with the four dimensions weighted equally and first-rank acceptability in SMAA-VIKOR, with 5,000 random vectors of eight criterion weights, for the tutorial volumes
 
-Table 80 — Ratio between the wettest and the driest month in the three cities
+Table 80 — Variables of Equation 54
 
-Table 81 — The six tariff block codes and the effect of each one on the bill
+Table 81 — Where the multi-criteria weights and the criterion shares are declared
 
-Table 82 — The six tariff regimes and what happens when saving in each one
+Table 82 — The same tutorial project simulated in New York, London and Cape Town
 
-Table 83 — Effect of the water saving on the bill in two opposite tariff regimes (hypothetical structures, in currency units)
+Table 83 — Ratio between the wettest and the driest month in the three cities
 
-Table 84 — The three ways of comparing alternatives depending on what varies between them
+Table 84 — The six tariff block codes and the effect of each one on the bill
 
-Table 85 — Subcommands of the command line and the purpose of each one
+Table 85 — The six tariff regimes and what happens when saving in each one
 
-Table 86 — Potential, net present value and payback of the final tutorial project with each assumption varied alone, from the low to the high value (costs are illustrative, not market prices)
+Table 86 — Effect of the water saving on the bill in two opposite tariff regimes (hypothetical structures, in currency units)
 
-Table 87 — Reading the SMAA-VIKOR acceptability of the winning volume
+Table 87 — The three ways of comparing alternatives depending on what varies between them
 
-Table 88 — Legacy-format data recovered by the import
+Table 88 — Subcommands of the command line and the purpose of each one
 
-Table 89 — Export formats and the purpose of each one
+Table 89 — Potential, net present value and payback of the final tutorial project with each assumption varied alone, from the low to the high value (costs are illustrative, not market prices)
 
-Table 90 — Spreadsheet export options and when to use each one
+Table 90 — Reading the SMAA-VIKOR acceptability of the winning volume
 
-Table 91 — Characteristics of the New York precipitation series used in the tutorial
+Table 91 — Legacy-format data recovered by the import
 
-Table 92 — The three ways of applying the first flush
+Table 92 — Export formats and the purpose of each one
 
-Table 93 — State of the tutorial project at the end of defining the rain and the catchment
+Table 93 — Spreadsheet export options and when to use each one
 
-Table 94 — State of the tutorial project at the end of defining the demand
+Table 94 — Characteristics of the New York precipitation series used in the tutorial
 
-Table 95 — Comparison between the annual rainwater supply and the suppliable demand
+Table 95 — The three ways of applying the first flush
 
-Table 96 — Result of the first tutorial simulation, with a 3,000 L tank
+Table 96 — State of the tutorial project at the end of defining the rain and the catchment
 
-Table 97 — Classification of each day of the simulation by the degree of supply
+Table 97 — State of the tutorial project at the end of defining the demand
 
-Table 98 — State of the tutorial project after the first simulation
+Table 98 — Comparison between the annual rainwater supply and the suppliable demand
 
-Table 99 — Volume sweep of the tutorial project, with the marginal gain of each added cubic metre
+Table 99 — Result of the first tutorial simulation, with a 3,000 L tank
 
-Table 100 — Marginal saving gain for each cubic metre added to the tank
+Table 100 — Classification of each day of the simulation by the degree of supply
 
-Table 101 — Indicators of the ideal volume obtained with the 1 %/m³ threshold adopted in the tutorial
+Table 101 — State of the tutorial project after the first simulation
 
-Table 102 — Ideal volume obtained with each marginal-gain threshold, for the same project
+Table 102 — Volume sweep of the tutorial project, with the marginal gain of each added cubic metre
 
-Table 103 — Cost and performance compared between the ideal volume and the largest volume swept (prices are illustrative, not market prices)
+Table 103 — Marginal saving gain for each cubic metre added to the tank
 
-Table 104 — State of the tutorial project after choosing the volume
+Table 104 — Indicators of the ideal volume obtained with the 1 %/m³ threshold adopted in the tutorial
 
-Table 105 — The three supply arrangements and what each one adds to the project
+Table 105 — Ideal volume obtained with each marginal-gain threshold, for the same project
 
-Table 106 — Single tank compared with two tanks, keeping the same total storage (energy cost is illustrative, not a market price)
+Table 106 — Cost and performance compared between the ideal volume and the largest volume swept (prices are illustrative, not market prices)
 
-Table 107 — Effect of the pump trigger level on the saving potential and on the number of starts
+Table 107 — State of the tutorial project after choosing the volume
 
-Table 108 — State of the tutorial project after the decision on the upper tank
+Table 108 — The three supply arrangements and what each one adds to the project
 
-Table 109 — Treatment line by disinfection technology adopted: stages, ultraviolet energy and annual carbon
+Table 109 — Single tank compared with two tanks, keeping the same total storage (energy cost is illustrative, not a market price)
 
-Table 110 — Fine-filtration recommendation by quality class
+Table 110 — Effect of the pump trigger level on the saving potential and on the number of starts
 
-Table 111 — Mechanical inlet filter sized by the roof area
+Table 111 — State of the tutorial project after the decision on the upper tank
 
-Table 112 — State of the tutorial project after defining the quality class
+Table 112 — Treatment line by disinfection technology adopted: stages, ultraviolet energy and annual carbon
 
-Table 113 — Make-up of the New York water and sewer bill before and after the rainwater system
+Table 113 — Fine-filtration recommendation by quality class
 
-Table 114 — Economic indicators of the tutorial project over twenty years of analysis (all costs are illustrative, not market prices)
+Table 114 — Mechanical inlet filter sized by the roof area
 
-Table 115 — The six tariff regimes and the effect of each one on the saving
+Table 115 — State of the tutorial project after defining the quality class
 
-Table 116 — Make-up of the initial investment of the tutorial project (illustrative, not a market price)
+Table 116 — Make-up of the New York water and sewer bill before and after the rainwater system
 
-Table 117 — What a new project of the International Edition contains, and what is left for you to enter
+Table 117 — Economic indicators of the tutorial project over twenty years of analysis (all costs are illustrative, not market prices)
 
-Table 118 — Where each part of the running cost comes from in the International Edition
+Table 118 — The six tariff regimes and the effect of each one on the saving
 
-Table 119 — Effect of the three illustrative maintenance routines on the running cost in the summary and on the result of the tutorial (illustrative costs, not market prices)
+Table 119 — Make-up of the initial investment of the tutorial project (illustrative, not a market price)
 
-Table 120 — Assumptions of the economic projection and the weight of each one in the result
+Table 120 — What a new project of the International Edition contains, and what is left for you to enter
 
-Table 121 — State of the tutorial project after the economic analysis (illustrative, not a market price)
+Table 121 — Where each part of the running cost comes from in the International Edition
 
-Table 122 — Carbon balance of the tutorial project with a concrete cistern (illustrative factors)
+Table 122 — Effect of the three illustrative maintenance routines on the running cost in the summary and on the result of the tutorial (illustrative costs, not market prices)
 
-Table 123 — Net carbon emissions of the tutorial project according to the tank material (prices are illustrative, not market prices)
+Table 123 — Assumptions of the economic projection and the weight of each one in the result
 
-Table 124 — Effect of the concrete cistern volume on the net carbon emissions
+Table 124 — State of the tutorial project after the economic analysis (illustrative, not a market price)
 
-Table 125 — Effect of switching from concrete to polyethylene on the three dimensions of analysis (illustrative, not a market price)
+Table 125 — Carbon balance of the tutorial project with a concrete cistern (illustrative factors)
 
-Table 126 — State of the tutorial project after the environmental analysis (illustrative, not a market price)
+Table 126 — Net carbon emissions of the tutorial project according to the tank material (prices are illustrative, not market prices)
 
-Table 127 — Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices)
+Table 127 — Effect of the concrete cistern volume on the net carbon emissions
 
-Table 128 — Winning volume under each criterion taken alone
+Table 128 — Effect of switching from concrete to polyethylene on the three dimensions of analysis (illustrative, not a market price)
 
-Table 129 — The seven multi-criteria criteria and the direction of preference of each one
+Table 129 — State of the tutorial project after the environmental analysis (illustrative, not a market price)
 
-Table 130 — Volume chosen by TOPSIS according to the dimension given the dominant weight, and the runner-up
+Table 130 — The eight multi-criteria criteria, their dimension and the direction of preference of each one
 
-Table 131 — Summary of the tutorial project, with all the parameters and results
+Table 131 — Multi-criteria decision matrix: the eight criteria of each candidate volume, as the program computes them (costs are illustrative, not market prices)
 
-Table 132 — Variables of Equation 53
+Table 132 — Winning volume under each dimension taken alone, and the TOPSIS compromise
 
-Table 133 — Physical input validation messages and the action for each one
+Table 133 — Volume chosen by TOPSIS according to the dimension given the dominant weight (70% on it, 10% on each of the other three), with the runner-up and the score margin between them
 
-Table 134 — Suppliable fraction messages and the action for each one
+Table 134 — The same choice with the share of storage efficiency set to zero, so that the technical dimension measures volumetric reliability alone
 
-Table 135 — Precipitation series error messages and the action for each one
+Table 135 — Summary of the tutorial project, with all the parameters and results
 
-Table 136 — Volume sweep error messages
+Table 136 — Variables of Equation 55
 
-Table 137 — Chlorination parameter error messages
+Table 137 — Physical input validation messages and the action for each one
 
-Table 138 — Economic analysis error messages and the action for each one
+Table 138 — Suppliable fraction messages and the action for each one
 
-Table 139 — Multi-criteria decision error messages and the action for each one
+Table 139 — Precipitation series error messages and the action for each one
 
-Table 140 — Pump set parameter error messages
+Table 140 — Volume sweep error messages
 
-Table 141 — Error situations when reading and saving files
+Table 141 — Chlorination parameter error messages
 
-Table 142 — Warnings that do not stop the calculation and must be stated in the study
+Table 142 — Economic analysis error messages and the action for each one
 
-Table 143 — **Table 99** — Overview of the published versions
+Table 143 — Multi-criteria decision error messages and the action for each one
 
-Table 144 — Fixes that change results in version 0.1.0
+Table 144 — Pump set parameter error messages
 
-Table 145 — Items planned for version 1.1
+Table 145 — Error situations when reading and saving files
 
-Table 146 — Items planned for version 2.0
+Table 146 — Warnings that do not stop the calculation and must be stated in the study
 
-Table 147 — The variables that probabilistic modulation can draw, with the screening distribution the screen proposes
+Table 147 — **Table 99** — Overview of the published versions
 
-Table 148 — What each economic and environmental variable does in the calculation, and what it does not touch
+Table 148 — Fixes that change results in version 0.2.0
 
-Table 149 — The four distributions the tool offers, their parameters and when to use each
+Table 149 — Fixes that change results in version 0.1.0
 
-Table 150 — The variables drawn in the tutorial example: declared distribution and statistics of the realisations
+Table 150 — Items planned for version 1.1
 
-Table 151 — Results at the volume chosen by the tutorial study: deterministic study and statistics of the realisations (money in US$, illustrative, not a market price)
+Table 151 — Items planned for version 2.0
 
-Table 152 — Probabilities at the chosen volume, with the Wilson 95% confidence interval
+Table 152 — The variables that probabilistic modulation can draw, with the screening distribution the screen proposes
 
-Table 153 — Frequency with which each volume is chosen in the realisations of the example, by criterion (%)
+Table 153 — What each economic and environmental variable does in the calculation, and what it does not touch
 
-Table 154 — Sensitivity at the chosen volume: strength and direction of the influence of each drawn variable on the tutorial results
+Table 154 — The four distributions the tool offers, their parameters and when to use each
 
-Table 155 — Share of the variance of the result explained by each drawn variable in the tutorial example, at the chosen volume (η²; continuous variables grouped in deciles)
+Table 155 — The variables drawn in the tutorial example: declared distribution and statistics of the realisations
 
-Table 156 — Project parameters: identification
+Table 156 — Results at the volume chosen by the tutorial study: deterministic study and statistics of the realisations (money in US$, illustrative, not a market price)
 
-Table 157 — Project parameters: rainfall
+Table 157 — Probabilities at the chosen volume, with the Wilson 95% confidence interval
 
-Table 158 — Project parameters: catchment
+Table 158 — Frequency with which each volume is chosen in the realisations of the example, by criterion (%)
 
-Table 159 — Project parameters: building
+Table 159 — Sensitivity at the chosen volume: strength and direction of the influence of each drawn variable on the tutorial results
 
-Table 160 — Project parameters: demand
+Table 160 — Share of the variance of the result explained by each drawn variable in the tutorial example, at the chosen volume (η²; continuous variables grouped in deciles)
 
-Table 161 — Project parameters: irrigation
+Table 161 — Project parameters: identification
 
-Table 162 — Project parameters: water quality
+Table 162 — Project parameters: rainfall
 
-Table 163 — Project parameters: tanks
+Table 163 — Project parameters: catchment
 
-Table 164 — Project parameters: pump set
+Table 164 — Project parameters: building
 
-Table 165 — Project parameters: piping
+Table 165 — Project parameters: demand
 
-Table 166 — Project parameters: investment
+Table 166 — Project parameters: irrigation
 
-Table 167 — Project parameters: operation
+Table 167 — Project parameters: water quality
 
-Table 168 — Project parameters: tariffs
+Table 168 — Project parameters: tanks
 
-Table 169 — Project parameters: energy
+Table 169 — Project parameters: pump set
 
-Table 170 — Project parameters: financial
+Table 170 — Project parameters: piping
 
-Table 171 — Project parameters: certifications
+Table 171 — Project parameters: investment
 
-Table 172 — Project parameters: other
+Table 172 — Project parameters: operation
 
-Table 173 — Emission factors that the user supplies, and what to declare for each
+Table 173 — Project parameters: tariffs
 
-Table 174 — Emission factors of the tank materials, with mass and boundary
+Table 174 — Project parameters: energy
 
-Table 175 — Reference recorded in the program for each tank-material factor, and its status
+Table 175 — Project parameters: financial
 
-Table 176 — Emission factors of the treatment consumables
+Table 176 — Project parameters: certifications
 
-Table 177 — The block codes of the water tariff table
+Table 177 — Project parameters: other
 
-Table 178 — The four ways of entering the sewage charge
+Table 178 — Emission factors that the user supplies, and what to declare for each
 
-Table 179 — The six tariff regimes and what happens when saving
+Table 179 — Emission factors of the tank materials, with mass and boundary
 
-Table 180 — Tariff structure of the New York example
+Table 180 — Reference recorded in the program for each tank-material factor, and its status
 
-Table 181 — Tariff structure of the London example
+Table 181 — Emission factors of the treatment consumables
 
-Table 182 — Tariff structure of the Cape Town example
+Table 182 — The block codes of the water tariff table
 
-Table 183 — Rainfall series distributed with the International Edition
+Table 183 — The four ways of entering the sewage charge
 
-Table 184 — What the user supplies in the International Edition, and what happens without it
+Table 184 — The six tariff regimes and what happens when saving
 
-Table 185 — The worked examples of the International Edition: rainfall, currency and tariff structure
+Table 185 — Tariff structure of the New York example
 
-Table 186 — Example rainfall series of the International Edition: description and quality
+Table 186 — Tariff structure of the London example
 
-Table 187 — Formats the program reads and where each one is loaded
+Table 187 — Tariff structure of the Cape Town example
 
-Table 188 — Formats the program writes and where each one is generated
+Table 188 — Rainfall series distributed with the International Edition
 
-Table 189 — The seven sections of the project file and what each one holds
+Table 189 — What the user supplies in the International Edition, and what happens without it
 
-Table 190 — Location of the program's files and of the user's files
+Table 190 — The worked examples of the International Edition: rainfall, currency and tariff structure
 
-Table 191 — Sections of the estudo.json file (schema triton-estudo, version 1)
+Table 191 — Example rainfall series of the International Edition: description and quality
 
-Table 192 — Aliases of the substitutions and the project field each one changes
+Table 192 — Formats the program reads and where each one is loaded
 
-Table 193 — Files that triton estudo run writes to the output folder
+Table 193 — Formats the program writes and where each one is generated
 
-Table 194 — Compatibility between versions of the project file
+Table 194 — The seven sections of the project file and what each one holds
 
-Table 195 — Terminology for rainwater and stormwater
+Table 195 — Location of the program's files and of the user's files
 
-Table 196 — Fundamental quantities of the water balance and relations between fraction and potential
+Table 196 — Sections of the estudo.json file (schema triton-estudo, version 1)
 
-Table 197 — Reference sheet: the ten steps of a complete study and the section that deals with each one
+Table 197 — Aliases of the substitutions and the project field each one changes
 
-Table 198 — Reference sheet: the ten design pitfalls and where each one is dealt with
+Table 198 — Files that triton estudo run writes to the output folder
 
-Table 199 — Reference sheet: the six tariff regimes and the effect of saving
+Table 199 — Compatibility between versions of the project file
 
-Table 200 — Reference sheet: the indicators and the question each one answers
+Table 200 — Terminology for rainwater and stormwater
 
-Table 201 — The example cases and what each one demonstrates
+Table 201 — Fundamental quantities of the water balance and relations between fraction and potential
 
-Table 202 — Result each example case produces when reread and simulated
+Table 202 — Reference sheet: the ten steps of a complete study and the section that deals with each one
+
+Table 203 — Reference sheet: the ten design pitfalls and where each one is dealt with
+
+Table 204 — Reference sheet: the six tariff regimes and the effect of saving
+
+Table 205 — Reference sheet: the indicators and the question each one answers
+
+Table 206 — The example cases and what each one demonstrates
+
+Table 207 — Result each example case produces when reread and simulated
 
 ---
 
@@ -898,9 +908,13 @@ Equation 50 — Carbon balance at the end of service life
 
 Equation 51 — Specific emission per litre delivered
 
-Equation 52 — TOPSIS closeness coefficient
+Equation 52 — lcow
 
-Equation 53 — Series transformation for comparison with another program
+Equation 53 — TOPSIS closeness coefficient
+
+Equation 54 — pesos_dos_criterios
+
+Equation 55 — Series transformation for comparison with another program
 
 ---
 
@@ -4285,34 +4299,72 @@ apparently objective result.
 
 ---
 
-### 2.10.1. The seven criteria
+### 2.10.1. The eight criteria
 
-The program evaluates each volume of the sweep by seven criteria, grouped into three dimensions.
-Each criterion has a direction of preference: in some, more is better; in others, less.
+The program evaluates each volume of the sweep by eight criteria, grouped into four dimensions:
+technical, economic, environmental and structural. Each criterion has a direction of preference:
+in some, more is better; in others, less.
 
-<!-- tabela: **Table 76** — The seven decision criteria, the direction of preference and the group of each one -->
-| # | Criterion | Direction | Group |
-| :-- | :--- | :--- | :--- |
-| 1 | saving potential | maximise | technical |
-| 2 | overflow | minimise | technical |
-| 3 | net present value | maximise | economic |
-| 4 | discounted payback | minimise | economic |
-| 5 | internal rate of return | maximise | economic |
-| 6 | CO₂e at end of life | minimise | environmental |
-| 7 | potable water consumption | minimise | environmental |
+Version 0.2.0 replaced the seven criteria in three dimensions of version 0.1.0. Three of the old
+criteria — the saving potential, the potable water consumption and, through the bill, the net
+present value — measured the same water saved, so the same effect was counted three times. The
+new set gives each dimension criteria that pull in different directions, and adds the weight of
+the system.
+
+<!-- tabela: **Table 76** — The eight decision criteria, their dimension, the direction of preference and the definition the program uses -->
+| # | Criterion | Dimension | Direction | Definition in the program |
+| :-- | :--- | :--- | :--- | :--- |
+| 1 | volumetric reliability | technical | maximise | rainwater consumed ÷ rainwater demand (non-potable use plus irrigation), in % |
+| 2 | storage efficiency | technical | maximise | rainwater delivered per day ÷ volume of the lower cistern, in %: the daily turnover of the volume, the annual turnover ÷ 365. It falls with the volume and curbs oversizing. It is not the mean occupancy, which rises with the volume in a wet climate because a large cistern stays full of standing water |
+| 3 | net financial savings | economic | maximise | the net present value of the system against the baseline without a cistern: avoided water bill minus investment and running costs, discounted |
+| 4 | levelised cost of water (LCOW) | economic | minimise | Equation 52, in the project currency per m³. U-shaped in the volume. The alternative with no cistern receives the worst LCOW observed plus 10% |
+| 5 | discounted payback | economic | minimise | as in version 0.1.0; an alternative that does not pay back receives the worst payback observed plus 10%, at least one year more and at least 20 years |
+| 6 | net life-cycle CO₂e | environmental | minimise | the net CO₂e at the end of the service life (negative = avoided), as in version 0.1.0 |
+| 7 | dry mass of materials | structural | minimise | dry mass of the system from the program's weight calculator (`triton.core.system.system_weight`): cisterns, pipes, pump and fittings |
+| 8 | annual overflow | structural | minimise | volume overflowed per year, in m³/year |
+
+The levelised cost divides everything the system costs over its life by all the rainwater it
+delivers, both discounted at the same rate and over the same horizon as the project:
+
+```equacao:lcow:52
+LCOW = ( CAPEX + Σ [ OPEX_m ÷ ( 1 + MARR )^m ] ) ÷ Σ [ V_m ÷ ( 1 + MARR )^m ]
+```
+
+<!-- tabela: **Table 77** — Variables of Equation 52 -->
+| Symbol | Meaning | Unit |
+| :--- | :--- | :--- |
+| `LCOW` | levelised cost of the rainwater delivered | currency/m³ |
+| `CAPEX` | initial investment (section 2.7) | currency |
+| `OPEX_m` | running cost of month `m`: pumping energy, operation and maintenance, chlorine and the treatment line | currency |
+| `V_m` | rainwater delivered in month `m` | m³ |
+| `MARR` | minimum attractive rate of return of the project, per month | dimensionless |
+| `m` | month of the analysis horizon | — |
+
+A small cistern spreads the fixed costs over little water; a large one pays for volume that stands
+idle. Between the two the LCOW reaches a minimum, which is why it does not simply follow the
+investment.
 
 The alternatives submitted to the ranking are the volumes simulated in the sweep, and each of them
-appears with the seven values above, calculated in sections 2.1, 2.7 and 2.8. No
-criterion is invented at this stage: the method only ranks what the previous dimensions have
-already produced.
+appears with the eight values above, calculated in sections 2.1, 2.3, 2.7 and
+2.8 and by the weight calculator. No criterion is invented at this stage: the method only
+ranks what the previous analyses have already produced.
+
+> **The weight of the system.** `triton analyze … --analysis all` (and `--analysis system_weight`) also
+> reports the dry mass, the water load and the operating load, in kg and kN, split into three
+> positions: basement or lower level, roof or upper level, and risers and network. The HTML
+> report, the spreadsheet (sheet `system_weight`, with the summary of the chosen volume; the values
+> per volume are in the sheet `alternatives`) and the terminal text show the block. Its warnings
+> use attention thresholds of the **program**, not of any standard: 500 kg on the roof with the
+> upper tank full, an upper tank above 1,500 L, a cistern above 3,000 kg dry, and any concrete
+> cistern. Each asks you to confirm the load with the structural or foundation design.
 
 ---
 
 ### 2.10.2. TOPSIS
 
 TOPSIS — *Technique for Order of Preference by Similarity to Ideal Solution*, proposed by Hwang and
-Yoon in 1981 — starts from a simple geometric idea. If each alternative is a point in a
-seven-dimensional space, one dimension per criterion, then there are two reference points: the
+Yoon in 1981 — starts from a simple geometric idea. If each alternative is a point in an
+eight-dimensional space, one axis per criterion, then there are two reference points: the
 **ideal solution**, made up of the best value of each criterion, and the **anti-ideal solution**,
 made up of the worst. No real alternative occupies either of them, because none wins at everything
 or loses at everything, and the best alternative is the one that is at the same time closest to
@@ -4324,35 +4376,35 @@ percentage points and in kilograms come to occupy comparable scales; applies the
 identifies the ideal and anti-ideal solutions; and ranks the alternatives by relative closeness to
 the ideal.
 
-```equacao:topsis:52
+```equacao:topsis:53
 C_i = d_i⁻ ÷ ( d_i⁺ + d_i⁻ )
 ```
 
-<!-- tabela: **Table 77** — Variables of Equation 52 -->
+<!-- tabela: **Table 78** — Variables of Equation 53 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
 | `C_i` | closeness coefficient of alternative `i`, between 0 and 1 | dimensionless |
 | `d_i⁺` | Euclidean distance from alternative `i` to the ideal solution | dimensionless |
 | `d_i⁻` | Euclidean distance from alternative `i` to the anti-ideal solution | dimensionless |
 
-The coefficient of Equation 52 would be 1 for an alternative that coincided with the
+The coefficient of Equation 53 would be 1 for an alternative that coincided with the
 ideal solution on all criteria, and 0 for one that coincided with the anti-ideal. As no real
 alternative occupies these extremes, what matters is not the absolute value of the coefficient but
 the ranking it produces.
 
 ---
 
-Applied to a full sweep of the tutorial project (New York) in steps of 1 m³ with equal
-weights, the score rises to an interior maximum and falls at the larger volumes, where the
-investment and the embodied carbon come to weigh more than the gain in water
-(Figure 32). The maximum of the full sweep can differ from the volume obtained in
-section 4.9 with seven candidates, because the ideal and the anti-ideal are built from the set evaluated: adding
-or removing alternatives shifts the reference points and can change the ranking, a phenomenon known
-as rank reversal.
+Applied to a full sweep of the tutorial project (New York) in steps of 1 m³ with the four
+dimensions weighted equally, the score peaks at a small volume and falls steadily at the larger
+ones, where the investment, the embodied carbon, the idle volume and the mass come to weigh more
+than the gain in water (Figure 32). In this project the peak of the full sweep is the
+volume section 4.9 obtained with seven candidates, but that is not guaranteed: the ideal and
+the anti-ideal are built from the set evaluated, so adding or removing alternatives shifts the
+reference points and can change the ranking, a phenomenon known as rank reversal.
 
 ![The TOPSIS score along the full sweep](../figuras/fig22_topsis.png)
 
-*Figure 32 — TOPSIS score of each volume of the sweep of the tutorial project, with a polyethylene cistern and equal weights among the seven criteria; the star marks the volume with the highest score. Figure generated by the program itself.*
+*Figure 32 — TOPSIS score of each volume of the sweep of the tutorial project, with a polyethylene cistern, the four dimensions weighted equally and equal criterion shares; the star marks the volume with the highest score. Figure generated by the program itself.*
 
 ---
 
@@ -4413,39 +4465,76 @@ only information supporting the recommendation (Figure 33).
 
 #### 2.10.4.1. The tutorial, by both methods
 
-The table sets side by side the TOPSIS score, with equal weights among the three dimensions, and
-the SMAA-VIKOR first-rank acceptability, with five thousand weight vectors drawn, for the seven
-volumes of the tutorial in polyethylene with an upper tank. The investment and the carbon behind
-the scores are the illustrative figures of section 4.7 (illustrative, not a market price).
+The table sets side by side the TOPSIS score, with the four dimensions weighted equally, and the
+SMAA-VIKOR first-rank acceptability, with five thousand vectors of eight criterion weights drawn,
+for the seven volumes of the tutorial in polyethylene with an upper tank. The investment and the
+carbon behind the scores are the illustrative figures of section 4.7 (illustrative, not a
+market price).
 
-<!-- tabela: **Table 78** — TOPSIS closeness score with equal weights across the dimensions and first-rank acceptability in SMAA-VIKOR, with 5,000 random weight vectors, for the tutorial volumes -->
+<!-- tabela: **Table 79** — TOPSIS closeness score with the four dimensions weighted equally and first-rank acceptability in SMAA-VIKOR, with 5,000 random vectors of eight criterion weights, for the tutorial volumes -->
 | Volume | TOPSIS score | TOPSIS rank | First place in SMAA-VIKOR, b¹ |
 | ---: | ---: | ---: | ---: |
-| 1,000 L | 0.388 | 7th | 0.0% |
-| 2,000 L | 0.685 | 5th | 3.8% |
-| 3,000 L | 0.801 | 3rd | 26.8% |
-| 4,000 L | 0.863 | 1st | 45.8% |
-| 5,000 L | 0.849 | 2nd | 21.5% |
-| 8,000 L | 0.716 | 4th | 2.1% |
-| 12,000 L | 0.578 | 6th | 0.0% |
+| 1,000 L | 0.657 | 5th | 14.2% |
+| 2,000 L | 0.783 | 1st | 39.2% |
+| 3,000 L | 0.764 | 2nd | 25.0% |
+| 4,000 L | 0.729 | 3rd | 18.2% |
+| 5,000 L | 0.677 | 4th | 3.2% |
+| 8,000 L | 0.493 | 6th | 0.2% |
+| 12,000 L | 0.317 | 7th | 0.0% |
 
-The two methods agree on the winner, 4,000 L, and disagree on the margin. TOPSIS separates first
-from second place by fourteen thousandths of score, a difference no input data supports. SMAA measures
-that fragility: 4,000 L wins in 46% of the draws, 3,000 L in 27% and 5,000 L in 22%, and the three
-together account for nineteen out of every twenty draws. By the yardstick of section 3.7, the
-recommendation is reasonable, and the study should declare 5,000 L, the TOPSIS runner-up, and 3,000 L
-as the alternatives. The extremes, 1,000 L and
-12,000 L, win in no draw at all: no plausible weighting recommends them, and that is also a result.
+The two methods agree on the winner, 2,000 L, and disagree on the margin. TOPSIS separates first
+from second place, 3,000 L, by under two hundredths of score, a difference no input data supports.
+SMAA measures that fragility: 2,000 L wins in 39.2% of the draws, 3,000 L in 25.0%, 4,000 L in 18.2%
+and 1,000 L in 14.2%. By the yardstick of section 3.7, a winner below 40% is a choice that
+depends on the weights, and the study should say so and declare 3,000 L and 4,000 L as the
+alternatives. The largest volumes, 8,000 L and 12,000 L, win in almost no draw: no plausible
+weighting recommends them, and that is also a result.
 
 ---
 
 ### 2.10.5. The weights
 
-The program accepts one weight per dimension, technical, economic and environmental, or one weight
-per criterion. With equal weights among the dimensions, each is worth a third, shared equally among
-its criteria: the two technical and the two environmental ones are worth a sixth each, and the
-three economic ones, a ninth each. The choice, however, is not technical: it is a statement of
-value, and therefore needs to appear in the text of the study. ==The statement «optimal volume by
+The program takes four dimension weights — technical, economic, environmental and structural, 25%
+each by default — and shares each one among the criteria of its dimension by the **criterion
+shares**. The shares are equal by default; only the proportion within the dimension matters, and a
+share of zero removes the criterion from the calculation. With the default, each technical and
+each structural criterion weighs 12.5%, each economic criterion 8.33% and the single environmental
+criterion 25%.
+
+```equacao:pesos_dos_criterios:54
+w_j = W_d × s_j ÷ Σ s_k
+```
+
+<!-- tabela: **Table 80** — Variables of Equation 54 -->
+| Symbol | Meaning | Unit |
+| :--- | :--- | :--- |
+| `w_j` | weight of criterion `j` in TOPSIS, VIKOR and PROMETHEE II | dimensionless |
+| `W_d` | weight of the dimension `d` of criterion `j`, normalised so that the four add up to 1 | dimensionless |
+| `s_j` | share of criterion `j` within its dimension | dimensionless |
+| `Σ s_k` | sum of the shares of the criteria `k` of the same dimension | dimensionless |
+
+Eight direct weights, one per criterion, are also accepted, and then the shares do not apply.
+VIKOR, PROMETHEE II and TOPSIS use the same rule. SMAA-VIKOR draws eight weights on the simplex,
+and gives the central weight vector of each volume per criterion and summed into the four dimensions.
+
+**Weights from version 0.1.0.** Three weights — technical, economic, environmental, as projects and
+studies up to version 0.1.0 declared them — are still accepted: the structural dimension receives
+their mean, so equal weights stay equal. Seven values, weights or shares of the old seven-criterion
+model, are refused with a message that says why (section 6.2): they cannot be mapped onto the
+eight new criteria. To reproduce a study made with version 0.1.0, use version 0.1.0.
+
+**Where the weights are declared.**
+
+<!-- tabela: **Table 81** — Where the multi-criteria weights and the criterion shares are declared -->
+| Where | Dimension weights | Criterion shares |
+| :--- | :--- | :--- |
+| decision tab | four boxes, Technical, Economic, Environmental and Structural, 25% each; the profiles «Balanced: 25% on each dimension» and «Prioritise …» with 70% on one dimension and 10% on each of the others | the «Criterion shares» row, with eight boxes (Reliability, Efficiency, Savings, LCOW, Payback, CO₂, Mass, Overflow) and the «Equal shares» button |
+| command line | `--weights t,e,a,s`, or eight values; three are still accepted | `--criterion-shares` with eight values, default `1,1,1,1,1,1,1,1` |
+| project file | `analysis.topsis_weights`, four or eight values | `analysis.topsis_criterion_shares`, eight values |
+| declarative study | `analise.pesos`, four or eight values; three are still accepted | `analise.partes_no_eixo`, eight values |
+
+The choice of weights, however, is not technical: it is a statement of value, and therefore needs to
+appear in the text of the study, with the four dimension weights and the criterion shares. ==The statement «optimal volume by
 TOPSIS», without the weights, is impossible to reproduce,== and two studies with different weights
 reach different volumes without either of them being wrong.
 
@@ -4459,8 +4548,10 @@ most complete course when there is no consensus.
 
 ### 2.10.6. The best by each criterion alone
 
-Besides the weighted ranking, the program identifies the winner of each group of criteria —
-technical, financial and environmental — and reports the three separately. They are numbers worth
+Besides the weighted ranking, the program identifies the winner of the technical, financial and
+environmental dimensions taken alone — the most reliable volume, the one with the shortest payback
+(ties broken by the net saving) and the one with the lowest life-cycle carbon — and reports the three
+separately. They are numbers worth
 publishing together, because each one answers a legitimate and different question.
 
 When the three coincide, the recommendation is strong and the decision needs no weighting. When
@@ -4520,7 +4611,7 @@ save one file per city, as section 3.6 recommends.
 The tutorial project — 150 m² of catchment, 600 L/day of demand, a 28% suppliable fraction
 and a 4,000 L cistern — taken to the three sample cities produces the table below.
 
-<!-- tabela: **Table 79** — The same tutorial project simulated in New York, London and Cape Town -->
+<!-- tabela: **Table 82** — The same tutorial project simulated in New York, London and Cape Town -->
 | City | Annual rain | Days with rain | Ratio between the wettest and the driest month | Potential with 4,000 L | Ideal volume |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | New York | 1,125 mm | 44% | 1.4× | 26.83% | 4,000 L |
@@ -4548,7 +4639,7 @@ share of days with rain is 44% in New York, 50% in London and only 28% in Cape T
 ratio between the wettest and the driest month, which measures how much the rain
 concentrates over the year, is 1.4 in New York, 1.5 in London and 8.3 in Cape Town.
 
-<!-- tabela: **Table 80** — Ratio between the wettest and the driest month in the three cities -->
+<!-- tabela: **Table 83** — Ratio between the wettest and the driest month in the three cities -->
 | City | Ratio | What it means |
 | :--- | ---: | :--- |
 | New York | 1.4× | it rains all year round, with only a mild seasonal swing |
@@ -4888,7 +4979,7 @@ the minimum volume of the block, the maximum volume, a monetary value and a code
 the decisive element, because it is what says what that value means, and structures that
 look alike charge in very different ways depending on the code of each row.
 
-<!-- tabela: **Table 81** — The six tariff block codes and the effect of each one on the bill -->
+<!-- tabela: **Table 84** — The six tariff block codes and the effect of each one on the bill -->
 | Code | What it is | How it enters the bill |
 | ---: | :--- | :--- |
 | 1 or 0 | consumption block | the price is charged on the volume that falls **within** each consumption block |
@@ -4917,7 +5008,7 @@ minimum daily charge, a payment-floor row (code −3).
 A minimum charge appears on the bill of many utilities, and it means **different** things in
 each one. The program distinguishes six regimes:
 
-<!-- tabela: **Table 82** — The six tariff regimes and what happens when saving in each one -->
+<!-- tabela: **Table 85** — The six tariff regimes and what happens when saving in each one -->
 | Regime | What happens when saving | Where it appears in the examples |
 | :--- | :--- | :--- |
 | **no minimum** | each m³ saved is deducted | none of the three |
@@ -4931,7 +5022,7 @@ each one. The program distinguishes six regimes:
 same consumption. The prices are round numbers in currency units (cu), chosen to make the
 arithmetic easy to follow; they are an illustration, not a tariff:
 
-<!-- tabela: **Table 83** — Effect of the water saving on the bill in two opposite tariff regimes (hypothetical structures, in currency units) -->
+<!-- tabela: **Table 86** — Effect of the water saving on the bill in two opposite tariff regimes (hypothetical structures, in currency units) -->
 | Consumption | Structure A, allowance in the minimum (50 cu for the first 10 m³, then 5 cu/m³) | Structure B, availability charge (40 cu plus 5 cu/m³) |
 | ---: | ---: | ---: |
 | 14 m³ | 70 cu | 110 cu |
@@ -5373,7 +5464,7 @@ question, and using the wrong one costs time without producing the information w
 
 ### 3.6.1. The three ways
 
-<!-- tabela: **Table 84** — The three ways of comparing alternatives depending on what varies between them -->
+<!-- tabela: **Table 87** — The three ways of comparing alternatives depending on what varies between them -->
 | If what changes is | Use | Where |
 | :--- | :--- | :--- |
 | **only the cistern volume** | the sweep | step 4. Tank & Costs |
@@ -5410,8 +5501,11 @@ Step **8. Multi-Criteria Decision** shows, in a single table, each volume of the
 - the TOPSIS score and the SMAA-VIKOR acceptability.
 
 It is the densest way of comparing alternatives the program offers: ten answer columns for
-each volume row. The **decision profile** changes the weights of the dimensions and re-ranks
-the table on the spot. Section 2.10 explains the methods behind it.
+each volume row. The ranking itself uses the eight criteria of section 2.10, in four
+dimensions — technical, economic, environmental and structural. The **decision profile** changes
+the four dimension weights (25% each by default, or 70% on one dimension and 10% on each of the
+others), the **Criterion shares** row splits each dimension weight among its criteria, and the
+table is re-ranked on the spot. Section 2.10 explains the methods behind it.
 
 ---
 
@@ -5489,12 +5583,12 @@ files, projects in structured JSON and a legacy semicolon-separated text format,
 text, JSON, CSV, HTML or XLSX. It is the interface suited to reproducible studies, because the
 command itself documents the assumptions changed.
 
-<!-- tabela: **Table 85** — Subcommands of the command line and the purpose of each one -->
+<!-- tabela: **Table 88** — Subcommands of the command line and the purpose of each one -->
 | Subcommand | Purpose |
 | :--- | :--- |
 | `validate` | checks the structure of the project, the rainfall series and the essential assumptions, without simulating |
 | `run` | simulates the project; by default, only the technical analysis |
-| `analyze` | runs the complete chain: technical, economic, environmental and TOPSIS |
+| `analyze` | runs the complete chain: technical, economic, environmental, weight of the system and TOPSIS |
 | `econ` | runs the economic analysis |
 | `init` | creates a template `.triton` project, editable, with the rainfall series referenced or embedded |
 | `init-catalog` | creates a template JSON catalogue of building or climate assumptions |
@@ -5507,13 +5601,27 @@ command itself documents the assumptions changed.
 | `estudo` | organises, runs and reports batch studies from JSON (`estudo.json`): many buildings per typology, with paper-ready tables |
 
 The subcommands `run`, `analyze` and `econ` accept the same options: `--analysis` chooses the
-analysis (`technical`, `economic`, `environmental`, `topsis` or `all`); `--volume` fixes the
-lower tank volume, in litres; `--rainfall` replaces the project's rainfall series;
-`--set FIELD=VALUE` changes a project field and can be repeated; `--weights` gives the
-technical, economic and environmental TOPSIS weights; `--weight-sensitivity N` draws N weight
-vectors and reports how often each volume wins; `--format` and `--output` set the output
-format and file; and `--seed` fixes the seed of the stochastic analyses, so that the result is
-reproducible.
+analysis (`technical`, `economic`, `environmental`, `system_weight`, `topsis` or `all`); `--volume`
+fixes the lower tank volume, in litres; `--rainfall` replaces the project's rainfall series;
+`--set FIELD=VALUE` changes a project field and can be repeated; `--weights t,e,a,s` gives the
+four TOPSIS dimension weights — technical, economic, environmental and structural — or eight
+weights, one per criterion (three weights, as in version 0.1.0, are still accepted, and the
+structural dimension receives their mean; seven are refused); `--criterion-shares` gives the eight
+criterion shares, in the order reliability, storage efficiency, net saving, LCOW, payback, CO₂, dry
+mass and overflow (default `1,1,1,1,1,1,1,1`); `--weight-sensitivity N` draws N weight vectors and
+reports how often each volume wins; `--format` and `--output` set the output format and file; and
+`--seed` fixes the seed of the stochastic analyses, so that the result is reproducible. In the
+project file, the same weights go in `analysis.topsis_weights` (four or eight values) and the shares
+in `analysis.topsis_criterion_shares` (eight values).
+
+With `--analysis all` (or `system_weight`), `analyze` also reports the **weight of the system**: the
+dry mass, the water load and the operating load, in kg and kN, split into basement or lower level,
+roof or upper level, and risers and network. The HTML report, the spreadsheet (sheet
+`system_weight` for the chosen volume; the values per volume are in the sheet `alternatives`) and
+the terminal text show it. Its warnings are attention thresholds of the program, not limits of any
+standard — 500 kg on the roof with the upper tank full, an upper tank above 1,500 L, a cistern
+above 3,000 kg dry, and any concrete cistern — and each asks you to confirm the load with the
+structural or foundation design.
 
 Applied to the tutorial project, `validate` and `run` look like this (the command line prints
 a confirmation in the language of the program's interface):
@@ -5599,6 +5707,8 @@ The typologies (`escolar` school, `comercial` commercial, `residencial-unifamili
 The `consolidar` action searches every `resultados.csv` under the given folders (several studies, batches, repeated runs) and writes `consolidado.csv` and `consolidado.md` to the output folder: one row per typology (`grupo`), case and metric, with `n`, minimum, mean, median and maximum of the values of the cases that finished (`status` ok). The unit is part of the group key, so different currencies are never mixed. Numbers have the same format as in `resultados.csv` (decimal point, ten significant digits); the Markdown table follows `--idioma`. If the optional `duckdb` package is installed (optional `analise` extra, not part of the installer), it reads and groups the files; without it the standard library does the same, and the two paths give the same bytes (`--motor csv` forces the second; `--motor duckdb` demands the package).
 
 `estudo run` and `estudo lote` show their progress on the error stream. `--progresso simples` writes one line per case (`[i/N] id: ok (t s)`); `--progresso rich` draws a progress bar and needs the optional `rich` package (optional `cli` extra; without it the program warns once and uses `simples`); the default `auto` uses `rich` only if it is installed and the error stream is a terminal. The result files are identical in bytes in every mode, and `--quiet` turns the progress off.
+
+In the `analise` section, `pesos` takes the four dimension weights or eight criterion weights (three, from studies made up to version 0.1.0, are still accepted) and `partes_no_eixo` the eight criterion shares; a study that declares seven values, from the model of version 0.1.0, is refused at validation.
 
 What each section of `estudo.json` contains, the aliases of the substitutions (catchment area, demand, users, share, tank volume and others) and the output files are in the appendix «Files, folders and formats». The example `examples/estudos/residencial-unifamiliar-exemplo/` runs the tutorial house in New York, London and Cape Town (`new_york.triton`, `london.triton`, `cape_town.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida out\example`.
 
@@ -5687,7 +5797,7 @@ polyethylene, pumping to a 1,000 L tank, with the illustrative costs of the manu
 not market prices). The likely net present value is negative, about −US$ 3,020. The table varies
 five assumptions, one at a time, between a low and a high value.
 
-<!-- tabela: **Table 86** — Potential, net present value and payback of the final tutorial project with each assumption varied alone, from the low to the high value (costs are illustrative, not market prices) -->
+<!-- tabela: **Table 89** — Potential, net present value and payback of the final tutorial project with each assumption varied alone, from the low to the high value (costs are illustrative, not market prices) -->
 | Assumption | Low | Likely | High | Potential | 20-year NPV (illustrative, not a market price) | Discounted payback |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: |
 | tariff escalation, water and sewer, % per year | 1.0 | 3.0 | 5.0 | 27.09% to 27.09% | −US$ 3,760 to −US$ 2,093 | no payback to no payback |
@@ -5740,7 +5850,7 @@ random instead of fixed, how often would each volume come first?
 
 Read it like this:
 
-<!-- tabela: **Table 87** — Reading the SMAA-VIKOR acceptability of the winning volume -->
+<!-- tabela: **Table 90** — Reading the SMAA-VIKOR acceptability of the winning volume -->
 | Acceptability of the winning volume | What it means |
 | :--- | :--- |
 | above 70% | robust recommendation; the weights hardly matter |
@@ -5750,9 +5860,9 @@ Read it like this:
 The distinction this column allows is epistemological, not only statistical: a volume that
 wins in 80% of the weight draws is a recommendation, whereas a volume that wins in 30% is a
 preference of the analyst, legitimate as long as it is presented as such. In the New York
-tutorial the winning volume, 4,000 L, has an acceptability of 45.8%, with 5,000 L second at
-21.5%: a reasonable recommendation, for which the second option is worth declaring. Section 2.10
-sets out the method that produces this number.
+tutorial the most accepted volume, 2,000 L, comes first in 39.2% of the draws, with 3,000 L second at
+25.0% and 4,000 L third at 18.2%: below 40%, so the choice depends on the weights, and the text must
+say so. Section 2.10 sets out the method that produces these numbers.
 
 ---
 
@@ -5829,7 +5939,7 @@ Practically the whole input core of the legacy format has a direct counterpart i
 version, and is converted without user intervention. The table below lists what the import
 recovers.
 
-<!-- tabela: **Table 88** — Legacy-format data recovered by the import -->
+<!-- tabela: **Table 91** — Legacy-format data recovered by the import -->
 | Item | Comes across? |
 | :--- | :---: |
 | rainfall file and start date | yes |
@@ -5934,7 +6044,7 @@ conversion replaces it.
 
 ### 3.9.1. What each format carries
 
-<!-- tabela: **Table 89** — Export formats and the purpose of each one -->
+<!-- tabela: **Table 92** — Export formats and the purpose of each one -->
 | Format | Extension | What it carries | What for |
 | :--- | :--- | :--- | :--- |
 | report | HTML, PDF | complete result and assumptions | delivery |
@@ -5979,7 +6089,7 @@ summary with the project metadata, the daily water balance, the sweep curve with
 the year-by-year cash flow, the life cycle inventory and the multi-criteria decision matrix.
 Three choices complete the export:
 
-<!-- tabela: **Table 90** — Spreadsheet export options and when to use each one -->
+<!-- tabela: **Table 93** — Spreadsheet export options and when to use each one -->
 | Option | Choices | When to use |
 | :--- | :--- | :--- |
 | format | XLSX, CSV or JSON | XLSX to open in Excel; CSV for R, Python or another program; JSON for integration |
@@ -6218,7 +6328,7 @@ measured series of the site. Section 3.2 shows how to test a climate scenario.
 For our project, use the New York series that comes with the program. It has exactly 30
 years, and no trimming is needed.
 
-<!-- tabela: **Table 91** — Characteristics of the New York precipitation series used in the tutorial -->
+<!-- tabela: **Table 94** — Characteristics of the New York precipitation series used in the tutorial -->
 | The New York series | Value |
 | :--- | ---: |
 | days in the series | 10,958 |
@@ -6352,7 +6462,7 @@ the depth you adopt.
 The program offers three ways of applying the first flush, which correspond to three
 types of self-cleaning device.
 
-<!-- tabela: **Table 92** — The three ways of applying the first flush -->
+<!-- tabela: **Table 95** — The three ways of applying the first flush -->
 | Mode | When it diverts | When to use |
 | :--- | :--- | :--- |
 | 1 | on every rain event | the default, and the most conservative |
@@ -6380,7 +6490,7 @@ together with the dirt it washed.
 
 ### 4.1.6. What we have so far
 
-<!-- tabela: **Table 93** — State of the tutorial project at the end of defining the rain and the catchment -->
+<!-- tabela: **Table 96** — State of the tutorial project at the end of defining the rain and the catchment -->
 | Item | Value |
 | :--- | ---: |
 | series | New York, 30 years |
@@ -6586,7 +6696,7 @@ system.
 
 ### 4.2.6. What we have so far
 
-<!-- tabela: **Table 94** — State of the tutorial project at the end of defining the demand -->
+<!-- tabela: **Table 97** — State of the tutorial project at the end of defining the demand -->
 | Item | Value |
 | :--- | ---: |
 | building type | single-family residential |
@@ -6599,7 +6709,7 @@ system.
 The program now knows the supply and the demand. Before simulating, a comparison worth
 keeping:
 
-<!-- tabela: **Table 95** — Comparison between the annual rainwater supply and the suppliable demand -->
+<!-- tabela: **Table 98** — Comparison between the annual rainwater supply and the suppliable demand -->
 | | m³/year |
 | :--- | ---: |
 | gross rainwater supply (precipitation × area × coefficient) | 143 |
@@ -6632,7 +6742,7 @@ tank unticked, and run.
 
 ### 4.3.1. The result
 
-<!-- tabela: **Table 96** — Result of the first tutorial simulation, with a 3,000 L tank -->
+<!-- tabela: **Table 99** — Result of the first tutorial simulation, with a 3,000 L tank -->
 | Result with 3,000 L | Value |
 | :--- | ---: |
 | potable water saving potential | **25.99%** |
@@ -6705,7 +6815,7 @@ potential does not reach: how often rainwater can be counted on. Each day of the
 simulation receives one of three classifications, according to the degree of supply
 achieved.
 
-<!-- tabela: **Table 97** — Classification of each day of the simulation by the degree of supply -->
+<!-- tabela: **Table 100** — Classification of each day of the simulation by the degree of supply -->
 | Class | What it means |
 | :--- | :--- |
 | full | rain met **all** the rainwater demand of the day |
@@ -6772,7 +6882,7 @@ That is why enlarging the tank works — and that is why enlarging has a limit. 
 
 ### 4.3.7. What we have so far
 
-<!-- tabela: **Table 98** — State of the tutorial project after the first simulation -->
+<!-- tabela: **Table 101** — State of the tutorial project after the first simulation -->
 | Result with 3,000 L | |
 | :--- | ---: |
 | saving potential | 25.99% |
@@ -6828,7 +6938,7 @@ no-system scenario, against which all the others are compared.
 
 ### 4.4.2. The curve
 
-<!-- tabela: **Table 99** — Volume sweep of the tutorial project, with the marginal gain of each added cubic metre -->
+<!-- tabela: **Table 102** — Volume sweep of the tutorial project, with the marginal gain of each added cubic metre -->
 | Volume | Potential | Gain over the previous | Gain per cubic metre added | Overflow | Full-supply days |
 | ---: | ---: | ---: | ---: | ---: | ---: |
 | L | % | percentage points | %/m³ | L/day | % |
@@ -6858,7 +6968,7 @@ discrete derivative of the potential curve and expresses how much saving each ex
 metre of tank adds. The table below highlights a few intervals, and the pattern it
 reveals is the central argument of this section.
 
-<!-- tabela: **Table 100** — Marginal saving gain for each cubic metre added to the tank -->
+<!-- tabela: **Table 103** — Marginal saving gain for each cubic metre added to the tank -->
 | From → to | Gain per m³ |
 | :--- | ---: |
 | 0 → 1,000 L | 19.14 %/m³ |
@@ -6925,7 +7035,7 @@ project would be 3,000 L; with the tutorial's threshold, the first volume to fal
 it is 4,000 L, with a marginal gain of 0.84 %/m³. Anyone redoing the tutorial must
 therefore change the threshold in the program before running the sweep.
 
-<!-- tabela: **Table 101** — Indicators of the ideal volume obtained with the 1 %/m³ threshold adopted in the tutorial -->
+<!-- tabela: **Table 104** — Indicators of the ideal volume obtained with the 1 %/m³ threshold adopted in the tutorial -->
 | Indicator | Value |
 | :--- | ---: |
 | ideal volume, 1 %/m³ threshold | 4,000 L |
@@ -6937,14 +7047,14 @@ The threshold, however, is the analyst's choice, and it decides the result as mu
 the input data. The table below shows the ideal volume each plausible threshold would
 produce for this same project.
 
-<!-- tabela: **Table 102** — Ideal volume obtained with each marginal-gain threshold, for the same project -->
+<!-- tabela: **Table 105** — Ideal volume obtained with each marginal-gain threshold, for the same project -->
 | Declared threshold | Ideal volume | Potential |
 | ---: | ---: | ---: |
 | 3.0 %/m³ | 3,000 L | 25.99% |
 | 1.0 %/m³ | 4,000 L | 26.83% |
 | 0.5 %/m³ | 5,000 L | 27.24% |
 
-<!-- tabela: **Table 103** — Cost and performance compared between the ideal volume and the largest volume swept (prices are illustrative, not market prices) -->
+<!-- tabela: **Table 106** — Cost and performance compared between the ideal volume and the largest volume swept (prices are illustrative, not market prices) -->
 | | 4,000 L | 20,000 L |
 | :--- | ---: | ---: |
 | saving potential | 26.83% | 27.98% |
@@ -6984,8 +7094,8 @@ in a different direction.
 Three criteria and three different answers to the same question, and none of them is
 more legitimate than the others in the abstract. That is why the tutorial does not end
 here: sections 4.7 and 4.8 add money and carbon to the analysis, and section
-4.9 puts the three dimensions on the same table, with declared weights, to reach a
-compromise volume that can be defended.
+4.9 puts four dimensions — technical, economic, environmental and structural — on the same
+table, with declared weights, to see which volume each declared priority favours.
 
 > **The most common mistake, and it is in section 5.1.** Publishing the volume with
 > the largest water saving as if it were the recommended volume. According to the table,
@@ -7042,7 +7152,7 @@ criterion with the 1 %/m³ threshold, and it is the value the project carries up
 section 4.9, where it will be questioned again, this time with money and carbon
 included in the analysis.
 
-<!-- tabela: **Table 104** — State of the tutorial project after choosing the volume -->
+<!-- tabela: **Table 107** — State of the tutorial project after choosing the volume -->
 | Project so far | |
 | :--- | ---: |
 | series | New York, 30 years |
@@ -7092,7 +7202,7 @@ pump. Step **4. Tank & Costs** asks which of the three arrangements the project
 adopts, and it is this answer that defines the energy and the pump sets in the cost and
 in the carbon.
 
-<!-- tabela: **Table 105** — The three supply arrangements and what each one adds to the project -->
+<!-- tabela: **Table 108** — The three supply arrangements and what each one adds to the project -->
 | Arrangement | Energy calculated | Upper tank and pump sets |
 | :--- | :--- | :--- |
 | pumping to an upper tank | volume pumped, at the manometric head, plus the start-ups | enter the cost and the carbon |
@@ -7127,7 +7237,7 @@ would win for that reason, not because of the arrangement. To isolate the effect
 arrangement, the storage must be kept constant: so 5,000 L in a single tank is compared
 with 4,000 L below plus 1,000 L above.
 
-<!-- tabela: **Table 106** — Single tank compared with two tanks, keeping the same total storage (energy cost is illustrative, not a market price) -->
+<!-- tabela: **Table 109** — Single tank compared with two tanks, keeping the same total storage (energy cost is illustrative, not a market price) -->
 | Same storage of 5,000 L | One tank only | 4,000 below + 1,000 above |
 | :--- | ---: | ---: |
 | saving potential | 27.24% | 27.09% |
@@ -7169,7 +7279,7 @@ pumping and when the cistern runs dry.
 If you adopt the tank, there is a parameter to adjust: the reserve volume that is not
 consumed, below which the pump starts.
 
-<!-- tabela: **Table 107** — Effect of the pump trigger level on the saving potential and on the number of starts -->
+<!-- tabela: **Table 110** — Effect of the pump trigger level on the saving potential and on the number of starts -->
 | Trigger level | Potential | Starts per year |
 | ---: | ---: | ---: |
 | 0 L | 27.04% | 62 |
@@ -7232,7 +7342,7 @@ Compared with the 4,000 L cistern on its own, the potential rises from 26.83% to
 because the tank adds 1,000 L of storage. From here on, the cost, the carbon and the
 tutorial's decision include the tank, the two pump sets and the pumping energy.
 
-<!-- tabela: **Table 108** — State of the tutorial project after the decision on the upper tank -->
+<!-- tabela: **Table 111** — State of the tutorial project after the decision on the upper tank -->
 | Project so far | |
 | :--- | ---: |
 | lower tank volume | 4,000 L |
@@ -7298,14 +7408,14 @@ Choosing a class imposes no equipment on the project. The class expresses a
 recommendation of the program, based on the typical requirement of the intended use, and
 the decision to adopt it or not remains with whoever signs the project.
 
-<!-- tabela: **Table 109** — Treatment line by disinfection technology adopted: stages, ultraviolet energy and annual carbon -->
+<!-- tabela: **Table 112** — Treatment line by disinfection technology adopted: stages, ultraviolet energy and annual carbon -->
 | Disinfection | Stages | Annual UV energy | Annual CO₂e |
 | :--- | :---: | ---: | ---: |
 | Tablet chlorination | 1 | 0.0 kWh | 0.2 kg |
 | Chlorination + ultraviolet | 2 | 37.5 kWh | 18.2 kg |
 | Chlorination + ozonation | 2 | 0.0 kWh | 15.2 kg |
 
-<!-- tabela: **Table 110** — Fine-filtration recommendation by quality class -->
+<!-- tabela: **Table 113** — Fine-filtration recommendation by quality class -->
 | Target class | Fine filtration recommended? |
 | :--- | :---: |
 | class 1 | no |
@@ -7367,7 +7477,7 @@ solids from the water before it reaches the tank. The program sizes it by the ro
 not by the intended quality class, because what this filter has to cope with is the peak
 flow of the roof — a quantity that does not depend on the final destination of the water.
 
-<!-- tabela: **Table 111** — Mechanical inlet filter sized by the roof area -->
+<!-- tabela: **Table 114** — Mechanical inlet filter sized by the roof area -->
 | Roof | Filter | Mesh |
 | :--- | :--- | ---: |
 | up to 200 m² | self-cleaning vortex DN 100 | 350 µm |
@@ -7409,7 +7519,7 @@ it, as section 4.2 records. Chlorination leaves a residual, it is the simplest o
 three lines, and it has the lowest energy and carbon: 0.2 kg CO₂e per year. The first
 flush is sized in the same step; its chamber is the 300 L of section 4.1.
 
-<!-- tabela: **Table 112** — State of the tutorial project after defining the quality class -->
+<!-- tabela: **Table 115** — State of the tutorial project after defining the quality class -->
 | Project so far | |
 | :--- | ---: |
 | volume | 4,000 L |
@@ -7452,14 +7562,14 @@ Triton avoids the problem by calculating two complete bills — the one the buil
 pay without the system and the one it pays with it — and taking the difference between
 the two.
 
-<!-- tabela: **Table 113** — Make-up of the New York water and sewer bill before and after the rainwater system -->
+<!-- tabela: **Table 116** — Make-up of the New York water and sewer bill before and after the rainwater system -->
 | The New York water and sewer bill | Consumption | Amount |
 | :--- | ---: | ---: |
 | without the system | 18.26 m³/month | US$ 89.37 |
 | with the system | 13.31 m³/month | US$ 65.15 |
 | **saving** | 4.95 m³/month | **US$ 24.21** |
 
-<!-- tabela: **Table 114** — Economic indicators of the tutorial project over twenty years of analysis (all costs are illustrative, not market prices) -->
+<!-- tabela: **Table 117** — Economic indicators of the tutorial project over twenty years of analysis (all costs are illustrative, not market prices) -->
 | Twenty-year analysis (costs illustrative, not a market price) | Value |
 | :--- | ---: |
 | initial investment | US$ 6,250.00 |
@@ -7498,7 +7608,7 @@ the cubic metre saved is worth the price of the highest block the house reaches.
 Not every utility works like this, and the difference between them decides the
 feasibility of entire projects. The program distinguishes six regimes.
 
-<!-- tabela: **Table 115** — The six tariff regimes and the effect of each one on the saving -->
+<!-- tabela: **Table 118** — The six tariff regimes and the effect of each one on the saving -->
 | Regime | What happens when saving |
 | :--- | :--- |
 | availability charge | each m³ saved is deducted |
@@ -7522,7 +7632,7 @@ feasibility of entire projects. The program distinguishes six regimes.
 
 US$ 6,250, split as follows (every value illustrative, not a market price):
 
-<!-- tabela: **Table 116** — Make-up of the initial investment of the tutorial project (illustrative, not a market price) -->
+<!-- tabela: **Table 119** — Make-up of the initial investment of the tutorial project (illustrative, not a market price) -->
 | Item | Value (illustrative, not a market price) |
 | :--- | ---: |
 | 4,000 L concrete cistern | US$ 2,200 |
@@ -7559,7 +7669,7 @@ price was invented to fill the gap.
 
 The table shows what a new project contains, read from the program.
 
-<!-- tabela: **Table 117** — What a new project of the International Edition contains, and what is left for you to enter -->
+<!-- tabela: **Table 120** — What a new project of the International Edition contains, and what is left for you to enter -->
 | Field of the new project | Starting value | What it means |
 | :--- | ---: | :--- |
 | lower tank (cistern) and upper tank | 0.00 | to be entered by you |
@@ -7663,7 +7773,7 @@ one of those prices starts at zero**: the electricity tariff, the price of chlor
 each routine. The three routines exist as a checklist, with a period of 12 months, and you give
 them a cost.
 
-<!-- tabela: **Table 118** — Where each part of the running cost comes from in the International Edition -->
+<!-- tabela: **Table 121** — Where each part of the running cost comes from in the International Edition -->
 | Part of the running cost | What the program calculates | What you supply | Illustrative in the tutorial |
 | :--- | :--- | :--- | :--- |
 | pump energy | the annual energy of the pump set, from the chain of section 2.6 | electricity tariff, taxes on it, annual escalation | US$ 0.20 per kWh |
@@ -7681,7 +7791,7 @@ shows adds only the energy, the chlorine and the treatment line. The routines en
 separately, in months 12, 24, 36 and so on, corrected for inflation. In the tutorial, with illustrative
 values, they move the result:
 
-<!-- tabela: **Table 119** — Effect of the three illustrative maintenance routines on the running cost in the summary and on the result of the tutorial (illustrative costs, not market prices) -->
+<!-- tabela: **Table 122** — Effect of the three illustrative maintenance routines on the running cost in the summary and on the result of the tutorial (illustrative costs, not market prices) -->
 | Tutorial project (illustrative costs, not market prices) | With the routines | Without the routines |
 | :--- | ---: | ---: |
 | maintenance routines per year | US$ 90.00 | US$ 0.00 |
@@ -7707,7 +7817,7 @@ first flush are chosen in step **3. Quality & Treatment**. The electricity tarif
 
 Twenty years is a long time, and the projection depends on assumptions worth declaring:
 
-<!-- tabela: **Table 120** — Assumptions of the economic projection and the weight of each one in the result -->
+<!-- tabela: **Table 123** — Assumptions of the economic projection and the weight of each one in the result -->
 | Assumption | Value adopted | Where it weighs |
 | :--- | ---: | :--- |
 | minimum attractive rate of return | 0.4% per month | discounts the flow; the higher, the worse the NPV |
@@ -7732,7 +7842,7 @@ value adopted and shows the sensitivity — section 3.7 teaches how.
 
 ### 4.7.8. What we have so far
 
-<!-- tabela: **Table 121** — State of the tutorial project after the economic analysis (illustrative, not a market price) -->
+<!-- tabela: **Table 124** — State of the tutorial project after the economic analysis (illustrative, not a market price) -->
 | Project so far (illustrative, not a market price) | |
 | :--- | ---: |
 | volume | 4,000 L, concrete |
@@ -7779,7 +7889,7 @@ period plays in the economic one.
 
 For our project, a 4,000 L concrete cistern pumping to a 1,000 L upper tank:
 
-<!-- tabela: **Table 122** — Carbon balance of the tutorial project with a concrete cistern (illustrative factors) -->
+<!-- tabela: **Table 125** — Carbon balance of the tutorial project with a concrete cistern (illustrative factors) -->
 | Part | Value |
 | :--- | ---: |
 | carbon embodied in the system | 858 kg CO₂e |
@@ -7840,7 +7950,7 @@ the final result of each material.
 of the balance chart of the program's environmental tab, and the one that keeps the
 reading of an emissions chart intuitive: the line going down is the one improving.==
 
-<!-- tabela: **Table 123** — Net carbon emissions of the tutorial project according to the tank material (prices are illustrative, not market prices) -->
+<!-- tabela: **Table 126** — Net carbon emissions of the tutorial project according to the tank material (prices are illustrative, not market prices) -->
 | Cistern material | Mass | Embodied carbon | Carbon payback | Net emissions over 20 years | Price (illustrative, not a market price) |
 | :--- | ---: | ---: | ---: | ---: | ---: |
 | Polyethylene (HDPE) | 88 kg | 327 kg CO₂e | 12.4 years | −200 kg | US$ 2,300 |
@@ -7848,7 +7958,7 @@ reading of an emissions chart intuitive: the line going down is the one improvin
 | Glass fibre | 57 kg | 371 kg CO₂e | 14.1 years | −156 kg | US$ 2,720 |
 | Stainless steel | 152 kg | 748 kg CO₂e | 28.4 years | 220 kg | US$ 8,300 |
 
-<!-- tabela: **Table 124** — Effect of the concrete cistern volume on the net carbon emissions -->
+<!-- tabela: **Table 127** — Effect of the concrete cistern volume on the net carbon emissions -->
 | Concrete volume | Carbon payback | Net emissions over 20 years |
 | ---: | ---: | ---: |
 | 2,000 L | 21.3 years | 31 kg CO₂e |
@@ -7934,7 +8044,7 @@ The switch costs little and changes the sign of the carbon, without changing the
 potential. The financial result stays negative, and a little worse, because the
 polyethylene cistern is US$ 100 dearer at these illustrative prices:
 
-<!-- tabela: **Table 125** — Effect of switching from concrete to polyethylene on the three dimensions of analysis (illustrative, not a market price) -->
+<!-- tabela: **Table 128** — Effect of switching from concrete to polyethylene on the three dimensions of analysis (illustrative, not a market price) -->
 | (illustrative, not a market price) | Concrete | Polyethylene |
 | :--- | ---: | ---: |
 | cistern price | US$ 2,200 | US$ 2,300 |
@@ -7944,7 +8054,7 @@ polyethylene cistern is US$ 100 dearer at these illustrative prices:
 | carbon payback | 32.5 years | 12.4 years |
 | net emissions over 20 years | +330 kg | −200 kg |
 
-<!-- tabela: **Table 126** — State of the tutorial project after the environmental analysis (illustrative, not a market price) -->
+<!-- tabela: **Table 129** — State of the tutorial project after the environmental analysis (illustrative, not a market price) -->
 | Project so far (illustrative, not a market price) | |
 | :--- | ---: |
 | volume | 4,000 L |
@@ -7983,78 +8093,88 @@ a third. It is time to choose.
 
 ---
 
-### 4.9.1. Three criteria, three answers
+### 4.9.1. Four questions, different answers
 
-The previous sections of this tutorial asked the same project three different questions
-— how much water it delivers, how much money it returns and how much carbon it avoids —
-and received three answers that do not coincide. This disagreement is not a defect of the
-analysis or an inconsistency in the data: it shows that the three criteria measure
-different things and behave differently with respect to the tank volume.
+The previous sections asked the same project how much water it delivers, how much money it
+returns and how much carbon it avoids. Version 0.2.0 adds a fourth question: how heavy the
+system is and how much water it still throws away. The answers do not coincide. That is not a
+defect of the analysis or of the data: the criteria measure different things and respond
+differently to the tank volume.
 
-<!-- tabela: **Table 127** — Multi-criteria decision matrix: each sweep volume assessed in the three dimensions of analysis (costs are illustrative, not market prices) -->
-| Volume | Potential | NPV (illustrative, not a market price) | Payback | 20-year carbon balance | Investment (illustrative, not a market price) |
-| ---: | ---: | ---: | ---: | ---: | ---: |
-| 1,000 L | 21.57% | −US$ 2,338 | no payback | 196 kg | US$ 4,700 |
-| 2,000 L | 25.26% | −US$ 2,241 | no payback | 234 kg | US$ 5,250 |
-| 3,000 L | 26.39% | −US$ 2,592 | no payback | 222 kg | US$ 5,800 |
-| 4,000 L | 27.09% | −US$ 3,020 | no payback | 200 kg | US$ 6,350 |
-| 5,000 L | 27.40% | −US$ 3,516 | no payback | 171 kg | US$ 6,900 |
-| 8,000 L | 27.79% | −US$ 5,098 | no payback | 72 kg | US$ 8,550 |
-| 12,000 L | 27.96% | −US$ 7,269 | no payback | −66 kg | US$ 10,750 |
+The program judges each volume by eight criteria in four dimensions. Section 2.10 defines
+each one as the program computes it.
 
-<!-- tabela: **Table 128** — Winning volume under each criterion taken alone -->
-| Single criterion | Winning volume |
+<!-- tabela: **Table 130** — The eight multi-criteria criteria, their dimension and the direction of preference of each one -->
+| Dimension | Criterion | Direction |
+| :--- | :--- | :--- |
+| technical | volumetric reliability | maximise |
+| technical | storage efficiency | maximise |
+| economic | net financial savings (NPV) | maximise |
+| economic | levelised cost of water (LCOW) | minimise |
+| economic | discounted payback | minimise |
+| environmental | net life-cycle CO₂e | minimise |
+| structural | dry mass of materials | minimise |
+| structural | annual overflow | minimise |
+
+<!-- tabela: **Table 131** — Multi-criteria decision matrix: the eight criteria of each candidate volume, as the program computes them (costs are illustrative, not market prices) -->
+| Volume | Volumetric reliability | Storage efficiency | Net saving (NPV) | LCOW | Discounted payback | Net life-cycle CO₂e | Dry mass | Overflow |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| L | % | % of the volume per day | US$ | US$/m³ | years | kg | kg | m³/year |
+| 1,000 | 77.03 | 12.94 | −US$ 2,338 | US$ 10.13 | no payback | −196 | 68 | 64.8 |
+| 2,000 | 90.21 | 7.58 | −US$ 2,241 | US$ 9.43 | no payback | −234 | 90 | 56.7 |
+| 3,000 | 94.26 | 5.28 | −US$ 2,592 | US$ 9.76 | no payback | −222 | 112 | 54.2 |
+| 4,000 | 96.76 | 4.06 | −US$ 3,020 | US$ 10.24 | no payback | −200 | 134 | 52.6 |
+| 5,000 | 97.86 | 3.29 | −US$ 3,516 | US$ 10.83 | no payback | −171 | 156 | 51.9 |
+| 8,000 | 99.25 | 2.08 | −US$ 5,098 | US$ 12.79 | no payback | −72 | 222 | 50.9 |
+| 12,000 | 99.84 | 1.40 | −US$ 7,269 | US$ 15.51 | no payback | 66 | 310 | 50.4 |
+
+<!-- tabela: **Table 132** — Winning volume under each dimension taken alone, and the TOPSIS compromise -->
+| Dimension taken alone | Winning volume |
 | :--- | ---: |
-| highest saving potential | 12,000 L |
-| shortest discounted payback, ties broken by NPV | 2,000 L |
-| highest carbon balance | 2,000 L |
-| **compromise, equal weights** | **4,000 L** |
+| technical: highest volumetric reliability | 12,000 L |
+| economic: shortest discounted payback, ties broken by the net saving | 2,000 L |
+| environmental: lowest net life-cycle CO₂e | 2,000 L |
+| **compromise, TOPSIS with the four dimensions equal** | **2,000 L** |
 
-The first table is the portrait of the problem. Notice how the columns disagree:
+The first table is the portrait of the problem. Read it dimension by dimension:
 
-- The **potential** grows monotonically: the larger the cistern, the more water. Maximum
-  at 12,000 L.
-- The **NPV** is negative at every volume (the costs are illustrative, not market prices).
-  Its best value, the smallest loss, is at 2,000 L, and it worsens steadily beyond that
-  point, because each additional cubic metre of tank costs more than the saving it adds. No
-  volume has a payback.
-- The **carbon** rises and falls much earlier: maximum at 2,000 L, practically tied with
-  3,000 L. After that, each cubic metre of polyethylene adds more debt than credit, and
-  at 12,000 L the balance turns to emission.
+- **Technical.** Volumetric reliability rises with the volume, from 77.03% of the rainwater
+  demand at 1,000 L to 99.84% at 12,000 L. Storage efficiency falls: a 1,000 L cistern delivers
+  12.94% of its volume each day, a 12,000 L one only 1.40%. The two criteria pull in opposite
+  directions on purpose. One rewards the water delivered; the other counts the cubic metres that
+  stand idle.
+- **Economic.** The net saving is negative at every volume (the costs are illustrative, not
+  market prices); the smallest loss is at 2,000 L. The LCOW traces a U, with its minimum at
+  2,000 L. No volume pays back, so every one receives the same payback penalty and the payback
+  weighs nothing in this tutorial.
+- **Environmental.** The most carbon avoided is at 2,000 L, closely followed by 3,000 L. At
+  12,000 L the life-cycle balance turns to emission.
+- **Structural.** The dry mass grows with the volume; the overflow falls. This dimension also
+  pulls both ways.
 
-==There is no volume that wins on all three criteria at once.== Each one has its optimum
-at a different point of the curve, and the choice between them is not a technical
-question with a single answer: it is a question of priority, which must be declared by
-whoever decides and cannot be discovered by the program. That is exactly the gap that
-multi-criteria methods fill.
+==No volume wins on all eight criteria at once.== Each has its optimum at a different point of
+the curve, and the choice between them is not a technical question with a single answer. It is a
+question of priority, which whoever decides must declare and the program cannot discover. That is
+the gap multi-criteria methods fill.
 
 ---
 
 ### 4.9.2. How TOPSIS solves it
 
-The program uses TOPSIS over **seven criteria**:
+The method works in four linked steps. First it normalises the decision matrix, so that criteria
+measured in incomparable units — percentages, currency, kilograms and cubic metres — come to occupy
+the same scale. Then it applies the declared weights. It then calculates, for each volume, the
+Euclidean distance to the ideal solution, made up of the best value of each criterion, and to the
+anti-ideal solution, made up of the worst. Finally it ranks the volumes by their relative closeness
+to the ideal, as formulated in section 2.10.
 
-<!-- tabela: **Table 129** — The seven multi-criteria criteria and the direction of preference of each one -->
-| Criterion | Direction |
-| :--- | :--- |
-| saving potential | maximise |
-| overflow | minimise |
-| net present value | maximise |
-| discounted payback | minimise |
-| internal rate of return | maximise |
-| CO₂e at the end of life | minimise |
-| potable water consumption | minimise |
+The weights are declared per dimension. Each dimension weight is shared among its criteria by the
+**criterion shares**, equal by default. With the four dimensions at 25%, each technical and each
+structural criterion weighs 12.5%, each economic criterion 8.33% and the single environmental
+criterion 25%.
 
-The method works in four linked steps. First it normalises the decision matrix, so that
-criteria measured in incomparable units — percentage points, currency, kilograms of carbon
-dioxide equivalent and years — come to occupy the same scale. Then it applies the declared
-weights. It then calculates, for each volume alternative, the Euclidean distance to the
-ideal solution, made up of the best values of each criterion, and to the anti-ideal
-solution, made up of the worst. Finally it ranks the alternatives by their relative
-closeness to the ideal, as formulated in section 2.10.
-
-Applied to the tutorial project with equal weights across the three dimensions, split
-equally among the criteria of each one, the method points to the 4,000 L volume.
+Applied to the tutorial project with the four dimensions equal, the method points to **2,000 L**,
+with 3,000 L and 4,000 L close behind (section 2.10 gives the scores).
 
 > **Three statements a published study must make.**
 >
@@ -8075,81 +8195,100 @@ The decision tab shows the score of each candidate volume (Figure 63).
 
 ![The multi-criteria score of each candidate volume](../figuras/fig51_programa_topsis.png)
 
-*Figure 63 — The chart of the decision tab: the closeness-to-ideal score of each candidate volume, with the winner highlighted. Scores close to one another mean technically equivalent alternatives, and in that case the choice comes to depend on the declared weight. Figure generated by the program itself.*
+*Figure 63 — The chart of the decision tab: the closeness-to-ideal score of each candidate volume, with the four dimensions weighted equally and the winner highlighted. Scores close to one another mean technically equivalent alternatives, and in that case the choice comes to depend on the declared weight. Figure generated by the program itself.*
 
 ---
 ### 4.9.3. The weight changes the answer
 
-The table below shows what happens when the weight is shifted.
+The table below gives 70% of the weight to one dimension and 10% to each of the other three.
 
-<!-- tabela: **Table 130** — Volume chosen by TOPSIS according to the dimension given the dominant weight, and the runner-up -->
-| Dominant weight | Volume | Runner-up |
-| :--- | ---: | ---: |
-| equal weights | 4,000 L | 5,000 L |
-| technical, 60% | 5,000 L | 4,000 L |
-| economic, 60% | 4,000 L | 3,000 L |
-| environmental, 60% | 4,000 L | 5,000 L |
+<!-- tabela: **Table 133** — Volume chosen by TOPSIS according to the dimension given the dominant weight (70% on it, 10% on each of the other three), with the runner-up and the score margin between them -->
+| Dominant weight | Volume | Runner-up | Score margin |
+| :--- | ---: | ---: | ---: |
+| equal weights, 25% on each dimension | 2,000 L | 3,000 L | 0.018 |
+| technical, 70% | 1,000 L | 2,000 L | 0.059 |
+| economic, 70% | 2,000 L | 3,000 L | 0.022 |
+| environmental, 70% | 2,000 L | 3,000 L | 0.019 |
+| structural, 70% | 4,000 L | 3,000 L | 0.012 |
 
-Favouring the technical criterion moves the recommendation to 5,000 L, which was
-expected: the saving potential grows monotonically with the volume, and a dominant weight
-on that dimension pushes the choice up. The shift is small because the potential is
-already close to the ceiling, and the extra cubic metre yields little. The economic and
-environmental criteria, in turn, both converge to 4,000 L.
+<!-- tabela: **Table 134** — The same choice with the share of storage efficiency set to zero, so that the technical dimension measures volumetric reliability alone -->
+| Weights, with the storage-efficiency share at zero | Volume | Runner-up | Score margin |
+| :--- | ---: | ---: | ---: |
+| equal weights, 25% on each dimension | 4,000 L | 3,000 L | 0.001 |
+| technical, 70% | 5,000 L | 4,000 L | 0.029 |
 
-That convergence, however, is not a general rule, and reading it as one would wrongly
-generalise a particular case. Taken alone, the economic and the environmental criteria
-both prefer 2,000 L; the ranking lands on 4,000 L because TOPSIS also weighs the other
-criteria of each dimension, and because 4,000 L still ends its service life removing
-carbon. With a different tariff or different costs the economic optimum would move, and
-the divergence between the criteria would show clearly.
+A dominant technical weight does not push the volume up, as one might expect. It pulls it down
+to 1,000 L. Reliability gains 13 points from 1,000 to 2,000 L and fewer than 10 more all the way
+to 12,000 L, while storage efficiency keeps falling. With equal shares the two count the same, and
+the smallest cistern, the best on efficiency, comes first. Set the share of storage efficiency to zero, so that the technical dimension measures
+reliability alone, and the technical answer rises to 5,000 L.
 
-The multi-criteria ranking chooses a volume; it does not say whether to build. In this
-tutorial every volume has a negative NPV and no payback at the illustrative costs, so the
-financial dimension argues against building at all. If the project goes ahead, it is for
-the reasons the other dimensions give or for a purpose the cash flow does not measure,
-and the report must say so.
+This is also why the technical optimum depends on the question asked. The most reliable volume of
+the candidates is 12,000 L. The marginal-gain threshold of section 4.4 stops at 4,000 L. And
+the technical dimension of TOPSIS, with its two criteria, prefers 1,000 L. The three answers are
+consistent; they answer different questions, and the study must say which one it used.
 
-> **Declare the weights.** «Optimal volume by TOPSIS» without the weights is an
-> impossible statement to reproduce. Two papers with different weights reach different
-> volumes and both are right.
+The economic and environmental dimensions both stay at 2,000 L, the LCOW minimum and the carbon
+minimum. Only the structural dimension moves the choice to 4,000 L: the dry mass rises with the
+volume while the overflow falls, and the balance between the two lies there. The score margins are
+small throughout, a few hundredths at most.
+
+The multi-criteria ranking chooses a volume; it does not say whether to build. In this tutorial
+every volume has a negative NPV and no payback at the illustrative costs, so the financial
+dimension argues against building at all. If the project goes ahead, it is for the reasons the
+other dimensions give or for a purpose the cash flow does not measure, and the report must say so.
+
+> **Declare the weights.** «Optimal volume by TOPSIS» without the weights is an impossible
+> statement to reproduce. State the four dimension weights and the criterion shares. Two papers
+> with different weights reach different volumes and both are right.
 
 ---
 
-A compromise solution gives up something, and it is worth knowing what. The program
-unfolds the single score into seven, one per criterion, and shows the distance separating
-the chosen alternative from the best value reached in each of them
-(Figure 64).
+A compromise solution gives up something, and it is worth knowing what. The program unfolds the
+single score into eight, one per criterion, and shows how close each volume comes to the best value
+reached in each of them (Figure 64).
 
-![The closeness of the chosen volume to the optimum of each criterion](../figuras/fig52_programa_proximidade.png)
+![The closeness of each volume to the optimum of each criterion](../figuras/fig52_programa_proximidade.png)
 
-*Figure 64 — The second chart of the decision tab: how close the chosen volume comes to the best possible value on each of the seven criteria. It is the figure that shows what the compromise solution is giving up, and in which dimension. Figure generated by the program itself.*
+*Figure 64 — The second chart of the decision tab: how close each volume comes to the best observed value on each of the eight criteria, with the volume chosen by TOPSIS marked. It is the figure that shows what a choice gives up, and in which dimension. Figure generated by the program itself.*
 
 ---
 ### 4.9.4. The tutorial's recommendation
 
-The tutorial's recommendation, if the project is built, is the **4,000 L polyethylene**
-tank, and the reason to adopt it is not only that it wins under equal weights. It is the
-compromise volume, not the financial optimum, which lies at 2,000 L. It also wins under a dominant
-economic weight and under a dominant environmental weight, and comes second under a dominant
-technical weight. Under the simulated weight uncertainty (SMAA), it ranks first in 45.8% of the draws, against 21.5% for 5,000 L. ==A recommendation that survives four different
-weightings is robust precisely because it does not depend on any of them.==
+The multi-criteria analysis with eight criteria and equal weights indicates **2,000 L**. The
+tutorial keeps the **4,000 L polyethylene** tank, the volume the hydraulic criterion of section
+4.4 gave with a marginal-gain threshold of 1 %/m³, and carries it through sections 4.5 to
+4.10. The two routes do not agree in this project, and the choice deserves a plain account
+of what it gives up.
 
-It is also worth recording that this is the same volume the hydraulic criterion of section
-4.4 had pointed to, with a marginal-gain threshold of 1 %/m³. Two methodologically
-independent routes — one that looks only at the yield curve and another that weighs seven
-criteria from three dimensions — reached the same result, and that agreement increases
-confidence in the recommendation.
+Against 2,000 L, the 4,000 L tank gives up money, carbon and lightness: a net saving of
+−US$ 3,020 instead of −US$ 2,241, an LCOW of US$ 10.24/m³ instead of US$ 9.43/m³, a dry mass of
+134 kg instead of 90 kg, and a storage efficiency of 4.06% of the volume a day instead of 7.58%.
+In return it meets 96.76% of the rainwater demand instead of 90.21%, and sends 52.6 m³ a year to
+the drain instead of 56.7 m³. The proximity chart shows the same trade, criterion by criterion.
 
-The agreement, however, is not guaranteed in any other case, and that is why the tutorial
-took the long road instead of stopping at section 4.4. The purpose was not to reach
-the volume faster, but to know that the two routes agree in **this** project, instead of
-assuming they always agree.
+Under the simulated weight uncertainty (SMAA-VIKOR), 2,000 L comes first in 39.2% of the draws,
+3,000 L in 25.0% and 4,000 L in 18.2%. By the yardstick of section 3.7, no volume is a
+robust choice: the answer depends on the weights, and the study must say so.
+
+**When the smaller volume is the defensible choice.** If cost and carbon lead the decision, or if
+the dimensions are weighted equally and idle volume counts against the tank, 2,000 L is the
+answer. It is the LCOW minimum, the carbon minimum and the smallest financial loss.
+
+**When the tutorial's volume is defensible.** If the decision weighs the water delivered and the
+overflow sent to the drainage system above money and mass, 4,000 L is the answer. It wins under a
+dominant structural weight, and it wins with equal weights when the storage-efficiency share is
+set to zero — by a thousandth of score over 3,000 L, which is a tie in practice.
+
+The tutorial keeps 4,000 L so that the following sections build on the volume the hydraulic
+criterion gave. A real study should choose with its own weights, declare them, and report both
+volumes: the one adopted, with its criterion, and the one the multi-criteria analysis indicated.
 
 ---
 
 ### 4.9.5. The project, closed
 
-<!-- tabela: **Table 131** — Summary of the tutorial project, with all the parameters and results -->
+<!-- tabela: **Table 135** — Summary of the tutorial project, with all the parameters and results -->
 | Triton · single-family house in New York (costs illustrative, not market prices) | |
 | :--- | ---: |
 | precipitation series | New York, 30 years, 1,125 mm/year |
@@ -8281,8 +8420,12 @@ method.
 
 - If it came from a sweep: **the marginal-gain threshold adopted**. Without it, «ideal
   volume» means nothing.
-- If it came from multi-criteria: **the weights of the seven criteria** and the method,
-  TOPSIS or SMAA-VIKOR.
+- If it came from multi-criteria: **the four dimension weights and the criterion shares**
+  (or the eight criterion weights) and the method, TOPSIS or SMAA-VIKOR.
+- If the volume adopted is not the one the multi-criteria analysis indicated, **both
+  volumes**, and the criterion that decided.
+- The version of the program: the eight criteria are those of version 0.2.0, and a study
+  made with version 0.1.0 used seven.
 - That the TOPSIS normalisation is a **variant** with a shift by `x − min(x)`.
 
 #### 4.10.3.7. Economic analysis
@@ -8317,7 +8460,7 @@ method.
 
 For our project, the method would read like this:
 
-> The simulation was carried out in Triton 0.1.0, International Edition, with a daily-step
+> The simulation was carried out in Triton 0.2.0, International Edition, with a daily-step
 > behavioural model (overflow calculated before the demand is withdrawn, with the day's
 > rain available for the day's consumption, an order between YAS and YBS), on a
 > 30-year ERA5 reanalysis precipitation series for New York (10,958 days, mean of 1,125
@@ -8326,10 +8469,12 @@ For our project, the method would read like this:
 > first flush on every event, subtracted from the daily depth. The total demand adopted
 > was 600 L/day (4 residents, 150 L/person·day), with a fraction suppliable by rainwater
 > of 28%, corresponding to the toilet and the outdoor uses. The 4,000 L volume resulted
-> from the marginal-gain criterion with a 1 %/m³ threshold and was confirmed by a TOPSIS
-> multi-criteria analysis with seven criteria and equal weights across the technical,
-> economic and environmental dimensions, with normalisation in a variant of Hwang and Yoon
-> shifted by x − min(x). The points of use are supplied by pumping to a 1,000 L upper tank,
+> from the marginal-gain criterion with a 1 %/m³ threshold. A TOPSIS multi-criteria
+> analysis with eight criteria in four dimensions (technical, economic, environmental and
+> structural, 25% each, with equal criterion shares), with normalisation in a variant of
+> Hwang and Yoon shifted by x − min(x), indicated 2,000 L instead; 4,000 L was kept for its
+> higher volumetric reliability and lower overflow, at a higher levelised cost of water.
+> The points of use are supplied by pumping to a 1,000 L upper tank,
 > with a 100 L trigger level, a 0.5 hp pump, a manometric head of 12 m and the program's
 > default motor efficiency. The economic analysis used the New York City Water Board
 > tariff in force from 1 July 2026 (a single volumetric water rate and sewer at 159% of
@@ -8545,7 +8690,8 @@ embodied carbon** (3,546 against 858 kg CO₂e), to deliver 1.15 percentage poin
 environmentally **worse** in absolute terms.
 
 **How to avoid it.** Declare the selection criterion. If it is hydraulic, the marginal-gain
-threshold; if it is multi-criteria, the weights. And report the winners of each criterion alone,
+threshold; if it is multi-criteria, the four dimension weights and the criterion shares. And report
+the winners of each criterion alone,
 because the divergence between them **is** the result.
 
 ---
@@ -8571,7 +8717,7 @@ correct the calculation.
 > discover them for themselves.
 
 This section derives from the issue register the research group keeps, and reflects the state of
-the current beta version, 0.1.0. A limitation leaves this list when it is actually resolved, not when it stops being
+the current beta version, 0.2.0. A limitation leaves this list when it is actually resolved, not when it stops being
 mentioned — a distinction that seems obvious and that the documentation of scientific programs often
 does not observe.
 
@@ -8668,6 +8814,17 @@ read with the weight sensitivity analysis alongside.
 
 **The TOPSIS normalisation is a variant** with translation by `x − min(x)`, to admit a negative net
 present value.
+
+**The dry mass in the multi-criteria decision uses the default configuration** of the weight
+calculator when the volumes are compared: the cistern of each volume, its fittings and the pump. The
+upper tank and the pipes, the same for every volume, would add the same mass to each and do not change
+the ranking, but they are not in the criterion value. The full weight of the project is in the
+`system_weight` block of `analyze`.
+
+**The structural warnings are attention thresholds of the program**, not limits of any standard: 500 kg
+on the roof with the upper tank full, an upper tank above 1,500 L, a cistern above 3,000 kg dry, and
+any concrete cistern. They ask for a check by the structural or foundation design; they do not replace
+it.
 
 **The tariff adjustment is a single percentage** over the whole analysis period, which makes the
 twenty-year projection fragile. It is the assumption that most moves the economic result.
@@ -8956,11 +9113,11 @@ The old rule is emulated by transforming the input rainfall series, not by chang
 balance code. Measuring a divergence with modified code would verify a program that is not the one
 distributed to the user.
 
-```equacao:emulacao:53
+```equacao:emulacao:55
 P′ = P + d_f if P ≥ d_f ; P′ = 0 otherwise
 ```
 
-<!-- tabela: **Table 132** — Variables of Equation 53 -->
+<!-- tabela: **Table 136** — Variables of Equation 55 -->
 | Symbol | Meaning | Unit |
 | :--- | :--- | :--- |
 | `P′` | transformed precipitation, to be supplied to Triton | mm |
@@ -9024,7 +9181,7 @@ simulation program.==
 The messages below are raised before any calculation starts, and all of them name the field
 responsible and the value received, so that the correction does not require a search.
 
-<!-- tabela: **Table 133** — Physical input validation messages and the action for each one -->
+<!-- tabela: **Table 137** — Physical input validation messages and the action for each one -->
 | Message | What triggered it | What to do |
 | :--- | :--- | :--- |
 | «Volume do reservatório inferior negativo» (negative lower tank volume) | volume below zero | correct it; **zero is valid** and represents the no-system scenario |
@@ -9044,7 +9201,7 @@ responsible and the value received, so that the correction does not require a se
 > Section 4.2 justifies the split. When the message appears, the value arrived as 40 in a place
 > that stores 0.4 — typically a hand-edited parameter file or an automation call.
 
-<!-- tabela: **Table 134** — Suppliable fraction messages and the action for each one -->
+<!-- tabela: **Table 138** — Suppliable fraction messages and the action for each one -->
 | Message | What triggered it | What to do |
 | :--- | :--- | :--- |
 | «… parece estar em percentual» (… seems to be a percentage) | fraction between 1 and 100 in the file, in the weekly, monthly or daily vector, or in automation | enter 0.4 for 40% |
@@ -9060,7 +9217,7 @@ gap in the series stops the calculation, saying where it is. Filling the gap, or
 to a period without gaps, is a decision for whoever conducts the study, and the decision must be
 stated in the study.
 
-<!-- tabela: **Table 135** — Precipitation series error messages and the action for each one -->
+<!-- tabela: **Table 139** — Precipitation series error messages and the action for each one -->
 | Message | Cause | What to do |
 | :--- | :--- | :--- |
 | «A série de precipitação está vazia» (the precipitation series is empty) | file with no numeric line | check that the file has a column of daily values, one per line |
@@ -9074,7 +9231,7 @@ reading starts at the first numeric line.
 
 ### 6.2.3. Sweep
 
-<!-- tabela: **Table 136** — Volume sweep error messages -->
+<!-- tabela: **Table 140** — Volume sweep error messages -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «O volume máximo da varredura deve ser finito e não negativo» (the maximum sweep volume must be finite and non-negative) | empty or negative field | enter the maximum volume in litres |
@@ -9089,7 +9246,7 @@ declare in the study the step actually used, not the step originally requested.
 
 ### 6.2.4. Chlorination
 
-<!-- tabela: **Table 137** — Chlorination parameter error messages -->
+<!-- tabela: **Table 141** — Chlorination parameter error messages -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «Pureza deve ficar em (0, 1]» (purity must be in (0, 1]) | purity entered as a percentage | enter 0.65 for 65%, not 65 |
@@ -9100,7 +9257,7 @@ declare in the study the step actually used, not the step originally requested.
 
 ### 6.2.5. Economic analysis
 
-<!-- tabela: **Table 138** — Economic analysis error messages and the action for each one -->
+<!-- tabela: **Table 142** — Economic analysis error messages and the action for each one -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «… deve ser um número finito e não negativo» (… must be a finite, non-negative number) | investment, tariff, cost, power or volume empty, negative or infinite | the message names the field; fill it in with a number equal to or greater than zero |
@@ -9122,19 +9279,30 @@ declare in the study the step actually used, not the step originally requested.
 
 ### 6.2.6. Multi-criteria decision
 
-<!-- tabela: **Table 139** — Multi-criteria decision error messages and the action for each one -->
+<!-- tabela: **Table 143** — Multi-criteria decision error messages and the action for each one -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
-| «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» (enter 3 dimension weights or 7 TOPSIS criterion weights) | number of weights other than 3 or 7 | enter one weight per dimension or one per criterion |
+| «Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural) ou 8 pesos de critério TOPSIS» (enter 4 dimension weights (technical, economic, environmental, structural) or 8 TOPSIS criterion weights) | number of weights other than 3, 4, 7 or 8 | enter one weight per dimension or one per criterion; three weights from a project of version 0.1.0 are still accepted, and the structural dimension receives their mean |
+| «O multicritério da versão 0.2.0 tem oito critérios em quatro eixos, e os sete valores do modelo anterior não correspondem a eles. Informe quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito pesos de critério.» (the multi-criteria analysis of version 0.2.0 has eight criteria in four dimensions, and the seven values of the previous model do not correspond to them; enter four dimension weights or eight criterion weights) | seven weights or seven criterion shares, from the model of version 0.1.0 | rewrite the weights as four dimension weights or eight criterion weights (section 2.10); to reproduce a study made with version 0.1.0, use version 0.1.0 |
+| «Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural).» (enter 4 dimension weights) | dimension weights of the wrong length where only dimension weights are accepted | enter four values |
 | «Os pesos TOPSIS devem ser finitos e não negativos» (TOPSIS weights must be finite and non-negative) | empty or negative weight | correct it; a weight of zero is valid and excludes the criterion |
 | «Ao menos um peso TOPSIS deve ser maior que zero» (at least one TOPSIS weight must be greater than zero) | all weights zero | give weight to at least one criterion |
+| «Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios).» (enter 8 shares, one per TOPSIS criterion, in the order of the criteria) | criterion shares with a number of values other than eight | enter eight shares in the order reliability, efficiency, net saving, LCOW, payback, CO₂, mass, overflow; the default is 1,1,1,1,1,1,1,1 |
+| «As partes no eixo devem ser finitas e não negativas.» (criterion shares must be finite and non-negative) | empty or negative share | correct it; a share of zero is valid and removes the criterion from the calculation |
+| «Ao menos um critério do eixo … deve ter parte maior que zero.» (at least one criterion of the … dimension must have a share greater than zero) | every criterion of a dimension with a share of zero | give a share to at least one criterion of the dimension named, or set the weight of that dimension to zero instead |
+| «analysis.topsis_weights deve ser uma lista com quatro valores (eixos) ou oito (critérios)» (analysis.topsis_weights must be a list of four values, dimensions, or eight, criteria) | weights of the wrong length in the project file read by the command line | correct the list in the project file |
+| «analysis.topsis_criterion_shares: …» | invalid criterion shares in the project file; the message continues with one of the share messages above | correct the list of eight shares in the project file |
 | «O critério TOPSIS … da alternativa N não é finito» (TOPSIS criterion … of alternative N is not finite) | undefined indicator in an alternative, typically a payback with no return | check the alternative indicated before deciding |
+
+The declarative study (section 3.6) reports its own errors in English: `analise.pesos` must be four
+non-negative numbers (technical, economic, environmental, structural) or eight (one per criterion) with
+a positive sum, and `analise.partes_no_eixo` must be eight shares that pass the checks above.
 
 ---
 
 ### 6.2.7. Pump set
 
-<!-- tabela: **Table 140** — Pump set parameter error messages -->
+<!-- tabela: **Table 144** — Pump set parameter error messages -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
 | «Rendimento deve ficar em (0, 1]» (efficiency must be in (0, 1]) | efficiency as a percentage in the core | use 0.55 for 55% |
@@ -9144,7 +9312,7 @@ declare in the study the step actually used, not the step originally requested.
 
 ### 6.2.8. Files
 
-<!-- tabela: **Table 141** — Error situations when reading and saving files -->
+<!-- tabela: **Table 145** — Error situations when reading and saving files -->
 | Situation | What happens | What to do |
 | :--- | :--- | :--- |
 | unreadable rainfall series | reading stops with a message | check the format: one reading per line, in mm, single column |
@@ -9161,7 +9329,7 @@ are remarks the program makes about the conditions under which the result was pr
 need to be carried over into the text of the study, because all of them affect the interpretation of
 the number and none of them is evident in the result on its own.
 
-<!-- tabela: **Table 142** — Warnings that do not stop the calculation and must be stated in the study -->
+<!-- tabela: **Table 146** — Warnings that do not stop the calculation and must be stated in the study -->
 | Warning | What it means |
 | :--- | :--- |
 | non-residential building type with a residential tariff | the economic result is **underestimated**; see section 3.5 |
@@ -9224,8 +9392,9 @@ change the architecture. A first number of zero marks a beta: the program is usa
 describes, but its interface, file format and defaults may still change, and a change may alter
 results.
 
-The current version is the beta **0.1.0**. No earlier version circulated, and no study was done
-with one.
+The current version is the beta **0.2.0**. The only earlier version is the beta 0.1.0, published
+on 5 November 2026 with its own DOI, 10.5281/zenodo.23402916. Version 0.2.0 changes the
+multi-criteria decision, so a study made with 0.1.0 is reproduced with 0.1.0.
 
 ---
 
@@ -9244,18 +9413,50 @@ repository, and feeds the versions page of the documentation site.  It is writte
 and the maintainers keep the other two equal to it. Those following the program through the
 repository, the site or the manual read the same record.
 
-<!-- tabela: **Table 143** — **Table 99** — Overview of the published versions -->
+<!-- tabela: **Table 147** — **Table 99** — Overview of the published versions -->
 | Version | Date | What it brought | Fixes that change results |
 | :--- | :--- | :--- | ---: |
+| **0.2.0 (beta)** | 11 November 2026 | The multi-criteria decision moves from seven criteria in three dimensions to eight criteria in four — technical, economic, environmental and structural — and the program now calculates the weight of the system. | 1 |
 | **0.1.0 (beta)** | 5 November 2026 | First beta of Triton, with its own name for each edition, in the same repository and with the same version numbering. | 0 |
 
 ---
 
-### 6.3.3. Version 0.1.0 (beta) — 5 November 2026
+### 6.3.3. Version 0.2.0 (beta) — 11 November 2026
+
+> **In one sentence.** The multi-criteria decision moves from seven criteria in three dimensions to eight criteria in four — technical, economic, environmental and structural — and the program now calculates the weight of the system.
+
+#### 6.3.3.1. What is new
+
+- **Eight criteria in four dimensions.** Technical: volumetric reliability and storage efficiency. Economic: net financial savings (the NPV against the baseline without a cistern), the levelised cost of water (LCOW) and the discounted payback. Environmental: the net life-cycle CO₂e. Structural: the dry mass of the materials and the annual overflow. Section 2.10 defines each one as the program computes it, with the LCOW equation.
+- **Weights by dimension, with criterion shares.** Four dimension weights, 25% each by default, each shared among the criteria of its dimension by the criterion shares, equal by default. Eight direct weights, one per criterion, are also accepted. TOPSIS, VIKOR and PROMETHEE II use the same rule; SMAA-VIKOR draws eight weights and gives the central weights per criterion and per dimension.
+- **The decision tab.** Four weight boxes (Technical, Economic, Environmental, Structural), the profiles «Balanced: 25% on each dimension» and «Prioritise …» with 70% on one dimension and 10% on each of the others, including «Prioritise Lightness and Drainage», and the «Criterion shares» row with eight boxes and the «Equal shares» button.
+- **Command line, project file and declarative study.** `--weights t,e,a,s` (or eight values) and `--criterion-shares` with eight values (default `1,1,1,1,1,1,1,1`); `analysis.topsis_weights` (four or eight values) and `analysis.topsis_criterion_shares` (eight) in the project file; `analise.pesos` (four or eight) and `analise.partes_no_eixo` (eight) in `estudo.json`.
+- **Weight of the system.** `triton analyze … --analysis all` (and `--analysis system_weight`) reports the dry mass, the water load and the operating load, in kg and kN, split into basement or lower level, roof or upper level, and risers and network. The HTML report, the spreadsheet (sheet `system_weight`) and the terminal text show the block. Its warnings are attention thresholds of the program, not of any standard — 500 kg on the roof with the upper tank full, an upper tank above 1,500 L, a cistern above 3,000 kg dry, and any concrete cistern — and ask for a check with the structural or foundation design.
+
+#### 6.3.3.2. Fixes that change results
+
+The multi-criteria model was replaced. A study that ranked volumes with version 0.1.0 can rank them differently with this version.
+
+<!-- tabela: **Table 148** — Fixes that change results in version 0.2.0 -->
+| What was corrected | Effect on the result |
+| :--- | :--- |
+| The multi-criteria decision used seven criteria in three dimensions, and three of them — the saving potential, the potable water consumption and, through the bill, the NPV — measured the same water saved. It now uses eight criteria in four dimensions, with the weight of the system. | The volume chosen by TOPSIS, VIKOR, PROMETHEE II and SMAA-VIKOR can change. In the New York tutorial, with equal weights, TOPSIS moves from 4,000 L to 2,000 L. Three weights from a project or study of version 0.1.0 are still accepted: the structural dimension receives their mean, so equal weights stay equal. Seven values, weights or shares of the old model, are refused with a message that says why. To reproduce a study made with version 0.1.0, use version 0.1.0 (DOI 10.5281/zenodo.23402916). |
+
+#### 6.3.3.3. Fixes that do not change results
+
+None.
+
+#### 6.3.3.4. Documentation
+
+Sections 4.9, 3.6, 2.10 and 6.2 describe the eight criteria, the LCOW, the weight rule, the options of the command line and the weight of the system. Section 4.9 now says plainly that the multi-criteria analysis with equal weights indicates 2,000 L, why the tutorial keeps the 4,000 L of the hydraulic criterion, and what that choice gives up. The interactive figure of the decision on the site has four dimension weights and the criterion shares. The release notes are in `docs/NOTAS_DE_LANCAMENTO_0.2.0.md`. Version 0.2.0 has no DOI of its own yet: cite the DOI of all versions, 10.5281/zenodo.23402915, which always resolves to the most recent one.
+
+---
+
+### 6.3.4. Version 0.1.0 (beta) — 5 November 2026
 
 > **In one sentence.** First beta of Triton, with its own name for each edition, in the same repository and with the same version numbering.
 
-#### 6.3.3.1. What is new
+#### 6.3.4.1. What is new
 
 Triton simulates rainwater harvesting day by day and carries the simulation engine, the life-cycle
 assessment, the treatment line, the multi-criteria decision and the probabilistic modulation. This is
@@ -9285,25 +9486,25 @@ The Fewkes operating rule (φ) is available as an option in every module.
 - In Spanish and Chinese the interface is partly translated, and the reports in those languages contain passages in another language; English is complete.
 - The life-cycle steps warn that country factors are missing, by design.
 
-#### 6.3.3.2. Fixes that change results
+#### 6.3.4.2. Fixes that change results
 
 None: this is the first beta, and there is no earlier version to correct.
 
-<!-- tabela: **Table 144** — Fixes that change results in version 0.1.0 -->
+<!-- tabela: **Table 149** — Fixes that change results in version 0.1.0 -->
 | What was corrected | Effect on the result |
 | :--- | :--- |
 
-#### 6.3.3.3. Fixes that do not change results
+#### 6.3.4.3. Fixes that do not change results
 
 None.
 
-#### 6.3.3.4. Documentation
+#### 6.3.4.4. Documentation
 
 The manual gained the sections «CAPEX in this edition», «What goes into the running cost (OPEX)», «Regional and national particulars» and «Description of the data and how far to trust it».
 
 ---
 
-### 6.3.4. How to tell whether your version has a fix
+### 6.3.5. How to tell whether your version has a fix
 
 The procedure is direct and does not depend on asking anyone: open one of the example files that
 come with the program, described in appendix J, run it, and compare the result obtained with
@@ -9318,7 +9519,7 @@ needs to be identified before any study.
 
 ---
 
-### 6.3.5. What to declare in a published work
+### 6.3.6. What to declare in a published work
 
 Good practice in computational reproducibility requires a paper to identify unambiguously the
 program that produced the results. In Triton's case, four items of information are enough, and all
@@ -9424,7 +9625,7 @@ be given to whoever reported — the problem was not only fixed, it is now watch
 > would like to have.
 
 This section summarises the `ROADMAP.md` at the root of the Triton repository and reflects the state of the
-beta version 0.1.0. Nothing below the line «Stable» exists in this version: these are intentions of the research
+beta version 0.2.0. Nothing below the line «Stable» exists in this version: these are intentions of the research
 group, with no delivery date. When an item is implemented, it leaves this list and enters the version
 history, with a note on whether it changes the results of studies already done.
 
@@ -9435,20 +9636,22 @@ the economic parameters. The second is the program's own issue register, describ
 
 ---
 
-### 6.5.1. What is already stable in 0.1.0
+### 6.5.1. What is already stable in 0.2.0
 
 **Climate series.** Daily series supplied by the user, plus ERA5 example series for New York,
 London and Cape Town. **Tariffs.** Entered by the user, with progressive blocks, fixed charges,
 allowances and escalation. **Water balance.** Daily simulation by the Triton rule, with strict YAS, YBS and the Fewkes
 (2000b) parameter φ as options for a single tank. **Decision.** Multi-criteria by TOPSIS and by
-SMAA-VIKOR. **Uncertainty.** Probabilistic modulation of the assumptions (section «What probabilistic
+SMAA-VIKOR, with eight criteria in four dimensions (technical, economic, environmental and structural)
+and declared criterion shares. **Weight of the system.** Dry mass, water load and operating load by
+position, with attention thresholds of the program. **Uncertainty.** Probabilistic modulation of the assumptions (section «What probabilistic
 modulation is»). **Edition.** International.
 
 ---
 
 ### 6.5.2. Version 1.1: consolidation and reliability
 
-<!-- tabela: **Table 145** — Items planned for version 1.1 -->
+<!-- tabela: **Table 150** — Items planned for version 1.1 -->
 | Axis | Item | Method |
 | :--- | :--- | :--- |
 | International Edition | Global rainfall providers | ERA5-Land and NOAA GHCN-Daily reanalyses |
@@ -9465,7 +9668,7 @@ modulation is»). **Edition.** International.
 
 ### 6.5.3. Version 2.0: methodological frontier
 
-<!-- tabela: **Table 146** — Items planned for version 2.0 -->
+<!-- tabela: **Table 151** — Items planned for version 2.0 -->
 | Axis | Item | Method |
 | :--- | :--- | :--- |
 | System physics | Hourly time step | Hourly model with rain-gauge data |
@@ -9562,7 +9765,7 @@ per capita consumption, number of occupants and non-potable fraction — because
 most uncertain in a new project and the ones the literature shows to move the result (Silva
 and Ghisi, 2016). The others keep the study value until the user ticks them.
 
-<!-- tabela: **Table 147** — The variables that probabilistic modulation can draw, with the screening distribution the screen proposes -->
+<!-- tabela: **Table 152** — The variables that probabilistic modulation can draw, with the screening distribution the screen proposes -->
 | Group | Variable | Unit | Screening distribution | Ticked on opening |
 | :--- | :--- | :--- | :--- | :--- |
 | Demand | Per capita consumption | L/person/day | lognormal, project mean, CV of 20% | yes |
@@ -9612,7 +9815,7 @@ inflation, electricity tariff, period — **replace** the project value by the d
 represents a cost 15% above the estimate. The table states what each one acts on and what
 it leaves out.
 
-<!-- tabela: **Table 148** — What each economic and environmental variable does in the calculation, and what it does not touch -->
+<!-- tabela: **Table 153** — What each economic and environmental variable does in the calculation, and what it does not touch -->
 | Variable | Acts on | Does not touch |
 | :--- | :--- | :--- |
 | Water and sewerage tariff factor | every monetary value of the water structure — bands, fixed charge, minimum bill, base price of the exponential curve — and sewerage charged in currency units (fixed or per m³) | the exponent of the exponential curve; sewerage as a % of water, which already follows the water |
@@ -9650,7 +9853,7 @@ dry spells, run the study once with each alternative series and compare.
 
 Each ticked variable receives a distribution and its parameters:
 
-<!-- tabela: **Table 149** — The four distributions the tool offers, their parameters and when to use each -->
+<!-- tabela: **Table 154** — The four distributions the tool offers, their parameters and when to use each -->
 | Distribution | Parameters | When to use |
 | :--- | :--- | :--- |
 | normal | mean and standard deviation | symmetric uncertainty around a likely value |
@@ -9773,7 +9976,7 @@ distribution and the sample statistics. It is the first to read, because it conf
 the distributions produced what was intended — the sample mean should be close to the
 declared mean, and the interval between P5 and P95 should be plausible for the building.
 
-<!-- tabela: **Table 150** — The variables drawn in the tutorial example: declared distribution and statistics of the realisations -->
+<!-- tabela: **Table 155** — The variables drawn in the tutorial example: declared distribution and statistics of the realisations -->
 | Variable | In the study | Distribution | Mean | Standard deviation | P5 | P95 |
 | :--- | ---: | :--- | ---: | ---: | ---: | ---: |
 | Per capita consumption (L/person/day) | 150.0 | lognormal (150.0; 30.0) | 149.1 | 29.4 | 105.3 | 202.6 |
@@ -9789,13 +9992,13 @@ The second table summarises the volume the study chose — the TOPSIS winner of 
 — comparing the deterministic study with the mean, standard deviation, coefficient of
 variation and percentiles of the realisations.
 
-<!-- tabela: **Table 151** — Results at the volume chosen by the tutorial study: deterministic study and statistics of the realisations (money in US$, illustrative, not a market price) -->
+<!-- tabela: **Table 156** — Results at the volume chosen by the tutorial study: deterministic study and statistics of the realisations (money in US$, illustrative, not a market price) -->
 | Quantity | Deterministic study | Mean | Standard deviation | CV (%) | P5 | P50 | P95 |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Potable water savings (%) | 27.2 | 26.8 | 4.5 | 16.9 | 18.9 | 26.9 | 34.6 |
-| NPV (US$, illustrative, not a market price) | −2,125 | −2,581 | 1,882 | 72.9 | −6,022 | −2,414 | 208 |
-| Discounted payback (years) | — | 17.3 | 2.2 | 12.9 | 12.6 | 17.9 | 19.8 |
-| Life-cycle CO₂ balance (kg) | −307 | −307 | 1 | 0.5 | −309 | −307 | −304 |
+| Potable water savings (%) | 24.2 | 24.0 | 4.1 | 17.3 | 17.3 | 24.0 | 30.9 |
+| NPV (US$, illustrative, not a market price) | −2,644 | −3,116 | 1,537 | 49.3 | −6,037 | −2,972 | −936 |
+| Discounted payback (years) | — | 17.9 | 2.8 | 15.8 | 13.4 | 18.7 | 19.8 |
+| Life-cycle CO₂ balance (kg) | −200 | −200 | 1 | 0.5 | −201 | −200 | −198 |
 
 Two readings matter. The first is the **width**: the interval between P5 and P95 contains
 90% of the realisations and is the number that should accompany the published result. The
@@ -9807,10 +10010,10 @@ favourable ones, and the base case is optimistic.
 The discounted payback only exists when the investment pays back; the table computes it over
 the realisations in which that happens, and the screen states how many there were.
 
-<!-- tabela: **Table 152** — Probabilities at the chosen volume, with the Wilson 95% confidence interval -->
+<!-- tabela: **Table 157** — Probabilities at the chosen volume, with the Wilson 95% confidence interval -->
 | Event | Probability (%) | 95% CI, lower bound (%) | 95% CI, upper bound (%) |
 | :--- | ---: | ---: | ---: |
-| the investment pays back (NPV > 0) | 6.8 | 5.4 | 8.5 |
+| the investment pays back (NPV > 0) | 0.8 | 0.4 | 1.6 |
 | the life-cycle CO₂ balance is positive | 0.0 | 0.0 | 0.4 |
 
 The probability that the investment pays back is the proportion of realisations with a
@@ -9840,23 +10043,17 @@ technical ideal, which would be the economic optimum — the one with the shorte
 payback, the program's criterion (section 4.9) — and which would win TOPSIS (Figure 71). A
 realisation in which no volume pays back appears as «none pays back» in the economic column.
 
-<!-- tabela: **Table 153** — Frequency with which each volume is chosen in the realisations of the example, by criterion (%) -->
+<!-- tabela: **Table 158** — Frequency with which each volume is chosen in the realisations of the example, by criterion (%) -->
 | Volume (m³) | Technical ideal | Economic optimum (payback) | TOPSIS winner |
 | :--- | ---: | ---: | ---: |
-| 1 | 0 | 0 | 0 |
-| 2 | 4 | 0 | 2 |
-| 3 | 28 | 0 | 7 |
-| 4 | 32 | 0 | 12 |
-| 5 | 28 | 0 | 36 |
-| 6 | 9 | 0 | 21 |
-| 7 | 0 | 0 | 10 |
-| 8 | 0 | 0 | 8 |
-| 9 | 0 | 0 | 3 |
-| 10 | 0 | 0 | 1 |
-| 11 | 0 | 0 | 0 |
-| 12 | 0 | 0 | 0 |
+| 1 | 0 | 0 | 14 |
+| 2 | 4 | 0 | 75 |
+| 3 | 28 | 0 | 8 |
+| 4 | 32 | 0 | 3 |
+| 5 | 28 | 0 | 0 |
+| 6 | 9 | 0 | 0 |
+| 7 | 0 | 0 | 0 |
 | 13 | 0 | 0 | 0 |
-| 14 | 0 | 0 | 0 |
 | 15 | 0 | 0 | 0 |
 | 16 | 0 | 0 | 0 |
 | 17 | 0 | 0 | 0 |
@@ -9882,15 +10079,15 @@ the direction of the effect and the magnitude its strength. Because it uses rank
 values, it captures non-linear monotonic relations — such as that of the progressive tariff —
 and is not distorted by extreme realisations.
 
-<!-- tabela: **Table 154** — Sensitivity at the chosen volume: strength and direction of the influence of each drawn variable on the tutorial results -->
+<!-- tabela: **Table 159** — Sensitivity at the chosen volume: strength and direction of the influence of each drawn variable on the tutorial results -->
 | Variable | ρ with savings | ρ with NPV | ρ with CO₂ balance |
 | :--- | ---: | ---: | ---: |
-| Number of occupants | −0.20 | 0.58 | −0.69 |
-| Per capita consumption | −0.16 | 0.42 | −0.47 |
-| Investment factor | −0.06 | −0.39 | −0.04 |
-| Indoor non-potable fraction | 0.92 | 0.39 | −0.49 |
-| Water and sewerage tariff factor | 0.02 | 0.23 | −0.04 |
-| Rainfall factor | 0.10 | 0.01 | −0.05 |
+| Investment factor | −0.07 | −0.52 | −0.04 |
+| Number of occupants | −0.47 | 0.51 | −0.69 |
+| Per capita consumption | −0.35 | 0.36 | −0.47 |
+| Indoor non-potable fraction | 0.70 | 0.35 | −0.49 |
+| Water and sewerage tariff factor | 0.01 | 0.26 | −0.04 |
+| Rainfall factor | 0.15 | 0.03 | −0.11 |
 
 ![The sensitivity at the chosen volume in the tutorial example](../figuras/fig55_modulacao_sensibilidade.png)
 
@@ -9913,16 +10110,16 @@ total variance. Continuous variables are grouped in deciles, the number of occup
 the climate model by their own values. η² estimates the first-order sensitivity index
 (Saltelli et al., 2008), ranges from 0 to 1 and also captures non-monotonic relations.
 
-<!-- tabela: **Table 155** — Share of the variance of the result explained by each drawn variable in the tutorial example, at the chosen volume (η²; continuous variables grouped in deciles) -->
+<!-- tabela: **Table 160** — Share of the variance of the result explained by each drawn variable in the tutorial example, at the chosen volume (η²; continuous variables grouped in deciles) -->
 | Source of uncertainty | η² of savings | η² of NPV | η² of CO₂ balance |
 | :--- | ---: | ---: | ---: |
-| Number of occupants | 0.06 | 0.41 | 0.51 |
-| Per capita consumption | 0.03 | 0.19 | 0.24 |
-| Investment factor | 0.01 | 0.16 | 0.01 |
-| Indoor non-potable fraction | 0.83 | 0.13 | 0.23 |
-| Water and sewerage tariff factor | 0.01 | 0.05 | 0.01 |
-| Rainfall factor | 0.02 | 0.00 | 0.01 |
-| Sum | 0.97 | 0.95 | 1.01 |
+| Number of occupants | 0.23 | 0.37 | 0.53 |
+| Investment factor | 0.01 | 0.25 | 0.01 |
+| Per capita consumption | 0.13 | 0.15 | 0.23 |
+| Indoor non-potable fraction | 0.52 | 0.10 | 0.23 |
+| Water and sewerage tariff factor | 0.01 | 0.06 | 0.01 |
+| Rainfall factor | 0.03 | 0.00 | 0.02 |
+| Sum | 0.94 | 0.93 | 1.01 |
 
 In the example, compare the columns: the variables that dominate the variance of the savings are
 rarely those that dominate the variance of the net present value, and factors drawn with narrow
@@ -10053,7 +10250,7 @@ editions. They have no effect in this one and are not listed.
 
 3 parameters.
 
-<!-- tabela: **Table 156** — Project parameters: identification -->
+<!-- tabela: **Table 161** — Project parameters: identification -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `project_name` | New Triton project | — | Export, Main window, Reports | Automation, CAD and BIM, Reports, Spreadsheets |
@@ -10064,7 +10261,7 @@ editions. They have no effect in this one and are not listed.
 
 9 parameters.
 
-<!-- tabela: **Table 157** — Project parameters: rainfall -->
+<!-- tabela: **Table 162** — Project parameters: rainfall -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `precip_file` | — | — | Main window, Project | Automation, Scenarios, Spreadsheets |
@@ -10085,7 +10282,7 @@ Notes from the code:
 
 7 parameters.
 
-<!-- tabela: **Table 158** — Project parameters: catchment -->
+<!-- tabela: **Table 163** — Project parameters: catchment -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `discard` | — | mm | Charts, Documentation, Environmental, Main window, Project, Quality, Reports | Automation, CAD and BIM, LCA, Reports, Scenarios, Spreadsheets, Treatment line |
@@ -10109,7 +10306,7 @@ Notes from the code:
 
 2 parameters.
 
-<!-- tabela: **Table 159** — Project parameters: building -->
+<!-- tabela: **Table 164** — Project parameters: building -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `num_economias` | 1 | units | Building, Environmental | Automation, Economic |
@@ -10123,7 +10320,7 @@ Notes from the code:
 
 17 parameters.
 
-<!-- tabela: **Table 160** — Project parameters: demand -->
+<!-- tabela: **Table 165** — Project parameters: demand -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `demand_type` | 0 | code | — | — |
@@ -10156,7 +10353,7 @@ Notes from the code:
 
 4 parameters.
 
-<!-- tabela: **Table 161** — Project parameters: irrigation -->
+<!-- tabela: **Table 166** — Project parameters: irrigation -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `irrigation_liters_per_day` | 0 | L/day | Building, Environmental, Main window, Reports | Automation, Daily balance |
@@ -10175,7 +10372,7 @@ Notes from the code:
 
 9 parameters.
 
-<!-- tabela: **Table 162** — Project parameters: water quality -->
+<!-- tabela: **Table 167** — Project parameters: water quality -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `water_quality_target_class` | classe_1 | — | Environmental, Quality | Automation, LCA, Treatment line |
@@ -10199,7 +10396,7 @@ Notes from the code:
 
 13 parameters.
 
-<!-- tabela: **Table 163** — Project parameters: tanks -->
+<!-- tabela: **Table 168** — Project parameters: tanks -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `upper_tank_vol` | 500 | L | Economic, Environmental, Export, Main window, Optimiser, Pump wizard, Reports, Sweep, Tariffs and costs, Upper tank | Automation, CAD and BIM, Daily balance, Multi-criteria, Prices, Scenarios, Spreadsheets |
@@ -10232,7 +10429,7 @@ Notes from the code:
 
 18 parameters.
 
-<!-- tabela: **Table 164** — Project parameters: pump set -->
+<!-- tabela: **Table 169** — Project parameters: pump set -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `pumping_threshold` | 50 | L | Main window, Sweep | Automation, Daily balance, Scenarios, Spreadsheets |
@@ -10268,7 +10465,7 @@ Notes from the code:
 
 1 parameter.
 
-<!-- tabela: **Table 165** — Project parameters: piping -->
+<!-- tabela: **Table 170** — Project parameters: piping -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `pipes_list` | — | — | Economic, Tariffs and costs | Automation, LCA |
@@ -10277,7 +10474,7 @@ Notes from the code:
 
 3 parameters.
 
-<!-- tabela: **Table 166** — Project parameters: investment -->
+<!-- tabela: **Table 171** — Project parameters: investment -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `cost_labor` | 0 | currency | Economic, Sweep, Tariffs and costs | Automation, Economic |
@@ -10288,7 +10485,7 @@ Notes from the code:
 
 1 parameter.
 
-<!-- tabela: **Table 167** — Project parameters: operation -->
+<!-- tabela: **Table 172** — Project parameters: operation -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `op_costs` | — | — | Economic, Optimiser, Sweep, Tariffs and costs | Automation, Economic |
@@ -10297,7 +10494,7 @@ Notes from the code:
 
 17 parameters.
 
-<!-- tabela: **Table 168** — Project parameters: tariffs -->
+<!-- tabela: **Table 173** — Project parameters: tariffs -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `tariff_customized` | no | — | Project | — |
@@ -10334,7 +10531,7 @@ Notes from the code:
 
 4 parameters.
 
-<!-- tabela: **Table 169** — Project parameters: energy -->
+<!-- tabela: **Table 174** — Project parameters: energy -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `elec_city_uf` | custom | — | Main window, Project, Tariffs and costs | — |
@@ -10351,7 +10548,7 @@ Notes from the code:
 
 4 parameters.
 
-<!-- tabela: **Table 170** — Project parameters: financial -->
+<!-- tabela: **Table 175** — Project parameters: financial -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `inflation` | 0.2 | % per month | Documentation, Economic, Optimiser, Sweep, Tariffs and costs | Automation, Economic |
@@ -10369,7 +10566,7 @@ Notes from the code:
 
 1 parameter.
 
-<!-- tabela: **Table 171** — Project parameters: certifications -->
+<!-- tabela: **Table 176** — Project parameters: certifications -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `edge_base_case_l_person_day` | 0 | L/person·day | Environmental | — |
@@ -10378,7 +10575,7 @@ Notes from the code:
 
 6 parameters.
 
-<!-- tabela: **Table 172** — Project parameters: other -->
+<!-- tabela: **Table 177** — Project parameters: other -->
 | Parameter | Default | Unit | Where it is entered | Who consumes it |
 | :--- | ---: | :--- | :--- | :--- |
 | `phi_operation_rule` | — | — | Main window, Sweep | Automation, Daily balance, Spreadsheets |
@@ -10961,15 +11158,17 @@ The names in `code` are the project file fields, listed in appendix A.
 
 **Inputs**
 
-- one candidate per sweep volume, each with potential, overflow, NPV, discounted payback, IRR, life-cycle CO₂ and potable consumption
-- weights of the seven criteria
+- one candidate per sweep volume, each with volumetric reliability, storage efficiency, net financial savings, LCOW, discounted payback, life-cycle CO₂, dry mass and annual overflow
+- four dimension weights (technical, economic, environmental, structural) and eight criterion shares, or eight criterion weights
 
 **Rules**
 
-1. Seven criteria: **maximise** potential, NPV and IRR; **minimise** overflow, payback, CO₂ and potable consumption.
-2. Normalisation shifts by `x − min(x)` **before** the vector normalisation of Hwang and Yoon, to admit a negative NPV. It is a deliberate variant, and must be declared as a variant.
-3. SMAA-VIKOR draws weights and returns the probabilities of each volume taking each rank.
-4. Opricovic's conditions C1 and C2 are not implemented.
+1. Eight criteria in four dimensions: **maximise** volumetric reliability, storage efficiency and net financial savings; **minimise** LCOW, payback, CO₂, dry mass and overflow.
+2. Each dimension weight is shared among its criteria by the criterion shares (equal by default). Three weights, from version 0.1.0, give the structural dimension their mean; seven values are refused.
+3. A volume that does not pay back receives the worst payback observed plus 10% (at least one year more and at least 20 years); the volume with no cistern receives the worst LCOW plus 10%.
+4. Normalisation shifts by `x − min(x)` **before** the vector normalisation of Hwang and Yoon, to admit a negative NPV. It is a deliberate variant, and must be declared as a variant.
+5. SMAA-VIKOR draws eight weights and returns the probabilities of each volume taking each rank.
+6. Opricovic's conditions C1 and C2 are not implemented.
 
 **Outputs**
 
@@ -11075,7 +11274,7 @@ The International Edition separates the factors in two kinds.
 
 ### C.1. User-supplied factors
 
-<!-- tabela: **Table 173** — Emission factors that the user supplies, and what to declare for each -->
+<!-- tabela: **Table 178** — Emission factors that the user supplies, and what to declare for each -->
 | Factor | Unit | Default | What to declare |
 | :--- | :--- | :--- | :--- |
 | electricity grid | kg CO₂e/kWh | none (empty) | source, **year**, whether it is CO₂ or CO₂e, and whether it covers generation only or also losses and upstream fuel |
@@ -11095,7 +11294,7 @@ assessment needs the latter.
 
 ### C.2. Tank materials
 
-<!-- tabela: **Table 174** — Emission factors of the tank materials, with mass and boundary -->
+<!-- tabela: **Table 179** — Emission factors of the tank materials, with mass and boundary -->
 | Material | Mass per useful m³ | Factor | Boundary |
 | :--- | ---: | ---: | :--- |
 | high-density polyethylene | 22 kg/m³ | 1.612 kg CO₂e/kg | cradle to gate |
@@ -11107,7 +11306,7 @@ The mass per useful cubic metre is what converts tank volume into mass of materi
 not the factor, that makes concrete dominate the inventory: 1,200 kg per cubic metre against 22 for
 polyethylene. The masses are geometric scenarios of the program, not the weight of a product.
 
-<!-- tabela: **Table 175** — Reference recorded in the program for each tank-material factor, and its status -->
+<!-- tabela: **Table 180** — Reference recorded in the program for each tank-material factor, and its status -->
 | Material | Reference recorded in the program | Status |
 | :--- | :--- | :--- |
 | polyethylene | Franklin Associates for the American Chemistry Council (October 2020), *Cradle-to-Gate Life Cycle Analysis of High-Density Polyethylene (HDPE) Resin*, Table 6: 1,612 kg CO₂e per 1,000 kg of resin (TRACI 2.1, IPCC 2013 GWP-100, United States scope) | recorded; re-verification pending |
@@ -11142,7 +11341,7 @@ Status of both references: recorded in the program, re-verification pending.
 
 ### C.4. Treatment consumables
 
-<!-- tabela: **Table 176** — Emission factors of the treatment consumables -->
+<!-- tabela: **Table 181** — Emission factors of the treatment consumables -->
 | Consumable | Factor |
 | :--- | ---: |
 | calcium hypochlorite tablet at 65% | 1.72 kg CO₂e/kg of product |
@@ -11190,7 +11389,7 @@ with the edition.
 Each row of the water tariff table is a quadruple `(minimum, maximum, value, code)`, in
 m³ per month and currency per m³ (or currency per month for the fixed codes).
 
-<!-- tabela: **Table 177** — The block codes of the water tariff table -->
+<!-- tabela: **Table 182** — The block codes of the water tariff table -->
 | Code | Meaning |
 | ---: | :--- |
 | 1 or 0 | progressive block: charged only on the volume inside it |
@@ -11202,7 +11401,7 @@ The effect of each code on the bill is drawn in section 2.7, and is not repeated
 
 ### D.2. The sewage part
 
-<!-- tabela: **Table 178** — The four ways of entering the sewage charge -->
+<!-- tabela: **Table 183** — The four ways of entering the sewage charge -->
 | Mode | The sewage charge is |
 | ---: | :--- |
 | 0 | a fixed amount |
@@ -11218,7 +11417,7 @@ escalation is entered separately for water, sewage and energy (appendix A).
 The program classifies a water tariff table into one of six regimes. The regime tells you
 what saving water is worth, which is what a rainwater harvesting study needs to see.
 
-<!-- tabela: **Table 179** — The six tariff regimes and what happens when saving -->
+<!-- tabela: **Table 184** — The six tariff regimes and what happens when saving -->
 | Regime | Structure | What happens when saving |
 | :--- | :--- | :--- |
 | **No minimum** | Progressive blocks only. | Each m³ saved reduces the bill. |
@@ -11247,7 +11446,7 @@ Currency USD; effective 01/07/2026 (as stated by the maintainers; confirm).
 
 NYC Water Board and NYC Department of Environmental Protection (DEP), Water and Sewer Rates FY2027, in force from 1 July 2026: water US$ 5.35 per CCF (100 ft3 = 2.8316847 m3), sewer 159% of the water charge, minimum charge US$ 0.49 per day.
 
-<!-- tabela: **Table 180** — Tariff structure of the New York example -->
+<!-- tabela: **Table 185** — Tariff structure of the New York example -->
 | Part | From (m³/month) | To (m³/month) | Value | Code |
 | :--- | ---: | ---: | ---: | ---: |
 | water | 0 | 0 | 14.9144 | -3 |
@@ -11266,7 +11465,7 @@ Currency GBP; effective 01/04/2026 (as stated by the maintainers; confirm).
 
 Thames Water, charges 2026-27, metered household: water GBP 2.7346 per m3 and wastewater GBP 1.4721 per m3; standing charges GBP 66.87 per year (water) and GBP 128.13 per year (wastewater; GBP 80.43 with the surface-water drainage rebate). No VAT on household water and sewerage.
 
-<!-- tabela: **Table 181** — Tariff structure of the London example -->
+<!-- tabela: **Table 186** — Tariff structure of the London example -->
 | Part | From (m³/month) | To (m³/month) | Value | Code |
 | :--- | ---: | ---: | ---: | ---: |
 | water | 0 | 0 | 5.5725 | -1 |
@@ -11286,7 +11485,7 @@ Currency ZAR; effective 01/07/2026 (as stated by the maintainers; confirm).
 
 City of Cape Town, Tariffs 2026/27, domestic (non-indigent), no restrictions, VAT included, R/kl: water 0-6 kl 25.05; 6-10.5 kl 34.42; 10.5-35 kl 54.60; >35 kl 109.98. Sanitation: 70% of the water consumption, up to 35 kl: 0-4.2 kl 18.28; 4.2-7.35 kl 25.11; 7.35-24.5 kl 42.18; 24.5-35 kl 73.91. Monthly standing charges (domestic 12-20 mm, VAT included): water R 103.65, sanitation R 56.66 (total R 160.31).
 
-<!-- tabela: **Table 182** — Tariff structure of the Cape Town example -->
+<!-- tabela: **Table 187** — Tariff structure of the Cape Town example -->
 | Part | From (m³/month) | To (m³/month) | Value | Code |
 | :--- | ---: | ---: | ---: | ---: |
 | water | 0 | 0 | 103.65 | -1 |
@@ -11330,7 +11529,7 @@ Assumptions made when entering it:
 Three daily series are installed in the program's `data/rainfall` folder. They are **reanalysis**
 data, not rain-gauge records.
 
-<!-- tabela: **Table 183** — Rainfall series distributed with the International Edition -->
+<!-- tabela: **Table 188** — Rainfall series distributed with the International Edition -->
 | File | Place | Period | Days | Mean annual rain | Source |
 | :--- | :--- | :--- | ---: | ---: | :--- |
 | `NewYork.csv` | New York (grid point over Manhattan, 40.81 N, 74.02 W) | 01/01/1991 to 31/12/2020 | 10,958 | 1,125 mm | ERA5 reanalysis via Open-Meteo |
@@ -11398,7 +11597,7 @@ catalogue, no cost catalogue and no emission-factor series**, and it applies no 
 no national tariff structure and no predefined currency. Everything that changes from one country
 or region to another is entered by you, and the program calculates with what you enter.
 
-<!-- tabela: **Table 184** — What the user supplies in the International Edition, and what happens without it -->
+<!-- tabela: **Table 189** — What the user supplies in the International Edition, and what happens without it -->
 | You supply | Where in the program | Without it |
 | :--- | :--- | :--- |
 | the daily rainfall series of the site (CSV, TXT or DAT; one value per line, in millimetres) | step 1, climate source «own file» | the simulation cannot run |
@@ -11422,7 +11621,7 @@ metre.
 **The three worked examples.** The edition carries three cities so that it opens with something to run,
 and each is one end of a different tariff structure.
 
-<!-- tabela: **Table 185** — The worked examples of the International Edition: rainfall, currency and tariff structure -->
+<!-- tabela: **Table 190** — The worked examples of the International Edition: rainfall, currency and tariff structure -->
 | City | Currency | Mean annual rainfall | Tariff structure |
 | :--- | :--- | ---: | :--- |
 | New York | US$ | 1,125 mm | water at a single rate, sewer at 159% of the water charge, minimum daily charge |
@@ -11445,7 +11644,7 @@ every figure below is the one given there.
 made from them, a few reference files of the core, the 3D viewer and the manual. The largest data
 file is 0.04 MiB. No tracked file of the repository exceeds 50 MiB.
 
-<!-- tabela: **Table 186** — Example rainfall series of the International Edition: description and quality -->
+<!-- tabela: **Table 191** — Example rainfall series of the International Edition: description and quality -->
 | Field | New York | London | Cape Town |
 | :--- | :--- | :--- | :--- |
 | file | `NewYork.csv` | `London.csv` | `CapeTown.csv` |
@@ -11504,7 +11703,7 @@ Everything the program reads and writes, and where each thing is kept.
 
 ### F.1. What the program reads
 
-<!-- tabela: **Table 187** — Formats the program reads and where each one is loaded -->
+<!-- tabela: **Table 192** — Formats the program reads and where each one is loaded -->
 | Format | Extension | What it is | Where it is loaded |
 | :--- | :--- | :--- | :--- |
 | project | `.triton` | a complete study, with the rain inside | Open Project |
@@ -11528,7 +11727,7 @@ totals.
 
 ### F.2. What the program writes
 
-<!-- tabela: **Table 188** — Formats the program writes and where each one is generated -->
+<!-- tabela: **Table 193** — Formats the program writes and where each one is generated -->
 | Format | Extension | What it carries | Where it is generated |
 | :--- | :--- | :--- | :--- |
 | project | `.triton` | all the parameters and the rainfall series | Save Project |
@@ -11556,7 +11755,7 @@ deliberate: a published study needs to be inspectable without the program.
 
 It has seven sections:
 
-<!-- tabela: **Table 189** — The seven sections of the project file and what each one holds -->
+<!-- tabela: **Table 194** — The seven sections of the project file and what each one holds -->
 | Section | What it holds |
 | :--- | :--- |
 | `metadata` | project name, identifier and dates |
@@ -11578,7 +11777,7 @@ Appendix A lists all the parameters, with the exact name of each field.
 
 ### F.4. Where things are kept
 
-<!-- tabela: **Table 190** — Location of the program's files and of the user's files -->
+<!-- tabela: **Table 195** — Location of the program's files and of the user's files -->
 | What | Where |
 | :--- | :--- |
 | the program | `C:\Program Files\Triton` |
@@ -11597,7 +11796,7 @@ reinstalling or updating the program deletes nothing of yours.
 
 Used by `triton estudo` (chapter «Comparing many cases at once»). Schema `triton-estudo`, version 1.
 
-<!-- tabela: **Table 191** — Sections of the estudo.json file (schema triton-estudo, version 1) -->
+<!-- tabela: **Table 196** — Sections of the estudo.json file (schema triton-estudo, version 1) -->
 | Section | Content |
 | :--- | :--- |
 | `esquema` | `{"nome": "triton-estudo", "versao": 1}`; any other version is refused |
@@ -11606,14 +11805,14 @@ Used by `triton estudo` (chapter «Comparing many cases at once»). Schema `trit
 | `padroes` | `substituicoes` (substitutions) and `clima` (climate) applied to every case; what a case declares wins over the default |
 | `casos` | list; each case has `id`, `nome` (name), `grupo` (group; by default the typology), `projeto` (another `.triton` for this case), `clima` and `substituicoes` |
 | `clima` | `arquivo` (daily rainfall series, CSV), `data_inicio` (dd/mm/yyyy), `nome` and `fonte` (labels that go into the provenance) |
-| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` or `all`), `volume` (`otimo_tecnico` technical optimum, `topsis` or a volume in litres), `pesos` (TOPSIS weights) and `semente` (seed) |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` or `all`), `volume` (`otimo_tecnico` technical optimum, `topsis`, `smaa_vikor` or a volume in litres), `pesos` (four dimension weights — technical, economic, environmental, structural — or eight criterion weights; three, from studies up to version 0.1.0, are still accepted and seven are refused), `partes_no_eixo` (eight criterion shares, in the order of the criteria) and `semente` (seed) |
 | `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (one integer or one per metric), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar` (thousands separator), `legenda` (caption) and `orientacao` (`casos_nas_linhas` or `metricas_nas_linhas`) |
 
 Keys that start with `_` are comments and the program ignores them. An empty field, `null` or «XX» means «to be filled in»: the validation refuses it and says where it is. An unknown key is an error, with the closest match suggested. `triton estudo esquema` prints the JSON Schema of the file, for completion and checking in an editor.
 
 #### F.5.1. Aliases of the substitutions
 
-<!-- tabela: **Table 192** — Aliases of the substitutions and the project field each one changes -->
+<!-- tabela: **Table 197** — Aliases of the substitutions and the project field each one changes -->
 | Alias | Project field | Unit |
 | :--- | :--- | :--- |
 | `area_captacao_m2` | `area` | m² |
@@ -11636,7 +11835,7 @@ The substitutions go through the same fraction reconciliation as `--set`, and th
 
 #### F.5.2. Outputs of the study
 
-<!-- tabela: **Table 193** — Files that triton estudo run writes to the output folder -->
+<!-- tabela: **Table 198** — Files that triton estudo run writes to the output folder -->
 | File | Content |
 | :--- | :--- |
 | `resultados.csv` | **tidy** format: one row per case and metric (`estudo_id`, `caso_id`, `caso`, `grupo`, `metrica`, `rotulo`, `valor`, `unidade`, `status`); decimal point, no thousands separator, UTF-8 |
@@ -11659,7 +11858,7 @@ The outputs carry no absolute path: projects appear with a path relative to `est
 
 ### F.6. Compatibility between versions
 
-<!-- tabela: **Table 194** — Compatibility between versions of the project file -->
+<!-- tabela: **Table 199** — Compatibility between versions of the project file -->
 | Situation | What happens |
 | :--- | :--- |
 | project from an earlier version | opens; new fields take the default |
@@ -11710,6 +11909,10 @@ used to size gutters.
 
 **CDD** (*consecutive dry days*). Longest sequence of consecutive days with rain below 1 mm.
 
+**Criterion shares**. In the multi-criteria decision, how much of the weight of each dimension goes to
+each of its criteria. Only the proportion within the dimension matters; the default is equal shares,
+and a share of zero removes the criterion from the calculation.
+
 **CSV** (*comma-separated values*). Text file format in which each line is a record and the columns
 are separated by a character, typically a comma or a semicolon. It is the format of the
 precipitation series.
@@ -11722,6 +11925,10 @@ precipitation series.
 **DN** (*nominal diameter*). Commercial designation of the diameter of a pipe or fitting, in
 millimetres. It corresponds exactly to neither the internal nor the external diameter: it is a
 reference number from which the real dimensions follow, tabulated by standard.
+
+**Dry mass** (of the system). Mass of the cisterns, pipes, pump and fittings without water, given by
+the program's weight calculator. It is a criterion of the structural dimension of the multi-criteria
+decision.
 
 **DXF** (*drawing exchange format*). Exchange format for technical drawings, read by practically all
 CAD programs.
@@ -11787,10 +11994,11 @@ programs. It is the internal format of the `.triton` file.
 its whole existence, from the extraction of raw materials to disposal. The program's is a
 **screening** one, not a full inventory conforming to ISO 14040.
 
-**LCOW** (*levelized cost of water*). Ratio between the present value of all the life cycle costs of
-the system (CAPEX, replacements, O&M, energy and chemicals) and the discounted volume of rainwater
-consumed over the analysis horizon, in currency per m³. It allows the economic viability of the
-system to be compared directly with the utility's tariff.
+**LCOW** (*levelised cost of water*). Ratio between the investment plus the discounted running costs
+of the system (pumping energy, operation and maintenance, chlorine and the treatment line) and the
+discounted volume of rainwater delivered over the analysis horizon, at the same rate, in currency per
+m³. It allows the cost of the rainwater to be compared directly with the utility's tariff, and it is
+one of the eight multi-criteria criteria (section 2.10).
 
 **LEED** (*leadership in energy and environmental design*). Environmental certification system for
 buildings of the *U.S. Green Building Council*, the most widespread internationally. It deals with
@@ -11898,6 +12106,10 @@ corresponding emissions. They are combined with the climate models to produce pr
 from day to day and between realisations (Silva and Ghisi, 2016), allowing the uncertainty range of
 the sizing and of the performance indicators to be assessed under real variability of use.
 
+**Storage efficiency**. Rainwater delivered per day divided by the volume of the lower cistern, in %:
+the daily turnover of the stored volume. It falls as the volume grows and is a technical criterion of
+the multi-criteria decision. Not to be confused with the mean occupancy of the tank.
+
 **Stormwater**. Rainwater after urban surface runoff, or when led by building drainage and storage
 pipes and systems. In this manual the word is used only for drainage; the harvesting system,
 the rainwater network, the pluvial demand, the rainwater consumption and the overflow all take
@@ -11914,7 +12126,8 @@ because the rest ($1 - f$) is reserved for potable uses. It is distinct from vol
 partly or not at all supplied the rainwater demand.
 
 **TOPSIS** (*technique for order of preference by similarity to ideal solution*). Multi-criteria
-ranking method of Hwang and Yoon.
+ranking method of Hwang and Yoon. In the program, it ranks the volumes by eight criteria in four
+dimensions: technical, economic, environmental and structural.
 
 **Treatment line** (code `ETAP`). In the program, the set of inlet filter, disinfection and polishing
 filter that treats the rainwater before use.
@@ -11953,7 +12166,7 @@ related terms that are often confused.
 
 #### G.1.1. 1. Rainwater and stormwater
 
-<!-- tabela: **Table 195** — Terminology for rainwater and stormwater -->
+<!-- tabela: **Table 200** — Terminology for rainwater and stormwater -->
 | Term | Definition and context of use | Status in Triton |
 | :--- | :--- | :--- |
 | *rainwater* | Precipitation collected directly on the roof (roof or waterproofed slab), before it reaches the ground or drains. It refers to the **water source** and the resource collected. | **Canonical and preferred**, also for systems, networks and the balance («rainwater network», «rainwater demand»). |
@@ -11963,7 +12176,7 @@ related terms that are often confused.
 
 To avoid the mathematical and conceptual ambiguities often found in the literature:
 
-<!-- tabela: **Table 196** — Fundamental quantities of the water balance and relations between fraction and potential -->
+<!-- tabela: **Table 201** — Fundamental quantities of the water balance and relations between fraction and potential -->
 | Quantity | Symbol / Code | Definition | Formula | Relation / Ceiling |
 | :--- | :--- | :--- | :--- | :--- |
 | **Suppliable fraction** | $f$ / `rainwater_share` | Share of the building's total demand corresponding to non-potable points of use that can be connected to the harvesting system. | $f = D_{pl} / D_{tot}$ | Design parameter ($0 \le f \le 1$). It is the **asymptotic ceiling** of $E_{pot}$. |
@@ -11985,7 +12198,7 @@ To avoid the mathematical and conceptual ambiguities often found in the literatu
   fraction») to express the share of non-potable uses in total consumption.
 - Use **«representative series length»** for the minimum length in years needed for the statistical
   stabilisation of the simulation (Geraldi and Ghisi method).
-- Use **«LCOW»** or **«levelized cost of water»** for the unit cost metric over the life cycle
+- Use **«LCOW»** or **«levelised cost of water»** for the unit cost metric over the life cycle
   discounted at the minimum attractive rate of return.
 
 ---
@@ -12195,7 +12408,7 @@ computer.
 
 ### I.1. Sheet 1 — The flow of a complete study
 
-<!-- tabela: **Table 197** — Reference sheet: the ten steps of a complete study and the section that deals with each one -->
+<!-- tabela: **Table 202** — Reference sheet: the ten steps of a complete study and the section that deals with each one -->
 | # | Step | What is decided in it | Section |
 | ---: | :--- | :--- | ---: |
 | 1 | Project and rain | series, area, coefficient, first flush | 4.1 |
@@ -12206,7 +12419,7 @@ computer.
 | 6 | Quality | class, disinfection, filters | 4.6 |
 | 7 | Economics | real tariff, CAPEX, cash flow | 4.7 |
 | 8 | Carbon | inventory, material, payback | 4.8 |
-| 9 | Decision | seven criteria, declared weights | 4.9 |
+| 9 | Decision | eight criteria in four dimensions, declared weights | 4.9 |
 | 10 | Report | outputs and the list of what to declare | 4.10 |
 
 **Before publishing:** section 4.10, the list of what to declare. Section 5.1, the ten
@@ -12216,7 +12429,7 @@ mistakes. Section 5.2, the limitations that affect your case.
 
 ### I.2. Sheet 2 — The pitfalls, one line each
 
-<!-- tabela: **Table 198** — Reference sheet: the ten design pitfalls and where each one is dealt with -->
+<!-- tabela: **Table 203** — Reference sheet: the ten design pitfalls and where each one is dealt with -->
 | Pitfall | Where |
 | :--- | :--- |
 | **sloping** area instead of the horizontal projection | 5.1.1 |
@@ -12234,7 +12447,7 @@ mistakes. Section 5.2, the limitations that affect your case.
 
 ### I.3. Sheet 3 — The six tariff regimes
 
-<!-- tabela: **Table 199** — Reference sheet: the six tariff regimes and the effect of saving -->
+<!-- tabela: **Table 204** — Reference sheet: the six tariff regimes and the effect of saving -->
 | Regime | When saving |
 | :--- | :--- |
 | no minimum | every m³ earns a discount |
@@ -12254,7 +12467,7 @@ The International Edition has no tariff catalogue: the regime is the one of the 
 
 ### I.4. Sheet 4 — The indicators, and what each one answers
 
-<!-- tabela: **Table 200** — Reference sheet: the indicators and the question each one answers -->
+<!-- tabela: **Table 205** — Reference sheet: the indicators and the question each one answers -->
 | Indicator | Denominator | Answers |
 | :--- | :--- | :--- |
 | saving potential | **total** demand | how much potable water consumption falls |
@@ -12322,7 +12535,7 @@ enter your own costs in stage 5.
 
 ### J.1. The cases of the manual
 
-<!-- tabela: **Table 201** — The example cases and what each one demonstrates -->
+<!-- tabela: **Table 206** — The example cases and what each one demonstrates -->
 | File | Section | What it demonstrates |
 | :--- | :--- | :--- |
 | `01_tutorial_new_york.triton` | 4.1 to 4.10 | the closed tutorial project in New York: a 4,000 L polyethylene cistern and a pumped feed to a 1,000 L upper tank (illustrative costs, not market prices) |
@@ -12342,7 +12555,7 @@ The values below are obtained by **rereading the saved file** and simulating wha
 configuration that generated it. That is the difference that matters: a parameter that does not
 survive saving shows up here as a wrong number, instead of going unnoticed.
 
-<!-- tabela: **Table 202** — Result each example case produces when reread and simulated -->
+<!-- tabela: **Table 207** — Result each example case produces when reread and simulated -->
 | File | Mode | Volume | Potential | Rainwater consumed |
 | :--- | :--- | ---: | ---: | ---: |
 | `01_tutorial_new_york.triton` | fixed volume | 4,000 L | 27.09% | 162.6 L/day |

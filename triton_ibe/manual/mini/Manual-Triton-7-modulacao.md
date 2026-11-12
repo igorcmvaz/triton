@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do utilizador**.
-> Modulação probabilística. Versão 0.1.0. Universidade Federal de Santa
+> Modulação probabilística. Versão 0.2.0. Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -396,10 +396,10 @@ percentis das realizações.
 <!-- tabela: **Tabela 5** — Resultados no volume escolhido pelo estudo do tutorial: estudo determinístico e estatísticas das realizações (valores em €, ilustrativos, não são preços de mercado) -->
 | Grandeza | Estudo determinístico | Média | Desvio-padrão | CV (%) | P5 | P50 | P95 |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Poupança de água potável (%) | 24,3 | 23,8 | 4,5 | 18,9 | 16,5 | 23,7 | 31,5 |
-| VAL (€, ilustrativo, não é preço de mercado) | −4 798 | −5 123 | 1 456 | 28,4 | −7 486 | −5 143 | −2 778 |
-| Período de recuperação descontado (anos) | — | 13,8 | 0,0 | 0,0 | 13,8 | 13,8 | 13,8 |
-| Saldo de CO₂ no ciclo de vida (kg) | −838 | −838 | 1 | 0,1 | −839 | −838 | −836 |
+| Poupança de água potável (%) | 13,9 | 14,5 | 3,0 | 20,5 | 10,1 | 14,1 | 19,7 |
+| VAL (€, ilustrativo, não é preço de mercado) | −5 648 | −5 986 | 1 133 | 18,9 | −7 932 | −5 947 | −4 178 |
+| Período de recuperação descontado (anos) | — | — | — | — | — | — | — |
+| Saldo de CO₂ no ciclo de vida (kg) | −198 | −198 | 0 | 0,2 | −199 | −198 | −197 |
 
 Duas leituras importam. A primeira é a **largura**: o intervalo entre P5 e P95 contém 90% das
 realizações e é o número que deve acompanhar o resultado publicado. A segunda é a **posição do
@@ -417,7 +417,7 @@ sorteadas levam esse resultado de uma recuperação.
 <!-- tabela: **Tabela 6** — Probabilidades no volume escolhido, com o intervalo de confiança de 95% de Wilson -->
 | Evento | Probabilidade (%) | IC 95%, limite inferior (%) | IC 95%, limite superior (%) |
 | :--- | ---: | ---: | ---: |
-| o investimento recupera-se (VAL > 0) | 0,1 | 0,0 | 0,6 |
+| o investimento recupera-se (VAL > 0) | 0,0 | 0,0 | 0,4 |
 | o saldo de CO₂ no ciclo de vida é positivo | 0,0 | 0,0 | 0,4 |
 
 A probabilidade de o investimento se pagar é a proporção de realizações com valor atual líquido
@@ -449,24 +449,18 @@ em que nenhum volume se paga aparece como «nenhum se paga» na coluna económic
 <!-- tabela: **Tabela 7** — Frequência com que cada volume é escolhido nas realizações do exemplo, por critério (%) -->
 | Volume (m³) | Ideal técnico | Ótimo económico (recuperação) | Vencedor TOPSIS |
 | :--- | ---: | ---: | ---: |
-| 3 | 1 | 0 | 0 |
+| 1 | 0 | 0 | 50 |
+| 2 | 0 | 0 | 47 |
+| 3 | 1 | 0 | 3 |
 | 4 | 19 | 0 | 0 |
 | 5 | 59 | 0 | 0 |
 | 6 | 18 | 0 | 0 |
-| 7 | 3 | 0 | 1 |
-| 8 | 1 | 0 | 1 |
-| 9 | 0 | 0 | 2 |
-| 10 | 0 | 0 | 2 |
-| 11 | 0 | 0 | 4 |
-| 12 | 0 | 0 | 7 |
-| 13 | 0 | 0 | 8 |
-| 14 | 0 | 0 | 12 |
-| 15 | 0 | 0 | 10 |
-| 16 | 0 | 0 | 10 |
-| 17 | 0 | 0 | 11 |
-| 18 | 0 | 0 | 10 |
-| 19 | 0 | 0 | 7 |
-| 20 | 0 | 0 | 16 |
+| 7 | 3 | 0 | 0 |
+| 8 | 1 | 0 | 0 |
+| 9 | 0 | 0 | 0 |
+| 10 | 0 | 0 | 0 |
+| 11 | 0 | 0 | 0 |
+| 20 | 0 | 0 | 0 |
 | nenhum se paga | 0 | 100 | 0 |
 
 ![A frequência com que cada volume é escolhido no exemplo do tutorial](../figuras/fig54_modulacao_frequencia.png)
@@ -488,12 +482,12 @@ distorcido por realizações extremas.
 <!-- tabela: **Tabela 8** — Sensibilidade no volume escolhido: força e sentido da influência de cada variável sorteada sobre os resultados do tutorial -->
 | Variável | ρ com a poupança | ρ com o VAL | ρ com o saldo de CO₂ |
 | :--- | ---: | ---: | ---: |
-| Número de pessoas | −0,54 | 0,57 | −0,66 |
-| Fator do investimento | −0,07 | −0,54 | −0,04 |
-| Consumo per capita | −0,40 | 0,42 | −0,44 |
-| Fração não potável interior | 0,55 | 0,16 | −0,47 |
-| Fator das tarifas de água e saneamento | −0,01 | 0,15 | −0,03 |
-| Fator da chuva | 0,21 | 0,02 | −0,24 |
+| Fator do investimento | −0,07 | −0,74 | −0,05 |
+| Número de pessoas | −0,68 | 0,41 | −0,68 |
+| Consumo per capita | −0,46 | 0,33 | −0,46 |
+| Fração não potável interior | 0,43 | 0,14 | −0,48 |
+| Fator das tarifas de água e saneamento | −0,01 | 0,12 | −0,04 |
+| Fator da chuva | 0,18 | 0,00 | −0,19 |
 
 ![A sensibilidade no volume escolhido no exemplo do tutorial](../figuras/fig55_modulacao_sensibilidade.png)
 
@@ -519,13 +513,13 @@ monótonas.
 <!-- tabela: **Tabela 9** — Parte da variância do resultado explicada por cada variável sorteada no exemplo do tutorial, no volume escolhido (η²; as variáveis contínuas agrupadas em decis) -->
 | Fonte de incerteza | η² da poupança | η² do VAL | η² do saldo de CO₂ |
 | :--- | ---: | ---: | ---: |
-| Fator do investimento | 0,01 | 0,33 | 0,00 |
-| Número de pessoas | 0,30 | 0,31 | 0,52 |
-| Consumo per capita | 0,17 | 0,19 | 0,20 |
-| Fração não potável interior | 0,35 | 0,04 | 0,21 |
-| Fator das tarifas de água e saneamento | 0,01 | 0,03 | 0,00 |
-| Fator da chuva | 0,06 | 0,01 | 0,04 |
-| Soma | 0,90 | 0,90 | 0,98 |
+| Fator do investimento | 0,01 | 0,57 | 0,01 |
+| Número de pessoas | 0,50 | 0,16 | 0,51 |
+| Consumo per capita | 0,22 | 0,12 | 0,23 |
+| Fração não potável interior | 0,21 | 0,03 | 0,22 |
+| Fator das tarifas de água e saneamento | 0,01 | 0,02 | 0,01 |
+| Fator da chuva | 0,04 | 0,00 | 0,04 |
+| Soma | 0,99 | 0,91 | 1,02 |
 
 No exemplo, compare as colunas: as variáveis que dominam a variância da poupança raramente são as
 que dominam a variância do valor atual líquido, e os fatores sorteados com larguras de triagem
@@ -770,6 +764,10 @@ de entrada, desinfeção e filtro de polimento.
 internacional que padronizou os índices de extremos climáticos, dos quais o programa
 calcula oito.
 
+**Eficiência de armazenamento** (*storage efficiency*). Água de chuva entregue por dia
+dividida pelo volume da cisterna inferior, em %: a renovação diária do volume construído. Cai
+com o volume e trava o sobredimensionamento. Não é a ocupação média da cisterna.
+
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
 
@@ -809,9 +807,9 @@ cada fluxo e revisão crítica externa, requisitos que uma avaliação de triage
 por pessoas e por programas. É o formato interno do ficheiro `.triton`.
 
 **LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
-de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
-produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em €/m³. Permite confrontar a viabilidade económica do sistema diretamente
+dos custos do sistema (o investimento e os custos de exploração: energia, manutenção,
+cloro e linha de tratamento) e o volume atualizado de água pluvial entregue ao longo do
+horizonte de análise, à mesma taxa, em €/m³. É um dos oito critérios do multicritério. Permite confrontar a viabilidade económica do sistema diretamente
 com a tarifa da entidade gestora.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
@@ -864,6 +862,13 @@ Os PDFs acompanham o programa e abrem pela etapa 9. Documentação.
 carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
+
+**Partes no eixo**. A repartição do peso de um eixo do multicritério pelos seus critérios.
+Só a proporção dentro do eixo importa; por omissão, as partes são iguais.
+
+**Peso do sistema**. Massa a seco, carga de água e carga em operação do sistema, em kg e kN,
+no subsolo, na cobertura e nas prumadas e rede. Os alertas usam limiares de atenção do
+programa, e não de norma.
 
 **PB**. Preço-base, em €/m³, da fórmula exponencial `PB × Cⁿ`, em que `C` é o consumo do mês e
 `n` o expoente da tabela exponencial para esse consumo. É um dos seis regimes que o programa reconhece; os
@@ -919,7 +924,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos e devolve a probabilidade de cada alternativa vencer.
+pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
+vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
@@ -931,7 +937,8 @@ líquido.
 **taxa de atualização**. Taxa de atualização. A taxa de desconto adotada.
 
 **TOPSIS** (*technique for order of preference by similarity to ideal solution*).
-Método de ordenação multicritério de Hwang e Yoon.
+Método de ordenação multicritério de Hwang e Yoon. No programa, ordena os volumes por oito
+critérios em quatro eixos: técnico, económico, ambiental e estrutural.
 
 **TRH** (*taxa de recursos hídricos*). Taxa por m³ que acresce à fatura de água e de águas residuais. No tarifário do Porto, a TRH da água é devida à Agência Portuguesa do Ambiente (APA) e leva IVA; no de Lisboa, a TRH do saneamento acresce por m³ recolhido.
 
@@ -1223,3 +1230,8 @@ Ao publicar um estudo feito com o Triton, cite o programa **com a versão** e a 
 secção 4.10 (volume Tutorial). Um estudo que cita o programa sem versão não é reproduzível: as correções entre versões mudam
 resultados, e a secção 2.6 (volume O método) traz o exemplo do consumo da eletrobomba, que mudou 65% entre duas versões
 consecutivas.
+
+O programa está depositado no Zenodo. O DOI de todas as versões, 10.5281/zenodo.23402915, aponta sempre para a
+mais recente; a versão 0.1.0 tem o DOI próprio 10.5281/zenodo.23402916, e a 0.2.0 ainda não tem DOI próprio.
+Num estudo, cite o DOI de todas as versões e escreva a versão usada: para reproduzir um estudo feito com a
+0.1.0, use a 0.1.0, porque o multicritério da 0.2.0 ordena os volumes de outra maneira (secção 6.3 (volume Correções, bugs e versionamento)).

@@ -7,7 +7,7 @@
 
 Triton is the official successor to [Netuno](https://sustainability.ufsc.br/#/netuno): the same validated calculation philosophy, expanded with life-cycle assessment (LCA), engineering economics, multi-criteria decision analysis (MCDA), and dedicated regional editions.
 
-![Version](https://img.shields.io/badge/version-0.1.0%20Beta-1f497d)
+![Version](https://img.shields.io/badge/version-0.2.0%20Beta-1f497d)
 ![Python](https://img.shields.io/badge/python-3.12%2B-1f497d)
 [![Official Portal & Download](https://img.shields.io/badge/download%20%26%20portal-sustainability.ufsc.br-059669)](https://sustainability.ufsc.br/#/triton)
 [![Licence: academic source-available](https://img.shields.io/badge/licence-academic%20source--available-lightgrey)](#licence)
@@ -65,13 +65,13 @@ tests, data and manual, so you only need the one you use. The installer build sc
 
 The standalone Windows installers (`.exe`) are **not** stored in this Git repository. Each edition folder carries its manual as PDF (`manual/`); the release copies below are named per edition.
 
-To download the latest **Beta** release (`v0.1.0`) and log your academic, teaching, or professional usage of the platform, please use the official UFSC portal as the primary entry point:
+The source in this repository is version **0.2.0** (Beta). The installers and manuals of the published release (`v0.1.0`) are distributed through the official UFSC portal, which also logs your academic, teaching, or professional usage of the platform; the 0.2.0 installers will follow on the same portal:
 
 👉 **[https://sustainability.ufsc.br/#/triton](https://sustainability.ufsc.br/#/triton)**
 
 *(PT: Para registrar o uso da ferramenta e baixar a versão mais recente do Beta com os instaladores e manuais oficiais, acesse o portal principal em **[https://sustainability.ufsc.br/#/triton](https://sustainability.ufsc.br/#/triton)**).*
 
-After a quick registration on the portal (Name, Email, Institution/Company, Edition, and Purpose), you will immediately unlock the official release page containing the installers and manuals for all three editions:
+After a quick registration on the portal (Name, Email, Institution/Company, Edition, and Purpose), your download request is sent via email to receive the official installers and manuals for your chosen edition:
 
 | Edition | Windows Installer (`.exe`) | Technical Manual (`.pdf`) |
 |---|---|---|
@@ -85,12 +85,15 @@ The source code in this repository is the exact one the installers are built fro
 
 ## What Triton does
 
-- **Water balance.** Daily simulation of the reservoir with the Triton operating rule (and Fewkes' φ rule as an option
+- **Water balance.** Daily simulation of the tank with the Triton operating rule (and Fewkes' φ rule as an option
   for a single tank), with mass-closure checks.
-- **Sizing.** Reservoir volume curves, ideal volume by marginal gain, one or two tanks, first-flush discard.
+- **Sizing.** Tank volume curves, ideal volume by marginal gain, one or two tanks, first-flush discard.
 - **Economics.** Water, sewer and energy tariffs, CAPEX and OPEX, payback and net present value.
 - **Environment.** Life-cycle carbon and certification scoring (LEED, EDGE, AQUA-HQE and others).
-- **Decision.** Multi-criteria ranking with TOPSIS, VIKOR, SMAA-VIKOR and PROMETHEE II.
+- **Decision.** Multi-criteria ranking with TOPSIS, VIKOR, SMAA-VIKOR and PROMETHEE II, on eight criteria in four
+  dimensions (since 0.2.0): technical (volumetric reliability, storage efficiency), economic (net savings, levelised
+  cost of water, discounted payback), environmental (life-cycle CO₂) and structural (dry mass, overflow).
+- **System weight.** Dry mass, water load and operating load (kg and kN) by position: lower level, roof, risers.
 - **Outputs.** Executive report, environmental audit and technical dossier in PDF; CAD, BIM and spreadsheet export.
 
 ## Quick start
@@ -116,13 +119,14 @@ TRITON_EDITION=BRL python -m pytest tests/unit tests/test_essencial.py   # INT, 
 
 If you use Triton in academic work, you must cite it (clause 4 of the licence):
 
-> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings (Editions: Brasil, International, and Ibérica)* (Version 0.1.0) [Computer software]. Universidade Federal de Santa Catarina (UFSC), Florianópolis, SC, Brazil.
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings (Editions: Brasil, International, and Ibérica)* (Version 0.2.0) [Computer software]. Universidade Federal de Santa Catarina (UFSC), Florianópolis, SC, Brazil.
+> https://doi.org/10.5281/zenodo.23402915 (all versions; version 0.1.0: https://doi.org/10.5281/zenodo.23402916)
 
 Machine-readable metadata is in [`CITATION.cff`](CITATION.cff).
 
 ## Roadmap
 
-What comes after version 0.1.0 is in [`ROADMAP.md`](ROADMAP.md). It applies to the three editions.
+What comes after version 0.2.0 is in [`ROADMAP.md`](ROADMAP.md). It applies to the three editions.
 
 ## Licence
 

@@ -33,6 +33,10 @@ used to size gutters.
 
 **CDD** (*consecutive dry days*). Longest sequence of consecutive days with rain below 1 mm.
 
+**Criterion shares**. In the multi-criteria decision, how much of the weight of each dimension goes to
+each of its criteria. Only the proportion within the dimension matters; the default is equal shares,
+and a share of zero removes the criterion from the calculation.
+
 **CSV** (*comma-separated values*). Text file format in which each line is a record and the columns
 are separated by a character, typically a comma or a semicolon. It is the format of the
 precipitation series.
@@ -45,6 +49,10 @@ precipitation series.
 **DN** (*nominal diameter*). Commercial designation of the diameter of a pipe or fitting, in
 millimetres. It corresponds exactly to neither the internal nor the external diameter: it is a
 reference number from which the real dimensions follow, tabulated by standard.
+
+**Dry mass** (of the system). Mass of the cisterns, pipes, pump and fittings without water, given by
+the program's weight calculator. It is a criterion of the structural dimension of the multi-criteria
+decision.
 
 **DXF** (*drawing exchange format*). Exchange format for technical drawings, read by practically all
 CAD programs.
@@ -110,10 +118,11 @@ programs. It is the internal format of the `.triton` file.
 its whole existence, from the extraction of raw materials to disposal. The program's is a
 **screening** one, not a full inventory conforming to ISO 14040.
 
-**LCOW** (*levelized cost of water*). Ratio between the present value of all the life cycle costs of
-the system (CAPEX, replacements, O&M, energy and chemicals) and the discounted volume of rainwater
-consumed over the analysis horizon, in currency per m³. It allows the economic viability of the
-system to be compared directly with the utility's tariff.
+**LCOW** (*levelised cost of water*). Ratio between the investment plus the discounted running costs
+of the system (pumping energy, operation and maintenance, chlorine and the treatment line) and the
+discounted volume of rainwater delivered over the analysis horizon, at the same rate, in currency per
+m³. It allows the cost of the rainwater to be compared directly with the utility's tariff, and it is
+one of the eight multi-criteria criteria (section {{n:32}}).
 
 **LEED** (*leadership in energy and environmental design*). Environmental certification system for
 buildings of the *U.S. Green Building Council*, the most widespread internationally. It deals with
@@ -221,6 +230,10 @@ corresponding emissions. They are combined with the climate models to produce pr
 from day to day and between realisations (Silva and Ghisi, 2016), allowing the uncertainty range of
 the sizing and of the performance indicators to be assessed under real variability of use.
 
+**Storage efficiency**. Rainwater delivered per day divided by the volume of the lower cistern, in %:
+the daily turnover of the stored volume. It falls as the volume grows and is a technical criterion of
+the multi-criteria decision. Not to be confused with the mean occupancy of the tank.
+
 **Stormwater**. Rainwater after urban surface runoff, or when led by building drainage and storage
 pipes and systems. In this manual the word is used only for drainage; the harvesting system,
 the rainwater network, the pluvial demand, the rainwater consumption and the overflow all take
@@ -237,7 +250,8 @@ because the rest ($1 - f$) is reserved for potable uses. It is distinct from vol
 partly or not at all supplied the rainwater demand.
 
 **TOPSIS** (*technique for order of preference by similarity to ideal solution*). Multi-criteria
-ranking method of Hwang and Yoon.
+ranking method of Hwang and Yoon. In the program, it ranks the volumes by eight criteria in four
+dimensions: technical, economic, environmental and structural.
 
 **Treatment line** (code `ETAP`). In the program, the set of inlet filter, disinfection and polishing
 filter that treats the rainwater before use.
@@ -308,5 +322,5 @@ To avoid the mathematical and conceptual ambiguities often found in the literatu
   fraction») to express the share of non-potable uses in total consumption.
 - Use **«representative series length»** for the minimum length in years needed for the statistical
   stabilisation of the simulation (Geraldi and Ghisi method).
-- Use **«LCOW»** or **«levelized cost of water»** for the unit cost metric over the life cycle
+- Use **«LCOW»** or **«levelised cost of water»** for the unit cost metric over the life cycle
   discounted at the minimum attractive rate of return.

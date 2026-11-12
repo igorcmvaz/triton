@@ -682,6 +682,7 @@ def listar_equacoes(corpo):
         "saldo_vida": "Saldo de carbono ao fim da vida útil",
         "emissao_especifica": "Emissão específica por litro entregue",
         "topsis": "Coeficiente de proximidade do TOPSIS",
+        "lcow": "Custo nivelado da água",
         "emulacao": "Transformação da série para emular o Netuno 4",
         "fracao_de_armazenamento": "Fração de armazenamento",
         "uso_da_captacao": "Eficiência de uso da água captada",

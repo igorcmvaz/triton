@@ -101,7 +101,7 @@ and in the CLI.
 | `.triton` file association | unticked |
 | national databases | none: the package carries no climate or tariff database |
 
-The installer is published in the Zenodo record (DOI 10.5281/zenodo.23402916); the packaging tools are not in the repository.
+The installer of version 0.1.0 is published in the Zenodo record (DOI 10.5281/zenodo.23402916); the DOI of all versions, 10.5281/zenodo.23402915, resolves to the most recent one. The packaging tools are not in the repository.
 
 ---
 

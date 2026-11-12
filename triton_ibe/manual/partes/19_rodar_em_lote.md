@@ -47,9 +47,12 @@ A etapa **8. Decisão Multicritério** mostra, numa só tabela, cada volume da v
 - o carbono líquido no fim da vida útil e o retorno ambiental;
 - a pontuação TOPSIS e a aceitabilidade SMAA-VIKOR.
 
-É a forma mais densa de comparar alternativas que o programa oferece: dez colunas de resposta
-para cada linha de volume. O **perfil de decisão** troca os pesos das dimensões e reordena a
-tabela no momento. A secção {{n:32}} explica os métodos por trás.
+É a forma mais densa de comparar alternativas que o programa oferece. O **perfil de decisão**
+troca os quatro pesos de eixo — técnico, económico, ambiental e estrutural — e reordena a tabela
+no momento: «Equilibrado» dá 25% a cada eixo, e cada «Priorizar …» dá 70% a um eixo e 10% a cada
+um dos outros. A linha **Partes no eixo** reparte o peso de cada eixo pelos seus critérios, com o
+botão «Partes iguais» para voltar ao padrão. A secção {{n:32}} explica os oito critérios e os
+métodos por trás.
 
 ---
 
@@ -134,7 +137,7 @@ documenta os pressupostos alterados.
 | :--- | :--- |
 | `validate` | confere a estrutura do projeto, a série de chuva e os pressupostos essenciais, sem simular |
 | `run` | simula o projeto; por omissão, apenas a análise técnica |
-| `analyze` | executa a cadeia completa: técnica, económica, ambiental e TOPSIS |
+| `analyze` | executa a cadeia completa: técnica, económica, ambiental, peso do sistema e TOPSIS |
 | `econ` | executa a análise económica |
 | `init` | cria um projeto `.triton` modelo, editável, com a série de chuva referenciada ou incorporada |
 | `init-catalog` | cria um catálogo JSON modelo de pressupostos de edifício ou de climas |
@@ -147,13 +150,22 @@ documenta os pressupostos alterados.
 | `estudo` | organiza, roda e relata estudos em lote por JSON (`estudo.json`): vários edifícios por tipologia, com tabelas para artigos |
 
 Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise
-(`technical`, `economic`, `environmental`, `topsis` ou `all`); `--volume` fixa o volume do
+(`technical`, `economic`, `environmental`, `system_weight`, `topsis` ou `all`); `--volume` fixa o volume do
 reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto;
-`--set CAMPO=VALOR` altera um campo do projeto e pode repetir-se; `--weights` informa os pesos
-técnico, económico e ambiental do TOPSIS; `--weight-sensitivity N` sorteia N vetores de pesos e
-indica a frequência com que cada volume vence; `--format` e `--output` definem o formato e o
-ficheiro de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja
-reprodutível.
+`--set CAMPO=VALOR` altera um campo do projeto e pode repetir-se; `--weights` informa os quatro
+pesos de eixo do multicritério, pela ordem técnico, económico, ambiental e estrutural (ou oito
+pesos, um por critério; três, de projetos anteriores à 0.2.0, ainda são aceites, com o eixo
+estrutural na média dos três); `--criterion-shares` informa as oito partes no eixo (por omissão,
+`1,1,1,1,1,1,1,1`); `--weight-sensitivity N` sorteia N vetores de pesos e indica a frequência com
+que cada volume vence; `--format` e `--output` definem o formato e o ficheiro de saída; e `--seed`
+fixa a semente das análises estocásticas, para que o resultado seja reprodutível. Sete valores em
+`--weights` ou em `--criterion-shares` são recusados: eram do modelo de sete critérios.
+
+`--analysis all` traz também o **peso do sistema** (`system_weight`): a massa a seco, a carga de
+água e a carga em operação, em quilogramas e em quilonewtons, no subsolo, na cobertura e nas
+prumadas e rede, com os alertas da secção {{n:32}}; `--analysis system_weight` corre a cadeia até ao peso do sistema, sem o TOPSIS.
+Os mesmos números saem no HTML, no XLSX (folha `system_weight`, com o resumo do volume escolhido;
+os valores de cada volume ficam na folha `alternatives`) e no texto do terminal.
 
 Aplicados ao projeto da varredura do tutorial, `validate` e `run` ficam assim (a linha de comandos
 imprime a confirmação no idioma da interface do programa):

@@ -246,27 +246,48 @@ This is a screening assessment. It is **not** an inventory compliant with ISO 14
 
 ## 8. Multi-criteria decision
 
-Seven criteria, four of benefit and three of cost:
+Since version 0.2.0 the ranking uses eight criteria on four axes (order of `CRITERION_KEYS` in
+`triton/core/mcda/topsis.py`; benefit means higher is better):
 
-| Criterion | Sense |
-| :--- | :--- |
-| potable water savings | benefit |
-| overflow | cost |
-| net present value | benefit |
-| discounted payback | cost |
-| internal rate of return | benefit |
-| life-cycle CO₂ | cost |
-| potable water consumed | cost |
+| Axis | Criterion (key) | Sense | Definition in the software |
+| :--- | :--- | :--- | :--- |
+| Technical | Volumetric reliability (`volumetric_reliability_pct`) | benefit | rainwater consumed ÷ rainwater demand (non-potable uses and irrigation), % |
+| Technical | Storage efficiency (`storage_efficiency_pct`) | benefit | rainwater delivered per day ÷ lower-tank capacity, % (the annual turnover ÷ 365); it falls with capacity and so restrains oversizing; it is not the mean fill level, which rises with capacity in a wet climate because a large tank stays full of idle water |
+| Economic | Net financial savings (`net_financial_savings_brl`) | benefit | the NPV of the system against the no-tank baseline (avoided bills less investment and running costs, discounted) |
+| Economic | Levelised cost of water, LCOW (`lcow_brl_m3`) | cost | (investment + Σ discounted running costs: energy, maintenance, chlorine, treatment train) ÷ Σ discounted rainwater delivered, at the project's rate and horizon, in €/m³; U-shaped in capacity; the no-tank alternative gets the worst observed LCOW + 10% |
+| Economic | Discounted payback (`payback_years`) | cost | as in 0.1.0; an alternative that never pays back gets the worst observed payback + 10% (at least one year more and at least 20 years) |
+| Environmental | Life-cycle CO₂e (`lifecycle_co2_kg`) | cost | net CO₂e at the end of the service life (negative = avoided) |
+| Structural | Dry material mass (`material_mass_kg`) | cost | dry mass of the system (tanks, pipes, pump, fittings) from `triton.core.system.system_weight` |
+| Structural | Annual overflow (`overflow_m3_yr`) | cost | volume overflowed per year, m³ |
+
+Up to version 0.1.0 there were seven criteria on three axes, and three of them (potable water savings,
+overflow and potable water consumed) measured the same water saved. The change reduces that collinearity and
+adds the weight of the system.
+
+**Weights.** Four axis weights (technical, economic, environmental, structural; 25% each by default), split
+within each axis by the *criterion shares* (equal by default); or eight criterion weights used directly. Three
+weights, from projects and studies made up to 0.1.0, are still accepted: the structural axis takes their mean,
+so equal weights stay equal. Seven values, weights or shares of the old model, are refused. TOPSIS, VIKOR and
+PROMETHEE II apply the same rule; SMAA-VIKOR samples eight weights on the simplex and reports the central
+weights aggregated on the four axes. Command line: `--weights t,e,a,s` (or eight values) and
+`--criterion-shares` (eight values, default `1,1,1,1,1,1,1,1`); project file: `analysis.topsis_weights` and
+`analysis.topsis_criterion_shares`; declarative study: `analise.pesos` and `analise.partes_no_eixo`.
+
+**System weight.** `triton analyze … --analysis all` (or `--analysis system_weight`) reports `system_weight`:
+dry mass, water load and operating load (kg and kN) in the basement or lower level, on the roof or upper level
+and in the risers and network. The alerts use the programme's own attention thresholds, not a standard's: 500 kg
+on the roof with the tank full, an upper tank above 1,500 L, a lower tank above 3,000 kg dry, and any concrete
+lower tank. They ask for confirmation by the structural or foundation design.
 
 To admit negative values without a conditional correction, each column is translated by
-its worst observed value, `z_ij = x_ij − min(x_j)`, then vector-normalised,
+its minimum observed value, `z_ij = x_ij − min(x_j)`, then vector-normalised,
 `r_ij = z_ij / √Σ z_ij²`. Non-negative normalised weights are applied, the Euclidean
 distances `D⁺` and `D⁻` computed, and the score is `C_i = D⁻ / (D⁺ + D⁻)`.
 
 > **This is a declared variant, not canonical TOPSIS.** Hwang and Yoon (1981) normalise by
 > the Euclidean norm of the original values. Where all values of a criterion are positive
-> and the minimum is zero the two coincide; where NPV is negative — the case that motivated
-> the change — they diverge, and the scores are not comparable with a canonical
+> and the minimum is zero the two coincide; where NPV or life-cycle CO₂e is negative — the case that
+> motivated the change — they diverge, and the scores are not comparable with a canonical
 > implementation over the same matrix.
 
 VIKOR, in `triton/core/mcdm_methods.py`, computes `S`, `R` and `Q` after Opricovic and
@@ -287,8 +308,8 @@ proximity_ij = 1 − gap_ij
 ```
 
 so that 100% is the best result observed on that criterion and 0% the worst. This
-separates a winner that is close to all three optima from a compromise that loses heavily
-on one axis. TOPSIS is sensitive to the weights and to the set of alternatives; use the
+separates a winner that is close to the optimum of every criterion from a compromise that
+loses heavily on one axis. TOPSIS is sensitive to the weights and to the set of alternatives; use the
 sensitivity analysis, and do not read the ranking as physical truth.
 
 ---

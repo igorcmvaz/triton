@@ -188,25 +188,48 @@ subestimaria o bombeamento. E as **motobombas** continuam sem fonte, com quatro
 dos seis valores extrapolados aritmeticamente — nenhum catálogo consultado
 publica massa por potência.
 
-## 8. TOPSIS e novo diagnóstico da concessão
+## 8. Decisão multicritério: oito critérios em quatro eixos
 
-São **sete** os critérios avaliados, quatro de benefício e três de custo:
+Desde a versão 0.2.0, o multicritério avalia cada volume por **oito** critérios, agrupados em quatro eixos
+(ordem de `CRITERION_KEYS`, em `triton/core/mcda/topsis.py`; benefício = maior é melhor):
 
-| Critério | Sentido |
-| :--- | :--- |
-| Potencial de economia de água potável | benefício |
-| Extravasamento | custo |
-| Valor presente líquido | benefício |
-| Payback descontado | custo |
-| Taxa interna de retorno | benefício |
-| CO₂ de ciclo de vida | custo |
-| Água potável consumida | custo |
+| Eixo | Critério (chave) | Sentido | Definição no programa |
+| :--- | :--- | :--- | :--- |
+| Técnico | Fiabilidade volumétrica (`volumetric_reliability_pct`) | benefício | água de chuva consumida ÷ procura de água de chuva (usos não potáveis e rega), em % |
+| Técnico | Eficiência de armazenamento (`storage_efficiency_pct`) | benefício | água de chuva entregue por dia ÷ volume da cisterna inferior, em % (o giro anual ÷ 365); cai com o volume e trava o sobredimensionamento; não é a ocupação média, que sobe com o volume em clima húmido |
+| Económico | Economia financeira líquida (`net_financial_savings_brl`) | benefício | o VAL do sistema contra a linha de base sem cisterna (fatura evitada menos investimento e custos de exploração, atualizados) |
+| Económico | Custo nivelado da água, LCOW (`lcow_brl_m3`) | custo | (investimento + Σ custos de exploração atualizados: energia, manutenção, cloro, linha de tratamento) ÷ Σ água de chuva entregue atualizada, à mesma taxa e no mesmo horizonte; €/m³; curva em U; o volume zero recebe o pior LCOW observado + 10% |
+| Económico | Período de recuperação descontado (`payback_years`) | custo | o da análise económica; quem não se recupera recebe o pior observado + 10% (ao menos +1 ano e ao menos 20 anos) |
+| Ambiental | CO₂e de ciclo de vida (`lifecycle_co2_kg`) | custo | o CO₂e líquido no fim da vida útil (negativo = evitado) |
+| Estrutural | Massa a seco dos materiais (`material_mass_kg`) | custo | massa a seco do sistema (cisternas, tubagem, eletrobomba, acessórios), de `triton.core.system.system_weight` |
+| Estrutural | Extravasamento anual (`overflow_m3_yr`) | custo | volume extravasado por ano, em m³ |
 
-> Esta secção já descreveu **três** critérios — água pluvial consumida,
-> VPL e CO₂e líquido evitado. O motor (`triton/core/topsis.py`) já usava sete; a
-> documentação é que estava defasada.
+Até à 0.1.0, eram sete critérios em três eixos, e três deles — potencial de economia, extravasamento e água
+potável consumida — mediam a mesma água economizada. A troca reduz essa colinearidade e acrescenta o peso do
+sistema.
 
-Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo pior valor observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
+**Pesos.** Quatro pesos de eixo (técnico, económico, ambiental, estrutural; 25% cada por omissão), repartidos
+dentro de cada eixo pelas *partes no eixo* (por omissão, partes iguais); ou oito pesos diretos, um por critério.
+Três pesos, de projetos e estudos até à 0.1.0, continuam aceites: o eixo estrutural recebe a média dos três, e
+pesos iguais continuam iguais. Sete valores, pesos ou partes do modelo antigo, são recusados com a mensagem «O
+multicritério da versão 0.2.0 tem oito critérios em quatro eixos, e os sete valores do modelo anterior não
+correspondem a eles. Informe quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito pesos de
+critério.» O TOPSIS, o VIKOR e o PROMETHEE II usam a mesma regra; o SMAA-VIKOR sorteia oito pesos no simplex e
+informa os pesos centrais agregados nos quatro eixos. Onde se declaram: no separador de decisão (quatro pesos,
+perfis «Equilibrado» e «Priorizar …», linha «Partes no eixo» com o botão «Partes iguais»); na linha de comandos
+(`--weights t,e,a,s` ou oito valores, `--criterion-shares` com oito); no ficheiro de projeto
+(`analysis.topsis_weights`, `analysis.topsis_criterion_shares`); no estudo declarativo (`analise.pesos`,
+`analise.partes_no_eixo`).
+
+**Peso do sistema.** `triton analyze … --analysis all` (ou `--analysis system_weight`) traz `system_weight`: a
+massa a seco, a carga de água e a carga em operação, em kg e kN, no subsolo ou nível inferior, na cobertura ou
+nível superior e nas prumadas e rede. O HTML, o XLSX (folha `system_weight` com o resumo do volume escolhido;
+os valores por volume na folha `alternatives`) e o texto do terminal mostram o bloco. Os alertas usam limiares
+de atenção do **programa**, e não de norma: 500 kg sobre a cobertura com o reservatório cheio, reservatório
+superior acima de 1 500 L, cisterna acima de 3 000 kg a seco e qualquer cisterna de betão. Pedem a confirmação
+do projeto estrutural ou de fundações.
+
+Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo mínimo observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
 
 **Esta é uma variante declarada, não o TOPSIS canônico.** Hwang & Yoon (1981) normalizam pela norma euclidiana dos valores originais. Onde todos os valores de um critério são positivos e o mínimo é zero, as duas formas coincidem; onde há VPL negativo — o caso que motivou a mudança — divergem, e os escores não são comparáveis com os de uma implementação canônica sobre a mesma matriz.
 
@@ -219,7 +242,7 @@ gapij = [max(xj) − xij] / [max(xj) − min(xj)]
 proximidadeij = 1 − gapij
 ```
 
-No gráfico, 100% significa o melhor resultado observado naquele critério e 0% o pior. Os valores são invertidos, não o sentido do eixo Y: maior proximidade permanece visualmente mais alta. A segunda sub-aba permite distinguir um vencedor próximo dos três ótimos de uma concessão com perdas relevantes em um ou mais eixos. TOPSIS é sensível aos pesos e ao conjunto de alternativas; use a análise de sensibilidade e não interprete o ranking como verdade física.
+No gráfico, 100% significa o melhor resultado observado naquele critério e 0% o pior. Os valores são invertidos, não o sentido do eixo Y: maior proximidade permanece visualmente mais alta. A segunda sub-aba permite distinguir um vencedor próximo dos ótimos de cada critério de uma concessão com perdas relevantes num ou mais eixos. TOPSIS é sensível aos pesos e ao conjunto de alternativas; use a análise de sensibilidade e não interprete o ranking como verdade física.
 
 ## 9. Reprodutibilidade e validação
 

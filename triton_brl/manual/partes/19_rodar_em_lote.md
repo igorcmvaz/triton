@@ -48,8 +48,10 @@ A etapa **8. Decisão Multicritério** mostra, numa tabela só, cada volume da v
 - a pontuação TOPSIS e a aceitabilidade SMAA-VIKOR.
 
 É a forma mais densa de comparar alternativas que o programa oferece: dez colunas de
-resposta para cada linha de volume. O **perfil de decisão** troca os pesos das
-dimensões e reordena a tabela na hora. A seção {{n:32}} explica os métodos por trás.
+resposta para cada linha de volume. O **perfil de decisão** troca os pesos dos quatro
+eixos — técnico, econômico, ambiental e estrutural —, a linha **Partes no eixo** reparte cada
+peso entre os critérios do eixo, e a tabela se reordena na hora. A seção {{n:32}} explica os
+métodos por trás.
 
 ---
 
@@ -127,7 +129,7 @@ A instalação do programa como pacote Python registra o comando `triton`, que e
 | :--- | :--- |
 | `validate` | confere a estrutura do projeto, a série de chuva e as premissas essenciais, sem simular |
 | `run` | simula o projeto; por padrão, apenas a análise técnica |
-| `analyze` | executa a cadeia completa: técnica, econômica, ambiental e TOPSIS |
+| `analyze` | executa a cadeia completa: técnica, econômica, ambiental, peso do sistema e TOPSIS |
 | `econ` | executa a análise econômica |
 | `init` | cria um projeto `.triton` modelo, editável, com a série de chuva referenciada ou incorporada |
 | `init-catalog` | cria um catálogo JSON modelo de premissas de edificação ou de climas |
@@ -139,7 +141,7 @@ A instalação do programa como pacote Python registra o comando `triton`, que e
 | `stochastic-demand` | sorteia o consumo diário e devolve o desempenho como faixa, e não como número único |
 | `estudo` | organiza, roda e relata estudos em lote por JSON (`estudo.json`): vários edifícios por tipologia, com tabelas para artigos |
 
-Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise (`technical`, `economic`, `environmental`, `topsis` ou `all`); `--volume` fixa o volume do reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto; `--set CAMPO=VALOR` altera um campo do projeto e pode ser repetido; `--weights` informa os pesos técnico, econômico e ambiental do TOPSIS; `--weight-sensitivity N` sorteia N vetores de pesos e informa a frequência com que cada volume vence; `--format` e `--output` definem o formato e o arquivo de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja reprodutível.
+Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise (`technical`, `economic`, `environmental`, `system_weight`, `topsis` ou `all`); `--volume` fixa o volume do reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto; `--set CAMPO=VALOR` altera um campo do projeto e pode ser repetido; `--weights` informa os quatro pesos de eixo do TOPSIS, técnico, econômico, ambiental e estrutural, ou oito, um por critério (três, de projetos até a 0.1.0, ainda valem, e o eixo estrutural recebe a média deles); `--criterion-shares` informa as oito partes no eixo, na ordem dos critérios da seção {{n:32}}, com padrão 1,1,1,1,1,1,1,1; `--weight-sensitivity N` sorteia N vetores de pesos e informa a frequência com que cada volume vence; `--format` e `--output` definem o formato e o arquivo de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja reprodutível.
 
 Aplicados ao projeto do tutorial, `validate` e `run` produzem:
 

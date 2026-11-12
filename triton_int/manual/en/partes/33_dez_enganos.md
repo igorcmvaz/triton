@@ -175,7 +175,8 @@ embodied carbon** (3,546 against 858 kg CO₂e), to deliver 1.15 percentage poin
 environmentally **worse** in absolute terms.
 
 **How to avoid it.** Declare the selection criterion. If it is hydraulic, the marginal-gain
-threshold; if it is multi-criteria, the weights. And report the winners of each criterion alone,
+threshold; if it is multi-criteria, the four dimension weights and the criterion shares. And report
+the winners of each criterion alone,
 because the divergence between them **is** the result.
 
 ---

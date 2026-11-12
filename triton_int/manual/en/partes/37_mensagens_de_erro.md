@@ -122,10 +122,21 @@ declare in the study the step actually used, not the step originally requested.
 <!-- tabela: Multi-criteria decision error messages and the action for each one -->
 | Message | Cause | Solution |
 | :--- | :--- | :--- |
-| «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» (enter 3 dimension weights or 7 TOPSIS criterion weights) | number of weights other than 3 or 7 | enter one weight per dimension or one per criterion |
+| «Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural) ou 8 pesos de critério TOPSIS» (enter 4 dimension weights (technical, economic, environmental, structural) or 8 TOPSIS criterion weights) | number of weights other than 3, 4, 7 or 8 | enter one weight per dimension or one per criterion; three weights from a project of version 0.1.0 are still accepted, and the structural dimension receives their mean |
+| «O multicritério da versão 0.2.0 tem oito critérios em quatro eixos, e os sete valores do modelo anterior não correspondem a eles. Informe quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito pesos de critério.» (the multi-criteria analysis of version 0.2.0 has eight criteria in four dimensions, and the seven values of the previous model do not correspond to them; enter four dimension weights or eight criterion weights) | seven weights or seven criterion shares, from the model of version 0.1.0 | rewrite the weights as four dimension weights or eight criterion weights (section {{n:32}}); to reproduce a study made with version 0.1.0, use version 0.1.0 |
+| «Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural).» (enter 4 dimension weights) | dimension weights of the wrong length where only dimension weights are accepted | enter four values |
 | «Os pesos TOPSIS devem ser finitos e não negativos» (TOPSIS weights must be finite and non-negative) | empty or negative weight | correct it; a weight of zero is valid and excludes the criterion |
 | «Ao menos um peso TOPSIS deve ser maior que zero» (at least one TOPSIS weight must be greater than zero) | all weights zero | give weight to at least one criterion |
+| «Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios).» (enter 8 shares, one per TOPSIS criterion, in the order of the criteria) | criterion shares with a number of values other than eight | enter eight shares in the order reliability, efficiency, net saving, LCOW, payback, CO₂, mass, overflow; the default is 1,1,1,1,1,1,1,1 |
+| «As partes no eixo devem ser finitas e não negativas.» (criterion shares must be finite and non-negative) | empty or negative share | correct it; a share of zero is valid and removes the criterion from the calculation |
+| «Ao menos um critério do eixo … deve ter parte maior que zero.» (at least one criterion of the … dimension must have a share greater than zero) | every criterion of a dimension with a share of zero | give a share to at least one criterion of the dimension named, or set the weight of that dimension to zero instead |
+| «analysis.topsis_weights deve ser uma lista com quatro valores (eixos) ou oito (critérios)» (analysis.topsis_weights must be a list of four values, dimensions, or eight, criteria) | weights of the wrong length in the project file read by the command line | correct the list in the project file |
+| «analysis.topsis_criterion_shares: …» | invalid criterion shares in the project file; the message continues with one of the share messages above | correct the list of eight shares in the project file |
 | «O critério TOPSIS … da alternativa N não é finito» (TOPSIS criterion … of alternative N is not finite) | undefined indicator in an alternative, typically a payback with no return | check the alternative indicated before deciding |
+
+The declarative study (section {{n:19}}) reports its own errors in English: `analise.pesos` must be four
+non-negative numbers (technical, economic, environmental, structural) or eight (one per criterion) with
+a positive sum, and `analise.partes_no_eixo` must be eight shares that pass the checks above.
 
 ---
 

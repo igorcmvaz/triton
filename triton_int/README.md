@@ -7,8 +7,8 @@
 
 **Triton** sizes rainwater harvesting systems for buildings. It runs a daily water balance over a
 precipitation series, sweeps a range of tank volumes, and reports what each volume delivers in water
-saved, money and life-cycle carbon, then ranks the alternatives by multi-criteria decision analysis
-(TOPSIS and SMAA-VIKOR).
+saved, money, life-cycle carbon and system weight, then ranks the alternatives by multi-criteria
+decision analysis (TOPSIS and SMAA-VIKOR) over eight criteria in four dimensions.
 
 This is the **International Edition**: the region-neutral core. It ships no regional rainfall, no tariff
 and no cost database. You supply the rainfall series, the water, sewer and energy tariffs, the costs and the
@@ -30,7 +30,14 @@ The regional editions share this engine and the version number, and add data for
 - **Environment.** Simplified life-cycle assessment and carbon balance, and scoring against LEED v4/v4.1
   (up to 8 points in Water Efficiency; WEc2 indoor water use scores 1 to 6 points for reductions of 25% to 50%,
   with a 20% prerequisite), EDGE and GRI 303.
-- **Decision.** Multi-criteria ranking with TOPSIS and SMAA-VIKOR.
+- **Weight of the system.** Dry mass, water load and operating load (kg and kN) at the lower level, on
+  the roof and in the risers, with attention thresholds of the program (not of any standard) that ask for a
+  check by the structural or foundation design.
+- **Decision.** Multi-criteria ranking with TOPSIS, VIKOR, PROMETHEE II and SMAA-VIKOR over eight criteria in
+  four dimensions: technical (volumetric reliability, storage efficiency), economic (net financial savings,
+  levelised cost of water, discounted payback), environmental (life-cycle CO₂e) and structural (dry mass,
+  annual overflow). Four dimension weights, 25% each by default, are shared among the criteria by the
+  criterion shares; `--weights t,e,a,s` and `--criterion-shares` on the command line.
 - **Outputs.** Executive report, environmental audit and technical dossier in PDF; spreadsheet, CAD
   (DXF) and BIM exports; 3D plant and glTF/HTML models of the piping.
 
@@ -40,12 +47,18 @@ Portuguese, and in Spanish and Chinese they are only partly translated (some sen
 precipitation series comes from a file you choose (CSV with daily values), from a template, or from the
 examples.
 
-## Status of version 0.1.0
+## Status of version 0.2.0
 
-**Ready.** The daily water balance, volume sweep, economics (block tariffs, NPV, IRR, payback), life-cycle
-assessment, treatment line, certification scoring, multi-criteria ranking, probabilistic modulation, reports
-(PDF), spreadsheet, DXF/glTF/BIM exports, the manual in English and the documentation of every dataset.
-Three worked examples open and run end to end.
+**New in 0.2.0.** The multi-criteria decision moves from seven criteria in three dimensions to eight
+criteria in four, and the program calculates the weight of the system. The volume chosen by the multi-criteria
+methods can change: three weights from version 0.1.0 are still accepted (the structural dimension receives their
+mean), seven are refused. To reproduce a study made with 0.1.0, use 0.1.0. See the
+[release notes](docs/NOTAS_DE_LANCAMENTO_0.2.0.md).
+
+**Ready.** The daily water balance, volume sweep, economics (block tariffs, NPV, IRR, payback, LCOW), life-cycle
+assessment, treatment line, certification scoring, weight of the system, multi-criteria ranking, probabilistic
+modulation, reports (PDF), spreadsheet, DXF/glTF/BIM exports, the manual in English and the documentation of
+every dataset. Three worked examples open and run end to end.
 
 **Not there, by design.** Regional rainfall databases, climate projections, tariff and cost catalogues, emission
 factors and national standards: you supply them. A new project starts with every cost at zero, an empty water
@@ -54,12 +67,16 @@ tariff and a zero grid emission factor; until you enter your own values, payback
 **Known limitations.** The three example tariffs are illustrative and were not traced to stored copies of the
 documents; the example rainfall is a reanalysis grid cell, not a gauge record; the CAPEX dialog has no field for
 the cistern price (the manual gives the way round); Spanish and Chinese are partly translated. The full list is
-in the [release notes](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) and the [changelog](CHANGELOG.md).
+in the release notes of [0.2.0](docs/NOTAS_DE_LANCAMENTO_0.2.0.md) and [0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md)
+and in the [changelog](CHANGELOG.md).
 
 ## Install and run
 
-**Windows installer.** In the Zenodo record, DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916)
-(`Triton_Internacional_Setup_v0.1.0.exe`, SHA-256 in `SHA256SUMS.txt`; not code-signed). No Python is needed.
+**Windows installer.** In the Zenodo record: the DOI of all versions,
+[10.5281/zenodo.23402915](https://doi.org/10.5281/zenodo.23402915), always resolves to the most recent one.
+Version 0.2.0 has no DOI of its own yet; the installer of 0.1.0 (`Triton_Internacional_Setup_v0.1.0.exe`,
+SHA-256 in `SHA256SUMS.txt`; not code-signed) is in the record of DOI
+[10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916). No Python is needed.
 
 **From source** (Python 3.12 or later):
 
@@ -90,7 +107,8 @@ The Qt interface tests are collected only when PySide6 is installed.
 ## Documentation
 
 - [User manual (PDF)](manual/en/Triton-User-Manual.pdf)
-- [Release notes 0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md) and [changelog](CHANGELOG.md)
+- Release notes [0.2.0](docs/NOTAS_DE_LANCAMENTO_0.2.0.md) and [0.1.0](docs/NOTAS_DE_LANCAMENTO_0.1.0.md), and
+  [changelog](CHANGELOG.md)
 - [Getting started](docs/en/getting-started.md), [model](docs/en/model.md), [verification](docs/en/verification.md)
   and [the three editions](docs/en/editions.md)
 - [Data: what ships, sources, licences and quality](docs/DADOS.md)
@@ -119,7 +137,10 @@ Academic source-available, all rights reserved, free for non-commercial use. Cit
 mandatory in any work that uses its results. The full terms are in [`LICENSE.md`](LICENSE.md); how to cite is in
 [`CITATION.cff`](CITATION.cff):
 
-> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings.* Federal University of Santa Catarina (UFSC).
+> Vaz, I. C. M., & Ghisi, E. (2026). *Triton: Computational Platform for Rainwater Harvesting Simulation in Buildings* (version 0.2.0) [Computer software]. Federal University of Santa Catarina (UFSC). https://doi.org/10.5281/zenodo.23402915
+
+The DOI 10.5281/zenodo.23402915 covers all versions and resolves to the most recent; version 0.1.0 has its own,
+10.5281/zenodo.23402916. Cite the version you used.
 
 Developed by the Sustainable Environments Research Group, Federal University of Santa Catarina.
-Questions and bug reports: igor.catao@posgrad.ufsc.br.
+Questions and bug reports: igorcmvaz@gmail.com.

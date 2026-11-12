@@ -7,6 +7,7 @@ Ponto de entrada único da documentação.
 | Se quer… | Leia |
 | :--- | :--- |
 | instalar e executar o programa | [`../README.md`](../README.md) |
+| saber o que mudou na versão 0.2.0 | [`NOTAS_DE_LANCAMENTO_0.2.0.md`](NOTAS_DE_LANCAMENTO_0.2.0.md) e [`../CHANGELOG.md`](../CHANGELOG.md) |
 | saber o que é específico desta edição | [`edicoes.md`](edicoes.md) |
 | perceber as equações e as fronteiras do modelo | [`metodologia.md`](metodologia.md) |
 | saber o que foi verificado e o que não foi | [`verificacao_e_validacao.md`](verificacao_e_validacao.md) |
@@ -19,7 +20,8 @@ Ponto de entrada único da documentação.
 
 | Documento | Conteúdo |
 | :--- | :--- |
-| [`metodologia.md`](metodologia.md) | equações, pressupostos e fronteiras do modelo |
+| [`metodologia.md`](metodologia.md) | equações, pressupostos e fronteiras do modelo, incluindo os oito critérios do multicritério e o peso do sistema |
+| [`NOTAS_DE_LANCAMENTO_0.2.0.md`](NOTAS_DE_LANCAMENTO_0.2.0.md), [`NOTAS_DE_LANCAMENTO_0.1.0.md`](NOTAS_DE_LANCAMENTO_0.1.0.md) | o que cada versão traz e como a citar |
 | [`equacoes_balanco.md`](equacoes_balanco.md) | as equações do balanço diário |
 | [`../triton/docs/fluxogramas_metodologicos.md`](../triton/docs/fluxogramas_metodologicos.md) | atlas dos fluxogramas do encadeamento implementado |
 | [`../triton/docs/proximos_passos_decisao_robusta.md`](../triton/docs/proximos_passos_decisao_robusta.md) | roteiro técnico da decisão robusta |

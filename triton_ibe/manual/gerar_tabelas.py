@@ -222,8 +222,9 @@ TUTORIAL = {
     # reservatório elevado: é a comparação daquela secção, com o limiar de 100 L.
     "caixa_superior_l": 1000.0,
     "limiar_recalque_l": 100.0,
-    # O volume que o tutorial escolhe: ideal pelo ganho marginal de 1 %/m³ e vencedor do multicritério
-    # com pesos iguais.
+    # O volume que o tutorial escolhe: ideal pelo ganho marginal de 1 %/m³ (secção 7). Desde a 0.2.0, o
+    # multicritério de oito critérios com pesos iguais indica um volume menor; a secção 12 diz o que esta
+    # escolha cede.
     "volume": 5000.0,
 }
 
@@ -674,78 +675,104 @@ def tabela_materiais():
     return NL.join(L)
 
 
-def tabela_multicriterio():
-    """Capítulo 12: três critérios, três respostas."""
+#: Os volumes candidatos do multicritério do tutorial (secções 12 e 32), todos em polietileno.
+VOLUMES_MULTICRITERIO = (1000, 2000, 3000, 4000, 5000, 8000, 12000)
+
+
+def candidato_do_tutorial(r, material="PEAD"):
+    """A alternativa do multicritério para uma simulação do projeto do tutorial.
+
+    Montada por ``candidato_dos_resultados``, a mesma função que a linha de comandos e a interface
+    usam: os oito critérios saem do resultado da simulação, da análise económica e do ciclo de vida.
+    A massa a seco vem da calculadora de peso do programa (cisterna do material indicado e o
+    reservatório superior de 1 000 L do tutorial).
+    """
     from triton.core.economic import run_economic_analysis
     from triton.core.environmental import calculate_lca
-    from triton.core.topsis import TopsisCandidate, calculate_topsis_scores
+    from triton.core.system_weight import calculate_system_weight
+    from triton.core.topsis import candidato_dos_resultados
 
+    v = float(r.lower_tank_vol)
+    e = run_economic_analysis(_config_economica(v, material), r)
+    amb = _config_ambiental(r)
+    amb.lower_material_key = material
+    lca = calculate_lca(v, r.annual_pluvial_consumed_m3, amb)
+    massa = calculate_system_weight(v, lower_material_key=material,
+                                    upper_tank_vol_l=TUTORIAL["caixa_superior_l"]).total_dry_mass_kg
+    return candidato_dos_resultados(r, e, lca.lifetime_net_co2_saved_kg, massa_seca_kg=massa,
+                                    upper_tank_vol=TUTORIAL["caixa_superior_l"])
+
+
+def candidatos_multicriterio(volumes=VOLUMES_MULTICRITERIO, material="PEAD"):
+    """As alternativas do multicritério do tutorial, uma por volume."""
     serie = _serie()
     cfg_sim = _config_projeto()
-    cands, linhas = [], [
-        f"| Volume | Potencial | VAL ({ILUSTRATIVO}) | Período de recuperação | Saldo de carbono em 20 anos "
-        f"| Investimento ({ILUSTRATIVO}) |",
-        "| ---: | ---: | ---: | ---: | ---: | ---: |",
-    ]
-    for v in (1000, 2000, 3000, 4000, 5000, 8000, 12000):
-        r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **cfg_sim)
-        e = run_economic_analysis(_config_economica(v, "PEAD"), r)
-        amb = _config_ambiental(r)
-        amb.lower_material_key = "PEAD"
-        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
-        linhas.append(
-            f"| {n(v, 0)} L | {n(r.potential_potable_savings_pct, 2)}% "
-            f"| {eur(e.vpl)} | {anos_ou_nunca(e.payback_years)} "
-            f"| {n(lca.lifetime_net_co2_saved_kg, 0)} kg | {eur(e.capex_total)} |")
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
-            capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct,
-            overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years,
-            irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+    return [candidato_do_tutorial(run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **cfg_sim),
+                                  material)
+            for v in volumes]
 
+
+def tabela_multicriterio():
+    """Capítulo 12: os oito critérios de cada volume e o vencedor de cada critério isolado."""
+    from triton.core.topsis import calculate_topsis_scores
+
+    cands = candidatos_multicriterio()
     res = calculate_topsis_scores(cands)
+    matriz = res.decision_matrix
+    linhas = [
+        "| Volume | Fiabilidade volumétrica | Eficiência de armazenamento | VAL | LCOW "
+        "| Período de recuperação | Emissões líquidas em 20 anos | Massa a seco | Extravasamento |",
+        "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ]
+    for c, x in zip(cands, matriz):
+        recuperacao = anos_ou_nunca(c.discounted_payback_years)
+        linhas.append(
+            f"| {n(c.lower_tank_vol, 0)} L | {n(x[0], 1)}% | {n(x[1], 2)}% ao dia | {eur(x[2])} "
+            f"| {n(x[3], 2)}{NBSP}€/m³ | {recuperacao} | {n(x[5], 0)} kg CO₂e | {n(x[6], 0)} kg "
+            f"| {n(x[7], 1)} m³/ano |")
+
     global _CANDIDATOS_MULTICRITERIO
     _CANDIDATOS_MULTICRITERIO = cands
     linhas += [
         "",
         "| Critério isolado | Volume vencedor |",
         "| :--- | ---: |",
-        f"| maior potencial de poupança | {n(cands[res.technical_best_index].lower_tank_vol, 0)} L |",
+        f"| maior fiabilidade volumétrica | {n(cands[res.technical_best_index].lower_tank_vol, 0)} L |",
         f"| menor período de recuperação descontado, desempate pelo VAL | {n(cands[res.financial_best_index].lower_tank_vol, 0)} L |",
-        f"| maior saldo de carbono | {n(cands[res.environmental_best_index].lower_tank_vol, 0)} L |",
-        f"| **compromisso, pesos iguais** | **{n(cands[res.best_index].lower_tank_vol, 0)} L** |",
+        f"| menores emissões líquidas de carbono | {n(cands[res.environmental_best_index].lower_tank_vol, 0)} L |",
+        f"| **compromisso TOPSIS, 25% em cada eixo** | **{n(cands[res.best_index].lower_tank_vol, 0)} L** |",
     ]
     return NL.join(linhas)
 
 
 _CANDIDATOS_MULTICRITERIO = None
 
-#: Pesos por dimensão (técnica, económica, ambiental) da tabela de sensibilidade.
+#: Pesos de eixo (técnico, económico, ambiental, estrutural) da tabela de sensibilidade: os quatro iguais, e
+#: 70% no eixo dominante com 10% em cada um dos outros três (os perfis «Priorizar …» da interface).
 PESOS_SENSIBILIDADE = (
-    ("pesos iguais", (1 / 3, 1 / 3, 1 / 3)),
-    ("técnico, 60%", (0.6, 0.2, 0.2)),
-    ("económico, 60%", (0.2, 0.6, 0.2)),
-    ("ambiental, 60%", (0.2, 0.2, 0.6)),
+    ("pesos iguais, 25% em cada eixo", (0.25, 0.25, 0.25, 0.25)),
+    ("técnico, 70%", (0.7, 0.1, 0.1, 0.1)),
+    ("económico, 70%", (0.1, 0.7, 0.1, 0.1)),
+    ("ambiental, 70%", (0.1, 0.1, 0.7, 0.1)),
+    ("estrutural, 70%", (0.1, 0.1, 0.1, 0.7)),
 )
 
 
 def tabela_pesos():
-    """Capítulo 12: o volume escolhido pelo TOPSIS conforme o peso dominante."""
+    """Capítulo 12: o volume escolhido pelo TOPSIS conforme o eixo com peso dominante."""
     from triton.core.topsis import calculate_topsis_scores
 
     if _CANDIDATOS_MULTICRITERIO is None:
         tabela_multicriterio()
     cands = _CANDIDATOS_MULTICRITERIO
-    L = ["| Peso dominante | Volume | Segundo classificado |", "| :--- | ---: | ---: |"]
+    L = ["| Peso dominante | Volume | Segundo classificado | Diferença de pontuação |",
+         "| :--- | ---: | ---: | ---: |"]
     for rotulo, pesos in PESOS_SENSIBILIDADE:
         res = calculate_topsis_scores(cands, weights=pesos)
         ordem = sorted(range(len(cands)), key=lambda i: -res.scores[i])
         L.append(f"| {rotulo} | {n(cands[ordem[0]].lower_tank_vol, 0)} L "
-                 f"| {n(cands[ordem[1]].lower_tank_vol, 0)} L |")
+                 f"| {n(cands[ordem[1]].lower_tank_vol, 0)} L "
+                 f"| {n(res.scores[ordem[0]] - res.scores[ordem[1]], 4)} |")
     return NL.join(L)
 
 
@@ -866,7 +893,7 @@ def tabela_decisao():
          "| ---: | ---: | ---: | ---: |"]
     for i, c in enumerate(cands):
         p = posicao[i]
-        L.append(f"| {n(c.lower_tank_vol, 0)} L | {n(topsis.scores[i], 3)} | {p}.º "
+        L.append(f"| {n(c.lower_tank_vol, 0)} L | {n(topsis.scores[i], 4)} | {p}.º "
                  f"| {n(float(smaa.first_rank_probs[i]), 1)}% |")
     return NL.join(L)
 
@@ -974,7 +1001,7 @@ LEGENDAS = {
         'Efeito do volume da cisterna de betão nas emissões líquidas de carbono',
     ],
     'cap32_decisao.md': [
-        'Pontuação de proximidade TOPSIS com pesos iguais nas dimensões e aceitabilidade do primeiro lugar no SMAA-VIKOR, com 5 000 vetores de pesos aleatórios, para os volumes do tutorial',
+        'Pontuação de proximidade TOPSIS com 25% em cada eixo e partes iguais no eixo, e aceitabilidade do primeiro lugar no SMAA-VIKOR, com 5 000 vetores de oito pesos sorteados, para os volumes do tutorial',
     ],
     'cap20_sensibilidade.md': [
         'Potencial, valor atual líquido e período de recuperação do projeto final do tutorial com cada premissa variada isoladamente, do valor baixo ao alto (os custos são ilustrativos, não são preços de mercado)',
@@ -983,11 +1010,11 @@ LEGENDAS = {
         'Energia anual de seis sobrepressores genéricos (curvas ilustrativas, sem marca) na pressurização direta do tutorial, com o caudal do autoclismo a limitar o caudal da bomba',
     ],
     'cap12_pesos.md': [
-        'Volume escolhido pelo TOPSIS conforme a dimensão com peso dominante, e o segundo classificado',
+        'Volume escolhido pelo TOPSIS conforme o eixo com peso dominante (70% nele e 10% em cada um dos outros três), o segundo classificado e a diferença de pontuação entre os dois',
     ],
     'cap12_multicriterio.md': [
-        'Matriz de decisão multicritério: cada volume da varredura avaliado nas três dimensões de análise (os custos são ilustrativos, não são preços de mercado)',
-        'Volume vencedor segundo cada critério isolado',
+        'Matriz de decisão multicritério: os oito critérios de cada volume candidato, em polietileno, com o reservatório superior de 1 000 L (os custos são ilustrativos, não são preços de mercado)',
+        'Volume vencedor segundo cada critério isolado e o compromisso do TOPSIS',
     ],
     'cap14_cidades.md': [
         'O mesmo projeto do tutorial simulado em Lisboa, no Porto e no Funchal',

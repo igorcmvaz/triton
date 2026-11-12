@@ -120,8 +120,8 @@ respeito à decisão final do estudo: a escolha do volume em função dos pesos 
 critérios.
 
 Na etapa **8. Decisão Multicritério**, a coluna de **aceitabilidade SMAA-VIKOR** é já uma análise
-de sensibilidade pronta. Responde: se os pesos das dimensões fossem sorteados em vez de fixados,
-com que frequência ficaria cada volume em primeiro lugar?
+de sensibilidade pronta. Responde: se os oito pesos dos critérios fossem sorteados em vez de
+fixados, com que frequência ficaria cada volume em primeiro lugar?
 
 Leia-a assim:
 
@@ -135,8 +135,8 @@ Leia-a assim:
 A distinção que esta coluna permite é de natureza epistemológica, e não apenas estatística: um
 volume que vence em 80% dos sorteios de pesos constitui uma recomendação, ao passo que um volume
 que vence em 30% constitui uma preferência do analista, legítima desde que apresentada como tal.
-No tutorial de Lisboa, o volume vencedor, 5 000 L, tem uma aceitabilidade de 34,8%, com 8 000 L
-em segundo, com 30,1%, e 4 000 L em terceiro, com 15,0%: abaixo de 40%, a escolha depende dos
+No tutorial de Lisboa, o volume mais aceite, 5 000 L, vence em 22,2% dos sorteios, com 3 000 L
+em segundo, com 22,0%, e 2 000 L em terceiro, com 19,3%: abaixo de 40%, a escolha depende dos
 pesos, e o texto tem de o dizer. A secção {{n:32}} expõe o método que produz este número.
 
 ---

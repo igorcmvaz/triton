@@ -18,7 +18,7 @@ do computador.
 | 6 | Qualidade | classe, desinfeção, filtros | {{n:9}} |
 | 7 | Economia | tarifa real, CAPEX, fluxo de caixa | {{n:10}} |
 | 8 | Carbono | inventário, material, período de recuperação | {{n:11}} |
-| 9 | Decisão | sete critérios, pesos declarados | {{n:12}} |
+| 9 | Decisão | oito critérios em quatro eixos, pesos declarados | {{n:12}} |
 | 10 | Relatório | saídas e lista de declaração | {{n:13}} |
 
 **Antes de publicar:** secção {{n:13}}, a lista de declaração. Secção {{n:33}}, os dez erros. Secção {{n:36}}, as limitações que afetam o seu caso.
@@ -102,8 +102,8 @@ atendível** e os usos que a compõem.
 
 **Descarte:** lâmina e modo; e a diferença de método, se comparar programas.
 
-**Volume:** critério de escolha — limiar de ganho marginal, ou pesos do
-multicritério.
+**Volume:** critério de escolha — limiar de ganho marginal, ou os quatro pesos
+de eixo, as partes no eixo e os candidatos do multicritério.
 
 **Economia:** concelho, entidade gestora, vigência da tabela, **regime de mínimo**,
 regra do saneamento, taxas de IVA de cada parcela, taxa de atualização, inflação, atualizações e período, e a moeda.

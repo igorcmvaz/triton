@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do utilizador**.
-> Correções, bugs e versionamento. Versão 0.1.0. Universidade Federal de Santa
+> Correções, bugs e versionamento. Versão 0.2.0. Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -65,7 +65,7 @@ Figura 1 — Decomposição da divergência média entre o programa e uma refer�
 
 ## Lista de tabelas
 
-Tabela 1 — Variáveis da Equação 51
+Tabela 1 — Variáveis da Equação 52
 
 Tabela 2 — Mensagens de validação física da entrada e a providência de cada uma
 
@@ -89,17 +89,19 @@ Tabela 11 — Avisos que não interrompem o cálculo e têm de constar do estudo
 
 Tabela 12 — **Tabela 99** — Panorama das versões publicadas
 
-Tabela 13 — Correções que alteram resultados na versão 0.1.0
+Tabela 13 — Correções que alteram resultados na versão 0.2.0
 
-Tabela 14 — Itens previstos para a versão 1.1
+Tabela 14 — Correções que alteram resultados na versão 0.1.0
 
-Tabela 15 — Itens previstos para a versão 2.0
+Tabela 15 — Itens previstos para a versão 1.1
+
+Tabela 16 — Itens previstos para a versão 2.0
 
 ---
 
 ## Lista de equações
 
-Equação 51 — Transformação da série para emular o Netuno 4
+Equação 52 — Transformação da série para emular o Netuno 4
 
 ---
 
@@ -198,11 +200,11 @@ A regra antiga emula-se transformando a série de precipitação de entrada, e n
 do balanço hídrico. Medir uma divergência com código modificado verificaria um programa que não é
 o distribuído ao utilizador.
 
-```equacao:emulacao:51
+```equacao:emulacao:52
 P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
 ```
 
-<!-- tabela: **Tabela 1** — Variáveis da Equação 51 -->
+<!-- tabela: **Tabela 1** — Variáveis da Equação 52 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `P′` | precipitação transformada, a fornecer ao Triton | mm |
@@ -366,10 +368,14 @@ que declare no estudo o passo efetivamente utilizado, e não o passo originalmen
 <!-- tabela: **Tabela 8** — Mensagens de erro da decisão multicritério e a providência de cada uma -->
 | Mensagem | Causa | Solução |
 | :--- | :--- | :--- |
-| «Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS» | número de pesos diferente de 3 ou de 7 | introduza um peso por eixo ou um por critério |
+| «O multicritério da versão 0.2.0 tem oito critérios em quatro eixos, e os sete valores do modelo anterior não correspondem a eles. Informe quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito pesos de critério.» | sete pesos ou sete partes no eixo, do modelo de sete critérios (até à versão 0.1.0) | refaça a ponderação com quatro pesos de eixo ou oito de critério; três pesos de eixo antigos continuam aceites, com o eixo estrutural na média dos três |
+| «Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural) ou 8 pesos de critério TOPSIS» | número de pesos diferente de 3, 4, 7 ou 8 | introduza um peso por eixo ou um por critério |
 | «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; o peso zero é válido e exclui o critério |
 | «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos a zero | atribua peso a pelo menos um critério |
 | «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente um período de recuperação sem retorno | confira a alternativa indicada antes de decidir |
+| «Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios)» | número de partes no eixo diferente de oito | introduza uma parte por critério, pela ordem do separador de decisão |
+| «As partes no eixo devem ser finitas e não negativas» | parte vazia ou negativa | corrija; a parte zero é válida e tira o critério da conta |
+| «Ao menos um critério do eixo … deve ter parte maior que zero» | todos os critérios de um eixo com parte zero | dê parte a pelo menos um critério do eixo; para tirar o eixo da conta, ponha a zero o peso do eixo, e não as partes |
 
 ---
 
@@ -465,8 +471,8 @@ não alteram a arquitetura. Um primeiro número igual a zero marca uma versão b
 utilizável e está verificado como a secção 5.3 (volume Enganos, limitações e confiabilidade) descreve, mas a interface, o formato de
 ficheiro e os valores por omissão ainda podem mudar, e uma mudança pode alterar resultados.
 
-A versão atual é a beta **0.1.0**. Nenhuma versão anterior circulou, e nenhum estudo foi feito com
-alguma.
+A versão atual é a beta **0.2.0**. A anterior, a 0.1.0, saiu a 5 de novembro de 2026; um estudo
+feito com ela declara-a e reproduz-se com ela.
 
 ---
 
@@ -488,15 +494,43 @@ programa pelo repositório, pelo sítio ou pelo manual lê o mesmo registo.
 <!-- tabela: **Tabela 12** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
+| **0.2.0** | 11 de novembro de 2026 | O multicritério passa de sete critérios em três eixos a oito critérios em quatro eixos — técnico, económico, ambiental e estrutural —, e o programa ganha a calculadora do peso do sistema. | 1 |
 | **0.1.0** | 5 de novembro de 2026 | Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração. | 0 |
 
 ---
 
-### 6.3.3. Versão 0.1.0 (beta) — 5 de novembro de 2026
+### 6.3.3. Versão 0.2.0 (beta) — 11 de novembro de 2026
+
+> **Numa frase.** O multicritério passa de sete critérios em três eixos a oito critérios em quatro eixos — técnico, económico, ambiental e estrutural —, e o programa ganha a calculadora do peso do sistema.
+
+#### 6.3.3.1. Novidades
+
+- **Oito critérios em quatro eixos.** Técnico: fiabilidade volumétrica (água de chuva consumida ÷ procura de água de chuva, em %) e eficiência de armazenamento (água de chuva entregue por dia ÷ volume da cisterna inferior, em %). Económico: economia financeira líquida (o VAL contra a linha de base sem cisterna), custo nivelado da água (LCOW, em €/m³) e período de recuperação descontado. Ambiental: CO₂e de ciclo de vida. Estrutural: massa a seco dos materiais e extravasamento anual. A secção 2.10 (volume O método) dá as definições e a fórmula do LCOW.
+- **Pesos em dois níveis.** Quatro pesos de eixo, 25% cada por omissão, repartidos pelos critérios de cada eixo segundo as partes no eixo, iguais por omissão; ou oito pesos diretos, um por critério. O separador de decisão tem os quatro pesos, os perfis «Equilibrado: 25% em cada eixo» e «Priorizar …» (70% num eixo e 10% em cada um dos outros, incluindo «Priorizar Leveza e Drenagem») e a linha «Partes no eixo», com o botão «Partes iguais». Na linha de comandos, `--weights` (quatro ou oito valores) e `--criterion-shares` (oito); no ficheiro de projeto, `analysis.topsis_weights` e `analysis.topsis_criterion_shares`; no estudo declarativo, `analise.pesos` e `analise.partes_no_eixo`. O TOPSIS, o VIKOR, o PROMETHEE II e o SMAA-VIKOR usam a mesma regra; o SMAA-VIKOR sorteia oito pesos e informa o peso central agregado nos quatro eixos.
+- **Peso do sistema.** Massa a seco, carga de água e carga em operação, em quilogramas e quilonewtons, no subsolo, na cobertura e nas prumadas e rede: em `triton analyze --analysis all` (ou `--analysis system_weight`), no HTML, no XLSX e no texto do terminal. Um alerta pede confirmação com o projeto estrutural ou de fundações quando a carga passa um limiar de atenção do programa, que não vem de nenhuma norma.
+
+#### 6.3.3.2. Correções que alteram resultados
+
+<!-- tabela: **Tabela 13** — Correções que alteram resultados na versão 0.2.0 -->
+| O que foi corrigido | Efeito no resultado |
+| :--- | :--- |
+| O multicritério tinha sete critérios em três eixos, e três deles — potencial de poupança, extravasamento e consumo de água potável — mediam a mesma água economizada. Passa a ter oito critérios em quatro eixos. | A ordenação do TOPSIS, do VIKOR, do PROMETHEE II e do SMAA-VIKOR muda, e com ela pode mudar o volume escolhido: no tutorial de Lisboa, com pesos iguais, o TOPSIS passa de 5 000 L para 3 000 L. Três pesos de eixo, de projetos e estudos até à 0.1.0, continuam aceites, e o eixo estrutural recebe a média dos três; sete pesos ou sete partes são recusados. Para reproduzir um estudo feito com a 0.1.0, use a 0.1.0 (DOI 10.5281/zenodo.23402916). |
+
+#### 6.3.3.3. Correções que não alteram resultados
+
+Nenhuma.
+
+#### 6.3.3.4. Documentação
+
+A secção 2.10 (volume O método) descreve os oito critérios, a fórmula do LCOW, a regra dos pesos e o peso do sistema; a secção 4.9 (volume Tutorial) refaz a decisão do tutorial com o modelo novo e diz o que a escolha dos 5 000 L cede; as secções 3.6 (volume Guias de uso) e 6.2 trazem as opções e as mensagens novas. Para citar, use o DOI de todas as versões, 10.5281/zenodo.23402915, que aponta sempre para a mais recente: a 0.2.0 ainda não tem DOI próprio.
+
+---
+
+### 6.3.4. Versão 0.1.0 (beta) — 5 de novembro de 2026
 
 > **Numa frase.** Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração.
 
-#### 6.3.3.1. Novidades
+#### 6.3.4.1. Novidades
 
 O Triton simula o aproveitamento de águas pluviais dia a dia e inclui o motor de simulação, a
 avaliação de ciclo de vida, a linha de tratamento, a decisão multicritério e a modulação
@@ -532,25 +566,25 @@ módulos.
 - Os termos de reutilização dos sítios das entidades gestoras não foram verificados (no do Porto não se encontrou nenhum).
 - Referências a rever antes de citar: a edição da EN 16941-1 em vigor e a sua transposição, a revisão da ETA 0701 da ANQIP (as secções 1.1 (volume Comece aqui) e 4.6 (volume Tutorial) marcam o que falta).
 
-#### 6.3.3.2. Correções que alteram resultados
+#### 6.3.4.2. Correções que alteram resultados
 
 Nenhuma: esta é a primeira versão beta, e não há versão anterior a corrigir.
 
-<!-- tabela: **Tabela 13** — Correções que alteram resultados na versão 0.1.0 -->
+<!-- tabela: **Tabela 14** — Correções que alteram resultados na versão 0.1.0 -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
 
-#### 6.3.3.3. Correções que não alteram resultados
+#### 6.3.4.3. Correções que não alteram resultados
 
 Nenhuma.
 
-#### 6.3.3.4. Documentação
+#### 6.3.4.4. Documentação
 
 O manual ganhou as secções «Particularidades de região e país» e «Descrição dos dados e sua qualidade» no apêndice E (volume Apêndices).
 
 ---
 
-### 6.3.4. Como saber se a sua versão tem uma correção
+### 6.3.5. Como saber se a sua versão tem uma correção
 
 O procedimento é direto e não depende de consultar ninguém: abra um dos ficheiros de exemplo que
 acompanham o programa, descritos no apêndice J (volume Apêndices), execute-o e compare o resultado obtido com o
@@ -565,7 +599,7 @@ Se não coincidirem, a diferença não é um defeito da sua instalação, mas um
 
 ---
 
-### 6.3.5. O que declarar num trabalho publicado
+### 6.3.6. O que declarar num trabalho publicado
 
 A boa prática de reprodutibilidade computacional exige que um trabalho identifique de forma
 inequívoca o programa que produziu os resultados. No caso do Triton, bastam quatro informações, e
@@ -679,7 +713,7 @@ passou a ser vigiado.
 > gostaria de ter.
 
 Esta secção resume o `ROADMAP.md` da raiz do repositório do Triton, que vale para as três edições e
-reflete o estado da versão beta 0.1.0. Nada do que está abaixo da linha «Estável» existe nesta
+reflete o estado da versão beta 0.2.0. Nada do que está abaixo da linha «Estável» existe nesta
 versão: são intenções do grupo de investigação, sem data de entrega. Quando um item é
 implementado, sai daqui e entra no histórico de versões, com a indicação de se muda os resultados
 de estudos já feitos.
@@ -691,14 +725,14 @@ pendências do próprio programa, descrito na secção «Limitações conhecidas
 
 ---
 
-### 6.5.1. O que já é estável na 0.1.0
+### 6.5.1. O que já é estável na 0.2.0
 
 **Série climática.** Chuva diária do Iberia01 por município (Portugal, Espanha e Baleares; normal 1986–2015), a E-OBS opcional (278 concelhos, 1950 a
 2025), a reanálise ERA5 das ilhas (nível C) e séries diárias fornecidas pelo utilizador. **Tarifas.** Os
 tarifários transcritos de Lisboa, do Porto e do Funchal, e estruturas introduzidas pelo utilizador,
 com escalões progressivos, partes fixas e atualização. **Balanço hídrico.** Simulação diária pela
 regra do Triton, com a YAS estrita, a YBS e o parâmetro φ de Fewkes (2000b) como opções para
-reservatório único. **Decisão.** Multicritério por TOPSIS e por SMAA-VIKOR. **Incerteza.**
+reservatório único. **Decisão.** Multicritério por TOPSIS e por SMAA-VIKOR, com oito critérios em quatro eixos (técnico, económico, ambiental e estrutural) e o peso do sistema. **Incerteza.**
 Modulação probabilística das premissas (secção «O que é a modulação probabilística»).
 **Edição.** Portugal.
 
@@ -710,7 +744,7 @@ A versão 1.0 será a primeira versão oficial, depois dos ajustes das versões 
 
 Os três primeiros itens vêm do roteiro comum e dizem respeito sobretudo à Edição Internacional.
 
-<!-- tabela: **Tabela 14** — Itens previstos para a versão 1.1 -->
+<!-- tabela: **Tabela 15** — Itens previstos para a versão 1.1 -->
 | Eixo | Item | Método |
 | :--- | :--- | :--- |
 | Dados e tarifas | Fornecedores globais de chuva | Reanálises ERA5-Land e NOAA GHCN-Daily |
@@ -727,7 +761,7 @@ Os três primeiros itens vêm do roteiro comum e dizem respeito sobretudo à Edi
 
 ### 6.5.3. Versão 2.0: fronteira metodológica
 
-<!-- tabela: **Tabela 15** — Itens previstos para a versão 2.0 -->
+<!-- tabela: **Tabela 16** — Itens previstos para a versão 2.0 -->
 | Eixo | Item | Método |
 | :--- | :--- | :--- |
 | Física do sistema | Passo de tempo horário | Modelo horário com dados de udógrafo |

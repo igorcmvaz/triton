@@ -10,8 +10,36 @@ que mudou na documentação. A distinção entre os dois tipos de correção é 
 mais importa para quem publica com o programa: uma correção de cálculo obriga a
 declarar a versão usada num trabalho; uma correção de interface, não.
 
-A versão atual é a 0.1.0. O manual completo está em `manual/Manual-Triton.pdf`
+A versão atual é a 0.2.0. O manual completo está em `manual/Manual-Triton.pdf`
 e o site de documentação, em `manual/site/index.html`.
+
+---
+
+## Versão 0.2.0 (beta) — 11 de novembro de 2026
+
+> **Numa frase.** O multicritério passa de sete critérios em três eixos a oito critérios em quatro eixos — técnico, económico, ambiental e estrutural —, e o programa ganha a calculadora do peso do sistema.
+
+### Novidades
+
+- **Oito critérios em quatro eixos.** Técnico: fiabilidade volumétrica (água de chuva consumida ÷ procura de água de chuva, em %) e eficiência de armazenamento (água de chuva entregue por dia ÷ volume da cisterna inferior, em %). Económico: economia financeira líquida (o VAL contra a linha de base sem cisterna), custo nivelado da água (LCOW, em €/m³) e período de recuperação descontado. Ambiental: CO₂e de ciclo de vida. Estrutural: massa a seco dos materiais e extravasamento anual. A secção 2.10 dá as definições e a fórmula do LCOW.
+- **Pesos em dois níveis.** Quatro pesos de eixo, 25% cada por omissão, repartidos pelos critérios de cada eixo segundo as partes no eixo, iguais por omissão; ou oito pesos diretos, um por critério. O separador de decisão tem os quatro pesos, os perfis «Equilibrado: 25% em cada eixo» e «Priorizar …» (70% num eixo e 10% em cada um dos outros, incluindo «Priorizar Leveza e Drenagem») e a linha «Partes no eixo», com o botão «Partes iguais». Na linha de comandos, `--weights` (quatro ou oito valores) e `--criterion-shares` (oito); no ficheiro de projeto, `analysis.topsis_weights` e `analysis.topsis_criterion_shares`; no estudo declarativo, `analise.pesos` e `analise.partes_no_eixo`. O TOPSIS, o VIKOR, o PROMETHEE II e o SMAA-VIKOR usam a mesma regra; o SMAA-VIKOR sorteia oito pesos e informa o peso central agregado nos quatro eixos.
+- **Peso do sistema.** Massa a seco, carga de água e carga em operação, em quilogramas e quilonewtons, no subsolo, na cobertura e nas prumadas e rede: em `triton analyze --analysis all` (ou `--analysis system_weight`), no HTML, no XLSX e no texto do terminal. Um alerta pede confirmação com o projeto estrutural ou de fundações quando a carga passa um limiar de atenção do programa, que não vem de nenhuma norma.
+
+### Correções que alteram resultados
+
+| O que foi corrigido | Efeito no resultado |
+| :--- | :--- |
+| O multicritério tinha sete critérios em três eixos, e três deles — potencial de poupança, extravasamento e consumo de água potável — mediam a mesma água economizada. Passa a ter oito critérios em quatro eixos. | A ordenação do TOPSIS, do VIKOR, do PROMETHEE II e do SMAA-VIKOR muda, e com ela pode mudar o volume escolhido: no tutorial de Lisboa, com pesos iguais, o TOPSIS passa de 5 000 L para 3 000 L. Três pesos de eixo, de projetos e estudos até à 0.1.0, continuam aceites, e o eixo estrutural recebe a média dos três; sete pesos ou sete partes são recusados. Para reproduzir um estudo feito com a 0.1.0, use a 0.1.0 (DOI 10.5281/zenodo.23402916). |
+
+### Correções que não alteram resultados
+
+Nenhuma.
+
+### Documentação
+
+A secção 2.10 descreve os oito critérios, a fórmula do LCOW, a regra dos pesos e o peso do sistema; a secção 4.9 refaz a decisão do tutorial com o modelo novo e diz o que a escolha dos 5 000 L cede; as secções 3.6 e 6.2 trazem as opções e as mensagens novas. Para citar, use o DOI de todas as versões, 10.5281/zenodo.23402915, que aponta sempre para a mais recente: a 0.2.0 ainda não tem DOI próprio.
+
+---
 
 ---
 

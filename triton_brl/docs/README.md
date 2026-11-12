@@ -13,6 +13,7 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 | **saber o que é da Edição Brasil e o que é da International** | [`edicoes.md`](edicoes.md) |
 | entender as equações e as fronteiras do modelo | [`metodologia.md`](metodologia.md) |
 | saber o que foi verificado e o que não foi | [`verificacao_e_validacao.md`](verificacao_e_validacao.md) |
+| saber o que mudou na versão 0.2.0 (multicritério de oito critérios, peso do sistema) | [`NOTAS_DE_LANCAMENTO_0.2.0.md`](NOTAS_DE_LANCAMENTO_0.2.0.md) |
 | gerar novos casos de referência no Netuno 4 | [`protocolo_netuno4.md`](protocolo_netuno4.md) |
 | **conferir as contas dos casos analíticos** | [`conferencia_dos_casos_analiticos.md`](conferencia_dos_casos_analiticos.md) |
 | ver o encadeamento do cálculo em diagramas | [`../triton/docs/fluxogramas_metodologicos.md`](../triton/docs/fluxogramas_metodologicos.md) |
@@ -28,7 +29,7 @@ distribuídos por sete diretórios sem índice; este arquivo mapeia todos eles.
 
 | Documento | Conteúdo |
 | :--- | :--- |
-| [`metodologia.md`](metodologia.md) | Equações, premissas e fronteiras do modelo em 9 seções: chuva efetiva, balanço diário, CAPEX, bombeamento, economia, ACV, TOPSIS |
+| [`metodologia.md`](metodologia.md) | Equações, premissas e fronteiras do modelo em 9 seções: chuva efetiva, balanço diário, CAPEX, bombeamento, economia, ACV, TOPSIS (oito critérios em quatro eixos, desde a 0.2.0) |
 | [`normas_nbr_x_en16941.md`](normas_nbr_x_en16941.md) | Diferenças entre a NBR 15527/5626 e a EN 16941-1:2024, item a item, e o que o Triton faz em cada uma |
 | [`../triton/docs/fluxogramas_metodologicos.md`](../triton/docs/fluxogramas_metodologicos.md) | Atlas de 22 fluxogramas do encadeamento implementado |
 | [`../examples/PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md`](../examples/PARAMETROS_DEPENDENTES_DO_VOLUME_RESERVATORIO.md) | O que depende e o que não depende do volume da cisterna |

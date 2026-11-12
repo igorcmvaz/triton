@@ -89,9 +89,9 @@ def _candidatos(serie, material=MATERIAL,
                 volumes=(1000, 2000, 3000, 4000, 5000, 8000, 12000)):
     from gerar_tabelas import _config_economica, _config_projeto
     from triton.core.economic import run_economic_analysis
-    from triton.core.environmental import EnvironmentalConfig, calculate_lca
+    from triton.core.environmental import calculate_lca
     from triton.core.simulation import run_single_simulation
-    from triton.core.topsis import TopsisCandidate
+    from triton.core.topsis import candidato_dos_resultados
 
     cfg_sim = _config_projeto()
     cands, economico = [], []
@@ -103,16 +103,8 @@ def _candidatos(serie, material=MATERIAL,
         amb = _config_ambiental(r)
         amb.lower_material_key = material
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v),
-            water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
-            capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct,
-            overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years,
-            irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+        # Os oito critérios, na mesma montagem da linha de comando e da interface.
+        cands.append(candidato_dos_resultados(r, e, lca.lifetime_net_co2_saved_kg))
         economico.append({
             "volume_l": float(v), "vpl": e.vpl,
             "tir": e.tir_annual_pct or 0.0,
@@ -200,6 +192,7 @@ def main():
 
     # ── a aba multicritério ──────────────────────────────────────────────────
     from triton.core.topsis import calculate_topsis_scores
+    # Pesos e partes do padrão: 25% em cada eixo, partes iguais dentro do eixo.
     topsis = calculate_topsis_scores(cands)
     g = TOPSISComparisonChart()
     g.update_chart(topsis_result=topsis, method="topsis")

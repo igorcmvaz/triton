@@ -7,8 +7,9 @@
 
 **Triton** sizes rainwater harvesting systems for buildings. It runs a daily water balance
 over a precipitation series, sweeps a grid of tank capacities and reports what each capacity
-delivers in potable water saved, money and life-cycle carbon. It then ranks the candidates by
-multi-criteria decision analysis (TOPSIS and SMAA-VIKOR).
+delivers in potable water saved, money, life-cycle carbon and system weight. It then ranks the
+candidates by multi-criteria decision analysis (TOPSIS and SMAA-VIKOR) over eight criteria in four
+dimensions: technical, economic, environmental and structural.
 
 It is developed by the Sustainable Environments Research Group (*Grupo de Pesquisa em Ambientes
 Sustentáveis*) at the Federal University of Santa Catarina (UFSC), and succeeds the Netuno programme (Netuno 4 is the reference of its validation).
@@ -20,7 +21,8 @@ The interface opens in English and is also available in Portuguese, Spanish and 
 only partly translated). The user manual is in English, and the program opens it.
 
 The other editions use the same engine and the same version number; see
-[`editions.md`](editions.md) for what differs. Version 0.1.0 is a beta.
+[`editions.md`](editions.md) for what differs. Version 0.2.0 is a beta; what changed from 0.1.0 is in
+[`../NOTAS_DE_LANCAMENTO_0.2.0.md`](../NOTAS_DE_LANCAMENTO_0.2.0.md).
 
 ---
 
@@ -35,7 +37,8 @@ The other editions use the same engine and the same version number; see
 | **Water quality** | use classes, a screening treatment train, and the operating cost and energy of disinfection |
 | **Economics** | parametric CAPEX, progressive water and sewer tariffs, electricity tariffs, OPEX, NPV, IRR, simple and discounted payback |
 | **Carbon** | screening life-cycle assessment: embodied carbon, operational carbon of pumping and treatment, and the credit of mains water avoided (needs emission factors that you enter) |
-| **Decision** | TOPSIS and SMAA-VIKOR over the candidate capacities, and placement against LEED v4/v4.1, LEED v5, EDGE and GRI 303 |
+| **Weight of the system** | dry mass, water load and operating load (kg and kN) at the lower level, on the roof and in the risers, with attention thresholds of the program, not of any standard |
+| **Decision** | TOPSIS, VIKOR, PROMETHEE II and SMAA-VIKOR over the candidate capacities, with eight criteria in four dimensions and declared weights; placement against LEED v4/v4.1, LEED v5, EDGE and GRI 303 |
 | **Piping in 3D** | pipe runs from component connection points, with gravity slopes and clash checks; DXF, glTF, interactive HTML and a BIM manifest |
 
 The technical, economic and environmental optima do not in general coincide. Triton computes
@@ -56,9 +59,10 @@ all three on one sweep so that the divergence is visible.
 
 ## Installation
 
-There is no installer yet: the Windows installer is not published and is not signed. The release
-page will give its address and SHA-256 checksum when it exists (the DOI will be assigned when
-the release is published). Until then, run Triton from the source code.
+The Windows installer is published in the Zenodo record and is not code-signed. The installer of
+version 0.1.0 is in the record of DOI 10.5281/zenodo.23402916, with its SHA-256 in `SHA256SUMS.txt`;
+version 0.2.0 has no DOI of its own yet, and the DOI of all versions, 10.5281/zenodo.23402915,
+always resolves to the most recent one. You can also run Triton from the source code.
 
 Triton needs **Python 3.12 or later** and runs from source on Windows, Linux and macOS.
 
@@ -93,12 +97,13 @@ For the test suite, add `requirements-dev.txt`. Full instructions are in
 
 ## Citing
 
-If you use Triton in academic work, cite it as declared in [`CITATION.cff`](../../CITATION.cff).
-The DOI will be assigned when the release is published.
+If you use Triton in academic work, cite it as declared in [`CITATION.cff`](../../CITATION.cff),
+with the version you used. The DOI of all versions is 10.5281/zenodo.23402915; version 0.1.0 has its
+own, 10.5281/zenodo.23402916.
 
 ## Contributing and support
 
-Send reports to the maintainers (sustainability@contato.ufsc.br). For a bug
+Send reports to the maintainers (igorcmvaz@gmail.com). For a bug
 report, attach the `.triton` project file and the precipitation series that reproduce it: the project
 file carries every premise.
 

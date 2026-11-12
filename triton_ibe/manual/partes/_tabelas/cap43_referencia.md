@@ -1,7 +1,7 @@
 <!-- tabela: Resultados no volume escolhido pelo estudo do tutorial: estudo determinístico e estatísticas das realizações (valores em €, ilustrativos, não são preços de mercado) -->
 | Grandeza | Estudo determinístico | Média | Desvio-padrão | CV (%) | P5 | P50 | P95 |
 | :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Poupança de água potável (%) | 24,3 | 23,8 | 4,5 | 18,9 | 16,5 | 23,7 | 31,5 |
-| VAL (€, ilustrativo, não é preço de mercado) | −4 798 | −5 123 | 1 456 | 28,4 | −7 486 | −5 143 | −2 778 |
-| Período de recuperação descontado (anos) | — | 13,8 | 0,0 | 0,0 | 13,8 | 13,8 | 13,8 |
-| Saldo de CO₂ no ciclo de vida (kg) | −838 | −838 | 1 | 0,1 | −839 | −838 | −836 |
+| Poupança de água potável (%) | 13,9 | 14,5 | 3,0 | 20,5 | 10,1 | 14,1 | 19,7 |
+| VAL (€, ilustrativo, não é preço de mercado) | −5 648 | −5 986 | 1 133 | 18,9 | −7 932 | −5 947 | −4 178 |
+| Período de recuperação descontado (anos) | — | — | — | — | — | — | — |
+| Saldo de CO₂ no ciclo de vida (kg) | −198 | −198 | 0 | 0,2 | −199 | −198 | −197 |

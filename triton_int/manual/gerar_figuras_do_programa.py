@@ -75,9 +75,11 @@ def _dados():
     return serie, varredura, unica
 
 
+#: Os rótulos dos oito critérios (ordem de ``CRITERION_KEYS``), os mesmos da interface em inglês.
 ROTULOS_DOS_CRITERIOS = (
-    "Maximum potential", "Minimum overflow", "Highest NPV", "Shortest discounted payback",
-    "Highest IRR", "Lowest end-of-life CO₂", "Lowest potable water use",
+    "Volumetric reliability", "Storage efficiency", "Net financial savings",
+    "Levelised cost of water (LCOW)", "Payback time", "Life-cycle CO₂",
+    "Dry mass of materials", "Annual overflow volume",
 )
 
 
@@ -109,32 +111,13 @@ def _gravar(widget, nome, proporcao=9.0 / 16.0, nota=None):
 
 def _candidatos(serie, material=MATERIAL,
                 volumes=(1000, 2000, 3000, 4000, 5000, 8000, 12000)):
-    from gerar_tabelas import _config_economica, _config_projeto
-    from triton.core.economic import run_economic_analysis
-    from triton.core.environmental import EnvironmentalConfig, calculate_lca
-    from triton.core.simulation import run_single_simulation
-    from triton.core.topsis import TopsisCandidate
+    # A mesma montagem das tabelas do capítulo 12 (``candidato_dos_resultados`` do programa).
+    # A série é a do tutorial, a mesma de ``_dados``.
+    from gerar_tabelas import candidatos_multicriterio
 
-    cfg_sim = _config_projeto()
-    cands, economico = [], []
-    for v in volumes:
-        r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v),
-                                  **cfg_sim)
-        e = run_economic_analysis(_config_economica(v, material), r)
-        from gerar_tabelas import _config_ambiental
-        amb = _config_ambiental(r)
-        amb.lower_material_key = material
-        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v),
-            water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
-            capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct,
-            overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years,
-            irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+    cands, _, econs = candidatos_multicriterio(material, volumes)
+    economico = []
+    for v, e in zip(volumes, econs):
         economico.append({
             "volume_l": float(v), "vpl": e.vpl,
             "tir": e.tir_annual_pct or 0.0,
@@ -255,8 +238,8 @@ def main():
                    method="topsis")
     _gravar(g, "fig22_topsis.png")
 
-    # Os rótulos dos sete critérios vêm do núcleo em português e a tradução da interface não os cobre;
-    # no manual em inglês a figura leva a versão inglesa deles.
+    # Os rótulos dos oito critérios vêm do núcleo em português; no manual em inglês a figura leva
+    # os mesmos rótulos que a interface mostra em inglês.
     topsis.criterion_labels = ROTULOS_DOS_CRITERIOS
     g = TOPSISProximityChart()
     g.update_chart(topsis_result=topsis,

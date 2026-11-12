@@ -1,9 +1,9 @@
 <!-- tabela: Sensibilidade no volume escolhido: força e sentido da influência de cada variável sorteada sobre os resultados do tutorial -->
 | Variável | ρ com a poupança | ρ com o VAL | ρ com o saldo de CO₂ |
 | :--- | ---: | ---: | ---: |
-| Número de pessoas | −0,54 | 0,57 | −0,66 |
-| Fator do investimento | −0,07 | −0,54 | −0,04 |
-| Consumo per capita | −0,40 | 0,42 | −0,44 |
-| Fração não potável interior | 0,55 | 0,16 | −0,47 |
-| Fator das tarifas de água e saneamento | −0,01 | 0,15 | −0,03 |
-| Fator da chuva | 0,21 | 0,02 | −0,24 |
+| Fator do investimento | −0,07 | −0,74 | −0,05 |
+| Número de pessoas | −0,68 | 0,41 | −0,68 |
+| Consumo per capita | −0,46 | 0,33 | −0,46 |
+| Fração não potável interior | 0,43 | 0,14 | −0,48 |
+| Fator das tarifas de água e saneamento | −0,01 | 0,12 | −0,04 |
+| Fator da chuva | 0,18 | 0,00 | −0,19 |

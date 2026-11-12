@@ -246,17 +246,42 @@ This is a screening assessment. It is **not** an inventory compliant with ISO 14
 
 ## 8. Multi-criteria decision
 
-Seven criteria, four of benefit and three of cost:
+Since version 0.2.0 there are **eight criteria on four axes**, three of benefit and five
+of cost:
 
-| Criterion | Sense |
-| :--- | :--- |
-| potable water savings | benefit |
-| overflow | cost |
-| net present value | benefit |
-| discounted payback | cost |
-| internal rate of return | benefit |
-| life-cycle CO₂ | cost |
-| potable water consumed | cost |
+| Axis | Criterion | Sense | Definition in the software |
+| :--- | :--- | :--- | :--- |
+| technical | volumetric reliability | benefit | rainwater consumed ÷ rainwater demand (non-potable use plus irrigation), in % |
+| technical | storage efficiency | benefit | rainwater delivered per day ÷ lower-tank capacity, in % (annual turnover ÷ 365); it falls with capacity and curbs oversizing |
+| economic | net financial savings | benefit | the system NPV against the no-tank baseline |
+| economic | levelised cost of water (LCOW) | cost | (investment + Σ discounted annual running costs: energy, O&M, chlorine, treatment line) ÷ Σ discounted rainwater delivered, at the project rate and horizon, per m³ in the project currency; the no-tank option takes the worst observed LCOW + 10% |
+| economic | discounted payback | cost | an option that never pays back takes the worst observed payback + 10% (at least one more year, and at least 20 years) |
+| environmental | life-cycle CO₂e | cost | net CO₂e at the end of the service life (negative = avoided) |
+| structural | dry mass of the system | cost | dry mass of tanks, pipes, pump and fittings, from the system-weight calculator |
+| structural | annual overflow | cost | overflow volume per year, in m³ |
+
+> Up to 0.1.0 there were seven criteria on three axes: potable water savings and overflow;
+> NPV, discounted payback and IRR; life-cycle CO₂ and potable water consumed. Savings,
+> overflow and potable consumption measured the same saved water. The eight-criterion model
+> reduces that collinearity and brings the weight of the system into the decision.
+
+**Weights.** Four axis weights (technical, economic, environmental, structural; 25% each by
+default) are split within each axis by the *criterion shares* (default: equal shares):
+`w_j = W_e × p_j / Σ p_k`, with `k` running over the criteria of axis `e`. Eight direct
+weights are used as given, normalised by their sum. Three weights (projects and studies up to
+0.1.0) give the structural axis the mean of the three, so equal weights stay equal; seven
+values are refused. VIKOR, PROMETHEE II and TOPSIS use the same rule; SMAA-VIKOR samples eight
+weights on the simplex and reports the central weights aggregated on the four axes. On the
+command line, `--weights` and `--criterion-shares`; in the project file,
+`analysis.topsis_weights` and `analysis.topsis_criterion_shares`; in a declarative study,
+`analise.pesos` and `analise.partes_no_eixo`.
+
+**System weight.** `triton analyze --analysis system_weight` (or `all`) reports the dry
+mass, the water load and the operating load (kg and kN) at three positions: lower level,
+roof or upper level, and risers and pipework. Four alerts ask for confirmation with the
+structural or foundation design: more than 500 kg on the roof with the tank full, an upper
+tank above 1,500 L, a lower tank above 3,000 kg dry, and a concrete lower tank. These are the
+software's own attention thresholds, not limits from any standard.
 
 To admit negative values without a conditional correction, each column is translated by
 its worst observed value, `z_ij = x_ij − min(x_j)`, then vector-normalised,
@@ -287,7 +312,7 @@ proximity_ij = 1 − gap_ij
 ```
 
 so that 100% is the best result observed on that criterion and 0% the worst. This
-separates a winner that is close to all three optima from a compromise that loses heavily
+separates a winner that is close to every optimum from a compromise that loses heavily
 on one axis. TOPSIS is sensitive to the weights and to the set of alternatives; use the
 sensitivity analysis, and do not read the ranking as physical truth.
 

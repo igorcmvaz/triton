@@ -7,8 +7,8 @@
 
 **Triton** sizes rainwater harvesting systems for buildings. It runs a daily water balance
 over a precipitation series, sweeps a grid of tank capacities and reports what each capacity
-delivers in potable water saved, money and life-cycle carbon. It then ranks the candidates by
-multi-criteria decision analysis (TOPSIS and SMAA-VIKOR).
+delivers in potable water saved, money, life-cycle carbon and system weight. It then ranks the
+candidates by multi-criteria decision analysis (TOPSIS and SMAA-VIKOR) over eight criteria on four axes.
 
 It is developed by the Sustainable Environments Research Group (*Grupo de Pesquisa em Ambientes
 Sustentáveis*) at the Federal University of Santa Catarina (UFSC), and succeeds the Netuno programme (Netuno 4 is the reference of its validation).
@@ -27,7 +27,10 @@ on opening; the other interface languages are English, Spanish and Chinese (the 
 translated). This English documentation is a summary for reviewers and reusers.
 
 The other editions use the same engine and the same version number; see
-[`editions.md`](editions.md) for what differs. Version 0.1.0 is a beta.
+[`editions.md`](editions.md) for what differs. Version 0.2.0 is a beta. It replaces the seven-criterion,
+three-axis multi-criteria model of version 0.1.0 with eight criteria on four axes and adds the system-weight
+calculator; the volume the ranking selects can change (see the [release notes](../NOTAS_DE_LANCAMENTO_0.2.0.md),
+in European Portuguese). To reproduce a study made with 0.1.0, use 0.1.0.
 
 ---
 
@@ -42,7 +45,8 @@ The other editions use the same engine and the same version number; see
 | **Water quality** | use classes, a screening treatment train, and the operating cost and energy of disinfection |
 | **Economics** | parametric CAPEX, progressive water and sewer tariffs, electricity tariffs, OPEX, NPV, IRR, simple and discounted payback |
 | **Carbon** | screening life-cycle assessment: embodied carbon, operational carbon of pumping and treatment, and the credit of mains water avoided (needs emission factors that you enter) |
-| **Decision** | TOPSIS and SMAA-VIKOR over the candidate capacities, and placement against LEED v4/v4.1, LEED v5, EDGE and GRI 303 |
+| **System weight** | dry mass, water load and operating load (kg and kN) in the basement or lower level, on the roof or upper level and in the risers and network, with alerts when a load passes one of the programme's own attention thresholds (not a standard's) |
+| **Decision** | TOPSIS, VIKOR, SMAA-VIKOR and PROMETHEE II over the candidate capacities, on eight criteria in four axes: technical (volumetric reliability, storage efficiency), economic (net financial savings, levelised cost of water, discounted payback), environmental (life-cycle CO₂e) and structural (dry material mass, annual overflow); and placement against LEED v4/v4.1, LEED v5, EDGE and GRI 303 |
 | **Piping in 3D** | pipe runs from component connection points, with gravity slopes and clash checks; DXF, glTF, interactive HTML and a BIM manifest |
 
 The technical, economic and environmental optima do not in general coincide. Triton computes
@@ -66,9 +70,12 @@ all three on one sweep so that the divergence is visible.
 
 ## Installation
 
-The Windows installer (`Triton_Iberica_Setup_v0.1.0.exe`) is in the Zenodo record, DOI
-[10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916), with its SHA-256 checksum in
-`SHA256SUMS.txt`. It is not code-signed. It needs no Python. To run from the source code:
+The Zenodo records are gathered under the all-versions DOI
+[10.5281/zenodo.23402915](https://doi.org/10.5281/zenodo.23402915), which always resolves to the latest
+version. The Windows installer of version 0.1.0 (`Triton_Iberica_Setup_v0.1.0.exe`) is in the 0.1.0 record,
+DOI [10.5281/zenodo.23402916](https://doi.org/10.5281/zenodo.23402916), with its SHA-256 checksum in
+`SHA256SUMS.txt`; version 0.2.0 has no record of its own yet. The installer is not code-signed and needs no
+Python. To run from the source code:
 
 Triton needs **Python 3.12 or later** and runs from source on Windows, Linux and macOS.
 
@@ -103,12 +110,13 @@ For the test suite, add `requirements-dev.txt`. Full instructions are in
 
 ## Citing
 
-If you use Triton in academic work, cite it as declared in [`CITATION.cff`](../../CITATION.cff)
-(DOI 10.5281/zenodo.23402916).
+If you use Triton in academic work, cite it as declared in [`CITATION.cff`](../../CITATION.cff), with
+the version you used and the all-versions DOI 10.5281/zenodo.23402915, which always resolves to the latest
+version (0.2.0 has no DOI of its own yet; 0.1.0 is 10.5281/zenodo.23402916).
 
 ## Contributing and support
 
-Send reports to the maintainers (sustainability@contato.ufsc.br). For a bug
+Send reports to the maintainers (igorcmvaz@gmail.com). For a bug
 report, attach the `.triton` project file and the precipitation series that reproduce it: the project
 file carries every premise.
 

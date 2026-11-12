@@ -23,6 +23,6 @@ If you find an error, have questions about use, or wish to suggest
 improvements, contact the technical lead directly:
 
   - Contact: Igor Catão
-  - E-mail:  igor.catao@posgrad.ufsc.br
+  - E-mail:  igorcmvaz@gmail.com
 
 Click "Next" to continue with the installation.

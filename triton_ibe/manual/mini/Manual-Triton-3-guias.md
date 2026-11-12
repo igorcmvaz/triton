@@ -36,7 +36,7 @@ volume, o nome do volume vem entre parênteses.
 ### Como citar
 
 > VAZ, Igor Catão Martins; GHISI, Enedir. **Triton: manual do utilizador**.
-> Guias de uso. Versão 0.1.0. Universidade Federal de Santa
+> Guias de uso. Versão 0.2.0. Universidade Federal de Santa
 > Catarina, 2026.
 
 ---
@@ -1030,9 +1030,12 @@ A etapa **8. Decisão Multicritério** mostra, numa só tabela, cada volume da v
 - o carbono líquido no fim da vida útil e o retorno ambiental;
 - a pontuação TOPSIS e a aceitabilidade SMAA-VIKOR.
 
-É a forma mais densa de comparar alternativas que o programa oferece: dez colunas de resposta
-para cada linha de volume. O **perfil de decisão** troca os pesos das dimensões e reordena a
-tabela no momento. A secção 2.10 (volume O método) explica os métodos por trás.
+É a forma mais densa de comparar alternativas que o programa oferece. O **perfil de decisão**
+troca os quatro pesos de eixo — técnico, económico, ambiental e estrutural — e reordena a tabela
+no momento: «Equilibrado» dá 25% a cada eixo, e cada «Priorizar …» dá 70% a um eixo e 10% a cada
+um dos outros. A linha **Partes no eixo** reparte o peso de cada eixo pelos seus critérios, com o
+botão «Partes iguais» para voltar ao padrão. A secção 2.10 (volume O método) explica os oito critérios e os
+métodos por trás.
 
 ---
 
@@ -1117,7 +1120,7 @@ documenta os pressupostos alterados.
 | :--- | :--- |
 | `validate` | confere a estrutura do projeto, a série de chuva e os pressupostos essenciais, sem simular |
 | `run` | simula o projeto; por omissão, apenas a análise técnica |
-| `analyze` | executa a cadeia completa: técnica, económica, ambiental e TOPSIS |
+| `analyze` | executa a cadeia completa: técnica, económica, ambiental, peso do sistema e TOPSIS |
 | `econ` | executa a análise económica |
 | `init` | cria um projeto `.triton` modelo, editável, com a série de chuva referenciada ou incorporada |
 | `init-catalog` | cria um catálogo JSON modelo de pressupostos de edifício ou de climas |
@@ -1130,13 +1133,22 @@ documenta os pressupostos alterados.
 | `estudo` | organiza, roda e relata estudos em lote por JSON (`estudo.json`): vários edifícios por tipologia, com tabelas para artigos |
 
 Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise
-(`technical`, `economic`, `environmental`, `topsis` ou `all`); `--volume` fixa o volume do
+(`technical`, `economic`, `environmental`, `system_weight`, `topsis` ou `all`); `--volume` fixa o volume do
 reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto;
-`--set CAMPO=VALOR` altera um campo do projeto e pode repetir-se; `--weights` informa os pesos
-técnico, económico e ambiental do TOPSIS; `--weight-sensitivity N` sorteia N vetores de pesos e
-indica a frequência com que cada volume vence; `--format` e `--output` definem o formato e o
-ficheiro de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja
-reprodutível.
+`--set CAMPO=VALOR` altera um campo do projeto e pode repetir-se; `--weights` informa os quatro
+pesos de eixo do multicritério, pela ordem técnico, económico, ambiental e estrutural (ou oito
+pesos, um por critério; três, de projetos anteriores à 0.2.0, ainda são aceites, com o eixo
+estrutural na média dos três); `--criterion-shares` informa as oito partes no eixo (por omissão,
+`1,1,1,1,1,1,1,1`); `--weight-sensitivity N` sorteia N vetores de pesos e indica a frequência com
+que cada volume vence; `--format` e `--output` definem o formato e o ficheiro de saída; e `--seed`
+fixa a semente das análises estocásticas, para que o resultado seja reprodutível. Sete valores em
+`--weights` ou em `--criterion-shares` são recusados: eram do modelo de sete critérios.
+
+`--analysis all` traz também o **peso do sistema** (`system_weight`): a massa a seco, a carga de
+água e a carga em operação, em quilogramas e em quilonewtons, no subsolo, na cobertura e nas
+prumadas e rede, com os alertas da secção 2.10 (volume O método); `--analysis system_weight` corre a cadeia até ao peso do sistema, sem o TOPSIS.
+Os mesmos números saem no HTML, no XLSX (folha `system_weight`, com o resumo do volume escolhido;
+os valores de cada volume ficam na folha `alternatives`) e no texto do terminal.
 
 Aplicados ao projeto da varredura do tutorial, `validate` e `run` ficam assim (a linha de comandos
 imprime a confirmação no idioma da interface do programa):
@@ -1360,8 +1372,8 @@ respeito à decisão final do estudo: a escolha do volume em função dos pesos 
 critérios.
 
 Na etapa **8. Decisão Multicritério**, a coluna de **aceitabilidade SMAA-VIKOR** é já uma análise
-de sensibilidade pronta. Responde: se os pesos das dimensões fossem sorteados em vez de fixados,
-com que frequência ficaria cada volume em primeiro lugar?
+de sensibilidade pronta. Responde: se os oito pesos dos critérios fossem sorteados em vez de
+fixados, com que frequência ficaria cada volume em primeiro lugar?
 
 Leia-a assim:
 
@@ -1375,8 +1387,8 @@ Leia-a assim:
 A distinção que esta coluna permite é de natureza epistemológica, e não apenas estatística: um
 volume que vence em 80% dos sorteios de pesos constitui uma recomendação, ao passo que um volume
 que vence em 30% constitui uma preferência do analista, legítima desde que apresentada como tal.
-No tutorial de Lisboa, o volume vencedor, 5 000 L, tem uma aceitabilidade de 34,8%, com 8 000 L
-em segundo, com 30,1%, e 4 000 L em terceiro, com 15,0%: abaixo de 40%, a escolha depende dos
+No tutorial de Lisboa, o volume mais aceite, 5 000 L, vence em 22,2% dos sorteios, com 3 000 L
+em segundo, com 22,0%, e 2 000 L em terceiro, com 19,3%: abaixo de 40%, a escolha depende dos
 pesos, e o texto tem de o dizer. A secção 2.10 (volume O método) expõe o método que produz este número.
 
 ---
@@ -2258,7 +2270,7 @@ Usado por `triton estudo` (capítulo «Comparar muitos casos de uma vez»). Esqu
 | `padroes` | `substituicoes` e `clima` aplicados a todos os casos; o que o caso declara vence o padrão |
 | `casos` | lista; cada caso tem `id`, `nome`, `grupo` (por padrão, a tipologia), `projeto` (outro `.triton` para este caso), `clima` e `substituicoes` |
 | `clima` | `arquivo` (série diária de chuva, CSV), `data_inicio` (dd/mm/aaaa), `nome` e `fonte` (rótulos que vão para a procedência) |
-| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis` ou um volume em litros), `pesos` (TOPSIS) e `semente` |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis`, `smaa_vikor` ou um volume em litros), `pesos` (quatro de eixo — técnico, económico, ambiental, estrutural — ou oito de critério; três, de estudos anteriores à 0.2.0, ainda aceites), `partes_no_eixo` (oito valores) e `semente` |
 | `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (um inteiro ou uma por métrica), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar`, `legenda` e `orientacao` (`casos_nas_linhas` ou `metricas_nas_linhas`) |
 
 Chaves que começam por `_` são comentários e o programa as ignora. Campo vazio, `null` ou «XX» é «a preencher»: a validação o recusa e diz onde está. Uma chave desconhecida é erro, com a sugestão da mais parecida. `triton estudo esquema` imprime o JSON Schema do ficheiro, para completar e conferir no editor.
@@ -2466,6 +2478,10 @@ de entrada, desinfeção e filtro de polimento.
 internacional que padronizou os índices de extremos climáticos, dos quais o programa
 calcula oito.
 
+**Eficiência de armazenamento** (*storage efficiency*). Água de chuva entregue por dia
+dividida pelo volume da cisterna inferior, em %: a renovação diária do volume construído. Cai
+com o volume e trava o sobredimensionamento. Não é a ocupação média da cisterna.
+
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
 
@@ -2505,9 +2521,9 @@ cada fluxo e revisão crítica externa, requisitos que uma avaliação de triage
 por pessoas e por programas. É o formato interno do ficheiro `.triton`.
 
 **LCOW** (*levelized cost of water*). Custo nivelado da água: razão entre o valor presente
-de todos os custos do ciclo de vida do sistema (CAPEX, substituições, O&M, energia e
-produtos químicos) e o volume descontado de água pluvial consumida ao longo do horizonte
-de análise, em €/m³. Permite confrontar a viabilidade económica do sistema diretamente
+dos custos do sistema (o investimento e os custos de exploração: energia, manutenção,
+cloro e linha de tratamento) e o volume atualizado de água pluvial entregue ao longo do
+horizonte de análise, à mesma taxa, em €/m³. É um dos oito critérios do multicritério. Permite confrontar a viabilidade económica do sistema diretamente
 com a tarifa da entidade gestora.
 
 **LEED** (*leadership in energy and environmental design*). Referencial de certificação
@@ -2560,6 +2576,13 @@ Os PDFs acompanham o programa e abrem pela etapa 9. Documentação.
 carbono incorporado na fabricação do sistema.
 
 **Payback descontado**. Tempo para o fluxo de caixa descontado acumulado cruzar zero.
+
+**Partes no eixo**. A repartição do peso de um eixo do multicritério pelos seus critérios.
+Só a proporção dentro do eixo importa; por omissão, as partes são iguais.
+
+**Peso do sistema**. Massa a seco, carga de água e carga em operação do sistema, em kg e kN,
+no subsolo, na cobertura e nas prumadas e rede. Os alertas usam limiares de atenção do
+programa, e não de norma.
 
 **PB**. Preço-base, em €/m³, da fórmula exponencial `PB × Cⁿ`, em que `C` é o consumo do mês e
 `n` o expoente da tabela exponencial para esse consumo. É um dos seis regimes que o programa reconhece; os
@@ -2615,7 +2638,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos e devolve a probabilidade de cada alternativa vencer.
+pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
+vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
@@ -2627,7 +2651,8 @@ líquido.
 **taxa de atualização**. Taxa de atualização. A taxa de desconto adotada.
 
 **TOPSIS** (*technique for order of preference by similarity to ideal solution*).
-Método de ordenação multicritério de Hwang e Yoon.
+Método de ordenação multicritério de Hwang e Yoon. No programa, ordena os volumes por oito
+critérios em quatro eixos: técnico, económico, ambiental e estrutural.
 
 **TRH** (*taxa de recursos hídricos*). Taxa por m³ que acresce à fatura de água e de águas residuais. No tarifário do Porto, a TRH da água é devida à Agência Portuguesa do Ambiente (APA) e leva IVA; no de Lisboa, a TRH do saneamento acresce por m³ recolhido.
 

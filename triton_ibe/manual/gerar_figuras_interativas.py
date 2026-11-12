@@ -247,60 +247,47 @@ def cidades():
 VOLUMES_MCDM = (1000, 2000, 3000, 4000, 5000, 8000, 12000)
 MATERIAL_MCDM = "PEAD"
 
+#: Os oito critérios, na ordem de ``CRITERION_KEYS``, com os nomes curtos do separador de decisão.
 ROTULOS_DOS_CRITERIOS = (
-    "Maior potencial", "Menor extravasamento", "Maior VAL", "Menor período de recuperação",
-    "Maior TIR", "Menor emissão de CO₂e", "Menor consumo da rede",
+    "Fiabilidade volumétrica", "Eficiência de armazenamento", "Economia líquida (VAL)", "LCOW",
+    "Período de recuperação", "Emissões de CO₂e no ciclo de vida", "Massa a seco", "Extravasamento",
 )
+UNIDADES_DOS_CRITERIOS = ("%", "% ao dia", "€", "€/m³", "anos", "kg CO₂e", "kg", "m³/ano")
+CASAS_DOS_CRITERIOS = (1, 2, 0, 2, 1, 0, 0, 1)
 
 
 def _candidatos_mcdm():
-    """Os mesmos candidatos da figura do programa, com os sete critérios."""
-    from triton.core.economic import run_economic_analysis
-    from triton.core.environmental import calculate_lca
-    from triton.core.topsis import TopsisCandidate
-    serie = _serie()
-    cands = []
-    for v in VOLUMES_MCDM:
-        r = run_single_simulation(precip_data=serie, lower_tank_vol=float(v), **_config_projeto())
-        e = run_economic_analysis(_config_economica(v, MATERIAL_MCDM), r)
-        amb = _config_ambiental(r)
-        amb.lower_material_key = MATERIAL_MCDM
-        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
-            capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct,
-            overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years,
-            irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
-    return cands
+    """Os mesmos candidatos da figura do programa, com os oito critérios montados pelo programa."""
+    from gerar_tabelas import candidatos_multicriterio
+    return candidatos_multicriterio(VOLUMES_MCDM, MATERIAL_MCDM)
 
 
 def multicriterio():
-    """A matriz de decisão do TOPSIS; a pontuação sai do peso escolhido na página."""
+    """A matriz de decisão do TOPSIS; a pontuação sai dos pesos escolhidos na página."""
     from triton.core.topsis import (
         CRITERION_GROUPS, CRITERION_IS_BENEFIT, CRITERION_KEYS,
-        _decision_matrix, calculate_topsis_scores)
+        PARTES_IGUAIS_NO_EIXO, PARTES_NO_EIXO_PADRAO, _decision_matrix,
+        calculate_topsis_scores)
     cands = _candidatos_mcdm()
     matriz = _decision_matrix(cands)
+    # Quatro eixos a 25% e as partes no eixo do padrão (iguais): o que o programa mostra ao abrir.
     padrao = calculate_topsis_scores(cands, None)
+    iguais = calculate_topsis_scores(cands, None, PARTES_IGUAIS_NO_EIXO)
     return {
         "volumes": [int(c.lower_tank_vol) for c in cands],
         "criterios": [{"chave": k, "rotulo": r, "eixo": g, "beneficio": bool(b),
                        "unidade": u, "casas": d}
                       for k, r, g, b, u, d in zip(
                           CRITERION_KEYS, ROTULOS_DOS_CRITERIOS, CRITERION_GROUPS,
-                          CRITERION_IS_BENEFIT,
-                          ["%", "m³/ano", "€", "anos", "% a.a.", "kg CO₂e", "m³/ano"],
-                          [2, 1, 0, 1, 1, 0, 1])],
+                          CRITERION_IS_BENEFIT, UNIDADES_DOS_CRITERIOS, CASAS_DOS_CRITERIOS)],
         "matriz": [[_r(x, 4) for x in linha] for linha in matriz],
         "eixos": [("technical", "Técnico"), ("economic", "Económico"),
-                  ("environmental", "Ambiental")],
+                  ("environmental", "Ambiental"), ("structural", "Estrutural")],
         "capex": [_r(c.capex_brl) for c in cands],
         "sem_retorno": [c.discounted_payback_years is None for c in cands],
+        "partes_padrao": [float(x) for x in PARTES_NO_EIXO_PADRAO],
         "escores_padrao": [_r(x, 6) for x in padrao.scores],
+        "escores_iguais": [_r(x, 6) for x in iguais.scores],
         "material": MATERIAL_MCDM,
     }
 

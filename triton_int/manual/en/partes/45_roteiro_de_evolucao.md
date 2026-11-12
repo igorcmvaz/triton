@@ -5,7 +5,7 @@
 > would like to have.
 
 This section summarises the `ROADMAP.md` at the root of the Triton repository and reflects the state of the
-beta version 0.1.0. Nothing below the line «Stable» exists in this version: these are intentions of the research
+beta version 0.2.0. Nothing below the line «Stable» exists in this version: these are intentions of the research
 group, with no delivery date. When an item is implemented, it leaves this list and enters the version
 history, with a note on whether it changes the results of studies already done.
 
@@ -16,13 +16,15 @@ the economic parameters. The second is the program's own issue register, describ
 
 ---
 
-## What is already stable in 0.1.0
+## What is already stable in 0.2.0
 
 **Climate series.** Daily series supplied by the user, plus ERA5 example series for New York,
 London and Cape Town. **Tariffs.** Entered by the user, with progressive blocks, fixed charges,
 allowances and escalation. **Water balance.** Daily simulation by the Triton rule, with strict YAS, YBS and the Fewkes
 (2000b) parameter φ as options for a single tank. **Decision.** Multi-criteria by TOPSIS and by
-SMAA-VIKOR. **Uncertainty.** Probabilistic modulation of the assumptions (section «What probabilistic
+SMAA-VIKOR, with eight criteria in four dimensions (technical, economic, environmental and structural)
+and declared criterion shares. **Weight of the system.** Dry mass, water load and operating load by
+position, with attention thresholds of the program. **Uncertainty.** Probabilistic modulation of the assumptions (section «What probabilistic
 modulation is»). **Edition.** International.
 
 ---

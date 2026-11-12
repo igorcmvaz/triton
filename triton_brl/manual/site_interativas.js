@@ -769,16 +769,31 @@ function topsisEscores(matriz, pesos, beneficio, volumes) {
 FI["fig51_programa_topsis.png"] = {
   curto: "A decisão multicritério",
   pergunta: "Que volume o multicritério elege, e com que pesos?",
-  controles: "peso técnico · econômico · ambiental",
-  experimente: "Com os três eixos iguais, como o programa abre, vence a cisterna de 4.000 L. Leve o peso ambiental ao máximo e veja a escolha subir de volume; leve o econômico e ela desce. O critério que muda a decisão fica visível nas barras de proximidade.",
-  fonte: "Os sete critérios do programa, calculados para sete volumes candidatos com o projeto do tutorial e cisterna de polietileno. O escore é calculado na página pela mesma conta de triton/core/topsis.py, conferida contra o programa por teste automático.",
+  controles: "peso técnico · econômico · ambiental · estrutural · partes no eixo",
+  experimente: "Com os quatro eixos iguais, 25% cada, e partes iguais dentro de cada eixo, como o programa abre, vence a cisterna de 2.000 L, e a de 4.000 L do tutorial fica em terceiro. Leve o peso técnico ao máximo e a escolha desce para 1.000 L: no eixo técnico, a eficiência de armazenamento, que cai com o volume, pesa tanto quanto a confiabilidade, que sobe. Abra as partes no eixo e zere a da eficiência: com o técnico ainda no máximo, vence a de 5.000 L. Leve o estrutural ao máximo, com os pesos iguais nos outros eixos, e vence a de 4.000 L.",
+  fonte: "Os oito critérios do programa, em quatro eixos, calculados para sete volumes candidatos com o projeto do tutorial e cisterna de polietileno. O escore é calculado na página pela mesma conta de triton/core/topsis.py, conferida contra o programa por teste automático.",
   montar(p, D, id) {
-    let pesos = [1 / 3, 1 / 3, 1 / 3], sete = false, pc = null, sel = D.volumes.indexOf(4000);
-    const W = 640, EIXOS = D.eixos, benef = D.criterios.map(c => c.beneficio);
+    const EIXOS = D.eixos, NE = EIXOS.length, NC = D.criterios.length, benef = D.criterios.map(c => c.beneficio);
+    // Partes no eixo: o padrão do programa (iguais). O controle vai de 0 a 100, e 50 vale uma parte.
+    const PADRAO = (D.partes_padrao || D.criterios.map(() => 1)).slice();
+    let pesos = EIXOS.map(() => 1 / NE), partes = PADRAO.slice(), abertas = false, sel = -1;
+    const W = 640, HB = 60 + 26 * NC;
+    const COR = {technical: S(3), economic: S(2), environmental: S(4), structural: S(1)};
+    const eixoDe = j => EIXOS.findIndex(([k]) => k === D.criterios[j].eixo);
+    // Peso de cada critério: o peso do seu eixo repartido pelas partes no eixo (triton/core/topsis.py).
+    const pesosDosCriterios = () => {
+      const total = pesos.reduce((a, b) => a + b, 0);
+      return D.criterios.map((c, j) => {
+        const soma = D.criterios.reduce((a, cc, jj) => a + (cc.eixo === c.eixo ? partes[jj] : 0), 0);
+        return soma > 0 ? pesos[eixoDe(j)] / total * partes[j] / soma : 0;
+      });
+    };
+    const valor = (c, x) => c.unidade === "R$" ? reais(x) : c.unidade === "R$/m³" ? reais(x, 2) + "/m³" : menos(x, c.casas) + " " + c.unidade;
     const desenha = () => {
-      const w7 = sete ? pc.slice() : [pesos[0] / 2, pesos[0] / 2, pesos[1] / 3, pesos[1] / 3, pesos[1] / 3, pesos[2] / 2, pesos[2] / 2];
-      const Res = topsisEscores(D.matriz, w7, benef, D.volumes);
+      const w8 = pesosDosCriterios();
+      const Res = topsisEscores(D.matriz, w8, benef, D.volumes);
       const vencedor = Res.postos.indexOf(1);
+      if (sel < 0) sel = vencedor;
       const ey = escala(0, Math.max(...Res.escores) * 1.12, 4);
       const A = plano({W, H: 250, l: 58, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, ey.max], ym: ey.marcas,
         yf: v => fmt(v, 2), yr: "escore TOPSIS (1 = ideal)", painel: "(a)",
@@ -797,70 +812,69 @@ FI["fig51_programa_topsis.png"] = {
         i => dicaHTML(`${fmt(D.volumes[i])} L`, [[S(1), "escore", fmt(Res.escores[i], 4)], ["", "posição", `${Res.postos[i]}º`]]),
         i => { sel = i; desenha(); });
 
-      const B = plano({W, H: 250, l: 268, r: 60, t: 34, b: 36, x: [0, 1], y: [D.criterios.length - 0.4, -0.6],
+      const B = plano({W, H: HB, l: 268, r: 60, t: 34, b: 36, x: [0, 1], y: [NC - 0.4, -0.6],
         xm: [0, 0.25, 0.5, 0.75, 1], xf: v => fmt(v * 100) + "%", xr: "proximidade do ótimo observado", painel: "(b)"});
       let t = B.s;
       D.criterios.forEach((c, j) => {
         const v = Res.proximidade[sel][j], y = B.Y(j), h = 16;
         t += `<rect x="${B.X(0)}" y="${y - h / 2}" width="${B.X(1) - B.X(0)}" height="${h}" rx="3" style="fill:var(--grid)"/>`;
-        t += `<rect x="${B.X(0)}" y="${y - h / 2}" width="${Math.max(2, B.X(v) - B.X(0))}" height="${h}" rx="3" style="fill:${S(c.eixo === "technical" ? 3 : c.eixo === "economic" ? 2 : 4)}"/>`;
+        t += `<rect x="${B.X(0)}" y="${y - h / 2}" width="${Math.max(2, B.X(v) - B.X(0))}" height="${h}" rx="3" style="fill:${COR[c.eixo] || S(1)}"/>`;
         t += `<text class="g-t" x="${B.X(0) - 8}" y="${y + 4}" text-anchor="end">${c.rotulo} · peso ${fmt(Res.pesos[j] * 100, 1)}%</text>`;
         t += `<text class="g-t" x="${B.X(1) + 8}" y="${y + 4}">${fmt(v * 100, 0)}%</text>`;
       });
       p.querySelector(`#${id}h`).innerHTML = t;
 
-      EIXOS.forEach(([k], i) => { const o = p.querySelector(`#${id}${k}-o`); if (o) o.textContent = fmt(pesos[i] * 100, 0) + "%"; });
-      if (sete) D.criterios.forEach((c, j) => { const o = p.querySelector(`#${id}c${j}-o`); if (o) o.textContent = fmt(Res.pesos[j] * 100, 1) + "%"; });
+      const total = pesos.reduce((a, b) => a + b, 0);
+      EIXOS.forEach(([k], i) => { const o = p.querySelector(`#${id}${k}-o`); if (o) o.textContent = fmt(pesos[i] / total * 100, 0) + "%"; });
+      if (abertas) D.criterios.forEach((c, j) => { const o = p.querySelector(`#${id}c${j}-o`); if (o) o.textContent = "peso " + fmt(Res.pesos[j] * 100, 1) + "%"; });
       p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Eleito: ${fmt(D.volumes[vencedor])} L</p>
         <div class="fi-n">${cartao("Escore do eleito", fmt(Res.escores[vencedor], 3))}
         ${cartao("Em destaque", fmt(D.volumes[sel]) + " L", `${Res.postos[sel]}º lugar, escore ${fmt(Res.escores[sel], 3)}`)}</div>
-        <p class="fi-sub">Os sete critérios do volume em destaque</p>
+        <p class="fi-sub">Os oito critérios do volume em destaque</p>
         <table class="fi-tabela"><tbody>${D.criterios.map((c, j) => `<tr><td>${c.rotulo}<small>${c.beneficio ? "maior é melhor" : "menor é melhor"}</small></td>
-          <td class="n">${c.unidade === "R$" ? reais(D.matriz[sel][j]) : menos(D.matriz[sel][j], c.casas) + " " + c.unidade}</td></tr>`).join("")}</tbody></table>
-        <p class="fi-nota">O escore mede a distância a duas referências: a alternativa ideal, feita do melhor valor de cada critério, e a anti-ideal, feita do pior. ${D.sem_retorno.some(Boolean) ? "Os volumes que não se pagam no horizonte recebem a penalidade de retorno que o programa aplica, e não ficam de fora da conta. " : ""}Pesos iguais nos três eixos reproduzem o resultado do programa.</p>`;
+          <td class="n">${valor(c, D.matriz[sel][j])}</td></tr>`).join("")}</tbody></table>
+        <p class="fi-nota">O escore mede a distância a duas referências: a alternativa ideal, feita do melhor valor de cada critério, e a anti-ideal, feita do pior. ${D.sem_retorno.some(Boolean) ? "Os volumes que não se pagam no horizonte recebem a penalidade de retorno que o programa aplica, e não ficam de fora da conta. " : ""}O peso de cada eixo se reparte entre os seus critérios pelas partes no eixo; 25% em cada eixo, com partes iguais, reproduzem o resultado do programa. Dois eixos puxam em sentidos opostos por dentro: no técnico, a confiabilidade sobe com o volume e a eficiência de armazenamento cai; no estrutural, a massa a seco sobe e o extravasamento cai.</p>`;
     };
+    const ctlParte = j => ctlFaixa(id + "c" + j, "Parte: " + D.criterios[j].rotulo.toLowerCase(), 101, Math.round(partes[j] * 50));
     p.innerHTML = `<div class="fi-ctls">
       ${EIXOS.map(([k, r], i) => ctlFaixa(id + k, "Peso " + r.toLowerCase(), 101, Math.round(pesos[i] * 100))).join("")}
-      <div class="fi-ctl"><span class="fi-rot">&nbsp;</span><div class="linha-ctl"><button type="button" class="bt" id="${id}igual">Pesos iguais</button><button type="button" class="bt" id="${id}sete">Abrir nos sete critérios</button></div></div>
-    </div><div class="fi-ctls" id="${id}s7" hidden></div>
+      <div class="fi-ctl"><span class="fi-rot">&nbsp;</span><div class="linha-ctl"><button type="button" class="bt" id="${id}igual">Pesos iguais</button><button type="button" class="bt" id="${id}abrir">Abrir as partes no eixo</button><button type="button" class="bt" id="${id}piguais" hidden>Partes iguais</button></div></div>
+    </div><div class="fi-ctls" id="${id}s8" hidden></div>
     <div class="fi-corpo"><div>
       <svg id="${id}g" viewBox="0 0 ${W} 250" role="img" aria-label="Escore TOPSIS de cada volume candidato"></svg>
-      <svg id="${id}h" viewBox="0 0 ${W} 250" role="img" aria-label="Proximidade do volume em destaque ao ótimo observado em cada critério"></svg>
-      ${legenda([["var(--accent)", "(a) volume eleito"], ["var(--ink2)", "(a) contorno: volume em destaque"], [S(3), "(b) eixo técnico"], [S(2), "(b) eixo econômico"], [S(4), "(b) eixo ambiental"]])}
+      <svg id="${id}h" viewBox="0 0 ${W} ${HB}" role="img" aria-label="Proximidade do volume em destaque ao ótimo observado em cada critério"></svg>
+      ${legenda([["var(--accent)", "(a) volume eleito"], ["var(--ink2)", "(a) contorno: volume em destaque"], [S(3), "(b) eixo técnico"], [S(2), "(b) eixo econômico"], [S(4), "(b) eixo ambiental"], [S(1), "(b) eixo estrutural"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
-    const ajustar = () => {
-      const soma = pesos.reduce((a, b) => a + b, 0);
-      if (soma <= 0) pesos = [1 / 3, 1 / 3, 1 / 3];
-      else pesos = pesos.map(x => x / soma);
-    };
     EIXOS.forEach(([k], i) => p.querySelector(`#${id}${k}`).addEventListener("input", e => {
       pesos = pesos.map((x, j) => j === i ? +e.target.value / 100 : x);
       if (pesos.reduce((a, b) => a + b, 0) <= 0) pesos[i] = 0.01;
       desenha();
     }));
+    const marcarPartes = () => D.criterios.forEach((c, j) => { const e = p.querySelector(`#${id}c${j}`); if (e) e.value = Math.round(partes[j] * 50); });
     p.querySelector(`#${id}igual`).addEventListener("click", () => {
-      pesos = [1 / 3, 1 / 3, 1 / 3];
-      EIXOS.forEach(([k], i) => { p.querySelector(`#${id}${k}`).value = 33; });
-      if (sete) { pc = [1 / 6, 1 / 6, 1 / 9, 1 / 9, 1 / 9, 1 / 6, 1 / 6]; D.criterios.forEach((c, j) => { p.querySelector(`#${id}c${j}`).value = Math.round(pc[j] * 100); }); }
+      pesos = EIXOS.map(() => 1 / NE);
+      EIXOS.forEach(([k], i) => { p.querySelector(`#${id}${k}`).value = Math.round(100 / NE); });
       desenha();
     });
-    p.querySelector(`#${id}sete`).addEventListener("click", e => {
-      sete = !sete;
-      const caixa = p.querySelector(`#${id}s7`);
-      if (sete && !pc) pc = [1 / 6, 1 / 6, 1 / 9, 1 / 9, 1 / 9, 1 / 6, 1 / 6];
-      if (sete) {
-        caixa.innerHTML = D.criterios.map((c, j) => ctlFaixa(id + "c" + j, c.rotulo, 101, Math.round(pc[j] * 100))).join("");
+    p.querySelector(`#${id}piguais`).addEventListener("click", () => { partes = PADRAO.slice(); marcarPartes(); desenha(); });
+    p.querySelector(`#${id}abrir`).addEventListener("click", e => {
+      abertas = !abertas;
+      const caixa = p.querySelector(`#${id}s8`);
+      if (abertas) {
+        caixa.innerHTML = D.criterios.map((c, j) => ctlParte(j)).join("");
         D.criterios.forEach((c, j) => p.querySelector(`#${id}c${j}`).addEventListener("input", ev => {
-          pc[j] = +ev.target.value / 100;
-          if (pc.reduce((a, b) => a + b, 0) <= 0) pc[j] = 0.01;
+          partes[j] = +ev.target.value / 50;
+          // Como no programa, cada eixo precisa de ao menos um critério com parte maior que zero.
+          const soma = D.criterios.reduce((a, cc, jj) => a + (cc.eixo === c.eixo ? partes[jj] : 0), 0);
+          if (soma <= 0) { partes[j] = 0.02; ev.target.value = 1; }
           desenha();
         }));
       }
-      caixa.hidden = !sete;
-      e.target.textContent = sete ? "Voltar aos três eixos" : "Abrir nos sete critérios";
+      caixa.hidden = !abertas;
+      p.querySelector(`#${id}piguais`).hidden = !abertas;
+      e.target.textContent = abertas ? "Fechar as partes no eixo" : "Abrir as partes no eixo";
       desenha();
     });
-    ajustar();
     desenha();
   }
 };
@@ -871,7 +885,7 @@ FI["fig23_smaa.png"] = {
   pergunta: "E se ninguém souber dizer os pesos: que volume vence com mais frequência?",
   controles: "método de ranqueamento · estratégia do VIKOR",
   experimente: "Troque o VIKOR pelo TOPSIS e veja se o vencedor resiste à troca de método. Mova a estratégia do VIKOR do consenso (0,5) para o arrependimento mínimo (0) e observe qual volume ganha estabilidade.",
-  fonte: "SMAA do próprio programa: 5.000 sorteios de pesos numa distribuição de Dirichlet uniforme sobre os sete critérios, semente 42, com os mesmos sete candidatos da decisão multicritério.",
+  fonte: "SMAA do próprio programa: 5.000 sorteios de pesos numa distribuição de Dirichlet uniforme sobre os oito critérios, semente 42, com os mesmos sete candidatos da decisão multicritério.",
   montar(p, D, id) {
     let motor = D.padrao[0], v = D.padrao[1], sel = 3;
     const W = 640;

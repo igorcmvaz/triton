@@ -11,7 +11,8 @@ O Triton é uma aplicação desktop voltada a estudos de viabilidade e apoio ao 
 - Configuração de reservatório superior, motobomba, recalque, energia e OPEX.
 - Avaliação financeira com CAPEX, economia tarifária, VPL, TIR, payback simples e descontado e sensibilidade.
 - ACV simplificada: impactos incorporados, operação, emissões evitadas e balanço de CO2e.
-- TOPSIS para comparar alternativas pelos eixos técnico, econômico e ambiental.
+- TOPSIS para comparar alternativas em oito critérios e quatro eixos: técnico, econômico, ambiental e estrutural (massa a seco do sistema e extravasamento).
+- Peso do sistema: massa a seco, carga de água e carga em operação no subsolo, na cobertura e na rede, com alertas de atenção do programa (não de norma).
 - Gráficos interativos, exportação de figuras e relatórios em PDF/HTML.
 - Interface em Português (Brasil), Inglês (US), Espanhol e Chinês simplificado, com temas claro e escuro de alto contraste.
 
@@ -141,7 +142,7 @@ No Linux/macOS, ative o ambiente com `source .venv/bin/activate`.
 | --- | --- | --- |
 | Aplicação desktop | `python main.py` | Fluxo completo de simulação, análise e relatórios |
 | Linha de comando | `python -m triton.cli run <projeto.csv>` | Simulação técnica compatível com o fluxo legado |
-| Linha de comando completa | `python -m triton.cli analyze <projeto.csv> --analysis all` | Cadeia técnica, econômica, ambiental e TOPSIS |
+| Linha de comando completa | `python -m triton.cli analyze <projeto.csv> --analysis all` | Cadeia técnica, econômica, ambiental, peso do sistema e TOPSIS |
 
 ### Janela, navegador e implantação
 
