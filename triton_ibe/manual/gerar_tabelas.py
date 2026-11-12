@@ -1132,6 +1132,14 @@ def _eur2(v):
     return eur(v, 2)
 
 
+def _descricao_da_base_de_custos(base):
+    """O que a base de custos interna traz: só a estrutura (edição neutra) ou preços de origem brasileira."""
+    moeda = (base.get("_metadata") or {}).get("currency") or ""
+    if not moeda:
+        return "só a estrutura, sem preços nem moeda; não é usada nesta edição"
+    return f"valores em {'reais' if moeda == 'BRL' else moeda}, de origem brasileira; não são usados nesta edição"
+
+
 def tabela_custos_estado():
     """O que um projeto novo da edição traz preenchido, e o que fica a zero."""
     import json
@@ -1156,7 +1164,7 @@ def tabela_custos_estado():
          f"| orçamento automático do arranjo 3D | {sim_nao(cfg.capex_do_arranjo)} | os preços das peças são em reais, de origem brasileira |",
          f"| mão de obra automática | {sim_nao(cfg.mao_de_obra_automatica)} | idem |",
          f"| preços de catálogo (reservatórios, tratamento) | {sim_nao(cfg.precos_de_catalogo)} | a linha de tratamento é dimensionada, mas não custa nada |",
-         f"| base de custos interna (`costs_database.json`) | {len(base['regional_factors_by_uf'])} fatores regionais | valores em {'reais' if base['_metadata']['currency'] == 'BRL' else base['_metadata']['currency']}, de origem brasileira; não são usados nesta edição |",
+         f"| base de custos interna (`costs_database.json`) | {len(base['regional_factors_by_uf'])} fatores regionais | {_descricao_da_base_de_custos(base)} |",
          f"| dose de cloro e pureza da pastilha | {n(cfg.chlorine_dose_mg_l, 1)} mg/L e {n(cfg.chlorine_product_purity * 100, 0)}% | parâmetros técnicos, não são preços |",
          f"| tarifário de água, saneamento e resíduos | {cfg.tariff_city_name}, desde {cfg.tariff_vigencia} | **inserido automaticamente**; transcrito dos documentos de 2026 |",
          f"| taxa de atualização | {n(cfg.tma, 1)}% ao mês | valor genérico do núcleo, não é dado de Portugal |",
