@@ -1,6 +1,6 @@
 # Dados da Edição Ibérica (IBE): o que existe, de onde vem e quanto confiar
 
-Versão 0.1.0, 05/11/2026 (secções ibéricas atualizadas em 30/10/2026). Este documento descreve cada conjunto de dados da edição: o que é, a fonte (URL e data), a licença, a cobertura, a resolução, o período, o tratamento de falhas, o nível de qualidade, o tamanho, como o programa o carrega e como o reproduzir. Todo o número vem de um ficheiro (citado); onde a informação não existe no repositório, o texto diz «não verificado».
+Versão 0.2.0, 11/11/2026 (os conjuntos de dados são os mesmos da 0.1.0; secções ibéricas atualizadas em 30/10/2026). Este documento descreve cada conjunto de dados da edição: o que é, a fonte (URL e data), a licença, a cobertura, a resolução, o período, o tratamento de falhas, o nível de qualidade, o tamanho, como o programa o carrega e como o reproduzir. Todo o número vem de um ficheiro (citado); onde a informação não existe no repositório, o texto diz «não verificado».
 
 Tamanhos em MiB (1 MiB = 1 048 576 bytes, a unidade do aviso de 50 MB do GitHub). **Regra do projeto: nenhum ficheiro rastreado passa de 50 MiB.** O script `scripts/verificar_tamanhos.py` (na raiz do repositório) falha se isso acontecer, e a verificação do GitHub corre-o a cada envio. O maior ficheiro de dados desta edição é `data/chuva_iberia01_p1.db`, com 15,19 MiB (cada parte do Iberia01 tem menos de 43 MiB).
 
@@ -246,7 +246,7 @@ Fonte da camada 3: INE, *Encuesta sobre el suministro y saneamiento del agua* 20
 - Tabela `qualidade`: separada em 30/10/2026 (`data/qualidade_eobs_odbl.db`, ODbL; §9.2).
 - Confirmar a ODbL no registo do DIGITAL.CSIC com um navegador; confirmar a licença do rodapé do INE (CC BY-SA ou CC BY); confirmar os termos de uso do LAU do Eurostat; perguntas à ACA (tarifas da Catalunha) e à AEMET.
 - Camada 1 de Espanha: segunda leitura humana dos 7 registos e mais municípios; mais concelhos de Portugal: transcrição manual (§4A).
-- Ilhas: a ERA5 é mais grosseira que a ERA5-Land prevista; correção por estação fica para a 0.2.0.
+- Ilhas: a ERA5 é mais grosseira que a ERA5-Land prevista; correção por estação fica para uma versão seguinte (não entrou na 0.2.0).
 - `data/rainfall/LEIA.md`, sobre os exemplos, ainda cita o Funchal como exemplo ERA5, enquanto a decisão para as ilhas é série da estação.
 - Textos do manual e do aviso da E-OBS a rever antes da primeira distribuição.
 - Termos de reutilização dos sítios das entidades dos tarifários: ver §4 (Porto sem termos encontrados; as restantes não verificadas).

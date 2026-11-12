@@ -1,6 +1,6 @@
 # Dados da Edição Brasil (BRL): o que há, de onde vem e quanto confiar
 
-Versão 0.1.0, 05/11/2026. Este documento descreve cada conjunto de dados da edição: o que é, a fonte (URL e data), a licença, a cobertura, a resolução, o período, o tratamento de falhas, o nível de qualidade, o tamanho, como o programa o carrega e como reproduzi-lo. Todo número vem de um arquivo do repositório (os arquivos estão citados); onde a informação não existe no repositório, o texto diz «não verificado».
+Versão 0.2.0, 11/11/2026 (os conjuntos de dados são os mesmos da 0.1.0). Este documento descreve cada conjunto de dados da edição: o que é, a fonte (URL e data), a licença, a cobertura, a resolução, o período, o tratamento de falhas, o nível de qualidade, o tamanho, como o programa o carrega e como reproduzi-lo. Todo número vem de um arquivo do repositório (os arquivos estão citados); onde a informação não existe no repositório, o texto diz «não verificado».
 
 Tamanhos em MiB (1 MiB = 1.048.576 bytes, a unidade do aviso de 50 MB do GitHub). **Regra do projeto: nenhum arquivo rastreado passa de 50 MiB.** O script `scripts/verificar_tamanhos.py` (na raiz do repositório) falha se isso acontecer e a verificação do GitHub o roda a cada envio. O maior arquivo da edição é `data/climbra_KACE.db`, com 43,02 MiB.
 

@@ -1,6 +1,6 @@
 # Data in the International Edition (INT): what it carries, where it comes from and what to supply
 
-Version 0.1.0, 05/11/2026. This document describes every dataset that ships with the edition: what it is, its source (URL and date), licence, coverage, resolution, period, treatment of gaps, quality, size, how the program loads it and how to reproduce it. Every figure was read from a file of the repository; where the repository holds no information, the text says "not verified".
+Version 0.2.0, 11/11/2026 (the datasets are the same as in 0.1.0). This document describes every dataset that ships with the edition: what it is, its source (URL and date), licence, coverage, resolution, period, treatment of gaps, quality, size, how the program loads it and how to reproduce it. Every figure was read from a file of the repository; where the repository holds no information, the text says "not verified".
 
 Sizes are in MiB (1 MiB = 1,048,576 bytes, the unit of GitHub's 50 MB warning). **Project rule: no tracked file exceeds 50 MiB.** `scripts/verificar_tamanhos.py` (at the repository root) fails if one does, and the GitHub check runs it on every push. The largest data file of this edition is 0.04 MiB.
 
