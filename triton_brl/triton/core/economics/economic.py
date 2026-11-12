@@ -153,6 +153,8 @@ class EconomicAnalysisResult:
     annual_iptu_savings_brl: float = 0.0
     annual_chlorine_kg: float = 0.0
     monthly_cash_flows: List[MonthlyCashFlowItem] = field(default_factory=list)
+    # Custo nivelado da água de chuva, na moeda do projeto por m³; None sem água entregue.
+    lcow_per_m3: Optional[float] = None
 
 
 def calculate_water_bill(
@@ -516,7 +518,11 @@ def run_economic_analysis(
     cash_flows: List[MonthlyCashFlowItem] = []
     cumulative_disc = -capex
     payback_month: Optional[int] = None
-    
+    # Custo nivelado da água de chuva (LCOW): custos descontados (CAPEX + energia,
+    # O&M, cloro e ETAP) sobre o volume de chuva entregue, descontado à mesma taxa.
+    pv_costs = capex
+    pv_water_m3 = 0.0
+
     net_cf_list = [-capex]
     
     w_esc = getattr(config, 'water_tariff_escalation', 5.0)
@@ -601,6 +607,9 @@ def run_economic_analysis(
         net_s = w_savings - p_cost - om_cost - cl2_cost - etap_cost + iptu_s
         disc_net_s = net_s / ((1.0 + tma_monthly) ** m)
         cumulative_disc += disc_net_s
+        fator_m = 1.0 / ((1.0 + tma_monthly) ** m)
+        pv_costs += (p_cost + om_cost + cl2_cost + etap_cost) * fator_m
+        pv_water_m3 += vol_pluv_m3_month * fator_m
         
         if payback_month is None and cumulative_disc >= 0:
             payback_month = m
@@ -653,6 +662,7 @@ def run_economic_analysis(
         annual_etap_opex_brl=annual_etap_opex,
         etap_disinfection_method=etap.metodo,
         etap_disinfection_stages=etap.estagios,
+        lcow_per_m3=(pv_costs / pv_water_m3) if pv_water_m3 > 1e-9 else None,
     )
 
 
@@ -774,6 +784,22 @@ class RobustEconomicAnalysisResult:
     annual_chlorine_cost_brl: float = 0.0
     annual_iptu_savings_brl: float = 0.0
     annual_cash_flows: List[AnnualCashFlowItem] = field(default_factory=list)
+
+    @property
+    def lcow_per_m3(self) -> Optional[float]:
+        """Custo nivelado da água de chuva, na moeda do projeto por m³.
+
+        Investimento mais o custeio de cada ano (energia, O&M e cloro), descontados,
+        sobre a água entregue em cada ano, descontada à mesma taxa. ``None`` sem água.
+        """
+        custos = float(self.total_investment)
+        agua = 0.0
+        for cf in self.annual_cash_flows:
+            if cf.year <= 0:
+                continue
+            custos += (cf.pump_energy_cost_brl + cf.om_cost_brl + cf.chlorine_cost_brl) * cf.discount_factor
+            agua += cf.water_saved_m3 * cf.discount_factor
+        return custos / agua if agua > 1e-9 else None
 
 
 def run_robust_economic_analysis(

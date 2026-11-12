@@ -18,6 +18,7 @@ from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
 
 from triton.core.dados_do_relatorio import planilha_de_exportacao, simbolo_da_moeda
+from triton import marca as _marca
 
 
 def _safe_float(val: Any, default: float = 0.0) -> float:
@@ -173,7 +174,7 @@ def export_simulation_to_excel(
     if selected_sheets.get("resumo", True):
         ws = wb.create_sheet(title="1_Resumo_Projeto")
         ws.merge_cells("A1:D1")
-        ws["A1"] = "TRITON — RESUMO DO ESTUDO"
+        ws["A1"] = _marca.aplicar("TRITON — RESUMO DO ESTUDO")
         ws["A1"].font = Font(name="Segoe UI", size=14, bold=True, color="FFFFFF")
         ws["A1"].fill = PatternFill(start_color="064E3B", end_color="064E3B", fill_type="solid")
         ws["A1"].alignment = Alignment(horizontal="center", vertical="center")

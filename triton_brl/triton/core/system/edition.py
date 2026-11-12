@@ -22,6 +22,8 @@ import os
 import re
 from pathlib import Path
 
+from triton import marca as _marca
+
 EDITION_BRL = "BRL"
 EDITION_INT = "INT"
 EDITION_IBE = "IBE"
@@ -133,9 +135,9 @@ def usa_dados_de_portugal() -> bool:
     return is_ibe_edition()
 
 
-#: O manual completo em cada língua, relativo à raiz do programa.
-MANUAL_PT = "manual/Manual-Triton.pdf"
-MANUAL_EN = "manual/en/Triton-User-Manual.pdf"
+#: O manual completo em cada língua, relativo à raiz do programa (os nomes ficam em ``triton/marca.py``).
+MANUAL_PT = _marca.MANUAL_COMPLETO_PT
+MANUAL_EN = _marca.MANUAL_COMPLETO_EN
 
 
 def manual_do_usuario(idioma: str = "") -> str:
@@ -288,7 +290,12 @@ def get_edition_title() -> str:
                 titulo += f" — {_q.linha_de_cobertura()}"
         except Exception:
             pass
-    return titulo
+    return _marca.aplicar(titulo)
+
+
+def nome_da_aplicacao() -> str:
+    """Nome da aplicação Qt (``setApplicationName``): o nome do programa e a edição, «Triton (INT)»."""
+    return f"{_marca.NOME} ({rotulo_da_edicao(curto=True)})"
 
 
 #: Na Edição Ibérica a moeda oficial é o euro; na Internacional não há moeda predefinida (decisão U-21).

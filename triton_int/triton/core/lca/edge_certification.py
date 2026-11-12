@@ -44,6 +44,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import List, Optional
 
+from triton import marca as _marca
+
 # ── limiares, conforme o processo publicado ───────────────────────────────────
 LIMIAR_DE_AGUA_PCT = 20.0
 LIMIAR_DE_ENERGIA_PCT = 20.0
@@ -82,13 +84,13 @@ class MedidaDeAgua:
 # são reproduzidos aqui.
 MEDIDAS_DE_AGUA = (
     MedidaDeAgua("WEM13", "Sistema eficiente de irrigação paisagística", False,
-                 "O Triton modela o volume de irrigação e a supressão por chuva, "
-                 "não a eficiência do sistema de rega."),
+                 _marca.aplicar("O Triton modela o volume de irrigação e a supressão por chuva, "
+                 "não a eficiência do sistema de rega.")),
     MedidaDeAgua("WEM14", "Sistema de aproveitamento de água pluvial", True,
                  "É a medida que este programa dimensiona. A entrada do EDGE é a "
                  "área de captação em m²."),
     MedidaDeAgua("WEM15", "Tratamento e reúso de águas servidas", False,
-                 "Fora do escopo: o Triton trata água de chuva, não água cinza."),
+                 _marca.aplicar("Fora do escopo: o Triton trata água de chuva, não água cinza.")),
 )
 
 

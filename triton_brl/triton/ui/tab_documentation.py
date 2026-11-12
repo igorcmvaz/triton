@@ -24,6 +24,7 @@ from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QPixmap, QDesktopServices
 
 from triton.ui.translation import get_current_lang, tr, get_current_theme, get_resource_path
+from triton import marca as _marca
 
 
 def paginas_do_pdf(caminho_relativo: str, padrao: int) -> int:
@@ -77,9 +78,9 @@ def open_url_in_browser(url: str):
 #: contra os PDFs.
 #: As páginas dependem da edição (cada edição publica um manual): o literal fica igual nas três.
 PAGINAS_POR_EDICAO = {
-    "BRL": {"manual/Manual-Triton.pdf": 482},
-    "INT": {"manual/en/Triton-User-Manual.pdf": 297},
-    "IBE": {"manual/Manual-Triton.pdf": 310},
+    "BRL": {_marca.MANUAL_COMPLETO_PT: 487},
+    "INT": {_marca.MANUAL_COMPLETO_EN: 305},
+    "IBE": {_marca.MANUAL_COMPLETO_PT: 316},
 }
 PAGINAS_DO_MANUAL_COMPLETO = PAGINAS_POR_EDICAO.get(get_current_edition(), {})
 
@@ -692,7 +693,7 @@ class TabDocumentation(QWidget):
                 background: transparent;
             }}
         """)
-        browser.setHtml(f"<html><head>{style}</head><body>{content}</body></html>")
+        browser.setHtml(_marca.aplicar(f"<html><head>{style}</head><body>{content}</body></html>"))
         browser.setProperty("texto_do_corpo", corpo_da_pagina)
         return browser
 
@@ -706,14 +707,14 @@ class TabDocumentation(QWidget):
 
         manual_map = {
             "URL_DO_MANUAL_COMPLETO": caminho_do_manual_completo(),
-            "URL_DO_MANUAL_VOL_1": "manual/mini/Manual-Triton-1-comece-aqui.pdf",
-            "URL_DO_MANUAL_VOL_2": "manual/mini/Manual-Triton-2-metodo.pdf",
-            "URL_DO_MANUAL_VOL_3": "manual/mini/Manual-Triton-3-guias.pdf",
-            "URL_DO_MANUAL_VOL_4": "manual/mini/Manual-Triton-4-tutorial.pdf",
-            "URL_DO_MANUAL_VOL_5": "manual/mini/Manual-Triton-5-confiabilidade.pdf",
-            "URL_DO_MANUAL_VOL_6": "manual/mini/Manual-Triton-6-versoes.pdf",
-            "URL_DO_MANUAL_VOL_7": "manual/mini/Manual-Triton-7-modulacao.pdf",
-            "URL_DO_MANUAL_VOL_8": "manual/mini/Manual-Triton-8-apendices.pdf",
+            "URL_DO_MANUAL_VOL_1": _marca.MANUAIS_TEMATICOS[0],
+            "URL_DO_MANUAL_VOL_2": _marca.MANUAIS_TEMATICOS[1],
+            "URL_DO_MANUAL_VOL_3": _marca.MANUAIS_TEMATICOS[2],
+            "URL_DO_MANUAL_VOL_4": _marca.MANUAIS_TEMATICOS[3],
+            "URL_DO_MANUAL_VOL_5": _marca.MANUAIS_TEMATICOS[4],
+            "URL_DO_MANUAL_VOL_6": _marca.MANUAIS_TEMATICOS[5],
+            "URL_DO_MANUAL_VOL_7": _marca.MANUAIS_TEMATICOS[6],
+            "URL_DO_MANUAL_VOL_8": _marca.MANUAIS_TEMATICOS[7],
         }
 
         if target in manual_map:
@@ -872,7 +873,7 @@ class TabDocumentation(QWidget):
 
             <h4 style='color:#0369a1; margin-top:12px;'>4.3 Reference implementations and criteria</h4>
             <p>The SMAA-VIKOR here follows the design of the <code>crispyn</code> library (Aleksandra Bączkiewicz, MIT licence), which implements <code>VIKOR</code> and <code>VIKOR_SMAA</code>. Triton's version is an <b>independent implementation</b> written directly on NumPy; the repository serves as a comparison baseline, not as the origin of this code. Note that <code>crispyn</code> does <b>not</b> implement TOPSIS, so it is not the reference for section 1.</p>
-            <p>The seven criteria evaluated are: potable water savings, overflow, net present value, discounted payback, internal rate of return, life-cycle CO₂ and potable water consumed. Weights may be supplied as three pillar weights, apportioned within each pillar, or as seven individual weights.</p>
+            <p>The eight criteria evaluated sit in four dimensions: technical (volumetric reliability, storage efficiency), economic (net financial savings, levelised cost of water, discounted payback), environmental (life-cycle CO₂) and structural (dry mass of materials, annual overflow). Weights may be supplied as four dimension weights, shared within each dimension, or as eight individual weights.</p>
             """
         else:
             html = """
@@ -931,7 +932,7 @@ class TabDocumentation(QWidget):
 
             <h4 style='color:#0369a1; margin-top:12px;'>4.3 Implementações de referência e critérios</h4>
             <p>O SMAA-VIKOR daqui segue o desenho da biblioteca <code>crispyn</code> (Aleksandra Bączkiewicz, licença MIT), que implementa <code>VIKOR</code> e <code>VIKOR_SMAA</code>. A versão do Triton é uma <b>implementação independente</b>, escrita diretamente sobre NumPy; o repositório serve de base de comparação, não de origem deste código. Note que <code>crispyn</code> <b>não</b> implementa TOPSIS, de modo que não é a referência da seção 1.</p>
-            <p>Os sete critérios avaliados são: potencial de economia de água potável, extravasamento, valor presente líquido, payback descontado, taxa interna de retorno, CO₂ de ciclo de vida e água potável consumida. Os pesos podem ser informados como três pesos por pilar, rateados dentro de cada um, ou como sete pesos individuais.</p>
+            <p>Os oito critérios avaliados ficam em quatro eixos: técnico (confiabilidade volumétrica, eficiência de armazenamento), econômico (economia financeira líquida, custo nivelado da água, payback descontado), ambiental (CO₂ de ciclo de vida) e estrutural (massa a seco dos materiais, extravasamento anual). Os pesos podem ser informados como quatro pesos de eixo, rateados dentro de cada um, ou como oito pesos individuais.</p>
             """
         return self._create_browser(html, secao='topsis')
 
@@ -2561,7 +2562,7 @@ class TabDocumentation(QWidget):
         # 2. CABEÇALHO DO ACERVO DE MANUAIS
         sec_box = QVBoxLayout()
         sec_box.setSpacing(3)
-        lbl_sec = QLabel("Manuais Técnicos do Triton (PDF)" if not ingles else "Triton Technical Manuals (PDF)")
+        lbl_sec = QLabel(f"Manuais Técnicos do {_marca.NOME} (PDF)" if not ingles else f"{_marca.NOME} Technical Manuals (PDF)")
         lbl_sec.setStyleSheet(f"font-size: 18px; font-weight: 800; color: {'#48d5b7' if is_dark else '#0f172a'}; margin-top: 6px;")
         sec_box.addWidget(lbl_sec)
 
@@ -2622,7 +2623,7 @@ class TabDocumentation(QWidget):
         f_badge.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Fixed)
         f_right.addWidget(f_badge)
 
-        f_title = QLabel("Manual Triton — Volume Geral" if not ingles else "Triton Manual — General Volume")
+        f_title = QLabel(f"Manual {_marca.NOME} — Volume Geral" if not ingles else f"{_marca.NOME} Manual — General Volume")
         f_title.setStyleSheet(f"font-size: 17px; font-weight: 800; color: {text_title}; margin: 2px 0;")
         f_right.addWidget(f_title)
 
@@ -2689,7 +2690,7 @@ class TabDocumentation(QWidget):
              "Installation, interface navigation, workflow, and basic concepts for setting up a rainwater harvesting study.",
              ["Instalação e Interface" if not ingles else "Installation & UI", "Fluxo de Trabalho" if not ingles else "Workflow"],
              "icons/capas/thumb_capa_1-comece-aqui.png", "#059669", "#064e3b" if is_dark else "#d1fae5", "#6ee7b7" if is_dark else "#065f46",
-             "manual/mini/Manual-Triton-1-comece-aqui.pdf"),
+             _marca.MANUAIS_TEMATICOS[0]),
             (2, 122,
              "VOLUME 2 • MÉTODO DE SIMULAÇÃO" if not ingles else "VOLUME 2 • SIMULATION METHOD",
              "Volume 2 — Formulação Matemática" if not ingles else "Volume 2 — Mathematical Formulation",
@@ -2698,7 +2699,7 @@ class TabDocumentation(QWidget):
              "Daily Yield-After-Spill (YAS) water balance, catchment runoff coefficients, and first-flush diversion rules.",
              ["Balanço Diário YAS" if not ingles else "Daily YAS Balance", "Descarte Inicial" if not ingles else "First-Flush Rule"],
              "icons/capas/thumb_capa_2-metodo.png", "#0284c7", "#0c4a6e" if is_dark else "#e0f2fe", "#7dd3fc" if is_dark else "#0369a1",
-             "manual/mini/Manual-Triton-2-metodo.pdf"),
+             _marca.MANUAIS_TEMATICOS[1]),
             (3, 220,
              "VOLUME 3 • DIRETRIZES POR TIPOLOGIA" if not ingles else "VOLUME 3 • TYPOLOGY GUIDELINES",
              "Volume 3 — Aplicações Práticas" if not ingles else "Volume 3 — Practical Applications",
@@ -2707,7 +2708,7 @@ class TabDocumentation(QWidget):
              "Design guidelines and specific parameters for schools, hospitals, residential buildings, and commercial facilities.",
              ["Tipologias Prediais" if not ingles else "Building Typologies", "Casos Práticos" if not ingles else "Case Studies"],
              "icons/capas/thumb_capa_3-guias.png", "#4f46e5", "#312e81" if is_dark else "#e0e7ff", "#a5b4fc" if is_dark else "#3730a3",
-             "manual/mini/Manual-Triton-3-guias.pdf"),
+             _marca.MANUAIS_TEMATICOS[2]),
             (4, 73,
              "VOLUME 4 • TUTORIAL PASSO A PASSO" if not ingles else "VOLUME 4 • STEP-BY-STEP TUTORIAL",
              "Volume 4 — Dimensionamento e Viabilidade" if not ingles else "Volume 4 — Sizing & Feasibility",
@@ -2716,7 +2717,7 @@ class TabDocumentation(QWidget):
              "End-to-end sizing walkthrough: rainfall data, tank storage, financial feasibility, and avoided emissions.",
              ["Dimensionamento" if not ingles else "Tank Sizing", "Viabilidade Econômica" if not ingles else "Economic Feasibility"],
              "icons/capas/thumb_capa_4-tutorial.png", "#7c3aed", "#4c1d95" if is_dark else "#ede9fe", "#c4b5fd" if is_dark else "#5b21b6",
-             "manual/mini/Manual-Triton-4-tutorial.pdf"),
+             _marca.MANUAIS_TEMATICOS[3]),
             (5, 31,
              "VOLUME 5 • CONFIABILIDADE E INCERTEZA" if not ingles else "VOLUME 5 • RELIABILITY & UNCERTAINTY",
              "Volume 5 — Análise Estatística" if not ingles else "Volume 5 — Statistical Analysis",
@@ -2725,7 +2726,7 @@ class TabDocumentation(QWidget):
              "Temporal and volumetric reliability, duration curves, and historical series length sensitivity analysis.",
              ["Confiabilidade Hídrica" if not ingles else "Water Reliability", "Curvas de Permanência" if not ingles else "Duration Curves"],
              "icons/capas/thumb_capa_5-confiabilidade.png", "#d97706", "#78350f" if is_dark else "#fef3c7", "#fcd34d" if is_dark else "#92400e",
-             "manual/mini/Manual-Triton-5-confiabilidade.pdf"),
+             _marca.MANUAIS_TEMATICOS[4]),
             (6, 24,
              "VOLUME 6 • HISTÓRICO E VERIFICAÇÃO" if not ingles else "VOLUME 6 • HISTORY & VERIFICATION",
              "Volume 6 — Histórico e Verificação" if not ingles else "Volume 6 — History & Verification",
@@ -2738,7 +2739,7 @@ class TabDocumentation(QWidget):
               "Software evolution, verification protocol, mass conservation invariants, and analytical benchmarks."),
              ["Histórico de Versões" if not ingles else "Version History", "Verificação Numérica" if not ingles else "Numerical Verification"],
              "icons/capas/thumb_capa_6-versoes.png", "#0d9488", "#134e4a" if is_dark else "#ccfbf1", "#5eead4" if is_dark else "#115e59",
-             "manual/mini/Manual-Triton-6-versoes.pdf"),
+             _marca.MANUAIS_TEMATICOS[5]),
             (7, 40,
              "VOLUME 7 • MODULAÇÃO PROBABILÍSTICA" if not ingles else "VOLUME 7 • PROBABILISTIC MODULATION",
              "Volume 7 — Robustez do Estudo" if not ingles else "Volume 7 — Robustness of the Study",
@@ -2747,7 +2748,7 @@ class TabDocumentation(QWidget):
              "The study rerun with drawn assumptions: variable catalogue, distributions, paired Monte Carlo, bands, payback probability and sensitivity.",
              ["Monte Carlo" if not ingles else "Monte Carlo", "Incerteza" if not ingles else "Uncertainty"],
              "icons/capas/thumb_capa_7-modulacao.png", "#ca8a04", "#713f12" if is_dark else "#fef9c3", "#fde047" if is_dark else "#854d0e",
-             "manual/mini/Manual-Triton-7-modulacao.pdf"),
+             _marca.MANUAIS_TEMATICOS[6]),
             (8, 217,
              "VOLUME 8 • APÊNDICES E DADOS" if not ingles else "VOLUME 8 • APPENDICES & DATA",
              "Volume 8 — Tabelas de Referência" if not ingles else "Volume 8 — Reference Tables",
@@ -2756,7 +2757,7 @@ class TabDocumentation(QWidget):
              "Runoff coefficient tables, LCA emission factors, tariff parameters, glossary, and references.",
              ["Tabelas de Parâmetros" if not ingles else "Design Tables", "Fatores de Emissão" if not ingles else "Emission Factors"],
              "icons/capas/thumb_capa_8-apendices.png", "#e11d48", "#881337" if is_dark else "#ffe4e6", "#fda4af" if is_dark else "#9f1239",
-             "manual/mini/Manual-Triton-8-apendices.pdf"),
+             _marca.MANUAIS_TEMATICOS[7]),
         ]
 
         for vol_num, pags, badge, title, desc, chips, thumb, accent, b_bg, b_fg, rel_pdf in vols_data:
@@ -2852,7 +2853,7 @@ class TabDocumentation(QWidget):
             lay.addWidget(card)
 
         scroll.setWidget(container)
-        scroll.toHtml = lambda: "Manuais Oficiais & Acervo Técnico Triton"
+        scroll.toHtml = lambda: _marca.aplicar("Manuais Oficiais & Acervo Técnico Triton")
         return scroll
 
     def create_tab_references(self) -> QWidget:

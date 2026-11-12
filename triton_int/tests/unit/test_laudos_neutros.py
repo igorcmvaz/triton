@@ -99,15 +99,18 @@ def _idioma_restaurado():
 #: SHA-256 do texto normalizado de cada laudo em português da BRL, gerado a partir de ``_dados()``
 #: no commit ce458c3. Se uma mudança intencional na BRL mexer num laudo, recalcule e justifique.
 IMPRESSAO_DIGITAL_BRL_PT = {
-    "economic": "3e3c39bd534a806b40d88ad238aa0ac7f433bc7c92cd8796eb231418e32ee124",
-    "environmental": "7e415b86be0a403898f00ab4cc91f9d86fb77cfedda9c2841eb2548bbf4600d8",
-    "research": "f28373921adbaca5f5947ec989066ab7ffcf0d39929e43e75c0c586387adbfe8",
+    "economic": "4ee7306c49fd8e734cc6fbde7d90028afe6ba9c431e0295a8ed0b544e55045a2",
+    "environmental": "a818a649c22f7894d82514dd00e4d794efc57d59114a1108135ae39c2d6ff956",
+    "research": "bc58ce215dbaf9aeb635af25d80dda5f63eb6d63ba0be1b000b37fe2a6be08b3",
 }
 
 
 def _normalizado(html: str) -> str:
     from datetime import datetime
+    from triton import __version__
     html = re.sub(r"\d{2}/\d{2}/\d{4}", "DATA", html)
+    # A versão muda a cada lançamento sem mudar o laudo: fica fora da impressão digital.
+    html = html.replace(f"Triton {__version__}", "Triton VERSAO")
     return html.replace(str(datetime.now().year), "ANO")
 
 

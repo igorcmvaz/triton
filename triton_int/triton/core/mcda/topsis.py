@@ -1,9 +1,11 @@
 """Decisão multicritério TOPSIS para as alternativas do Triton.
 
-O modelo usa sete critérios auditáveis, agrupados nos três eixos exibidos na
-interface. Pesos de três eixos continuam aceitos e são divididos igualmente
-entre os critérios do respectivo eixo. Também é possível informar sete pesos
-diretamente.
+Refatorado com matriz de decisão multicritério (MCDM) balanceada em quatro
+dimensões (Técnica, Econômica, Ambiental e Estrutural/Executiva):
+1. Técnica: volumetric_reliability_pct, storage_efficiency_pct
+2. Econômica: net_financial_savings_brl, lcow_brl_m3, payback_years
+3. Ambiental: lifecycle_co2_kg
+4. Estrutural/Executiva: material_mass_kg, overflow_m3_yr
 """
 
 from dataclasses import dataclass, field
@@ -13,30 +15,37 @@ import numpy as np
 
 
 CRITERION_KEYS: Tuple[str, ...] = (
-    "technical_potential_pct",
-    "technical_overflow_m3_yr",
-    "economic_npv_brl",
-    "economic_discounted_payback_years",
-    "economic_irr_pct",
-    "environmental_lifecycle_co2_kg",
-    "environmental_potable_water_m3_yr",
+    "volumetric_reliability_pct",
+    "storage_efficiency_pct",
+    "net_financial_savings_brl",
+    "lcow_brl_m3",
+    "payback_years",
+    "lifecycle_co2_kg",
+    "material_mass_kg",
+    "overflow_m3_yr",
 )
 CRITERION_LABELS: Tuple[str, ...] = (
-    "Potencial máximo",
-    "Mínimo extravasamento",
-    "Maior VPL",
-    "Menor payback descontado",
-    "Maior TIR",
-    "Menor CO₂ no fim da vida",
-    "Menor consumo de água potável",
+    "Confiabilidade volumétrica",
+    "Eficiência de armazenamento",
+    "Economia financeira líquida",
+    "Custo unitário nivelado (LCOW)",
+    "Tempo de retorno (payback)",
+    "CO₂ de ciclo de vida",
+    "Massa a seco dos materiais",
+    "Volume anual extravasado",
 )
 CRITERION_GROUPS: Tuple[str, ...] = (
     "technical", "technical",
     "economic", "economic", "economic",
-    "environmental", "environmental",
+    "environmental",
+    "structural", "structural",
 )
+#: Parte de cada critério dentro do seu eixo (normalizada eixo a eixo; só as razões importam).
+#: Ordem de ``CRITERION_KEYS``.
+PARTES_NO_EIXO_PADRAO: Tuple[float, ...] = (1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+PARTES_IGUAIS_NO_EIXO: Tuple[float, ...] = (1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0)
 # True = benefício (maximizar); False = custo/impacto (minimizar).
-CRITERION_IS_BENEFIT = np.array([True, False, True, False, True, False, False], dtype=bool)
+CRITERION_IS_BENEFIT = np.array([True, True, True, False, False, False, False, False], dtype=bool)
 
 
 @dataclass
@@ -51,8 +60,13 @@ class TopsisCandidate:
     technical_threshold_met: bool = False
     is_technical_optimum: bool = False
     extra_data: Dict[str, Any] = field(default_factory=dict)
-    # ``None`` mantém compatibilidade com integrações antigas; os construtores
-    # do fluxo completo sempre informam estes cinco indicadores.
+    # Critérios MCDM (novos e legados)
+    volumetric_reliability_pct: Optional[float] = None
+    storage_efficiency_pct: Optional[float] = None
+    net_financial_savings_brl: Optional[float] = None
+    lcow_brl_m3: Optional[float] = None
+    payback_years: Optional[float] = None
+    material_mass_kg: Optional[float] = None
     potential_savings_pct: Optional[float] = None
     overflow_m3_yr: Optional[float] = None
     discounted_payback_years: Optional[float] = None
@@ -94,81 +108,201 @@ class TopsisResult:
 
     @property
     def group_proximity_to_best(self) -> np.ndarray:
-        """Proximidade média nos eixos técnico, econômico e ambiental."""
+        """Proximidade média nos eixos técnico, econômico, ambiental e estrutural."""
         proximity = self.criterion_proximity_to_best
-        return np.column_stack((
+        cols = [
             np.mean(proximity[:, 0:2], axis=1),
             np.mean(proximity[:, 2:5], axis=1),
-            np.mean(proximity[:, 5:7], axis=1),
-        ))
+            proximity[:, 5],
+        ]
+        if proximity.shape[1] >= 8:
+            cols.append(np.mean(proximity[:, 6:8], axis=1))
+        return np.column_stack(cols)
 
 
-def _criterion_weights(weights: Optional[Sequence[float]]) -> np.ndarray:
-    raw = np.array((0.333, 0.333, 0.334), dtype=float) if weights is None else np.asarray(tuple(weights), dtype=float)
-    if raw.ndim != 1 or raw.size not in (3, 7):
-        raise ValueError("Informe 3 pesos de eixo ou 7 pesos de critérios TOPSIS.")
+_EIXOS: Tuple[Tuple[int, ...], ...] = ((0, 1), (2, 3, 4), (5,), (6, 7))
+_NOMES_EIXOS: Tuple[str, ...] = ("técnico", "econômico", "ambiental", "estrutural")
+
+
+#: Mensagem para quem traz pesos ou partes do modelo de sete critérios (até a 0.1.0).
+_SETE_CRITERIOS = (
+    "O multicritério da versão 0.2.0 tem oito critérios em quatro eixos, e os sete "
+    "valores do modelo anterior não correspondem a eles. Informe quatro pesos de eixo "
+    "(técnico, econômico, ambiental, estrutural) ou oito pesos de critério."
+)
+
+
+def validar_partes_no_eixo(partes: Optional[Sequence[float]]) -> np.ndarray:
+    """Valida as partes nos eixos (``None`` = padrão) e devolve as partes normalizadas dentro de cada eixo."""
+    bruto = np.asarray(tuple(PARTES_NO_EIXO_PADRAO if partes is None else partes), dtype=float)
+    if bruto.ndim == 1 and bruto.size == 7:
+        raise ValueError(_SETE_CRITERIOS)
+    if bruto.ndim != 1 or bruto.size != 8:
+        raise ValueError("Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios).")
+    if not np.all(np.isfinite(bruto)) or np.any(bruto < 0):
+        raise ValueError("As partes no eixo devem ser finitas e não negativas.")
+    saida = np.zeros(8, dtype=float)
+    for nome, indices in zip(_NOMES_EIXOS, _EIXOS):
+        soma = float(np.sum(bruto[list(indices)]))
+        if soma <= 0:
+            raise ValueError(f"Ao menos um critério do eixo {nome} deve ter parte maior que zero.")
+        saida[list(indices)] = bruto[list(indices)] / soma
+    return saida
+
+
+def pesos_de_eixo(pesos_eixos: Optional[Sequence[float]]) -> np.ndarray:
+    """Os quatro pesos de eixo, normalizados.
+
+    Três pesos (técnico, econômico, ambiental) vêm de projetos e estudos feitos até a
+    0.1.0: o eixo estrutural, que não existia, recebe a média dos três, de modo que
+    pesos iguais continuam iguais.
+    """
+    if pesos_eixos is None:
+        eixos = np.asarray(PESOS_PADRAO, dtype=float)
+    else:
+        eixos = np.asarray(tuple(pesos_eixos), dtype=float)
+        if eixos.ndim == 1 and eixos.size == 3:
+            eixos = np.append(eixos, float(np.mean(eixos)))
+    if eixos.ndim != 1 or eixos.size != 4:
+        raise ValueError("Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural).")
+    if not np.all(np.isfinite(eixos)) or np.any(eixos < 0):
+        raise ValueError("Os pesos TOPSIS devem ser finitos e não negativos.")
+    total = float(np.sum(eixos))
+    if total <= 0:
+        raise ValueError("Ao menos um peso TOPSIS deve ser maior que zero.")
+    return eixos / total
+
+
+def pesos_dos_criterios(pesos_eixos: Optional[Sequence[float]] = None, partes: Optional[Sequence[float]] = None) -> np.ndarray:
+    """Oito pesos de critério: o peso de cada eixo repartido pelas partes no eixo."""
+    eixos = pesos_de_eixo(pesos_eixos)
+    normalizadas = validar_partes_no_eixo(partes)
+    saida = np.zeros(8, dtype=float)
+    for peso, indices in zip(eixos, _EIXOS):
+        saida[list(indices)] = peso * normalizadas[list(indices)]
+    return saida
+
+
+def _criterion_weights(weights: Optional[Sequence[float]], parts: Optional[Sequence[float]] = None) -> np.ndarray:
+    raw = None if weights is None else np.asarray(tuple(weights), dtype=float)
+    if raw is not None and raw.ndim == 1 and raw.size == 7:
+        raise ValueError(_SETE_CRITERIOS)
+    if raw is not None and (raw.ndim != 1 or raw.size not in (3, 4, 8)):
+        raise ValueError("Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural) ou 8 pesos de critério TOPSIS.")
+    if raw is None or raw.size in (3, 4):
+        return pesos_dos_criterios(raw, parts)
     if not np.all(np.isfinite(raw)) or np.any(raw < 0):
         raise ValueError("Os pesos TOPSIS devem ser finitos e não negativos.")
     total = float(np.sum(raw))
     if total <= 0:
         raise ValueError("Ao menos um peso TOPSIS deve ser maior que zero.")
-    raw = raw / total
-    if raw.size == 7:
-        return raw
-    technical, economic, environmental = raw.tolist()
-    return np.array((
-        technical / 2.0, technical / 2.0,
-        economic / 3.0, economic / 3.0, economic / 3.0,
-        environmental / 2.0, environmental / 2.0,
-    ), dtype=float)
+    return raw / total
 
 
 def _payback_values(candidates: Sequence[TopsisCandidate]) -> np.ndarray:
-    """Converte ausência de retorno ou volume zero em penalidade finita e explícita."""
-    valid = [
-        float(c.discounted_payback_years)
-        for c in candidates
-        if c.discounted_payback_years is not None
-        and np.isfinite(c.discounted_payback_years)
-        and c.discounted_payback_years > 0
-        and float(c.lower_tank_vol) > 0
-    ]
-    if valid:
-        worst = max(valid)
-        no_return_penalty = max(worst + 1.0, worst * 1.10, 1.0)
-    else:
-        no_return_penalty = 1.0
-    return np.array([
-        float(c.discounted_payback_years)
-        if c.discounted_payback_years is not None
-        and np.isfinite(c.discounted_payback_years)
-        and c.discounted_payback_years > 0
-        and float(c.lower_tank_vol) > 0
-        else no_return_penalty
-        for c in candidates
-    ], dtype=float)
+    """Payback descontado de cada alternativa; quem não se paga recebe uma penalidade explícita.
+
+    A penalidade é o pior payback observado mais 10% (ao menos um ano a mais, e ao
+    menos 20 anos): a alternativa sem retorno fica atrás de todas as que se pagam.
+    """
+    def _pb(c):
+        pb = getattr(c, 'payback_years', None)
+        if pb is None:
+            pb = getattr(c, 'discounted_payback_years', None)
+        if pb is not None and np.isfinite(pb) and pb > 0 and float(c.lower_tank_vol) > 0:
+            return float(pb)
+        return None
+
+    valores = [_pb(c) for c in candidates]
+    validos = [v for v in valores if v is not None]
+    penalidade = max(max(validos) + 1.0, max(validos) * 1.10, 20.0) if validos else 20.0
+    return np.array([penalidade if v is None else v for v in valores], dtype=float)
+
+
+def _lcow_values(candidates: Sequence[TopsisCandidate]) -> np.ndarray:
+    """Custo nivelado da água de cada alternativa, na moeda do projeto por m³.
+
+    O valor vem da análise econômica (``lcow_brl_m3``, calculado com a taxa, o
+    horizonte e os custos do projeto). A alternativa sem água entregue (volume zero)
+    não tem custo nivelado: recebe o pior valor observado mais 10%. Sem nenhum valor
+    informado, o critério fica constante e não pesa na escolha.
+    """
+    def _lcow(c):
+        v = getattr(c, 'lcow_brl_m3', None)
+        if v is None and c.extra_data:
+            v = c.extra_data.get('lcow_brl_m3')
+        if v is not None and np.isfinite(v) and v > 0 and float(c.lower_tank_vol) > 0:
+            return float(v)
+        return None
+
+    valores = [_lcow(c) for c in candidates]
+    validos = [v for v in valores if v is not None]
+    penalidade = max(validos) * 1.10 if validos else 0.0
+    return np.array([penalidade if v is None else v for v in valores], dtype=float)
 
 
 def _decision_matrix(candidates: Sequence[TopsisCandidate]) -> np.ndarray:
-    paybacks = _payback_values(candidates)
-    rows = []
-    for index, candidate in enumerate(candidates):
-        # Fallbacks preservam chamadas antigas. No fluxo novo, os campos
-        # opcionais são sempre preenchidos com os resultados da mesma simulação.
-        potential = candidate.potential_savings_pct if candidate.potential_savings_pct is not None else candidate.water_saved_m3_yr
-        overflow = candidate.overflow_m3_yr if candidate.overflow_m3_yr is not None else 0.0
-        irr = candidate.irr_pct if candidate.irr_pct is not None else 0.0
-        potable = candidate.potable_consumed_m3_yr if candidate.potable_consumed_m3_yr is not None else -candidate.water_saved_m3_yr
-        rows.append((
-            potential,
-            overflow,
-            candidate.vpl_brl,
-            paybacks[index],
-            irr,
-            candidate.lifecycle_co2_kg,
-            potable,
-        ))
-    matrix = np.asarray(rows, dtype=float)
+    """Matriz de decisão (n x 8) na ordem de ``CRITERION_KEYS``.
+
+    Cada critério vem do candidato. Os que podem faltar em chamadas antigas são
+    deduzidos de outros campos do próprio candidato, sem constante externa:
+    a confiabilidade volumétrica cai para o potencial de economia (que tem a demanda
+    total no denominador, e não só a pluvial); a eficiência de armazenamento é a água
+    entregue por dia sobre o volume; a economia líquida é o VPL; a massa a seco sai
+    da calculadora de peso com a configuração padrão.
+    """
+    n = len(candidates)
+    m = len(CRITERION_KEYS)
+    matrix = np.zeros((n, m), dtype=float)
+    pb_values = _payback_values(candidates)
+    lcow_values = _lcow_values(candidates)
+
+    for i, c in enumerate(candidates):
+        vol_low = float(getattr(c, 'lower_tank_vol', 0.0) or 0.0)
+        agua_ano = float(getattr(c, 'water_saved_m3_yr', 0.0) or 0.0)
+
+        # 0: confiabilidade volumétrica (%)
+        if getattr(c, 'volumetric_reliability_pct', None) is not None:
+            v_rel = float(c.volumetric_reliability_pct)
+        elif getattr(c, 'potential_savings_pct', None) is not None:
+            v_rel = float(c.potential_savings_pct)
+        else:
+            v_rel = 0.0
+
+        # 1: eficiência de armazenamento (% do volume entregue por dia)
+        if getattr(c, 'storage_efficiency_pct', None) is not None:
+            s_eff = float(c.storage_efficiency_pct)
+        elif vol_low > 0:
+            s_eff = min(100.0, 100.0 * (agua_ano * 1000.0 / 365.25) / vol_low)
+        else:
+            s_eff = 0.0
+
+        # 2: economia financeira líquida (VPL contra a linha de base)
+        if getattr(c, 'net_financial_savings_brl', None) is not None:
+            net_fin = float(c.net_financial_savings_brl)
+        else:
+            net_fin = float(getattr(c, 'vpl_brl', 0.0) or 0.0)
+
+        # 5: CO₂e líquido de ciclo de vida (menor é melhor)
+        co2_val = float(c.lifecycle_co2_kg)
+
+        # 6: massa a seco dos materiais
+        if getattr(c, 'material_mass_kg', None) is not None:
+            mass_val = float(c.material_mass_kg)
+        elif c.extra_data and c.extra_data.get('material_mass_kg') is not None:
+            mass_val = float(c.extra_data['material_mass_kg'])
+        elif vol_low > 0 or float(getattr(c, 'upper_tank_vol', 0.0) or 0.0) > 0:
+            from triton.core.system_weight import calculate_system_weight
+            mass_val = float(calculate_system_weight(
+                vol_low, upper_tank_vol_l=float(getattr(c, 'upper_tank_vol', 0.0) or 0.0)).total_dry_mass_kg)
+        else:
+            mass_val = 0.0
+
+        # 7: extravasamento anual
+        over_val = float(getattr(c, 'overflow_m3_yr', 0.0) or 0.0)
+
+        matrix[i] = (v_rel, s_eff, net_fin, lcow_values[i], pb_values[i], co2_val, mass_val, over_val)
+
     if not np.all(np.isfinite(matrix)):
         bad = np.argwhere(~np.isfinite(matrix))[0]
         raise ValueError(
@@ -178,16 +312,25 @@ def _decision_matrix(candidates: Sequence[TopsisCandidate]) -> np.ndarray:
     return matrix
 
 
+build_decision_matrix = _decision_matrix
+extract_mcdm_matrix = _decision_matrix
+
+
 def calculate_topsis_scores(
     candidates: List[TopsisCandidate],
     weights: Optional[Sequence[float]] = None,
+    parts: Optional[Sequence[float]] = None,
 ) -> Optional[TopsisResult]:
-    """Classifica alternativas pelos sete critérios técnicos/econômicos/ambientais."""
+    """Classifica alternativas pelos oito critérios técnicos/econômicos/ambientais/estruturais.
+
+    ``weights``: quatro pesos de dimensão (repartidos pelas ``parts``) ou oito pesos de critério.
+    ``parts``: oito partes no eixo; ``None`` usa ``PARTES_NO_EIXO_PADRAO``.
+    """
     if not candidates:
         return None
 
     n = len(candidates)
-    criterion_weights = _criterion_weights(weights)
+    criterion_weights = _criterion_weights(weights, parts)
     matrix = _decision_matrix(candidates)
     volumes = np.asarray([float(c.lower_tank_vol) for c in candidates])
 
@@ -197,7 +340,7 @@ def calculate_topsis_scores(
         pos_indices = np.where(pos_mask)[0]
 
         # 1. Ótimo Técnico: prioriza o volume determinado pelo threshold (se marcado no candidato),
-        # ou o menor volume onde o threshold foi atingido, senão o maior potencial
+        # ou o menor volume onde o threshold foi atingido, senão a maior confiabilidade volumétrica
         tech_thresh = [
             i for i in pos_indices
             if getattr(candidates[i], 'is_technical_optimum', False)
@@ -214,8 +357,8 @@ def calculate_topsis_scores(
                 tech_best_idx = int(pos_indices[sort_tech[0]])
 
         # 2. Ótimo Econômico: menor tempo de retorno (payback viável > 0) entre volumes > 0
-        # Empate favorece maior VPL e menor volume
-        sort_fin = np.lexsort((volumes[pos_indices], -matrix[pos_indices, 2], matrix[pos_indices, 3]))
+        # Empate favorece maior economia financeira líquida e menor volume
+        sort_fin = np.lexsort((volumes[pos_indices], -matrix[pos_indices, 2], matrix[pos_indices, 4]))
         fin_best_idx = int(pos_indices[sort_fin[0]])
 
         # 3. Ótimo Ambiental: menor impacto líquido de ciclo de vida (maior offset de CO2) entre volumes > 0
@@ -223,7 +366,7 @@ def calculate_topsis_scores(
         env_best_idx = int(pos_indices[sort_env[0]])
     else:
         tech_best_idx = int(np.lexsort((volumes, -matrix[:, 0]))[0])
-        fin_best_idx = int(np.lexsort((volumes, -matrix[:, 2], matrix[:, 3]))[0])
+        fin_best_idx = int(np.lexsort((volumes, -matrix[:, 2], matrix[:, 4]))[0])
         env_best_idx = int(np.lexsort((volumes, matrix[:, 5]))[0])
 
     col_min = np.min(matrix, axis=0)
@@ -281,23 +424,62 @@ def calculate_topsis_scores(
     )
 
 
-#: Pesos dos três grupos (técnico, econômico, ambiental) quando nada se declara:
-#: os da interface, 33,3 / 33,3 / 33,4 %. A linha de comando usava 0,33 / 0,33 /
-#: 0,34, e o escore TOPSIS do mesmo projeto diferia na terceira casa.
-PESOS_PADRAO = (0.333, 0.333, 0.334)
+#: Pesos dos grupos quando nada se declara: 4 dimensões (25% cada)
+PESOS_PADRAO = (0.25, 0.25, 0.25, 0.25)
+
+
+def candidato_dos_resultados(sim, econ, co2_evitado_kg_vida: float, massa_seca_kg: Optional[float] = None,
+                             **extras) -> TopsisCandidate:
+    """A alternativa do multicritério montada dos resultados do programa.
+
+    ``sim``: resultado da simulação (``SingleTankSimulationResult``); ``econ``: resultado
+    econômico mensal (``run_economic_analysis``) ou anual (``run_robust_economic_analysis``);
+    ``co2_evitado_kg_vida``: CO₂e líquido evitado na vida útil; ``massa_seca_kg``: massa a seco
+    do sistema (sem ela, a calculadora de peso com a configuração padrão). ``extras`` vai direto
+    ao candidato (``upper_tank_vol``, ``technical_threshold_met``...). É a mesma montagem da linha
+    de comando e da interface, para que manual e testes vejam os números do programa.
+    """
+    vol = float(sim.lower_tank_vol)
+    vpl = float(econ.vpl)
+    if hasattr(econ, "payback_discounted_years"):
+        pb = econ.payback_discounted_years
+    else:
+        pb = econ.payback_years
+    irr = getattr(econ, "tir_annual_pct", None)
+    if irr is None:
+        irr = getattr(econ, "tir_pct", None)
+    capex = getattr(econ, "capex_total", None)
+    if capex is None:
+        capex = getattr(econ, "total_investment", 0.0)
+    return TopsisCandidate(
+        lower_tank_vol=vol,
+        water_saved_m3_yr=sim.annual_pluvial_consumed_m3,
+        vpl_brl=vpl,
+        co2_saved_kg_lifetime=float(co2_evitado_kg_vida),
+        capex_brl=float(capex or 0.0),
+        potential_savings_pct=sim.potential_potable_savings_pct,
+        overflow_m3_yr=sim.annual_spill_m3,
+        discounted_payback_years=payback_do_criterio(pb, vpl) if vol > 0 else None,
+        irr_pct=irr,
+        potable_consumed_m3_yr=sim.annual_potable_consumed_m3,
+        volumetric_reliability_pct=sim.volumetric_reliability_pct,
+        storage_efficiency_pct=sim.storage_efficiency_pct,
+        net_financial_savings_brl=vpl,
+        lcow_brl_m3=econ.lcow_per_m3 if vol > 0 else None,
+        material_mass_kg=massa_seca_kg,
+        **extras,
+    )
+
 
 def payback_do_criterio(payback_descontado_anos, vpl_brl) -> "Optional[float]":
     """Payback descontado que entra no multicritério, ou None.
 
     Só existe payback de um investimento que se paga: com payback nulo ou
     ausente (a alternativa sem cisterna) ou com VPL não positivo, o critério
-    recebe None. A interface gravava 0 para a alternativa de 0 L, e 0 é o
-    «melhor» payback possível; o SMAA-VIKOR da interface e o da linha de comando
-    elegiam líderes diferentes para o mesmo projeto por causa disso.
+    recebe None.
     """
     if payback_descontado_anos is None or vpl_brl is None:
         return None
     if payback_descontado_anos <= 0 or vpl_brl <= 0:
         return None
     return float(payback_descontado_anos)
-

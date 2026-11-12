@@ -32,15 +32,18 @@ def _volumes_anunciados():
     """Os pares (páginas, arquivo) que a página dos manuais promete.
 
     Lidos do código, e não da tela: a página só é construída com o Qt de pé, e
-    esta verificação precisa rodar em qualquer máquina.
+    esta verificação precisa rodar em qualquer máquina. O arquivo de cada volume vem de
+    ``marca.MANUAIS_TEMATICOS`` (os nomes dos PDFs ficam em ``triton/marca.py``).
     """
+    from triton import marca
     fonte = open(ABA, encoding="utf-8").read()
     trecho = fonte[fonte.index("vols_data"):]
     trecho = trecho[:trecho.index("for vol_num")]
     anunciados = []
-    for bloco in re.finditer(r"\((\d),\s*(\d+),(.*?)\"(manual/mini/[^\"]+\.pdf)\"\)",
+    for bloco in re.finditer(r"\((\d),\s*(\d+),(.*?)_marca\.MANUAIS_TEMATICOS\[(\d)\]\)",
                              trecho, flags=re.S):
-        anunciados.append((int(bloco.group(1)), int(bloco.group(2)), bloco.group(4)))
+        anunciados.append((int(bloco.group(1)), int(bloco.group(2)),
+                           marca.MANUAIS_TEMATICOS[int(bloco.group(4))]))
     return anunciados
 
 
@@ -71,14 +74,18 @@ def _manuais_completos_anunciados():
     for no in ast.walk(ast.parse(fonte)):
         if isinstance(no, ast.Assign) and any(
                 getattr(alvo, "id", None) == "PAGINAS_POR_EDICAO" for alvo in no.targets):
-            return sorted(ast.literal_eval(no.value).get(get_current_edition(), {}).items())
+            # As chaves são as constantes de triton/marca.py; só elas entram na avaliação.
+            from triton import marca
+            dicionario = eval(compile(ast.Expression(no.value), ABA, "eval"), {"__builtins__": {}, "_marca": marca})
+            return sorted(dicionario.get(get_current_edition(), {}).items())
     raise AssertionError("a aba não declara PAGINAS_POR_EDICAO")
 
 
 def test_a_aba_anuncia_o_manual_completo_da_edicao():
     """Cada edição publica um manual: o inglês na INT, o português na BRL e na IBE."""
     from triton.core.edition import get_current_edition
-    esperado = "manual/en/Triton-User-Manual.pdf" if get_current_edition() == "INT" else "manual/Manual-Triton.pdf"
+    from triton import marca
+    esperado = marca.MANUAL_COMPLETO_EN if get_current_edition() == "INT" else marca.MANUAL_COMPLETO_PT
     assert [a for a, _ in _manuais_completos_anunciados()] == [esperado]
 
 

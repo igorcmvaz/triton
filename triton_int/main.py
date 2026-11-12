@@ -68,7 +68,8 @@ def diagnosticar(argumentos_qt) -> int:
         pass  # executável sem console
     if app.platformName() not in ("offscreen", "minimal"):
         from PySide6.QtWidgets import QMessageBox
-        QMessageBox.information(None, "Triton — diagnóstico",
+        from triton.marca import aplicar
+        QMessageBox.information(None, aplicar("Triton — diagnóstico"),
                                 texto + (f"\nGravado em {arquivo}" if arquivo else ""))
     return 1 if faltam_obrigatorios(itens) else 0
 
@@ -77,7 +78,7 @@ def main():
     # Edição (--edition brl|int|ibe; prt e por são nomes antigos da ibe); o main.py de cada pasta fixa a edição pela variável
     # de ambiente TRITON_EDITION. Os demais argumentos seguem para o Qt.
     import argparse
-    from triton.core.edition import get_edition_title, rotulo_da_edicao, set_current_edition
+    from triton.core.edition import get_edition_title, nome_da_aplicacao, set_current_edition
 
     arg_parser = argparse.ArgumentParser(add_help=False)
     arg_parser.add_argument("--edition", "-e", choices=["brl", "int", "ibe", "prt", "por", "BRL", "INT", "IBE", "PRT", "POR"], default=None)
@@ -117,7 +118,7 @@ def main():
     instalar_captura_de_avisos()
 
     app.setStyle(NoMnemonicUnderlineStyle(app.style()))
-    app.setApplicationName(f"Triton ({rotulo_da_edicao(curto=True)})")
+    app.setApplicationName(nome_da_aplicacao())
     app.setOrganizationName("Grupo de Pesquisa em Ambientes Sustentáveis")
 
     # Verifica se é a primeira execução do aplicativo para selecionar o idioma
@@ -141,7 +142,7 @@ def main():
     # Aberto por um arquivo de projeto (duplo clique num .triton, associação
     # criada pelo instalador): carrega-o assim que a janela estiver pronta.
     projeto = next((a for a in sys.argv[1:]
-                    if a.lower().endswith((".triton", ".json")) and os.path.isfile(a)), None)
+                    if a.lower().endswith((".triton", ".netuno", ".json")) and os.path.isfile(a)), None)
     if projeto:
         from PySide6.QtCore import QTimer
         QTimer.singleShot(0, lambda: window.on_load_simulation(projeto))

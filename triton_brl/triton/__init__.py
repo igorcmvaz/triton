@@ -8,8 +8,11 @@ import hashlib
 import re
 import unicodedata
 
-__version__ = "0.1.0"
-APP_VERSION_LABEL = f"Triton {__version__}"
+from triton import marca
+
+__version__ = "0.2.0"
+APP_VERSION_LABEL = f"{marca.NOME} {__version__}"
+#: Chave de tradução do título: fica com o nome antigo; o nome mostrado sai de tr() e get_edition_title().
 APP_TITLE = f"Triton {__version__} — Dimensionamento e Aproveitamento de Água de Chuva"
 
 
@@ -34,7 +37,7 @@ def get_auditable_filename(
     now=None,
 ) -> str:
     """Nome auditável: tipo + projeto + data/hora + hash estável da referência."""
-    normalized = unicodedata.normalize("NFKD", (project_name or "Projeto Triton").strip())
+    normalized = unicodedata.normalize("NFKD", (project_name or marca.aplicar("Projeto Triton")).strip())
     ascii_name = normalized.encode("ascii", "ignore").decode("ascii").lower()
     slug = re.sub(r"[^a-z0-9]+", "-", ascii_name).strip("-") or "projeto-triton"
     slug = slug[:64].rstrip("-")

@@ -19,6 +19,7 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QColor
 
 from triton.ui.translation import tr, get_current_theme, get_current_lang, un
+from triton import marca as _marca
 from triton.ui.textos_da_edicao import traduz_descritivo
 from triton.core.parser import format_ptbr
 from triton.core.environmental import (
@@ -1999,7 +2000,7 @@ class TabEnvironmental(QWidget):
         elif not usa_dados_do_brasil():
             from triton.ui.translation import em_portugues_da_edicao
             html = em_portugues_da_edicao(html)
-        return html
+        return _marca.aplicar(html)
 
     def _metodologia_esg_em_ingles(self, text_col, sub_col, h_col, card_bg, card_border, tag_bg, tag_col):
         """A metodologia dos referenciais ESG em inglês (também para o espanhol e o chinês).

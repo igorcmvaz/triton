@@ -17,6 +17,7 @@ from triton.core.environmental import (
     PUMP_MASS_KG,
 )
 from triton.core.parser import format_ptbr
+from triton import marca as _marca
 
 
 @dataclass
@@ -287,7 +288,7 @@ OPERATIONAL_JUSTIFICATIONS: Dict[str, ParameterJustification] = {
     "chlorine_dose": ParameterJustification(
         title="Dosagem de cloro para o inventário de ACV",
         short_description="Massa anual = volume pluvial atendido × dose (mg/L) / 1000",
-        detailed_explanation=(
+        detailed_explanation=_marca.aplicar(
             "O Triton aplica a dose somente ao volume anual de água de chuva efetivamente atendido pela simulação. "
             "A conversão é direta: 1 mg/L equivale a 0,001 kg/m³; portanto, a massa anual de cloro é exibida em kg Cl2/ano.\n\n"
             "Esta entrada é uma premissa do inventário ambiental. Ela não dimensiona nem valida o tratamento da água."

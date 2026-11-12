@@ -89,7 +89,7 @@
     }
   },
   "analysis": {
-    "topsis_weights": [0.33, 0.33, 0.34],
+    "topsis_weights": [0.25, 0.25, 0.25, 0.25],
     "environmental": {
       "lower_material_key": "PEAD",
       "upper_material_key": "PEAD",

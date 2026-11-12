@@ -5,6 +5,7 @@ Interface moderna com navegação por Sidebar em 6 Etapas, Live Preview e Sem Po
 
 import os
 from triton.core.numero import para_float
+from triton.core.topsis import PARTES_NO_EIXO_PADRAO
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO
 from PySide6.QtWidgets import (
     QMainWindow,
@@ -25,6 +26,7 @@ from PySide6.QtGui import QAction, QActionGroup, QIcon
 
 from triton.ui.theme import NETUNO4_CLASSIC_QSS
 from triton import APP_TITLE, APP_VERSION_LABEL, __version__
+from triton import marca as _marca
 from triton.ui.sidebar import Sidebar
 from triton.core.parser import TritonConfig
 from triton.ui.translation import tr, get_current_lang, get_available_languages, get_resource_path, restart_app
@@ -111,8 +113,10 @@ class MainWindow(QMainWindow):
         # (``projeto_novo_da_edicao``), a mesma da linha de comando.
         from triton.core.edition import usa_dados_do_brasil, projeto_novo_da_edicao
         self.config = projeto_novo_da_edicao()
-        if not usa_dados_do_brasil() and self.config.project_name == "Novo projeto Triton":
-            self.config.project_name = tr("Novo projeto Triton")
+        if self.config.project_name == "Novo projeto Triton":
+            # O padrão do núcleo é chave de tradução; o nome mostrado sai de marca.NOME (na Brasil, sem traduzir).
+            self.config.project_name = (_marca.aplicar("Novo projeto Triton") if usa_dados_do_brasil()
+                                        else tr("Novo projeto Triton"))
         
         # Ícone da janela principal
         for icone_rel in (
@@ -585,9 +589,12 @@ class MainWindow(QMainWindow):
         if optimizer:
             state["topsis"] = {
                 "preset": optimizer.combo_preset.currentIndex(),
+                "preset_key": optimizer.combo_preset.currentData(),
                 "technical_weight": optimizer.spin_w_tech.value(),
                 "economic_weight": optimizer.spin_w_fin.value(),
                 "environmental_weight": optimizer.spin_w_env.value(),
+                "structural_weight": optimizer.spin_w_struct.value(),
+                "criterion_shares": [spin.value() for spin in optimizer.spin_shares],
             }
 
         environmental = getattr(self, "tab_environmental", None)
@@ -618,10 +625,35 @@ class MainWindow(QMainWindow):
         topsis_state = state.get("topsis", {})
         optimizer = getattr(self, "tab_global_optimizer", None)
         if optimizer and topsis_state:
-            optimizer.combo_preset.setCurrentIndex(max(0, min(int(topsis_state.get("preset", 0)), optimizer.combo_preset.count() - 1)))
-            optimizer.spin_w_tech.setValue(float(topsis_state.get("technical_weight", 33.3)))
-            optimizer.spin_w_fin.setValue(float(topsis_state.get("economic_weight", 33.3)))
-            optimizer.spin_w_env.setValue(float(topsis_state.get("environmental_weight", 33.4)))
+            tec = float(topsis_state.get("technical_weight", 25.0))
+            eco = float(topsis_state.get("economic_weight", 25.0))
+            amb = float(topsis_state.get("environmental_weight", 25.0))
+            # Projeto de até a 0.1.0: três eixos. O estrutural recebe a média dos três (a regra do motor).
+            est = float(topsis_state.get("structural_weight", (tec + eco + amb) / 3.0))
+            chave = topsis_state.get("preset_key")
+            if chave is None:
+                # Até a 0.1.0 a lista era equilibrado, econômico, ambiental, técnico, personalizado.
+                antigas = ("equilibrado", "economico", "ambiental", "tecnico", "custom")
+                indice = int(topsis_state.get("preset", 0))
+                chave = antigas[indice] if 0 <= indice < len(antigas) else "custom"
+                if "structural_weight" not in topsis_state:
+                    if chave == "equilibrado":
+                        tec = eco = amb = est = 25.0
+                    else:
+                        chave = "custom"  # pesos de três eixos não são nenhum perfil de quatro
+            optimizer._updating_weights = True
+            try:
+                for spin, valor in zip((optimizer.spin_w_tech, optimizer.spin_w_fin,
+                                        optimizer.spin_w_env, optimizer.spin_w_struct), (tec, eco, amb, est)):
+                    spin.setValue(valor)
+                indice = optimizer.combo_preset.findData(chave)
+                optimizer.combo_preset.setCurrentIndex(indice if indice >= 0 else optimizer.combo_preset.findData("custom"))
+            finally:
+                optimizer._updating_weights = False
+            partes = topsis_state.get("criterion_shares")
+            if not partes or len(partes) != len(optimizer.spin_shares):
+                partes = [100.0 * p for p in PARTES_NO_EIXO_PADRAO]
+            optimizer.set_shares(partes)
             optimizer._update_weight_validation()
 
         environmental = getattr(self, "tab_environmental", None)
@@ -967,7 +999,7 @@ class MainWindow(QMainWindow):
         # instituição, sem país, e não nomeiam norma de citação.
         local = "Florianópolis: " if brasil else ""
         citation = (
-            f"VAZ, I. C. M.; GHISI, E. <b>Triton {__version__}</b>: "
+            f"VAZ, I. C. M.; GHISI, E. <b>{_marca.NOME_CITACAO} {__version__}</b>: "
             f"{tr('Programa computacional para simulação de aproveitamento de água de chuva em edificações')}. "
             f"{local}Universidade Federal de Santa Catarina, {tr('Grupo de Pesquisa em Ambientes Sustentáveis')}, 2026. "
             f"{tr('Software de computador, versão')} {__version__}."
@@ -976,7 +1008,7 @@ class MainWindow(QMainWindow):
         bibtex = (
             f"@software{{triton_{__version__.replace('.', '_')},<br>"
             f"&nbsp;&nbsp;author = {{Vaz, Igor Catão Martins and Ghisi, Enedir}},<br>"
-            f"&nbsp;&nbsp;title = {{Triton {__version__}: Programa computacional para simulação de aproveitamento de água de chuva em edificações}},<br>"
+            f"&nbsp;&nbsp;title = {{{_marca.NOME_CITACAO} {__version__}: Programa computacional para simulação de aproveitamento de água de chuva em edificações}},<br>"
             f"&nbsp;&nbsp;year = {{2026}},<br>"
             f"&nbsp;&nbsp;publisher = {{Universidade Federal de Santa Catarina (UFSC)}},<br>"
             f"{endereco}"

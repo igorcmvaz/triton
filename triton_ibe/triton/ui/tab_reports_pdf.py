@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 from triton.ui.translation import tr, get_current_theme, get_current_lang, set_current_lang
+from triton import marca as _marca
 from triton.ui.textos_da_edicao import artefato_de_laudo
 from triton.core.report_generator import save_pdf_report
 from triton.core.report_service import generate_report_html
@@ -1009,7 +1010,7 @@ class TabReportsPdf(QWidget):
         data["report_charts"] = self._collect_report_charts() if include_figures else []
         cfg = getattr(mw, 'config', None) if mw else None
         if cfg:
-            data["project_name"] = getattr(cfg, "project_name", "Novo projeto Triton")
+            data["project_name"] = getattr(cfg, "project_name", _marca.aplicar("Novo projeto Triton"))
             data["audit_context"] = {
                 "climate_location": self._juntar_locais(
                     getattr(cfg, "climate_city_name", ""), getattr(cfg, "climate_city_uf", "")) or "-",
@@ -1094,7 +1095,7 @@ class TabReportsPdf(QWidget):
                 charts.append({
                     'chapter': chapter,
                     'title': title,
-                    'source': 'Resultados calculados pelo Triton para as premissas e alternativas deste estudo.',
+                    'source': _marca.aplicar('Resultados calculados pelo Triton para as premissas e alternativas deste estudo.'),
                     'data': f'data:image/png;base64,{encoded}',
                 })
             except Exception:
@@ -1261,7 +1262,7 @@ class TabReportsPdf(QWidget):
             self.update_report_preview()
             rep_type = self.combo_report_type.currentData() or "economic"
             suffix = artefato_de_laudo(rep_type) + self._etiqueta_da_edicao()
-            project_name = self._project_data.get("project_name", "Projeto Triton")
+            project_name = self._project_data.get("project_name", _marca.aplicar("Projeto Triton"))
             def_name = get_auditable_filename(
                 project_name, self._project_data["ref_code"], f"{suffix}-{selected_lang}", "pdf"
             )
@@ -1293,7 +1294,7 @@ class TabReportsPdf(QWidget):
             self.update_report_preview()
             rep_type = self.combo_report_type.currentData() or "economic"
             suffix = artefato_de_laudo(rep_type) + self._etiqueta_da_edicao()
-            project_name = self._project_data.get("project_name", "Projeto Triton")
+            project_name = self._project_data.get("project_name", _marca.aplicar("Projeto Triton"))
             def_name = get_auditable_filename(
                 project_name, self._project_data["ref_code"], f"{suffix}-{selected_lang}", "html"
             )

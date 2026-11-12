@@ -5,6 +5,8 @@ from PySide6.QtCore import QSettings, Qt
 from PySide6.QtGui import QIcon, QPixmap
 from PySide6.QtWidgets import QApplication, QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton
 
+from triton.marca import aplicar
+
 _runtime_language = None
 _runtime_theme = None
 
@@ -125,7 +127,7 @@ class FirstRunLangDialog(QDialog):
     """
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Triton — Language / Idioma")
+        self.setWindowTitle(aplicar("Triton — Language / Idioma"))
         self.resize(430, 260)
         for icone_rel in (
             os.path.join("icons", "triton.ico"),
@@ -167,10 +169,10 @@ class FirstRunLangDialog(QDialog):
                     layout.addWidget(logo_label)
                     break
 
-        lbl = QLabel(
+        lbl = QLabel(aplicar(
             "Selecione o idioma de exibição do Triton.\n"
             "Select the display language for Triton."
-        )
+        ))
         lbl.setAlignment(Qt.AlignCenter)
         lbl.setWordWrap(True)
         layout.addWidget(lbl)
@@ -733,8 +735,10 @@ _DICTIONARY = {
     "Relatório PDF salvo em:": "PDF Report saved to:",
     "Relatório de Verificação": "Verification Report",
     "Relatório de Verificação — Triton 0.1.0": "Verification Report — Triton 0.1.0",
+    "Relatório de Verificação — Triton 0.2.0": "Verification Report — Triton 0.2.0",
     "Relatório de Verificação Técnica e Computacional...": "Technical and Computational Verification Report...",
     "Relatório de Verificação Técnica e Computacional — Triton 0.1.0": "Technical and Computational Verification Report — Triton 0.1.0",
+    "Relatório de Verificação Técnica e Computacional — Triton 0.2.0": "Technical and Computational Verification Report — Triton 0.2.0",
     "Evidências de Verificação e Rastreabilidade": "Verification Evidence and Traceability",
     "Status:": "Status:",
     "Relatório de validação gerado e certificado com sucesso.": "Validation report generated and certified successfully.",
@@ -1118,9 +1122,12 @@ _DICTIONARY = {
     "Maior Retorno Financeiro (Maior VPL Líquido): --": "Highest Financial Return (Highest Net NPV): --",
     "Comparação de Trade-off: --": "Trade-off Comparison: --",
     "Triton 0.1.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Triton 0.1.0 — Rainwater Harvesting Design & Simulation",
+    "Triton 0.2.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Triton 0.2.0 — Rainwater Harvesting Design & Simulation",
     "Manual do Usuário — Triton 0.1.0": "User Manual — Triton 0.1.0",
+    "Manual do Usuário — Triton 0.2.0": "User Manual — Triton 0.2.0",
     "Sobre o Triton": "About Triton",
     "Sobre o Triton 0.1.0": "About Triton 0.1.0",
+    "Sobre o Triton 0.2.0": "About Triton 0.2.0",
     "Versão": "Version",
     "Autores": "Authors",
     "Grupo de Pesquisa em Ambientes Sustentáveis": "Sustainable Environments Research Group",
@@ -1406,6 +1413,9 @@ _SPANISH_DICTIONARY = {
     "Sobre o Triton": "Acerca de Triton", "Relatório de Validação Técnica": "Informe de validación técnica",
     "Relatório de Verificação": "Informe de verificación",
     "Relatório de Verificação — Triton 0.1.0": "Informe de verificación — Triton 0.1.0",
+    "Relatório de Verificação — Triton 0.2.0": "Informe de verificación — Triton 0.2.0",
+    "Triton 0.1.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Triton 0.1.0 — Dimensionamiento y aprovechamiento de agua de lluvia",
+    "Triton 0.2.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Triton 0.2.0 — Dimensionamiento y aprovechamiento de agua de lluvia",
     "Uso pela Linha de Comando": "Uso por línea de comandos",
     "Base climática CLIMBra indisponível nesta edição: aberta a série de exemplo de Florianópolis. Carregue a série do seu projeto; as 652 cidades vêm embutidas na Edição Brasil.": "Base climática CLIMBra no disponible en esta edición: se abrió la serie de ejemplo de Florianópolis. Cargue la serie de su proyecto; las 652 ciudades vienen incluidas en la Edición Brasil.",
     "Base E-OBS indisponível: aberta a série de exemplo do Funchal. Carregue a série diária de chuva do seu concelho.": "Base de datos E-OBS no disponible: se abrió la serie de ejemplo de Funchal. Cargue la serie de lluvia diaria de su municipio.",
@@ -1446,6 +1456,9 @@ _CHINESE_DICTIONARY = {
     "Sobre o Triton": "关于 Triton", "Relatório de Validação Técnica": "技术验证报告",
     "Relatório de Verificação": "验证报告",
     "Relatório de Verificação — Triton 0.1.0": "验证报告 — Triton 0.1.0",
+    "Relatório de Verificação — Triton 0.2.0": "验证报告 — Triton 0.2.0",
+    "Triton 0.1.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Triton 0.1.0 — 雨水利用设计与模拟",
+    "Triton 0.2.0 — Dimensionamento e Aproveitamento de Água de Chuva": "Triton 0.2.0 — 雨水利用设计与模拟",
     "Uso pela Linha de Comando": "命令行使用",
 }
 
@@ -1907,7 +1920,14 @@ def _translate_composite(text, phrases):
 
 
 def tr(text, lang=None):
-    """Traduz um rótulo do catálogo, preservando pt-BR como idioma-fonte."""
+    """Traduz um rótulo do catálogo, preservando pt-BR como idioma-fonte.
+
+    As chaves continuam com o nome antigo; o nome que sai é o de ``marca.NOME`` (``marca.aplicar``).
+    """
+    return aplicar(_traduz_do_catalogo(text, lang))
+
+
+def _traduz_do_catalogo(text, lang=None):
     lang = lang or get_current_lang()
     if lang == "pt":
         if _variante_portugal():

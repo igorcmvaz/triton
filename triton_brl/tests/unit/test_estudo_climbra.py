@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""``triton estudo``: referência direta ao CLIMBra (``clima.climbra``), ``tarifa``, ``expansao`` e os seis estudos de Santa Catarina.
+"""``triton estudo``: referência direta ao CLIMBra (``clima.climbra``), ``tarifa``, ``expansao`` e os seis estudos de congresso de Santa Catarina.
 
-* BRL: o esquema estendido valida, expande e roda; os seis ``estudo.json`` de ``estudos/santa-catarina/`` são válidos
-  e uma amostra de um caso por estudo roda de ponta a ponta.
+* BRL: o esquema estendido valida, expande e roda; os ``estudo.json`` de ``estudos/santa-catarina/`` são válidos
+  e uma amostra de um caso por estudo roda de ponta a ponta (só onde a pasta existir: ``estudos/`` é ignorada pelo Git).
 * INT e IBE: as três chaves novas são recusadas com a mensagem de que só existem na Edição Brasil, e nada do que já
   existia muda (``clima.arquivo`` continua valendo).
 """
@@ -19,7 +19,6 @@ RAIZ = Path(__file__).resolve().parents[2]
 ED = get_current_edition()
 BRL = ED == "BRL"
 PASTA_SC = RAIZ / "estudos" / "santa-catarina"
-ESTUDOS_SC = ("escolar", "comercial", "residencial-unifamiliar", "residencial-multifamiliar", "hospitalar", "aeroportos")
 MODELOS = 19
 RECORTES = 7
 
@@ -259,45 +258,71 @@ class TestExecucaoComClimbra:
         assert ch[0] != ch[1]
 
 
-# ══ Os seis estudos de Santa Catarina ══════════════════════════════════════════════════════════
+# ══ Os seis estudos de congresso de Santa Catarina ═════════════════════════════════════════════
 
-@pytest.mark.skipif(not BRL or not PASTA_SC.is_dir(), reason="estudos de Santa Catarina: só na BRL")
+AEROPORTOS_SC = ("sbcd", "sbch", "sbfl", "sbja", "sbjv", "sblj", "sbnf", "sncp", "snd4", "snd6", "ssbl", "ssck", "ssim", "ssja", "ssku", "ssln", "ssoe", "ssss", "sstb", "ssvi", "ssxx")
+SUBTIPOS_SC = {
+    "escolar": ("fnde-creche-tipo1", "fnde-creche-tipo2", "fnde-escola-5salas", "fnde-escola-9salas-2pav", "universitaria"),
+    "comercial": ("escritorios-4pav", "escritorios-8pav", "salas-lojas-12pav"),
+    "residencial-unifamiliar": ("casa-popular", "casa-media", "casa-alto-padrao"),
+    "residencial-multifamiliar": ("multi-16-aptos", "multi-32-aptos", "multi-64-aptos"),
+    "hospitalar": ("hospital-40-leitos", "hospital-120-leitos", "hospital-300-leitos"),
+    "aeroportos": AEROPORTOS_SC,
+}
+TARIFA_SC = {"escolar": "publica", "comercial": "comercial", "residencial-unifamiliar": "residencial", "residencial-multifamiliar": "residencial",
+             "hospitalar": "publica", "aeroportos": "comercial"}
+
+
+@pytest.mark.skipif(not BRL or not all((PASTA_SC / e).is_dir() for e in SUBTIPOS_SC),
+                    reason="estudos de Santa Catarina: só na BRL e fora do Git (estudos/ é ignorada)")
 class TestEstudosSantaCatarina:
+    """Estudos gerados fora do repositório (``estudos/`` está no .gitignore): seis estudos (escolar, comercial, residencial unifamiliar e
+    multifamiliar, hospitalar e aeroportos), cada um com subtipos; 32 municípios com série CLIMBra (aeroportos: 21 aeródromos), os 19 modelos
+    climáticos e um só recorte (histórico 1981–2010). Onde a tarifa é a Pública, São Bento do Sul roda em ``<subtipo>-sbs.json`` com a Comercial."""
+
     @pytest.fixture(scope="class")
     def planos(self):
         out = {}
-        for pasta in ESTUDOS_SC:
-            plano, _ = E.carregar_plano(PASTA_SC / pasta / "estudo.json")
-            out[pasta] = plano
+        for est, subs in SUBTIPOS_SC.items():
+            for sub in subs:
+                for suf in ("", "-sbs"):
+                    arq = PASTA_SC / est / "json" / f"{sub}{suf}.json"
+                    if arq.is_file():
+                        out[(est, sub, suf)], _ = E.carregar_plano(arq)
         return out
-
-    def test_os_seis_validam_com_municipios_conferidos(self, planos):
-        assert len(planos) == 6
 
     def test_cada_estudo_tem_os_seus_arquivos(self):
         from triton.cli import load_triton_project
-        for pasta in ESTUDOS_SC:
-            for nome in ("estudo.json", f"{pasta}.triton", "LEIA.md", "modelo_texto.md"):
-                assert (PASTA_SC / pasta / nome).is_file(), (pasta, nome)
-            cfg = load_triton_project(str(PASTA_SC / pasta / f"{pasta}.triton"))["config"]
-            assert cfg.cost_lower_tank > 0 and cfg.cost_piping > 0 and cfg.cost_accessories > 0, pasta
-            assert cfg.pump_unit_cost > 0 and len(cfg.op_costs) > 0, pasta
+        for est, subs in SUBTIPOS_SC.items():
+            assert (PASTA_SC / est / f"{est}.md").is_file(), est
+            for sub in subs:
+                assert (PASTA_SC / est / "json" / f"{sub}.json").is_file(), (est, sub)
+                if TARIFA_SC[est] == "publica":
+                    assert (PASTA_SC / est / "json" / f"{sub}-sbs.json").is_file(), (est, sub)
+                cfg = load_triton_project(str(PASTA_SC / est / "triton" / f"{sub}.triton"))["config"]
+                assert cfg.cost_lower_tank > 0 and cfg.cost_piping > 0 and cfg.cost_accessories > 0, (est, sub)
+                assert cfg.pump_unit_cost > 0 and cfg.pump_count == 2 and len(cfg.op_costs) > 0, (est, sub)
 
-    def test_tamanhos_do_json(self):
-        for pasta in ESTUDOS_SC:
-            assert (PASTA_SC / pasta / "estudo.json").stat().st_size < 50 * 1024 * 1024
+    def test_validam_com_municipios_conferidos(self, planos):
+        assert len(planos) == sum(len(s) * (2 if TARIFA_SC[e] == "publica" and e != "aeroportos" else 1) for e, s in SUBTIPOS_SC.items())
 
     def test_contagem_de_casos(self, planos):
         fontes = json.loads((PASTA_SC / "_fontes" / "municipios_sc_climbra.json").read_text(encoding="utf-8"))
         n = fontes["total_na_climbra"]
         assert n == sum(1 for m in fontes["municipios"] if m["na_climbra"]) == 32
-        for pasta, plano in planos.items():
-            if pasta != "aeroportos":
-                assert len(plano["casos"]) == n * MODELOS * RECORTES, pasta
-        aer = json.loads((PASTA_SC / "_fontes" / "aeroportos_sc.json").read_text(encoding="utf-8"))
-        n_aer = len(aer["aeroportos"])
-        assert n_aer == 21
-        assert len(planos["aeroportos"]["casos"]) == n_aer * MODELOS * RECORTES == 2793
+        for (est, sub, suf), plano in planos.items():
+            if est == "aeroportos":
+                esperado = 1 * MODELOS
+            else:
+                esperado = (1 if suf else (n - 1 if TARIFA_SC[est] == "publica" else n)) * MODELOS
+            assert len(plano["casos"]) == esperado, (est, sub, suf)
+
+    def test_tarifa_de_cada_estudo(self, planos):
+        for (est, sub, suf), plano in planos.items():
+            esperada = "comercial" if suf else TARIFA_SC[est]
+            assert plano["padroes"]["tarifa"]["categoria"] == esperada, (est, sub, suf)
+            if suf:
+                assert {c["dimensoes"]["municipio"] for c in plano["casos"]} == {"São Bento do Sul"}
 
     def test_municipios_sao_de_sc_e_tem_ibge_42(self, planos):
         for plano in planos.values():
@@ -305,40 +330,27 @@ class TestEstudosSantaCatarina:
                 assert c["dimensoes"]["ibge"].startswith("42")
                 assert c["clima_efetivo"]["climbra"]["uf"] == "SC"
 
-    def test_os_19_modelos_e_os_7_recortes(self, planos):
-        from triton.core.climate_database import CLIMATE_MODELS, RECORTES_SUGERIDOS
-        sugeridos = {(c, i, f) for c, lst in RECORTES_SUGERIDOS.items() for _, i, f in lst}
+    def test_os_19_modelos_e_um_recorte_historico(self, planos):
+        from triton.core.climate_database import CLIMATE_MODELS
         for plano in planos.values():
             dims = [c["dimensoes"] for c in plano["casos"]]
             assert {d["modelo"] for d in dims} == set(CLIMATE_MODELS)
-            recortes = {(d["recorte"], d["cenario"], d["inicio"], d["fim"]) for d in dims}
-            assert len(recortes) == RECORTES
-            assert all((c, i, f) in sugeridos for _, c, i, f in recortes)
+            assert {(d["recorte"], d["cenario"], d["inicio"], d["fim"]) for d in dims} == {("hist-1981-2010", "HIST", "01/01/1981", "31/12/2010")}
 
-    def test_arquetipo_declarado_como_estimativa(self):
-        for pasta in ESTUDOS_SC:
-            doc = json.loads((PASTA_SC / pasta / "estudo.json").read_text(encoding="utf-8"))
-            assert "estimativa de arquétipo" in doc["padroes"]["substituicoes"]["_origem"]
-            assert "estimativa de arquétipo" in (PASTA_SC / pasta / "LEIA.md").read_text(encoding="utf-8")
-            assert doc["analise"]["semente"] == 42
-
-    def test_aeroportos_tem_fonte_com_sha256(self):
-        fontes = json.loads((PASTA_SC / "_fontes" / "FONTES.json").read_text(encoding="utf-8"))
-        for chave in ("ibge", "anac_aerodromos_publicos"):
-            assert fontes[chave]["url"].startswith("https://") and len(fontes[chave]["sha256"]) == 64
-        assert len(fontes["anac_vra_2025"]) == 12
+    def test_origem_declarada_e_semente(self):
+        for est, subs in SUBTIPOS_SC.items():
+            for sub in subs:
+                doc = json.loads((PASTA_SC / est / "json" / f"{sub}.json").read_text(encoding="utf-8"))
+                assert "definições do autor" in doc["padroes"]["substituicoes"]["_origem"]
+                assert doc["analise"]["semente"] == 42 and doc["analise"]["pesos"] == [0.333, 0.333, 0.334]
+                assert doc["saidas"]["gravar_analise"] is True
 
     def test_um_caso_de_cada_estudo_roda(self, planos):
-        for pasta, plano in planos.items():
+        vistos = set()
+        for (est, sub, suf), plano in planos.items():
+            if est in vistos or suf:
+                continue
+            vistos.add(est)
             r = E.executar_caso(plano, plano["casos"][0])
-            assert r["status"] == "ok", (pasta, r.get("erro"))
+            assert r["status"] == "ok", (est, sub, r.get("erro"))
             assert r["metricas"]["volume_l"] and r["metricas"]["economia_agua_potavel_pct"] is not None
-
-    def test_gerador_confere_com_o_disco(self):
-        import subprocess
-        import sys
-        script = RAIZ / "scripts" / "gerar_estudos_sc.py"
-        if not script.is_file():
-            pytest.skip("gerador ausente")
-        r = subprocess.run([sys.executable, str(script), "--conferir"], capture_output=True, text=True, cwd=RAIZ, timeout=120)
-        assert r.returncode == 0, r.stdout + r.stderr

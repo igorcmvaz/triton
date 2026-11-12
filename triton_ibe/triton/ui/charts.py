@@ -764,7 +764,7 @@ class TOPSISComparisonChart(TritonBaseChart):
 
 
 class TOPSISProximityChart(TritonBaseChart):
-    """Proximidade relativa aos sete critérios usados na análise multicritério.
+    """Proximidade relativa aos oito critérios usados na análise multicritério.
 
     A escala é adimensional e independente dos pesos: 100% significa que o
     volume atinge o melhor valor observado no eixo; 0%, o pior. O gráfico
@@ -801,15 +801,12 @@ class TOPSISProximityChart(TritonBaseChart):
         ax.set_facecolor(bg_color)
 
         labels = getattr(topsis_result, "criterion_labels", ())
-        series = (
-            (tr(labels[0] if len(labels) > 0 else "Potencial máximo"), "#0284c7", "o"),
-            (tr(labels[1] if len(labels) > 1 else "Mínimo extravasamento"), "#0ea5e9", "v"),
-            (tr(labels[2] if len(labels) > 2 else "Maior VPL"), "#16a34a", "s"),
-            (tr(labels[3] if len(labels) > 3 else "Menor payback descontado"), "#65a30d", "P"),
-            (tr(labels[4] if len(labels) > 4 else "Maior TIR"), "#059669", "D"),
-            (tr(labels[5] if len(labels) > 5 else "Menor CO₂ no fim da vida"), "#d97706", "^"),
-            (tr(labels[6] if len(labels) > 6 else "Menor consumo de água potável"), "#9333ea", "X"),
-        )
+        if not labels:
+            from triton.core.topsis import CRITERION_LABELS as labels
+        # Cor por eixo: técnico em azul, econômico em verde, ambiental em âmbar, estrutural em violeta.
+        estilos = (("#0284c7", "o"), ("#0ea5e9", "v"), ("#16a34a", "s"), ("#65a30d", "P"),
+                   ("#059669", "D"), ("#d97706", "^"), ("#7c3aed", "X"), ("#a855f7", "h"))
+        series = tuple((tr(rotulo), cor, marca) for rotulo, (cor, marca) in zip(labels, estilos))
         for col, (label, color, marker) in enumerate(series):
             ax.plot(
                 vols, proximity_pct[:, col], label=label, color=color, linewidth=2.0,

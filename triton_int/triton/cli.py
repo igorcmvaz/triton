@@ -21,7 +21,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime, timezone
 from itertools import product
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 import numpy as np
 
@@ -33,6 +33,7 @@ if sys.stdout is not None and hasattr(sys.stdout, "reconfigure"):
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from triton.cli_textos import t as _t
+from triton import marca as _marca
 from triton.core.edition import (
     configuracao_da_edicao, serie_de_exemplo_da_edicao, usa_dados_do_brasil, valor_de_partida_da_edicao,
 )
@@ -62,10 +63,12 @@ from triton.core.parser import (
     TritonConfig, export_triton_json, load_triton_project, load_precipitation, parse_netuno_csv,
 )
 from triton.core.simulation import SingleTankSimulationResult, run_single_simulation, run_sweep_simulation
-from triton.core.topsis import PESOS_PADRAO, TopsisCandidate, calculate_topsis_scores, payback_do_criterio
+from triton.core.topsis import (PARTES_NO_EIXO_PADRAO, PESOS_PADRAO, TopsisCandidate, calculate_topsis_scores, payback_do_criterio,
+                                validar_partes_no_eixo, CRITERION_IS_BENEFIT)
 from triton.core.mcdm_methods import AMOSTRAS_SMAA_PADRAO, run_smaa_vikor
+from triton.core.system_weight import calculate_system_weight_from_config
 
-ANALYSES = ("technical", "economic", "environmental", "topsis", "all")
+ANALYSES = ("technical", "economic", "environmental", "system_weight", "topsis", "all")
 FORMATS = ("text", "json", "csv", "html", "xlsx")
 RAIN_RASTER_SUFFIXES = {".csv", ".txt", ".dat"}
 CONFIG_OVERRIDES = {
@@ -115,14 +118,35 @@ def _number_or_text(value: str) -> Any:
         return value
 
 
-def _parse_weights(raw: str) -> Tuple[float, float, float]:
+def _parse_criterion_shares(raw: str) -> Tuple[float, ...]:
+    """Oito partes (uma por critério TOPSIS, na ordem dos critérios): quanto de cada dimensão vai para cada critério da dimensão."""
     try:
         values = tuple(float(value.strip()) for value in raw.split(","))
-        if len(values) == 3 and all(value >= 0 for value in values) and sum(values) > 0:
+        validar_partes_no_eixo(values)
+        return values
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(
+            "Use oito partes não negativas separadas por vírgula (uma por critério TOPSIS), "
+            f"com ao menos uma positiva em cada dimensão: {exc}") from exc
+
+
+def _partes_no_eixo(args: argparse.Namespace, analysis_config: Optional[Dict[str, Any]]) -> Optional[Tuple[float, ...]]:
+    """Partes no eixo: a opção da linha de comando, ou a do projeto, ou ``None`` (o padrão do motor)."""
+    given = getattr(args, "criterion_shares", None)
+    if given:
+        return tuple(given)
+    from_project = (analysis_config or {}).get("topsis_criterion_shares")
+    return tuple(from_project) if from_project else None
+
+
+def _parse_weights(raw: str) -> Tuple[float, ...]:
+    try:
+        values = tuple(float(value.strip()) for value in raw.split(","))
+        if len(values) in (3, 4, 8) and all(value >= 0 for value in values) and sum(values) > 0:
             return values
     except ValueError:
         pass
-    raise argparse.ArgumentTypeError("Use três pesos não negativos separados por vírgula; a soma deve ser positiva.")
+    raise argparse.ArgumentTypeError("Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito de critério, não negativos e separados por vírgula; a soma deve ser positiva. Os sete pesos do modelo anterior à 0.2.0 não valem mais.")
 
 
 def _positive_int(raw: str) -> int:
@@ -176,11 +200,22 @@ def _analysis_from_ui_state(ui_state: Dict[str, Any]) -> Dict[str, Any]:
     output: Dict[str, Any] = {}
     topsis = ui_state.get("topsis", {})
     if topsis:
-        output["topsis_weights"] = [
-            _as_float(topsis.get("technical_weight"), 33.3),
-            _as_float(topsis.get("economic_weight"), 33.3),
-            _as_float(topsis.get("environmental_weight"), 33.4),
-        ]
+        if "structural_weight" in topsis:
+            output["topsis_weights"] = [
+                _as_float(topsis.get("technical_weight"), 25.0),
+                _as_float(topsis.get("economic_weight"), 25.0),
+                _as_float(topsis.get("environmental_weight"), 25.0),
+                _as_float(topsis.get("structural_weight"), 25.0),
+            ]
+        else:
+            output["topsis_weights"] = [
+                _as_float(topsis.get("technical_weight"), 33.3),
+                _as_float(topsis.get("economic_weight"), 33.3),
+                _as_float(topsis.get("environmental_weight"), 33.4),
+            ]
+        # Só as oito partes da 0.2.0; partes de outro modelo ficam com o padrão do motor.
+        if topsis.get("criterion_shares") and len(topsis["criterion_shares"]) == 8:
+            output["topsis_criterion_shares"] = [_as_float(value, 0.0) for value in topsis["criterion_shares"]]
     env = ui_state.get("environmental", {})
     if not env:
         return output
@@ -273,7 +308,7 @@ def _load_bundle(project_file: str) -> Dict[str, Any]:
     if not path.is_file():
         raise FileNotFoundError(f"Arquivo não encontrado: {path}")
 
-    if path.suffix.lower() in {".triton", ".json"}:
+    if path.suffix.lower() in {".triton", ".netuno", ".json"}:
         with path.open("r", encoding="utf-8") as stream:
             raw = json.load(stream)
         if not isinstance(raw, dict) or raw.get("schema", {}).get("name") != "triton-project":
@@ -344,14 +379,22 @@ def _validate_analysis_config(raw: Optional[Dict[str, Any]]) -> List[str]:
     errors: List[str] = []
     weights = raw.get("topsis_weights")
     if weights is not None:
-        if not isinstance(weights, list) or len(weights) != 3:
-            errors.append("analysis.topsis_weights deve ser uma lista com três valores")
+        if not isinstance(weights, list) or len(weights) not in (3, 4, 8):
+            errors.append("analysis.topsis_weights deve ser uma lista com quatro valores (eixos) ou oito (critérios)")
         else:
             try:
                 if any(float(value) < 0 for value in weights) or sum(float(value) for value in weights) <= 0:
                     errors.append("analysis.topsis_weights deve conter valores não negativos com soma positiva")
             except (TypeError, ValueError):
                 errors.append("analysis.topsis_weights deve conter números")
+    shares = raw.get("topsis_criterion_shares")
+    if shares is not None:
+        try:
+            if not isinstance(shares, list):
+                raise ValueError("deve ser uma lista com oito valores")
+            validar_partes_no_eixo(shares)
+        except (TypeError, ValueError) as exc:
+            errors.append(f"analysis.topsis_criterion_shares: {exc}")
     environmental = raw.get("environmental", {})
     if environmental and not isinstance(environmental, dict):
         errors.append("analysis.environmental deve ser um objeto JSON")
@@ -774,6 +817,7 @@ def _economic_row(cfg: TritonConfig, result: SingleTankSimulationResult,
         "annual_water_savings_brl": annual_water_savings_brl,
         "annual_opex_brl": annual_opex_v,
         "annual_pump_kwh": annual_pump_kwh,
+        "lcow_per_m3": econ_res.lcow_per_m3 if v_vol > 0 else None,
     }
     return row_dict, econ_res
 
@@ -830,9 +874,10 @@ def _procedencia_da_chuva(cfg: TritonConfig) -> Dict[str, Any]:
 
 
 def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical", volume: Optional[float] = None,
-                 weights: Tuple[float, float, float] = PESOS_PADRAO,
+                 weights: Tuple[float, ...] = PESOS_PADRAO,
                  environmental: Optional[Dict[str, Any]] = None, source: str = "",
-                 weight_sensitivity: int = 0, seed: int = 42, smaa: bool = True) -> Dict[str, Any]:
+                 weight_sensitivity: int = 0, seed: int = 42, smaa: bool = True,
+                 criterion_shares: Optional[Sequence[float]] = None) -> Dict[str, Any]:
     """Executa a cadeia técnica → econômica → ambiental → TOPSIS de forma rastreável.
 
     ``smaa=False`` dispensa a aceitabilidade SMAA-VIKOR (20.000 vetores de pesos), que
@@ -865,6 +910,36 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
     output["environmental"] = {"alternatives": list(environmental_rows)}
     if analysis_type == "environmental":
         return output
+    weight_results = [
+        calculate_system_weight_from_config(cfg, lower_tank_vol_l=result.lower_tank_vol, environmental_raw=environmental)
+        for result in technical_results
+    ]
+    weight_rows = [
+        {
+            "lower_tank_volume_l": result.lower_tank_vol,
+            "dry_mass_kg": w_res.total_dry_mass_kg,
+            "water_mass_kg": w_res.total_water_mass_kg,
+            "total_operating_mass_kg": w_res.total_operating_mass_kg,
+            "total_operating_weight_kn": w_res.total_operating_weight_kn,
+            "substructure_dry_mass_kg": w_res.substructure.dry_mass_kg,
+            "substructure_total_mass_kg": w_res.substructure.total_operating_mass_kg,
+            "substructure_total_weight_kn": w_res.substructure.total_operating_weight_kn,
+            "superstructure_dry_mass_kg": w_res.superstructure.dry_mass_kg,
+            "superstructure_total_mass_kg": w_res.superstructure.total_operating_mass_kg,
+            "superstructure_total_weight_kn": w_res.superstructure.total_operating_weight_kn,
+            "network_dry_mass_kg": w_res.network.dry_mass_kg,
+            "network_total_mass_kg": w_res.network.total_operating_mass_kg,
+            "network_total_weight_kn": w_res.network.total_operating_weight_kn,
+            "structural_alerts_count": len(w_res.structural_alerts),
+        }
+        for result, w_res in zip(technical_results, weight_results)
+    ]
+    output["system_weight"] = {
+        "summary": weight_results[0].to_dict() if weight_results else {},
+        "alternatives": list(weight_rows),
+    }
+    if analysis_type in ("system_weight", "weight"):
+        return output
     opt_tech_vol = technical_summary.get("optimal_volume_l")
     candidates = [TopsisCandidate(
         lower_tank_vol=result.lower_tank_vol, water_saved_m3_yr=result.annual_pluvial_consumed_m3,
@@ -878,16 +953,29 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
             econ.payback_months / 12.0 if econ.payback_months is not None else None, econ.vpl),
         irr_pct=econ.tir_annual_pct,
         potable_consumed_m3_yr=result.annual_potable_consumed_m3,
-    ) for result, econ, lca in zip(technical_results, economic_results, environmental_results)]
-    topsis = calculate_topsis_scores(candidates, weights=weights)
+        volumetric_reliability_pct=result.volumetric_reliability_pct,
+        storage_efficiency_pct=result.storage_efficiency_pct,
+        net_financial_savings_brl=econ.vpl,
+        lcow_brl_m3=econ.lcow_per_m3 if result.lower_tank_vol > 0 else None,
+        material_mass_kg=w_res.total_dry_mass_kg if result.lower_tank_vol > 0 else 0.0,
+    ) for result, econ, lca, w_res in zip(technical_results, economic_results, environmental_results, weight_results)]
+    topsis = calculate_topsis_scores(candidates, weights=weights, parts=criterion_shares)
+    if topsis and weight_results and topsis.best_index < len(weight_results):
+        output["system_weight"]["summary"] = weight_results[topsis.best_index].to_dict()
     output["topsis"] = {
-        "weights": dict(zip(("technical", "economic", "environmental"), weights)),
+        "weights": dict(zip(
+            ("technical", "economic", "environmental", "structural") if len(weights) == 4
+            else ("technical", "economic", "environmental") if len(weights) == 3
+            else topsis.criterion_keys if topsis else (),
+            weights
+        )),
+        "criterion_shares": [float(x) for x in validar_partes_no_eixo(criterion_shares)] if len(weights) in (3, 4) else None,
         "criteria": [{
             "key": key, "label": label, "weight": float(weight),
             "direction": "maximize" if benefit else "minimize",
         } for key, label, weight, benefit in zip(
             topsis.criterion_keys, topsis.criterion_labels, topsis.criterion_weights,
-            (True, False, True, False, True, False, False),
+            CRITERION_IS_BENEFIT,
         )] if topsis else [],
         "best_volume_l": topsis.best_candidate.lower_tank_vol if topsis else None,
         "best_score": float(topsis.scores[topsis.best_index]) if topsis else None,
@@ -911,6 +999,7 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
             "technical_gap_pct": float((1.0 - topsis.group_proximity_to_best[index, 0]) * 100.0),
             "economic_gap_pct": float((1.0 - topsis.group_proximity_to_best[index, 1]) * 100.0),
             "environmental_gap_pct": float((1.0 - topsis.group_proximity_to_best[index, 2]) * 100.0),
+            "structural_gap_pct": float((1.0 - topsis.group_proximity_to_best[index, 3]) * 100.0) if topsis.group_proximity_to_best.shape[1] > 3 else 0.0,
         } for index, candidate in enumerate(topsis.candidates)] if topsis else [],
     }
     smaa = (run_smaa_vikor(candidates, v_param=0.5, num_samples=AMOSTRAS_SMAA_PADRAO, random_seed=seed)
@@ -932,8 +1021,9 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
     if weight_sensitivity:
         rng = np.random.default_rng(seed)
         winners: Dict[str, int] = {}
-        for sampled_weights in rng.dirichlet((1.0, 1.0, 1.0), size=weight_sensitivity):
-            sampled = calculate_topsis_scores(candidates, weights=tuple(sampled_weights))
+        alpha = (1.0,) * len(weights)
+        for sampled_weights in rng.dirichlet(alpha, size=weight_sensitivity):
+            sampled = calculate_topsis_scores(candidates, weights=tuple(sampled_weights), parts=criterion_shares)
             winner = f"{sampled.best_candidate.lower_tank_vol:.0f}"
             winners[winner] = winners.get(winner, 0) + 1
         output["topsis"]["weight_sensitivity"] = {
@@ -957,7 +1047,7 @@ def _simbolo(report: Dict[str, Any]) -> str:
 
 def _flat_rows(report: Dict[str, Any]) -> List[Dict[str, Any]]:
     rows = {row["lower_tank_volume_l"]: dict(row) for row in report["technical"]["alternatives"]}
-    for section in ("economic", "environmental"):
+    for section in ("economic", "environmental", "system_weight"):
         for row in report.get(section, {}).get("alternatives", []):
             rows.setdefault(row["lower_tank_volume_l"], {}).update(row)
     ranks = {row["lower_tank_volume_l"]: row for row in report.get("topsis", {}).get("ranking", [])}
@@ -987,12 +1077,46 @@ def _render_html(report: Dict[str, Any]) -> str:
     columns = sorted({key for row in rows for key in row})
     header = "".join(f"<th>{column}</th>" for column in columns)
     body = "".join("<tr>" + "".join(f"<td>{row.get(column, '')}</td>" for column in columns) + "</tr>" for row in rows)
-    return ("<!doctype html><meta charset='utf-8'><title>Triton analysis</title><style>"
+    html_sw = ""
+    if "system_weight" in report and "summary" in report["system_weight"]:
+        from html import escape
+        from triton.core.numero import formatar
+        sw = report["system_weight"]["summary"]
+        alerts = sw.get("structural_alerts", [])
+        alerts_html = "".join(f"<li style='color:#b91c1c;margin-bottom:4px;'>{escape(str(a))}</li>" for a in alerts)
+        alerts_block = (f"<ul style='margin-top:8px;'>{alerts_html}</ul>" if alerts
+                        else f"<p style='color:#15803d;'>{_t('Nenhum alerta de carga.')}</p>")
+        cab = "".join(f"<th style='background:#0369a1;'>{_t(c)}</th>" for c in (
+            "Posição Estrutural", "Massa a Seco (kg)", "Carga de Água (kg)", "Carga em Operação (kg)", "Carga (kN)", "% Total"))
+        linhas = ""
+        for chave, padrao in (("substructure", "Subsolo / Nível Inferior"), ("superstructure", "Cobertura / Nível Superior"),
+                              ("network", "Prumadas e Rede")):
+            z = sw.get(chave, {})
+            linhas += (f"<tr><td><strong>{escape(str(z.get('zone_label') or _t(padrao)))}</strong></td>"
+                       f"<td>{formatar(z.get('dry_mass_kg', 0), 1)}</td><td>{formatar(z.get('water_mass_kg', 0), 1)}</td>"
+                       f"<td>{formatar(z.get('total_operating_mass_kg', 0), 1)}</td>"
+                       f"<td>{formatar(z.get('total_operating_weight_kn', 0), 2)}</td>"
+                       f"<td>{formatar(z.get('pct_of_total_mass', 0), 1)}%</td></tr>")
+        html_sw = (
+            "<div style='margin-top:24px;padding:16px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;'>"
+            f"<h2 style='margin-top:0;color:#0f172a;'>{_t('Peso do Sistema e Cargas Estruturais')}</h2>"
+            f"<p><strong>{_t('Carga em operação:')}</strong> {formatar(sw.get('total_operating_mass_kg', 0), 1)} kg "
+            f"({formatar(sw.get('total_operating_weight_kn', 0), 2)} kN) "
+            f"| <strong>{_t('Peso próprio a seco:')}</strong> {formatar(sw.get('total_dry_mass_kg', 0), 1)} kg "
+            f"| <strong>{_t('Carga de água:')}</strong> {formatar(sw.get('total_water_mass_kg', 0), 1)} kg</p>"
+            "<table style='margin-top:12px;width:100%;border-collapse:collapse;'>"
+            f"<thead><tr>{cab}</tr></thead><tbody>{linhas}</tbody></table>"
+            f"<h3 style='margin-top:16px;'>{_t('Diagnósticos e Alertas Estruturais')}</h3>{alerts_block}"
+            "</div>"
+        )
+    return (f"<!doctype html><meta charset='utf-8'><title>{_marca.NOME} analysis</title><style>"
             "body{font:14px Segoe UI,Arial;margin:32px;color:#172033}table{border-collapse:collapse;width:100%}"
             "th{background:#0284c7;color:white}td,th{padding:8px;border:1px solid #cbd5e1;text-align:right}th:first-child,td:first-child{text-align:left}</style>"
-            f"<h1>Triton — relatório de análise</h1><p>Gerado: {report['generated_at_utc']}</p>"
-            + (f"<p>Valores monetários em: {_simbolo(report)}</p>" if "economic" in report else "")
+            f"<h1>{_marca.NOME} — relatório de análise</h1><p>{_t('Gerado:')} {report['generated_at_utc']}</p>"
+            + (f"<p>{_t('Valores monetários em:')} {_simbolo(report)}</p>" if "economic" in report else "")
             + _html_da_fonte_da_chuva(report)
+            + html_sw
+            + f"<h2 style='margin-top:24px;'>{_t('Matriz Consolidada de Alternativas')}</h2>"
             + f"<table><thead><tr>{header}</tr></thead><tbody>{body}</tbody></table>")
 
 
@@ -1000,7 +1124,7 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
     if output_format == "text":
         technical = report["technical"]
         summary = technical["summary"]
-        print(f"=== Triton | {summary['mode']} | {len(technical['alternatives'])} {_t('alternativa(s)')} ===")
+        print(f"=== {_marca.NOME} | {summary['mode']} | {len(technical['alternatives'])} {_t('alternativa(s)')} ===")
         if summary.get("optimal_volume_l") is not None:
             print(f"{_t('Volume técnico indicado:')} {summary['optimal_volume_l']:.0f} L ({summary['optimal_potential_pct']:.2f}% {_t('de economia')})")
         if "economic" in report:
@@ -1019,6 +1143,15 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
             if env_alts:
                 best_env = max(env_alts, key=lambda row: row["lifetime_net_co2_saved_kg"])
                 print(f"{_t('Melhor alternativa ambiental:')} {best_env['lower_tank_volume_l']:.0f} L | {best_env['lifetime_net_co2_saved_kg']:.2f} kg CO2e")
+        if "system_weight" in report and "summary" in report["system_weight"]:
+            sw = report["system_weight"]["summary"]
+            print(f"{_t('Peso do sistema:')} {sw.get('total_dry_mass_kg', 0):.1f} kg ({_t('seco')}) | {sw.get('total_operating_mass_kg', 0):.1f} kg ({sw.get('total_operating_weight_kn', 0):.2f} kN {_t('em operação')})")
+            sub = sw.get("substructure", {})
+            sup = sw.get("superstructure", {})
+            if sup.get("total_operating_mass_kg", 0) > 0:
+                print(f"  • {_t('Subsolo:')} {sub.get('total_operating_mass_kg', 0):.1f} kg ({sub.get('dry_mass_kg', 0):.1f} kg {_t('seco')}) | {_t('Cobertura:')} {sup.get('total_operating_mass_kg', 0):.1f} kg ({sup.get('dry_mass_kg', 0):.1f} kg {_t('seco')})")
+            for al in sw.get("structural_alerts", []):
+                print(f"  ⚠️ {al}")
         if "topsis" in report:
             print(f"TOPSIS: {report['topsis']['best_volume_l']:.0f} L | score {report['topsis']['best_score']:.3f}")
         if "smaa_vikor" in report:
@@ -1043,7 +1176,7 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
             import pandas as pd
             with pd.ExcelWriter(target, engine="openpyxl") as writer:
                 pd.DataFrame(_flat_rows(report)).to_excel(writer, sheet_name="alternatives", index=False)
-                for name in ("technical", "economic", "environmental", "topsis"):
+                for name in ("technical", "economic", "environmental", "system_weight", "topsis"):
                     if name in report:
                         pd.DataFrame([report[name].get("summary", report[name])]).to_excel(writer, sheet_name=name[:31], index=False)
                 prov = dict(report.get("provenance") or {})
@@ -1058,6 +1191,7 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
 def _template_analysis() -> Dict[str, Any]:
     return {
         "topsis_weights": list(PESOS_PADRAO),
+        "topsis_criterion_shares": list(PARTES_NO_EIXO_PADRAO),
         "environmental": {
             "lower_material_key": "PEAD", "upper_material_key": "PEAD",
             "grid_co2_factor_kg_kwh": _fator_de_rede_de_partida(),
@@ -1193,7 +1327,7 @@ def _run_project(args: argparse.Namespace) -> None:
     weights = args.weights or tuple(analysis_config.get("topsis_weights", PESOS_PADRAO))
     report = run_analysis(cfg, precipitation, args.analysis, args.volume, weights,
                           analysis_config.get("environmental", {}), bundle.get("source_path", args.file),
-                          args.weight_sensitivity, args.seed)
+                          args.weight_sensitivity, args.seed, criterion_shares=_partes_no_eixo(args, analysis_config))
     report["provenance"]["currency"] = _moeda_do_bundle(bundle)
     _write_report(report, args.format, args.output)
 
@@ -1229,7 +1363,7 @@ def _run_batch(args: argparse.Namespace) -> None:
             cfg, precipitation, args.analysis,
             weights=args.weights or tuple(base_analysis.get("topsis_weights", PESOS_PADRAO)),
             environmental=base_analysis.get("environmental", {}), source=args.file,
-            weight_sensitivity=args.weight_sensitivity, seed=args.seed,
+            weight_sensitivity=args.weight_sensitivity, seed=args.seed, criterion_shares=_partes_no_eixo(args, base_analysis),
         )
         report["scenario_name"] = scenario["scenario_name"]
         report["provenance"]["currency"] = _moeda_do_bundle(base_bundle)
@@ -1367,10 +1501,10 @@ def _write_matrix_outputs(output_dir: str, summaries: List[Dict[str, Any]], alte
     head = "".join(f"<th>{column}</th>" for column in columns)
     body = "".join("<tr>" + "".join(f"<td>{row.get(column, '')}</td>" for column in columns) + "</tr>" for row in summaries)
     (target / "triton-matriz-painel.html").write_text(
-        "<!doctype html><meta charset='utf-8'><title>Triton | matriz consolidada</title><style>"
+        f"<!doctype html><meta charset='utf-8'><title>{_marca.NOME} | matriz consolidada</title><style>"
         "body{font:14px Segoe UI,Arial;background:#f8fafc;color:#172033;margin:32px}.hero{background:#0f3b5b;color:#fff;padding:24px;border-radius:12px}"
         ".cards{display:flex;gap:12px;margin:18px 0}.card{background:#fff;padding:14px 20px;border-radius:10px;border:1px solid #cbd5e1}table{border-collapse:collapse;width:100%;background:#fff}th{background:#0284c7;color:#fff}td,th{padding:9px;border:1px solid #cbd5e1;text-align:right}td:nth-child(-n+4),th:nth-child(-n+4){text-align:left}</style>"
-        f"<div class='hero'><h1>Triton — matriz consolidada</h1><p>{len(summaries)} combinações de premissas e climas</p></div>"
+        f"<div class='hero'><h1>{_marca.NOME} — matriz consolidada</h1><p>{len(summaries)} combinações de premissas e climas</p></div>"
         f"<div class='cards'><div class='card'><b>Combinações</b><br>{len(summaries)}</div><div class='card'><b>Alternativas avaliadas</b><br>{len(alternatives)}</div></div>"
         f"<table><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table>", encoding="utf-8")
     print(_t("Saídas consolidadas:"), target.resolve())
@@ -1401,7 +1535,7 @@ def _run_matrix(args: argparse.Namespace) -> None:
                 weights=args.weights or tuple(analysis.get("topsis_weights", PESOS_PADRAO)),
                 environmental=analysis.get("environmental", {}),
                 source=f"{premises['_path'].name} × {climates['_path'].name}",
-                weight_sensitivity=args.weight_sensitivity, seed=args.seed,
+                weight_sensitivity=args.weight_sensitivity, seed=args.seed, criterion_shares=_partes_no_eixo(args, analysis),
             )
             premise_id, climate_name = str(premise.get("id", "premissa")), str(climate.get("name", climate_id))
             context = {"premise_id": premise_id, "premise_name": str(premise.get("name", premise_id)),
@@ -1416,22 +1550,24 @@ def _run_matrix(args: argparse.Namespace) -> None:
 
 
 def _discover_project_files(entries: Iterable[str], recursive: bool) -> List[Path]:
-    """Resolve arquivos .triton individuais e diretórios de projetos."""
+    """Resolve arquivos de projeto individuais (.triton e .netuno) e diretórios de projetos."""
     files: List[Path] = []
     for entry in entries:
         path = Path(entry).expanduser().resolve()
         if path.is_file():
-            if path.suffix.lower() not in {".triton", ".json"}:
-                raise ValueError(f"Projeto '{path.name}' deve ter extensão .triton ou .json.")
+            if not _marca.eh_entrada(path.name):
+                raise ValueError(f"Projeto '{path.name}' deve ter extensão de projeto ou .json.")
             files.append(path)
         elif path.is_dir():
-            pattern = "**/*.triton" if recursive else "*.triton"
-            files.extend(sorted(item for item in path.glob(pattern) if item.is_file()))
+            for ext in _marca.EXTENSOES_PROJETO:
+                pattern = f"**/*{ext}" if recursive else f"*{ext}"
+                files.extend(item for item in path.glob(pattern) if item.is_file())
+            files.sort()
         else:
             raise FileNotFoundError(f"Projeto ou pasta não encontrado: {path}")
     unique = list(dict.fromkeys(files))
     if not unique:
-        raise ValueError("Nenhum arquivo .triton foi encontrado nos caminhos informados.")
+        raise ValueError("Nenhum arquivo de projeto foi encontrado nos caminhos informados.")
     return unique
 
 
@@ -1542,7 +1678,7 @@ def _run_project_matrix(args: argparse.Namespace) -> None:
                     cfg, precipitation, args.analysis, weights=weights,
                     environmental=analysis_config.get("environmental", {}),
                     source=f"{project_path.name} × {rainfall_name} × f{factor_index:03d}",
-                    weight_sensitivity=args.weight_sensitivity, seed=args.seed + completed,
+                    weight_sensitivity=args.weight_sensitivity, seed=args.seed + completed, criterion_shares=_partes_no_eixo(args, analysis_config),
                 )
                 context = {
                     "scenario_id": f"{project_id}--{rainfall_name}--f{factor_index:03d}",
@@ -1757,7 +1893,8 @@ def _run_stochastic_study(args: argparse.Namespace) -> None:
             print(f"\r{feitas}/{total} " + _L("realizações", "realisations"), end="", file=sys.stderr, flush=True)
 
     dados = simular(cfg, precipitation, parametros, amostras=amostras, semente=semente,
-                    ao_progredir=progresso, pesos=weights, ambiental=analysis_cfg.get("environmental"))
+                    ao_progredir=progresso, pesos=weights, ambiental=analysis_cfg.get("environmental"),
+                    partes=_partes_no_eixo(args, analysis_cfg))
     if args.format == "text" and not args.quiet:
         print(file=sys.stderr)
 
@@ -1936,6 +2073,7 @@ def _run_uncertainty(args: argparse.Namespace) -> None:
         report = run_analysis(
             scenario, precipitation * rainfall_factor, args.analysis, volume, weights,
             analysis_cfg.get("environmental", {}), bundle.get("source_path", args.file), 0, args.seed + index,
+            criterion_shares=_partes_no_eixo(args, analysis_cfg),
         )
         technical = report["technical"]["alternatives"][0]
         row = {"sample": index + 1, "rainfall_factor": rainfall_factor, "area_m2": scenario.area,
@@ -1963,8 +2101,8 @@ def _run_uncertainty(args: argparse.Namespace) -> None:
     output = {"schema": {"name": "triton-uncertainty", "version": 1},
               "generated_at_utc": datetime.now(timezone.utc).isoformat(), "summary": summary, "samples": samples}
     if args.format == "text":
-        print(_L(f"=== Triton | incerteza Monte Carlo | {args.samples} amostras ===",
-                 f"=== Triton | Monte Carlo uncertainty | {args.samples} samples ==="))
+        print(_L(f"=== {_marca.NOME} | incerteza Monte Carlo | {args.samples} amostras ===",
+                 f"=== {_marca.NOME} | Monte Carlo uncertainty | {args.samples} samples ==="))
         print(_L("Volume analisado: ", "Volume analysed: ") + f"{_n(volume, 0, f'{volume:.0f}')} L")
         print(_L("Economia potável (%), P05/P50/P95: ", "Potable savings (%), P05/P50/P95: ")
               + f"{_resumo_de_percentis(summary['potable_savings_pct'])}")
@@ -2100,7 +2238,7 @@ def _run_compare_mass(args: argparse.Namespace) -> None:
     workers = args.workers or os.cpu_count() or 4
 
     print("=" * 80)
-    print("TRITON -- EXECUÇÃO PARALELA MASSIVA E COMPARAÇÃO COM TESTEMASSIVO")
+    print(_marca.aplicar("TRITON -- EXECUÇÃO PARALELA MASSIVA E COMPARAÇÃO COM TESTEMASSIVO"))
     print("=" * 80)
     print(f" [+] Pasta de Séries Climáticas: {input_dir}")
     print(f" [+] Pasta de Referência: {reference_dir}")
@@ -2245,7 +2383,7 @@ def _run_compare_mass(args: argparse.Namespace) -> None:
     csv_report_path = os.path.join(output_dir, "relatorio_comparativo_massivo.csv")
 
     md_lines = [
-        "# Relatório Comparativo de Simulações Massivas — Triton Nova Versão",
+        _marca.aplicar("# Relatório Comparativo de Simulações Massivas — Triton Nova Versão"),
         "",
         f"**Data da Execução:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         f"**Total de Simulações Executadas:** {len(climate_files) * len(MASS_TEST_CASES):,}",
@@ -2506,11 +2644,17 @@ def _worker_vaz_study_file(file_path: str) -> List[Dict[str, Any]]:
                         discounted_payback_years=(econ_res.payback_months / 12.0 if econ_res.payback_months is not None else None),
                         irr_pct=econ_res.tir_annual_pct,
                         potable_consumed_m3_yr=sim_res.annual_potable_consumed_m3,
+                        volumetric_reliability_pct=sim_res.volumetric_reliability_pct,
+                        storage_efficiency_pct=sim_res.storage_efficiency_pct,
+                        net_financial_savings_brl=econ_res.vpl,
+                        lcow_brl_m3=econ_res.lcow_per_m3,
+                        material_mass_kg=calculate_system_weight_from_config(
+                            cfg, lower_tank_vol_l=float(v_low)).total_dry_mass_kg,
                     )
                     candidates.append(cand)
                     cand_data.append((v_low, sim_res, econ_res, lca_res))
 
-                top_res = calculate_topsis_scores(candidates, weights=(0.333333, 0.333333, 0.333333))
+                top_res = calculate_topsis_scores(candidates, weights=PESOS_PADRAO)
 
                 for idx, (v_low, sim_res, econ_res, lca_res) in enumerate(cand_data):
                     t_score = float(top_res.scores[idx]) if top_res is not None else 0.0
@@ -2585,7 +2729,7 @@ def _run_vaz_study(args: argparse.Namespace) -> None:
     total_simulations = len(climate_files) * len(VAZ_BUILDING_MODELS) * 90  # 5 tipologias * 3 shares * 3 dmodes * 10 volumes = 450 sim por arquivo
 
     print("=" * 80)
-    print("ESTUDO MASSIVO COMPLETO DE TIPOLOGIAS DE VAZ — TRITON (PARQUET STREAMING)")
+    print(_marca.aplicar("ESTUDO MASSIVO COMPLETO DE TIPOLOGIAS DE VAZ — TRITON (PARQUET STREAMING)"))
     print("=" * 80)
     print(f" [+] Pasta de Séries Climáticas: {input_dir}")
     print(f" [+] Pasta de Resultados e Parquet: {output_dir}")
@@ -2731,7 +2875,7 @@ def _run_vaz_study(args: argparse.Namespace) -> None:
     csv_report_path = os.path.join(output_dir, "relatorio_estudo_vaz.csv")
 
     md_lines = [
-        "# Relatório Sintético do Estudo Massivo de Tipologias de Vaz — Triton",
+        _marca.aplicar("# Relatório Sintético do Estudo Massivo de Tipologias de Vaz — Triton"),
         "",
         f"**Data da Execução:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
         f"**Total de Séries Climáticas Analisadas:** {len(climate_files):,}",
@@ -2803,7 +2947,8 @@ def main() -> None:
         command_parser.add_argument("file", help="Projeto CSV legado, .triton ou JSON estruturado")
         command_parser.add_argument("--analysis", choices=ANALYSES, default=default_analysis)
         command_parser.add_argument("--volume", type=float, help="Força um volume de cisterna inferior (L)")
-        command_parser.add_argument("--weights", type=_parse_weights, help="Pesos TOPSIS: técnico,econômico,ambiental")
+        command_parser.add_argument("--weights", type=_parse_weights, help="Pesos TOPSIS: técnico,econômico,ambiental,estrutural (ou oito, um por critério)")
+        command_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
         command_parser.add_argument("--rainfall", help="Substitui a chuva do projeto por este arquivo")
         command_parser.add_argument("--local", metavar="CÓDIGO|NOME",
                                     help="Edição Ibérica: usa a chuva (e a tarifa) do município da base ibérica, por código INE/DTMN (ES-28079, PT-1106) ou nome")
@@ -2846,6 +2991,7 @@ def main() -> None:
     matrix_parser.add_argument("climates", help="Catálogo JSON com schema triton-climate-catalog")
     matrix_parser.add_argument("--analysis", choices=ANALYSES, default="all")
     matrix_parser.add_argument("--weights", type=_parse_weights)
+    matrix_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     matrix_parser.add_argument("--weight-sensitivity", type=_positive_int, default=0)
     matrix_parser.add_argument("--seed", type=int, default=42)
     matrix_parser.add_argument("--output-dir", default="triton-matriz-resultados")
@@ -2865,6 +3011,7 @@ def main() -> None:
                                        help="Procura projetos e séries também nas subpastas")
     project_matrix_parser.add_argument("--analysis", choices=ANALYSES, default="all")
     project_matrix_parser.add_argument("--weights", type=_parse_weights)
+    project_matrix_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     project_matrix_parser.add_argument("--weight-sensitivity", type=_positive_int, default=0)
     project_matrix_parser.add_argument("--seed", type=int, default=42)
     project_matrix_parser.add_argument("--output-dir", default="triton-matriz-projetos")
@@ -2875,6 +3022,7 @@ def main() -> None:
     batch_parser.add_argument("--base", help="Projeto .triton/CSV com parâmetros econômicos e ambientais base")
     batch_parser.add_argument("--analysis", choices=ANALYSES, default="all")
     batch_parser.add_argument("--weights", type=_parse_weights)
+    batch_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     batch_parser.add_argument("--format", choices=FORMATS, default="csv")
     batch_parser.add_argument("--output", help="Arquivo de saída")
     batch_parser.add_argument("--weight-sensitivity", type=_positive_int, default=0)
@@ -2891,6 +3039,7 @@ def main() -> None:
     uncertainty_parser.add_argument("--demand-cv", type=float, default=10.0, help="CV percentual da demanda")
     uncertainty_parser.add_argument("--capex-cv", type=float, default=15.0, help="CV percentual de CAPEX")
     uncertainty_parser.add_argument("--weights", type=_parse_weights)
+    uncertainty_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     uncertainty_parser.add_argument("--set", dest="set_values", action="append", default=[], metavar="CAMPO=VALOR")
     uncertainty_parser.add_argument("--format", choices=("text", "json", "csv"), default="text")
     uncertainty_parser.add_argument("--output")
@@ -2966,6 +3115,7 @@ def main() -> None:
                                    "cenário e recorte do projeto); «todos» usa os 19; «nenhum» desliga"))
     study_parser.add_argument("--daily-cv", type=float, help="Variação de um dia para o outro, em %% (padrão 0)")
     study_parser.add_argument("--weights", type=_parse_weights)
+    study_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     study_parser.add_argument("--set", dest="set_values", action="append", default=[], metavar="CAMPO=VALOR")
     study_parser.add_argument("--format", choices=("text", "json", "csv"), default="text")
     study_parser.add_argument("--output")

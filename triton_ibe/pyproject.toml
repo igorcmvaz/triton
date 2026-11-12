@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "triton-ibe"
-version = "0.1.0"
+version = "0.2.0"
 description = "Simulação do aproveitamento de água da chuva em edifícios: balanço hídrico diário, análise económica, avaliação do ciclo de vida e apoio à decisão multicritério (Edição Ibérica)."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { file = "LICENSE.md" }
 authors = [
-    { name = "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)", email = "sustainability@contato.ufsc.br" }
+    { name = "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)", email = "igorcmvaz@gmail.com" }
 ]
 keywords = [
     "rainwater-harvesting",

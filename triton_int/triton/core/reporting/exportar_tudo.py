@@ -32,6 +32,7 @@ from openpyxl.utils import get_column_letter
 
 from triton.core.simulation_excel_exporter import export_simulation_to_excel
 from triton.core.dados_do_relatorio import planilha_de_exportacao, simbolo_da_moeda
+from triton import marca as _marca
 
 #: Sequências com mais itens que isto viram aba própria em vez de célula.
 _SEQUENCIA_LONGA = 12
@@ -428,7 +429,7 @@ def exportar_tudo(
         from triton import __version__ as versao
     except ImportError:  # pragma: no cover
         versao = "—"
-    leia.append(["Triton — exportação completa para auditoria"])
+    leia.append([_marca.aplicar("Triton — exportação completa para auditoria")])
     leia["A1"].font = Font(bold=True, size=14, color=_VERDE)
     leia.append([f"Projeto: {dados.get('project_name', '—')}"])
     from triton.core.edition import rotulo_da_edicao

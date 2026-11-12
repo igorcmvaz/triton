@@ -1,5 +1,7 @@
 # Detalhamento completo dos três modelos — Triton 0.1.0
 
+> **Versão.** As contas do TOPSIS deste documento são do modelo da 0.1.0 (sete critérios em três eixos). A partir da 0.2.0 o multicritério tem oito critérios em quatro eixos (manual, capítulo 32); o balanço hídrico, o econômico e o ambiental conferidos aqui não mudaram.
+
 > Documento gerado por `python scripts/generate_reference_case_studies.py`. Entradas e resultados vêm dos mesmos objetos usados no estudo de verificação; não edite as tabelas à mão.
 
 Este relatório preserva a visão comparativa dos três modelos. O [`ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md`](ESTUDO_DE_CASO_TRES_MODELOS_REFERENCIA.md) faz a conta manual e mede resíduos; este arquivo fornece todos os dados de entrada e compara os resultados item a item, tanto entre os casos quanto entre os volumes de cada varredura.

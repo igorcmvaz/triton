@@ -179,15 +179,16 @@ def _pastas_de_busca() -> List[str]:
     meipass = getattr(sys, "_MEIPASS", "")
     _rdp1 = os.path.join(os.path.dirname(__file__), "..", "..")
     _rdp2 = os.path.join(os.path.dirname(__file__), "..", "..", "..")
-    raiz_do_programa = _rdp1 if os.path.isdir(os.path.join(_rdp1, "data")) else _rdp2
     pastas = [
         os.environ.get("TRITON_CLIMBRA_DIR", ""),
         os.path.join(pasta_do_executavel, "data") if pasta_do_executavel else "",
         os.path.join(pasta_do_executavel, "_internal", "data") if pasta_do_executavel else "",
         os.path.join(meipass, "data") if meipass else "",
         pasta_do_executavel,
-        os.path.join(raiz_do_programa, "data"),
-        raiz_do_programa,
+        os.path.join(_rdp2, "data"),
+        os.path.join(_rdp1, "data"),
+        _rdp2,
+        _rdp1,
         os.path.join(os.getcwd(), "data"),
         os.getcwd(),
     ]

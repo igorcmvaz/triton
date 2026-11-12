@@ -21,6 +21,7 @@ from pathlib import Path
 from typing import Dict, List, Optional, Sequence, Tuple
 
 from triton.core.pipe_network import PIPE_SYSTEMS
+from triton import marca as _marca
 from triton.core.volumetry import CONTROL_SYSTEM, Point, Scene, Solid, build_volumetry, face_normal
 
 _ANGLE_FEATURE_DEG = 25.0
@@ -112,7 +113,7 @@ def write_glb(scene: Scene, output_path: str) -> str:
     while len(binary) % 4:
         binary.append(0)
     document = {
-        "asset": {"version": "2.0", "generator": "Triton — volumetria"},
+        "asset": {"version": "2.0", "generator": _marca.aplicar("Triton — volumetria")},
         "scene": 0,
         "scenes": [{"name": scene.title, "nodes": list(range(len(nodes))), "extras": {"notas": scene.notes, "unidades": "m, y para cima"}}],
         "nodes": nodes, "meshes": meshes, "materials": materials, "accessors": accessors,

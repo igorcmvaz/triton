@@ -21,6 +21,8 @@ projetos); a ordem das importações não muda o comportamento das demais ediç�
 
 from __future__ import annotations
 
+from triton import marca as _marca
+
 import csv
 import difflib
 import hashlib
@@ -906,9 +908,9 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
             padroes["tarifa"] = _validar_tarifa(pd_["tarifa"], "padroes.tarifa", erros)
 
     # análise
-    analise = {"tipo": "technical", "volume": "otimo_tecnico", "pesos": None, "semente": 42}
+    analise = {"tipo": "technical", "volume": "otimo_tecnico", "pesos": None, "partes_no_eixo": None, "semente": 42}
     an = doc.get("analise")
-    if an is not None and _validar_chaves(an, ("tipo", "volume", "pesos", "semente"), "analise", erros):
+    if an is not None and _validar_chaves(an, ("tipo", "volume", "pesos", "partes_no_eixo", "semente"), "analise", erros):
         tipo = an.get("tipo", "technical")
         if tipo not in TIPOS_DE_ANALISE:
             erros.append(_m("analise.tipo: «{0}» desconhecido. Use: {1}", tipo, ", ".join(TIPOS_DE_ANALISE)))
@@ -923,11 +925,21 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
             erros.append(_m("analise.volume: use «otimo_tecnico», «topsis», «smaa_vikor» ou um volume em litros (número ≥ 0)"))
         if an.get("pesos") is not None:
             pesos = an["pesos"]
-            if (not isinstance(pesos, list) or len(pesos) != 3 or not all(_eh_numero(p) and p >= 0 for p in pesos)
+            if (not isinstance(pesos, list) or len(pesos) not in (3, 4, 8) or not all(_eh_numero(p) and p >= 0 for p in pesos)
                     or sum(pesos) <= 0):
-                erros.append(_m("analise.pesos: três números não negativos (técnico, econômico, ambiental), com soma positiva"))
+                erros.append(_m("analise.pesos: quatro números não negativos (técnico, econômico, ambiental, estrutural) ou oito (um por critério), com soma positiva"))
             else:
                 analise["pesos"] = [float(p) for p in pesos]
+        if an.get("partes_no_eixo") is not None:
+            partes = an["partes_no_eixo"]
+            try:
+                from triton.core.topsis import validar_partes_no_eixo
+                if not isinstance(partes, list) or not all(_eh_numero(p) for p in partes):
+                    raise ValueError("esperados oito números")
+                validar_partes_no_eixo(partes)
+                analise["partes_no_eixo"] = [float(p) for p in partes]
+            except ValueError as exc:
+                erros.append(_m("analise.partes_no_eixo: {0}", str(exc)))
         sem = an.get("semente", 42)
         if not isinstance(sem, int) or isinstance(sem, bool):
             erros.append(_m("analise.semente: esperado um inteiro"))
@@ -1804,7 +1816,8 @@ def executar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]
             warnings.simplefilter("always")
             relatorio = cli.run_analysis(cfg, precip, analise["tipo"], volume_fixo, pesos,
                                          analysis_cfg.get("environmental", {}), origem_txt, 0, analise["semente"],
-                                         smaa=precisa_smaa)
+                                         smaa=precisa_smaa,
+                                         criterion_shares=analise.get("partes_no_eixo") or analysis_cfg.get("topsis_criterion_shares"))
         # só os avisos do modelo; os da plataforma (arquivo não fechado, depreciação) e os endereços de memória ficam de fora,
         # para que duas execuções deem o mesmo arquivo
         ruido_da_plataforma = (ResourceWarning, DeprecationWarning, PendingDeprecationWarning, ImportWarning, FutureWarning)
@@ -2144,7 +2157,7 @@ def tabela_tex(plano: Dict[str, Any], resultados: Sequence[Optional[Dict[str, An
     tab = montar_tabela(plano, resultados, idioma, vazio="--")
     n0 = tab["numericas_a_partir_de"]
     cols = "".join("l" if i < n0 else "r" for i in range(len(tab["cabecalho"])))
-    linhas = ["% " + _txt("gerado", idioma) + f" Triton {__version__} ({rotulo_da_edicao(True)}); " + "estudo " + plano["estudo"]["id"],
+    linhas = ["% " + _txt("gerado", idioma) + f" {_marca.NOME} {__version__} ({rotulo_da_edicao(True)}); " + "estudo " + plano["estudo"]["id"],
               "% requires \\usepackage{booktabs}",
               "\\begin{table}[ht]", "\\centering", f"\\caption{{{tex_escape(_legenda(plano, idioma))}}}",
               f"\\label{{tab:{re.sub(r'[^A-Za-z0-9:_-]', '-', plano['estudo']['id'])}}}",
@@ -2273,7 +2286,7 @@ def resumo_md(plano: Dict[str, Any], resultados: Sequence[Optional[Dict[str, Any
         linhas += ["", f"## {_txt('falhas', idioma)}", "", *[f"- {r['id']}: {r.get('erro', '')}" for r in erros]]
     nomes = {"csv": "resultados.csv", "json": "resultados.json", "md": "tabela.md", "tex": "tabela.tex", "xlsx": "tabela.xlsx"}
     linhas += ["", f"## {_txt('arquivos', idioma)}", "", *[f"- {nomes[f]}" for f in formatos if f in nomes]]
-    linhas += ["", f"{_txt('gerado', idioma)} Triton {__version__} ({_txt('edicao', idioma)} {rotulo_da_edicao(True)}); "
+    linhas += ["", f"{_txt('gerado', idioma)} {_marca.NOME} {__version__} ({_txt('edicao', idioma)} {rotulo_da_edicao(True)}); "
                    f"estudo.json SHA-256 {plano['sha256'][:12]}."]
     return "\n".join(linhas) + "\n"
 
@@ -2286,7 +2299,7 @@ def tabela_xlsx(caminho: Path, plano: Dict[str, Any], resultados: Sequence[Optio
     except ImportError:
         return False
     wb = Workbook()
-    wb.properties.creator = f"Triton {__version__}"
+    wb.properties.creator = f"{_marca.NOME} {__version__}"
     wb.properties.created = wb.properties.modified = datetime.strptime(data_de_execucao(), "%Y-%m-%d")
     ws = wb.active
     ws.title = "tabela"
@@ -2684,7 +2697,8 @@ def esquema_json() -> Dict[str, Any]:
             "analise": {"type": "object", "properties": {
                 "tipo": {"enum": list(TIPOS_DE_ANALISE)},
                 "volume": {"anyOf": [{"enum": ["otimo_tecnico", "topsis", "smaa_vikor", "smaa"]}, {"type": "number", "minimum": 0}]},
-                "pesos": {"type": "array", "items": {"type": "number", "minimum": 0}, "minItems": 3, "maxItems": 3},
+                "pesos": {"type": "array", "items": {"type": "number", "minimum": 0}, "minItems": 3, "maxItems": 8},
+                "partes_no_eixo": {"type": "array", "items": {"type": "number", "minimum": 0}, "minItems": 8, "maxItems": 8},
                 "semente": {"type": "integer"}}},
             "saidas": {"type": "object", "properties": {
                 "formatos": {"type": "array", "items": {"enum": list(FORMATOS)}, "minItems": 1},

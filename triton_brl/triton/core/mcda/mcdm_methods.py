@@ -19,7 +19,21 @@ except ImportError:  # pragma: no cover
             return fn
         return _wrap
 
-from triton.core.topsis import TopsisCandidate, CRITERION_KEYS, CRITERION_IS_BENEFIT
+from triton.core.topsis import TopsisCandidate, CRITERION_KEYS, CRITERION_IS_BENEFIT, _decision_matrix
+
+
+def _normalize_weights(weights: Optional[Sequence[float]], m: int) -> np.ndarray:
+    """Os oito pesos de critério, pela mesma regra do TOPSIS (``topsis._criterion_weights``).
+
+    Quatro pesos de eixo são repartidos em partes iguais dentro de cada eixo; três pesos
+    (projetos até a 0.1.0) dão ao eixo estrutural a média dos três; oito pesos valem como
+    estão. VIKOR, PROMETHEE II e TOPSIS ponderam, assim, os mesmos critérios do mesmo modo.
+    """
+    from triton.core.topsis import _criterion_weights
+    w = _criterion_weights(weights, None)
+    if w.size != m:
+        raise ValueError(f"Esperados {m} pesos de critério, obtidos {w.size}.")
+    return w
 
 
 @dataclass
@@ -65,12 +79,7 @@ class SmaaResult:
 
     @property
     def first_rank_acceptabilities(self) -> np.ndarray:
-        """A mesma aceitabilidade de 1º lugar, em fração de 0 a 1.
-
-        O motor grava `first_rank_probs` sempre em percentual. A conversão é fixa:
-        a versão anterior adivinhava a unidade pelo máximo, e um resultado em que
-        nenhuma alternativa passasse de 1% seria devolvido cem vezes maior.
-        """
+        """A mesma aceitabilidade de 1º lugar, em fração de 0 a 1."""
         return np.asarray(self.first_rank_probs, dtype=float) / 100.0
 
     @property
@@ -86,24 +95,29 @@ class SmaaResult:
         """Alias de apresentação para explicitar o total de execuções Monte Carlo."""
         return self.num_samples
 
-    def get_central_dimension_weights(self, index: int) -> Tuple[float, float, float]:
+    def get_central_dimension_weights(self, index: int) -> Tuple[float, float, float, float]:
         """
-        Retorna os pesos centrais agregados nas 3 dimensões (Técnica, Econômica, Ambiental)
+        Retorna os pesos centrais agregados nas 4 dimensões (Técnica, Econômica, Ambiental, Estrutural/Executiva)
         para a alternativa indicada.
         """
         if index < 0 or index >= len(self.central_weights):
-            return (0.333, 0.333, 0.334)
+            return (0.25, 0.25, 0.25, 0.25)
         cw = self.central_weights[index]
         if np.sum(cw) <= 1e-9:
-            return (0.333, 0.333, 0.334)
-        # Critérios: 0,1 -> Técnico; 2,3,4 -> Econômico; 5,6 -> Ambiental
+            return (0.25, 0.25, 0.25, 0.25)
+        # Critérios:
+        # Técnica: índices 0 e 1
+        # Econômica: índices 2, 3 e 4
+        # Ambiental: índice 5
+        # Estrutural/Executiva: índices 6 e 7
         w_tech = float(cw[0] + cw[1])
         w_econ = float(cw[2] + cw[3] + cw[4])
-        w_env = float(cw[5] + cw[6])
-        tot = w_tech + w_econ + w_env
+        w_env = float(cw[5])
+        w_struct = float(cw[6] + cw[7])
+        tot = w_tech + w_econ + w_env + w_struct
         if tot <= 1e-9:
-            return (0.333, 0.333, 0.334)
-        return (w_tech / tot, w_econ / tot, w_env / tot)
+            return (0.25, 0.25, 0.25, 0.25)
+        return (w_tech / tot, w_econ / tot, w_env / tot, w_struct / tot)
 
 
 @dataclass
@@ -141,37 +155,10 @@ def run_vikor(
     if n == 0:
         raise ValueError("A lista de candidatos não pode ser vazia.")
 
-    # Constrói matriz de decisão
+    # Constrói matriz de decisão (n x 8)
     m = len(CRITERION_KEYS)
-    matrix = np.zeros((n, m), dtype=float)
-    for i, c in enumerate(cand_list):
-        pot = c.potential_savings_pct if c.potential_savings_pct is not None else (c.water_saved_m3_yr / max(1e-6, c.water_saved_m3_yr) * 100)
-        over = c.overflow_m3_yr if c.overflow_m3_yr is not None else 0.0
-        dpb = c.discounted_payback_years if c.discounted_payback_years is not None else 20.0
-        irr = c.irr_pct if c.irr_pct is not None else 0.0
-        pot_cons = c.potable_consumed_m3_yr if c.potable_consumed_m3_yr is not None else 0.0
-
-        matrix[i, 0] = pot
-        matrix[i, 1] = over
-        matrix[i, 2] = c.vpl_brl
-        matrix[i, 3] = dpb
-        matrix[i, 4] = irr
-        matrix[i, 5] = c.lifecycle_co2_kg
-        matrix[i, 6] = pot_cons
-
-    if weights is None:
-        w = np.ones(m, dtype=float) / m
-    else:
-        raw_w = np.asarray(weights, dtype=float)
-        if raw_w.size == 3:
-            raw_w = raw_w / np.sum(raw_w)
-            w = np.array([
-                raw_w[0] / 2.0, raw_w[0] / 2.0,
-                raw_w[1] / 3.0, raw_w[1] / 3.0, raw_w[1] / 3.0,
-                raw_w[2] / 2.0, raw_w[2] / 2.0
-            ], dtype=float)
-        else:
-            w = raw_w / np.sum(raw_w)
+    matrix = _decision_matrix(cand_list)
+    w = _normalize_weights(weights, m)
 
     # Identifica o melhor f* e o pior f- por critério
     f_best = np.zeros(m, dtype=float)
@@ -227,9 +214,7 @@ def run_vikor(
     )
 
 
-#: Sorteios de pesos do SMAA-VIKOR quando nada se declara. É o perfil «alta
-#: precisão» da interface; a linha de comando usava 5.000, e com menos sorteios
-#: o líder podia mudar entre as duas para o mesmo projeto.
+#: Sorteios de pesos do SMAA-VIKOR quando nada se declara.
 AMOSTRAS_SMAA_PADRAO = 20000
 
 
@@ -300,21 +285,7 @@ def run_smaa_vikor(
         raise ValueError("num_samples deve ser um inteiro positivo.")
 
     m = len(CRITERION_KEYS)
-    matrix = np.zeros((n, m), dtype=float)
-    for i, c in enumerate(cand_list):
-        pot = c.potential_savings_pct if c.potential_savings_pct is not None else (c.water_saved_m3_yr / max(1e-6, c.water_saved_m3_yr) * 100)
-        over = c.overflow_m3_yr if c.overflow_m3_yr is not None else 0.0
-        dpb = c.discounted_payback_years if c.discounted_payback_years is not None else 20.0
-        irr = c.irr_pct if c.irr_pct is not None else 0.0
-        pot_cons = c.potable_consumed_m3_yr if c.potable_consumed_m3_yr is not None else 0.0
-
-        matrix[i, 0] = pot
-        matrix[i, 1] = over
-        matrix[i, 2] = c.vpl_brl
-        matrix[i, 3] = dpb
-        matrix[i, 4] = irr
-        matrix[i, 5] = c.lifecycle_co2_kg
-        matrix[i, 6] = pot_cons
+    matrix = _decision_matrix(cand_list)
 
     # Melhores (f*) e piores (f-) por critério
     f_best = np.zeros(m, dtype=float)
@@ -410,21 +381,7 @@ def run_smaa_analysis(
         raise ValueError("A lista de candidatos não pode ser vazia.")
 
     m = len(CRITERION_KEYS)
-    matrix = np.zeros((n, m), dtype=float)
-    for i, c in enumerate(cand_list):
-        pot = c.potential_savings_pct if c.potential_savings_pct is not None else (c.water_saved_m3_yr / max(1e-6, c.water_saved_m3_yr) * 100)
-        over = c.overflow_m3_yr if c.overflow_m3_yr is not None else 0.0
-        dpb = c.discounted_payback_years if c.discounted_payback_years is not None else 20.0
-        irr = c.irr_pct if c.irr_pct is not None else 0.0
-        pot_cons = c.potable_consumed_m3_yr if c.potable_consumed_m3_yr is not None else 0.0
-
-        matrix[i, 0] = pot
-        matrix[i, 1] = over
-        matrix[i, 2] = c.vpl_brl
-        matrix[i, 3] = dpb
-        matrix[i, 4] = irr
-        matrix[i, 5] = c.lifecycle_co2_kg
-        matrix[i, 6] = pot_cons
+    matrix = _decision_matrix(cand_list)
 
     norm_factors = np.linalg.norm(matrix, axis=0)
     norm_factors[norm_factors == 0] = 1.0
@@ -523,16 +480,17 @@ def _promethee_kernel(
                     else:
                         denom = p_th - q
                         p = (d - q) / denom if denom > 1e-12 else 1.0
+                    total_pref += weights[j] * p
                 elif pref_type == 2:  # Gaussiana
                     sigma = s_param[j]
                     if sigma > 1e-12:
                         p = 1.0 - np.exp(-(d * d) / (2.0 * sigma * sigma))
                     else:
                         p = 1.0
+                    total_pref += weights[j] * p
                 else:
                     p = 1.0 if d > 0.0 else 0.0
-
-                total_pref += weights[j] * p
+                    total_pref += weights[j] * p
             pi[i, k] = total_pref
 
     denom = float(n - 1)
@@ -557,7 +515,7 @@ def run_promethee(
     Parâmetros:
     -----------
     candidates: sequência de alternativas avaliadas
-    weights: pesos dos 7 critérios ou 3 dimensões (Técnica, Econômica, Ambiental)
+    weights: pesos dos 8 critérios ou 4 dimensões (Técnica, Econômica, Ambiental, Estrutural/Executiva)
     preference_function: 'usual', 'linear' (padrão) ou 'gaussian'
     q_thresholds: limiares de indiferença por critério (opcional)
     p_thresholds: limiares de preferência por critério (opcional, padrão = amplitude max - min)
@@ -579,37 +537,8 @@ def run_promethee(
             preference_function=preference_function,
         )
 
-    matrix = np.zeros((n, m), dtype=float)
-    for i, c in enumerate(cand_list):
-        pot = c.potential_savings_pct if c.potential_savings_pct is not None else (
-            c.water_saved_m3_yr / max(1e-6, c.water_saved_m3_yr) * 100)
-        over = c.overflow_m3_yr if c.overflow_m3_yr is not None else 0.0
-        dpb = c.discounted_payback_years if c.discounted_payback_years is not None else 20.0
-        irr = c.irr_pct if c.irr_pct is not None else 0.0
-        pot_cons = c.potable_consumed_m3_yr if c.potable_consumed_m3_yr is not None else 0.0
-
-        matrix[i, 0] = pot
-        matrix[i, 1] = over
-        matrix[i, 2] = c.vpl_brl
-        matrix[i, 3] = dpb
-        matrix[i, 4] = irr
-        matrix[i, 5] = c.lifecycle_co2_kg
-        matrix[i, 6] = pot_cons
-
-    if weights is None:
-        w = np.ones(m, dtype=float) / m
-    else:
-        raw_w = np.asarray(weights, dtype=float)
-        if raw_w.size == 3:
-            raw_w = raw_w / np.sum(raw_w)
-            w = np.array([
-                raw_w[0] / 2.0, raw_w[0] / 2.0,
-                raw_w[1] / 3.0, raw_w[1] / 3.0, raw_w[1] / 3.0,
-                raw_w[2] / 2.0, raw_w[2] / 2.0
-            ], dtype=float)
-        else:
-            w = raw_w / np.sum(raw_w)
-
+    matrix = _decision_matrix(cand_list)
+    w = _normalize_weights(weights, m)
     is_benefit = np.asarray(CRITERION_IS_BENEFIT, dtype=bool)
 
     pref_norm = str(preference_function).lower().strip()

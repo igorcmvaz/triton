@@ -10,6 +10,7 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QPixmap
 
 from triton import APP_VERSION_LABEL
+from triton import marca as _marca
 from triton.ui.translation import tr, get_resource_path, get_current_theme
 
 
@@ -48,7 +49,7 @@ class Sidebar(QWidget):
         v_title.setSpacing(1)
 
         lbl_title = QLabel(APP_VERSION_LABEL)
-        lbl_title.setText("TRITON")
+        lbl_title.setText(_marca.NOME.upper())
         lbl_title.setStyleSheet("""
             font-family: 'Segoe UI', 'Montserrat', 'Inter', 'Arial', sans-serif;
             font-size: 18px;

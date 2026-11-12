@@ -12,6 +12,7 @@ modelos). Os relatórios impressos pela análise seguem o idioma do código-font
 from __future__ import annotations
 
 from triton.core.edition import is_int_edition, is_ibe_edition
+from triton.marca import aplicar
 
 _EN = {
     'Resultado salvo em:': 'Result saved to:',
@@ -81,7 +82,6 @@ _EN = {
     'Oculta o progresso': 'Hides the progress',
     'Projeto CSV legado, .triton ou JSON estruturado': 'Legacy CSV project, .triton or structured JSON',
     'Força um volume de cisterna inferior (L)': 'Forces a lower tank volume (L)',
-    'Pesos TOPSIS: técnico,econômico,ambiental': 'TOPSIS weights: technical,economic,environmental',
     'Substitui a chuva do projeto por este arquivo': 'Replaces the project rainfall with this file',
     'Data inicial dd/mm/aaaa; necessária para sazonalidade mensal': 'Start date dd/mm/yyyy; needed for monthly seasonality',
     'Sobrescreve campo do projeto; pode ser repetido': 'Overrides a project field; may be repeated',
@@ -343,8 +343,9 @@ _EN.update({
         'analise.volume: use «otimo_tecnico», «topsis» or a volume in litres (number ≥ 0)',
     'analise.volume: use «otimo_tecnico», «topsis», «smaa_vikor» ou um volume em litros (número ≥ 0)':
         'analise.volume: use «otimo_tecnico», «topsis», «smaa_vikor» or a volume in litres (number ≥ 0)',
-    'analise.pesos: três números não negativos (técnico, econômico, ambiental), com soma positiva':
-        'analise.pesos: three non-negative numbers (technical, economic, environmental) with a positive sum',
+    'analise.pesos: quatro números não negativos (técnico, econômico, ambiental, estrutural) ou oito (um por critério), com soma positiva':
+        'analise.pesos: four non-negative numbers (technical, economic, environmental, structural) or eight (one per criterion) with a positive sum',
+    'analise.partes_no_eixo: {0}': 'analise.partes_no_eixo: {0}',
     'saidas.formatos: lista não vazia com {0}': 'saidas.formatos: a non-empty list with {0}',
     'saidas.metricas: lista não vazia de métricas (veja «triton estudo apelidos»)': 'saidas.metricas: a non-empty list of metrics (see «triton estudo apelidos»)',
     'saidas.casas_decimais: inteiro de 0 a 8 ou objeto {{métrica: casas}}': 'saidas.casas_decimais: an integer from 0 to 8 or an object {{metric: places}}',
@@ -410,6 +411,66 @@ _EN.update({
         'The optional package «{0}» is needed for {1}, but it is not installed. Install it with: {2}. It does not come with the program installer.',
     'O pacote opcional «{0}» é necessário, mas não está instalado. Instale-o com: {1}. Ele não vem no instalador do programa.':
         'The optional package «{0}» is needed, but it is not installed. Install it with: {1}. It does not come with the program installer.',
+    'Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1':
+        'Share of each criterion within its dimension (8 values: volumetric reliability, storage efficiency, net savings, LCOW, payback, CO2, dry mass, overflow); default: 1,1,1,1,1,1,1,1',
+    'Pesos TOPSIS: técnico,econômico,ambiental,estrutural (ou oito, um por critério)':
+        'TOPSIS weights: technical,economic,environmental,structural (or eight, one per criterion)',
+})
+
+# ── 0.2.0: peso do sistema e multicritério de oito critérios ─────────────────────────────────────────
+_EN.update({
+    'Triton — relatório de análise':
+        'Triton — analysis report',
+    'Peso do Sistema e Cargas Estruturais':
+        'System Weight and Structural Loads',
+    'Posição Estrutural':
+        'Structural Position',
+    'Massa a Seco (kg)':
+        'Dry Mass (kg)',
+    'Carga de Água (kg)':
+        'Water Load (kg)',
+    'Carga em Operação (kg)':
+        'Operating Load (kg)',
+    'Carga (kN)':
+        'Load (kN)',
+    '% Total':
+        '% of Total',
+    'Diagnósticos e Alertas Estruturais':
+        'Structural Diagnostics and Alerts',
+    'Nenhum alerta de carga.':
+        'No load alerts.',
+    'Carga em operação:':
+        'Operating load:',
+    'Peso próprio a seco:':
+        'Dry self-weight:',
+    'Carga de água:':
+        'Water load:',
+    'Matriz Consolidada de Alternativas':
+        'Consolidated Matrix of Alternatives',
+    'Peso do sistema:':
+        'System weight:',
+    'seco':
+        'dry',
+    'em operação':
+        'in operation',
+    'Subsolo:':
+        'Lower level:',
+    'Cobertura:':
+        'Roof:',
+    'Subsolo / Nível Inferior':
+        'Lower Level / Basement',
+    'Cobertura / Nível Superior':
+        'Roof / Upper Level',
+    'Prumadas e Rede':
+        'Risers and Pipework',
+    'Carga no nível superior: com o reservatório cheio, {0} kg ({1} kN) sobre a cobertura, acima do limiar de atenção do programa ({2} kg). Confirme o apoio com o projeto estrutural.':
+        'Upper-level load: with the tank full, {0} kg ({1} kN) rests on the roof, above the program\'s attention threshold ({2} kg). Confirm the support with the structural design.',
+    'Reservatório superior de {0} L: acima de {1} L, confirme com o projeto estrutural a base de apoio na cobertura.':
+        'Upper tank of {0} L: above {1} L, confirm the supporting base on the roof with the structural design.',
+    'Peso próprio da cisterna: {0} kg a seco ({1}), acima do limiar de atenção do programa ({2} kg). Confirme o apoio no solo com o projeto de fundações.':
+        'Cistern self-weight: {0} kg dry ({1}), above the program\'s attention threshold ({2} kg). Confirm the ground support with the foundation design.',
+    'Cisterna de concreto: {0} kg a seco e {1} kg cheia. Considere essa carga no projeto de fundações.':
+        'Concrete cistern: {0} kg dry and {1} kg full. Include this load in the foundation design.',
 })
 
 
@@ -420,10 +481,13 @@ def em_portugues_de_portugal(texto: str) -> str:
 
 
 def t(texto: str) -> str:
-    """O texto da edição ativa: o original na Brasil, o inglês na Internacional, o glossário na Portugal."""
+    """O texto da edição ativa: o original na Brasil, o inglês na Internacional, o glossário na Portugal.
+
+    O nome do programa sai de ``marca.NOME`` (``marca.aplicar``); as chaves continuam com o nome antigo.
+    """
     if is_int_edition():
-        return _EN.get(texto, texto)
+        return aplicar(_EN.get(texto, texto))
     if is_ibe_edition():
         from triton.ui.portugues_de_portugal import para_portugal
-        return para_portugal(texto)
-    return texto
+        return aplicar(para_portugal(texto))
+    return aplicar(texto)

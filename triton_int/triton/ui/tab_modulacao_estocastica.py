@@ -118,10 +118,10 @@ class _Trabalhador(QObject):
     concluido = Signal(object)
     falhou = Signal(str)
 
-    def __init__(self, cfg, precip, parametros, amostras, semente, pesos, ambiental):
+    def __init__(self, cfg, precip, parametros, amostras, semente, pesos, ambiental, partes=None):
         super().__init__()
         self.args = (cfg, precip, parametros)
-        self.kw = dict(amostras=amostras, semente=semente, pesos=pesos, ambiental=ambiental)
+        self.kw = dict(amostras=amostras, semente=semente, pesos=pesos, ambiental=ambiental, partes=partes)
         self._cancelar = False
 
     def cancelar(self):
@@ -812,7 +812,7 @@ class TabModulacaoEstocastica(QWidget):
         estado = mw._collect_project_ui_state() if hasattr(mw, "_collect_project_ui_state") else {}
         analise = _analysis_from_ui_state(estado)
         return (copy.deepcopy(cfg), np.asarray(precip, dtype=float), analise.get("topsis_weights"),
-                analise.get("environmental")), None
+                analise.get("environmental"), analise.get("topsis_criterion_shares")), None
 
     def _cfg(self):
         estudo, _ = self._estudo()
@@ -954,9 +954,9 @@ class TabModulacaoEstocastica(QWidget):
             QMessageBox.information(self, tr("Modulação Probabilística"),
                                     tr("Nenhuma variável marcada: o resultado seria o próprio estudo."))
             return
-        cfg, precip, pesos, ambiental = estudo
+        cfg, precip, pesos, ambiental, partes = estudo
         self._trabalhador = _Trabalhador(cfg, precip, parametros, self.spin_n.value(), self.spin_semente.value(),
-                                         pesos, ambiental)
+                                         pesos, ambiental, partes)
         self._trabalhador.progresso.connect(self._ao_progredir)
         self._trabalhador.concluido.connect(self._ao_concluir)
         self._trabalhador.falhou.connect(self._ao_falhar)

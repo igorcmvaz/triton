@@ -591,6 +591,7 @@ def simular(
     pesos: Optional[Sequence[float]] = None,
     ambiental: Optional[Dict[str, Any]] = None,
     series_dos_modelos: Optional[Dict[str, Sequence[float]]] = None,
+    partes: Optional[Sequence[float]] = None,
 ) -> Dict[str, Any]:
     """Refaz o estudo ``amostras`` vezes, cada uma com as variáveis escolhidas sorteadas.
 
@@ -620,6 +621,8 @@ def simular(
     extras: Dict[str, Any] = {"smaa": False}
     if pesos is not None:
         extras["weights"] = tuple(float(p) for p in pesos)
+    if partes is not None:
+        extras["criterion_shares"] = tuple(float(p) for p in partes)
     if ambiental:
         extras["environmental"] = ambiental
     emissao_base = None

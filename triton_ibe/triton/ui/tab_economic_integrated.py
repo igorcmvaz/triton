@@ -1096,6 +1096,7 @@ class TabEconomicIntegrated(QWidget):
                         "annual_opex": annual_opex_v,
                         "total_opex": econ_v.total_opex_brl if v_vol > 0 else 0.0,
                         "total_costs": (capex_v + econ_v.total_opex_brl) if v_vol > 0 else 0.0,
+                        "lcow_per_m3": econ_v.lcow_per_m3 if v_vol > 0 else None,
                     }
 
                     it0 = QTableWidgetItem(milhar(f"{v_vol:,.0f} L"))

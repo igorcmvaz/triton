@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "triton-int"
-version = "0.1.0"
+version = "0.2.0"
 description = "Rainwater harvesting simulation for buildings: daily water balance, economic analysis, life-cycle assessment and multi-criteria decision support (International Edition)."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { file = "LICENSE.md" }
 authors = [
-    { name = "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)", email = "sustainability@contato.ufsc.br" }
+    { name = "Grupo de Pesquisa em Ambientes Sustentáveis (UFSC)", email = "igorcmvaz@gmail.com" }
 ]
 keywords = [
     "rainwater-harvesting",

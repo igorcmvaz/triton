@@ -23,6 +23,7 @@ from triton.core.bim_exporter import COMPONENT_TYPES, build_bim_manifest, valida
 from triton.core.cad_block_library import APP_ID, configure_cad_document, register_plan_blocks
 from triton.core.dados_do_relatorio import documento_dxf_de_exportacao
 from triton.core.pipe_network import SYSTEMS_BY_ID, lengths_by_dn
+from triton import marca as _marca
 
 
 _BLOCK_BY_TYPE = {item["type_id"]: item["cad_block"] for item in COMPONENT_TYPES}
@@ -95,7 +96,7 @@ def _add_notes(msp, manifest: Dict[str, Any]) -> None:
     xs, ys, zs = _bounds(manifest)
     x0, y0, z0 = xs[0], ys[0] - 1500.0, zs[0]
     lines = [
-        f"TRITON — PLANTA 3D | {manifest['project']['name']} | Ref.: {manifest['project']['reference']}",
+        f"{_marca.NOME.upper()} — PLANTA 3D | {manifest['project']['name']} | Ref.: {manifest['project']['reference']}",
         "Unidades: mm | eixo z para cima | coordenadas locais não georreferenciadas.",
         "Trechos desenhados na sequência organizada pelo projetista; confirmar interferências no projeto executivo.",
     ]

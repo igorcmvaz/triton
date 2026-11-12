@@ -22,6 +22,7 @@ from triton.core.pump_hydraulics import vazao_l_por_h
 from triton.core.pump_energy import CV_TO_KW
 
 from triton.core.cad_block_library import configure_cad_document, generate_block_library_dxf
+from triton import marca as _marca
 from triton.core.dados_do_relatorio import documento_dxf_de_exportacao, svg_de_exportacao
 from triton.core.plant_3d import generate_plant_3d_dxf
 from triton.core.schematic_3d import generate_schematic_3d_svg
@@ -394,12 +395,12 @@ def _generate_technical_a3_ezdxf(project_data: Dict[str, Any], output_path: str)
     _setup_dimension_style(doc)
 
     # 2. Dados do projeto e tratamento de números
-    proj_name = project_data.get("project_name", "Projeto Sem Nome") or "Projeto Triton"
+    proj_name = project_data.get("project_name", "Projeto Sem Nome") or _marca.aplicar("Projeto Triton")
     ref_code = project_data.get("ref_code", "N5-2026-CAD")
     city_uf = (project_data.get("audit_context") or {}).get("climate_location", "Não informada")
     today_str = datetime.now().strftime("%d/%m/%Y")
     organization = str(project_data.get("organization") or "ORGANIZAÇÃO / ESCRITÓRIO A DEFINIR")
-    department = str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON")
+    department = str(project_data.get("department") or _marca.aplicar("PROJETO HIDROSSANITÁRIO • TRITON"))
     technical_responsible = str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA")
 
     # Os números abaixo dão a geometria do desenho; o que a prancha escreve sai de
@@ -769,9 +770,9 @@ def _generate_simple_ezdxf(project_data: Dict[str, Any], output_path: str):
     _setup_abnt_layers(doc)
     _setup_technical_blocks(doc)
 
-    proj_name = project_data.get("project_name", "Projeto Triton")
+    proj_name = project_data.get("project_name", _marca.aplicar("Projeto Triton"))
     ref_code = project_data.get("ref_code", "N5-SIMPLES")
-    organization = str(project_data.get("organization") or "TRITON")
+    organization = str(project_data.get("organization") or _marca.aplicar("TRITON"))
     technical_responsible = str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA")
 
     tx = textos_do_quadro(project_data)
@@ -860,12 +861,12 @@ def generate_project_dxf(project_data: Dict[str, Any], output_path: str, mode: s
 
 def _generate_technical_a3_svg(project_data: Dict[str, Any]) -> str:
     """Gera a prancha A3 técnica completa em SVG mantendo fidelidade absoluta ao DXF do ezdxf."""
-    proj_name = project_data.get("project_name", "Projeto Sem Nome") or "Projeto Triton"
+    proj_name = project_data.get("project_name", "Projeto Sem Nome") or _marca.aplicar("Projeto Triton")
     ref_code = project_data.get("ref_code", "N5-2026-CAD")
     city_uf = (project_data.get("audit_context") or {}).get("climate_location", "Não informada")
     today_str = datetime.now().strftime("%d/%m/%Y")
     organization = escape(str(project_data.get("organization") or "ORGANIZAÇÃO / ESCRITÓRIO A DEFINIR"))
-    department = escape(str(project_data.get("department") or "PROJETO HIDROSSANITÁRIO • TRITON"))
+    department = escape(str(project_data.get("department") or _marca.aplicar("PROJETO HIDROSSANITÁRIO • TRITON")))
     technical_responsible = escape(str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA"))
     proj_name = escape(str(proj_name))
     ref_code = escape(str(ref_code))
@@ -1192,9 +1193,9 @@ def _generate_technical_a3_svg(project_data: Dict[str, Any]) -> str:
 
 def _generate_simple_svg(project_data: Dict[str, Any]) -> str:
     """Gera esquema unifilar simples e moderno em SVG."""
-    proj_name = project_data.get("project_name", "Projeto Sem Nome") or "Projeto Triton"
+    proj_name = project_data.get("project_name", "Projeto Sem Nome") or _marca.aplicar("Projeto Triton")
     ref_code = project_data.get("ref_code", "N5-SIMPLES")
-    organization = escape(str(project_data.get("organization") or "TRITON"))
+    organization = escape(str(project_data.get("organization") or _marca.aplicar("TRITON")))
     technical_responsible = escape(str(project_data.get("technical_responsible") or "A DEFINIR PELO PROJETISTA"))
     proj_name = escape(str(proj_name))
     ref_code = escape(str(ref_code))

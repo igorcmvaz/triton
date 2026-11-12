@@ -18,6 +18,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List
 
 from triton.core.component_geometry import fallback_volumes
+from triton import marca as _marca
 from triton.core.pipe_network import PIPE_SYSTEMS, resolve_pipe_network
 
 
@@ -87,7 +88,7 @@ def _normalise_instances(items: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]
 
 def build_bim_manifest(project_data: Dict[str, Any]) -> Dict[str, Any]:
     """Monta o manifesto BIM auditável, sem inventar coordenadas de projeto."""
-    project_name = str(project_data.get("project_name") or "Projeto Triton")
+    project_name = str(project_data.get("project_name") or _marca.aplicar("Projeto Triton"))
     ref_code = str(project_data.get("ref_code") or "SEM-REFERENCIA")
     lower_vol = _number(project_data.get("lower_vol"), 0.0)
     upper_vol = _number(project_data.get("upper_vol"), 0.0)
@@ -101,7 +102,7 @@ def build_bim_manifest(project_data: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "$schema": BIM_SCHEMA,
         "schema_version": BIM_SCHEMA_VERSION,
-        "generator": {"application": "Triton", "format": "BIM interchange", "generated_at_utc": datetime.now(timezone.utc).isoformat()},
+        "generator": {"application": _marca.NOME, "format": "BIM interchange", "generated_at_utc": datetime.now(timezone.utc).isoformat()},
         "project": {
             "name": project_name,
             "reference": ref_code,

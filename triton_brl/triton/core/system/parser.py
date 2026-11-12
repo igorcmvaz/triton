@@ -2,6 +2,7 @@
 import os
 import re
 from triton.core.supply_arrangement import arranjo_de
+from triton import marca as _marca
 from triton.core.hydrology_defaults import COEFICIENTE_DE_ESCOAMENTO_PADRAO, LAMINA_DE_DESCARTE_PADRAO_MM
 from triton.core.chlorination import (
     DOSE_PADRAO_MG_POR_LITRO,
@@ -1063,7 +1064,7 @@ def export_triton_json(
         "version": __version__,
         "metadata": {
             "project_id": getattr(config, 'project_id', 'N5-PROJ'),
-            "name": getattr(config, 'project_name', 'Projeto Triton'),
+            "name": getattr(config, 'project_name', _marca.aplicar('Projeto Triton')),
             "created_at": getattr(config, 'created_at', datetime.now().strftime("%d/%m/%Y %H:%M")),
             "saved_at": datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         },
@@ -1301,7 +1302,7 @@ def load_triton_project(file_path: str) -> dict:
     }
 
     # Tenta ler como JSON primeiro
-    if file_path.lower().endswith('.triton') or file_path.lower().endswith('.json'):
+    if file_path.lower().endswith(('.triton', '.netuno', '.json')):
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
@@ -1318,7 +1319,7 @@ def load_triton_project(file_path: str) -> dict:
             if not inputs and not rainfall and "schema" not in data:
                 raise FormatoDeProjetoDesconhecido(
                     f"O arquivo '{os.path.basename(file_path)}' e um JSON valido, "
-                    "mas nao tem as secoes de um projeto do Triton "
+                    f"mas nao tem as secoes de um projeto do {_marca.NOME} "
                     "('schema', 'rainfall', 'inputs'). Se ele veio de uma versao "
                     "antiga ou de outro programa, converta-o antes de abrir: "
                     "abrir assim carregaria um projeto padrao com o nome deste "
@@ -1335,7 +1336,7 @@ def load_triton_project(file_path: str) -> dict:
                 return historico if _brl else getattr(cfg, campo)
 
             cfg.project_id = meta.get("project_id", "N5-PROJ")
-            cfg.project_name = meta.get("name", "Projeto Triton")
+            cfg.project_name = meta.get("name", _marca.aplicar("Projeto Triton"))
             cfg.created_at = meta.get("created_at", "")
             cfg.precip_file = rainfall.get("file_name", os.path.basename(file_path))
             cfg.start_date = rainfall.get("start_date", "01/01/1980")

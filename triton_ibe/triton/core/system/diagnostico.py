@@ -15,6 +15,8 @@ import os
 import sys
 from typing import List, Optional, Tuple
 
+from triton import marca as _marca
+
 Verificacao = Tuple[str, Optional[bool], str]
 
 #: Itens sem os quais o pacote não sai (build_exe.py).
@@ -137,8 +139,8 @@ def _manual() -> Verificacao:
     from triton.core.edition import is_int_edition
 
     # A Internacional abre o manual em inglês (manual/en); as outras, o português.
-    pdf = os.path.join(raiz, "manual", "en", "Triton-User-Manual.pdf") if is_int_edition() \
-        else os.path.join(raiz, "manual", "Manual-Triton.pdf")
+    rel = _marca.MANUAL_COMPLETO_EN if is_int_edition() else _marca.MANUAL_COMPLETO_PT
+    pdf = os.path.join(raiz, *rel.split("/"))
     return ("Manual em PDF", os.path.isfile(pdf), pdf)
 
 
@@ -176,7 +178,7 @@ def relatorio(itens: Optional[List[Verificacao]] = None) -> str:
 
     itens = verificacoes() if itens is None else itens
     linhas = [
-        f"Triton {__version__} — {rotulo_da_edicao()}",
+        f"{_marca.NOME} {__version__} — {rotulo_da_edicao()}",
         f"Executável: {sys.executable}" + (" (empacotado)" if getattr(sys, "frozen", False) else " (código-fonte)"),
         revisao_compilada(),
         "",

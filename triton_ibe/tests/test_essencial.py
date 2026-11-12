@@ -4177,11 +4177,12 @@ def test_run_smaa_vikor(sample_candidates):
     assert len(res.confidence_factors) == len(sample_candidates)
     assert res.num_samples == 1000
     assert res.num_simulations == 1000
-    w_t, w_f, w_e = res.get_central_dimension_weights(res.best_index)
-    assert np.isclose(w_t + w_f + w_e, 1.0, atol=0.01)
+    w_t, w_e, w_env, w_s = res.get_central_dimension_weights(res.best_index)
+    assert np.isclose(w_t + w_e + w_env + w_s, 1.0, atol=0.01)
     assert 0.0 <= w_t <= 1.0
-    assert 0.0 <= w_f <= 1.0
     assert 0.0 <= w_e <= 1.0
+    assert 0.0 <= w_env <= 1.0
+    assert 0.0 <= w_s <= 1.0
 
 
 def test_run_smaa_analysis(sample_candidates):
@@ -4390,10 +4391,24 @@ def test_fracoes_do_exemplo():
 
 
 def test_quatro_otimos_distintos(saida):
+    """Técnico (limiar), econômico, ambiental e multicritério de oito critérios apontam volumes diferentes."""
     t = saida['topsis']
     otimos = (t['technical_best_volume_l'], t['economic_best_volume_l'], t['environmental_best_volume_l'], t['best_volume_l'])
-    assert otimos == (6000.0, 5000.0, 3000.0, 7000.0)
+    assert otimos == (6000.0, 5000.0, 3000.0, 2000.0)
     assert len(set(otimos)) == 4
+
+
+def test_mcdm_padrao_pesa_os_oito_criterios_por_eixo(saida):
+    """Padrão (0.2.0): 25% por eixo, repartido em partes iguais dentro do eixo."""
+    t = saida['topsis']
+    pesos = {c['key']: c['weight'] for c in t['criteria']}
+    assert pesos['volumetric_reliability_pct'] == pytest.approx(0.125) and pesos['storage_efficiency_pct'] == pytest.approx(0.125)
+    for chave in ('net_financial_savings_brl', 'lcow_brl_m3', 'payback_years'):
+        assert pesos[chave] == pytest.approx(0.25 / 3)
+    assert pesos['lifecycle_co2_kg'] == pytest.approx(0.25)
+    assert pesos['material_mass_kg'] == pytest.approx(0.125) and pesos['overflow_m3_yr'] == pytest.approx(0.125)
+    assert t['criterion_shares'] == pytest.approx([0.5, 0.5, 1 / 3, 1 / 3, 1 / 3, 1.0, 0.5, 0.5])
+    assert t['best_volume_l'] == 2000.0
 
 
 # ==================================================================================================
@@ -4536,8 +4551,8 @@ def test_cli_full_analysis_supports_seasonality_and_json_output():
     assert len(report['technical']['alternatives']) == 3
     assert 'economic' in report and 'environmental' in report and ('topsis' in report)
     assert report['topsis']['best_volume_l'] in {0.0, 500.0, 1000.0}
-    assert len(report['topsis']['criteria']) == 7
-    assert set(report['topsis']['ranking'][0]['criterion_values']) == {'technical_potential_pct', 'technical_overflow_m3_yr', 'economic_npv_brl', 'economic_discounted_payback_years', 'economic_irr_pct', 'environmental_lifecycle_co2_kg', 'environmental_potable_water_m3_yr'}
+    assert len(report['topsis']['criteria']) == 8
+    assert set(report['topsis']['ranking'][0]['criterion_values']) == {'volumetric_reliability_pct', 'storage_efficiency_pct', 'net_financial_savings_brl', 'lcow_brl_m3', 'payback_years', 'lifecycle_co2_kg', 'material_mass_kg', 'overflow_m3_yr'}
     assert report['topsis']['weight_sensitivity']['samples'] == 8
     json.dumps(report, default=_json_default)
 
@@ -6592,7 +6607,8 @@ def test_cli_declara_a_moeda_do_projeto_nas_saidas():
            "technical": {"alternatives": [{"lower_tank_volume_l": 1000.0, "potable_savings_pct": 20.0}]},
            "economic": {"alternatives": [{"lower_tank_volume_l": 1000.0, "npv_brl": 10.0}]}}
     assert _flat_rows(rel)[0]["currency"] == "EUR"
-    assert "Valores monetários em: €" in _render_html(rel)
+    from triton.cli_textos import t as _t
+    assert f"{_t('Valores monetários em:')} €" in _render_html(rel)
     assert _simbolo({"provenance": {}}) == "(moeda do projeto)"
 
 

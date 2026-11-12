@@ -453,3 +453,33 @@ def test_limpar_caminhos_tira_o_caminho_da_maquina(tmp_path):
     texto = f"falhou em {tmp_path / 'a' / 'b.triton'} e C:\\Users\\alguem\\x\\y.csv"
     limpo = E.limpar_caminhos(texto, tmp_path)
     assert str(tmp_path) not in limpo and "Users" not in limpo and "y.csv" in limpo
+
+
+# ── partes no eixo do TOPSIS ──────────────────────────────────────────────────────────────────
+
+def test_analise_aceita_quatro_pesos_e_oito_partes_no_eixo():
+    doc = _estudo(analise={"tipo": "all", "volume": "topsis", "pesos": [1, 2, 1, 1], "partes_no_eixo": [1, 1, 2, 1, 1, 1, 1, 0]})
+    plano, erros, _ = _erros(doc)
+    assert erros == [] and plano["analise"]["pesos"] == [1.0, 2.0, 1.0, 1.0]
+    assert plano["analise"]["partes_no_eixo"] == [1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 0.0]
+
+
+def test_analise_aceita_os_tres_pesos_de_antes_da_0_2_0():
+    plano, erros, _ = _erros(_estudo(analise={"tipo": "all", "volume": "topsis", "pesos": [1, 1, 1]}))
+    assert erros == [] and plano["analise"]["pesos"] == [1.0, 1.0, 1.0]
+
+
+def test_analise_recusa_os_sete_pesos_do_modelo_antigo():
+    _, erros, _ = _erros(_estudo(analise={"tipo": "all", "volume": "topsis", "pesos": [1, 0, 1, 1, 0, 1, 0]}))
+    assert _tem(erros, "analise.pesos")
+
+
+def test_analise_sem_partes_no_eixo_usa_o_padrao_do_motor():
+    plano, erros, _ = _erros(_estudo(analise={"tipo": "all", "volume": "topsis"}))
+    assert erros == [] and plano["analise"]["partes_no_eixo"] is None
+
+
+@pytest.mark.parametrize("partes", [[1, 2, 3], [1, 0, 1, 1, 0, 1, 0], [0, 0, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 0, 1, 1], "tudo", [1, 1, 1, 1, 1, -1, 1, 1]])
+def test_analise_recusa_partes_no_eixo_invalidas(partes):
+    _, erros, _ = _erros(_estudo(analise={"tipo": "all", "volume": "topsis", "partes_no_eixo": partes}))
+    assert _tem(erros, "analise.partes_no_eixo")

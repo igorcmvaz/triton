@@ -207,15 +207,20 @@ def test_os_indices_sao_os_do_calculador_do_programa():
 
 
 def test_a_matriz_de_decisao_e_a_do_topsis_do_programa():
-    from triton.core.topsis import _decision_matrix, calculate_topsis_scores
+    from triton.core.topsis import (PARTES_IGUAIS_NO_EIXO, PARTES_NO_EIXO_PADRAO,
+                                    _decision_matrix, calculate_topsis_scores)
     d = gi.multicriterio()
     cands = gi._candidatos_mcdm()
     matriz = _decision_matrix(cands)
     for linha_site, linha in zip(d["matriz"], matriz):
         for a, b in zip(linha_site, linha):
             assert a == pytest.approx(b, rel=1e-4, abs=1e-4)
+    assert d["partes_padrao"] == list(PARTES_NO_EIXO_PADRAO)
     escores = calculate_topsis_scores(cands, None).scores
     for a, b in zip(d["escores_padrao"], escores):
+        assert a == pytest.approx(b, abs=1e-6)
+    iguais = calculate_topsis_scores(cands, None, PARTES_IGUAIS_NO_EIXO).scores
+    for a, b in zip(d["escores_iguais"], iguais):
         assert a == pytest.approx(b, abs=1e-6)
 
 
@@ -243,7 +248,7 @@ def test_o_topsis_do_site_reproduz_o_do_programa(tmp_path):
     funcao = fonte[ini:fim]
 
     rng = np.random.default_rng(7)
-    pesos = [[1 / 7] * 7] + [list(x) for x in rng.dirichlet(np.ones(7), size=40)]
+    pesos = [[1 / 8] * 8] + [list(x) for x in rng.dirichlet(np.ones(8), size=40)]
     entrada = {"matriz": d["matriz"], "beneficio": [bool(x) for x in CRITERION_IS_BENEFIT],
                "volumes": d["volumes"], "pesos": pesos}
     script = tmp_path / "topsis.js"

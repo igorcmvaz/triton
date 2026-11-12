@@ -188,7 +188,7 @@ def _casos_fora_do_motor():
         (eco(discount_rate=-1.5), "deve ser um numero finito e maior que -100%"),
         (eco(discount_rate=8.0), "parece estar em percentual"),
         (lambda: _criterion_weights([1.0, 1.0]),
-         "informe 3 pesos de eixo ou 7 pesos de criterios topsis"),
+         "informe 4 pesos de eixo (tecnico, economico, ambiental, estrutural) ou 8 pesos de criterio"),
         (lambda: _criterion_weights([1.0, -1.0, 1.0]),
          "os pesos topsis devem ser finitos e nao negativos"),
         (lambda: _criterion_weights([0.0, 0.0, 0.0]),
@@ -433,7 +433,7 @@ def test_relatorio_nao_traz_valor_indefinido(dados_de_relatorio, tipo, lang):
                if re.search(p, texto)}
     # Versão antiga: qualquer 5.x.y que não seja a atual.
     from triton import __version__
-    antigas = sorted({v for v in re.findall(r"5\.\d+\.\d+", texto) if v != __version__})
+    antigas = sorted({v for v in re.findall(r"\b5\.\d+\.\d+\b", texto) if v != __version__})
     if antigas:
         achados["versão antiga"] = antigas[:3]
     assert not achados, achados

@@ -16,6 +16,7 @@ from typing import Dict, Any, Optional
 
 from triton.core.parser import format_ptbr as _format_ptbr_do_nucleo
 from triton import APP_VERSION_LABEL
+from triton import marca as _marca
 from triton.ui.translation import tr, get_current_lang, _translate_composite, _SPANISH_PHRASES, _CHINESE_PHRASES
 from triton.ui import textos_da_edicao as _ed
 from triton.ui.laudo_em_ingles import laudo_em_ingles, laudo_em_portugal
@@ -230,7 +231,8 @@ def _localize_report_markup(html: str) -> str:
         # Na Portugal o laudo em português é o de Portugal: vocabulário do glossário da interface.
         from triton.ui.portugues_de_portugal import para_portugal
         html = laudo_em_portugal(para_portugal(html))
-    return html.replace('lang="pt-BR"', f'lang="{"pt-PT" if (is_ibe_edition() and lang == "pt") else lang}"')
+    # O laudo é escrito com o nome antigo (chaves de laudo_em_ingles); o nome mostrado sai de marca.NOME.
+    return _marca.aplicar(html.replace('lang="pt-BR"', f'lang="{"pt-PT" if (is_ibe_edition() and lang == "pt") else lang}"'))
 
 
 def _moeda(project_data: Dict[str, Any]) -> str:

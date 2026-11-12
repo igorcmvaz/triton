@@ -75,6 +75,7 @@ tests/test_essencial.py::test_dual_tank_pumping
 tests/test_essencial.py::test_sweep_optimal_volume_determination
 tests/test_essencial.py::test_a_tarifa_sai_com_o_significado_de_cada_codigo_e_o_esgoto
 tests/test_essencial.py::test_quatro_otimos_distintos
+tests/test_essencial.py::test_mcdm_padrao_pesa_os_oito_criterios_por_eixo
 
 # --- Catálogo de rotas de água de rede do Brasil (SNIS, cinco macrorregiões), que INT e IBE não trazem ---
 tests/unit/test_rotas_por_tecnologia.py::test_a_base_e_conservadora_perante_as_duas_faixas_publicadas

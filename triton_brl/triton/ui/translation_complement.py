@@ -1647,4 +1647,68 @@ COMPLEMENTO = {
     'Rank\nPROMETHEE II': ('Rank\nPROMETHEE II', 'Rango\nPROMETHEE II', '排名\nPROMETHEE II'),
     'Fluxo Líquido de Superação — PROMETHEE II (Φ)': ('Net Outranking Flow — PROMETHEE II (Φ)', 'Flujo neto de superación — PROMETHEE II (Φ)', '净超越流 — PROMETHEE II (Φ)'),
     'Índice de Compromisso VIKOR (Q — menor é melhor)': ('VIKOR Compromise Index (Q — lower is better)', 'Índice de compromiso VIKOR (Q — menor es melhor)', 'VIKOR 折中指数（Q — 越小越好）'),
+    # Aba de decisão multicritério (0.2.0): quatro eixos e oito critérios
+    '⚖️ Relevâncias Similares (Equilibrado: 25% em cada eixo)': (
+        '⚖️ Similar Relevance (Balanced: 25% on each dimension)',
+        '⚖️ Relevancias similares (equilibrado: 25 % en cada eje)',
+        '⚖️ 相近权重（均衡：每个维度 25%）'),
+    '💰 Priorizar Retorno Econômico (70% Econômico / 10% em cada outro eixo)': (
+        '💰 Prioritise Economic Return (70% Economic / 10% on each other dimension)',
+        '💰 Priorizar retorno económico (70 % económico / 10 % en cada otro eje)',
+        '💰 优先经济回报（经济 70% / 其他每个维度 10%）'),
+    '🍃 Priorizar Sustentabilidade Ambiental (70% Ambiental / 10% em cada outro eixo)': (
+        '🍃 Prioritise Environmental Sustainability (70% Environmental / 10% on each other dimension)',
+        '🍃 Priorizar sostenibilidad ambiental (70 % ambiental / 10 % en cada otro eje)',
+        '🍃 优先环境可持续性（环境 70% / 其他每个维度 10%）'),
+    '💧 Priorizar Desempenho Técnico (70% Técnico / 10% em cada outro eixo)': (
+        '💧 Prioritise Technical Performance (70% Technical / 10% on each other dimension)',
+        '💧 Priorizar desempeño técnico (70 % técnico / 10 % en cada otro eje)',
+        '💧 优先技术性能（技术 70% / 其他每个维度 10%）'),
+    '🏗️ Priorizar Leveza e Drenagem (70% Estrutural / 10% em cada outro eixo)': (
+        '🏗️ Prioritise Lightness and Drainage (70% Structural / 10% on each other dimension)',
+        '🏗️ Priorizar ligereza y drenaje (70 % estructural / 10 % en cada otro eje)',
+        '🏗️ 优先轻量与排水（结构 70% / 其他每个维度 10%）'),
+    '🏗️ Estrutural:': ('🏗️ Structural:', '🏗️ Estructural:', '🏗️ 结构：'),
+    'Eixo estrutural: massa a seco dos materiais e volume extravasado por ano.': (
+        'Structural dimension: dry mass of the materials and volume overflowed per year.',
+        'Eje estructural: masa en seco de los materiales y volumen desbordado por año.',
+        '结构维度：材料干质量与年溢流量。'),
+    'Partes no eixo:': ('Criterion shares:', 'Partes en el eje:', '维度内份额：'),
+    'Quanto do peso de cada eixo vai para cada critério do eixo (só a proporção dentro do eixo importa). Padrão: partes iguais dentro de cada eixo. Parte zero tira o critério da conta.': (
+        "How much of each dimension's weight goes to each of its criteria (only the proportion within the dimension matters). Default: equal shares within each dimension. A zero share removes the criterion from the calculation.",
+        'Cuánto del peso de cada eje va a cada criterio del eje (solo importa la proporción dentro del eje). Predeterminado: partes iguales dentro de cada eje. Una parte cero quita el criterio del cálculo.',
+        '每个维度的权重分配给该维度内各指标的份额（只有维度内的比例有意义）。默认：各维度内份额相等。份额为零即不计入该指标。'),
+    'Confiabilidade': ('Reliability', 'Fiabilidad', '可靠性'),
+    'Eficiência': ('Efficiency', 'Eficiencia', '效率'),
+    'LCOW': ('LCOW', 'LCOW', 'LCOW'),
+    'Payback': ('Payback', 'Payback', '回收期'),
+    'CO₂': ('CO₂', 'CO₂', 'CO₂'),
+    'Massa': ('Mass', 'Masa', '质量'),
+    'Extravasamento': ('Overflow', 'Desborde', '溢流'),
+    'Partes iguais': ('Equal shares', 'Partes iguales', '份额相等'),
+    'Os oito critérios com a mesma parte dentro do seu eixo (o padrão).': (
+        'The eight criteria with the same share within their dimension (the default).',
+        'Los ocho criterios con la misma parte dentro de su eje (el predeterminado).',
+        '八个指标在各自维度内份额相同（默认）。'),
+    'pesos iguais: 25% em cada eixo (técnico, econômico, ambiental e estrutural)': (
+        'equal weights: 25% on each dimension (technical, economic, environmental and structural)',
+        'pesos iguales: 25 % en cada eje (técnico, económico, ambiental y estructural)',
+        '等权重：每个维度 25%（技术、经济、环境与结构）'),
+    'pesos ponderados: {0}% Técnico, {1}% Econômico, {2}% Ambiental, {3}% Estrutural': (
+        'weighted: {0}% Technical, {1}% Economic, {2}% Environmental, {3}% Structural',
+        'pesos ponderados: {0} % técnico, {1} % económico, {2} % ambiental, {3} % estructural',
+        '加权：技术 {0}%，经济 {1}%，环境 {2}%，结构 {3}%'),
+    # Rótulos completos dos oito critérios (dicas da aba, tabelas e gráficos)
+    'Confiabilidade volumétrica': ('Volumetric reliability', 'Fiabilidad volumétrica', '容积可靠性'),
+    'Eficiência de armazenamento': ('Storage efficiency', 'Eficiencia de almacenamiento', '蓄水效率'),
+    'Economia financeira líquida': ('Net financial savings', 'Ahorro financiero neto', '净财务节省'),
+    'Custo unitário nivelado (LCOW)': ('Levelised cost of water (LCOW)', 'Costo nivelado del agua (LCOW)', '平准化水成本（LCOW）'),
+    'Tempo de retorno (payback)': ('Payback time', 'Tiempo de retorno (payback)', '回收期'),
+    'CO₂ de ciclo de vida': ('Life-cycle CO₂', 'CO₂ de ciclo de vida', '全生命周期 CO₂'),
+    'Massa a seco dos materiais': ('Dry mass of materials', 'Masa en seco de los materiales', '材料干质量'),
+    'Volume anual extravasado': ('Annual overflow volume', 'Volumen anual desbordado', '年溢流量'),
+    '📐 Proximidade de cada Volume aos Oito Critérios': (
+        '📐 Proximity of each Volume to the Eight Criteria',
+        '📐 Proximidad de cada volumen a los ocho criterios',
+        '📐 各容积对八个指标的接近度'),
 }

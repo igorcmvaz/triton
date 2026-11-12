@@ -34,6 +34,7 @@ from triton.core.component_geometry import component_envelope, fallback_volumes
 from triton.core.pipe_network import SYSTEMS_BY_ID, lengths_by_dn
 from triton.core.plant_3d import _checked_manifest
 from triton.core.dados_do_relatorio import svg_de_exportacao
+from triton import marca as _marca
 
 
 # Coordenadas a menos disto (a partir do início do grupo) ocupam a mesma posição.
@@ -403,7 +404,7 @@ def generate_schematic_3d_svg(project_data: Dict[str, Any], output_path: Optiona
         f'Esquema 3D da tubulação — {escape(manifest["project"]["name"])}</text>',
         f'<text x="{_MARGIN}" y="54" font-size="11.5" fill="#64748b">Fora de escala: posições ordenadas, '
         f'medidas e cotas reais indicadas. Números = ordem de montagem. '
-        f'Triton · {escape(_edicao())}.</text>',
+        f'{_marca.NOME} · {escape(_edicao())}.</text>',
     ]
 
     # 1. Níveis: um plano por cota em que há componente (e o zero de referência).

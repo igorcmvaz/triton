@@ -66,6 +66,11 @@ TRECHOS = {
     "Maior VPL": "Highest NPV", "Menor payback descontado": "Shortest discounted payback",
     "Maior TIR": "Highest IRR", "Menor CO₂ no fim da vida": "Lowest end-of-life CO₂",
     "Menor consumo de água potável": "Lowest potable-water use",
+    # ── os oito critérios da 0.2.0 ──
+    "Confiabilidade volumétrica": "Volumetric reliability", "Eficiência de armazenamento": "Storage efficiency",
+    "Economia financeira líquida": "Net financial savings", "Custo unitário nivelado (LCOW)": "Levelised cost of water (LCOW)",
+    "Tempo de retorno (payback)": "Payback time", "CO₂ de ciclo de vida": "Life-cycle CO₂",
+    "Massa a seco dos materiais": "Dry mass of materials", "Volume anual extravasado": "Annual overflow volume",
 }
 
 #: Frases com número do texto (resultados do ESG que o núcleo escreve em português), aplicadas antes

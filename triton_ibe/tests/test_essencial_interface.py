@@ -755,17 +755,35 @@ def test_salvar_devolve_a_pureza_e_a_base_para_a_aba(dialogo, aba):
 
 # ---- origem: tests/unit/test_topsis.py
 
-def candidate(volume, potential, overflow, vpl, payback, irr, lifecycle_co2, potable):
-    return TopsisCandidate(lower_tank_vol=volume, water_saved_m3_yr=100.0 - potable, vpl_brl=vpl, co2_saved_kg_lifetime=-lifecycle_co2, potential_savings_pct=potential, overflow_m3_yr=overflow, discounted_payback_years=payback, irr_pct=irr, potable_consumed_m3_yr=potable)
+def candidate(volume, potential, overflow, vpl, payback, irr, lifecycle_co2, potable,
+              volumetric_reliability=None, storage_efficiency=None, net_financial_savings=None,
+              lcow=None, payback_years_val=None, material_mass=None):
+    return TopsisCandidate(
+        lower_tank_vol=volume,
+        water_saved_m3_yr=100.0 - potable,
+        vpl_brl=vpl,
+        co2_saved_kg_lifetime=-lifecycle_co2,
+        potential_savings_pct=potential,
+        overflow_m3_yr=overflow,
+        discounted_payback_years=payback,
+        irr_pct=irr,
+        potable_consumed_m3_yr=potable,
+        volumetric_reliability_pct=volumetric_reliability if volumetric_reliability is not None else potential,
+        storage_efficiency_pct=storage_efficiency,
+        net_financial_savings_brl=net_financial_savings if net_financial_savings is not None else vpl,
+        lcow_brl_m3=lcow,
+        payback_years=payback_years_val if payback_years_val is not None else payback,
+        material_mass_kg=material_mass,
+    )
 
 
 def test_topsis_uses_all_seven_requested_criteria():
     candidates = [candidate(2000, 45, 22, 1000, 9, 8, 800, 55), candidate(5000, 70, 12, 4000, 5, 15, 500, 30), candidate(10000, 82, 5, 3500, 7, 12, 650, 18)]
     result = calculate_topsis_scores(candidates)
-    assert result.decision_matrix.shape == (3, 7)
-    assert result.criterion_gap_to_best.shape == (3, 7)
+    assert result.decision_matrix.shape == (3, 8)
+    assert result.criterion_gap_to_best.shape == (3, 8)
     assert result.criterion_weights.sum() == pytest.approx(1.0)
-    assert len(result.criterion_keys) == 7
+    assert len(result.criterion_keys) == 8
     assert result.rankings[result.best_index] == 1
     assert np.all((result.scores >= 0) & (result.scores <= 1))
 
@@ -773,38 +791,39 @@ def test_topsis_uses_all_seven_requested_criteria():
 def test_topsis_cost_and_benefit_directions_are_correct():
     candidates = [candidate(1000, 90, 30, 10, 9, 3, 900, 70), candidate(2000, 70, 5, 20, 3, 8, 400, 20), candidate(3000, 80, 15, 30, 6, 12, 700, 40)]
     result = calculate_topsis_scores(candidates)
-    expected_best_rows = [0, 1, 2, 1, 2, 1, 1]
+    expected_best_rows = [0, 1, 2, 1, 1, 1, 0, 1]
     for column, row in enumerate(expected_best_rows):
         assert result.criterion_gap_to_best[row, column] == pytest.approx(0.0)
         assert result.criterion_proximity_to_best[row, column] == pytest.approx(1.0)
 
 
 def test_three_axis_weights_are_distributed_without_changing_axis_totals():
-    result = calculate_topsis_scores([candidate(1000, 50, 10, 10, 5, 8, 300, 50)], weights=(0.2, 0.5, 0.3))
+    result = calculate_topsis_scores([candidate(1000, 50, 10, 10, 5, 8, 300, 50)], weights=(0.2, 0.4, 0.2, 0.2))
     assert result.criterion_weights[:2].sum() == pytest.approx(0.2)
-    assert result.criterion_weights[2:5].sum() == pytest.approx(0.5)
-    assert result.criterion_weights[5:].sum() == pytest.approx(0.3)
+    assert result.criterion_weights[2:5].sum() == pytest.approx(0.4)
+    assert result.criterion_weights[5:6].sum() == pytest.approx(0.2)
+    assert result.criterion_weights[6:].sum() == pytest.approx(0.2)
 
 
 def test_seven_explicit_weights_are_supported():
-    weights = (1, 2, 3, 4, 5, 6, 7)
+    weights = (1, 2, 3, 4, 5, 6, 7, 8)
     result = calculate_topsis_scores([candidate(1000, 50, 10, 10, 5, 8, 300, 50)], weights=weights)
     assert result.criterion_weights == pytest.approx(np.asarray(weights) / sum(weights))
 
 
 def test_no_discounted_payback_is_worse_than_any_observed_return():
     candidates = [candidate(1000, 50, 10, 10, None, 8, 300, 50), candidate(2000, 50, 10, 10, 20, 8, 300, 50)]
-    result = calculate_topsis_scores(candidates, weights=(0, 0, 0, 1, 0, 0, 0))
+    result = calculate_topsis_scores(candidates, weights=(0, 0, 0, 0, 1, 0, 0, 0))
     assert result.best_index == 1
-    assert result.decision_matrix[0, 3] > result.decision_matrix[1, 3]
+    assert result.decision_matrix[0, 4] > result.decision_matrix[1, 4]
 
 
 def test_topsis_single_candidate_and_identical_candidates_are_stable():
-    one = candidate(5000, 70, 10, 1000, 5, 10, 500, 30)
+    one = candidate(5000, 70, 10, 1000, 5, 10, 500, 30, storage_efficiency=80.0, lcow=5.0, material_mass=150.0)
     result = calculate_topsis_scores([one])
     assert result.best_index == 0
     assert result.scores[0] == 1.0
-    tied = calculate_topsis_scores([one, candidate(2000, 70, 10, 1000, 5, 10, 500, 30)])
+    tied = calculate_topsis_scores([one, candidate(2000, 70, 10, 1000, 5, 10, 500, 30, storage_efficiency=80.0, lcow=5.0, material_mass=150.0)])
     assert tied.scores == pytest.approx([0.5, 0.5])
     assert tied.best_candidate.lower_tank_vol == 2000
 
@@ -813,19 +832,21 @@ def test_topsis_empty_and_invalid_inputs():
     assert calculate_topsis_scores([]) is None
     valid = candidate(1000, 50, 10, 10, 5, 8, 300, 50)
     with pytest.raises(ValueError):
-        calculate_topsis_scores([valid], weights=(-1.0, 1.0, 1.0))
+        calculate_topsis_scores([valid], weights=(-1.0, 1.0, 1.0, 1.0))
     with pytest.raises(ValueError):
-        calculate_topsis_scores([valid], weights=(0.0, 0.0, 0.0))
+        calculate_topsis_scores([valid], weights=(0.0, 0.0, 0.0, 0.0))
     with pytest.raises(ValueError):
         calculate_topsis_scores([valid], weights=(1.0, 2.0))
     invalid = candidate(1000, np.nan, 10, 10, 5, 8, 300, 50)
-    with pytest.raises(ValueError, match='technical_potential_pct'):
+    with pytest.raises(ValueError, match='volumetric_reliability_pct'):
         calculate_topsis_scores([invalid])
 
 
 def test_topsis_translation_is_invariant_to_column_origin():
-    base = [candidate(1000, 10, 30, -100, 9, -3, 30, 70), candidate(2000, 15, 20, -50, 6, -2, 20, 50), candidate(3000, 20, 10, 10, 3, -1, 10, 30)]
-    shifted = [candidate(c.lower_tank_vol, c.potential_savings_pct + 100, c.overflow_m3_yr + 100, c.vpl_brl + 5000, c.discounted_payback_years + 10, c.irr_pct + 30, c.lifecycle_co2_kg + 300, c.potable_consumed_m3_yr + 1000) for c in base]
+    base = [candidate(1000, 10, 30, -100, 9, -3, 30, 70, storage_efficiency=50.0, lcow=10.0, material_mass=50.0),
+            candidate(2000, 15, 20, -50, 6, -2, 20, 50, storage_efficiency=60.0, lcow=8.0, material_mass=80.0),
+            candidate(3000, 20, 10, 10, 3, -1, 10, 30, storage_efficiency=70.0, lcow=6.0, material_mass=110.0)]
+    shifted = [candidate(c.lower_tank_vol, c.potential_savings_pct + 100, c.overflow_m3_yr + 100, c.vpl_brl + 5000, c.discounted_payback_years + 10, c.irr_pct + 30, c.lifecycle_co2_kg + 300, c.potable_consumed_m3_yr + 1000, storage_efficiency=c.storage_efficiency_pct + 20, lcow=c.lcow_brl_m3 + 5, material_mass=c.material_mass_kg + 50) for c in base]
     assert calculate_topsis_scores(base).scores == pytest.approx(calculate_topsis_scores(shifted).scores)
 
 
@@ -1614,8 +1635,8 @@ def test_roda_e_da_o_mesmo_que_o_nucleo_com_o_estudo_da_tela(modulacao_estocasti
     assert t.resultado and t.resultado['realizacoes_feitas'] == 3
     estudo, falta = t._estudo()
     assert falta is None
-    cfg, precip, pesos, ambiental = estudo
-    nucleo = M.simular(cfg, precip, t.parametros(), amostras=3, semente=9, pesos=pesos, ambiental=ambiental)
+    cfg, precip, pesos, ambiental, partes = estudo
+    nucleo = M.simular(cfg, precip, t.parametros(), amostras=3, semente=9, pesos=pesos, ambiental=ambiental, partes=partes)
     assert t.resultado['frequencia_pct'] == nucleo['frequencia_pct']
     assert t.tabela.rowCount() == len(nucleo['por_volume'])
 
@@ -2904,6 +2925,8 @@ def test_tab_economic_global_optimizer_all_4_methods_execution(qapp):
         total_pumped_liters = 30000.0
         total_pump_cycles = 100
         monthly_pump_hours = [1.0] * 12
+        volumetric_reliability_pct = 75.0      # 30 de 40 m³/ano de demanda pluvial
+        storage_efficiency_pct = 100.0 * 30000.0 / 365.25 / 1000.0
     class DummyItem2:
         lower_tank_vol = 3000.0
         potential_potable_savings_pct = 50.0
@@ -2919,6 +2942,8 @@ def test_tab_economic_global_optimizer_all_4_methods_execution(qapp):
         total_pumped_liters = 60000.0
         total_pump_cycles = 200
         monthly_pump_hours = [2.0] * 12
+        volumetric_reliability_pct = 85.0
+        storage_efficiency_pct = 100.0 * 60000.0 / 365.25 / 3000.0
     class DummySweep:
         results_by_volume = [DummyItem(), DummyItem2()]
         optimal_lower_tank_vol = 3000.0
@@ -2947,3 +2972,26 @@ def test_tab_economic_global_optimizer_all_4_methods_execution(qapp):
             assert tab.table.item(1, 14) is not None
     finally:
         tab.close()
+
+
+# ---- partes no eixo do TOPSIS na interface
+
+def test_otimizador_partes_no_eixo_padrao_edicao_e_validacao(qapp):
+    from triton.core.topsis import PARTES_IGUAIS_NO_EIXO, PARTES_NO_EIXO_PADRAO, validar_partes_no_eixo
+    tab = TabEconomicGlobalOptimizer()
+    padrao = validar_partes_no_eixo(PARTES_NO_EIXO_PADRAO)
+    assert validar_partes_no_eixo(tab.get_current_shares()) == pytest.approx(padrao)
+    tab.btn_shares_equal.click()
+    assert validar_partes_no_eixo(tab.get_current_shares()) == pytest.approx(validar_partes_no_eixo(PARTES_IGUAIS_NO_EIXO))
+    tab.btn_shares_default.click()
+    assert validar_partes_no_eixo(tab.get_current_shares()) == pytest.approx(padrao)
+    # eixo técnico sem nenhum critério (confiabilidade e eficiência zeradas): inválido, a conta volta ao padrão
+    tab.spin_shares[0].setValue(0.0)
+    tab.spin_shares[1].setValue(0.0)
+    assert validar_partes_no_eixo(tab.get_current_shares()) == pytest.approx(padrao)
+    assert 'inválid' in tab.lbl_weight_validation.text().lower()
+    tab.btn_shares_default.click()
+    tab.combo_mcdm_method.setCurrentIndex(tab.combo_mcdm_method.findData('vikor'))
+    assert not tab.spin_shares[0].isVisibleTo(tab)
+    tab.combo_mcdm_method.setCurrentIndex(tab.combo_mcdm_method.findData('topsis'))
+    assert tab.spin_shares[0].isVisibleTo(tab)

@@ -129,14 +129,20 @@ def test_promethee_casos_de_borda():
     assert np.allclose(res_ident.net_flows, 0.0)
 
 
-def test_promethee_pesos_3_dimensoes_e_7_criterios():
-    """Aceita vetor de pesos com 3 dimensões ou 7 critérios."""
+def test_promethee_pesos_de_eixo_de_criterio_e_legados():
+    """Aceita 4 pesos de eixo, 8 de critério e os 3 de eixo de antes da 0.2.0; recusa os 7 do modelo antigo."""
     cands = _criar_candidatos_teste()
-    # 3 dimensões (Técnica, Econômica, Ambiental)
-    res_3 = run_promethee(cands, weights=[0.5, 0.3, 0.2])
-    assert isinstance(res_3, PrometheeResult)
+    res_4 = run_promethee(cands, weights=[0.4, 0.3, 0.2, 0.1])
+    assert isinstance(res_4, PrometheeResult)
 
-    # 7 critérios explícitos
-    res_7 = run_promethee(cands, weights=[0.2, 0.1, 0.25, 0.15, 0.1, 0.1, 0.1])
-    assert isinstance(res_7, PrometheeResult)
-    assert abs(float(np.sum(res_7.net_flows))) < 1e-12
+    res_8 = run_promethee(cands, weights=[0.2, 0.1, 0.15, 0.1, 0.1, 0.15, 0.1, 0.1])
+    assert isinstance(res_8, PrometheeResult)
+    assert abs(float(np.sum(res_8.net_flows))) < 1e-12
+
+    # Três eixos (projetos até a 0.1.0): o estrutural recebe a média, como no TOPSIS.
+    res_3 = run_promethee(cands, weights=[0.5, 0.3, 0.2])
+    res_3_em_4 = run_promethee(cands, weights=[0.5, 0.3, 0.2, (0.5 + 0.3 + 0.2) / 3.0])
+    assert np.allclose(res_3.net_flows, res_3_em_4.net_flows)
+
+    with pytest.raises(ValueError, match="oito critérios"):
+        run_promethee(cands, weights=[0.2, 0.1, 0.25, 0.15, 0.1, 0.1, 0.1])

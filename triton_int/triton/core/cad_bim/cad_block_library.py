@@ -10,6 +10,7 @@ from ezdxf import units
 from ezdxf.enums import TextEntityAlignment
 
 from triton.core.bim_exporter import COMPONENT_TYPES, write_bim_manifest
+from triton import marca as _marca
 
 
 APP_ID = "TRITON"
@@ -220,9 +221,9 @@ def generate_block_library_dxf(project_data: Dict[str, Any], output_path: str) -
             doc.layers.add(name, color=color, lineweight=weight)
     register_plan_blocks(doc)
     msp = doc.modelspace()
-    title = str(project_data.get("project_name") or "Projeto Triton")
+    title = str(project_data.get("project_name") or _marca.aplicar("Projeto Triton"))
     ref = str(project_data.get("ref_code") or "SEM-REFERENCIA")
-    msp.add_text("TRITON — BIBLIOTECA DE BLOCOS PARA PLANTAS", height=260, dxfattribs={"layer": "TRITON_TEXTOS"}).set_placement((0, 3500))
+    msp.add_text(_marca.aplicar("TRITON — BIBLIOTECA DE BLOCOS PARA PLANTAS"), height=260, dxfattribs={"layer": "TRITON_TEXTOS"}).set_placement((0, 3500))
     msp.add_text(f"Projeto: {title} | Ref.: {ref} | Unidades: mm | Blocos em escala 1:1", height=140, dxfattribs={"layer": "TRITON_TEXTOS"}).set_placement((0, 3150))
     msp.add_text("Geometria esquemática. Confirmar dimensões, famílias e especificações no projeto executivo.", height=120, dxfattribs={"layer": "TRITON_TEXTOS"}).set_placement((0, 2850))
 

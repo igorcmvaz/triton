@@ -63,11 +63,12 @@ def pastas_candidatas() -> List[str]:
     pasta_exe = os.path.dirname(sys.executable) if getattr(sys, "frozen", False) else ""
     _rz1 = os.path.join(os.path.dirname(__file__), "..", "..")
     _rz2 = os.path.join(os.path.dirname(__file__), "..", "..", "..")
-    raiz = _rz1 if os.path.isdir(os.path.join(_rz1, "data")) else _rz2
     cand = [os.environ.get("TRITON_IBERIA_DADOS", "")]
     if pasta_exe:
         cand += [os.path.join(pasta_exe, "_internal", "data"), os.path.join(pasta_exe, "data")]
-    cand += [os.path.join(raiz, "data"), os.path.join(os.getcwd(), "data")]
+    for rz in (_rz2, _rz1):
+        cand.append(os.path.join(rz, "data"))
+    cand.append(os.path.join(os.getcwd(), "data"))
     return [os.path.abspath(c) for c in cand if c]
 
 

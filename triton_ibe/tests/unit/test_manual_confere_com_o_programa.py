@@ -560,29 +560,22 @@ def test_em_concreto_o_carbono_piora_com_o_volume(serie_tutorial):
 
 
 def test_os_tres_criterios_do_capitulo_12_discordam(serie_tutorial):
-    """Impresso: técnico diz 12.000, financeiro 2.000, ambiental 2.000, compromisso 4.000."""
-    from triton.core.environmental import EnvironmentalConfig, calculate_lca
-    from triton.core.topsis import TopsisCandidate, calculate_topsis_scores
+    """Impresso: técnico diz 12.000, financeiro 2.000, ambiental 2.000; o multicritério de oito
+    critérios, com os quatro eixos iguais, 2.000 (0.2.0)."""
+    from triton.core.environmental import calculate_lca
+    from triton.core.topsis import calculate_topsis_scores, candidato_dos_resultados
 
     cands = []
     for v in (1000, 2000, 3000, 4000, 5000, 8000, 12000):
         r, e = _economico(serie_tutorial, v, "PEAD")
-        amb = _ambiental("PEAD", r)
-        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, amb)
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg,
-            capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct,
-            overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years, irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+        lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, _ambiental("PEAD", r))
+        cands.append(candidato_dos_resultados(r, e, lca.lifetime_net_co2_saved_kg))
 
     res = calculate_topsis_scores(cands)
     assert cands[res.technical_best_index].lower_tank_vol == 12000.0
     assert cands[res.financial_best_index].lower_tank_vol == 2000.0
     assert cands[res.environmental_best_index].lower_tank_vol == 2000.0
-    assert cands[res.best_index].lower_tank_vol == VOLUME
+    assert cands[res.best_index].lower_tank_vol == 2000.0
 
 
 def test_os_capitulos_8_a_13_citam_os_numeros_do_programa():
@@ -1594,24 +1587,20 @@ def test_int_a_troca_para_polietileno_inverte_o_sinal_do_carbono(int_serie):
 
 
 def test_int_os_tres_criterios_do_capitulo_12_discordam(int_serie):
-    """Impresso: técnico 12.000 L, econômico 2.000 L, ambiental 2.000 L, compromisso 4.000 L."""
+    """Impresso: técnico 12.000 L, econômico 2.000 L, ambiental 2.000 L; o multicritério de oito
+    critérios, com os quatro eixos iguais, 2.000 L (0.2.0)."""
     from triton.core.environmental import calculate_lca
-    from triton.core.topsis import TopsisCandidate, calculate_topsis_scores
+    from triton.core.topsis import calculate_topsis_scores, candidato_dos_resultados
     cands = []
     for v in (1000, 2000, 3000, 4000, 5000, 8000, 12000):
         r, e = _int_economico(int_serie, v, "PEAD")
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, _int_ambiental("PEAD", r))
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg, capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct, overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years, irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+        cands.append(candidato_dos_resultados(r, e, lca.lifetime_net_co2_saved_kg))
     res = calculate_topsis_scores(cands)
     assert cands[res.technical_best_index].lower_tank_vol == 12000.0
     assert cands[res.financial_best_index].lower_tank_vol == 2000.0
     assert cands[res.environmental_best_index].lower_tank_vol == 2000.0
-    assert cands[res.best_index].lower_tank_vol == INT_VOLUME
+    assert cands[res.best_index].lower_tank_vol == 2000.0
 
 
 # ── seção 3.1: as cidades de comparação ─────────────────────────────────────────────────────────
@@ -2213,24 +2202,20 @@ def test_prt_a_troca_para_polietileno_muda_o_retorno_do_carbono(prt_serie):
 
 
 def test_prt_os_tres_criterios_do_capitulo_12_discordam(prt_serie):
-    """Impresso: técnico 12.000 L, financeiro 1.000 L, ambiental 2.000 L, compromisso 5.000 L."""
+    """Impresso: técnico 12.000 L, financeiro 1.000 L, ambiental 2.000 L; o multicritério de oito
+    critérios, com os quatro eixos iguais, 3.000 L (0.2.0)."""
     from triton.core.environmental import calculate_lca
-    from triton.core.topsis import TopsisCandidate, calculate_topsis_scores
+    from triton.core.topsis import calculate_topsis_scores, candidato_dos_resultados
     cands = []
     for v in (1000, 2000, 3000, 4000, 5000, 8000, 12000):
         r, e = _prt_economico(prt_serie, v, "PEAD")
         lca = calculate_lca(float(v), r.annual_pluvial_consumed_m3, _prt_ambiental("PEAD", r))
-        cands.append(TopsisCandidate(
-            lower_tank_vol=float(v), water_saved_m3_yr=r.annual_pluvial_consumed_m3,
-            vpl_brl=e.vpl, co2_saved_kg_lifetime=lca.lifetime_net_co2_saved_kg, capex_brl=e.capex_total,
-            potential_savings_pct=r.potential_potable_savings_pct, overflow_m3_yr=r.annual_spill_m3,
-            discounted_payback_years=e.payback_years, irr_pct=e.tir_annual_pct,
-            potable_consumed_m3_yr=r.annual_potable_consumed_m3))
+        cands.append(candidato_dos_resultados(r, e, lca.lifetime_net_co2_saved_kg))
     res = calculate_topsis_scores(cands)
     assert cands[res.technical_best_index].lower_tank_vol == 12000.0
     assert cands[res.financial_best_index].lower_tank_vol == 1000.0
     assert cands[res.environmental_best_index].lower_tank_vol == 2000.0
-    assert cands[res.best_index].lower_tank_vol == PRT_VOLUME
+    assert cands[res.best_index].lower_tank_vol == 3000.0
 
 
 # ── secção 3.1: as cidades de comparação ────────────────────────────────────────────────────────
@@ -2423,7 +2408,7 @@ PRT_CITACOES = {
     "08_reservatorio_superior.md": ("5,3 kWh", "6 000 L"),
     "10_quanto_custa.md": ("11,32 €", "ilustrativo"),
     "11_quanto_carbono_evita.md": ("1 026 kg", "57,7 anos", "20,4 anos"),
-    "12_qual_volume_escolher.md": ("5 000 L", "12 000 L", "1 000 L", "2 000 L", "18,28%"),
+    "12_qual_volume_escolher.md": ("5 000 L", "12 000 L", "1 000 L", "2 000 L", "3 000 L", "18,28%"),
     "14_comparar_cidades.md": ("Porto", "Funchal", "17,87%", "21,58%", "12,86%", "22,7"),
 }
 

@@ -8,6 +8,7 @@ import numpy as np
 
 from triton.core.parser import TritonConfig
 from triton.core.fracao_atendivel import validar_fracao
+from triton import marca as _marca
 
 
 class PhysicalLimitWarning(UserWarning):
@@ -68,6 +69,11 @@ class SingleTankSimulationResult:
     # este campo o balanco nao fecha as claras, porque a demanda total deixa
     # de ser a soma do pluvial com o potavel.
     avg_unmet_demand_l_day: float = 0.0
+    # Demanda de água de chuva (uso interno não potável + irrigação) e volume médio
+    # guardado na cisterna inferior ao fim do dia. A demanda alimenta a confiabilidade
+    # volumétrica do multicritério (0.2.0); o volume guardado, a ocupação média.
+    avg_pluvial_demand_l_day: float = 0.0
+    avg_lower_tank_stored_l: float = 0.0
     total_irrigation_days_suppressed: int = 0
     total_irrigation_days_active: int = 0
     phi_rule: Optional[float] = None  # None = regra do Triton; número = família de Fewkes (0 = YAS, 1 = YBS)
@@ -98,6 +104,34 @@ class SingleTankSimulationResult:
     @property
     def annual_spill_m3(self) -> float:
         return (self.avg_spilled_l_day * 365.25) / 1000.0
+
+    @property
+    def volumetric_reliability_pct(self) -> float:
+        """Confiabilidade volumétrica: % da demanda de água de chuva atendida pela cisterna."""
+        if self.avg_pluvial_demand_l_day <= 0:
+            return 0.0
+        return min(100.0, 100.0 * self.avg_pluvial_consumed_l_day / self.avg_pluvial_demand_l_day)
+
+    @property
+    def storage_efficiency_pct(self) -> float:
+        """Eficiência de armazenamento: água de chuva entregue por dia / volume da cisterna, em %.
+
+        É a renovação diária média do volume construído (o giro anual dividido por 365).
+        Uma cisterna que guarda água que ninguém usa tem volume ocioso, e o índice cai:
+        é o critério que freia o superdimensionamento. Não confundir com a ocupação
+        média (``mean_storage_pct``), que sobe com o volume em clima úmido justamente
+        porque a cisterna grande fica cheia de água parada.
+        """
+        if self.lower_tank_vol <= 0:
+            return 0.0
+        return min(100.0, 100.0 * self.avg_pluvial_consumed_l_day / self.lower_tank_vol)
+
+    @property
+    def mean_storage_pct(self) -> float:
+        """Ocupação média da cisterna inferior ao fim do dia, em % do volume."""
+        if self.lower_tank_vol <= 0:
+            return 0.0
+        return min(100.0, 100.0 * self.avg_lower_tank_stored_l / self.lower_tank_vol)
 
     @property
     def total_overflow_liters(self) -> float:
@@ -141,7 +175,7 @@ def _phi_do_projeto(phi: float, upper_tank_used: bool, upper_tank_vol: float) ->
     """
     if upper_tank_used and upper_tank_vol > 0:
         warnings.warn(
-            "O projeto traz o parâmetro φ, mas há reservatório superior: o balanço segue a regra do Triton.",
+            _marca.aplicar("O projeto traz o parâmetro φ, mas há reservatório superior: o balanço segue a regra do Triton."),
             category=PhysicalLimitWarning, stacklevel=3)
         return None
     return phi
@@ -441,6 +475,7 @@ if HAS_NUMBA:
     ):
         n_days = len(precip_data)
         v_lower = 0.0
+        total_stored = 0.0
         total_pluvial_consumed = 0.0
         total_potable_consumed = 0.0
         total_spilled = 0.0
@@ -533,8 +568,9 @@ if HAS_NUMBA:
             total_pluvial_indoor += c_pluv_in
             total_pluvial_irrigation += c_pluv_irr
             total_unmet += unmet_today
+            total_stored += v_lower
 
-        return total_pluvial_consumed, total_potable_consumed, total_spilled, 0.0, 0, 0.0, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation, total_unmet
+        return total_pluvial_consumed, total_potable_consumed, total_spilled, 0.0, 0, 0.0, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation, total_unmet, total_stored
 
 
     @numba.njit(fastmath=True)
@@ -544,6 +580,7 @@ if HAS_NUMBA:
         # phi_rule so vale no reservatorio unico; o duplo usa sempre a regra do Triton.
         n_days = len(precip_data)
         v_lower = 0.0
+        total_stored = 0.0
         v_upper = 0.0
         total_pluvial_consumed = 0.0
         total_potable_consumed = 0.0
@@ -664,8 +701,9 @@ if HAS_NUMBA:
             total_pluvial_indoor += c_pluv_in
             total_pluvial_irrigation += c_pluv_irr
             total_unmet += unmet_today
+            total_stored += v_lower
 
-        return total_pluvial_consumed, total_potable_consumed, total_spilled, total_pumped, total_pump_cycles, max_pump_batch, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation, total_unmet
+        return total_pluvial_consumed, total_potable_consumed, total_spilled, total_pumped, total_pump_cycles, max_pump_batch, days_full, days_partial, days_null, total_pluvial_indoor, total_pluvial_irrigation, total_unmet, total_stored
 
 
 def validar_parametros_fisicos(
@@ -755,10 +793,10 @@ def validar_parametros_fisicos(
         )
     if phi_rule is not None:
         if not (0.0 <= float(phi_rule) <= 1.0):
-            raise ValueError(
+            raise ValueError(_marca.aplicar(
                 f"Parâmetro operacional phi fora de [0, 1]: {phi_rule:g}. "
                 "Use 0,0 para YAS estrita ou 1,0 para YBS; sem phi vale a regra do Triton."
-            )
+            ))
 
     # Limite físico da literatura (Mitchell 2007; Fewkes 2000b):
     # Quando a relação entre demanda diária pluvial e volume da cisterna (D/S)
@@ -916,10 +954,10 @@ def run_single_simulation(
         phi_rule = _phi_do_projeto(float(building_config["phi_operation_rule"]), upper_tank_used, upper_tank_vol)
     phi_kernel = -1.0 if phi_rule is None else float(phi_rule)
     if phi_rule is not None and upper_tank_used and upper_tank_vol > 0:
-        raise ValueError(
+        raise ValueError(_marca.aplicar(
             "O parâmetro operacional phi (família de Fewkes) só vale para reservatório único. "
             "Com reservatório superior, o balanço segue a regra do Triton."
-        )
+        ))
 
     # Entrada fisicamente impossivel produz resultado sem sentido que atravessa
     # o programa inteiro sem erro. Barra-se aqui, nomeando o campo.
@@ -1010,7 +1048,7 @@ def run_single_simulation(
                 p_arr, float(lower_tank_vol), float(area), float(runoff_coeff), float(discard_mm), int(discard_mode), int(discard_days_interval), t_arr, pl_arr, float(upper_tank_vol), float(pumping_threshold), np_in_arr, ir_arr, pt_arr, irr_backup, phi_kernel
             )
 
-        tot_pluv, tot_pot, tot_spill, tot_pump, tot_cycles, max_batch, d_full, d_part, d_null, pluv_indoor, pluv_irrigation, tot_unmet = res_tup
+        tot_pluv, tot_pot, tot_spill, tot_pump, tot_cycles, max_batch, d_full, d_part, d_null, pluv_indoor, pluv_irrigation, tot_unmet, tot_stored = res_tup
         total_demand_period = float(np.sum(tot_demands_arr))
         potential_savings_pct = (tot_pluv / total_demand_period) * 100.0 if total_demand_period > 0 else 0.0
         # O potavel vem do acumulador, e nao da diferenca: com o suprimento de
@@ -1046,6 +1084,8 @@ def run_single_simulation(
             total_irrigation_days_suppressed=days_supp,
             total_irrigation_days_active=n_days - days_supp,
             avg_unmet_demand_l_day=avg_unmet_kernel,
+            avg_pluvial_demand_l_day=float(np.sum(pl_arr)) / n_days,
+            avg_lower_tank_stored_l=tot_stored / n_days,
             phi_rule=None if phi_rule is None else float(phi_rule),
             operation_rule_name=nome_regra_operacional(phi_rule),
         )
@@ -1072,6 +1112,8 @@ def run_single_simulation(
     
     daily_list: List[SimulationDayResult] = []
     total_demand_period = 0.0
+    total_pluvial_demand_period = 0.0
+    total_stored_lower = 0.0
     last_discard_day = -999999
 
     irr_backup_enabled = bool(building_config.get("irrigation_potable_backup", True)) if building_config else True
@@ -1216,6 +1258,8 @@ def run_single_simulation(
         total_spilled += v_spill_today
         total_pumped += v_rec_today
         total_pump_cycles += cycles_today
+        total_pluvial_demand_period += pluvial_demand_per_day
+        total_stored_lower += v_lower
         
         if store_daily_details:
             daily_list.append(SimulationDayResult(
@@ -1275,6 +1319,8 @@ def run_single_simulation(
         total_irrigation_days_suppressed=days_irr_suppressed,
         total_irrigation_days_active=n_days - days_irr_suppressed,
         avg_unmet_demand_l_day=total_unmet_demand / n_days,
+        avg_pluvial_demand_l_day=total_pluvial_demand_period / n_days,
+        avg_lower_tank_stored_l=total_stored_lower / n_days,
         phi_rule=None if phi_rule is None else float(phi_rule),
         operation_rule_name=nome_regra_operacional(phi_rule),
     )
