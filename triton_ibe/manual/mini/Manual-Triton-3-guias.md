@@ -1157,8 +1157,8 @@ de sete critérios.
 
 No ficheiro de projeto, os mesmos dados ficam em `analysis.topsis_weights` (quatro ou oito valores,
 ou `"critic"`), `analysis.topsis_criterion_shares` e `analysis.topsis_score_band`. A saída de texto
-escreve a faixa do TOPSIS numa linha — «TOPSIS: volumes de A a B L com escores semelhantes (até 5%
-da amplitude, a partir do maior) | maior escore em X L» —, o HTML traz o parágrafo «Faixa de escolha
+escreve a faixa do TOPSIS numa linha — «TOPSIS: volumes de A a B L com pontuações semelhantes (até 5%
+da amplitude, a partir da maior) | maior pontuação em X L» —, o HTML traz o parágrafo «Faixa de escolha
 (TOPSIS)», e o JSON as chaves `topsis.choice_band`, `choice_band_min_volume_l`,
 `choice_band_max_volume_l` e `smaa_vikor.choice_band`.
 

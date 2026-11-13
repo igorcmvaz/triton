@@ -133,7 +133,7 @@ que declare no estudo o passo efetivamente utilizado, e não o passo originalmen
 | «Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios)» | número de partes no eixo diferente de oito | introduza uma parte por critério, pela ordem do separador de decisão |
 | «As partes no eixo devem ser finitas e não negativas» | parte vazia ou negativa | corrija; a parte zero é válida e tira o critério da conta |
 | «Ao menos um critério do eixo … deve ter parte maior que zero» | todos os critérios de um eixo com parte zero | dê parte a pelo menos um critério do eixo; para tirar o eixo da conta, ponha a zero o peso do eixo, e não as partes |
-| «A tolerância da faixa de escolha deve ficar entre 0 e 1 (fração da amplitude dos escores).» | `--score-band` ou `analysis.topsis_score_band` fora de 0 a 1, ou dado em percentagem | use a fração de 0 a 1: `0.05` para 5% (na linha de comandos, também `0,05`) |
+| «A tolerância da faixa de escolha deve ficar entre 0 e 1 (fração da amplitude das pontuações).» | `--score-band` ou `analysis.topsis_score_band` fora de 0 a 1, ou dado em percentagem | use a fração de 0 a 1: `0.05` para 5% (na linha de comandos, também `0,05`) |
 | «analise.tolerancia_faixa: número de 0 a 1» | `analise.tolerancia_faixa`, no estudo declarativo, fora de 0 a 1 | use a fração: `0.05` para 5% |
 
 ---

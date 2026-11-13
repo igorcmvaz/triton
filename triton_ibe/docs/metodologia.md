@@ -258,7 +258,7 @@ Para permitir valores negativos sem uma correção condicional, cada coluna é t
 
 O VIKOR implementado em `triton/core/mcdm_methods.py` calcula `S`, `R` e `Q` conforme Opricovic & Tzeng (2004), mas **não aplica as condições C1 (vantagem aceitável) e C2 (estabilidade aceitável)**. O ranking é, portanto, uma ordenação por `Q`, e não a afirmação de que o primeiro colocado seja um compromisso estável. O SMAA-VIKOR segue Lahdelma & Salminen (2001), amostrando os pesos por uma Dirichlet com 25% esperado em cada eixo; é implementação independente sobre NumPy, seguindo o desenho da biblioteca `crispyn` (licença MIT), que serve de base de comparação e não de origem do código.
 
-Além do escore agregado, o programa calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
+Além da pontuação agregada, o programa calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
 
 ```text
 gapij = [max(xj) − xij] / [max(xj) − min(xj)]

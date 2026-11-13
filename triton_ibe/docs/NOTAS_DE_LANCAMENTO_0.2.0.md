@@ -51,7 +51,7 @@ Quando vários volumes pontuam quase igual, o multicritério deixa de dizer que 
 | Onde | O que mostra ou aceita |
 | :--- | :--- |
 | separador de decisão | «Faixa TOPSIS», «Faixa VIKOR / SMAA» e «Faixa PROMETHEE II», cada uma com o volume de maior pontuação |
-| linha de comandos | `--score-band` (0 a 1; por omissão, 0,05) em todos os comandos que aceitam `--weights`; o texto escreve «TOPSIS: volumes de A a B L com escores semelhantes (até 5% da amplitude, a partir do maior) \| maior escore em X L» |
+| linha de comandos | `--score-band` (0 a 1; por omissão, 0,05) em todos os comandos que aceitam `--weights`; o texto escreve «TOPSIS: volumes de A a B L com pontuações semelhantes (até 5% da amplitude, a partir da maior) \| maior pontuação em X L» |
 | HTML e JSON | o parágrafo «Faixa de escolha (TOPSIS)»; as chaves `topsis.choice_band`, `choice_band_min_volume_l`, `choice_band_max_volume_l` e `smaa_vikor.choice_band` |
 | ficheiro de projeto | `analysis.topsis_score_band` |
 | estudo declarativo | `analise.tolerancia_faixa`; as métricas `faixa_topsis_min_l` e `faixa_topsis_max_l` |

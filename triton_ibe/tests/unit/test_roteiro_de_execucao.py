@@ -196,10 +196,12 @@ def test_decisao_multicriterio_em_ingles_sem_portugues(janela_en):
 def test_decisao_multicriterio_em_portugues_nao_troca_virgula_por_ponto(janela_pt):
     frase = janela_pt.tab_global_optimizer.lbl_tradeoff_desc.text()
     # 0.2.0: a frase dá a faixa de escolha (ou diz que só um volume fica nela), e não um volume «recomendado».
-    assert ("as cisternas de" in frase and "têm escores semelhantes" in frase) or "só a cisterna de" in frase, frase
+    # na Ibérica, «escores» vira «pontuações» (glossário de Portugal)
+    assert (("as cisternas de" in frase and re.search(r"têm (escores|pontuações) semelhantes", frase))
+            or "só a cisterna de" in frase), frase
     assert "recomenda" not in frase, frase
     # escore e aceitabilidade com vírgula decimal; antes saía «0.94» no meio do português
-    assert re.search(r"maior escore (em \d+ L, |\()\d,\d\d\)", frase), frase
+    assert re.search(r"maior (escore|pontuação) (em \d+ L, |\()\d,\d\d\)", frase), frase
     # antes: VPL «2.428.94», porque um replace global trocava toda vírgula
     assert not re.search(r"\d\.\d{3}\.\d{2}\b", frase), frase
     rotulo = janela_pt.tab_global_optimizer.table.item(0, 0).text()
