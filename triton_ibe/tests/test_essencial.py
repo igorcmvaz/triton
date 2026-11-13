@@ -6609,7 +6609,7 @@ def test_cli_declara_a_moeda_do_projeto_nas_saidas():
     assert _flat_rows(rel)[0]["currency"] == "EUR"
     from triton.cli_textos import t as _t
     assert f"{_t('Valores monetários em:')} €" in _render_html(rel)
-    assert _simbolo({"provenance": {}}) == "(moeda do projeto)"
+    assert _simbolo({"provenance": {}}) == _t("(moeda do projeto)")  # «(project currency)» na Internacional
 
 
 def test_laudo_ambiental_so_mostra_selos_brasileiros_na_brasil(monkeypatch):

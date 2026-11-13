@@ -151,15 +151,24 @@ def test_frases_do_roteiro_tem_traducao(idioma):
         assert not re.search(r"[ãõç]|\b(ano|dia)s?\b", traduzida), f"{chave!r} em {idioma} ainda tem português: {traduzida!r}"
 
 
-def test_frase_da_decisao_tem_os_treze_campos_em_todos_os_idiomas():
-    """A frase da faixa de escolha (0.2.0) leva treze campos; faltando um, a tradução quebra o format."""
+def test_frases_da_decisao_tem_os_campos_em_todos_os_idiomas():
+    """As frases da faixa de escolha (0.2.0); faltando um campo, a tradução quebra o format."""
     from triton.ui.translation_complement import COMPLEMENTO
-    chave = next(k for k in COMPLEMENTO if k.startswith("No TOPSIS ({0}), as cisternas de {1}"))
-    for idioma in ("pt", "en", "es", "zh"):
-        texto = T.tr(chave, lang=idioma)
-        for i in range(13):
-            assert "{%d}" % i in texto, f"{idioma}: falta {{{i}}}"
-        assert texto.format(*["x"] * 13)
+    frases = {
+        "No TOPSIS ({0}), as cisternas de {1}": 4,
+        "No TOPSIS ({0}), só a cisterna de {1} L": 3,
+        "No SMAA-VIKOR ({0} simulações), as de {1}": 4,
+        "No SMAA-VIKOR ({0} simulações), a maior aceitabilidade": 3,
+        "Em relação à menor cisterna ({0} L)": 4,
+    }
+    for inicio, campos in frases.items():
+        chave = next(k for k in COMPLEMENTO if k.startswith(inicio))
+        for idioma in ("pt", "en", "es", "zh"):
+            texto = T.tr(chave, lang=idioma)
+            for i in range(campos):
+                assert "{%d}" % i in texto, f"{inicio} / {idioma}: falta {{{i}}}"
+            assert "{%d}" % campos not in texto, f"{inicio} / {idioma}: campo a mais"
+            assert texto.format(*["x"] * campos)
 
 
 def test_glossario_de_portugal_regista_e_equipa():
@@ -176,8 +185,8 @@ def test_glossario_de_portugal_regista_e_equipa():
 def test_decisao_multicriterio_em_ingles_sem_portugues(janela_en):
     otimizador = janela_en.tab_global_optimizer
     frase = otimizador.lbl_tradeoff_desc.text()
-    # 0.2.0: a frase dá a faixa de escolha, e não um volume «recomendado».
-    assert "have similar scores" in frase and "cistern" in frase, frase
+    # 0.2.0: a frase dá a faixa de escolha (ou diz que só um volume fica nela), e não um volume «recomendado».
+    assert ("have similar scores" in frase or "only the" in frase) and "cistern" in frase, frase
     assert not re.search(r"recomenda|semelhante|simulações|cisterna", frase), frase
     rotulo = otimizador.table.item(0, 0).text()
     assert rotulo.startswith("Option 1 ("), rotulo
@@ -186,10 +195,11 @@ def test_decisao_multicriterio_em_ingles_sem_portugues(janela_en):
 @sem_exemplo
 def test_decisao_multicriterio_em_portugues_nao_troca_virgula_por_ponto(janela_pt):
     frase = janela_pt.tab_global_optimizer.lbl_tradeoff_desc.text()
-    # 0.2.0: a frase dá a faixa de escolha, e não um volume «recomendado».
-    assert "as cisternas de" in frase and "têm escores semelhantes" in frase, frase
+    # 0.2.0: a frase dá a faixa de escolha (ou diz que só um volume fica nela), e não um volume «recomendado».
+    assert ("as cisternas de" in frase and "têm escores semelhantes" in frase) or "só a cisterna de" in frase, frase
+    assert "recomenda" not in frase, frase
     # escore e aceitabilidade com vírgula decimal; antes saía «0.94» no meio do português
-    assert re.search(r"maior escore em \d+ L, \d,\d\d\)", frase), frase
+    assert re.search(r"maior escore (em \d+ L, |\()\d,\d\d\)", frase), frase
     # antes: VPL «2.428.94», porque um replace global trocava toda vírgula
     assert not re.search(r"\d\.\d{3}\.\d{2}\b", frase), frase
     rotulo = janela_pt.tab_global_optimizer.table.item(0, 0).text()

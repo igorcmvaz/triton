@@ -78,7 +78,7 @@ def open_url_in_browser(url: str):
 #: contra os PDFs.
 #: As páginas dependem da edição (cada edição publica um manual): o literal fica igual nas três.
 PAGINAS_POR_EDICAO = {
-    "BRL": {_marca.MANUAL_COMPLETO_PT: 491},
+    "BRL": {_marca.MANUAL_COMPLETO_PT: 492},
     "INT": {_marca.MANUAL_COMPLETO_EN: 310},
     "IBE": {_marca.MANUAL_COMPLETO_PT: 321},
 }

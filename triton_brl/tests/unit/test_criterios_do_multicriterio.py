@@ -239,3 +239,87 @@ def test_faixa_de_escolha_sai_na_analise_e_nas_metricas_do_estudo():
     assert t["choice_band_min_volume_l"] <= t["best_volume_l"] <= t["choice_band_max_volume_l"]
     assert METRICAS["faixa_topsis_min_l"]["chave"] == "choice_band_min_volume_l"
     assert cli._validate_analysis_config({"topsis_score_band": 2}) != []
+
+
+# ── Faixa de escolha nas saídas da linha de comando (0.2.0) ──────────────────────────────────
+
+def _faixa(volumes, contigua=True, melhor=None):
+    return {"tolerance": 0.05, "volumes_l": [float(v) for v in volumes], "min_volume_l": float(min(volumes)),
+            "max_volume_l": float(max(volumes)), "best_volume_l": float(melhor or volumes[0]), "contiguous": contigua}
+
+
+def test_texto_dos_volumes_da_faixa():
+    from triton.core.topsis import volumes_da_faixa, faixa_de_um_volume
+    assert volumes_da_faixa(_faixa([2000, 2500, 3000])) == "2000–3000"
+    assert volumes_da_faixa(_faixa([2000])) == "2000"
+    assert volumes_da_faixa(_faixa([1000, 3000], contigua=False)) == "1000, 3000"
+    assert volumes_da_faixa(None) == ""
+    assert faixa_de_um_volume(_faixa([2000])) and not faixa_de_um_volume(_faixa([2000, 2500]))
+
+
+def test_linha_do_topsis_nao_diz_de_1000_a_1000():
+    from triton import cli
+    base = {"best_volume_l": 1000.0, "best_score": 0.674}
+    so_um = cli._linha_do_topsis({**base, "choice_band": _faixa([1000])})
+    assert "1000 a 1000" not in so_um and "1000–1000" not in so_um
+    assert "1000 L" in so_um and "0.674" in so_um
+    com_lacuna = cli._linha_do_topsis({**base, "choice_band": _faixa([1000, 3000], contigua=False)})
+    assert "1000, 3000 L" in com_lacuna and " a 3000" not in com_lacuna
+    continua = cli._linha_do_topsis({**base, "choice_band": _faixa([1000, 1500, 2000])})
+    assert "1000" in continua and "2000" in continua and ("semelhantes" in continua or "similar" in continua)
+
+
+def test_linha_do_smaa_traz_a_faixa_quando_ha_mais_de_um_volume():
+    from triton import cli
+    sv = {"best_volume_l": 2000.0, "best_acceptability_pct": 27.7, "samples": 20000}
+    faixa = cli._linha_do_smaa({**sv, "choice_band": _faixa([1500, 2000, 2500], melhor=2000)})
+    assert "1500–2500 L" in faixa and "27.7" in faixa
+    so_um = cli._linha_do_smaa({**sv, "choice_band": _faixa([2000])})
+    assert so_um.startswith("SMAA-VIKOR: 2000 L |") and "–" not in so_um
+
+
+def test_html_da_faixa_com_um_volume_e_com_lacuna():
+    from triton import cli
+    um = cli._html_da_faixa({"topsis": {"choice_band": _faixa([1000])}})
+    assert "1000 a 1000" not in um and "1000 L" in um
+    lacuna = cli._html_da_faixa({"topsis": {"choice_band": _faixa([1000, 3000], contigua=False)}})
+    assert "1000, 3000 L" in lacuna
+
+
+def test_pesos_somados_por_eixo():
+    from triton.core.topsis import pesos_somados_por_eixo
+    eixos = pesos_somados_por_eixo([0.1, 0.1, 0.1, 0.1, 0.1, 0.2, 0.15, 0.15])
+    assert eixos == pytest.approx((0.2, 0.3, 0.2, 0.3))
+    with pytest.raises(ValueError):
+        pesos_somados_por_eixo([0.25] * 4)
+
+
+# ── Linhas econômica e ambiental do relatório de texto ────────────────────────────────────────
+
+def _alt_econ(vol, npv, capex, payback):
+    return {"lower_tank_volume_l": float(vol), "npv_brl": npv, "capex_brl": capex, "discounted_payback_months": payback}
+
+
+def test_linha_economica_diz_o_criterio_e_avisa_capex_zero():
+    from triton import cli
+    sem_custo = {"economic": {"alternatives": [_alt_econ(0, 0, 0, 0), _alt_econ(1000, 600, 0, 0), _alt_econ(5000, 850, 0, 0)]}}
+    linhas = cli._linhas_economicas(sem_custo)
+    assert "5000 L" in linhas[0]
+    from triton.cli_textos import t as _t  # «maior VAL» na Ibérica, «highest NPV» na Internacional
+    assert "Payback" not in linhas[0] and _t("Melhor alternativa econômica (maior VPL):") in linhas[0], linhas
+    assert len(linhas) == 2 and "CAPEX" in linhas[1]
+    com_custo = {"economic": {"alternatives": [_alt_econ(1000, 300, 900, 60), _alt_econ(2000, 500, 1500, 48)]}}
+    linhas = cli._linhas_economicas(com_custo)
+    assert len(linhas) == 1 and "2000 L" in linhas[0] and "Payback: 4.0" in linhas[0]
+    assert "4.0a" not in linhas[0]
+
+
+def test_linha_ambiental_explica_o_negativo():
+    from triton import cli
+    alts = [{"lower_tank_volume_l": 1000.0, "lifetime_net_co2_saved_kg": -162.9},
+            {"lower_tank_volume_l": 2000.0, "lifetime_net_co2_saved_kg": -240.0}]
+    linha = cli._linha_ambiental({"environmental": {"alternatives": alts}})
+    assert "1000 L" in linha and "-162.90 kg" in linha and "CO2e" in linha
+    assert "negativo" in linha or "negative" in linha
+    positivo = cli._linha_ambiental({"environmental": {"alternatives": [{"lower_tank_volume_l": 3000.0, "lifetime_net_co2_saved_kg": 342.7}]}})
+    assert "342.70 kg" in positivo and "negativo" not in positivo and "negative" not in positivo

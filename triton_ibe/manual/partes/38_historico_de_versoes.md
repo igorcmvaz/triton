@@ -71,7 +71,12 @@ programa pelo repositório, pelo sítio ou pelo manual lê o mesmo registo.
 
 ### Correções que não alteram resultados
 
-Nenhuma.
+- A faixa de escolha com um volume só não sai mais como «volumes de 1000 a 1000 L»: a linha de comando, o HTML e a interface dizem que só aquele volume fica a até 5% da amplitude; faixa com lacunas lista os volumes, em vez de sugerir que os do meio também estão nela.
+- A linha do SMAA-VIKOR na linha de comando traz a faixa quando ela tem mais de um volume.
+- Com `--weights critic`, o JSON traz em `topsis.weights` os pesos calculados, somados por eixo.
+- A frase de decisão da interface compara com a menor cisterna a diferença de CO2e evitado (antes, o valor absoluto da alternativa), com sinal, e mantém a vírgula decimal no escore e na aceitabilidade.
+- O separador Documentação descreve os quatro eixos, os perfis 70/10, o CRITIC, a faixa de escolha e a Dirichlet por eixo do SMAA.
+- O relatório de texto da linha de comando diz o critério da melhor alternativa econômica (menor payback ou, sem nenhuma que se pague, maior VPL), escreve o payback em anos na língua da edição, avisa quando os custos de obra não foram informados (CAPEX zero) e diz o que é o número da melhor alternativa ambiental: CO2e líquido evitado na vida útil, negativo quando o sistema emite mais do que evita.
 
 ### Documentação
 

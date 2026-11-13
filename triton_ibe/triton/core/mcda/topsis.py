@@ -431,6 +431,31 @@ def faixa_de_escolha(volumes, escores, maior_melhor: bool = True, tolerancia=Non
     }
 
 
+def volumes_da_faixa(faixa: Optional[Dict[str, Any]]) -> str:
+    """Os volumes da faixa, sem a unidade: «2000–3000», «2000» (um volume só) ou «1000, 3000» (com lacunas)."""
+    if not faixa:
+        return ""
+    volumes = faixa.get("volumes_l") or [faixa["min_volume_l"]]
+    if len(volumes) == 1 or faixa["min_volume_l"] == faixa["max_volume_l"]:
+        return f"{faixa['min_volume_l']:.0f}"
+    if not faixa.get("contiguous", True):
+        return ", ".join(f"{v:.0f}" for v in volumes)
+    return f"{faixa['min_volume_l']:.0f}–{faixa['max_volume_l']:.0f}"
+
+
+def faixa_de_um_volume(faixa: Optional[Dict[str, Any]]) -> bool:
+    """A faixa tem um volume só: nenhum outro fica perto o bastante do maior escore."""
+    return bool(faixa) and len(faixa.get("volumes_l") or [faixa["min_volume_l"]]) == 1
+
+
+def pesos_somados_por_eixo(pesos_dos_criterios: Sequence[float]) -> Tuple[float, float, float, float]:
+    """Os oito pesos de critério somados nos quatro eixos (técnico, econômico, ambiental, estrutural)."""
+    w = [float(x) for x in pesos_dos_criterios]
+    if len(w) != len(CRITERION_KEYS):
+        raise ValueError(_SETE_CRITERIOS if len(w) == 7 else f"esperados {len(CRITERION_KEYS)} pesos de critério, recebidos {len(w)}")
+    return tuple(sum(w[i] for i in indices) for indices in _EIXOS)  # type: ignore[return-value]
+
+
 def calculate_topsis_scores(
     candidates: List[TopsisCandidate],
     weights: Optional[Sequence[float]] = None,

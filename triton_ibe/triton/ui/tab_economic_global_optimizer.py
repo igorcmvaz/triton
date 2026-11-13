@@ -19,7 +19,8 @@ from triton.core.parser import TritonConfig, format_ptbr, parse_float
 from triton.core.economic import run_robust_economic_analysis, calculate_effective_tariff
 from triton.core.environmental import EnvironmentalConfig, run_environmental_sweep
 from triton.core.topsis import (PESOS_PADRAO, PARTES_NO_EIXO_PADRAO, PARTES_IGUAIS_NO_EIXO, CRITERION_LABELS, validar_partes_no_eixo,
-                                payback_do_criterio, TopsisCandidate, calculate_topsis_scores, PESOS_CRITIC, eh_critic)
+                                payback_do_criterio, TopsisCandidate, calculate_topsis_scores, PESOS_CRITIC, eh_critic,
+                                volumes_da_faixa, faixa_de_um_volume)
 from triton.core.mcdm_methods import run_smaa_vikor, run_vikor, run_promethee, VikorResult, PrometheeResult
 from triton.core.system_weight import calculate_system_weight_from_config
 from triton.core.cost_estimates import (
@@ -1103,16 +1104,35 @@ class TabEconomicGlobalOptimizer(QWidget):
                 _milhar = lambda n: milhar(f"{n:,}")
                 faixa_top = topsis_res.faixa_de_escolha() if topsis_res else None
                 faixa_sma = smaa_res.faixa_de_escolha() if smaa_res else None
-                tradeoff_msg = tr(
-                    "No TOPSIS ({0}), as cisternas de {1} têm escores semelhantes (até 5% da amplitude, a partir do maior; "
-                    "maior escore em {2} L, {3}). No SMAA-VIKOR ({4} simulações), as de {5} têm aceitabilidade de 1º lugar "
-                    "semelhante (maior: {6} L, {7}%). A alternativa selecionada na tabela ({8} L) proporciona {9} {10} a mais "
-                    "de VPL e {11} kg de CO2e evitado em relação à menor cisterna ({12} L)."
-                ).format(
-                    weights_desc, _texto_da_faixa(faixa_top) if faixa_top else f"{top_vol:.0f} L", f"{top_vol:.0f}",
-                    decimal(f"{top_score:.2f}"), _milhar(smaa_samples), _texto_da_faixa(faixa_sma) if faixa_sma else f"{vik_vol:.0f} L",
-                    f"{vik_vol:.0f}", decimal(f"{vik_acc:.1f}"),
-                    f"{best['vol']:.0f}", curr_sym, format_ptbr(extra_vpl, 2), f"{best['co2']:.0f}", f"{smallest['vol']:.0f}")
+                # Três frases: TOPSIS, SMAA-VIKOR e a comparação com a menor cisterna. Faixa de um volume só tem frase
+                # própria («as cisternas de 2000 L têm escores semelhantes» não diz nada).
+                partes = []
+                if topsis_res is not None:
+                    if faixa_top and not faixa_de_um_volume(faixa_top):
+                        partes.append(tr("No TOPSIS ({0}), as cisternas de {1} têm escores semelhantes (até 5% da amplitude, "
+                                         "a partir do maior; maior escore em {2} L, {3}).").format(
+                            weights_desc, _texto_da_faixa(faixa_top), f"{top_vol:.0f}", decimal(f"{top_score:.2f}")))
+                    else:
+                        partes.append(tr("No TOPSIS ({0}), só a cisterna de {1} L fica a até 5% da amplitude do maior "
+                                         "escore ({2}).").format(weights_desc, f"{top_vol:.0f}", decimal(f"{top_score:.2f}")))
+                if smaa_res is not None:
+                    if faixa_sma and not faixa_de_um_volume(faixa_sma):
+                        partes.append(tr("No SMAA-VIKOR ({0} simulações), as de {1} têm aceitabilidade de 1º lugar semelhante "
+                                         "(maior: {2} L, {3}%).").format(
+                            _milhar(smaa_samples), _texto_da_faixa(faixa_sma), f"{vik_vol:.0f}", decimal(f"{vik_acc:.1f}")))
+                    else:
+                        partes.append(tr("No SMAA-VIKOR ({0} simulações), a maior aceitabilidade de 1º lugar é a de {1} L "
+                                         "({2}%), sem outra a até 5% da amplitude.").format(
+                            _milhar(smaa_samples), f"{vik_vol:.0f}", decimal(f"{vik_acc:.1f}")))
+                # Diferenças com sinal: a alternativa pode ter VPL menor ou evitar menos CO2e que a menor cisterna.
+                _sinal = lambda x: "+" if x >= 0 else "−"
+                extra_co2 = float(best["co2"]) - float(smallest["co2"])
+                partes.append(tr("Em relação à menor cisterna ({0} L), a alternativa selecionada na tabela ({1} L) muda o VPL "
+                                 "em {2} e o CO2e evitado no ciclo de vida em {3} kg.").format(
+                    f"{smallest['vol']:.0f}", f"{best['vol']:.0f}",
+                    f"{_sinal(extra_vpl)}{curr_sym} {format_ptbr(abs(extra_vpl), 2)}",
+                    f"{_sinal(extra_co2)}{_milhar(int(round(abs(extra_co2))))}"))
+                tradeoff_msg = " ".join(partes)
                 # Em português a frase não passa pelo catálogo da Portugal: na IBE, VPL vira VAL.
                 from triton.ui.translation import em_portugues_da_edicao
                 self.lbl_tradeoff_desc.setText(em_portugues_da_edicao(tradeoff_msg))
@@ -1123,13 +1143,7 @@ class TabEconomicGlobalOptimizer(QWidget):
 
 def _texto_da_faixa(faixa) -> str:
     """«2000–3000 L» (ou «2000 L» com um volume só); faixa com lacunas leva a lista dos volumes."""
-    if not faixa:
-        return "--"
-    if faixa["min_volume_l"] == faixa["max_volume_l"]:
-        return f"{faixa['min_volume_l']:.0f} L"
-    if not faixa.get("contiguous", True):
-        return ", ".join(f"{v:.0f}" for v in faixa["volumes_l"]) + " L"
-    return f"{faixa['min_volume_l']:.0f}–{faixa['max_volume_l']:.0f} L"
+    return f"{volumes_da_faixa(faixa)} L" if faixa else "--"
 
 
 def _energia_anual_de_bombeamento(cfg, resultado) -> float:

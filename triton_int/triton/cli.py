@@ -65,7 +65,8 @@ from triton.core.parser import (
 from triton.core.simulation import SingleTankSimulationResult, run_single_simulation, run_sweep_simulation
 from triton.core.topsis import (PARTES_NO_EIXO_PADRAO, PESOS_PADRAO, TopsisCandidate, calculate_topsis_scores, payback_do_criterio,
                                 validar_partes_no_eixo, CRITERION_IS_BENEFIT, PESOS_CRITIC, eh_critic,
-                                TOLERANCIA_FAIXA_PADRAO, validar_tolerancia_da_faixa)
+                                TOLERANCIA_FAIXA_PADRAO, validar_tolerancia_da_faixa,
+                                volumes_da_faixa, faixa_de_um_volume, pesos_somados_por_eixo)
 from triton.core.mcdm_methods import AMOSTRAS_SMAA_PADRAO, run_smaa_vikor
 from triton.core.system_weight import calculate_system_weight_from_config
 
@@ -996,7 +997,10 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
         output["system_weight"]["summary"] = weight_results[topsis.best_index].to_dict()
     faixa_topsis = topsis.faixa_de_escolha(score_band) if topsis else None
     output["topsis"] = {
-        "weights": ({"method": PESOS_CRITIC} if eh_critic(weights) else dict(zip(
+        # CRITIC: os pesos saem dos resultados; o JSON leva a soma por eixo (os oito ficam em ``criteria``).
+        "weights": (({"method": PESOS_CRITIC, **dict(zip(("technical", "economic", "environmental", "structural"),
+                                                          pesos_somados_por_eixo(topsis.criterion_weights)))}
+                     if topsis else {"method": PESOS_CRITIC}) if eh_critic(weights) else dict(zip(
             ("technical", "economic", "environmental", "structural") if len(weights) == 4
             else ("technical", "economic", "environmental") if len(weights) == 3
             else topsis.criterion_keys if topsis else (),
@@ -1082,7 +1086,7 @@ def _moeda_do_bundle(bundle: Dict[str, Any]) -> Optional[Dict[str, str]]:
 def _simbolo(report: Dict[str, Any]) -> str:
     """O símbolo da moeda do relatório, ou «(moeda do projeto)» quando não declarada."""
     moeda = (report.get("provenance") or {}).get("currency") or {}
-    return moeda.get("symbol") or "(moeda do projeto)"
+    return moeda.get("symbol") or _t("(moeda do projeto)")
 
 
 def _flat_rows(report: Dict[str, Any]) -> List[Dict[str, Any]]:
@@ -1117,11 +1121,82 @@ def _html_da_faixa(report: Dict[str, Any]) -> str:
     faixa = (report.get("topsis") or {}).get("choice_band") or {}
     if not faixa:
         return ""
-    return ("<p><strong>" + _t("Faixa de escolha (TOPSIS):") + "</strong> "
-            + _t("volumes de {0} a {1} L têm escores semelhantes (até {2}% da amplitude, a partir do maior); maior escore em {3} L.").format(
-                f"{faixa['min_volume_l']:.0f}", f"{faixa['max_volume_l']:.0f}", f"{100 * faixa['tolerance']:.0f}",
-                f"{faixa['best_volume_l']:.0f}")
-            + "</p>")
+    pct = f"{100 * faixa['tolerance']:.0f}"
+    if faixa_de_um_volume(faixa):
+        frase = _t("só {0} L: nenhum outro volume fica a até {1}% da amplitude do maior escore.").format(
+            f"{faixa['best_volume_l']:.0f}", pct)
+    elif not faixa.get("contiguous", True):
+        frase = _t("volumes {0} L têm escores semelhantes (até {1}% da amplitude, a partir do maior); maior escore em {2} L.").format(
+            volumes_da_faixa(faixa), pct, f"{faixa['best_volume_l']:.0f}")
+    else:
+        frase = _t("volumes de {0} a {1} L têm escores semelhantes (até {2}% da amplitude, a partir do maior); maior escore em {3} L.").format(
+            f"{faixa['min_volume_l']:.0f}", f"{faixa['max_volume_l']:.0f}", pct, f"{faixa['best_volume_l']:.0f}")
+    return "<p><strong>" + _t("Faixa de escolha (TOPSIS):") + "</strong> " + frase + "</p>"
+
+
+def _linhas_economicas(report: Dict[str, Any]) -> List[str]:
+    """A melhor alternativa econômica, com o critério que de fato a escolheu, e o aviso quando não há custo de obra.
+
+    O menor payback descontado só vale entre as alternativas que se pagam (VPL positivo); sem nenhuma, vale o maior
+    VPL, e o rótulo diz isso. Com CAPEX zero em todas (custos não informados, como no exemplo da Internacional), o
+    VPL é só a economia, e o LCOW e o payback ficam iguais para todos os volumes: não pesam na decisão.
+    """
+    econ_alts = [row for row in report["economic"]["alternatives"] if row["lower_tank_volume_l"] > 0]
+    if not econ_alts:
+        return []
+    viable_pb = [row for row in econ_alts if row.get("discounted_payback_months") is not None
+                 and row["discounted_payback_months"] > 0 and row.get("npv_brl", 0) > 0]
+    if viable_pb:
+        best_econ = min(viable_pb, key=lambda row: (row["discounted_payback_months"], -row["npv_brl"]))
+        rotulo = _t('Melhor alternativa econômica (Menor Payback):')
+    else:
+        best_econ = max(econ_alts, key=lambda row: row["npv_brl"])
+        rotulo = _t('Melhor alternativa econômica (maior VPL):')
+    meses = best_econ.get("discounted_payback_months")
+    pb_txt = f" | Payback: {meses / 12.0:.1f} {_t('anos')}" if meses else ""
+    linhas = [f"{rotulo} {best_econ['lower_tank_volume_l']:.0f} L | {_t('VPL')} {_simbolo(report)} {best_econ['npv_brl']:.2f}{pb_txt}"]
+    if all(float(row.get("capex_brl") or 0.0) == 0.0 for row in econ_alts):
+        linhas.append("  ⚠️ " + _t("Custos de obra não informados (CAPEX zero): o VPL mostra só a economia, e o LCOW e o "
+                                    "payback, iguais para todos os volumes, não pesam na decisão."))
+    return linhas
+
+
+def _linha_ambiental(report: Dict[str, Any]) -> str:
+    """A melhor alternativa ambiental e o que o número é: CO2e líquido evitado na vida útil (negativo: emite mais)."""
+    env_alts = [row for row in report["environmental"]["alternatives"] if row["lower_tank_volume_l"] > 0]
+    if not env_alts:
+        return ""
+    best_env = max(env_alts, key=lambda row: row["lifetime_net_co2_saved_kg"])
+    co2 = float(best_env["lifetime_net_co2_saved_kg"])
+    nota = f" ({_t('negativo: o sistema emite mais do que evita')})" if co2 < 0 else ""
+    return (f"{_t('Melhor alternativa ambiental:')} {best_env['lower_tank_volume_l']:.0f} L | "
+            f"{_t('CO2e líquido evitado na vida útil:')} {co2:.2f} kg{nota}")
+
+
+def _linha_do_topsis(topsis: Dict[str, Any]) -> str:
+    """A linha do TOPSIS no relatório de texto: a faixa de escolha, e não um volume só."""
+    faixa = topsis.get("choice_band") or {}
+    melhor, escore = f"{topsis['best_volume_l']:.0f}", f"{topsis['best_score']:.3f}"
+    if not faixa:
+        return f"TOPSIS: {melhor} L | score {escore}"
+    pct = f"{100 * faixa['tolerance']:.0f}"
+    if faixa_de_um_volume(faixa):
+        return _t("TOPSIS: {0} L, sem outro volume a até {1}% da amplitude do maior escore ({2})").format(melhor, pct, escore)
+    if not faixa.get("contiguous", True):
+        return _t("TOPSIS: volumes {0} L com escores semelhantes (até {1}% da amplitude, a partir do maior) | maior escore em {2} L ({3})").format(
+            volumes_da_faixa(faixa), pct, melhor, escore)
+    return _t("TOPSIS: volumes de {0} a {1} L com escores semelhantes (até {2}% da amplitude, a partir do maior) | maior escore em {3} L ({4})").format(
+        f"{faixa['min_volume_l']:.0f}", f"{faixa['max_volume_l']:.0f}", pct, melhor, escore)
+
+
+def _linha_do_smaa(smaa: Dict[str, Any]) -> str:
+    """A linha do SMAA-VIKOR: com mais de um volume perto da maior aceitabilidade, sai a faixa."""
+    faixa = smaa.get("choice_band") or {}
+    if faixa and not faixa_de_um_volume(faixa):
+        return _t("SMAA-VIKOR: volumes {0} L com aceitabilidade de 1º lugar semelhante (até {1}% da amplitude, a partir da maior) | maior em {2} L: {3}% em {4} simulações").format(
+            volumes_da_faixa(faixa), f"{100 * faixa['tolerance']:.0f}", f"{smaa['best_volume_l']:.0f}",
+            f"{smaa['best_acceptability_pct']:.1f}", smaa["samples"])
+    return f"SMAA-VIKOR: {smaa['best_volume_l']:.0f} L | {smaa['best_acceptability_pct']:.1f}% {_t('em')} {smaa['samples']} {_t('simulações')}"
 
 
 def _render_html(report: Dict[str, Any]) -> str:
@@ -1181,21 +1256,12 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
         if summary.get("optimal_volume_l") is not None:
             print(f"{_t('Volume técnico indicado:')} {summary['optimal_volume_l']:.0f} L ({summary['optimal_potential_pct']:.2f}% {_t('de economia')})")
         if "economic" in report:
-            econ_alts = [row for row in report["economic"]["alternatives"] if row["lower_tank_volume_l"] > 0]
-            if econ_alts:
-                viable_pb = [row for row in econ_alts if row.get("discounted_payback_months") is not None and row["discounted_payback_months"] > 0 and row.get("npv_brl", 0) > 0]
-                if viable_pb:
-                    best_econ = min(viable_pb, key=lambda row: (row["discounted_payback_months"], -row["npv_brl"]))
-                else:
-                    best_econ = max(econ_alts, key=lambda row: row["npv_brl"])
-                pb_yrs = best_econ.get("discounted_payback_months") / 12.0 if best_econ.get("discounted_payback_months") else None
-                pb_txt = f" | Payback: {pb_yrs:.1f}a" if pb_yrs else ""
-                print(f"{_t('Melhor alternativa econômica (Menor Payback):')} {best_econ['lower_tank_volume_l']:.0f} L | {_t('VPL')} {_simbolo(report)} {best_econ['npv_brl']:.2f}{pb_txt}")
+            for linha in _linhas_economicas(report):
+                print(linha)
         if "environmental" in report:
-            env_alts = [row for row in report["environmental"]["alternatives"] if row["lower_tank_volume_l"] > 0]
-            if env_alts:
-                best_env = max(env_alts, key=lambda row: row["lifetime_net_co2_saved_kg"])
-                print(f"{_t('Melhor alternativa ambiental:')} {best_env['lower_tank_volume_l']:.0f} L | {best_env['lifetime_net_co2_saved_kg']:.2f} kg CO2e")
+            linha = _linha_ambiental(report)
+            if linha:
+                print(linha)
         if "system_weight" in report and "summary" in report["system_weight"]:
             sw = report["system_weight"]["summary"]
             print(f"{_t('Peso do sistema:')} {sw.get('total_dry_mass_kg', 0):.1f} kg ({_t('seco')}) | {sw.get('total_operating_mass_kg', 0):.1f} kg ({sw.get('total_operating_weight_kn', 0):.2f} kN {_t('em operação')})")
@@ -1206,16 +1272,9 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
             for al in sw.get("structural_alerts", []):
                 print(f"  ⚠️ {al}")
         if "topsis" in report:
-            faixa = report["topsis"].get("choice_band") or {}
-            if faixa:
-                print(_t("TOPSIS: volumes de {0} a {1} L com escores semelhantes (até {2}% da amplitude, a partir do maior) | maior escore em {3} L ({4})").format(
-                    f"{faixa['min_volume_l']:.0f}", f"{faixa['max_volume_l']:.0f}", f"{100 * faixa['tolerance']:.0f}",
-                    f"{report['topsis']['best_volume_l']:.0f}", f"{report['topsis']['best_score']:.3f}"))
-            else:
-                print(f"TOPSIS: {report['topsis']['best_volume_l']:.0f} L | score {report['topsis']['best_score']:.3f}")
+            print(_linha_do_topsis(report["topsis"]))
         if "smaa_vikor" in report:
-            sv = report["smaa_vikor"]
-            print(f"SMAA-VIKOR: {sv['best_volume_l']:.0f} L | {sv['best_acceptability_pct']:.1f}% {_t('em')} {sv['samples']} {_t('simulações')}")
+            print(_linha_do_smaa(report["smaa_vikor"]))
         return
     if not output_file:
         raise ValueError(f"--output é obrigatório quando --format {output_format} é usado")

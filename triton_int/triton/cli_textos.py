@@ -484,6 +484,21 @@ _EN.update({
     'volumes de {0} a {1} L têm escores semelhantes (até {2}% da amplitude, a partir do maior); maior escore em {3} L.':
         'volumes from {0} to {1} L have similar scores (within {2}% of the range, from the highest); highest score at {3} L.',
     'analise.tolerancia_faixa: número de 0 a 1': 'analise.tolerancia_faixa: a number from 0 to 1',
+    'TOPSIS: {0} L, sem outro volume a até {1}% da amplitude do maior escore ({2})':
+        'TOPSIS: {0} L, with no other volume within {1}% of the range from the highest score ({2})',
+    'TOPSIS: volumes {0} L com escores semelhantes (até {1}% da amplitude, a partir do maior) | maior escore em {2} L ({3})':
+        'TOPSIS: volumes {0} L have similar scores (within {1}% of the range, from the highest) | highest score at {2} L ({3})',
+    'SMAA-VIKOR: volumes {0} L com aceitabilidade de 1º lugar semelhante (até {1}% da amplitude, a partir da maior) | maior em {2} L: {3}% em {4} simulações':
+        'SMAA-VIKOR: volumes {0} L have similar first-rank acceptability (within {1}% of the range, from the highest) | highest at {2} L: {3}% in {4} simulations',
+    'só {0} L: nenhum outro volume fica a até {1}% da amplitude do maior escore.':
+        'only {0} L: no other volume lies within {1}% of the range from the highest score.',
+    'Melhor alternativa econômica (maior VPL):': 'Best economic alternative (highest NPV):',
+    'Custos de obra não informados (CAPEX zero): o VPL mostra só a economia, e o LCOW e o payback, iguais para todos os volumes, não pesam na decisão.':
+        'Construction costs not set (zero CAPEX): the NPV shows only the savings, and the LCOW and payback, equal for every volume, do not weigh in the decision.',
+    'negativo: o sistema emite mais do que evita': 'negative: the system emits more than it avoids',
+    'CO2e líquido evitado na vida útil:': 'net CO2e avoided over the service life:',
+    'volumes {0} L têm escores semelhantes (até {1}% da amplitude, a partir do maior); maior escore em {2} L.':
+        'volumes {0} L have similar scores (within {1}% of the range, from the highest); highest score at {2} L.',
 })
 
 

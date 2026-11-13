@@ -76,7 +76,12 @@ The multi-criteria model was replaced. A study that ranked volumes with version 
 
 ### Fixes that do not change results
 
-None.
+- A choice band with a single volume no longer reads 'volumes from 1000 to 1000 L': the command line, the HTML and the interface say that only that volume lies within 5% of the range; a band with gaps lists its volumes instead of implying that those in between belong to it.
+- The SMAA-VIKOR line of the command line gives its band when it holds more than one volume.
+- With `--weights critic`, the JSON carries the computed weights, summed per dimension, in `topsis.weights`.
+- The decision sentence of the interface compares the difference in avoided CO2e with the smallest cistern (previously the alternative's absolute value), with its sign, and keeps the decimal comma in the score and the acceptability.
+- The Documentation tab describes the four dimensions, the 70/10 profiles, CRITIC, the choice band and the per-dimension Dirichlet of SMAA.
+- The text report of the command line names the criterion behind the best economic alternative (shortest payback or, when none pays back, highest NPV), writes the payback in years in the edition's language, warns when construction costs are not set (zero CAPEX) and says what the best environmental figure is: net CO2e avoided over the service life, negative when the system emits more than it avoids.
 
 ### Documentation
 
