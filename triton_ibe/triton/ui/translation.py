@@ -441,6 +441,7 @@ _DICTIONARY = {
     "Campos Não Preenchidos": "Fields Not Filled",
     "Cancelar": "Cancel",
     "Carregar Arquivo de Dados Variáveis": "Load Variable Data File",
+    "Carregar Projeto": "Load Project",
     "Carregar Projeto CSV": "Load Project CSV",
     "Carregar Projeto CSV...": "Load Project CSV...",
     "Carregar arquivo": "Load file",
@@ -1395,7 +1396,7 @@ _SPANISH_DICTIONARY = {
     'Volume ideal com a série inteira: {volume} L, com {potencial}% de economia. Uma janela conta como semelhante quando elege o mesmo volume ideal e fica a até {tolerancia} pontos percentuais do potencial; o comprimento representativo é o menor que alcança {confianca}% de janelas semelhantes e se mantém nos comprimentos maiores.': 'Volumen ideal con la serie completa: {volume} L, con {potencial}% de ahorro. Una ventana cuenta como similar cuando elige el mismo volumen ideal y queda a hasta {tolerancia} puntos porcentuales del potencial; la longitud representativa es la menor que alcanza {confianca}% de ventanas similares y se mantiene en las longitudes mayores.',
     'Janelas sorteadas por comprimento: {n}, com semente {s}.': 'Ventanas sorteadas por longitud: {n}, con semilla {s}.',
 
-    "Arquivo": "Archivo", "Novo Projeto": "Nuevo proyecto", "Carregar Projeto CSV": "Abrir proyecto CSV", "Carregar Projeto CSV...": "Abrir proyecto CSV...",
+    "Arquivo": "Archivo", "Novo Projeto": "Nuevo proyecto", "Carregar Projeto": "Abrir proyecto", "Carregar Projeto CSV": "Abrir proyecto CSV", "Carregar Projeto CSV...": "Abrir proyecto CSV...",
     "Salvar Projeto": "Guardar proyecto", "Salvar Projeto...": "Guardar proyecto...", "Sair": "Salir", "Cenários && Ferramentas": "Escenarios y herramientas",
     "Opções": "Opciones", "Tema": "Tema", "Modo Claro": "Modo claro", "Modo Escuro": "Modo oscuro",
     "Idioma": "Idioma", "Ajuda": "Ayuda", "Português": "Portugués", "Inglês": "Inglés",
@@ -1439,7 +1440,7 @@ _CHINESE_DICTIONARY = {
     'Volume ideal com a série inteira: {volume} L, com {potencial}% de economia. Uma janela conta como semelhante quando elege o mesmo volume ideal e fica a até {tolerancia} pontos percentuais do potencial; o comprimento representativo é o menor que alcança {confianca}% de janelas semelhantes e se mantém nos comprimentos maiores.': '使用完整序列得到的理想容积为 {volume} L，节水潜力为 {potencial}%。当某一窗口选出相同的理想容积、且潜力相差不超过 {tolerancia} 个百分点时，计为相近；代表性长度是达到 {confianca}% 相近窗口并在更长长度上保持的最小长度。',
     'Janelas sorteadas por comprimento: {n}, com semente {s}.': '每种长度抽取的窗口数：{n}，随机种子 {s}。',
 
-    "Arquivo": "文件", "Novo Projeto": "新建项目", "Carregar Projeto CSV": "打开 CSV 项目", "Carregar Projeto CSV...": "打开 CSV 项目...",
+    "Arquivo": "文件", "Novo Projeto": "新建项目", "Carregar Projeto": "打开项目", "Carregar Projeto CSV": "打开 CSV 项目", "Carregar Projeto CSV...": "打开 CSV 项目...",
     "Salvar Projeto": "保存项目", "Salvar Projeto...": "保存项目...", "Sair": "退出", "Cenários && Ferramentas": "情景与工具",
     "Opções": "选项", "Tema": "主题", "Modo Claro": "浅色模式", "Modo Escuro": "深色模式",
     "Idioma": "语言", "Ajuda": "帮助", "Português": "葡萄牙语", "Inglês": "英语",

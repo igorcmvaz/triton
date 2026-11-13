@@ -174,7 +174,7 @@ class MainWindow(QMainWindow):
         action_new.triggered.connect(lambda *_: self.on_new_project())
         menu_file.addAction(action_new)
 
-        action_open = QAction(tr("Carregar Projeto CSV"), self)
+        action_open = QAction(tr("Carregar Projeto"), self)
         action_open.triggered.connect(self.on_load_simulation)
         menu_file.addAction(action_open)
 

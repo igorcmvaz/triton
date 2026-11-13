@@ -25,6 +25,7 @@ from PySide6.QtWidgets import (
     QCheckBox,
     QApplication,
     QSplitter,
+    QScrollArea,
 )
 from triton.core.numero import decimal, milhar
 from PySide6.QtCore import Qt, Signal
@@ -146,7 +147,19 @@ class TabEconomicIntegrated(QWidget):
         muted = "#a1a1aa" if is_dark else "#64748b"
         card_bg = "#27272a" if is_dark else "#ffffff"
         card_border = "#3f3f46" if is_dark else "#cbd5e1"
-        layout = QVBoxLayout(self)
+        # A página rola: os gráficos têm altura própria (proporção da figura) e, em telas de notebook, a sub-aba
+        # não tinha altura para eles, e a figura saía cortada. Como nas outras etapas, o conteúdo vai numa área de
+        # rolagem vertical (a horizontal só aparece se o conteúdo não couber de jeito nenhum).
+        externo = QVBoxLayout(self)
+        externo.setContentsMargins(0, 0, 0, 0)
+        self._rolagem = QScrollArea()
+        self._rolagem.setWidgetResizable(True)
+        self._rolagem.setFrameShape(QFrame.NoFrame)
+        self._rolagem.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
+        conteudo = QWidget()
+        self._rolagem.setWidget(conteudo)
+        externo.addWidget(self._rolagem)
+        layout = QVBoxLayout(conteudo)
         layout.setContentsMargins(40, 34, 40, 40)
         layout.setSpacing(16)
 
@@ -192,6 +205,7 @@ class TabEconomicIntegrated(QWidget):
             l.setSpacing(2)
             t = QLabel(title); t.setStyleSheet(f"font-size: 10px; font-weight: bold; color: {muted};"); t.setAlignment(Qt.AlignCenter)
             v = QLabel("--"); v.setStyleSheet(f"font-size: 14px; font-weight: bold; color: {heading};"); v.setAlignment(Qt.AlignCenter)
+            t.setWordWrap(True); v.setWordWrap(True)   # os cinco cartões cabem lado a lado em telas estreitas
             l.addWidget(t); l.addWidget(v)
             lay_r.addWidget(frame)
             return v
@@ -228,8 +242,13 @@ class TabEconomicIntegrated(QWidget):
 
         # Barra de Incentivos Fiscais (IPTU Verde) & Bandeiras Tarifárias ANEEL
         gb_fiscal = QGroupBox(tr("🌿 Incentivos Fiscais (IPTU Verde) & Bandeiras Tarifárias ANEEL"))
-        lay_fisc = QHBoxLayout(gb_fiscal)
+        lay_fisc_v = QVBoxLayout(gb_fiscal)
+        lay_fisc = QHBoxLayout()
         lay_fisc.setSpacing(12)
+        lay_fisc_bandeira = QHBoxLayout()
+        lay_fisc_bandeira.setSpacing(12)
+        lay_fisc_v.addLayout(lay_fisc)
+        lay_fisc_v.addLayout(lay_fisc_bandeira)
 
         self.chk_iptu = QCheckBox(tr("Ativar IPTU Verde"))
         self.chk_iptu.toggled.connect(self._on_fiscal_param_changed)
@@ -261,7 +280,8 @@ class TabEconomicIntegrated(QWidget):
         self.lbl_iptu_badge.setStyleSheet("color: #94a3b8; font-style: italic; padding: 2px 6px;")
         lay_fisc.addWidget(self.lbl_iptu_badge)
 
-        lay_fisc.addWidget(QLabel(tr("Regime Elétrico:")))
+        lay_fisc.addStretch()
+        lay_fisc_bandeira.addWidget(QLabel(tr("Regime Elétrico:")))
         self.combo_tariff_flag = QComboBox()
         self.combo_tariff_flag.addItem(tr("🟢 Bandeira Verde (R$ 0,00)"), "verde")
         self.combo_tariff_flag.addItem(tr("🟡 Bandeira Amarela (+R$ 0,019/kWh)"), "amarela")
@@ -269,9 +289,9 @@ class TabEconomicIntegrated(QWidget):
         self.combo_tariff_flag.addItem(tr("🔴 Vermelha 2 (+R$ 0,079/kWh)"), "vermelha_2")
         self.combo_tariff_flag.addItem(tr("⚪ Tarifa Branca (Otimizada -15%)"), "branca")
         self.combo_tariff_flag.currentIndexChanged.connect(self._on_fiscal_param_changed)
-        lay_fisc.addWidget(self.combo_tariff_flag)
+        lay_fisc_bandeira.addWidget(self.combo_tariff_flag)
 
-        lay_fisc.addStretch()
+        lay_fisc_bandeira.addStretch()
         lay_mat.addWidget(gb_fiscal)
         # IPTU Verde e bandeiras tarifárias da ANEEL só existem no Brasil.
         from triton.core.edition import usa_dados_do_brasil
@@ -311,7 +331,7 @@ class TabEconomicIntegrated(QWidget):
         self.table_mat_impact.verticalHeader().setDefaultSectionSize(32)
 
         lay_mat.addWidget(self.table_mat_impact, stretch=1)
-        self.sub_tabs.addTab(sub_tab_materials, tr(por_edicao("🌿 IPTU Verde & Detalhamento de Custos", "🌿 Detalhamento de Custos")))
+        self.sub_tabs.addTab(sub_tab_materials, tr(por_edicao("🌿 IPTU Verde & Detalhamento de Custos", "🌿 Detalhamento de Custos")).replace("&", "&&"))  # «&» sozinho vira atalho
 
         # Sub-aba 1: Tabela do Fluxo de Caixa Anual
         sub_tab_cashflow = QWidget()
@@ -362,6 +382,7 @@ class TabEconomicIntegrated(QWidget):
         top_sens_bar = QHBoxLayout()
         lbl_sens_title = QLabel(tr("📉 Análise do Comportamento do VPL frente a Flutuações nos Parâmetros"))
         lbl_sens_title.setStyleSheet(f"font-weight: bold; color: {heading};")
+        lbl_sens_title.setWordWrap(True)
         top_sens_bar.addWidget(lbl_sens_title)
         top_sens_bar.addStretch()
 
@@ -471,7 +492,6 @@ class TabEconomicIntegrated(QWidget):
         self.sub_tabs.addTab(sub_tab_vpl_volumes, tr("📈 Comparativo de Volumes && Indicadores"))
 
         layout.addWidget(self.sub_tabs, stretch=1)
-        self.setLayout(layout)
         self.clear_economic_outputs()
 
     def _on_chart_metric_changed(self):
