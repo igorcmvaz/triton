@@ -21,8 +21,8 @@ declared mean, and the interval between P5 and P95 should be plausible for the b
 
 ## The result at the chosen volume
 
-The second table summarises the volume the study chose — the TOPSIS winner of the base case
-— comparing the deterministic study with the mean, standard deviation, coefficient of
+The second table summarises the volume the study chose — the one with the highest TOPSIS score
+in the base case — comparing the deterministic study with the mean, standard deviation, coefficient of
 variation and percentiles of the realisations.
 
 <!-- inclui: _tabelas/cap43_referencia.md -->
@@ -63,14 +63,14 @@ values written are its own ({{fig:fig52_modulacao_economia}} and {{fig:fig53_mod
 
 The frequency table and figure count, in each realisation, which volume would be the
 technical ideal, which would be the economic optimum — the one with the shortest discounted
-payback, the program's criterion (section {{n:12}}) — and which would win TOPSIS ({{fig:fig54_modulacao_frequencia}}). A
+payback, the program's criterion (section {{n:12}}) — and which would have the highest TOPSIS score ({{fig:fig54_modulacao_frequencia}}). A
 realisation in which no volume pays back appears as «none pays back» in the economic column.
 
 <!-- inclui: _tabelas/cap43_frequencia.md -->
 
 ![The frequency with which each volume is chosen in the tutorial example](../figuras/fig54_modulacao_frequencia.png)
 
-*Figure 99 — Frequency, as a percentage of the realisations, with which each volume is the technical ideal, the economic optimum and the TOPSIS winner in the tutorial example.*
+*Figure 99 — Frequency, as a percentage of the realisations, with which each volume is the technical ideal, the economic optimum and the volume with the highest TOPSIS score in the tutorial example.*
 
 The reading is the same as that of the SMAA-VIKOR acceptability (section {{n:32}}): a volume
 that wins in most realisations is a robust recommendation; one that wins in a minority, next

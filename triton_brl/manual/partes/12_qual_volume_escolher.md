@@ -1,7 +1,7 @@
 # Qual volume escolher, afinal
 
-> Ao terminar esta seção você terá um volume recomendado, e saberá que ele
-> depende de pesos que **você** declarou — não de uma verdade que o programa
+> Ao terminar esta seção você terá uma faixa de volumes recomendada, e saberá que
+> ela depende de pesos que **você** declarou — não de uma verdade que o programa
 > descobriu.
 
 ---
@@ -69,15 +69,26 @@ relativa ao ideal, conforme a formulação apresentada na seção {{n:32}}.
 **Os pesos têm dois níveis.** Cada eixo recebe um peso, 25% no padrão, e esse peso se
 reparte entre os critérios do eixo pelas *partes no eixo*, iguais no padrão: a confiabilidade
 e a eficiência valem 12,5% cada; VPL, LCOW e payback, um terço de 25% cada; o CO₂e, 25%; a
-massa e o extravasamento, 12,5% cada. Na interface, os quatro pesos e a linha «Partes no
-eixo» ficam na aba de decisão; na linha de comando, nas opções `--weights` e
+massa e o extravasamento, 12,5% cada. Na interface, a aba de decisão tem um cartão por eixo,
+com o peso do eixo em cima e as partes dos seus critérios embaixo, e os botões «Partes iguais»
+e «Recalcular»; na linha de comando, os pesos ficam nas opções `--weights` e
 `--criterion-shares`; no arquivo de projeto, em `analysis.topsis_weights` e
 `analysis.topsis_criterion_shares`; no estudo declarativo, em `analise.pesos` e
-`analise.partes_no_eixo`. Também é possível informar oito pesos diretos, um por critério.
+`analise.partes_no_eixo`. Também é possível informar oito pesos diretos, um por critério, ou
+pedir os pesos objetivos do CRITIC, que o programa calcula dos próprios resultados (seção
+{{n:32}}).
 
-Aplicado ao projeto do tutorial com 25% em cada eixo e partes iguais, o método indica
-**2.000 L**, à frente de 3.000 L por dezenove milésimos de escore. Os 4.000 L do tutorial
-ficam em terceiro.
+Aplicado ao projeto do tutorial com 25% em cada eixo e partes iguais, o método aponta uma
+**faixa de 2.000 a 3.000 L**. O maior escore é o de 2.000 L; o de 3.000 L fica dezenove
+milésimos abaixo, dentro da tolerância de 5% da amplitude dos escores. Os 4.000 L do tutorial
+ficam em terceiro, fora da faixa.
+
+**Uma faixa, e não um volume.** Quando dois volumes pontuam quase igual, chamar um deles de
+«o melhor» atribui ao método uma precisão que os dados de entrada não têm. Por isso o programa
+relata a *faixa de escolha*: os volumes cujo escore fica a até 5% da amplitude dos escores,
+contados a partir do maior. A aba de decisão mostra a faixa e, ao lado, o volume de maior
+escore; a linha de comando escreve «volumes de … a … L com escores semelhantes». A faixa
+depende da grade de volumes avaliada e da tolerância, e a seção {{n:32}} diz como mudá-la.
 
 > **Três declarações que um estudo publicado precisa fazer.**
 >
@@ -85,9 +96,9 @@ ficam em terceiro.
 > `x − min(x)` antes da normalização vetorial, para admitir VPL negativo. É uma
 > escolha deliberada, e apresentá-la como TOPSIS canônico seria incorreto.
 >
-> O SMAA-VIKOR, disponível ao lado, sorteia pesos e devolve a probabilidade de cada
-> volume ocupar cada posição. É a resposta certa quando não há consenso sobre os
-> pesos.
+> O SMAA-VIKOR, disponível ao lado, sorteia pesos, com 25% esperado em cada eixo, e
+> devolve a probabilidade de cada volume ocupar cada posição. É a resposta certa quando
+> não há consenso sobre os pesos.
 >
 > As condições C1 e C2 de Opricovic, de vantagem aceitável e de estabilidade, **não
 > estão implementadas**. A seção {{n:32}} detalha.
@@ -98,13 +109,14 @@ A aba de decisão apresenta o escore de cada volume candidato ({{fig:fig51_progr
 
 ![O escore multicritério de cada volume candidato](../figuras/fig51_programa_topsis.png)
 
-*Figura 99 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com 25% de peso em cada eixo e o vencedor destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
+*Figura 99 — O gráfico da aba de decisão: o escore de proximidade ao ideal de cada volume candidato, com 25% de peso em cada eixo e o volume de maior escore destacado. Escores próximos entre si significam alternativas tecnicamente equivalentes: é o que a faixa de escolha reúne, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
 
 ---
 ## O peso muda a resposta
 
 A tabela a seguir desloca o peso: 70% num eixo e 10% em cada um dos outros três, como os
-perfis «Priorizar …» da aba de decisão.
+perfis «Priorizar …» da aba de decisão. A última linha troca os pesos declarados pelos do
+CRITIC.
 
 <!-- inclui: _tabelas/cap12_pesos.md -->
 
@@ -116,14 +128,32 @@ o ganho de confiabilidade. São, portanto, três respostas «técnicas» diferen
 está errada: o critério isolado da confiabilidade aponta 12.000 L; o critério hidráulico da
 seção {{n:7}}, com limiar de 1 %/m³, 4.000 L; o eixo técnico do multicritério, 1.000 L.
 
-Os pesos econômico e ambiental dominantes levam a 2.000 L, o volume de menor LCOW, menor
-payback e maior carbono evitado. O peso estrutural dominante é o único que elege 4.000 L: o
-eixo junta a massa, que cresce com o volume, e o extravasamento, que cai, e com partes
-iguais o equilíbrio fica nesse volume.
+Com os pesos econômico e ambiental dominantes, o maior escore fica em 2.000 L, o volume de
+menor LCOW, menor payback e maior carbono evitado. As faixas se alargam, até 4.000 L no
+econômico e até 1.000 L no ambiental, porque o VPL quase empata de 2.000 a 4.000 L e o carbono
+evitado, entre 1.000 e 2.000 L. O peso estrutural dominante é o único que dá aos 4.000 L o
+maior escore, numa faixa de 3.000 a 4.000 L: o eixo junta a massa, que cresce com o volume, e
+o extravasamento, que cai, e com partes iguais o equilíbrio fica nesse volume.
 
-> **Declare os pesos e as partes.** «Volume ótimo pelo TOPSIS» sem os quatro pesos de eixo
-> e as partes no eixo é uma afirmação impossível de reproduzir. Dois artigos com pesos
-> diferentes chegam a volumes diferentes e ambos estão certos.
+A última linha não declara peso nenhum. O CRITIC (seção {{n:32}}) tira os pesos dos próprios
+resultados: pesa mais o critério que discorda dos outros. No tutorial, dá 34,4% ao eixo
+técnico, 29,0% ao estrutural, 26,6% ao econômico e 10,0% ao ambiental, e a faixa sobe para
+3.000 a 4.000 L, com o maior escore em 3.000 L e os 4.000 L do tutorial em segundo. Depois de
+normalizados de 0 a 1, os oito critérios têm contraste parecido, e o que separa os pesos é o
+conflito: a confiabilidade, a eficiência e o extravasamento discordam dos demais e ganham peso;
+VPL, LCOW e payback andam quase juntos, e cada um leva menos. O ambiental fica com pouco porque
+tem um critério só: o CRITIC pesa critérios, e não eixos.
+
+==O CRITIC mede contraste e conflito nos resultados, e não importância.== O extravasamento
+quase não muda entre os volumes, de 136,3 para 125,7 m³/ano, mas, normalizado como os outros,
+recebe um dos dois maiores pesos dos oito. Use o CRITIC quando não há consenso sobre os pesos
+e não se quer impor uma preferência, declare os pesos que ele calculou, e lembre que eles
+mudam com o conjunto de volumes avaliado.
+
+> **Declare os pesos, as partes e a tolerância.** «Volume ótimo pelo TOPSIS» sem os quatro
+> pesos de eixo e as partes no eixo é uma afirmação impossível de reproduzir. Relate a faixa
+> de escolha, com a tolerância, e não um volume só. Dois artigos com pesos diferentes chegam a
+> faixas diferentes e ambos estão certos.
 
 ---
 
@@ -131,15 +161,17 @@ Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O pr
 
 ![A proximidade de cada volume ao ótimo de cada critério](../figuras/fig52_programa_proximidade.png)
 
-*Figura 99 — O segundo gráfico da aba de decisão: quanto cada volume se aproxima do melhor valor possível em cada um dos oito critérios, com o volume eleito pelo TOPSIS marcado. Lida na vertical de outro volume, a figura mostra o que ele cede, e em qual eixo. Figura gerada pelo próprio programa.*
+*Figura 99 — O segundo gráfico da aba de decisão: quanto cada volume se aproxima do melhor valor possível em cada um dos oito critérios, com o volume de maior escore do TOPSIS marcado. Lida na vertical de outro volume, a figura mostra o que ele cede, e em qual eixo. Figura gerada pelo próprio programa.*
 
 ---
 ## A recomendação do tutorial
 
 O tutorial mantém o reservatório de **4.000 L em polietileno**, o volume do critério
-hidráulico da seção {{n:7}}, com limiar de ganho marginal de 1 %/m³. Não é o volume que o
-multicritério indica. Neste projeto, as duas rotas discordam: com 25% em cada eixo, o TOPSIS
-prefere 2.000 L e põe os 4.000 L em terceiro, e só o peso estrutural dominante os elege.
+hidráulico da seção {{n:7}}, com limiar de ganho marginal de 1 %/m³. Não está na faixa que o
+multicritério aponta com pesos iguais. Neste projeto, as duas rotas discordam: com 25% em cada
+eixo, o TOPSIS reúne 2.000 e 3.000 L na faixa de escolha e põe os 4.000 L em terceiro. Os
+4.000 L só entram na faixa com o peso econômico ou o estrutural dominante, ou com os pesos do
+CRITIC, e só têm o maior escore com o estrutural.
 
 Na vertical de 4.000 L da figura de proximidade, e na primeira tabela, lê-se o que a escolha
 cede em relação a 2.000 L. Os 4.000 L entregam mais água, com confiabilidade de 97,5% contra
@@ -149,18 +181,19 @@ R$ 35,04 por m³, e o payback, de 12,4 para 12,8 anos; o carbono evitado em 20 a
 124 para 74 kg; e a massa a seco cresce 44 kg.
 
 A margem entre os três primeiros é pequena, e o SMAA-VIKOR da seção {{n:32}} a mede:
-2.000 L vencem em 45% dos sorteios de pesos, e 3.000 e 4.000 L em cerca de 22% cada.
+2.000 L vencem em 44% dos sorteios de pesos, 3.000 L em 25% e 4.000 L em 18%.
 
 ==Os 4.000 L são defensáveis quando a prioridade declarada é a água:== quem decide valoriza
 o atendimento da demanda e o VPL acima da eficiência do volume construído, e aceita pagar
 por isso algum carbono e alguma massa. Quando a prioridade é o menor custo por metro cúbico,
-o retorno mais rápido, o carbono evitado ou nenhuma em particular, ==os 2.000 L são a escolha
-defensável==, e o estudo deve adotá-los.
+o retorno mais rápido ou o carbono evitado, ==os 2.000 L são a escolha defensável==, e o
+estudo deve adotá-los. Sem prioridade declarada, a resposta é a faixa de 2.000 a 3.000 L, e é
+ela que o estudo relata.
 
 O tutorial segue com 4.000 L porque as seções {{n:8}} a {{n:11}} foram construídas sobre esse
 volume, e porque a lição desta seção é justamente a discordância: o volume do critério
-hidráulico e o do multicritério não precisam coincidir. O estudo publicado precisa dizer
-qual dos dois adotou, com que pesos, e o que a escolha cede.
+hidráulico e a faixa do multicritério não precisam coincidir. O estudo publicado precisa dizer
+o que adotou, com que pesos e com que tolerância, e o que a escolha cede.
 
 ---
 

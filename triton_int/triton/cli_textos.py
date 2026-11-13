@@ -343,8 +343,8 @@ _EN.update({
         'analise.volume: use «otimo_tecnico», «topsis» or a volume in litres (number ≥ 0)',
     'analise.volume: use «otimo_tecnico», «topsis», «smaa_vikor» ou um volume em litros (número ≥ 0)':
         'analise.volume: use «otimo_tecnico», «topsis», «smaa_vikor» or a volume in litres (number ≥ 0)',
-    'analise.pesos: quatro números não negativos (técnico, econômico, ambiental, estrutural) ou oito (um por critério), com soma positiva':
-        'analise.pesos: four non-negative numbers (technical, economic, environmental, structural) or eight (one per criterion) with a positive sum',
+    'analise.pesos: quatro números não negativos (técnico, econômico, ambiental, estrutural), oito (um por critério) ou «critic», com soma positiva':
+        'analise.pesos: four non-negative numbers (technical, economic, environmental, structural), eight (one per criterion) or «critic», with a positive sum',
     'analise.partes_no_eixo: {0}': 'analise.partes_no_eixo: {0}',
     'saidas.formatos: lista não vazia com {0}': 'saidas.formatos: a non-empty list with {0}',
     'saidas.metricas: lista não vazia de métricas (veja «triton estudo apelidos»)': 'saidas.metricas: a non-empty list of metrics (see «triton estudo apelidos»)',
@@ -413,8 +413,8 @@ _EN.update({
         'The optional package «{0}» is needed, but it is not installed. Install it with: {1}. It does not come with the program installer.',
     'Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1':
         'Share of each criterion within its dimension (8 values: volumetric reliability, storage efficiency, net savings, LCOW, payback, CO2, dry mass, overflow); default: 1,1,1,1,1,1,1,1',
-    'Pesos TOPSIS: técnico,econômico,ambiental,estrutural (ou oito, um por critério)':
-        'TOPSIS weights: technical,economic,environmental,structural (or eight, one per criterion)',
+    'Pesos TOPSIS: técnico,econômico,ambiental,estrutural, oito (um por critério) ou critic (objetivos, dos resultados)':
+        'TOPSIS weights: technical,economic,environmental,structural, eight (one per criterion) or critic (objective, from the results)',
 })
 
 # ── 0.2.0: peso do sistema e multicritério de oito critérios ─────────────────────────────────────────
@@ -471,6 +471,19 @@ _EN.update({
         'Cistern self-weight: {0} kg dry ({1}), above the program\'s attention threshold ({2} kg). Confirm the ground support with the foundation design.',
     'Cisterna de concreto: {0} kg a seco e {1} kg cheia. Considere essa carga no projeto de fundações.':
         'Concrete cistern: {0} kg dry and {1} kg full. Include this load in the foundation design.',
+})
+
+_EN.update({
+    'Tolerância da faixa de escolha: volumes cujo escore fica a até esta fração da amplitude dos escores, contada do maior, são apresentados como equivalentes (0 a 1; padrão 0,05)':
+        'Choice-band tolerance: volumes whose score lies within this fraction of the score range, counted from the highest, are reported as equivalent (0 to 1; default 0.05)',
+    'TOPSIS: volumes de {0} a {1} L com escores semelhantes (até {2}% da amplitude, a partir do maior) | maior escore em {3} L ({4})':
+        'TOPSIS: volumes from {0} to {1} L have similar scores (within {2}% of the range, from the highest) | highest score at {3} L ({4})',
+    'Faixa de escolha (TOPSIS):': 'Choice band (TOPSIS):',
+    'Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural), oito de critério ou «critic» (pesos objetivos calculados dos resultados); os números, não negativos e separados por vírgula, com soma positiva. Os sete pesos do modelo anterior à 0.2.0 não valem mais.':
+        'Use four dimension weights (technical, economic, environmental, structural), eight criterion weights or «critic» (objective weights computed from the results); the numbers, non-negative and separated by commas, with a positive sum. The seven weights of the model before 0.2.0 are no longer valid.',
+    'volumes de {0} a {1} L têm escores semelhantes (até {2}% da amplitude, a partir do maior); maior escore em {3} L.':
+        'volumes from {0} to {1} L have similar scores (within {2}% of the range, from the highest); highest score at {3} L.',
+    'analise.tolerancia_faixa: número de 0 a 1': 'analise.tolerancia_faixa: a number from 0 to 1',
 })
 
 

@@ -137,7 +137,10 @@ triton analyze study.triton --analysis all --format xlsx --output results.xlsx
 This adds the economic analysis, the screening life-cycle assessment, the weight of the
 system and the multi-criteria ranking. The ranking uses eight criteria on four axes; set the
 four axis weights (technical, economic, environmental, structural) with `--weights` and the
-split within each axis with `--criterion-shares` (eight values; default equal shares). `--format` accepts `text`, `json`, `csv`, `html` and `xlsx`; pass
+split within each axis with `--criterion-shares` (eight values; default equal shares), or ask
+for objective weights computed from the results with `--weights critic`. The ranking is
+reported as a choice band, the volumes whose score lies within 5% of the score range from the
+highest; `--score-band` changes that tolerance. `--format` accepts `text`, `json`, `csv`, `html` and `xlsx`; pass
 `--seed` whenever the run involves sampling, so that the result is reproducible.
 
 ---

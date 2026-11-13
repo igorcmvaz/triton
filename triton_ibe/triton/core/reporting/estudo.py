@@ -287,6 +287,10 @@ METRICAS: Dict[str, Dict[str, Any]] = {m["id"]: m for m in (
          "Environmental optimum volume", "Volumen óptimo ambiental", "环境最优容积", ("environmental_best_volume_l", "otimo_ambiental_l")),
     _met("volume_topsis_l", "topsis", "best_volume_l", "L", 0, 3, "Volume indicado pelo TOPSIS",
          "Volume ranked first by TOPSIS", "Volumen indicado por TOPSIS", "TOPSIS推荐容积", ("best_volume_l",)),
+    _met("faixa_topsis_min_l", "topsis", "choice_band_min_volume_l", "L", 0, 3, "Faixa de escolha do TOPSIS: menor volume",
+         "TOPSIS choice band: smallest volume", "Franja de elección TOPSIS: volumen menor", "TOPSIS选择区间：最小容积"),
+    _met("faixa_topsis_max_l", "topsis", "choice_band_max_volume_l", "L", 0, 3, "Faixa de escolha do TOPSIS: maior volume",
+         "TOPSIS choice band: largest volume", "Franja de elección TOPSIS: volumen mayor", "TOPSIS选择区间：最大容积"),
     _met("indice_topsis", "rank", "score", "–", 3, 3, "Índice TOPSIS do volume", "TOPSIS score of the volume",
          "Índice TOPSIS del volumen", "容积的TOPSIS得分"),
     _met("volume_smaa_vikor_l", "smaa_resumo", "best_volume_l", "L", 0, 3, "Volume ótimo SMAA-VIKOR",
@@ -908,9 +912,10 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
             padroes["tarifa"] = _validar_tarifa(pd_["tarifa"], "padroes.tarifa", erros)
 
     # análise
-    analise = {"tipo": "technical", "volume": "otimo_tecnico", "pesos": None, "partes_no_eixo": None, "semente": 42}
+    analise = {"tipo": "technical", "volume": "otimo_tecnico", "pesos": None, "partes_no_eixo": None,
+               "tolerancia_faixa": None, "semente": 42}
     an = doc.get("analise")
-    if an is not None and _validar_chaves(an, ("tipo", "volume", "pesos", "partes_no_eixo", "semente"), "analise", erros):
+    if an is not None and _validar_chaves(an, ("tipo", "volume", "pesos", "partes_no_eixo", "tolerancia_faixa", "semente"), "analise", erros):
         tipo = an.get("tipo", "technical")
         if tipo not in TIPOS_DE_ANALISE:
             erros.append(_m("analise.tipo: «{0}» desconhecido. Use: {1}", tipo, ", ".join(TIPOS_DE_ANALISE)))
@@ -923,11 +928,13 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
             analise["volume"] = float(vol)
         else:
             erros.append(_m("analise.volume: use «otimo_tecnico», «topsis», «smaa_vikor» ou um volume em litros (número ≥ 0)"))
-        if an.get("pesos") is not None:
+        if an.get("pesos") is not None and isinstance(an["pesos"], str) and an["pesos"].strip().lower() == "critic":
+            analise["pesos"] = "critic"
+        elif an.get("pesos") is not None:
             pesos = an["pesos"]
             if (not isinstance(pesos, list) or len(pesos) not in (3, 4, 8) or not all(_eh_numero(p) and p >= 0 for p in pesos)
                     or sum(pesos) <= 0):
-                erros.append(_m("analise.pesos: quatro números não negativos (técnico, econômico, ambiental, estrutural) ou oito (um por critério), com soma positiva"))
+                erros.append(_m("analise.pesos: quatro números não negativos (técnico, econômico, ambiental, estrutural), oito (um por critério) ou «critic», com soma positiva"))
             else:
                 analise["pesos"] = [float(p) for p in pesos]
         if an.get("partes_no_eixo") is not None:
@@ -940,6 +947,12 @@ def validar_documento(doc: Any, base_dir: Optional[Path] = None, verificar_arqui
                 analise["partes_no_eixo"] = [float(p) for p in partes]
             except ValueError as exc:
                 erros.append(_m("analise.partes_no_eixo: {0}", str(exc)))
+        if an.get("tolerancia_faixa") is not None:
+            tf = an["tolerancia_faixa"]
+            if not _eh_numero(tf) or not 0 <= float(tf) <= 1:
+                erros.append(_m("analise.tolerancia_faixa: número de 0 a 1"))
+            else:
+                analise["tolerancia_faixa"] = float(tf)
         sem = an.get("semente", 42)
         if not isinstance(sem, int) or isinstance(sem, bool):
             erros.append(_m("analise.semente: esperado um inteiro"))
@@ -1801,7 +1814,7 @@ def executar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]
         cfg, precip, bundle = montado["cfg"], montado["precip"], montado["bundle"]
         analise = plano["analise"]
         analysis_cfg = bundle.get("analysis", {}) or {}
-        pesos = tuple(analise["pesos"] or analysis_cfg.get("topsis_weights", cli.PESOS_PADRAO))
+        pesos = cli._pesos_lidos(analise["pesos"] or analysis_cfg.get("topsis_weights", cli.PESOS_PADRAO))
         volume_fixo = analise["volume"] if isinstance(analise["volume"], float) else None
         origem_txt = Path(montado["arquivos"][0]["caminho"]).name if montado["arquivos"] and montado["arquivos"][0]["papel"] == "projeto" else ""
         import contextlib
@@ -1817,7 +1830,9 @@ def executar_caso(plano: Dict[str, Any], caso: Dict[str, Any]) -> Dict[str, Any]
             relatorio = cli.run_analysis(cfg, precip, analise["tipo"], volume_fixo, pesos,
                                          analysis_cfg.get("environmental", {}), origem_txt, 0, analise["semente"],
                                          smaa=precisa_smaa,
-                                         criterion_shares=analise.get("partes_no_eixo") or analysis_cfg.get("topsis_criterion_shares"))
+                                         criterion_shares=analise.get("partes_no_eixo") or analysis_cfg.get("topsis_criterion_shares"),
+                                         score_band=analise.get("tolerancia_faixa") if analise.get("tolerancia_faixa") is not None
+                                         else analysis_cfg.get("topsis_score_band"))
         # só os avisos do modelo; os da plataforma (arquivo não fechado, depreciação) e os endereços de memória ficam de fora,
         # para que duas execuções deem o mesmo arquivo
         ruido_da_plataforma = (ResourceWarning, DeprecationWarning, PendingDeprecationWarning, ImportWarning, FutureWarning)
@@ -2697,8 +2712,9 @@ def esquema_json() -> Dict[str, Any]:
             "analise": {"type": "object", "properties": {
                 "tipo": {"enum": list(TIPOS_DE_ANALISE)},
                 "volume": {"anyOf": [{"enum": ["otimo_tecnico", "topsis", "smaa_vikor", "smaa"]}, {"type": "number", "minimum": 0}]},
-                "pesos": {"type": "array", "items": {"type": "number", "minimum": 0}, "minItems": 3, "maxItems": 8},
+                "pesos": {"anyOf": [{"type": "array", "items": {"type": "number", "minimum": 0}, "minItems": 3, "maxItems": 8}, {"const": "critic"}]},
                 "partes_no_eixo": {"type": "array", "items": {"type": "number", "minimum": 0}, "minItems": 8, "maxItems": 8},
+                "tolerancia_faixa": {"type": "number", "minimum": 0, "maximum": 1},
                 "semente": {"type": "integer"}}},
             "saidas": {"type": "object", "properties": {
                 "formatos": {"type": "array", "items": {"enum": list(FORMATOS)}, "minItems": 1},

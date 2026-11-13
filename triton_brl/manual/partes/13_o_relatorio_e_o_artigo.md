@@ -97,8 +97,12 @@ decisões aparecem no trabalho, e pode ser percorrida como roteiro de redação 
 - Se veio de varredura: **limiar de ganho marginal adotado**. Sem ele, «volume
   ideal» não significa nada.
 - Se veio de multicritério: **os quatro pesos de eixo e as partes no eixo**, ou os oito
-  pesos de critério, e o método, TOPSIS ou SMAA-VIKOR.
-- Se o volume adotado não for o que o multicritério indica, os dois volumes e a razão da
+  pesos de critério, e o método, TOPSIS ou SMAA-VIKOR. Se os pesos vieram do CRITIC, diga
+  que vieram e informe os pesos que ele calculou, ao menos a soma por eixo.
+- **A faixa de escolha e a tolerância**, e não um volume só: «volumes de 2.000 a 3.000 L
+  têm resultados multicritério semelhantes (escores a até 5% da amplitude do maior)». O
+  volume de maior escore entra como informação.
+- Se o volume adotado ficar fora da faixa do multicritério, o volume, a faixa e a razão da
   escolha, como a seção {{n:12}} faz.
 - Que a normalização do TOPSIS é uma **variante** com translação por `x − min(x)`.
 
@@ -147,8 +151,10 @@ Para o nosso projeto, o método ficaria assim:
 > marginal com limiar de 1 %/m³. A análise multicritério TOPSIS, com oito critérios em
 > quatro eixos (técnico, econômico, ambiental e estrutural), 25% de peso por eixo, partes
 > iguais dentro de cada eixo e normalização em variante de Hwang e Yoon translada por
-> x − min(x), indicou 2.000 L e classificou os 4.000 L em terceiro lugar; adotou-se o
-> volume do critério hidráulico, que prioriza o atendimento da demanda. O
+> x − min(x), reuniu 2.000 e 3.000 L numa faixa de escores semelhantes (até 5% da
+> amplitude, a partir do maior; maior escore em 2.000 L) e classificou os 4.000 L em
+> terceiro lugar; adotou-se o volume do critério hidráulico, que prioriza o atendimento da
+> demanda. O
 > abastecimento dos pontos de uso é feito por recalque para caixa superior de 1.000 L,
 > com limiar de acionamento de 100 L, motobomba de 0,5 CV, altura manométrica de 12 m e
 > rendimento de motor da Tabela 13 da ABNT NBR 17094-2. A análise

@@ -271,10 +271,34 @@ default) are split within each axis by the *criterion shares* (default: equal sh
 weights are used as given, normalised by their sum. Three weights (projects and studies up to
 0.1.0) give the structural axis the mean of the three, so equal weights stay equal; seven
 values are refused. VIKOR, PROMETHEE II and TOPSIS use the same rule; SMAA-VIKOR samples eight
-weights on the simplex and reports the central weights aggregated on the four axes. On the
-command line, `--weights` and `--criterion-shares`; in the project file,
+weights with an expected 25% per axis and reports the central weights aggregated on the four
+axes. On the command line, `--weights` and `--criterion-shares`; in the project file,
 `analysis.topsis_weights` and `analysis.topsis_criterion_shares`; in a declarative study,
 `analise.pesos` and `analise.partes_no_eixo`.
+
+**Objective weights (CRITIC).** In place of the weights, the word `critic` (`--weights critic`,
+`analysis.topsis_weights: "critic"`, `analise.pesos: "critic"`, or the decision tab's profile
+for objective weights) asks for the weights of Diakoulaki, Mavrotas and Papayannakis (1995,
+*Computers & Operations Research* 22(7), 763–770, doi:10.1016/0305-0548(94)00059-H). Each
+criterion is normalised from 0 (worst observed value) to 1 (best); its information is
+`C_j = σ_j × Σ_k (1 − r_jk)`, with `σ_j` the standard deviation of the normalised criterion and
+`r_jk` the Pearson correlation between criteria, and the weight is `w_j = C_j / Σ C`. A constant
+criterion weighs zero. The weights come from the alternatives with a tank larger than zero, are
+recomputed at every analysis and apply to TOPSIS, VIKOR and PROMETHEE II; SMAA still samples its
+weights. CRITIC measures contrast and independence in the results themselves, not importance:
+the weights change with the set of volumes, express nobody's preference, and a criterion that
+varies across volumes gains weight even if it matters little. It is a choice of method; the
+default remains 25% per axis.
+
+**Choice band.** When several volumes score alike, the software does not name "the best volume":
+it reports the volumes larger than zero whose score, normalised between the worst (0) and the
+best (1) of the volumes evaluated, lies within a tolerance of the best (default 5% of the
+range), with the highest-scoring volume alongside. The same rule applies to the TOPSIS score,
+the VIKOR index Q (lower is better), the PROMETHEE II net flow and the SMAA first-rank
+acceptability. The tolerance is set with `--score-band` (0 to 1), `analysis.topsis_score_band`
+or `analise.tolerancia_faixa`; the JSON output carries `topsis.choice_band` and
+`smaa_vikor.choice_band`. The band depends on the grid of volumes and on the tolerance; a study
+should state both.
 
 **System weight.** `triton analyze --analysis system_weight` (or `all`) reports the dry
 mass, the water load and the operating load (kg and kN) at three positions: lower level,
@@ -299,8 +323,11 @@ Tzeng (2004) but **does not apply conditions C1 (acceptable advantage) and C2 (a
 stability)**. The ranking is therefore an ordering by `Q`, not a claim that the leader is
 a stable compromise.
 
-SMAA-VIKOR follows Lahdelma and Salminen (2001), sampling the weight simplex by a
-symmetric Dirichlet. It is an independent NumPy implementation following the design of the
+SMAA-VIKOR follows Lahdelma and Salminen (2001), sampling the eight weights from a
+Dirichlet with parameters (1, 1, 2/3, 2/3, 2/3, 2, 1, 1): each axis sums to 2, so each axis
+has an expected weight of 25% and each criterion the TOPSIS default (a symmetric Dirichlet
+would give the three-criterion economic axis 37.5% on average and the one-criterion
+environmental axis 12.5%). It is an independent NumPy implementation following the design of the
 `crispyn` library (A. Bączkiewicz, MIT licence), which serves as a comparison baseline and
 not as the origin of the code.
 

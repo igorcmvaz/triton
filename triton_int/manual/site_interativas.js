@@ -826,14 +826,42 @@ function vencedorDosEixos(D, p4) {
   return D.volumes[r.postos.indexOf(1)];
 }
 
+/* The choice band, as faixa_de_escolha in triton/core/topsis.py: the volumes above zero whose
+ * score, scaled from the worst (0) to the best (1) of those volumes, lies within the tolerance
+ * of the best (5% of the score range by default). Returns the indices, by increasing volume. */
+function faixaDeEscolha(volumes, escores, tol = 0.05) {
+  const idx = volumes.map((v, i) => i).filter(i => volumes[i] > 0 && isFinite(escores[i]));
+  if (!idx.length) return [];
+  const ss = idx.map(i => escores[i]), lo = Math.min(...ss), hi = Math.max(...ss), amp = hi - lo;
+  return idx.filter(i => (amp > 1e-12 ? (escores[i] - lo) / amp : 1) >= 1 - tol - 1e-12)
+    .sort((a, b) => volumes[a] - volumes[b]);
+}
+
+/* The band in words: «2,000–3,000 L»; «1,000 L» with one volume; a list when a volume is missing inside it. */
+function textoDaFaixa(volumes, faixa) {
+  const v = faixa.map(i => volumes[i]);
+  if (!v.length) return "—";
+  if (v.length === 1) return `${fmt(v[0])} L`;
+  const dentro = volumes.filter(x => x > 0 && x >= v[0] && x <= v[v.length - 1]).length;
+  return dentro === v.length ? `${fmt(v[0])}–${fmt(v[v.length - 1])} L`
+    : `${v.slice(0, -1).map(x => fmt(x)).join(", ")} and ${fmt(v[v.length - 1])} L`;
+}
+
+/* The band for a weight on each of the four dimensions, with the default criterion shares. */
+function faixaDosEixos(D, p4) {
+  const w = pesosDosCriterios(D, p4, D.partes_padrao || D.criterios.map(() => 1));
+  const r = topsisEscores(D.matriz, w, D.criterios.map(c => c.beneficio), D.volumes);
+  return textoDaFaixa(D.volumes, faixaDeEscolha(D.volumes, r.escores));
+}
+
 /* The colour of each dimension in the proximity bars. */
 const COR_DO_EIXO = {technical: 3, economic: 2, environmental: 4, structural: 1};
 
 FI["fig51_programa_topsis.png"] = {
   curto: "The multi-criteria decision",
-  pergunta: "Which volume does the multi-criteria method choose, and with what weights?",
+  pergunta: "Which volumes does the multi-criteria method favour, and with what weights?",
   controles: "technical · economic · environmental · structural weight · criterion shares",
-  experimente: D => `With the four dimensions equal, as the program opens, the ${fmt(vencedorDosEixos(D, [1, 1, 1, 1]))} L cistern wins. Give 70% to one dimension and 10% to each of the others: technical, ${fmt(vencedorDosEixos(D, [0.7, 0.1, 0.1, 0.1]))} L; economic, ${fmt(vencedorDosEixos(D, [0.1, 0.7, 0.1, 0.1]))} L; environmental, ${fmt(vencedorDosEixos(D, [0.1, 0.1, 0.7, 0.1]))} L; structural, ${fmt(vencedorDosEixos(D, [0.1, 0.1, 0.1, 0.7]))} L. The technical dimension does not push the volume up: reliability rises with the volume, but storage efficiency falls. Set the share of storage efficiency to zero and watch the technical answer move.`,
+  experimente: D => `With the four dimensions equal, as the program opens, the cisterns of ${faixaDosEixos(D, [1, 1, 1, 1])} score alike: that is the choice band, with the highest score at ${fmt(vencedorDosEixos(D, [1, 1, 1, 1]))} L. Give 70% to one dimension and 10% to each of the others, and the band moves: technical, ${faixaDosEixos(D, [0.7, 0.1, 0.1, 0.1])}; economic, ${faixaDosEixos(D, [0.1, 0.7, 0.1, 0.1])}; environmental, ${faixaDosEixos(D, [0.1, 0.1, 0.7, 0.1])}; structural, ${faixaDosEixos(D, [0.1, 0.1, 0.1, 0.7])}. The technical dimension does not push the volume up: reliability rises with the volume, but storage efficiency falls. Set the share of storage efficiency to zero and watch the technical answer move.`,
   fonte: "The eight criteria of the program in four dimensions, computed for seven candidate volumes with the tutorial project and a polyethylene cistern. The score is computed on the page by the same calculation as triton/core/topsis.py, checked against the program by an automatic test.",
   montar(p, D, id) {
     const PADRAO = (D.partes_padrao || D.criterios.map(() => 1)).slice();
@@ -845,6 +873,7 @@ FI["fig51_programa_topsis.png"] = {
       const w8 = pesosDosCriterios(D, pesos, partes);
       const Res = topsisEscores(D.matriz, w8, benef, D.volumes);
       const vencedor = Res.postos.indexOf(1);
+      const faixa = faixaDeEscolha(D.volumes, Res.escores);
       const ey = escala(0, Math.max(...Res.escores) * 1.12, 4);
       const A = plano({W, H: 250, l: 58, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, ey.max], ym: ey.marcas,
         yf: v => fmt(v, 2), yr: "TOPSIS score (1 = ideal)", painel: "(a)",
@@ -852,12 +881,14 @@ FI["fig51_programa_topsis.png"] = {
       let s = A.s;
       const bw = (A.X(1) - A.X(0)) * 0.55;
       Res.escores.forEach((x, i) => {
-        const cor = i === vencedor ? "var(--accent)" : "var(--grid)";
+        const cor = i === vencedor ? "var(--accent)" : faixa.includes(i) ? "var(--accent);fill-opacity:0.45" : "var(--grid)";
         const contorno = i === sel ? ";stroke:var(--ink2);stroke-width:2" : "";
         s += `<rect x="${A.X(i) - bw / 2}" y="${A.Y(x)}" width="${bw}" height="${A.Y(0) - A.Y(x)}" rx="3" style="fill:${cor}${contorno}"/>`;
         s += `<text class="g-t" x="${A.X(i)}" y="${A.Y(x) - 6}" text-anchor="middle">${fmt(x, 3)}</text>`;
       });
-      s += `<text class="g-rot" x="${A.X(vencedor)}" y="${A.Y(ey.max) + 2}" text-anchor="middle" style="fill:var(--accent)">chosen</text>`;
+      const xa = A.X(faixa[0]) - bw / 2 - 4, xb = A.X(faixa[faixa.length - 1]) + bw / 2 + 4, yb = A.Y(ey.max) - 4;
+      s += `<path d="M${xa},${yb + 5} V${yb} H${xb} V${yb + 5}" style="fill:none;stroke:var(--accent);stroke-width:1.5"/>`;
+      s += `<text class="g-rot" x="${(xa + xb) / 2}" y="${yb - 4}" text-anchor="middle" style="fill:var(--accent)">choice band</text>`;
       p.querySelector(`#${id}g`).innerHTML = s;
       pairar(p.querySelector(`#${id}g`), W, D.volumes.map((_, i) => A.X(i)),
         i => dicaHTML(`${fmt(D.volumes[i])} L`, [[S(1), "score", fmt(Res.escores[i], 4)], ["", "rank", `#${Res.postos[i]}`]]),
@@ -879,13 +910,13 @@ FI["fig51_programa_topsis.png"] = {
       EIXOS.forEach(([k], i) => { const o = p.querySelector(`#${id}${k}-o`); if (o) o.textContent = fmt(pesos[i] * 100, 0) + "%"; });
       if (abertas) D.criterios.forEach((c, j) => { const o = p.querySelector(`#${id}c${j}-o`); if (o) o.textContent = fmt(partes[j] * 100, 0); });
       const padrao = partes.every((x, j) => x === PADRAO[j]);
-      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Chosen: ${fmt(D.volumes[vencedor])} L</p>
-        <div class="fi-n">${cartao("Score of the chosen volume", fmt(Res.escores[vencedor], 3))}
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Choice band: ${textoDaFaixa(D.volumes, faixa)}</p>
+        <div class="fi-n">${cartao("Highest score", fmt(D.volumes[vencedor]) + " L", `score ${fmt(Res.escores[vencedor], 3)}`)}
         ${cartao("Highlighted", fmt(D.volumes[sel]) + " L", `rank ${Res.postos[sel]}, score ${fmt(Res.escores[sel], 3)}`)}</div>
         <p class="fi-sub">The eight criteria of the highlighted volume</p>
         <table class="fi-tabela"><tbody>${D.criterios.map((c, j) => `<tr><td>${c.rotulo}<small>${c.eixo} · ${c.beneficio ? "higher is better" : "lower is better"}</small></td>
           <td class="n">${D.sem_retorno[sel] && c.chave === "payback_years" ? "no payback" : c.unidade === "US$" ? din(D.matriz[sel][j]) : menos(D.matriz[sel][j], c.casas) + " " + c.unidade}</td></tr>`).join("")}</tbody></table>
-        <p class="fi-nota">The score measures the distance to two references: the ideal alternative, made of the best value of each criterion, and the anti-ideal, made of the worst. ${D.sem_retorno.some(Boolean) ? "Volumes that do not pay back within the horizon receive the payback penalty the program applies (the worst observed plus 10%, at least 20 years); when no volume pays back, the payback column is constant and weighs nothing. " : ""}The weight of each dimension is shared among its criteria by the criterion shares; ${padrao ? "the shares are the default, equal within each dimension, and" : "with the default shares, equal within each dimension,"} equal weights on the four dimensions reproduce the program's result. ${ILUSTRATIVO}</p>`;
+        <p class="fi-nota">The score measures the distance to two references: the ideal alternative, made of the best value of each criterion, and the anti-ideal, made of the worst. The choice band gathers the volumes whose score lies within 5% of the score range, counted from the highest, as the program reports it: they score alike, and the band, with the tolerance, is the result to report, not the highest score alone. ${D.sem_retorno.some(Boolean) ? "Volumes that do not pay back within the horizon receive the payback penalty the program applies (the worst observed plus 10%, at least 20 years); when no volume pays back, the payback column is constant and weighs nothing. " : ""}The weight of each dimension is shared among its criteria by the criterion shares; ${padrao ? "the shares are the default, equal within each dimension, and" : "with the default shares, equal within each dimension,"} equal weights on the four dimensions reproduce the program's result. ${ILUSTRATIVO}</p>`;
     };
     p.innerHTML = `<div class="fi-ctls">
       ${EIXOS.map(([k, r], i) => ctlFaixa(id + k, r + " weight", 101, Math.round(pesos[i] * 100))).join("")}
@@ -894,7 +925,7 @@ FI["fig51_programa_topsis.png"] = {
     <div class="fi-corpo"><div>
       <svg id="${id}g" viewBox="0 0 ${W} 250" role="img" aria-label="TOPSIS score of each candidate volume"></svg>
       <svg id="${id}h" viewBox="0 0 ${W} 290" role="img" aria-label="Proximity of the highlighted volume to the best observed in each criterion"></svg>
-      ${legenda([["var(--accent)", "(a) chosen volume"], ["var(--ink2)", "(a) outline: highlighted volume"], [S(3), "(b) technical"], [S(2), "(b) economic"], [S(4), "(b) environmental"], [S(1), "(b) structural"]])}
+      ${legenda([["var(--accent)", "(a) highest score; lighter: the rest of the choice band"], ["var(--ink2)", "(a) outline: highlighted volume"], [S(3), "(b) technical"], [S(2), "(b) economic"], [S(4), "(b) environmental"], [S(1), "(b) structural"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     EIXOS.forEach(([k], i) => p.querySelector(`#${id}${k}`).addEventListener("input", e => {
       pesos = pesos.map((x, j) => j === i ? +e.target.value / 100 : x);
@@ -936,7 +967,7 @@ FI["fig23_smaa.png"] = {
   pergunta: "If nobody can say the weights, which volume wins most often?",
   controles: "ranking method · VIKOR strategy",
   experimente: "Swap VIKOR for TOPSIS and see whether the winner survives the change of method. Move the VIKOR strategy from consensus (0.5) to minimum regret (0) and watch which volume gains stability.",
-  fonte: D => `The program's own SMAA: ${fmt(D.sorteios)} draws of weights from a uniform Dirichlet distribution over the eight criteria, seed ${D.semente}, with the same seven candidates as the multi-criteria decision. ${ILUSTRATIVO}`,
+  fonte: D => `The program's own SMAA: ${fmt(D.sorteios)} draws of the eight criterion weights from a Dirichlet distribution with 25% expected on each dimension, seed ${D.semente}, with the same seven candidates as the multi-criteria decision. ${ILUSTRATIVO}`,
   montar(p, D, id) {
     let motor = D.padrao[0], v = D.padrao[1], sel = 3;
     const W = 640;

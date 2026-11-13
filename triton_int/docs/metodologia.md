@@ -213,13 +213,32 @@ padrão), repartidos dentro de cada eixo pelas partes no eixo `p_j` (padrão: pa
 `w_j = W_e · p_j / Σ_{k∈e} p_k`. Também se aceitam oito pesos diretos, um por critério. Três pesos
 (projetos e estudos de até a 0.1.0): o eixo estrutural recebe a média dos três, de modo que pesos
 iguais continuam iguais. Sete valores (pesos ou partes do modelo anterior) são recusados. VIKOR,
-PROMETHEE II e TOPSIS usam a mesma regra; o SMAA-VIKOR sorteia oito pesos no simplex.
+PROMETHEE II e TOPSIS usam a mesma regra; o SMAA-VIKOR sorteia os oito pesos, com 25% esperado por
+eixo.
+
+**Pesos objetivos (CRITIC).** Com `critic` no lugar dos pesos, eles saem da própria matriz de decisão
+pelo método CRITIC (Diakoulaki, Mavrotas e Papayannakis, 1995, doi:10.1016/0305-0548(94)00059-H): cada
+critério é normalizado de 0 (pior valor observado) a 1 (melhor), no sentido do critério;
+`C_j = σ_j · Σ_k (1 − r_jk)`, com `σ_j` o desvio-padrão do critério normalizado e `r_jk` a correlação de
+Pearson entre critérios; `w_j = C_j / Σ C`. Critério constante pesa zero; sem contraste nenhum, os pesos
+ficam iguais. Os pesos saem das alternativas com volume maior que zero (a alternativa sem cisterna traz
+LCOW e payback de penalidade), são recalculados a cada análise e valem para TOPSIS, VIKOR e PROMETHEE II.
+Medem contraste e independência nos resultados, não preferência, e mudam com o conjunto de volumes
+avaliado. Na linha de comando, `--weights critic`; no arquivo de projeto, `analysis.topsis_weights:
+"critic"`; no estudo declarativo, `analise.pesos: "critic"`.
+
+**Faixa de escolha.** Em vez de um vencedor, o programa informa os volumes maiores que zero cujo escore,
+normalizado entre o pior (0) e o melhor (1) dos volumes avaliados, fica a até a tolerância do melhor
+(padrão 5% da amplitude; `--score-band`, `analysis.topsis_score_band`, `analise.tolerancia_faixa`), e o
+volume de maior escore como informação. A mesma regra vale para o escore do TOPSIS, o índice Q do VIKOR
+(menor é melhor), o fluxo líquido do PROMETHEE II e a aceitabilidade de 1º lugar do SMAA. A faixa depende
+da grade de volumes e da tolerância; declare as duas.
 
 Para permitir valores negativos sem uma correção condicional, cada coluna é transladada pelo pior valor observado, `zij = xij − min(xj)`, e normalizada pelo vetor, `rij = zij / √Σzij²`. Após aplicar pesos não negativos normalizados, calculam-se as distâncias euclidianas `D+` e `D−` e o escore `Ci = D−/(D+ + D−)`.
 
 **Esta é uma variante declarada, não o TOPSIS canônico.** Hwang & Yoon (1981) normalizam pela norma euclidiana dos valores originais. Onde todos os valores de um critério são positivos e o mínimo é zero, as duas formas coincidem; onde há VPL negativo — o caso que motivou a mudança — divergem, e os escores não são comparáveis com os de uma implementação canônica sobre a mesma matriz.
 
-O VIKOR implementado em `triton/core/mcdm_methods.py` calcula `S`, `R` e `Q` conforme Opricovic & Tzeng (2004), mas **não aplica as condições C1 (vantagem aceitável) e C2 (estabilidade aceitável)**. O ranking é, portanto, uma ordenação por `Q`, e não a afirmação de que o primeiro colocado seja um compromisso estável. O SMAA-VIKOR segue Lahdelma & Salminen (2001), amostrando o simplex por Dirichlet simétrica; é implementação independente sobre NumPy, seguindo o desenho da biblioteca `crispyn` (licença MIT), que serve de base de comparação e não de origem do código.
+O VIKOR implementado em `triton/core/mcdm_methods.py` calcula `S`, `R` e `Q` conforme Opricovic & Tzeng (2004), mas **não aplica as condições C1 (vantagem aceitável) e C2 (estabilidade aceitável)**. O ranking é, portanto, uma ordenação por `Q`, e não a afirmação de que o primeiro colocado seja um compromisso estável. O SMAA-VIKOR segue Lahdelma & Salminen (2001), amostrando o simplex por uma Dirichlet de parâmetros (1, 1, 2/3, 2/3, 2/3, 2, 1, 1): a soma em cada eixo é 2, de modo que cada eixo pesa 25% em média e cada critério, em média, o peso padrão do TOPSIS (a Dirichlet simétrica daria 37,5% ao eixo econômico, de três critérios, e 12,5% ao ambiental, de um); o SMAA-TOPSIS (`engine="topsis"`) usa os mesmos sorteios com a normalização do TOPSIS do programa. É implementação independente sobre NumPy, seguindo o desenho da biblioteca `crispyn` (licença MIT), que serve de base de comparação e não de origem do código.
 
 Além do escore agregado, o programa calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
 

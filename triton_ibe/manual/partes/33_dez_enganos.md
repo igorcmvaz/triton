@@ -177,7 +177,7 @@ incorporado** (3 546 contra 1 026 kg CO₂e), para entregar 6,47 pontos perce
 o maior volume testado é escolher o limite da varredura, e não um ótimo.
 
 **Como evitar.** Declare o critério de escolha. Se for hidráulico, o limiar de ganho marginal; se
-for multicritério, os quatro pesos de eixo, as partes no eixo e os volumes candidatos. E reporte os vencedores de cada critério isolado, porque a divergência
+for multicritério, os quatro pesos de eixo, as partes no eixo, os volumes candidatos e a faixa de escolha com a tolerância. E reporte os vencedores de cada critério isolado, porque a divergência
 entre eles **é** o resultado.
 
 ---

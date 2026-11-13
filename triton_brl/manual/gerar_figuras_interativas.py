@@ -271,7 +271,7 @@ def multicriterio():
     """A matriz de decisão do TOPSIS; o escore sai do peso escolhido na página."""
     from triton.core.topsis import (
         CRITERION_GROUPS, CRITERION_IS_BENEFIT, CRITERION_KEYS, CRITERION_LABELS,
-        PARTES_IGUAIS_NO_EIXO, PARTES_NO_EIXO_PADRAO, _decision_matrix,
+        PARTES_IGUAIS_NO_EIXO, PARTES_NO_EIXO_PADRAO, TOLERANCIA_FAIXA_PADRAO, _decision_matrix,
         calculate_topsis_scores)
     cands = _candidatos_mcdm()
     matriz = _decision_matrix(cands)
@@ -297,6 +297,10 @@ def multicriterio():
         "partes_padrao": [float(x) for x in PARTES_NO_EIXO_PADRAO],
         "escores_padrao": [_r(x, 6) for x in padrao.scores],
         "escores_iguais": [_r(x, 6) for x in iguais.scores],
+        # A faixa de escolha do programa (triton/core/topsis.py, faixa_de_escolha): a página refaz a
+        # conta para o peso escolhido, com a mesma tolerância.
+        "tolerancia_faixa": float(TOLERANCIA_FAIXA_PADRAO),
+        "faixa_padrao": [int(v) for v in padrao.faixa_de_escolha()["volumes_l"]],
         "material": MATERIAL_MCDM,
     }
 

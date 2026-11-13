@@ -125,16 +125,21 @@ e não o passo originalmente pedido.
 | «Ao menos um critério do eixo … deve ter parte maior que zero.» | todas as partes de um eixo zeradas | dê parte a pelo menos um critério do eixo; para tirar o eixo inteiro, zere o peso do eixo |
 | «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; peso zero é válido e exclui o critério |
 | «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos zerados | atribua peso a pelo menos um critério |
+| «Pesos «…» desconhecidos: use números ou «critic».» | uma palavra no lugar dos pesos que não é «critic» | informe os pesos em números ou a palavra `critic`, para os pesos objetivos (seção {{n:32}}) |
+| «A tolerância da faixa de escolha deve ficar entre 0 e 1 (fração da amplitude dos escores).» | tolerância da faixa de escolha negativa, acima de 1 ou vazia | informe uma fração de 0 a 1; o padrão é 0,05 |
 | «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente payback sem retorno | confira a alternativa indicada antes de decidir |
 
 Na linha de comando, `--weights` e `--criterion-shares` conferem os valores antes de calcular, com
-mensagem própria: «Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito de
-critério, não negativos e separados por vírgula; a soma deve ser positiva. Os sete pesos do modelo
-anterior à 0.2.0 não valem mais.» e «Use oito partes não negativas separadas por vírgula (uma por
-critério TOPSIS), com ao menos uma positiva em cada dimensão», seguida da causa. No estudo
-declarativo, as mensagens começam pelo campo: «analise.pesos: quatro números não negativos (técnico,
-econômico, ambiental, estrutural) ou oito (um por critério), com soma positiva» e
-«analise.partes_no_eixo:», seguida da causa.
+mensagem própria: «Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural), oito de
+critério ou «critic» (pesos objetivos calculados dos resultados); os números, não negativos e
+separados por vírgula, com soma positiva. Os sete pesos do modelo anterior à 0.2.0 não valem mais.»
+e «Use oito partes não negativas separadas por vírgula (uma por critério TOPSIS), com ao menos uma
+positiva em cada dimensão», seguida da causa; `--score-band` repete a mensagem da tolerância da
+tabela acima. No arquivo de projeto: «analysis.topsis_weights deve ser uma lista com quatro valores
+(eixos) ou oito (critérios), ou «critic»» e «analysis.topsis_score_band:», seguida da causa. No
+estudo declarativo, as mensagens começam pelo campo: «analise.pesos: quatro números não negativos
+(técnico, econômico, ambiental, estrutural), oito (um por critério) ou «critic», com soma positiva»,
+«analise.partes_no_eixo:», seguida da causa, e «analise.tolerancia_faixa: número de 0 a 1».
 
 ---
 

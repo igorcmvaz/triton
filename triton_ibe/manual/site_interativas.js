@@ -766,11 +766,27 @@ function topsisEscores(matriz, pesos, beneficio, volumes) {
   return {escores, postos, proximidade: prox, pesos: w};
 }
 
+/** A faixa de escolha de triton/core/topsis.py (faixa_de_escolha): os volumes maiores que zero
+ *  cuja pontuação, normalizada entre a pior (0) e a maior (1), fica a até a tolerância da maior. */
+function faixaDeEscolha(escores, volumes, tolerancia = 0.05) {
+  const idx = volumes.map((v, i) => i).filter(i => volumes[i] > 0);
+  const vals = idx.map(i => escores[i]);
+  const lo = Math.min(...vals), hi = Math.max(...vals), amp = hi - lo;
+  const dentro = volumes.map((v, i) => v > 0 && (amp > 1e-12 ? (escores[i] - lo) / amp : 1) >= 1 - tolerancia - 1e-12);
+  const sel = idx.filter(i => dentro[i]).sort((a, b) => volumes[a] - volumes[b]);
+  const primeiro = sel[0], ultimo = sel[sel.length - 1];
+  const contigua = idx.filter(i => volumes[i] >= volumes[primeiro] && volumes[i] <= volumes[ultimo]).length === sel.length;
+  const texto = sel.length === 1 ? `${fmt(volumes[primeiro])} L`
+    : contigua ? `${fmt(volumes[primeiro])} a ${fmt(volumes[ultimo])} L`
+    : sel.slice(0, -1).map(i => fmt(volumes[i])).join(", ") + ` e ${fmt(volumes[ultimo])} L`;
+  return {dentro, primeiro, ultimo, contigua, texto};
+}
+
 FI["fig51_programa_topsis.png"] = {
   curto: "A decisão multicritério",
-  pergunta: "Que volume o multicritério elege, e com que pesos?",
+  pergunta: "Que volumes o multicritério põe na faixa de escolha, e com que pesos?",
   controles: "peso técnico · económico · ambiental · estrutural · partes no eixo",
-  experimente: "Com os quatro eixos a 25% e as partes iguais, como o programa abre, vence a cisterna de 3 000 L, à frente da de 2 000 L por menos de um milésimo de pontuação; a de 5 000 L, adotada no tutorial, fica em quinto lugar e abre em destaque. Leve o peso técnico ao máximo e a escolha desce para 1 000 L: a eficiência de armazenamento cai com o volume e pesa tanto quanto a fiabilidade, que sobe. Leve o económico ao máximo e ela fica nos 3 000 L; o ambiental, e desce para 2 000 L; o estrutural, e sobe para 4 000 L. O critério que muda a decisão fica visível nas barras de proximidade.",
+  experimente: "Com os quatro eixos a 25% e as partes iguais, como o programa abre, a faixa de escolha vai de 2 000 a 3 000 L: as duas cisternas pontuam quase igual, e a de 3 000 L fica à frente por menos de um milésimo. A de 5 000 L, adotada no tutorial, fica em quinto lugar e abre em destaque. Leve o peso técnico ao máximo e a faixa desce para 1 000 L: a eficiência de armazenamento cai com o volume e pesa tanto quanto a fiabilidade, que sobe. Leve o económico ao máximo e a faixa fica entre 2 000 e 4 000 L; o ambiental, e desce para 1 000 a 3 000 L; o estrutural, e sobe para 3 000 a 4 000 L. O critério que muda a decisão fica visível nas barras de proximidade.",
   fonte: "Os oito critérios do programa, em quatro eixos, calculados para sete volumes candidatos com o projeto do tutorial, cisterna de polietileno e reservatório superior de 1 000 L. A pontuação é calculada na página pela mesma conta de triton/core/topsis.py, conferida contra o programa por teste automático.",
   montar(p, D, id) {
     const EIXOS = D.eixos, NE = EIXOS.length, NC = D.criterios.length, benef = D.criterios.map(c => c.beneficio);
@@ -792,6 +808,7 @@ FI["fig51_programa_topsis.png"] = {
       const w8 = oito ? pc.slice() : pesosDosCriterios();
       const Res = topsisEscores(D.matriz, w8, benef, D.volumes);
       const vencedor = Res.postos.indexOf(1);
+      const Fx = faixaDeEscolha(Res.escores, D.volumes);
       if (sel < 0) sel = vencedor;
       const ey = escala(0, Math.max(...Res.escores) * 1.12, 4);
       const A = plano({W, H: 250, l: 58, r: 14, t: 34, b: 44, x: [-0.6, D.volumes.length - 0.4], y: [0, ey.max], ym: ey.marcas,
@@ -800,12 +817,12 @@ FI["fig51_programa_topsis.png"] = {
       let s = A.s;
       const bw = (A.X(1) - A.X(0)) * 0.55;
       Res.escores.forEach((x, i) => {
-        const cor = i === vencedor ? "var(--accent)" : "var(--grid)";
+        const cor = Fx.dentro[i] ? "var(--accent)" : "var(--grid)";
         const contorno = i === sel ? ";stroke:var(--ink2);stroke-width:2" : "";
         s += `<rect x="${A.X(i) - bw / 2}" y="${A.Y(x)}" width="${bw}" height="${A.Y(0) - A.Y(x)}" rx="3" style="fill:${cor}${contorno}"/>`;
         s += `<text class="g-t" x="${A.X(i)}" y="${A.Y(x) - 6}" text-anchor="middle">${fmt(x, 3)}</text>`;
       });
-      s += `<text class="g-rot" x="${A.X(vencedor)}" y="${A.Y(ey.max) + 2}" text-anchor="middle" style="fill:var(--accent)">eleito</text>`;
+      s += `<text class="g-rot" x="${(A.X(Fx.primeiro) + A.X(Fx.ultimo)) / 2}" y="${A.Y(ey.max) + 2}" text-anchor="middle" style="fill:var(--accent)">faixa de escolha</text>`;
       p.querySelector(`#${id}g`).innerHTML = s;
       pairar(p.querySelector(`#${id}g`), W, D.volumes.map((_, i) => A.X(i)),
         i => dicaHTML(`${fmt(D.volumes[i])} L`, [[S(1), "pontuação", fmt(Res.escores[i], 4)], ["", "posição", `${Res.postos[i]}.º`]]),
@@ -831,13 +848,13 @@ FI["fig51_programa_topsis.png"] = {
         if (c.chave === "payback_years" && D.sem_retorno[sel]) return `sem recuperação (entra com ${menos(D.matriz[sel][j], c.casas)} anos)`;
         return c.unidade === "€" ? reais(D.matriz[sel][j]) : menos(D.matriz[sel][j], c.casas) + " " + c.unidade;
       };
-      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Eleito: ${fmt(D.volumes[vencedor])} L</p>
-        <div class="fi-n">${cartao("Pontuação do eleito", fmt(Res.escores[vencedor], 3))}
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Faixa de escolha: ${Fx.texto}</p>
+        <div class="fi-n">${cartao("Maior pontuação", fmt(D.volumes[vencedor]) + " L", `pontuação ${fmt(Res.escores[vencedor], 3)}`)}
         ${cartao("Em destaque", fmt(D.volumes[sel]) + " L", `${Res.postos[sel]}.º lugar, pontuação ${fmt(Res.escores[sel], 3)}`)}</div>
         <p class="fi-sub">Os oito critérios do volume em destaque</p>
         <table class="fi-tabela"><tbody>${D.criterios.map((c, j) => `<tr><td>${c.rotulo}<small>${c.beneficio ? "maior é melhor" : "menor é melhor"}</small></td>
           <td class="n">${valor(c, j)}</td></tr>`).join("")}</tbody></table>
-        <p class="fi-nota">A pontuação mede a distância a duas referências: a alternativa ideal, feita do melhor valor de cada critério, e a anti-ideal, feita do pior. ${D.sem_retorno.some(Boolean) ? "Os volumes que não se recuperam no horizonte recebem a penalização de recuperação que o programa aplica (o pior período observado mais 10%, e ao menos 20 anos); quando nenhum se recupera, o critério fica igual em todos e não pesa. " : ""}Os quatro eixos a 25%, com as partes iguais no eixo, reproduzem o resultado do programa.</p>`;
+        <p class="fi-nota">A pontuação mede a distância a duas referências: a alternativa ideal, feita do melhor valor de cada critério, e a anti-ideal, feita do pior. ${D.sem_retorno.some(Boolean) ? "Os volumes que não se recuperam no horizonte recebem a penalização de recuperação que o programa aplica (o pior período observado mais 10%, e ao menos 20 anos); quando nenhum se recupera, o critério fica igual em todos e não pesa. " : ""}A faixa de escolha reúne os volumes cuja pontuação, contada entre a pior (0) e a maior (1), fica a até 5% da maior, a tolerância por omissão do programa: dentro dela, os volumes têm resultados multicritério semelhantes, e nenhum é «o melhor». Os quatro eixos a 25%, com as partes iguais no eixo, reproduzem o resultado do programa.</p>`;
     };
     p.innerHTML = `<div class="fi-ctls">
       ${EIXOS.map(([k, r], i) => ctlFaixa(id + k, "Peso " + r.toLowerCase(), 101, Math.round(pesos[i] * 100))).join("")}
@@ -846,7 +863,7 @@ FI["fig51_programa_topsis.png"] = {
     <div class="fi-corpo"><div>
       <svg id="${id}g" viewBox="0 0 ${W} 250" role="img" aria-label="Pontuação TOPSIS de cada volume candidato"></svg>
       <svg id="${id}h" viewBox="0 0 ${W} ${H2}" role="img" aria-label="Proximidade do volume em destaque ao ótimo observado em cada critério"></svg>
-      ${legenda([["var(--accent)", "(a) volume eleito"], ["var(--ink2)", "(a) contorno: volume em destaque"], [S(3), "(b) eixo técnico"], [S(2), "(b) eixo económico"], [S(4), "(b) eixo ambiental"], [S(1), "(b) eixo estrutural"]])}
+      ${legenda([["var(--accent)", "(a) faixa de escolha (até 5% da amplitude)"], ["var(--ink2)", "(a) contorno: volume em destaque"], [S(3), "(b) eixo técnico"], [S(2), "(b) eixo económico"], [S(4), "(b) eixo ambiental"], [S(1), "(b) eixo estrutural"]])}
     </div><div class="fi-leit" id="${id}l"></div></div>`;
     const atualizaOito = () => {
       if (!oito) return;
@@ -912,7 +929,7 @@ FI["fig23_smaa.png"] = {
   pergunta: "E se ninguém souber dizer os pesos: que volume vence com mais frequência?",
   controles: "método de ranqueamento · estratégia do VIKOR",
   experimente: "Troque o VIKOR pelo TOPSIS e veja se o vencedor resiste à troca de método. Mova a estratégia do VIKOR do consenso (0,5) para o arrependimento mínimo (0) e observe qual volume ganha estabilidade.",
-  fonte: "SMAA do próprio programa: 5 000 sorteios de oito pesos, um por critério, numa distribuição de Dirichlet uniforme, semente 42, com os mesmos sete candidatos da decisão multicritério.",
+  fonte: "SMAA do próprio programa: 5 000 sorteios de oito pesos, um por critério, numa distribuição de Dirichlet com parâmetros (1, 1, 2/3, 2/3, 2/3, 2, 1, 1), que dá 25% esperado a cada eixo, semente 42, com os mesmos sete candidatos da decisão multicritério.",
   montar(p, D, id) {
     let motor = D.padrao[0], v = D.padrao[1], sel = 3;
     const W = 640;
@@ -964,7 +981,7 @@ FI["fig23_smaa.png"] = {
         i => { sel = i; desenha(); });
 
       const central = C.central[sel], soma = central.reduce((a, b) => a + b, 0);
-      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Mais aceito: ${fmt(D.volumes[melhor])} L, em ${fmt(C.primeiro[melhor], 1)}% dos sorteios</p>
+      p.querySelector(`#${id}l`).innerHTML = `<p class="fi-sub">Mais aceite: ${fmt(D.volumes[melhor])} L, em ${fmt(C.primeiro[melhor], 1)}% dos sorteios</p>
         <div class="fi-n">${cartao("Em destaque", fmt(D.volumes[sel]) + " L", `vence em ${fmt(C.primeiro[sel], 2)}% dos sorteios`)}
         ${cartao("Fator de confiança", C.confianca[sel] >= 1 ? "✓ confirma" : "✕ não confirma", "com o próprio vetor central")}</div>
         ${soma > 0 ? `<p class="fi-sub">Vetor central de pesos que elege ${fmt(D.volumes[sel])} L</p>

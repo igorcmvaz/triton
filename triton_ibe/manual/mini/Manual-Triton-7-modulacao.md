@@ -705,6 +705,12 @@ plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a procura pluv
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
 que tem no denominador a procura total da edificação.
 
+**CRITIC** (*criteria importance through intercriteria correlation*). Método de pesos objetivos
+de Diakoulaki, Mavrotas e Papayannakis (1995): cada critério pesa pelo contraste entre as
+alternativas e pela independência em relação aos outros critérios, calculados dos próprios
+resultados. No programa, uma opção de ponderação (`--weights critic`), e não o padrão; os pesos
+mudam com o conjunto de volumes avaliado e não exprimem a preferência de ninguém.
+
 **CSV** (*comma-separated values*). Formato de ficheiro de texto em que cada linha é um
 registo e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -770,6 +776,12 @@ com o volume e trava o sobredimensionamento. Não é a ocupação média da cist
 
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
+
+**Faixa de escolha** (*choice band*). Os volumes com resultado multicritério semelhante ao do
+volume de maior pontuação: aqueles cuja medida, normalizada entre a pior (0) e a melhor (1) dos
+volumes avaliados, fica a até a tolerância da melhor (por omissão, 5% da amplitude). Depende da
+tolerância e da grade de volumes avaliada; num estudo, relata-se a faixa com a tolerância, e não um
+volume só.
 
 **Fração atendível por água pluvial** (*non-potable demand share*, $f$). Percentual da procura
 total de água da edificação ($D_{tot}$) passível de suprimento por água de chuva ($f = D_{pl} / D_{tot}$).
@@ -924,8 +936,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
-vencer.
+pesos — no programa, oito, um por critério, com 25% esperado em cada eixo — e devolve a
+probabilidade de cada alternativa vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
@@ -1054,6 +1066,10 @@ original do TOPSIS.
 **Opricovic, S.; Tzeng, G.-H.** O método VIKOR e as condições C1 e C2 de vantagem aceitável e estabilidade.
 
 **Lahdelma, R.; Hokkanen, J.; Salminen, P.** (1998), e **Tervonen, T.; Figueira, J.** (2008). SMAA e SMAA-2.
+
+**Diakoulaki, D.; Mavrotas, G.; Papayannakis, L.** (1995). Determining objective weights in multiple criteria
+problems: The CRITIC method. *Computers & Operations Research*, 22(7), 763–770. doi:10.1016/0305-0548(94)00059-H.
+Os pesos objetivos pelo CRITIC.
 
 **Walsh, R. P. D.; Lawler, D. M.** (1981). O índice de sazonalidade.
 

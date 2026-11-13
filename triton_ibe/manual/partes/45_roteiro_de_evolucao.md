@@ -24,7 +24,7 @@ pendências do próprio programa, descrito na secção «Limitações conhecidas
 tarifários transcritos de Lisboa, do Porto e do Funchal, e estruturas introduzidas pelo utilizador,
 com escalões progressivos, partes fixas e atualização. **Balanço hídrico.** Simulação diária pela
 regra do Triton, com a YAS estrita, a YBS e o parâmetro φ de Fewkes (2000b) como opções para
-reservatório único. **Decisão.** Multicritério por TOPSIS e por SMAA-VIKOR, com oito critérios em quatro eixos (técnico, económico, ambiental e estrutural) e o peso do sistema. **Incerteza.**
+reservatório único. **Decisão.** Multicritério por TOPSIS e por SMAA-VIKOR, com oito critérios em quatro eixos (técnico, económico, ambiental e estrutural), pesos declarados ou objetivos (CRITIC), a faixa de escolha e o peso do sistema. **Incerteza.**
 Modulação probabilística das premissas (secção «O que é a modulação probabilística»).
 **Edição.** Portugal.
 

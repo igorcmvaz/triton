@@ -198,6 +198,9 @@ python -m triton.cli run .\projeto.triton --volume 5000 --analysis all --format 
 # Pesos TOPSIS: técnico, econômico, ambiental, estrutural (a soma é normalizada automaticamente)
 python -m triton.cli analyze .\projeto.triton --analysis topsis --weights 0.40,0.30,0.20,0.10
 
+# Pesos objetivos (CRITIC), calculados dos próprios resultados
+python -m triton.cli analyze .\projeto.triton --analysis topsis --weights critic
+
 # Partes no eixo: oito valores, um por critério (padrão 1,1,1,1,1,1,1,1)
 python -m triton.cli analyze .\projeto.triton --analysis topsis --criterion-shares 1,0,1,1,1,1,1,1
 
@@ -208,7 +211,7 @@ python -m triton.cli analyze .\projeto.triton --analysis topsis --weight-sensiti
 python -m triton.cli uncertainty .\projeto.triton --samples 1000 --rainfall-cv 10 --demand-cv 15 --capex-cv 20 --format json --output .\monte-carlo.json
 ```
 
-`--analysis` aceita `technical`, `economic`, `environmental`, `system_weight`, `topsis` e `all`. As análises econômica e ambiental usam, para cada volume, respectivamente o fluxo de caixa e o inventário de ciclo de vida associados àquela alternativa; o TOPSIS recebe os oito critérios já calculados (confiabilidade volumétrica, eficiência de armazenamento, economia financeira líquida, LCOW, payback descontado, CO₂e de ciclo de vida, massa a seco e extravasamento anual). `--weights` aceita quatro pesos de eixo ou oito de critério; três pesos (projetos da 0.1.0) ainda são aceitos, com a média no eixo estrutural, e sete são recusados. A seção `analysis.environmental` no `.triton` permite registrar materiais, tubulações, bomba e fatores de emissão específicos.
+`--analysis` aceita `technical`, `economic`, `environmental`, `system_weight`, `topsis` e `all`. As análises econômica e ambiental usam, para cada volume, respectivamente o fluxo de caixa e o inventário de ciclo de vida associados àquela alternativa; o TOPSIS recebe os oito critérios já calculados (confiabilidade volumétrica, eficiência de armazenamento, economia financeira líquida, LCOW, payback descontado, CO₂e de ciclo de vida, massa a seco e extravasamento anual). `--weights` aceita quatro pesos de eixo, oito de critério ou `critic` (pesos objetivos calculados dos resultados pelo método CRITIC); três pesos (projetos da 0.1.0) ainda são aceitos, com a média no eixo estrutural, e sete são recusados. O resultado do TOPSIS é uma faixa de escolha — os volumes com escore a até 5% da amplitude dos escores, contados do maior (`--score-band` muda a tolerância, de 0 a 1) — e não um volume só. A seção `analysis.environmental` no `.triton` permite registrar materiais, tubulações, bomba e fatores de emissão específicos.
 
 Use `validate` antes de processar um projeto e `--set` para substituir uma premissa sem alterar o arquivo:
 

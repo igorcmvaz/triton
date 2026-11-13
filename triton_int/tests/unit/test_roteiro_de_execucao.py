@@ -151,16 +151,15 @@ def test_frases_do_roteiro_tem_traducao(idioma):
         assert not re.search(r"[ãõç]|\b(ano|dia)s?\b", traduzida), f"{chave!r} em {idioma} ainda tem português: {traduzida!r}"
 
 
-def test_frase_da_decisao_tem_os_onze_campos_em_todos_os_idiomas():
-    chave = [k for k in T._COMPLEMENTO_ALCANCE if k.startswith("O método TOPSIS ({0}) recomenda")][0] \
-        if hasattr(T, "_COMPLEMENTO_ALCANCE") else None
+def test_frase_da_decisao_tem_os_treze_campos_em_todos_os_idiomas():
+    """A frase da faixa de escolha (0.2.0) leva treze campos; faltando um, a tradução quebra o format."""
     from triton.ui.translation_complement import COMPLEMENTO
-    chave = next(k for k in COMPLEMENTO if k.startswith("O método TOPSIS ({0}) recomenda"))
+    chave = next(k for k in COMPLEMENTO if k.startswith("No TOPSIS ({0}), as cisternas de {1}"))
     for idioma in ("pt", "en", "es", "zh"):
         texto = T.tr(chave, lang=idioma)
-        for i in range(11):
+        for i in range(13):
             assert "{%d}" % i in texto, f"{idioma}: falta {{{i}}}"
-        assert texto.format(*["x"] * 11)
+        assert texto.format(*["x"] * 13)
 
 
 def test_glossario_de_portugal_regista_e_equipa():
@@ -177,8 +176,9 @@ def test_glossario_de_portugal_regista_e_equipa():
 def test_decisao_multicriterio_em_ingles_sem_portugues(janela_en):
     otimizador = janela_en.tab_global_optimizer
     frase = otimizador.lbl_tradeoff_desc.text()
-    assert "recommends the" in frase and "cistern" in frase
-    assert not re.search(r"recomenda|enquanto|simulações|cisterna", frase), frase
+    # 0.2.0: a frase dá a faixa de escolha, e não um volume «recomendado».
+    assert "have similar scores" in frase and "cistern" in frase, frase
+    assert not re.search(r"recomenda|semelhante|simulações|cisterna", frase), frase
     rotulo = otimizador.table.item(0, 0).text()
     assert rotulo.startswith("Option 1 ("), rotulo
 
@@ -186,9 +186,11 @@ def test_decisao_multicriterio_em_ingles_sem_portugues(janela_en):
 @sem_exemplo
 def test_decisao_multicriterio_em_portugues_nao_troca_virgula_por_ponto(janela_pt):
     frase = janela_pt.tab_global_optimizer.lbl_tradeoff_desc.text()
-    assert "recomenda a cisterna de" in frase and "Score:" in frase
-    # antes: «(Score: 0.94). enquanto» e VPL «2.428.94», porque um replace global trocava toda vírgula
-    assert not re.search(r"Score: \d\.\d\d\)\.", frase), frase
+    # 0.2.0: a frase dá a faixa de escolha, e não um volume «recomendado».
+    assert "as cisternas de" in frase and "têm escores semelhantes" in frase, frase
+    # escore e aceitabilidade com vírgula decimal; antes saía «0.94» no meio do português
+    assert re.search(r"maior escore em \d+ L, \d,\d\d\)", frase), frase
+    # antes: VPL «2.428.94», porque um replace global trocava toda vírgula
     assert not re.search(r"\d\.\d{3}\.\d{2}\b", frase), frase
     rotulo = janela_pt.tab_global_optimizer.table.item(0, 0).text()
     assert rotulo.startswith("Opção 1 ("), rotulo

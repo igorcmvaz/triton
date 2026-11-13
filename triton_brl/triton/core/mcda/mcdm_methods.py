@@ -19,17 +19,22 @@ except ImportError:  # pragma: no cover
             return fn
         return _wrap
 
-from triton.core.topsis import TopsisCandidate, CRITERION_KEYS, CRITERION_IS_BENEFIT, _decision_matrix
+from triton.core.topsis import TopsisCandidate, CRITERION_KEYS, CRITERION_IS_BENEFIT, _decision_matrix, faixa_de_escolha
 
 
-def _normalize_weights(weights: Optional[Sequence[float]], m: int) -> np.ndarray:
+def _normalize_weights(weights, m: int, matrix: Optional[np.ndarray] = None,
+                       volumes: Optional[np.ndarray] = None) -> np.ndarray:
     """Os oito pesos de critério, pela mesma regra do TOPSIS (``topsis._criterion_weights``).
 
     Quatro pesos de eixo são repartidos em partes iguais dentro de cada eixo; três pesos
     (projetos até a 0.1.0) dão ao eixo estrutural a média dos três; oito pesos valem como
     estão. VIKOR, PROMETHEE II e TOPSIS ponderam, assim, os mesmos critérios do mesmo modo.
     """
-    from triton.core.topsis import _criterion_weights
+    from triton.core.topsis import _criterion_weights, eh_critic, pesos_critic
+    if eh_critic(weights):
+        if matrix is None:
+            raise ValueError("Os pesos do CRITIC precisam da matriz de decisão.")
+        return pesos_critic(matrix, volumes)
     w = _criterion_weights(weights, None)
     if w.size != m:
         raise ValueError(f"Esperados {m} pesos de critério, obtidos {w.size}.")
@@ -54,6 +59,10 @@ class VikorResult:
     @property
     def best_candidate(self) -> TopsisCandidate:
         return self.candidates[self.best_index]
+
+    def faixa_de_escolha(self, tolerancia=None):
+        """Volumes com resultado semelhante ao melhor (ver ``topsis.faixa_de_escolha``)."""
+        return faixa_de_escolha([c.lower_tank_vol for c in self.candidates], self.q_scores, False, tolerancia)
 
 
 @dataclass
@@ -94,6 +103,10 @@ class SmaaResult:
     def num_simulations(self) -> int:
         """Alias de apresentação para explicitar o total de execuções Monte Carlo."""
         return self.num_samples
+
+    def faixa_de_escolha(self, tolerancia=None):
+        """Volumes com aceitabilidade de 1º lugar semelhante à maior (ver ``topsis.faixa_de_escolha``)."""
+        return faixa_de_escolha([c.lower_tank_vol for c in self.candidates], self.first_rank_probs, True, tolerancia)
 
     def get_central_dimension_weights(self, index: int) -> Tuple[float, float, float, float]:
         """
@@ -141,6 +154,10 @@ class PrometheeResult:
     def best_candidate(self) -> TopsisCandidate:
         return self.candidates[self.best_index]
 
+    def faixa_de_escolha(self, tolerancia=None):
+        """Volumes com resultado semelhante ao melhor (ver ``topsis.faixa_de_escolha``)."""
+        return faixa_de_escolha([c.lower_tank_vol for c in self.candidates], self.net_flows, True, tolerancia)
+
 
 def run_vikor(
     candidates: Sequence[TopsisCandidate],
@@ -158,7 +175,7 @@ def run_vikor(
     # Constrói matriz de decisão (n x 8)
     m = len(CRITERION_KEYS)
     matrix = _decision_matrix(cand_list)
-    w = _normalize_weights(weights, m)
+    w = _normalize_weights(weights, m, matrix, np.asarray([float(c.lower_tank_vol) for c in cand_list]))
 
     # Identifica o melhor f* e o pior f- por critério
     f_best = np.zeros(m, dtype=float)
@@ -218,6 +235,77 @@ def run_vikor(
 AMOSTRAS_SMAA_PADRAO = 20000
 
 
+def _smaa_dirichlet_alpha(m: int) -> np.ndarray:
+    """Parâmetros da Dirichlet do SMAA: o peso esperado de cada eixo é 25%.
+
+    Com ``np.ones(8)`` cada critério teria 1/8 em média, e o eixo econômico (três critérios)
+    ficaria com 37,5% enquanto o ambiental (um) ficaria com 12,5%. Aqui a soma dos parâmetros de
+    cada eixo é 2: técnico (0, 1), econômico (2, 3, 4), ambiental (5) e estrutural (6, 7). O peso
+    esperado de cada critério é o padrão do TOPSIS (eixos iguais, partes iguais no eixo).
+    """
+    if m == 8:
+        return np.array([1.0, 1.0, 2.0 / 3.0, 2.0 / 3.0, 2.0 / 3.0, 2.0, 1.0, 1.0], dtype=float)
+    return np.ones(m, dtype=float)
+
+
+@njit(cache=True)
+def _topsis_scores_kernel(norm_matrix: np.ndarray, is_benefit: np.ndarray, w: np.ndarray) -> np.ndarray:
+    """Escore TOPSIS de cada alternativa para um vetor de pesos (matriz já normalizada)."""
+    n, m = norm_matrix.shape
+    ideal = np.empty(m, dtype=np.float64)
+    anti = np.empty(m, dtype=np.float64)
+    for j in range(m):
+        hi = -1e308
+        lo = 1e308
+        for i in range(n):
+            v = norm_matrix[i, j] * w[j]
+            if v > hi:
+                hi = v
+            if v < lo:
+                lo = v
+        if is_benefit[j]:
+            ideal[j] = hi
+            anti[j] = lo
+        else:
+            ideal[j] = lo
+            anti[j] = hi
+    scores = np.empty(n, dtype=np.float64)
+    for i in range(n):
+        db = 0.0
+        dw = 0.0
+        for j in range(m):
+            v = norm_matrix[i, j] * w[j]
+            db += (v - ideal[j]) ** 2
+            dw += (v - anti[j]) ** 2
+        db = np.sqrt(db)
+        dw = np.sqrt(dw)
+        den = db + dw
+        scores[i] = dw / den if den > 2.220446049250313e-16 else 0.5
+    return scores
+
+
+@njit(cache=True)
+def _smaa_topsis_kernel(norm_matrix: np.ndarray, is_benefit: np.ndarray, weight_samples: np.ndarray):
+    """SMAA com o TOPSIS: contagem de posições, soma dos pesos vencedores e número de vitórias."""
+    num_samples, m = weight_samples.shape
+    n = norm_matrix.shape[0]
+    rank_counts = np.zeros((n, n), dtype=np.int64)
+    weight_sums = np.zeros((n, m), dtype=np.float64)
+    win_counts = np.zeros(n, dtype=np.int64)
+    for k in range(num_samples):
+        w = weight_samples[k]
+        scores = _topsis_scores_kernel(norm_matrix, is_benefit, w)
+        # Empate: a alternativa de menor índice (menor volume) fica à frente.
+        ranks = np.argsort(-scores, kind="mergesort")
+        w0 = ranks[0]
+        win_counts[w0] += 1
+        for j in range(m):
+            weight_sums[w0, j] += w[j]
+        for pos in range(n):
+            rank_counts[ranks[pos], pos] += 1
+    return rank_counts, weight_sums, win_counts
+
+
 @njit(cache=True)
 def _smaa_vikor_kernel(diff_matrix: np.ndarray, weight_samples: np.ndarray, v_param: float):
     num_samples, m = weight_samples.shape
@@ -274,7 +362,7 @@ def run_smaa_vikor(
 ) -> SmaaResult:
     """
     Executa o método estocástico híbrido SMAA-VIKOR (Stochastic Multicriteria Acceptability Analysis + VIKOR).
-    Amostra vetores de pesos pelo simplex uniforme e ranqueia as alternativas pela solução de compromisso VIKOR,
+    Amostra vetores de pesos no simplex por uma Dirichlet que dá 25% esperados a cada eixo e ranqueia as alternativas pela solução de compromisso VIKOR,
     computando índices de aceitabilidade por posto (b_i^r), vetor central de pesos (w_i^c) e fatores de confiança.
     """
     cand_list = list(candidates)
@@ -312,7 +400,7 @@ def run_smaa_vikor(
     diff_matrix = np.maximum(0.0, diff_matrix)
 
     rng = np.random.default_rng(random_seed)
-    weight_samples = rng.dirichlet(np.ones(m), size=num_samples)
+    weight_samples = rng.dirichlet(_smaa_dirichlet_alpha(m), size=num_samples)
 
     rank_counts, weight_sums, win_counts = _smaa_vikor_kernel(diff_matrix, weight_samples, float(v_param))
 
@@ -383,50 +471,32 @@ def run_smaa_analysis(
     m = len(CRITERION_KEYS)
     matrix = _decision_matrix(cand_list)
 
-    norm_factors = np.linalg.norm(matrix, axis=0)
+    # A normalização do TOPSIS do programa: desloca cada critério pelo mínimo da coluna antes da
+    # norma vetorial (admite VPL e CO₂ negativos). Antes, o SMAA-TOPSIS normalizava sem deslocar.
+    shifted = matrix - matrix.min(axis=0)
+    norm_factors = np.sqrt(np.sum(shifted ** 2, axis=0))
     norm_factors[norm_factors == 0] = 1.0
-    norm_matrix = matrix / norm_factors
+    norm_matrix = np.ascontiguousarray(shifted / norm_factors, dtype=np.float64)
+    is_benefit = np.ascontiguousarray(CRITERION_IS_BENEFIT, dtype=np.bool_)
 
     rng = np.random.default_rng(random_seed)
-    weight_samples = rng.dirichlet(np.ones(m), size=num_samples)
+    weight_samples = np.ascontiguousarray(rng.dirichlet(_smaa_dirichlet_alpha(m), size=num_samples), dtype=np.float64)
 
-    rank_counts = np.zeros((n, n), dtype=int)
-    first_rank_weights = [[] for _ in range(n)]
-
-    for k in range(num_samples):
-        w = weight_samples[k]
-        weighted = norm_matrix * w
-
-        ideal_best = np.zeros(m)
-        ideal_worst = np.zeros(m)
-        for j in range(m):
-            if CRITERION_IS_BENEFIT[j]:
-                ideal_best[j] = np.max(weighted[:, j])
-                ideal_worst[j] = np.min(weighted[:, j])
-            else:
-                ideal_best[j] = np.min(weighted[:, j])
-                ideal_worst[j] = np.max(weighted[:, j])
-
-        d_best = np.sqrt(np.sum((weighted - ideal_best) ** 2, axis=1))
-        d_worst = np.sqrt(np.sum((weighted - ideal_worst) ** 2, axis=1))
-        scores = d_worst / np.maximum(1e-12, (d_best + d_worst))
-
-        ranks = np.argsort(-scores)
-        for pos, alt_idx in enumerate(ranks):
-            rank_counts[alt_idx, pos] += 1
-            if pos == 0:
-                first_rank_weights[alt_idx].append(w)
+    rank_counts, weight_sums, win_counts = _smaa_topsis_kernel(norm_matrix, is_benefit, weight_samples)
 
     rank_acceptabilities = (rank_counts / num_samples) * 100.0
     first_rank_probs = rank_acceptabilities[:, 0]
     most_acceptable = int(np.argmax(first_rank_probs))
 
     central_weights = np.zeros((n, m), dtype=float)
+    confidence_factors = np.zeros(n, dtype=float)
     for i in range(n):
-        if len(first_rank_weights[i]) > 0:
-            central_weights[i] = np.mean(first_rank_weights[i], axis=0)
-        else:
-            central_weights[i] = np.zeros(m)
+        if win_counts[i] > 0:
+            cw = weight_sums[i] / win_counts[i]
+            central_weights[i] = cw
+            # Fator de confiança: a alternativa vence quando avaliada com o seu próprio vetor central?
+            scores_c = _topsis_scores_kernel(norm_matrix, is_benefit, np.ascontiguousarray(cw, dtype=np.float64))
+            confidence_factors[i] = 1.0 if int(np.argsort(-scores_c, kind="stable")[0]) == i else 0.0
 
     return SmaaResult(
         candidates=cand_list,
@@ -436,6 +506,7 @@ def run_smaa_analysis(
         most_acceptable_index=most_acceptable,
         num_samples=num_samples,
         engine="topsis",
+        confidence_factors=confidence_factors,
     )
 
 
@@ -480,17 +551,17 @@ def _promethee_kernel(
                     else:
                         denom = p_th - q
                         p = (d - q) / denom if denom > 1e-12 else 1.0
-                    total_pref += weights[j] * p
                 elif pref_type == 2:  # Gaussiana
                     sigma = s_param[j]
                     if sigma > 1e-12:
                         p = 1.0 - np.exp(-(d * d) / (2.0 * sigma * sigma))
                     else:
                         p = 1.0
-                    total_pref += weights[j] * p
                 else:
-                    p = 1.0 if d > 0.0 else 0.0
-                    total_pref += weights[j] * p
+                    p = 1.0
+                # Uma só soma para todas as funções de preferência (antes, a «usual» ficava de fora
+                # e devolvia fluxos zerados).
+                total_pref += weights[j] * p
             pi[i, k] = total_pref
 
     denom = float(n - 1)
@@ -538,7 +609,7 @@ def run_promethee(
         )
 
     matrix = _decision_matrix(cand_list)
-    w = _normalize_weights(weights, m)
+    w = _normalize_weights(weights, m, matrix, np.asarray([float(c.lower_tank_vol) for c in cand_list]))
     is_benefit = np.asarray(CRITERION_IS_BENEFIT, dtype=bool)
 
     pref_norm = str(preference_function).lower().strip()

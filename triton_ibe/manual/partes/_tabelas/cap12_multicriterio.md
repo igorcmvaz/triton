@@ -9,10 +9,11 @@
 | 8 000 L | 71,5% | 1,50% ao dia | −7 586 € | 17,73 €/m³ | sem recuperação | 80 kg CO₂e | 245 kg | 27,1 m³/ano |
 | 12 000 L | 77,9% | 1,09% ao dia | −9 668 € | 19,87 €/m³ | sem recuperação | 187 kg CO₂e | 333 kg | 23,1 m³/ano |
 
-<!-- tabela: Volume vencedor segundo cada critério isolado e o compromisso do TOPSIS -->
-| Critério isolado | Volume vencedor |
+<!-- tabela: Volume vencedor segundo cada critério isolado, e a faixa de escolha do compromisso TOPSIS (os volumes com pontuação a até 5% da amplitude da maior) -->
+| Critério | Volume |
 | :--- | ---: |
 | maior fiabilidade volumétrica | 12 000 L |
 | menor período de recuperação descontado, desempate pelo VAL | 1 000 L |
 | menores emissões líquidas de carbono | 2 000 L |
-| **compromisso TOPSIS, 25% em cada eixo** | **3 000 L** |
+| **compromisso TOPSIS, 25% em cada eixo: faixa de escolha (até 5% da amplitude)** | **2 000 a 3 000 L** |
+| maior pontuação TOPSIS, 25% em cada eixo | 3 000 L |

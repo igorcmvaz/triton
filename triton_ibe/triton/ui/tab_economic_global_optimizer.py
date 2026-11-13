@@ -19,7 +19,7 @@ from triton.core.parser import TritonConfig, format_ptbr, parse_float
 from triton.core.economic import run_robust_economic_analysis, calculate_effective_tariff
 from triton.core.environmental import EnvironmentalConfig, run_environmental_sweep
 from triton.core.topsis import (PESOS_PADRAO, PARTES_NO_EIXO_PADRAO, PARTES_IGUAIS_NO_EIXO, CRITERION_LABELS, validar_partes_no_eixo,
-                                payback_do_criterio, TopsisCandidate, calculate_topsis_scores)
+                                payback_do_criterio, TopsisCandidate, calculate_topsis_scores, PESOS_CRITIC, eh_critic)
 from triton.core.mcdm_methods import run_smaa_vikor, run_vikor, run_promethee, VikorResult, PrometheeResult
 from triton.core.system_weight import calculate_system_weight_from_config
 from triton.core.cost_estimates import (
@@ -70,8 +70,8 @@ class TabEconomicGlobalOptimizer(QWidget):
         # ── CONTROLE DE RELEVÂNCIA E PESOS DOS CRITÉRIOS (SELETOR TOPSIS / SMAA-VIKOR) ──
         gb_weights = QGroupBox(tr("⚖️ Método e configuração da decisão multicritério"))
         gb_weights.setStyleSheet(f"QGroupBox {{ font-weight: bold; color: {heading}; }}")
+        # Sem altura máxima: os cartões dos eixos crescem com o eixo de mais critérios (a aba rola na vertical).
         gb_weights.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
-        gb_weights.setMaximumHeight(200)
         lay_w = QVBoxLayout(gb_weights)
         lay_w.setContentsMargins(8, 6, 8, 6)
         lay_w.setSpacing(3)
@@ -101,6 +101,7 @@ class TabEconomicGlobalOptimizer(QWidget):
         self.combo_preset.addItem(tr("🍃 Priorizar Sustentabilidade Ambiental (70% Ambiental / 10% em cada outro eixo)"), "ambiental")
         self.combo_preset.addItem(tr("💧 Priorizar Desempenho Técnico (70% Técnico / 10% em cada outro eixo)"), "tecnico")
         self.combo_preset.addItem(tr("🏗️ Priorizar Leveza e Drenagem (70% Estrutural / 10% em cada outro eixo)"), "estrutural")
+        self.combo_preset.addItem(tr("📊 Pesos objetivos (CRITIC), calculados dos resultados"), PESOS_CRITIC)
         self.combo_preset.addItem(tr("⚙️ Personalizado (Ajuste Manual dos Pesos)"), "custom")
         self.combo_preset.currentIndexChanged.connect(self.on_preset_changed)
         self.combo_preset.setMaximumWidth(520)
@@ -137,36 +138,90 @@ class TabEconomicGlobalOptimizer(QWidget):
         profile_row.addStretch()
         lay_w.addLayout(profile_row)
 
-        # Linha de parâmetros: pesos fixos (TOPSIS) ou parâmetros estocásticos (SMAA-VIKOR)
-        weights_row = QHBoxLayout()
-        weights_row.setSpacing(8)
-
-        # Labels e Spinners de Pesos TOPSIS: um por eixo (técnico, econômico, ambiental, estrutural)
-        def _spin_de_peso(rotulo):
+        # Pesos em dois níveis, um cartão por eixo: o peso do eixo em cima e, abaixo, as partes dos seus
+        # critérios (só a proporção dentro do eixo importa). Em fila única, 4 pesos e 8 partes passavam de
+        # 1.000 px e empurravam os botões para fora da tela em notebooks com escala de 125% a 150%.
+        self._shares_widgets = []
+        self.spin_shares = [None] * len(CRITERION_LABELS)
+        nomes_curtos = (tr("Confiabilidade"), tr("Eficiência"), tr("Economia"), tr("LCOW"), tr("Payback"),
+                        tr("CO₂"), tr("Massa"), tr("Extravasamento"))
+        eixos = (
+            ("tech", tr("💧 Técnico"), "#0284c7", (0, 1)),
+            ("fin", tr("💰 Econômico"), "#16a34a", (2, 3, 4)),
+            ("env", tr("🍃 Ambiental"), "#d97706", (5,)),
+            ("struct", tr("🏗️ Estrutural"), "#7c3aed", (6, 7)),
+        )
+        self._cartoes_dos_eixos = QWidget()
+        grade = QGridLayout(self._cartoes_dos_eixos)
+        grade.setContentsMargins(0, 2, 0, 2)
+        grade.setHorizontalSpacing(8)
+        for coluna, (chave, rotulo, cor, indices) in enumerate(eixos):
+            cartao = QFrame()
+            cartao.setObjectName(f"cartao_{chave}")
+            cartao.setStyleSheet(
+                f"QFrame#cartao_{chave} {{ background-color: {surface}; border: 1px solid {border}; "
+                f"border-left: 4px solid {cor}; border-radius: 6px; }}")
+            caixa = QVBoxLayout(cartao)
+            caixa.setContentsMargins(8, 6, 8, 6)
+            caixa.setSpacing(3)
+            topo = QHBoxLayout()
             lbl = QLabel(rotulo)
-            weights_row.addWidget(lbl)
+            lbl.setStyleSheet(f"font-weight: bold; color: {cor}; border: none;")
+            lbl.setToolTip(tr("Peso do eixo; dentro dele, o peso se reparte pelas partes dos critérios abaixo."))
             spin = QDoubleSpinBox()
             spin.setRange(0.0, 100.0)
             spin.setValue(25.0)
             spin.setSuffix("%")
             spin.setDecimals(1)
             spin.setSingleStep(1.0)
-            spin.setFixedWidth(100)
-            spin.setFixedHeight(28)
+            spin.setFixedWidth(86)
+            spin.setFixedHeight(26)
             spin.valueChanged.connect(self.on_spin_weight_changed)
-            weights_row.addWidget(spin)
-            return lbl, spin
-
-        self.lbl_w_tech, self.spin_w_tech = _spin_de_peso(tr("💧 Técnico:"))
-        self.lbl_w_fin, self.spin_w_fin = _spin_de_peso(tr("💰 Econômico:"))
-        self.lbl_w_env, self.spin_w_env = _spin_de_peso(tr("🍃 Ambiental:"))
-        self.lbl_w_struct, self.spin_w_struct = _spin_de_peso(tr("🏗️ Estrutural:"))
+            topo.addWidget(lbl)
+            topo.addStretch()
+            topo.addWidget(spin)
+            caixa.addLayout(topo)
+            setattr(self, f"lbl_w_{chave}", lbl)
+            setattr(self, f"spin_w_{chave}", spin)
+            sub = QLabel(tr("partes no eixo"))
+            sub.setStyleSheet(f"font-size: 9px; color: {body}; border: none;")
+            sub.setToolTip(tr("Quanto do peso de cada eixo vai para cada critério do eixo (só a proporção dentro do eixo importa). "
+                              "Padrão: partes iguais dentro de cada eixo. Parte zero tira o critério da conta."))
+            caixa.addWidget(sub)
+            self._shares_widgets.append(sub)
+            for j in indices:
+                linha = QHBoxLayout()
+                nome = QLabel(nomes_curtos[j])
+                nome.setToolTip(tr(CRITERION_LABELS[j]))
+                nome.setStyleSheet("border: none;")
+                parte = QDoubleSpinBox()
+                parte.setRange(0.0, 100.0)
+                parte.setDecimals(0)
+                parte.setSingleStep(10.0)
+                parte.setValue(100.0 * PARTES_NO_EIXO_PADRAO[j])
+                parte.setFixedWidth(64)
+                parte.setFixedHeight(24)
+                parte.setToolTip(tr(CRITERION_LABELS[j]))
+                parte.valueChanged.connect(self.on_shares_changed)
+                linha.addWidget(nome)
+                linha.addStretch()
+                linha.addWidget(parte)
+                caixa.addLayout(linha)
+                self.spin_shares[j] = parte
+                self._shares_widgets += [nome, parte]
+            caixa.addStretch()
+            grade.addWidget(cartao, 0, coluna)
+            grade.setColumnStretch(coluna, 1)
+        self.lbl_w_fin, self.spin_w_fin = self.lbl_w_fin, self.spin_w_fin
         self.lbl_w_struct.setToolTip(tr("Eixo estrutural: massa a seco dos materiais e volume extravasado por ano."))
+        lay_w.addWidget(self._cartoes_dos_eixos)
 
-        # Parâmetro v do VIKOR (Consenso vs Arrependimento) para SMAA-VIKOR
+        # Linha de ações: v do VIKOR (quando vale), partes iguais, validação e recálculo
+        acoes = QHBoxLayout()
+        acoes.setSpacing(8)
         self.lbl_v_param = QLabel(tr("⚖️ Consenso VIKOR (v):"))
         self.lbl_v_param.setToolTip(tr("Peso da estratégia de consenso VIKOR: 0,50 = Equilibrado; >0,50 = Prioriza utilidade de grupo; <0,50 = Prioriza arrependimento individual."))
-        weights_row.addWidget(self.lbl_v_param)
+        acoes.addWidget(self.lbl_v_param)
         self.spin_v_param = QDoubleSpinBox()
         self.spin_v_param.setRange(0.0, 1.0)
         self.spin_v_param.setValue(0.50)
@@ -176,60 +231,30 @@ class TabEconomicGlobalOptimizer(QWidget):
         self.spin_v_param.setFixedHeight(28)
         self.spin_v_param.setToolTip(tr("Peso da estratégia de consenso VIKOR (v): 0,50 = Equilibrado."))
         self.spin_v_param.valueChanged.connect(self.on_v_param_changed)
-        weights_row.addWidget(self.spin_v_param)
+        acoes.addWidget(self.spin_v_param)
         self.lbl_v_param.setVisible(False)
         self.spin_v_param.setVisible(False)
+
+        self.btn_shares_default = QPushButton(tr("Partes iguais"))
+        self.btn_shares_default.setFixedHeight(28)
+        self.btn_shares_default.setToolTip(tr("Os oito critérios com a mesma parte dentro do seu eixo (o padrão)."))
+        self.btn_shares_default.clicked.connect(lambda: self.reset_shares(PARTES_NO_EIXO_PADRAO))
+        # O padrão é a partilha igual: um só botão, com os dois nomes que o código usa.
+        self.btn_shares_equal = self.btn_shares_default
+        acoes.addWidget(self.btn_shares_default)
+        self._shares_widgets.append(self.btn_shares_default)
+
+        self.lbl_weight_validation = QLabel()
+        self.lbl_weight_validation.setStyleSheet("font-size: 10px; color: #047857; font-weight: bold;")
+        self.lbl_weight_validation.setWordWrap(True)
+        acoes.addWidget(self.lbl_weight_validation, 1)
 
         self.btn_recalc = QPushButton(tr("⚡ Recalcular"))
         self.btn_recalc.setStyleSheet("background-color: #059669; color: white; font-weight: bold; padding: 6px 12px;")
         self.btn_recalc.setFixedHeight(28)
         self.btn_recalc.clicked.connect(self.recalculate_all)
-        weights_row.addWidget(self.btn_recalc)
-
-        self.lbl_weight_validation = QLabel()
-        self.lbl_weight_validation.setStyleSheet("font-size: 10px; color: #047857; font-weight: bold;")
-        weights_row.addWidget(self.lbl_weight_validation)
-        weights_row.addStretch()
-        lay_w.addLayout(weights_row)
-
-        # Partes no eixo: quanto do peso de cada eixo vai para cada critério do eixo (TOPSIS com oito critérios).
-        shares_row = QHBoxLayout()
-        shares_row.setSpacing(6)
-        self._shares_widgets = []
-        lbl_shares = QLabel(tr("Partes no eixo:"))
-        lbl_shares.setToolTip(tr("Quanto do peso de cada eixo vai para cada critério do eixo (só a proporção dentro do eixo importa). "
-                                 "Padrão: partes iguais dentro de cada eixo. Parte zero tira o critério da conta."))
-        shares_row.addWidget(lbl_shares)
-        self._shares_widgets.append(lbl_shares)
-        self.spin_shares = []
-        nomes_curtos = (tr("Confiabilidade"), tr("Eficiência"), tr("Economia"), tr("LCOW"), tr("Payback"),
-                        tr("CO₂"), tr("Massa"), tr("Extravasamento"))
-        for nome, completo, parte in zip(nomes_curtos, CRITERION_LABELS, PARTES_NO_EIXO_PADRAO):
-            lbl = QLabel(nome)
-            lbl.setToolTip(tr(completo))
-            spin = QDoubleSpinBox()
-            spin.setRange(0.0, 100.0)
-            spin.setDecimals(0)
-            spin.setSingleStep(10.0)
-            spin.setValue(100.0 * parte)
-            spin.setFixedWidth(58)
-            spin.setFixedHeight(26)
-            spin.setToolTip(tr(completo))
-            spin.valueChanged.connect(self.on_shares_changed)
-            shares_row.addWidget(lbl)
-            shares_row.addWidget(spin)
-            self.spin_shares.append(spin)
-            self._shares_widgets += [lbl, spin]
-        self.btn_shares_default = QPushButton(tr("Partes iguais"))
-        self.btn_shares_default.setFixedHeight(26)
-        self.btn_shares_default.setToolTip(tr("Os oito critérios com a mesma parte dentro do seu eixo (o padrão)."))
-        self.btn_shares_default.clicked.connect(lambda: self.reset_shares(PARTES_NO_EIXO_PADRAO))
-        # O padrão é a partilha igual: um só botão, com os dois nomes que o código usa.
-        self.btn_shares_equal = self.btn_shares_default
-        shares_row.addWidget(self.btn_shares_default)
-        self._shares_widgets.append(self.btn_shares_default)
-        shares_row.addStretch()
-        lay_w.addLayout(shares_row)
+        acoes.addWidget(self.btn_recalc)
+        lay_w.addLayout(acoes)
         self._update_weight_validation()
 
         main_vbox.addWidget(gb_weights)
@@ -296,17 +321,17 @@ class TabEconomicGlobalOptimizer(QWidget):
         self.lbl_best_env.setStyleSheet("color: #059669; background: #d1fae5; padding: 5px 8px; border-radius: 4px;")
         self.lbl_best_env.setWordWrap(True)
 
-        self.lbl_best_topsis = QLabel(tr("🏆 Ótimo TOPSIS: --"))
+        self.lbl_best_topsis = QLabel(tr("🏆 Faixa TOPSIS: --"))
         self.lbl_best_topsis.setFont(QFont("Segoe UI", 9.5, QFont.Bold))
         self.lbl_best_topsis.setStyleSheet("color: #4338ca; background: #e0e7ff; padding: 6px 10px; border-radius: 4px;")
         self.lbl_best_topsis.setWordWrap(True)
 
-        self.lbl_best_vikor = QLabel(tr("🎲 Ótimo VIKOR / SMAA: --"))
+        self.lbl_best_vikor = QLabel(tr("🎲 Faixa VIKOR / SMAA: --"))
         self.lbl_best_vikor.setFont(QFont("Segoe UI", 9.5, QFont.Bold))
         self.lbl_best_vikor.setStyleSheet("color: #b45309; background: #fef3c7; padding: 6px 10px; border-radius: 4px;")
         self.lbl_best_vikor.setWordWrap(True)
 
-        self.lbl_best_promethee = QLabel(tr("⚖️ Ótimo PROMETHEE II: --"))
+        self.lbl_best_promethee = QLabel(tr("⚖️ Faixa PROMETHEE II: --"))
         self.lbl_best_promethee.setFont(QFont("Segoe UI", 9.5, QFont.Bold))
         self.lbl_best_promethee.setStyleSheet("color: #7c2d12; background: #ffedd5; padding: 6px 10px; border-radius: 4px;")
         self.lbl_best_promethee.setWordWrap(True)
@@ -439,11 +464,14 @@ class TabEconomicGlobalOptimizer(QWidget):
         for lbl in (self.lbl_w_tech, self.lbl_w_fin, self.lbl_w_env, self.lbl_w_struct):
             if hasattr(self, lbl.objectName() or "lbl"):
                 lbl.setVisible(not is_smaa_vikor)
+        com_critic = self.combo_preset.currentData() == PESOS_CRITIC
+        if hasattr(self, "_cartoes_dos_eixos"):
+            self._cartoes_dos_eixos.setVisible(not is_smaa_vikor)
         for spin in (self.spin_w_tech, self.spin_w_fin, self.spin_w_env, self.spin_w_struct):
             spin.setVisible(not is_smaa_vikor)
-            spin.setEnabled(not is_smaa_vikor)
+            spin.setEnabled(not is_smaa_vikor and not com_critic)
         for widget in getattr(self, "_shares_widgets", []):
-            widget.setVisible(not (is_smaa_vikor or is_vikor or is_promethee))
+            widget.setVisible(not (is_smaa_vikor or is_vikor or is_promethee or com_critic))
 
         show_v = is_smaa_vikor or is_vikor
         if hasattr(self, "lbl_v_param"):
@@ -492,7 +520,7 @@ class TabEconomicGlobalOptimizer(QWidget):
             for spin, valor in zip((self.spin_w_tech, self.spin_w_fin, self.spin_w_env, self.spin_w_struct), perfis[key]):
                 spin.setValue(valor)
         self._updating_weights = False
-        self._update_weight_validation()
+        self._update_method_controls()
         self.recalculate_all()
 
     def get_current_shares(self):
@@ -540,11 +568,15 @@ class TabEconomicGlobalOptimizer(QWidget):
             samples = self.get_smaa_num_simulations()
             v_val = self.get_vikor_v_param()
             self.lbl_weight_validation.setText(
-                milhar(tr('✓ {0:,} simulações Monte Carlo no simplex uniforme (sem perfil único de pesos) · VIKOR v={1:.2f}').format(samples, v_val))
+                milhar(tr('✓ {0:,} simulações Monte Carlo de pesos, 25% esperados por eixo (sem perfil único de pesos) · VIKOR v={1:.2f}').format(samples, v_val))
             )
             self.lbl_weight_validation.setStyleSheet(
                 "font-size: 10px; font-weight: bold; color: #047857;"
             )
+            return
+        if self.combo_preset.currentData() == PESOS_CRITIC:
+            self.lbl_weight_validation.setText(tr("✓ Pesos objetivos (CRITIC): recalculados dos resultados a cada recálculo"))
+            self.lbl_weight_validation.setStyleSheet("font-size: 10px; font-weight: bold; color: #047857;")
             return
         total = self.spin_w_tech.value() + self.spin_w_fin.value() + self.spin_w_env.value() + self.spin_w_struct.value()
         valid = total > 0
@@ -565,6 +597,8 @@ class TabEconomicGlobalOptimizer(QWidget):
         )
 
     def get_current_weights(self):
+        if self.combo_preset.currentData() == PESOS_CRITIC:
+            return PESOS_CRITIC
         pesos = (self.spin_w_tech.value(), self.spin_w_fin.value(),
                  self.spin_w_env.value(), self.spin_w_struct.value())
         total = sum(pesos)
@@ -600,11 +634,11 @@ class TabEconomicGlobalOptimizer(QWidget):
         if hasattr(self, "lbl_best_env"):
             self.lbl_best_env.setText(tr("🍃 Ótimo Ambiental (Maior CO2 Evitado): --"))
         if hasattr(self, "lbl_best_topsis"):
-            self.lbl_best_topsis.setText(tr("🏆 Ótimo TOPSIS: --"))
+            self.lbl_best_topsis.setText(tr("🏆 Faixa TOPSIS: --"))
         if hasattr(self, "lbl_best_vikor"):
-            self.lbl_best_vikor.setText(tr("🎲 Ótimo VIKOR / SMAA: --"))
+            self.lbl_best_vikor.setText(tr("🎲 Faixa VIKOR / SMAA: --"))
         if hasattr(self, "lbl_best_promethee"):
-            self.lbl_best_promethee.setText(tr("⚖️ Ótimo PROMETHEE II: --"))
+            self.lbl_best_promethee.setText(tr("⚖️ Faixa PROMETHEE II: --"))
         if hasattr(self, "lbl_tradeoff_desc"):
             self.lbl_tradeoff_desc.setText(tr("Comparação de Trade-off: --"))
         if hasattr(self, "topsis_chart"):
@@ -967,8 +1001,21 @@ class TabEconomicGlobalOptimizer(QWidget):
                     self.table.setItem(r, 14, item_rk)
 
         # Atualiza todos os cards de decisão multicritério (TOPSIS, VIKOR e PROMETHEE)
-        is_equal_weights = all(abs(w - 0.25) < 0.015 for w in weights)
-        if is_equal_weights:
+        if eh_critic(weights) and topsis_res is not None:
+            # Os pesos que o CRITIC deu, somados por eixo, ficam à vista nos controles (sem editar).
+            cw = np.asarray(topsis_res.criterion_weights, dtype=float)
+            por_eixo = (cw[0] + cw[1], cw[2] + cw[3] + cw[4], cw[5], cw[6] + cw[7])
+            self._updating_weights = True
+            for spin, valor in zip((self.spin_w_tech, self.spin_w_fin, self.spin_w_env, self.spin_w_struct), por_eixo):
+                spin.setValue(round(100.0 * float(valor), 1))
+            self._updating_weights = False
+            weights = tuple(float(v) for v in por_eixo)
+        is_equal_weights = (not eh_critic(self.get_current_weights())) and all(abs(w - 0.25) < 0.015 for w in weights)
+        if eh_critic(self.get_current_weights()):
+            weights_desc = tr("pesos objetivos (CRITIC): {0}% Técnico, {1}% Econômico, {2}% Ambiental, {3}% Estrutural").format(
+                *(f"{w*100:.1f}" for w in weights))
+            weights_short = tr("CRITIC")
+        elif is_equal_weights:
             weights_desc = tr("pesos iguais: 25% em cada eixo (técnico, econômico, ambiental e estrutural)")
             weights_short = tr("pesos iguais")
         else:
@@ -976,25 +1023,32 @@ class TabEconomicGlobalOptimizer(QWidget):
                 *(f"{w*100:.1f}" for w in weights))
             weights_short = "/".join(f"{w*100:.0f}" for w in weights) + "%"
 
+        # Faixa de escolha: volumes com resultado semelhante ao melhor (até 5% da amplitude). Não se diz
+        # «o melhor volume»: quando os escores ficam próximos, qualquer volume da faixa é defensável.
         if topsis_res:
             best_top = topsis_res.best_candidate
             self.lbl_best_topsis.setText(
-                f"🏆 {tr('Ótimo TOPSIS')} ({weights_short}): {best_top.lower_tank_vol:.0f} L (Score: {topsis_res.scores[topsis_res.best_index]:.2f})"
+                f"🏆 {tr('Faixa TOPSIS')} ({weights_short}): {_texto_da_faixa(topsis_res.faixa_de_escolha())} · "
+                f"{tr('maior escore')}: {best_top.lower_tank_vol:.0f} L ({decimal(f'{topsis_res.scores[topsis_res.best_index]:.2f}')})"
             )
         if selected_method == "vikor" and vikor_res:
             best_vik = vikor_res.best_candidate
             self.lbl_best_vikor.setText(
-                f"🤝 {tr('Ótimo VIKOR')} ({weights_short}, v={v_param_val:.2f}): {best_vik.lower_tank_vol:.0f} L (Q: {vikor_res.q_scores[vikor_res.best_index]:.3f})"
+                f"🤝 {tr('Faixa VIKOR')} ({weights_short}, v={v_param_val:.2f}): {_texto_da_faixa(vikor_res.faixa_de_escolha())} · "
+                f"{tr('menor Q')}: {best_vik.lower_tank_vol:.0f} L ({decimal(f'{vikor_res.q_scores[vikor_res.best_index]:.3f}')})"
             )
         elif smaa_res:
             best_sma = smaa_res.best_candidate
             self.lbl_best_vikor.setText(
-                milhar(tr('🎲 {0}: {1:.0f} L ({2:.1f}% em {3:,} simulações)').format(tr('Ótimo VIKOR / SMAA'), best_sma.lower_tank_vol, smaa_res.first_rank_acceptabilities[smaa_res.best_index]*100, smaa_samples))
+                milhar(tr('🎲 {0}: {1} · maior aceitabilidade: {2:.0f} L ({3:.1f}% em {4:,} simulações)').format(
+                    tr('Faixa VIKOR / SMAA'), _texto_da_faixa(smaa_res.faixa_de_escolha()), best_sma.lower_tank_vol,
+                    smaa_res.first_rank_acceptabilities[smaa_res.best_index] * 100, smaa_samples))
             )
         if promethee_res:
             best_prom = promethee_res.best_candidate
             self.lbl_best_promethee.setText(
-                f"⚖️ {tr('Ótimo PROMETHEE II')} ({weights_short}): {best_prom.lower_tank_vol:.0f} L (Φ: {promethee_res.net_flows[promethee_res.best_index]:+.3f})"
+                f"⚖️ {tr('Faixa PROMETHEE II')} ({weights_short}): {_texto_da_faixa(promethee_res.faixa_de_escolha())} · "
+                f"{tr('maior fluxo')}: {best_prom.lower_tank_vol:.0f} L (Φ: {decimal(f'{promethee_res.net_flows[promethee_res.best_index]:+.3f}')})"
             )
 
         if topsis_res:
@@ -1047,13 +1101,17 @@ class TabEconomicGlobalOptimizer(QWidget):
                 # Frase montada com o catálogo (en/es/zh) e só números já formatados: o ``.replace(",", ".")``
                 # global que existia trocava também as vírgulas do texto e as decimais do VPL («2.428.94»).
                 _milhar = lambda n: milhar(f"{n:,}")
+                faixa_top = topsis_res.faixa_de_escolha() if topsis_res else None
+                faixa_sma = smaa_res.faixa_de_escolha() if smaa_res else None
                 tradeoff_msg = tr(
-                    "O método TOPSIS ({0}) recomenda a cisterna de {1} L (Score: {2}), enquanto o método VIKOR "
-                    "(SMAA-VIKOR estocástico, {3} simulações) recomenda a cisterna de {4} L (aceitabilidade de 1º lugar: {5}%). "
-                    "A alternativa selecionada na tabela ({6} L) proporciona {7} {8} a mais de VPL e {9} kg de CO2e evitado "
-                    "em relação à menor cisterna ({10} L)."
+                    "No TOPSIS ({0}), as cisternas de {1} têm escores semelhantes (até 5% da amplitude, a partir do maior; "
+                    "maior escore em {2} L, {3}). No SMAA-VIKOR ({4} simulações), as de {5} têm aceitabilidade de 1º lugar "
+                    "semelhante (maior: {6} L, {7}%). A alternativa selecionada na tabela ({8} L) proporciona {9} {10} a mais "
+                    "de VPL e {11} kg de CO2e evitado em relação à menor cisterna ({12} L)."
                 ).format(
-                    weights_desc, f"{top_vol:.0f}", f"{top_score:.2f}", _milhar(smaa_samples), f"{vik_vol:.0f}", f"{vik_acc:.1f}",
+                    weights_desc, _texto_da_faixa(faixa_top) if faixa_top else f"{top_vol:.0f} L", f"{top_vol:.0f}",
+                    decimal(f"{top_score:.2f}"), _milhar(smaa_samples), _texto_da_faixa(faixa_sma) if faixa_sma else f"{vik_vol:.0f} L",
+                    f"{vik_vol:.0f}", decimal(f"{vik_acc:.1f}"),
                     f"{best['vol']:.0f}", curr_sym, format_ptbr(extra_vpl, 2), f"{best['co2']:.0f}", f"{smallest['vol']:.0f}")
                 # Em português a frase não passa pelo catálogo da Portugal: na IBE, VPL vira VAL.
                 from triton.ui.translation import em_portugues_da_edicao
@@ -1061,6 +1119,17 @@ class TabEconomicGlobalOptimizer(QWidget):
 
         self._updating_table = False
         self.optimization_updated.emit()
+
+
+def _texto_da_faixa(faixa) -> str:
+    """«2000–3000 L» (ou «2000 L» com um volume só); faixa com lacunas leva a lista dos volumes."""
+    if not faixa:
+        return "--"
+    if faixa["min_volume_l"] == faixa["max_volume_l"]:
+        return f"{faixa['min_volume_l']:.0f} L"
+    if not faixa.get("contiguous", True):
+        return ", ".join(f"{v:.0f}" for v in faixa["volumes_l"]) + " L"
+    return f"{faixa['min_volume_l']:.0f}–{faixa['max_volume_l']:.0f} L"
 
 
 def _energia_anual_de_bombeamento(cfg, resultado) -> float:

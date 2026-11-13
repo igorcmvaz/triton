@@ -570,20 +570,23 @@ The names in `code` are the project file fields, listed in appendix {{n:A}}.
 **Inputs**
 
 - one candidate per sweep volume, each with volumetric reliability, storage efficiency, net financial savings, LCOW, discounted payback, life-cycle CO₂, dry mass and annual overflow
-- four dimension weights (technical, economic, environmental, structural) and eight criterion shares, or eight criterion weights
+- four dimension weights (technical, economic, environmental, structural) and eight criterion shares, eight criterion weights, or `critic` for objective weights
+- tolerance of the choice band, 5% of the score range by default
 
 **Rules**
 
 1. Eight criteria in four dimensions: **maximise** volumetric reliability, storage efficiency and net financial savings; **minimise** LCOW, payback, CO₂, dry mass and overflow.
 2. Each dimension weight is shared among its criteria by the criterion shares (equal by default). Three weights, from version 0.1.0, give the structural dimension their mean; seven values are refused.
-3. A volume that does not pay back receives the worst payback observed plus 10% (at least one year more and at least 20 years); the volume with no cistern receives the worst LCOW plus 10%.
-4. Normalisation shifts by `x − min(x)` **before** the vector normalisation of Hwang and Yoon, to admit a negative NPV. It is a deliberate variant, and must be declared as a variant.
-5. SMAA-VIKOR draws eight weights and returns the probabilities of each volume taking each rank.
-6. Opricovic's conditions C1 and C2 are not implemented.
+3. With `critic`, the weights are computed from the results by the CRITIC method: the contrast of each criterion across the volumes times its independence from the others.
+4. A volume that does not pay back receives the worst payback observed plus 10% (at least one year more and at least 20 years); the volume with no cistern receives the worst LCOW plus 10%.
+5. Normalisation shifts by `x − min(x)` **before** the vector normalisation of Hwang and Yoon, to admit a negative NPV. It is a deliberate variant, and must be declared as a variant.
+6. SMAA-VIKOR draws eight weights, with 25% expected on each dimension, and returns the probabilities of each volume taking each rank.
+7. The choice band gathers the volumes whose score lies within the tolerance of the best, on a scale from the worst (0) to the best (1) of the volumes evaluated.
+8. Opricovic's conditions C1 and C2 are not implemented.
 
 **Outputs**
 
-- Ranking of the volumes, distance to the ideal per criterion, compromise volume
+- Ranking of the volumes, distance to the ideal per criterion, choice band and highest score
 
 **Exception.** A single candidate returns a trivial ranking. A criterion constant across candidates does not contribute to the distance.
 

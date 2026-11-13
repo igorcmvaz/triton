@@ -70,9 +70,9 @@ intervalo em vez de um número.
 
 ### O tutorial, pressuposto a pressuposto
 
-A tabela seguinte aplica o procedimento ao projeto final do tutorial, em Lisboa: 5 000 L em
-polietileno, elevação para um reservatório superior de 1 000 L, com os custos ilustrativos do
-manual (ilustrativos, não são preços de mercado). O VAL provável é negativo, de −6 053 €. A
+A tabela seguinte aplica o procedimento ao projeto final do tutorial, em Lisboa: 5 000 L em
+polietileno, elevação para um reservatório superior de 1 000 L, com os custos ilustrativos do
+manual (ilustrativos, não são preços de mercado). O VAL provável é negativo, de −6 053 €. A
 tabela varia cinco pressupostos, um de cada vez, entre um valor baixo e um alto.
 
 <!-- inclui: _tabelas/cap20_sensibilidade.md -->
@@ -85,22 +85,22 @@ exemplo. Leia o resto da tabela com isto em mente: a pergunta não é que pressu
 projeto viável, mas qual deles mais move o resultado.
 
 **O que mais move o VAL é o preço da cisterna.** De 70% a 130% do orçamento, o VAL passa de
-−5 198 € a −6 908 €, a maior amplitude das cinco (1 710 €). Quando a poupança é pequena, quem
-decide o saldo é o investimento: a cisterna de polietileno de 5 000 L, de 2 850 € (ilustrativo, não é preço de
+−5 198 € a −6 908 €, a maior amplitude das cinco (1 710 €). Quando a poupança é pequena, quem
+decide o saldo é o investimento: a cisterna de polietileno de 5 000 L, de 2 850 € (ilustrativo, não é preço de
 mercado), pesa nele de forma direta, ao contrário do que acontece num caso em que o sistema se
 paga com folga.
 
 **O consumo per capita vem logo atrás.** De 120 a 180 L por pessoa e por dia, o potencial desce
-de 20,09% para 16,55% enquanto o VAL sobe de −7 245 € para −5 567 €, uma amplitude de 1 678 €.
+de 20,09% para 16,55% enquanto o VAL sobe de −7 245 € para −5 567 €, uma amplitude de 1 678 €.
 Com mais consumo, a fração suprível aplica-se a uma procura maior, a cisterna falta mais vezes,
 o potencial desce um pouco e a poupança em dinheiro sobe.
 
 **Os pressupostos decididos pelo mercado pesam menos.** A atualização das tarifas desloca o VAL de
-−6 435 € (1% ao ano) para −5 570 € (5% ao ano), e a taxa de atualização de −5 839 € (0,2% ao mês)
-para −6 210 € (0,6% ao mês); nenhuma toca no potencial.
+−6 435 € (1% ao ano) para −5 570 € (5% ao ano), e a taxa de atualização de −5 839 € (0,2% ao mês)
+para −6 210 € (0,6% ao mês); nenhuma toca no potencial.
 
 **A fração suprível é o pressuposto que mais move o potencial.** De 20% a 40%, o potencial vai
-de 14,98% a 21,33%, mas o VAL só vai de −6 403 € a −5 850 €, porque cada ponto percentual de
+de 14,98% a 21,33%, mas o VAL só vai de −6 403 € a −5 850 €, porque cada ponto percentual de
 poupança vale pouco em euros ao preço da água de Lisboa. É o pressuposto que a secção {{n:5}}
 fixou e que depende da decisão sobre usos, e não de medição: incluir ou não a máquina de lavar
 roupa, face ao critério de qualidade aplicável ao caso, move o resultado hídrico mais do que
@@ -121,12 +121,12 @@ critérios.
 
 Na etapa **8. Decisão Multicritério**, a coluna de **aceitabilidade SMAA-VIKOR** é já uma análise
 de sensibilidade pronta. Responde: se os oito pesos dos critérios fossem sorteados em vez de
-fixados, com que frequência ficaria cada volume em primeiro lugar?
+fixados, com 25% esperado em cada eixo, com que frequência ficaria cada volume em primeiro lugar?
 
 Leia-a assim:
 
-<!-- tabela: Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
-| Aceitabilidade do volume vencedor | O que significa |
+<!-- tabela: Leitura da aceitabilidade SMAA-VIKOR do volume mais aceite -->
+| Aceitabilidade do volume mais aceite | O que significa |
 | :--- | :--- |
 | acima de 70% | recomendação robusta; os pesos quase não importam |
 | entre 40 e 70% | recomendação razoável, e vale a pena declarar a segunda opção |
@@ -135,8 +135,8 @@ Leia-a assim:
 A distinção que esta coluna permite é de natureza epistemológica, e não apenas estatística: um
 volume que vence em 80% dos sorteios de pesos constitui uma recomendação, ao passo que um volume
 que vence em 30% constitui uma preferência do analista, legítima desde que apresentada como tal.
-No tutorial de Lisboa, o volume mais aceite, 5 000 L, vence em 22,2% dos sorteios, com 3 000 L
-em segundo, com 22,0%, e 2 000 L em terceiro, com 19,3%: abaixo de 40%, a escolha depende dos
+No tutorial de Lisboa, o volume mais aceite, 3 000 L, vence em 24,1% dos sorteios, com 5 000 L
+em segundo, com 20,5%, e 2 000 L em terceiro, com 18,2%: abaixo de 40%, a escolha depende dos
 pesos, e o texto tem de o dizer. A secção {{n:32}} expõe o método que produz este número.
 
 ---
@@ -179,7 +179,7 @@ juntos. Exige declarar as distribuições adotadas, e não apenas os intervalos.
 
 - os **intervalos** adotados e a origem de cada um;
 - quantas execuções foram feitas, e com que valores;
-- para a escolha do volume, a **aceitabilidade** do vencedor;
+- para a escolha do volume, a **faixa de escolha** e a tolerância, e a **aceitabilidade** do volume mais aceite;
 - **que pressupostos não foram perturbados**, e porquê.
 
 O último é o que mais se esquece, e o que um revisor mais cobra.

@@ -118,7 +118,7 @@ Tabela 8 — Subcomandos da linha de comandos e finalidade de cada um
 
 Tabela 9 — Potencial, valor atual líquido e período de recuperação do projeto final do tutorial com cada premissa variada isoladamente, do valor baixo ao alto (os custos são ilustrativos, não são preços de mercado)
 
-Tabela 10 — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor
+Tabela 10 — Leitura da aceitabilidade SMAA-VIKOR do volume mais aceite
 
 Tabela 11 — Dados do formato antigo recuperados pela importação
 
@@ -1015,8 +1015,8 @@ A varredura é o modo normal de trabalho, e não uma função avançada reservad
 projeto de aproveitamento pluvial. A secção 4.4 (volume Tutorial) percorre uma varredura completa passo a
 passo, e a secção 2.2 (volume O método) formaliza como se constrói a grelha de volumes.
 
-O custo computacional é modesto e não justifica hesitação: uma varredura de 0 a 20 000 L com
-passo de 1 000 L corresponde a vinte e uma simulações de trinta anos cada, e conclui-se em poucos
+O custo computacional é modesto e não justifica hesitação: uma varredura de 0 a 20 000 L com
+passo de 1 000 L corresponde a vinte e uma simulações de trinta anos cada, e conclui-se em poucos
 segundos num computador comum.
 
 ---
@@ -1030,11 +1030,18 @@ A etapa **8. Decisão Multicritério** mostra, numa só tabela, cada volume da v
 - o carbono líquido no fim da vida útil e o retorno ambiental;
 - a pontuação TOPSIS e a aceitabilidade SMAA-VIKOR.
 
+Por baixo da tabela, a conclusão dá a **faixa de escolha** de cada método — «Faixa TOPSIS», «Faixa
+VIKOR / SMAA» e «Faixa PROMETHEE II» —, com o volume de maior pontuação ao lado: os volumes com
+resultados multicritério semelhantes, e não um vencedor (secção 2.10 (volume O método)).
+
 É a forma mais densa de comparar alternativas que o programa oferece. O **perfil de decisão**
 troca os quatro pesos de eixo — técnico, económico, ambiental e estrutural — e reordena a tabela
-no momento: «Equilibrado» dá 25% a cada eixo, e cada «Priorizar …» dá 70% a um eixo e 10% a cada
-um dos outros. A linha **Partes no eixo** reparte o peso de cada eixo pelos seus critérios, com o
-botão «Partes iguais» para voltar ao padrão. A secção 2.10 (volume O método) explica os oito critérios e os
+no momento: «Equilibrado» dá 25% a cada eixo, cada «Priorizar …» dá 70% a um eixo e 10% a cada
+um dos outros, e «Pesos objetivos (CRITIC), calculados dos resultados» calcula os pesos dos
+próprios resultados. Os pesos ficam em quatro **cartões**, um por eixo: o peso do eixo em cima e,
+por baixo, as **partes no eixo** dos seus critérios. Sob os cartões, o botão «Partes iguais» volta
+ao padrão, e «Recalcular» refaz a ordenação. Com o CRITIC, os cartões mostram, só para leitura, a
+soma por eixo dos pesos calculados, e as partes desaparecem. A secção 2.10 (volume O método) explica os oito critérios e os
 métodos por trás.
 
 ---
@@ -1138,11 +1145,22 @@ reservatório inferior, em litros; `--rainfall` substitui a série de chuva do p
 `--set CAMPO=VALOR` altera um campo do projeto e pode repetir-se; `--weights` informa os quatro
 pesos de eixo do multicritério, pela ordem técnico, económico, ambiental e estrutural (ou oito
 pesos, um por critério; três, de projetos anteriores à 0.2.0, ainda são aceites, com o eixo
-estrutural na média dos três); `--criterion-shares` informa as oito partes no eixo (por omissão,
-`1,1,1,1,1,1,1,1`); `--weight-sensitivity N` sorteia N vetores de pesos e indica a frequência com
-que cada volume vence; `--format` e `--output` definem o formato e o ficheiro de saída; e `--seed`
-fixa a semente das análises estocásticas, para que o resultado seja reprodutível. Sete valores em
-`--weights` ou em `--criterion-shares` são recusados: eram do modelo de sete critérios.
+estrutural na média dos três), ou a palavra `critic`, para os pesos objetivos do CRITIC, calculados
+dos resultados (secção 2.10 (volume O método)); `--criterion-shares` informa as oito partes no eixo (por omissão,
+`1,1,1,1,1,1,1,1`; não se aplicam com `critic`); `--score-band` dá a tolerância da faixa de
+escolha, de 0 a 1 (por omissão, 0,05: os volumes com pontuação a até 5% da amplitude da maior);
+`--weight-sensitivity N` sorteia N vetores de pesos (com `critic`, os quatro pesos de eixo) e
+indica a frequência com que cada volume vence; `--format` e `--output` definem o formato e o
+ficheiro de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja
+reprodutível. Sete valores em `--weights` ou em `--criterion-shares` são recusados: eram do modelo
+de sete critérios.
+
+No ficheiro de projeto, os mesmos dados ficam em `analysis.topsis_weights` (quatro ou oito valores,
+ou `"critic"`), `analysis.topsis_criterion_shares` e `analysis.topsis_score_band`. A saída de texto
+escreve a faixa do TOPSIS numa linha — «TOPSIS: volumes de A a B L com escores semelhantes (até 5%
+da amplitude, a partir do maior) | maior escore em X L» —, o HTML traz o parágrafo «Faixa de escolha
+(TOPSIS)», e o JSON as chaves `topsis.choice_band`, `choice_band_min_volume_l`,
+`choice_band_max_volume_l` e `smaa_vikor.choice_band`.
 
 `--analysis all` traz também o **peso do sistema** (`system_weight`): a massa a seco, a carga de
 água e a carga em operação, em quilogramas e em quilonewtons, no subsolo, na cobertura e nas
@@ -1160,7 +1178,7 @@ triton run 04_tutorial_varredura.triton --volume 5000 --format json --output r.j
 ```
 
 O ficheiro `r.json` regista a proveniência (projeto de origem, número de dias da série e data
-inicial) e, para o volume de 5 000 L, o potencial de poupança de 17,87%, com 62,7% de dias de
+inicial) e, para o volume de 5 000 L, o potencial de poupança de 17,87%, com 62,7% de dias de
 abastecimento pleno.
 
 O subcomando `uncertainty` sorteia, em cada amostra, a precipitação, a área de captação, a
@@ -1168,8 +1186,8 @@ procura e o investimento com uma distribuição de coeficiente de variação dec
 percentis de 5%, 50% e 95% do potencial de poupança e do valor atual líquido, com a probabilidade
 de o valor atual líquido ser positivo. Corra-o sobre o tutorial com um número modesto de amostras
 e uma `--seed` fixa, e leia os percentis do potencial como um intervalo, e não como um número
-único. Em Lisboa, o potencial do tutorial (17,87% a 5 000 L) está bem abaixo do teto de 28%, e a
-curva ainda sobe aos 20 000 L; por isso, uma variação da chuva ou da procura desloca o potencial
+único. Em Lisboa, o potencial do tutorial (17,87% a 5 000 L) está bem abaixo do teto de 28%, e a
+curva ainda sobe aos 20 000 L; por isso, uma variação da chuva ou da procura desloca o potencial
 mais do que deslocaria num sistema que já opera junto do teto. O valor atual líquido, negativo no
 tutorial com os custos ilustrativos da secção 4.7 (volume Tutorial), move-se em proporção ao investimento e ao
 tarifário. A modulação probabilística, descrita nos seus capítulos próprios, faz o mesmo trabalho
@@ -1234,6 +1252,8 @@ As tipologias (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-m
 A ação `consolidar` procura todos os `resultados.csv` sob as pastas indicadas (vários estudos, lotes, execuções repetidas) e grava `consolidado.csv` e `consolidado.md` na pasta de saída: uma linha por tipologia (`grupo`), caso e métrica, com `n`, mínimo, média, mediana e máximo dos valores dos casos concluídos (`status` ok). A unidade faz parte da chave do grupo, pelo que moedas diferentes nunca se misturam. Os números têm o mesmo formato do `resultados.csv` (ponto decimal, dez algarismos significativos); a tabela em Markdown segue `--idioma`. Se o pacote opcional `duckdb` estiver instalado (extra opcional `analise`, que não faz parte do instalador), é ele que lê e agrupa os ficheiros; sem ele a biblioteca padrão faz o mesmo, e os dois caminhos dão os mesmos bytes (`--motor csv` força o segundo; `--motor duckdb` exige o pacote).
 
 `estudo run` e `estudo lote` mostram o progresso na saída de erro. `--progresso simples` escreve uma linha por caso (`[i/N] id: ok (t s)`); `--progresso rich` desenha uma barra de progresso e precisa do pacote opcional `rich` (extra opcional `cli`; sem ele o programa avisa uma vez e usa `simples`); o padrão `auto` só usa `rich` se este estiver instalado e a saída de erro for um terminal. Os ficheiros de resultado são idênticos em bytes em qualquer modo, e `--quiet` desliga o progresso.
+
+Na secção `analise` do `estudo.json`, `pesos` aceita também `"critic"`, e `tolerancia_faixa` dá a tolerância da faixa de escolha (de 0 a 1; por omissão, 0,05). As métricas `faixa_topsis_min_l` e `faixa_topsis_max_l` levam a faixa do TOPSIS de cada caso para as tabelas do artigo: relate-as em vez de um volume só.
 
 O que cada secção do `estudo.json` contém, os apelidos das substituições (área de captação, demanda, utilizadores, fração, volume do reservatório e outros) e os ficheiros de saída estão no apêndice «Ficheiros, pastas e formatos». O exemplo `examples/estudos/residencial-unifamiliar-exemplo/` roda a moradia do tutorial em Lisboa, no Porto e no Funchal (`portugal/lisboa.triton`, `portugal/porto.triton`, `portugal/funchal.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida saida\exemplo`.
 
@@ -1315,9 +1335,9 @@ intervalo em vez de um número.
 
 #### 3.7.3.1. O tutorial, pressuposto a pressuposto
 
-A tabela seguinte aplica o procedimento ao projeto final do tutorial, em Lisboa: 5 000 L em
-polietileno, elevação para um reservatório superior de 1 000 L, com os custos ilustrativos do
-manual (ilustrativos, não são preços de mercado). O VAL provável é negativo, de −6 053 €. A
+A tabela seguinte aplica o procedimento ao projeto final do tutorial, em Lisboa: 5 000 L em
+polietileno, elevação para um reservatório superior de 1 000 L, com os custos ilustrativos do
+manual (ilustrativos, não são preços de mercado). O VAL provável é negativo, de −6 053 €. A
 tabela varia cinco pressupostos, um de cada vez, entre um valor baixo e um alto.
 
 <!-- tabela: **Tabela 9** — Potencial, valor atual líquido e período de recuperação do projeto final do tutorial com cada premissa variada isoladamente, do valor baixo ao alto (os custos são ilustrativos, não são preços de mercado) -->
@@ -1337,22 +1357,22 @@ exemplo. Leia o resto da tabela com isto em mente: a pergunta não é que pressu
 projeto viável, mas qual deles mais move o resultado.
 
 **O que mais move o VAL é o preço da cisterna.** De 70% a 130% do orçamento, o VAL passa de
-−5 198 € a −6 908 €, a maior amplitude das cinco (1 710 €). Quando a poupança é pequena, quem
-decide o saldo é o investimento: a cisterna de polietileno de 5 000 L, de 2 850 € (ilustrativo, não é preço de
+−5 198 € a −6 908 €, a maior amplitude das cinco (1 710 €). Quando a poupança é pequena, quem
+decide o saldo é o investimento: a cisterna de polietileno de 5 000 L, de 2 850 € (ilustrativo, não é preço de
 mercado), pesa nele de forma direta, ao contrário do que acontece num caso em que o sistema se
 paga com folga.
 
 **O consumo per capita vem logo atrás.** De 120 a 180 L por pessoa e por dia, o potencial desce
-de 20,09% para 16,55% enquanto o VAL sobe de −7 245 € para −5 567 €, uma amplitude de 1 678 €.
+de 20,09% para 16,55% enquanto o VAL sobe de −7 245 € para −5 567 €, uma amplitude de 1 678 €.
 Com mais consumo, a fração suprível aplica-se a uma procura maior, a cisterna falta mais vezes,
 o potencial desce um pouco e a poupança em dinheiro sobe.
 
 **Os pressupostos decididos pelo mercado pesam menos.** A atualização das tarifas desloca o VAL de
-−6 435 € (1% ao ano) para −5 570 € (5% ao ano), e a taxa de atualização de −5 839 € (0,2% ao mês)
-para −6 210 € (0,6% ao mês); nenhuma toca no potencial.
+−6 435 € (1% ao ano) para −5 570 € (5% ao ano), e a taxa de atualização de −5 839 € (0,2% ao mês)
+para −6 210 € (0,6% ao mês); nenhuma toca no potencial.
 
 **A fração suprível é o pressuposto que mais move o potencial.** De 20% a 40%, o potencial vai
-de 14,98% a 21,33%, mas o VAL só vai de −6 403 € a −5 850 €, porque cada ponto percentual de
+de 14,98% a 21,33%, mas o VAL só vai de −6 403 € a −5 850 €, porque cada ponto percentual de
 poupança vale pouco em euros ao preço da água de Lisboa. É o pressuposto que a secção 4.2 (volume Tutorial)
 fixou e que depende da decisão sobre usos, e não de medição: incluir ou não a máquina de lavar
 roupa, face ao critério de qualidade aplicável ao caso, move o resultado hídrico mais do que
@@ -1373,12 +1393,12 @@ critérios.
 
 Na etapa **8. Decisão Multicritério**, a coluna de **aceitabilidade SMAA-VIKOR** é já uma análise
 de sensibilidade pronta. Responde: se os oito pesos dos critérios fossem sorteados em vez de
-fixados, com que frequência ficaria cada volume em primeiro lugar?
+fixados, com 25% esperado em cada eixo, com que frequência ficaria cada volume em primeiro lugar?
 
 Leia-a assim:
 
-<!-- tabela: **Tabela 10** — Leitura da aceitabilidade SMAA-VIKOR do volume vencedor -->
-| Aceitabilidade do volume vencedor | O que significa |
+<!-- tabela: **Tabela 10** — Leitura da aceitabilidade SMAA-VIKOR do volume mais aceite -->
+| Aceitabilidade do volume mais aceite | O que significa |
 | :--- | :--- |
 | acima de 70% | recomendação robusta; os pesos quase não importam |
 | entre 40 e 70% | recomendação razoável, e vale a pena declarar a segunda opção |
@@ -1387,8 +1407,8 @@ Leia-a assim:
 A distinção que esta coluna permite é de natureza epistemológica, e não apenas estatística: um
 volume que vence em 80% dos sorteios de pesos constitui uma recomendação, ao passo que um volume
 que vence em 30% constitui uma preferência do analista, legítima desde que apresentada como tal.
-No tutorial de Lisboa, o volume mais aceite, 5 000 L, vence em 22,2% dos sorteios, com 3 000 L
-em segundo, com 22,0%, e 2 000 L em terceiro, com 19,3%: abaixo de 40%, a escolha depende dos
+No tutorial de Lisboa, o volume mais aceite, 3 000 L, vence em 24,1% dos sorteios, com 5 000 L
+em segundo, com 20,5%, e 2 000 L em terceiro, com 18,2%: abaixo de 40%, a escolha depende dos
 pesos, e o texto tem de o dizer. A secção 2.10 (volume O método) expõe o método que produz este número.
 
 ---
@@ -1431,7 +1451,7 @@ juntos. Exige declarar as distribuições adotadas, e não apenas os intervalos.
 
 - os **intervalos** adotados e a origem de cada um;
 - quantas execuções foram feitas, e com que valores;
-- para a escolha do volume, a **aceitabilidade** do vencedor;
+- para a escolha do volume, a **faixa de escolha** e a tolerância, e a **aceitabilidade** do volume mais aceite;
 - **que pressupostos não foram perturbados**, e porquê.
 
 O último é o que mais se esquece, e o que um revisor mais cobra.
@@ -2270,7 +2290,7 @@ Usado por `triton estudo` (capítulo «Comparar muitos casos de uma vez»). Esqu
 | `padroes` | `substituicoes` e `clima` aplicados a todos os casos; o que o caso declara vence o padrão |
 | `casos` | lista; cada caso tem `id`, `nome`, `grupo` (por padrão, a tipologia), `projeto` (outro `.triton` para este caso), `clima` e `substituicoes` |
 | `clima` | `arquivo` (série diária de chuva, CSV), `data_inicio` (dd/mm/aaaa), `nome` e `fonte` (rótulos que vão para a procedência) |
-| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis`, `smaa_vikor` ou um volume em litros), `pesos` (quatro de eixo — técnico, económico, ambiental, estrutural — ou oito de critério; três, de estudos anteriores à 0.2.0, ainda aceites), `partes_no_eixo` (oito valores) e `semente` |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis`, `smaa_vikor` ou um volume em litros), `pesos` (quatro de eixo — técnico, económico, ambiental, estrutural —, oito de critério ou `"critic"`, para os pesos objetivos do CRITIC; três, de estudos anteriores à 0.2.0, ainda aceites), `partes_no_eixo` (oito valores), `tolerancia_faixa` (a tolerância da faixa de escolha, de 0 a 1; por omissão, 0,05) e `semente` |
 | `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (um inteiro ou uma por métrica), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar`, `legenda` e `orientacao` (`casos_nas_linhas` ou `metricas_nas_linhas`) |
 
 Chaves que começam por `_` são comentários e o programa as ignora. Campo vazio, `null` ou «XX» é «a preencher»: a validação o recusa e diz onde está. Uma chave desconhecida é erro, com a sugestão da mais parecida. `triton estudo esquema` imprime o JSON Schema do ficheiro, para completar e conferir no editor.
@@ -2317,7 +2337,7 @@ As saídas não levam caminho absoluto: os projetos aparecem com caminho relativ
 
 **Retomada e códigos de saída.** Numa pasta de saída que já tem resultados, `run` exige `--retomar` (pula os casos prontos e inalterados: a impressão digital do caso inclui o estudo, os ficheiros, a versão e a edição) ou `--sobrescrever` (refaz tudo). O código de saída é 0 se todos os casos foram calculados, 1 se algum caso terminou com erro (as saídas dos demais são gravadas e o caso com erro aparece com `status` `erro`) e 2 se o estudo ou os argumentos são inválidos.
 
-**Métricas.** O volume de cada caso é, por padrão, o ótimo técnico da varredura (`volume: "otimo_tecnico"`); com `"topsis"`, o primeiro do ranking; com um número, o volume fixo. As métricas disponíveis incluem `volume_l`, `economia_agua_potavel_pct`, `agua_pluvial_m3_ano`, `agua_potavel_m3_ano`, `extravasamento_m3_ano`, os dias com atendimento total, parcial e nulo, `capex`, `vpl`, `economia_anual_agua`, `opex_anual`, `tir_anual_pct`, `payback_descontado_meses`, `co2_liquido_vida_kg`, `indice_topsis` e `aceitabilidade_smaa_pct`, além das entradas do caso (`area_captacao_m2`, `usuarios`, `demanda_total_l_dia`, `chuva_media_anual_mm`). As métricas económicas pedem `analise.tipo` `economic` ou `all`; as ambientais, `environmental` ou `all`. Os nomes crus do relatório (`potable_savings_pct`) também valem. Valores monetários saem na moeda de cada projeto; se os casos têm moedas diferentes, o resumo avisa que não são comparáveis e o comparativo não os agrega. Com CAPEX igual a zero (custos não informados), o resumo avisa que VAL, TIR e payback não são resultados.
+**Métricas.** O volume de cada caso é, por padrão, o ótimo técnico da varredura (`volume: "otimo_tecnico"`); com `"topsis"`, o primeiro do ranking; com um número, o volume fixo. As métricas disponíveis incluem `volume_l`, `economia_agua_potavel_pct`, `agua_pluvial_m3_ano`, `agua_potavel_m3_ano`, `extravasamento_m3_ano`, os dias com atendimento total, parcial e nulo, `capex`, `vpl`, `economia_anual_agua`, `opex_anual`, `tir_anual_pct`, `payback_descontado_meses`, `co2_liquido_vida_kg`, `indice_topsis`, `faixa_topsis_min_l` e `faixa_topsis_max_l` (a faixa de escolha do TOPSIS) e `aceitabilidade_smaa_pct`, além das entradas do caso (`area_captacao_m2`, `usuarios`, `demanda_total_l_dia`, `chuva_media_anual_mm`). As métricas económicas pedem `analise.tipo` `economic` ou `all`; as ambientais, `environmental` ou `all`. Os nomes crus do relatório (`potable_savings_pct`) também valem. Valores monetários saem na moeda de cada projeto; se os casos têm moedas diferentes, o resumo avisa que não são comparáveis e o comparativo não os agrega. Com CAPEX igual a zero (custos não informados), o resumo avisa que VAL, TIR e payback não são resultados.
 
 **Texto com os números.** `triton estudo texto` substitui no seu modelo `.md` os marcadores cercados por chaves duplas (duas de cada lado; os exemplos abaixo vêm sem elas): `economia_agua_potavel_pct:caso-01` (o valor de um caso), `economia_agua_potavel_pct:@min`, `@max`, `@media`, `@mediana` (sobre os casos calculados; `@media(escolar)` restringe a um grupo), `n_casos` e, depois de uma barra vertical, as casas decimais (`vpl:caso-01|0`). Onde falta resultado o marcador vira «XX» e o comando lista as pendências (com `--estrito`, termina com código 1). Métrica desconhecida é erro.
 
@@ -2419,6 +2439,12 @@ plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a procura pluv
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
 que tem no denominador a procura total da edificação.
 
+**CRITIC** (*criteria importance through intercriteria correlation*). Método de pesos objetivos
+de Diakoulaki, Mavrotas e Papayannakis (1995): cada critério pesa pelo contraste entre as
+alternativas e pela independência em relação aos outros critérios, calculados dos próprios
+resultados. No programa, uma opção de ponderação (`--weights critic`), e não o padrão; os pesos
+mudam com o conjunto de volumes avaliado e não exprimem a preferência de ninguém.
+
 **CSV** (*comma-separated values*). Formato de ficheiro de texto em que cada linha é um
 registo e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -2484,6 +2510,12 @@ com o volume e trava o sobredimensionamento. Não é a ocupação média da cist
 
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
+
+**Faixa de escolha** (*choice band*). Os volumes com resultado multicritério semelhante ao do
+volume de maior pontuação: aqueles cuja medida, normalizada entre a pior (0) e a melhor (1) dos
+volumes avaliados, fica a até a tolerância da melhor (por omissão, 5% da amplitude). Depende da
+tolerância e da grade de volumes avaliada; num estudo, relata-se a faixa com a tolerância, e não um
+volume só.
 
 **Fração atendível por água pluvial** (*non-potable demand share*, $f$). Percentual da procura
 total de água da edificação ($D_{tot}$) passível de suprimento por água de chuva ($f = D_{pl} / D_{tot}$).
@@ -2638,8 +2670,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
-vencer.
+pesos — no programa, oito, um por critério, com 25% esperado em cada eixo — e devolve a
+probabilidade de cada alternativa vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.

@@ -118,8 +118,8 @@ runs, and it concerns the final decision of the study: the choice of volume as a
 of the weights given to the criteria.
 
 In step **8. Multi-Criteria Decision**, the **SMAA-VIKOR acceptability** column is already a
-ready-made sensitivity analysis. It answers: if the weights of the dimensions were drawn at
-random instead of fixed, how often would each volume come first?
+ready-made sensitivity analysis. It answers: if the weights were drawn at random instead of
+fixed, with each dimension weighing 25% on average, how often would each volume come first?
 
 Read it like this:
 
@@ -133,8 +133,8 @@ Read it like this:
 The distinction this column allows is epistemological, not only statistical: a volume that
 wins in 80% of the weight draws is a recommendation, whereas a volume that wins in 30% is a
 preference of the analyst, legitimate as long as it is presented as such. In the New York
-tutorial the most accepted volume, 2,000 L, comes first in 39.2% of the draws, with 3,000 L second at
-25.0% and 4,000 L third at 18.2%: below 40%, so the choice depends on the weights, and the text must
+tutorial the most accepted volume, 2,000 L, comes first in 39.6% of the draws, with 3,000 L second at
+25.8% and 4,000 L third at 17.7%: below 40%, so the choice depends on the weights, and the text must
 say so. Section {{n:32}} sets out the method that produces these numbers.
 
 ---
@@ -177,7 +177,7 @@ requires declaring the distributions adopted, not just the ranges.
 
 - the **ranges** adopted and the origin of each one;
 - how many runs were made, and with which values;
-- for the choice of volume, the **acceptability** of the winner;
+- for the choice of volume, the **choice band** with its tolerance and the **acceptability** of the most accepted volume;
 - **which assumptions were not perturbed**, and why.
 
 The last is the one most often forgotten, and the one a reviewer most often asks for.

@@ -321,7 +321,7 @@ anos de série (Silva e Ghisi, 2016; seção 3.6 (volume Guias de uso), subcoman
 A ferramenta fica no fim da barra lateral, em **13. Modulação Probabilística**, nas duas
 edições. Ela parte do estudo que as etapas 1 a 4 descrevem — a mesma configuração que o
 programa grava no arquivo `.triton` —, com os pesos do TOPSIS (os quatro pesos de eixo e as partes no eixo) e as premissas
-ambientais da tela. Sem série de chuva carregada, a ferramenta avisa e não roda. Para começar, abra o
+ambientais da tela. Com o perfil do CRITIC, os pesos objetivos são recalculados em cada realização, dos resultados sorteados. Sem série de chuva carregada, a ferramenta avisa e não roda. Para começar, abra o
 caso `10_modulacao_tutorial.triton` ou o `11_modulacao_climbra.triton` (apêndice J): os
 dois chegam com a ferramenta montada, e basta clicar em **Simular**.
 
@@ -829,6 +829,11 @@ que tem no denominador a demanda total da edificação.
 parte do Rio Grande do Sul. Fatura a água pela fórmula exponencial `PB × Cⁿ` somada ao
 serviço básico, e não por faixas de consumo.
 
+**CRITIC** (*criteria importance through intercriteria correlation*). Método de Diakoulaki,
+Mavrotas e Papayannakis (1995) que calcula os pesos do multicritério dos próprios resultados:
+pesa mais o critério de maior contraste entre as alternativas e menor correlação com os demais.
+No programa, é uma opção de pesos (`--weights critic`), e não o padrão.
+
 **CSV** (*comma-separated values*). Formato de arquivo de texto em que cada linha é um
 registro e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -898,6 +903,10 @@ calcula oito.
 
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
+
+**Faixa de escolha**. Os volumes cujo escore multicritério fica a até uma tolerância, 5% da
+amplitude dos escores no padrão, do maior escore. É o que o programa relata em vez de «o melhor
+volume», e depende da grade de volumes avaliada e da tolerância.
 
 **Fração atendível por água pluvial** (*non-potable demand share*, $f$). Percentual da demanda
 total de água da edificação ($D_{tot}$) passível de suprimento por água de chuva ($f = D_{pl} / D_{tot}$).
@@ -1042,6 +1051,10 @@ dos níveis HQE, HQE 2 e HQE 3.
 **PRFV**. Plástico reforçado com fibra de vidro, material de reservatórios de médio e
 grande porte. Aparece no programa sob a designação «fibra».
 
+**PROMETHEE** (*preference ranking organization method for enrichment evaluations*).
+Método de ordenação multicritério por relações de superação entre as alternativas; o
+programa ordena pelo fluxo líquido.
+
 **PVC**. Policloreto de vinila, material das tubulações prediais de água fria e das
 colunas de desvio do descarte inicial. As dimensões dos tubos soldáveis seguem a ABNT NBR 5648.
 
@@ -1071,7 +1084,8 @@ resultado da fórmula exponencial.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos e devolve a probabilidade de cada alternativa vencer.
+pesos e devolve a probabilidade de cada alternativa vencer. No programa, os oito pesos são
+sorteados com 25% esperado em cada eixo.
 
 **SNIS**. Sistema Nacional de Informações sobre Saneamento, base oficial brasileira de
 indicadores do setor, mantida pelo governo federal. É a origem dos indicadores de
@@ -1240,6 +1254,10 @@ aceitável e estabilidade.
 
 **Lahdelma, R.; Hokkanen, J.; Salminen, P.** (1998), e **Tervonen, T.; Figueira, J.**
 (2008). SMAA e SMAA-2.
+
+**Diakoulaki, D.; Mavrotas, G.; Papayannakis, L.** (1995). Determining objective weights in
+multiple criteria problems: the CRITIC method. *Computers & Operations Research*, v. 22, n. 7,
+p. 763-770. doi:10.1016/0305-0548(94)00059-H. Os pesos objetivos do CRITIC.
 
 **Walsh, R. P. D.; Lawler, D. M.** (1981). O índice de sazonalidade.
 

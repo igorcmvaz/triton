@@ -733,19 +733,49 @@ def tabela_multicriterio():
 
     global _CANDIDATOS_MULTICRITERIO
     _CANDIDATOS_MULTICRITERIO = cands
+    faixa = res.faixa_de_escolha()
     linhas += [
         "",
-        "| Critério isolado | Volume vencedor |",
+        "| Critério | Volume |",
         "| :--- | ---: |",
         f"| maior fiabilidade volumétrica | {n(cands[res.technical_best_index].lower_tank_vol, 0)} L |",
         f"| menor período de recuperação descontado, desempate pelo VAL | {n(cands[res.financial_best_index].lower_tank_vol, 0)} L |",
         f"| menores emissões líquidas de carbono | {n(cands[res.environmental_best_index].lower_tank_vol, 0)} L |",
-        f"| **compromisso TOPSIS, 25% em cada eixo** | **{n(cands[res.best_index].lower_tank_vol, 0)} L** |",
+        f"| **compromisso TOPSIS, 25% em cada eixo: faixa de escolha ({_pct_da_tolerancia(faixa)})** "
+        f"| **{texto_da_faixa(faixa)}** |",
+        f"| maior pontuação TOPSIS, 25% em cada eixo | {n(faixa['best_volume_l'], 0)} L |",
     ]
     return NL.join(linhas)
 
 
 _CANDIDATOS_MULTICRITERIO = None
+
+
+def texto_da_faixa(faixa):
+    """A faixa de escolha como o manual a escreve: «2 000 a 3 000 L», ou um volume só.
+
+    A faixa vem de ``faixa_de_escolha`` do programa: os volumes cuja pontuação, normalizada entre a pior
+    (0) e a melhor (1), fica a até a tolerância da melhor. Quando algum volume avaliado no meio fica fora,
+    a faixa não é contígua, e o texto lista os volumes em vez de escrever um intervalo.
+    """
+    vols = faixa["volumes_l"]
+    if len(vols) == 1:
+        return f"{n(vols[0], 0)} L"
+    if not faixa["contiguous"]:
+        return ", ".join(n(v, 0) for v in vols[:-1]) + f" e {n(vols[-1], 0)} L"
+    return f"{n(faixa['min_volume_l'], 0)} a {n(faixa['max_volume_l'], 0)} L"
+
+
+def _pct_da_tolerancia(faixa):
+    """«até 5% da amplitude»: a tolerância com que a faixa foi calculada."""
+    return f"até {n(100 * faixa['tolerance'], 0)}% da amplitude"
+
+
+def _pesos_por_eixo(pesos_dos_criterios):
+    """Os oito pesos de critério somados nos quatro eixos, pela ordem técnico, económico, ambiental, estrutural."""
+    from triton.core.topsis import CRITERION_GROUPS
+    eixos = ("technical", "economic", "environmental", "structural")
+    return [float(sum(w for w, g in zip(pesos_dos_criterios, CRITERION_GROUPS) if g == e)) for e in eixos]
 
 #: Pesos de eixo (técnico, económico, ambiental, estrutural) da tabela de sensibilidade: os quatro iguais, e
 #: 70% no eixo dominante com 10% em cada um dos outros três (os perfis «Priorizar …» da interface).
@@ -759,18 +789,30 @@ PESOS_SENSIBILIDADE = (
 
 
 def tabela_pesos():
-    """Capítulo 12: o volume escolhido pelo TOPSIS conforme o eixo com peso dominante."""
-    from triton.core.topsis import calculate_topsis_scores
+    """Capítulo 12: a faixa de escolha do TOPSIS conforme a ponderação.
+
+    As ponderações declaradas (os quatro eixos iguais e o eixo dominante) e, por último, os pesos objetivos
+    do CRITIC, calculados dos próprios resultados; o rótulo da linha do CRITIC traz os pesos por eixo que ele
+    deu. A faixa usa a tolerância por omissão do programa (5% da amplitude das pontuações).
+    """
+    from triton.core.topsis import PESOS_CRITIC, calculate_topsis_scores
 
     if _CANDIDATOS_MULTICRITERIO is None:
         tabela_multicriterio()
     cands = _CANDIDATOS_MULTICRITERIO
-    L = ["| Peso dominante | Volume | Segundo classificado | Diferença de pontuação |",
-         "| :--- | ---: | ---: | ---: |"]
-    for rotulo, pesos in PESOS_SENSIBILIDADE:
-        res = calculate_topsis_scores(cands, weights=pesos)
+    critic = calculate_topsis_scores(cands, weights=PESOS_CRITIC)
+    t, e, a, s = _pesos_por_eixo(critic.criterion_weights)
+    rotulo_critic = (f"pesos objetivos (CRITIC): técnico {n(100 * t, 1)}%, económico {n(100 * e, 1)}%, "
+                     f"ambiental {n(100 * a, 1)}%, estrutural {n(100 * s, 1)}%")
+    faixa0 = critic.faixa_de_escolha()
+    L = [f"| Ponderação | Faixa de escolha ({_pct_da_tolerancia(faixa0)}) | Maior pontuação "
+         "| Segundo classificado | Diferença de pontuação |",
+         "| :--- | ---: | ---: | ---: | ---: |"]
+    for rotulo, pesos in tuple(PESOS_SENSIBILIDADE) + ((rotulo_critic, PESOS_CRITIC),):
+        res = critic if pesos == PESOS_CRITIC else calculate_topsis_scores(cands, weights=pesos)
         ordem = sorted(range(len(cands)), key=lambda i: -res.scores[i])
-        L.append(f"| {rotulo} | {n(cands[ordem[0]].lower_tank_vol, 0)} L "
+        L.append(f"| {rotulo} | {texto_da_faixa(res.faixa_de_escolha())} "
+                 f"| {n(cands[ordem[0]].lower_tank_vol, 0)} L "
                  f"| {n(cands[ordem[1]].lower_tank_vol, 0)} L "
                  f"| {n(res.scores[ordem[0]] - res.scores[ordem[1]], 4)} |")
     return NL.join(L)
@@ -898,6 +940,64 @@ def tabela_decisao():
     return NL.join(L)
 
 
+#: As tolerâncias da tabela que mostra como a faixa de escolha depende da tolerância declarada.
+TOLERANCIAS_DA_FAIXA = (0.0, 0.02, 0.05, 0.10, 0.20)
+
+
+def tabela_faixas():
+    """Secção 32: a faixa de escolha de cada método no tutorial, e a do TOPSIS conforme a tolerância.
+
+    Os quatro métodos com os quatro eixos a 25% e partes iguais (o SMAA sorteia os pesos), pela regra do
+    programa (``faixa_de_escolha``): a medida de cada método normalizada entre o pior (0) e o melhor (1)
+    volume, e os volumes a até 5% do melhor.
+    """
+    from triton.core.mcdm_methods import run_promethee, run_smaa_analysis, run_vikor
+    from triton.core.topsis import calculate_topsis_scores
+
+    if _CANDIDATOS_MULTICRITERIO is None:
+        tabela_multicriterio()
+    cands = _CANDIDATOS_MULTICRITERIO
+    topsis = calculate_topsis_scores(cands)
+    metodos = (
+        ("TOPSIS", "pontuação de proximidade (maior é melhor)", topsis.faixa_de_escolha()),
+        ("VIKOR, v = 0,5", "índice Q (menor é melhor)", run_vikor(cands).faixa_de_escolha()),
+        ("PROMETHEE II", "fluxo líquido (maior é melhor)", run_promethee(cands).faixa_de_escolha()),
+        ("SMAA-VIKOR", "aceitabilidade de primeiro lugar (maior é melhor)",
+         run_smaa_analysis(cands, num_samples=5000, random_seed=42).faixa_de_escolha()),
+    )
+    L = [f"| Método | Medida | Faixa de escolha ({_pct_da_tolerancia(metodos[0][2])}) | Melhor medida |",
+         "| :--- | :--- | ---: | ---: |"]
+    for nome, medida, faixa in metodos:
+        L.append(f"| {nome} | {medida} | {texto_da_faixa(faixa)} | {n(faixa['best_volume_l'], 0)} L |")
+    L += ["", "| Tolerância | Faixa do TOPSIS, 25% em cada eixo |", "| ---: | ---: |"]
+    for tol in TOLERANCIAS_DA_FAIXA:
+        L.append(f"| {n(100 * tol, 0)}% da amplitude | {texto_da_faixa(topsis.faixa_de_escolha(tol))} |")
+    return NL.join(L)
+
+
+def tabela_critic():
+    """Secção 32: os pesos objetivos do CRITIC no tutorial, por critério e por eixo, ao lado dos de omissão."""
+    from triton.core.topsis import PESOS_CRITIC, calculate_topsis_scores
+
+    if _CANDIDATOS_MULTICRITERIO is None:
+        tabela_multicriterio()
+    cands = _CANDIDATOS_MULTICRITERIO
+    w_critic = calculate_topsis_scores(cands, weights=PESOS_CRITIC).criterion_weights
+    w_omissao = calculate_topsis_scores(cands).criterion_weights
+    criterios = (("técnico", "fiabilidade volumétrica"), ("técnico", "eficiência de armazenamento"),
+                 ("económico", "economia financeira líquida (VAL)"), ("económico", "custo nivelado da água (LCOW)"),
+                 ("económico", "período de recuperação descontado"), ("ambiental", "CO₂e de ciclo de vida"),
+                 ("estrutural", "massa a seco dos materiais"), ("estrutural", "extravasamento anual"))
+    L = ["| Eixo | Critério | Peso pelo CRITIC | Peso por omissão |", "| :--- | :--- | ---: | ---: |"]
+    for (eixo, nome), wc, wo in zip(criterios, w_critic, w_omissao):
+        L.append(f"| {eixo} | {nome} | {n(100 * wc, 1)}% | {n(100 * wo, 1)}% |")
+    L += ["", "| Eixo | Peso pelo CRITIC | Peso por omissão |", "| :--- | ---: | ---: |"]
+    for eixo, wc, wo in zip(("técnico", "económico", "ambiental", "estrutural"),
+                            _pesos_por_eixo(w_critic), _pesos_por_eixo(w_omissao)):
+        L.append(f"| {eixo} | {n(100 * wc, 1)}% | {n(100 * wo, 1)}% |")
+    return NL.join(L)
+
+
 # ── as cidades: o mesmo projeto em Lisboa, no Porto e no Funchal ─────────────────────────────────
 CIDADES_GUIA14 = ("Lisboa", "Porto", "Funchal")
 NOMES_CIDADES = {"Lisboa": "Lisboa", "Porto": "Porto", "Funchal": "Funchal"}
@@ -1001,7 +1101,15 @@ LEGENDAS = {
         'Efeito do volume da cisterna de betão nas emissões líquidas de carbono',
     ],
     'cap32_decisao.md': [
-        'Pontuação de proximidade TOPSIS com 25% em cada eixo e partes iguais no eixo, e aceitabilidade do primeiro lugar no SMAA-VIKOR, com 5 000 vetores de oito pesos sorteados, para os volumes do tutorial',
+        'Pontuação de proximidade TOPSIS com 25% em cada eixo e partes iguais no eixo, e aceitabilidade do primeiro lugar no SMAA-VIKOR, com 5 000 vetores de oito pesos sorteados com 25% esperado em cada eixo, para os volumes do tutorial',
+    ],
+    'cap32_faixas.md': [
+        'Faixa de escolha de cada método no tutorial, com os quatro eixos a 25% e partes iguais no eixo: os volumes cuja medida fica a até 5% da amplitude da melhor, e o volume de melhor medida',
+        'Faixa de escolha do TOPSIS no tutorial conforme a tolerância declarada',
+    ],
+    'cap32_critic.md': [
+        'Pesos objetivos do CRITIC calculados dos sete volumes do tutorial, por critério, ao lado dos pesos por omissão (25% em cada eixo, partes iguais no eixo)',
+        'Os mesmos pesos somados por eixo',
     ],
     'cap20_sensibilidade.md': [
         'Potencial, valor atual líquido e período de recuperação do projeto final do tutorial com cada premissa variada isoladamente, do valor baixo ao alto (os custos são ilustrativos, não são preços de mercado)',
@@ -1010,11 +1118,11 @@ LEGENDAS = {
         'Energia anual de seis sobrepressores genéricos (curvas ilustrativas, sem marca) na pressurização direta do tutorial, com o caudal do autoclismo a limitar o caudal da bomba',
     ],
     'cap12_pesos.md': [
-        'Volume escolhido pelo TOPSIS conforme o eixo com peso dominante (70% nele e 10% em cada um dos outros três), o segundo classificado e a diferença de pontuação entre os dois',
+        'Faixa de escolha do TOPSIS conforme a ponderação — os quatro eixos iguais, 70% num eixo e 10% em cada um dos outros três, e os pesos objetivos do CRITIC —, com o volume de maior pontuação, o segundo classificado e a diferença de pontuação entre os dois',
     ],
     'cap12_multicriterio.md': [
         'Matriz de decisão multicritério: os oito critérios de cada volume candidato, em polietileno, com o reservatório superior de 1 000 L (os custos são ilustrativos, não são preços de mercado)',
-        'Volume vencedor segundo cada critério isolado e o compromisso do TOPSIS',
+        'Volume vencedor segundo cada critério isolado, e a faixa de escolha do compromisso TOPSIS (os volumes com pontuação a até 5% da amplitude da maior)',
     ],
     'cap14_cidades.md': [
         'O mesmo projeto do tutorial simulado em Lisboa, no Porto e no Funchal',
@@ -1316,6 +1424,8 @@ def main():
         ("cap28_pressurizadores.md", lambda: tabela_pressurizadores()[0]),
         ("cap20_sensibilidade.md", tabela_sensibilidade),
         ("cap32_decisao.md", tabela_decisao),
+        ("cap32_faixas.md", tabela_faixas),
+        ("cap32_critic.md", tabela_critic),
         ("cap14_cidades.md", tabela_cidades),
         ("cap24_metodos.md", tabela_metodos_empiricos),
         ("cap30_inventario.md", tabela_inventario),

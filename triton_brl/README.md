@@ -48,8 +48,8 @@ pacote está em [`docs/edicoes.md`](docs/edicoes.md).
    - Balanço de carbono ao longo de 20 anos: emissões incorporadas nos materiais + energia operacional vs. emissões evitadas no tratamento da água da rede.
 
 5. **Tomada de Decisão Multicritério Integrada:**
-   - **🏆 TOPSIS:** Ordenação por proximidade relativa às soluções ideais sobre **oito critérios em quatro eixos**: técnico (confiabilidade volumétrica e eficiência de armazenamento), econômico (economia financeira líquida, custo nivelado da água — LCOW — e payback descontado), ambiental (CO₂e de ciclo de vida) e estrutural (massa a seco do sistema e extravasamento anual). Quatro pesos de eixo, 25% cada por padrão, repartidos dentro do eixo pelas *partes no eixo* (padrão: partes iguais), ou oito pesos diretos; perfis Equilibrado e Priorizar Técnico, Econômico, Ambiental ou Leveza e Drenagem (70% no eixo, 10% em cada outro), ou Customizado.
-   - **🎲 SMAA-VIKOR:** Análise de aceitabilidade estocástica via simulações Monte Carlo (1.000 a 50.000 simulações) no simplex uniforme de pesos, calculando índices de aceitabilidade de 1º lugar ($b_i^1$), fatores de confiança e vetor central de pesos ($w_i^c$). Implementação independente sobre NumPy, seguindo o desenho de [`crispyn`](https://github.com/energyinpython/crispyn) (A. Bączkiewicz, MIT) e as formulações de Lahdelma & Salminen (2001) e Opricovic & Tzeng (2004).
+   - **🏆 TOPSIS:** Ordenação por proximidade relativa às soluções ideais sobre **oito critérios em quatro eixos**: técnico (confiabilidade volumétrica e eficiência de armazenamento), econômico (economia financeira líquida, custo nivelado da água — LCOW — e payback descontado), ambiental (CO₂e de ciclo de vida) e estrutural (massa a seco do sistema e extravasamento anual). Quatro pesos de eixo, 25% cada por padrão, repartidos dentro do eixo pelas *partes no eixo* (padrão: partes iguais), ou oito pesos diretos; perfis Equilibrado e Priorizar Técnico, Econômico, Ambiental ou Leveza e Drenagem (70% no eixo, 10% em cada outro), Customizado, ou **pesos objetivos pelo CRITIC** (Diakoulaki, Mavrotas e Papayannakis, 1995), calculados dos próprios resultados (`--weights critic`). Em vez de «o melhor volume», a decisão relata a **faixa de escolha**: os volumes com escore a até 5% da amplitude do maior (`--score-band`), com o de maior escore ao lado.
+   - **🎲 SMAA-VIKOR:** Análise de aceitabilidade estocástica via simulações Monte Carlo (1.000 a 50.000 simulações), com os oito pesos sorteados numa Dirichlet que dá 25% esperado a cada eixo, calculando índices de aceitabilidade de 1º lugar ($b_i^1$), fatores de confiança e vetor central de pesos ($w_i^c$). Implementação independente sobre NumPy, seguindo o desenho de [`crispyn`](https://github.com/energyinpython/crispyn) (A. Bączkiewicz, MIT) e as formulações de Lahdelma & Salminen (2001) e Opricovic & Tzeng (2004).
    - **🏗️ Peso do sistema:** massa a seco, carga de água e carga em operação, em kg e kN, no subsolo ou nível inferior, na cobertura ou nível superior e nas prumadas e rede (`triton analyze --analysis system_weight`). Alertas de atenção do programa, e não de norma — 500 kg na cobertura com o reservatório cheio, reservatório superior acima de 1.500 L, cisterna acima de 3.000 kg a seco, cisterna de concreto — pedem confirmação com o projeto estrutural ou de fundações.
 
 6. **Enquadramento em Certificações Sustentáveis & Critérios ESG:**
@@ -72,8 +72,9 @@ pacote está em [`docs/edicoes.md`](docs/edicoes.md).
 ## Estado da versão 0.2.0
 
 **Novo na 0.2.0.** O multicritério passou de sete critérios em três eixos a oito critérios em quatro eixos, e a
-linha de comando passou a calcular o peso do sistema. O volume escolhido pelo multicritério muda: no tutorial do
-manual, com pesos iguais, o TOPSIS indicava 4.000 L e passa a indicar 2.000 L. Três pesos de eixo, de projetos e
+linha de comando passou a calcular o peso do sistema. O multicritério relata uma faixa de volumes de escore semelhante
+e aceita pesos objetivos pelo CRITIC. O resultado muda: no tutorial do manual, com pesos iguais, o TOPSIS indicava
+4.000 L, e agora a faixa vai de 2.000 a 3.000 L. Três pesos de eixo, de projetos e
 estudos da 0.1.0, continuam aceitos (o eixo estrutural recebe a média dos três); sete valores do modelo anterior são
 recusados. Para reproduzir um estudo feito na 0.1.0, use a 0.1.0. Detalhes nas
 [notas de lançamento da 0.2.0](docs/NOTAS_DE_LANCAMENTO_0.2.0.md).

@@ -41,7 +41,9 @@ As restantes edições usam o mesmo motor e o mesmo número de versão. Ver o
   quatro eixos: técnico (fiabilidade volumétrica e eficiência de armazenamento), económico (economia financeira
   líquida, custo nivelado da água e período de recuperação descontado), ambiental (CO₂e de ciclo de vida) e
   estrutural (massa a seco dos materiais e extravasamento anual). Quatro pesos de eixo, 25% cada por omissão,
-  repartidos pelas partes no eixo; ou oito pesos de critério.
+  repartidos pelas partes no eixo; oito pesos de critério; ou pesos objetivos pelo CRITIC, calculados dos
+  resultados (`--weights critic`). Em vez de «o melhor volume», a faixa de escolha: os volumes com resultados
+  multicritério semelhantes (por omissão, a até 5% da amplitude das pontuações; `--score-band`).
 - **Peso do sistema.** Massa a seco, carga de água e carga em operação, em kg e kN, no subsolo, na cobertura e
   nas prumadas e rede, com alertas quando a carga passa um limiar de atenção do programa (não de norma).
 - **Resultados.** Relatório executivo, auditoria ambiental e dossiê técnico em PDF; exportação para folha de

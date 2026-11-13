@@ -60,7 +60,8 @@ python manual/gerar_site.py           # o site
 E o manual em inglês, que a edição Internacional instala e abre:
 
 ```bash
-python manual/en/traduzir_tabelas.py  # as tabelas geradas, em inglês
+# NÃO rode manual/en/traduzir_tabelas.py: ele sobrescreve tabelas revisadas e corrompe o capítulo 38 em inglês.
+python manual/gerar_tabelas.py       # as tabelas geradas (grava em partes/_tabelas e en/partes/_tabelas)
 python manual/en/apendices_en.py      # os apêndices A, B e D, em inglês
 python manual/gerar.py --idioma en    # manual/en/Triton-User-Manual.md
 python manual/gerar_pdf.py --idioma en

@@ -49,10 +49,15 @@ Step **8. Multi-Criteria Decision** shows, in a single table, each volume of the
 
 It is the densest way of comparing alternatives the program offers: ten answer columns for
 each volume row. The ranking itself uses the eight criteria of section {{n:32}}, in four
-dimensions — technical, economic, environmental and structural. The **decision profile** changes
-the four dimension weights (25% each by default, or 70% on one dimension and 10% on each of the
-others), the **Criterion shares** row splits each dimension weight among its criteria, and the
-table is re-ranked on the spot. Section {{n:32}} explains the methods behind it.
+dimensions — technical, economic, environmental and structural. The weights sit in four cards, one
+per dimension: the dimension weight at the top, 25% by default, and below it the criterion shares
+of its criteria; the **Equal shares** and **Recalculate** buttons sit below the cards. The
+**decision profile** sets the four weights at once — equal, 70% on one dimension and 10% on each of
+the others, or objective weights computed from the results by CRITIC — and the table is re-ranked
+on the spot. The conclusion gives, for each method, the **choice band** — the volumes whose result
+lies within 5% of the score range of the best — and the volume with the highest score, as in
+«TOPSIS band (equal weights): 2000–3000 L · highest score: 2000 L (0.78)». Section {{n:32}}
+explains the methods behind it.
 
 ---
 
@@ -152,14 +157,27 @@ analysis (`technical`, `economic`, `environmental`, `system_weight`, `topsis` or
 fixes the lower tank volume, in litres; `--rainfall` replaces the project's rainfall series;
 `--set FIELD=VALUE` changes a project field and can be repeated; `--weights t,e,a,s` gives the
 four TOPSIS dimension weights — technical, economic, environmental and structural — or eight
-weights, one per criterion (three weights, as in version 0.1.0, are still accepted, and the
-structural dimension receives their mean; seven are refused); `--criterion-shares` gives the eight
-criterion shares, in the order reliability, storage efficiency, net saving, LCOW, payback, CO₂, dry
-mass and overflow (default `1,1,1,1,1,1,1,1`); `--weight-sensitivity N` draws N weight vectors and
-reports how often each volume wins; `--format` and `--output` set the output format and file; and
-`--seed` fixes the seed of the stochastic analyses, so that the result is reproducible. In the
-project file, the same weights go in `analysis.topsis_weights` (four or eight values) and the shares
-in `analysis.topsis_criterion_shares` (eight values).
+weights, one per criterion, or `critic` for objective weights computed from the results by the
+CRITIC method (three weights, as in version 0.1.0, are still accepted, and the structural dimension
+receives their mean; seven are refused); `--criterion-shares` gives the eight criterion shares, in
+the order reliability, storage efficiency, net saving, LCOW, payback, CO₂, dry mass and overflow
+(default `1,1,1,1,1,1,1,1`); `--score-band T` sets the tolerance of the choice band, from 0 to 1
+(default `0.05`, 5% of the score range); `--weight-sensitivity N` draws N weight vectors and
+reports how often each volume wins (with `critic`, it draws the four dimension weights);
+`--format` and `--output` set the output format and file; and `--seed` fixes the seed of the
+stochastic analyses, so that the result is reproducible. `--score-band` is accepted by every
+subcommand that takes `--weights`. In the project file, the same weights go in
+`analysis.topsis_weights` (four or eight values, or `"critic"`), the shares in
+`analysis.topsis_criterion_shares` (eight values) and the tolerance in
+`analysis.topsis_score_band`.
+
+The ranking comes out as a band, not as a single volume. The text output reads «TOPSIS: volumes
+from A to B L have similar scores (within 5% of the range, from the highest) | highest score at
+X L (s)»; the HTML report has a «Choice band (TOPSIS)» paragraph; and the JSON carries
+`topsis.choice_band` — the volumes of the band, the tolerance, whether the band is contiguous and
+the volume of the highest score — with `topsis.choice_band_min_volume_l`,
+`topsis.choice_band_max_volume_l` and `smaa_vikor.choice_band`. With `critic`, the weights the
+program computed are in `topsis.criteria`, one per criterion.
 
 With `--analysis all` (or `system_weight`), `analyze` also reports the **weight of the system**: the
 dry mass, the water load and the operating load, in kg and kN, split into basement or lower level,
@@ -255,7 +273,7 @@ The `consolidar` action searches every `resultados.csv` under the given folders 
 
 `estudo run` and `estudo lote` show their progress on the error stream. `--progresso simples` writes one line per case (`[i/N] id: ok (t s)`); `--progresso rich` draws a progress bar and needs the optional `rich` package (optional `cli` extra; without it the program warns once and uses `simples`); the default `auto` uses `rich` only if it is installed and the error stream is a terminal. The result files are identical in bytes in every mode, and `--quiet` turns the progress off.
 
-In the `analise` section, `pesos` takes the four dimension weights or eight criterion weights (three, from studies made up to version 0.1.0, are still accepted) and `partes_no_eixo` the eight criterion shares; a study that declares seven values, from the model of version 0.1.0, is refused at validation.
+In the `analise` section, `pesos` takes the four dimension weights, eight criterion weights or `"critic"` (three weights, from studies made up to version 0.1.0, are still accepted), `partes_no_eixo` the eight criterion shares and `tolerancia_faixa` the tolerance of the choice band, from 0 to 1 (default 0.05); a study that declares seven values, from the model of version 0.1.0, is refused at validation. The metrics `faixa_topsis_min_l` and `faixa_topsis_max_l` give the ends of the TOPSIS choice band of each case, so that the tables of a paper report a band and not a single volume.
 
 What each section of `estudo.json` contains, the aliases of the substitutions (catchment area, demand, users, share, tank volume and others) and the output files are in the appendix «Files, folders and formats». The example `examples/estudos/residencial-unifamiliar-exemplo/` runs the tutorial house in New York, London and Cape Town (`new_york.triton`, `london.triton`, `cape_town.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida out\example`.
 

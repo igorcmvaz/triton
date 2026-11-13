@@ -654,7 +654,7 @@ class MainWindow(QMainWindow):
             if not partes or len(partes) != len(optimizer.spin_shares):
                 partes = [100.0 * p for p in PARTES_NO_EIXO_PADRAO]
             optimizer.set_shares(partes)
-            optimizer._update_weight_validation()
+            optimizer._update_method_controls()  # com o CRITIC, controles de peso só leitura e sem partes
 
         environmental = getattr(self, "tab_environmental", None)
         env_state = state.get("environmental", {})

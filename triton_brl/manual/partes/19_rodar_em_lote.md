@@ -49,9 +49,11 @@ A etapa **8. Decisão Multicritério** mostra, numa tabela só, cada volume da v
 
 É a forma mais densa de comparar alternativas que o programa oferece: dez colunas de
 resposta para cada linha de volume. O **perfil de decisão** troca os pesos dos quatro
-eixos — técnico, econômico, ambiental e estrutural —, a linha **Partes no eixo** reparte cada
-peso entre os critérios do eixo, e a tabela se reordena na hora. A seção {{n:32}} explica os
-métodos por trás.
+eixos — técnico, econômico, ambiental e estrutural —, ou pede os pesos objetivos do CRITIC;
+cada eixo tem um cartão, com o peso em cima e, abaixo, as **partes no eixo**, que repartem o
+peso entre os critérios do eixo; **Recalcular** reordena a tabela. A conclusão mostra a
+**faixa de escolha** de cada método, com o volume de maior escore ao lado. A seção {{n:32}}
+explica os métodos por trás.
 
 ---
 
@@ -141,7 +143,7 @@ A instalação do programa como pacote Python registra o comando `triton`, que e
 | `stochastic-demand` | sorteia o consumo diário e devolve o desempenho como faixa, e não como número único |
 | `estudo` | organiza, roda e relata estudos em lote por JSON (`estudo.json`): vários edifícios por tipologia, com tabelas para artigos |
 
-Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise (`technical`, `economic`, `environmental`, `system_weight`, `topsis` ou `all`); `--volume` fixa o volume do reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto; `--set CAMPO=VALOR` altera um campo do projeto e pode ser repetido; `--weights` informa os quatro pesos de eixo do TOPSIS, técnico, econômico, ambiental e estrutural, ou oito, um por critério (três, de projetos até a 0.1.0, ainda valem, e o eixo estrutural recebe a média deles); `--criterion-shares` informa as oito partes no eixo, na ordem dos critérios da seção {{n:32}}, com padrão 1,1,1,1,1,1,1,1; `--weight-sensitivity N` sorteia N vetores de pesos e informa a frequência com que cada volume vence; `--format` e `--output` definem o formato e o arquivo de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja reprodutível.
+Os subcomandos `run`, `analyze` e `econ` aceitam as mesmas opções: `--analysis` escolhe a análise (`technical`, `economic`, `environmental`, `system_weight`, `topsis` ou `all`); `--volume` fixa o volume do reservatório inferior, em litros; `--rainfall` substitui a série de chuva do projeto; `--set CAMPO=VALOR` altera um campo do projeto e pode ser repetido; `--weights` informa os quatro pesos de eixo do TOPSIS, técnico, econômico, ambiental e estrutural, ou oito, um por critério (três, de projetos até a 0.1.0, ainda valem, e o eixo estrutural recebe a média deles), ou a palavra `critic`, para os pesos objetivos calculados dos resultados (seção {{n:32}}); `--criterion-shares` informa as oito partes no eixo, na ordem dos critérios da seção {{n:32}}, com padrão 1,1,1,1,1,1,1,1; `--score-band` informa a tolerância da faixa de escolha, de 0 a 1, com padrão 0,05: os volumes cujo escore fica a até essa fração da amplitude, contada do maior, saem como equivalentes; `--weight-sensitivity N` sorteia N vetores de pesos e informa a frequência com que cada volume vence (com `critic`, sorteia os quatro pesos de eixo); `--format` e `--output` definem o formato e o arquivo de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja reprodutível.
 
 Aplicados ao projeto do tutorial, `validate` e `run` produzem:
 
@@ -198,6 +200,8 @@ As tipologias (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-m
 A ação `consolidar` procura todo `resultados.csv` sob as pastas indicadas (vários estudos, lotes, execuções repetidas) e grava `consolidado.csv` e `consolidado.md` na pasta de saída: uma linha por tipologia (`grupo`), caso e métrica, com `n`, mínimo, média, mediana e máximo dos valores dos casos concluídos (`status` ok). A unidade faz parte da chave do grupo, então moedas diferentes nunca se misturam. Os números têm o mesmo formato do `resultados.csv` (ponto decimal, dez algarismos significativos); a tabela em Markdown segue `--idioma`. Se o pacote opcional `duckdb` estiver instalado (extra opcional `analise`, que não faz parte do instalador), ele lê e agrupa os arquivos; sem ele a biblioteca padrão faz o mesmo, e os dois caminhos dão os mesmos bytes (`--motor csv` força o segundo; `--motor duckdb` exige o pacote).
 
 `estudo run` e `estudo lote` mostram o progresso na saída de erro. `--progresso simples` escreve uma linha por caso (`[i/N] id: ok (t s)`); `--progresso rich` desenha uma barra de progresso e precisa do pacote opcional `rich` (extra opcional `cli`; sem ele o programa avisa uma vez e usa `simples`); o padrão `auto` só usa `rich` se ele estiver instalado e a saída de erro for um terminal. Os arquivos de resultado são idênticos em bytes em qualquer modo, e `--quiet` desliga o progresso.
+
+Os pesos do multicritério ficam no arquivo de projeto, em `analysis.topsis_weights`, e no estudo, em `analise.pesos`: quatro pesos de eixo, oito de critério ou `"critic"`, para os pesos objetivos. A tolerância da faixa de escolha fica em `analysis.topsis_score_band` e em `analise.tolerancia_faixa`, e as métricas `faixa_topsis_min_l` e `faixa_topsis_max_l` levam a faixa do TOPSIS às tabelas do artigo.
 
 O que cada seção do `estudo.json` contém, os apelidos das substituições (área de captação, demanda, usuários, fração, volume do reservatório e outros) e os arquivos de saída estão no apêndice «Arquivos, pastas e formatos». O exemplo `examples/estudos/tres-tipologias-exemplo/` roda os casos 1 a 3 de `examples/` (residência unifamiliar, edifício corporativo e escola), um por `grupo`: `triton estudo run examples\estudos\tres-tipologias-exemplo\estudo.json --saida saida\exemplo`.
 

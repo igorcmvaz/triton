@@ -38,7 +38,7 @@ The other editions use the same engine and the same version number; see
 | **Economics** | parametric CAPEX, progressive water and sewer tariffs, electricity tariffs, OPEX, NPV, IRR, simple and discounted payback |
 | **Carbon** | screening life-cycle assessment: embodied carbon, operational carbon of pumping and treatment, and the credit of mains water avoided (needs emission factors that you enter) |
 | **Weight of the system** | dry mass, water load and operating load (kg and kN) at the lower level, on the roof and in the risers, with attention thresholds of the program, not of any standard |
-| **Decision** | TOPSIS, VIKOR, PROMETHEE II and SMAA-VIKOR over the candidate capacities, with eight criteria in four dimensions and declared weights; placement against LEED v4/v4.1, LEED v5, EDGE and GRI 303 |
+| **Decision** | TOPSIS, VIKOR, PROMETHEE II and SMAA-VIKOR over the candidate capacities, with eight criteria in four dimensions and declared weights or objective weights by CRITIC, reported as a choice band of volumes with similar scores; placement against LEED v4/v4.1, LEED v5, EDGE and GRI 303 |
 | **Piping in 3D** | pipe runs from component connection points, with gravity slopes and clash checks; DXF, glTF, interactive HTML and a BIM manifest |
 
 The technical, economic and environmental optima do not in general coincide. Triton computes

@@ -263,7 +263,7 @@ incorporado** (3 546 contra 1 026 kg CO₂e), para entregar 6,47 pontos perce
 o maior volume testado é escolher o limite da varredura, e não um ótimo.
 
 **Como evitar.** Declare o critério de escolha. Se for hidráulico, o limiar de ganho marginal; se
-for multicritério, os quatro pesos de eixo, as partes no eixo e os volumes candidatos. E reporte os vencedores de cada critério isolado, porque a divergência
+for multicritério, os quatro pesos de eixo, as partes no eixo, os volumes candidatos e a faixa de escolha com a tolerância. E reporte os vencedores de cada critério isolado, porque a divergência
 entre eles **é** o resultado.
 
 ---
@@ -407,8 +407,15 @@ deve ser lida com a análise de sensibilidade aos pesos ao lado.
 valor atual líquido negativo.
 
 **O resultado do TOPSIS depende do conjunto de candidatos.** O ideal e o anti-ideal saem dos
-volumes avaliados: no tutorial, sete candidatos elegem 3 000 L, e a varredura de 1 a 20 m³ elege
-1 000 L (secção 2.10 (volume O método)). Declare os candidatos junto com os pesos.
+volumes avaliados: no tutorial, sete candidatos dão a faixa de escolha de 2 000 a 3 000 L, e a
+varredura de 1 a 20 m³ só 1 000 L (secção 2.10 (volume O método)). Declare os candidatos junto com os pesos.
+
+**A faixa de escolha depende da tolerância e da grade.** Não é um intervalo de confiança: a
+tolerância, 5% da amplitude das pontuações por omissão, é uma declaração do estudo, e a faixa só
+contém volumes avaliados.
+
+**Os pesos do CRITIC dependem dos resultados.** Medem o contraste e a independência dos critérios
+no conjunto avaliado, e não a preferência de ninguém: mudam quando os candidatos mudam.
 
 **Os limiares do peso do sistema são do programa**, e não de norma: 500 kg na cobertura com o
 reservatório cheio, 1 500 L de reservatório superior e 3 000 kg de cisterna a seco servem para
@@ -699,6 +706,12 @@ plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a procura pluv
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
 que tem no denominador a procura total da edificação.
 
+**CRITIC** (*criteria importance through intercriteria correlation*). Método de pesos objetivos
+de Diakoulaki, Mavrotas e Papayannakis (1995): cada critério pesa pelo contraste entre as
+alternativas e pela independência em relação aos outros critérios, calculados dos próprios
+resultados. No programa, uma opção de ponderação (`--weights critic`), e não o padrão; os pesos
+mudam com o conjunto de volumes avaliado e não exprimem a preferência de ninguém.
+
 **CSV** (*comma-separated values*). Formato de ficheiro de texto em que cada linha é um
 registo e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -764,6 +777,12 @@ com o volume e trava o sobredimensionamento. Não é a ocupação média da cist
 
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
+
+**Faixa de escolha** (*choice band*). Os volumes com resultado multicritério semelhante ao do
+volume de maior pontuação: aqueles cuja medida, normalizada entre a pior (0) e a melhor (1) dos
+volumes avaliados, fica a até a tolerância da melhor (por omissão, 5% da amplitude). Depende da
+tolerância e da grade de volumes avaliada; num estudo, relata-se a faixa com a tolerância, e não um
+volume só.
 
 **Fração atendível por água pluvial** (*non-potable demand share*, $f$). Percentual da procura
 total de água da edificação ($D_{tot}$) passível de suprimento por água de chuva ($f = D_{pl} / D_{tot}$).
@@ -918,8 +937,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
-vencer.
+pesos — no programa, oito, um por critério, com 25% esperado em cada eixo — e devolve a
+probabilidade de cada alternativa vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
@@ -1048,6 +1067,10 @@ original do TOPSIS.
 **Opricovic, S.; Tzeng, G.-H.** O método VIKOR e as condições C1 e C2 de vantagem aceitável e estabilidade.
 
 **Lahdelma, R.; Hokkanen, J.; Salminen, P.** (1998), e **Tervonen, T.; Figueira, J.** (2008). SMAA e SMAA-2.
+
+**Diakoulaki, D.; Mavrotas, G.; Papayannakis, L.** (1995). Determining objective weights in multiple criteria
+problems: The CRITIC method. *Computers & Operations Research*, 22(7), 763–770. doi:10.1016/0305-0548(94)00059-H.
+Os pesos objetivos pelo CRITIC.
 
 **Walsh, R. P. D.; Lawler, D. M.** (1981). O índice de sazonalidade.
 

@@ -2995,3 +2995,17 @@ def test_otimizador_partes_no_eixo_padrao_edicao_e_validacao(qapp):
     assert not tab.spin_shares[0].isVisibleTo(tab)
     tab.combo_mcdm_method.setCurrentIndex(tab.combo_mcdm_method.findData('topsis'))
     assert tab.spin_shares[0].isVisibleTo(tab)
+
+
+def test_otimizador_pesos_critic(qapp):
+    """Perfil CRITIC: pesos objetivos da matriz, controles só leitura, partes no eixo escondidas."""
+    from triton.core.topsis import PESOS_CRITIC
+    tab = TabEconomicGlobalOptimizer()
+    tab.combo_preset.setCurrentIndex(tab.combo_preset.findData(PESOS_CRITIC))
+    assert tab.get_current_weights() == PESOS_CRITIC
+    assert not tab.spin_w_tech.isEnabled() and not tab.spin_w_struct.isEnabled()
+    assert not tab.spin_shares[0].isVisibleTo(tab)
+    assert 'CRITIC' in tab.lbl_weight_validation.text()
+    tab.combo_preset.setCurrentIndex(tab.combo_preset.findData('equilibrado'))
+    assert tab.get_current_weights() == pytest.approx((0.25, 0.25, 0.25, 0.25))
+    assert tab.spin_w_tech.isEnabled() and tab.spin_shares[0].isVisibleTo(tab)

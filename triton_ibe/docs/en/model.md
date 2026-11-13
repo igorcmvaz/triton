@@ -268,10 +268,36 @@ adds the weight of the system.
 within each axis by the *criterion shares* (equal by default); or eight criterion weights used directly. Three
 weights, from projects and studies made up to 0.1.0, are still accepted: the structural axis takes their mean,
 so equal weights stay equal. Seven values, weights or shares of the old model, are refused. TOPSIS, VIKOR and
-PROMETHEE II apply the same rule; SMAA-VIKOR samples eight weights on the simplex and reports the central
-weights aggregated on the four axes. Command line: `--weights t,e,a,s` (or eight values) and
-`--criterion-shares` (eight values, default `1,1,1,1,1,1,1,1`); project file: `analysis.topsis_weights` and
-`analysis.topsis_criterion_shares`; declarative study: `analise.pesos` and `analise.partes_no_eixo`.
+PROMETHEE II apply the same rule; SMAA-VIKOR samples eight weights from a Dirichlet distribution with parameters
+(1, 1, 2/3, 2/3, 2/3, 2, 1, 1), so that each axis receives 25% on average, and reports the central weights
+aggregated on the four axes. Command line: `--weights t,e,a,s` (or eight values, or `critic`) and
+`--criterion-shares` (eight values, default `1,1,1,1,1,1,1,1`); project file: `analysis.topsis_weights` (or
+`"critic"`) and `analysis.topsis_criterion_shares`; declarative study: `analise.pesos` (or `"critic"`) and
+`analise.partes_no_eixo`.
+
+**Objective weights (CRITIC).** With `critic` in place of the weights, the software derives them by the method
+of Diakoulaki, Mavrotas and Papayannakis (1995, *Computers & Operations Research* 22(7), 763–770,
+doi:10.1016/0305-0548(94)00059-H), in `triton.core.topsis.pesos_critic`. Each criterion is normalised from 0
+(worst observed value) to 1 (best), in its own direction; the information of criterion j is
+`C_j = σ_j · Σ_k (1 − r_jk)`, with `σ_j` the standard deviation of the normalised criterion and `r_jk` the
+Pearson correlation between criteria; the weight is `w_j = C_j / Σ C`. A constant criterion carries no
+information and weighs zero; with no contrast at all, the weights are equal. The weights come from the
+alternatives with a capacity above zero (the no-tank alternative enters TOPSIS with LCOW and payback
+penalties that would inflate the contrast) and are recomputed at every analysis. They apply to TOPSIS, VIKOR
+and PROMETHEE II (criterion shares do not apply); SMAA still samples its weights; the weight sensitivity
+samples the four axis weights. CRITIC measures the contrast and independence of the criteria in the study's
+own results: the weights change with the set of capacities, express nobody's preference, and a criterion that
+varies a great deal gains weight even if it matters little. It is a choice of method, not the default.
+
+**Choice band.** When several capacities score alike, naming one of them the best overstates the method. The
+software reports the choice band (`triton.core.topsis.faixa_de_escolha`): the capacities above zero whose
+measure, normalised between the worst (0) and the best (1) of the capacities evaluated, lies within the
+tolerance of the best (default `TOLERANCIA_FAIXA_PADRAO = 0.05`, 5% of the range). It applies to the TOPSIS
+score, the VIKOR Q index (lower is better), the PROMETHEE II net flow and the SMAA first-rank acceptability,
+and reports whether the band is contiguous and which capacity has the highest score. The band depends on the
+tolerance (`--score-band`, `analysis.topsis_score_band`, `analise.tolerancia_faixa`) and on the grid of
+capacities evaluated, and it is not a confidence interval: report it with the tolerance, rather than a single
+capacity.
 
 **System weight.** `triton analyze … --analysis all` (or `--analysis system_weight`) reports `system_weight`:
 dry mass, water load and operating load (kg and kN) in the basement or lower level, on the roof or upper level
@@ -295,8 +321,8 @@ Tzeng (2004) but **does not apply conditions C1 (acceptable advantage) and C2 (a
 stability)**. The ranking is therefore an ordering by `Q`, not a claim that the leader is
 a stable compromise.
 
-SMAA-VIKOR follows Lahdelma and Salminen (2001), sampling the weight simplex by a
-symmetric Dirichlet. It is an independent NumPy implementation following the design of the
+SMAA-VIKOR follows Lahdelma and Salminen (2001), sampling the weights from a
+Dirichlet distribution that gives each axis 25% on average. It is an independent NumPy implementation following the design of the
 `crispyn` library (A. Bączkiewicz, MIT licence), which serves as a comparison baseline and
 not as the origin of the code.
 

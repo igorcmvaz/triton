@@ -266,7 +266,24 @@ water saved.
 by default) are shared among the criteria of each dimension by the criterion shares `s_j` (equal by
 default): `w_j = W_d · s_j / Σ_{k∈d} s_k`. Eight direct criterion weights are also accepted. Three
 weights (projects of version 0.1.0) give the structural dimension their mean; seven values are
-refused. TOPSIS, VIKOR, PROMETHEE II and SMAA-VIKOR use the same rule.
+refused. TOPSIS, VIKOR and PROMETHEE II use the same rule; SMAA-VIKOR draws the weights instead.
+
+**Objective weights (CRITIC).** With `critic` in place of the weights, they are computed from the
+decision matrix by the CRITIC method (Diakoulaki, Mavrotas and Papayannakis, 1995,
+doi:10.1016/0305-0548(94)00059-H): each criterion is rescaled from 0 (worst observed) to 1 (best),
+`C_j = σ_j · Σ_k (1 − r_jk)` with `σ_j` its standard deviation and `r_jk` the Pearson correlation
+between rescaled criteria, and `w_j = C_j / Σ C`. A constant criterion weighs zero; with no contrast
+at all the weights are equal. The weights come from the volumes above zero (the no-cistern
+alternative carries penalised LCOW and payback), are recomputed at every analysis and hold for
+TOPSIS, VIKOR and PROMETHEE II. They measure contrast and independence in the results, not
+preference, and change with the set of volumes evaluated.
+
+**Choice band.** Instead of a single winner the software reports the volumes above zero whose score,
+rescaled from the worst (0) to the best (1) of the volumes evaluated, lies within a tolerance of the
+best (default 5% of the score range; `--score-band`, `analysis.topsis_score_band`,
+`analise.tolerancia_faixa`), with the volume of the highest score as information. The same rule
+applies to the TOPSIS score, the VIKOR index Q (inverted), the PROMETHEE II net flow and the SMAA
+first-rank acceptability. The band depends on the grid and on the tolerance; declare both.
 
 To admit negative values without a conditional correction, each column is translated by
 its worst observed value, `z_ij = x_ij − min(x_j)`, then vector-normalised,
@@ -285,7 +302,11 @@ stability)**. The ranking is therefore an ordering by `Q`, not a claim that the 
 a stable compromise.
 
 SMAA-VIKOR follows Lahdelma and Salminen (2001), sampling the simplex of the eight criterion
-weights by a symmetric Dirichlet. It is an independent NumPy implementation following the design of the
+weights by a Dirichlet with parameters (1, 1, 2/3, 2/3, 2/3, 2, 1, 1): the parameters add up to 2 in
+each dimension, so each dimension weighs 25% on average and each criterion, on average, what the
+default TOPSIS weights give it (a symmetric Dirichlet would give the economic dimension, with three
+criteria, 37.5% and the environmental, with one, 12.5%). SMAA-TOPSIS (`engine="topsis"`) uses the
+same draws with the program's TOPSIS normalisation. It is an independent NumPy implementation following the design of the
 `crispyn` library (A. Bączkiewicz, MIT licence), which serves as a comparison baseline and
 not as the origin of the code.
 

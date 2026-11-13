@@ -114,6 +114,12 @@ compromisso deve ser lida com a análise de sensibilidade de pesos ao lado.
 **A normalização do TOPSIS é uma variante** com translação por `x − min(x)`, para
 admitir valor presente líquido negativo.
 
+**A faixa de escolha depende da grade de volumes e da tolerância**, que é convenção: 5% da
+amplitude dos escores, no padrão. Declare as duas.
+
+**Os pesos do CRITIC medem contraste e conflito nos resultados**, e não importância: mudam
+com o conjunto de volumes avaliado e não expressam a preferência de ninguém.
+
 **Os alertas do peso do sistema usam limiares de atenção do programa**, e não de norma:
 500 kg na cobertura com o reservatório cheio, reservatório superior acima de 1.500 L,
 cisterna acima de 3.000 kg a seco e cisterna de concreto. A massa vem de pesos de

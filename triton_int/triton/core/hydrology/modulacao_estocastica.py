@@ -620,7 +620,8 @@ def simular(
         series = {m: np.asarray(series_dos_modelos[m], dtype=float) for m in parametros.modelos_climaticos}
     extras: Dict[str, Any] = {"smaa": False}
     if pesos is not None:
-        extras["weights"] = tuple(float(p) for p in pesos)
+        # «critic»: os pesos objetivos são recalculados em cada realização, da matriz sorteada.
+        extras["weights"] = pesos if isinstance(pesos, str) else tuple(float(p) for p in pesos)
     if partes is not None:
         extras["criterion_shares"] = tuple(float(p) for p in partes)
     if ambiental:

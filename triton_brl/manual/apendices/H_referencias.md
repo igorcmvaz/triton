@@ -74,6 +74,10 @@ aceitável e estabilidade.
 **Lahdelma, R.; Hokkanen, J.; Salminen, P.** (1998), e **Tervonen, T.; Figueira, J.**
 (2008). SMAA e SMAA-2.
 
+**Diakoulaki, D.; Mavrotas, G.; Papayannakis, L.** (1995). Determining objective weights in
+multiple criteria problems: the CRITIC method. *Computers & Operations Research*, v. 22, n. 7,
+p. 763-770. doi:10.1016/0305-0548(94)00059-H. Os pesos objetivos do CRITIC.
+
 **Walsh, R. P. D.; Lawler, D. M.** (1981). O índice de sazonalidade.
 
 **ETCCDI** — *Expert Team on Climate Change Detection and Indices*, da OMM. Os

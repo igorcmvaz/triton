@@ -92,7 +92,9 @@ The source code in this repository is the exact one the installers are built fro
 - **Environment.** Life-cycle carbon and certification scoring (LEED, EDGE, AQUA-HQE and others).
 - **Decision.** Multi-criteria ranking with TOPSIS, VIKOR, SMAA-VIKOR and PROMETHEE II, on eight criteria in four
   dimensions (since 0.2.0): technical (volumetric reliability, storage efficiency), economic (net savings, levelised
-  cost of water, discounted payback), environmental (life-cycle CO₂) and structural (dry mass, overflow).
+  cost of water, discounted payback), environmental (life-cycle CO₂) and structural (dry mass, overflow). Weights are
+  declared per dimension or computed from the results by CRITIC, and the outcome is reported as a choice band: the
+  volumes whose scores sit within 5% of the best, rather than a single 'best' volume.
 - **System weight.** Dry mass, water load and operating load (kg and kN) by position: lower level, roof, risers.
 - **Outputs.** Executive report, environmental audit and technical dossier in PDF; CAD, BIM and spreadsheet export.
 

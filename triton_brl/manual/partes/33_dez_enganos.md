@@ -182,7 +182,7 @@ vezes mais carbono incorporado**, para entregar 0,88 ponto percentual a mais. E,
 volume maior é ambientalmente **pior** em termos absolutos.
 
 **Como evitar.** Declare o critério de escolha. Se for hidráulico, o limiar de ganho
-marginal; se for multicritério, os quatro pesos de eixo e as partes no eixo. E reporte os vencedores de cada critério
+marginal; se for multicritério, os quatro pesos de eixo, as partes no eixo e a faixa de escolha, com a tolerância. E reporte os vencedores de cada critério
 isolado, porque a divergência entre eles **é** o resultado.
 
 ---

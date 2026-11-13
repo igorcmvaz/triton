@@ -101,8 +101,9 @@ adicionais, e ele diz respeito à decisão final do estudo: a escolha do volume 
 dos pesos atribuídos aos critérios.
 
 Na etapa **8. Decisão Multicritério**, a coluna de **aceitabilidade SMAA-VIKOR** já é uma
-análise de sensibilidade pronta. Ela responde: se os pesos das dimensões fossem
-sorteados em vez de fixados, com que frequência cada volume ficaria em primeiro lugar?
+análise de sensibilidade pronta. Ela responde: se os pesos fossem sorteados em vez de
+fixados, com 25% esperado em cada eixo, com que frequência cada volume ficaria em primeiro
+lugar?
 
 Leia assim:
 
@@ -156,7 +157,7 @@ juntas. Exige declarar as distribuições adotadas, e não só as faixas.
 
 - as **faixas** adotadas e a origem de cada uma;
 - quantas rodadas foram feitas, e com que valores;
-- para a escolha do volume, a **aceitabilidade** do vencedor;
+- para a escolha do volume, a **faixa de escolha**, com a tolerância, e a **aceitabilidade** do volume mais aceito;
 - **quais premissas não foram perturbadas**, e por quê.
 
 A última é a que mais se esquece, e a que um revisor mais cobra.

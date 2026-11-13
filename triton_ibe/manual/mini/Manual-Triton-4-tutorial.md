@@ -116,9 +116,9 @@ Figura 18 — Emissões líquidas em vinte anos da cisterna de 5 000 L, por mate
 
 Figura 19 — Emissões líquidas em vinte anos contra o volume da cisterna, para (a) polietileno e (b) betão, no projeto do tutorial, com fatores ilustrativos
 
-Figura 20 — O gráfico do separador de decisão: a pontuação de proximidade ao ideal de cada volume candidato, com o vencedor destacado, para os quatro eixos a 25%. Pontuações próximas entre si significam alternativas equivalentes, e nesse caso a escolha passa a depender do peso declarado
+Figura 20 — O gráfico do separador de decisão: a pontuação de proximidade ao ideal de cada volume candidato, com o de maior pontuação destacado, para os quatro eixos a 25%. Pontuações próximas entre si significam alternativas equivalentes — é o que a faixa de escolha regista —, e a escolha entre elas depende do peso declarado
 
-Figura 21 — O segundo gráfico do separador de decisão: o quanto cada volume se aproxima do melhor valor observado em cada um dos oito critérios (100% é o melhor, 0% o pior), com o volume eleito pelo TOPSIS marcado
+Figura 21 — O segundo gráfico do separador de decisão: o quanto cada volume se aproxima do melhor valor observado em cada um dos oito critérios (100% é o melhor, 0% o pior), com o volume de maior pontuação do TOPSIS marcado
 
 ---
 
@@ -200,11 +200,11 @@ Tabela 37 — Estado do projeto do tutorial depois da análise ambiental (ilustr
 
 Tabela 38 — Matriz de decisão multicritério: os oito critérios de cada volume candidato, em polietileno, com o reservatório superior de 1 000 L (os custos são ilustrativos, não são preços de mercado)
 
-Tabela 39 — Volume vencedor segundo cada critério isolado e o compromisso do TOPSIS
+Tabela 39 — Volume vencedor segundo cada critério isolado, e a faixa de escolha do compromisso TOPSIS (os volumes com pontuação a até 5% da amplitude da maior)
 
 Tabela 40 — Os oito critérios do multicritério, o eixo e o sentido de preferência de cada um
 
-Tabela 41 — Volume escolhido pelo TOPSIS conforme o eixo com peso dominante (70% nele e 10% em cada um dos outros três), o segundo classificado e a diferença de pontuação entre os dois
+Tabela 41 — Faixa de escolha do TOPSIS conforme a ponderação — os quatro eixos iguais, 70% num eixo e 10% em cada um dos outros três, e os pesos objetivos do CRITIC —, com o volume de maior pontuação, o segundo classificado e a diferença de pontuação entre os dois
 
 Tabela 42 — Resumo do projeto do tutorial, com todos os parâmetros e resultados
 
@@ -1418,7 +1418,7 @@ Temos agora três respostas. O potencial diz um volume, o dinheiro diz outro, o 
 
 ## 4.9. Que volume escolher, afinal
 
-> No fim desta secção, tem um volume recomendado e sabe que ele depende de pesos que **o utilizador** declarou — e não de uma verdade que o programa descobriu.
+> No fim desta secção, tem uma faixa de volumes com resultados multicritério semelhantes e sabe que ela depende de pesos que **o utilizador** declarou — e não de uma verdade que o programa descobriu.
 
 ---
 
@@ -1437,19 +1437,20 @@ As secções anteriores fizeram ao mesmo projeto três perguntas — quanta águ
 | 8 000 L | 71,5% | 1,50% ao dia | −7 586 € | 17,73 €/m³ | sem recuperação | 80 kg CO₂e | 245 kg | 27,1 m³/ano |
 | 12 000 L | 77,9% | 1,09% ao dia | −9 668 € | 19,87 €/m³ | sem recuperação | 187 kg CO₂e | 333 kg | 23,1 m³/ano |
 
-<!-- tabela: **Tabela 39** — Volume vencedor segundo cada critério isolado e o compromisso do TOPSIS -->
-| Critério isolado | Volume vencedor |
+<!-- tabela: **Tabela 39** — Volume vencedor segundo cada critério isolado, e a faixa de escolha do compromisso TOPSIS (os volumes com pontuação a até 5% da amplitude da maior) -->
+| Critério | Volume |
 | :--- | ---: |
 | maior fiabilidade volumétrica | 12 000 L |
 | menor período de recuperação descontado, desempate pelo VAL | 1 000 L |
 | menores emissões líquidas de carbono | 2 000 L |
-| **compromisso TOPSIS, 25% em cada eixo** | **3 000 L** |
+| **compromisso TOPSIS, 25% em cada eixo: faixa de escolha (até 5% da amplitude)** | **2 000 a 3 000 L** |
+| maior pontuação TOPSIS, 25% em cada eixo | 3 000 L |
 
 Leia as colunas por eixo, porque cada eixo junta critérios que puxam em sentidos opostos:
 
 - **Técnico.** A fiabilidade volumétrica — a parte da procura pluvial que a cisterna satisfaz — sobe com o volume, de 44,0% a 77,9%. A eficiência de armazenamento — a água entregue por dia sobre o volume construído — cai, de 7,39% para 1,09% ao dia: a cisterna grande guarda água que ninguém usa.
-- **Económico.** O VAL é negativo em todos os volumes (os custos são ilustrativos, não são preços de mercado), e a menor perda está em 1 000 L. O custo nivelado da água (LCOW) desenha um U, com o mínimo em 3 000 L (15,65 €/m³). Nenhum volume recupera o investimento: o período de recuperação entra com a mesma penalização em todos e não pesa na escolha.
-- **Ambiental.** As emissões líquidas são mínimas em 2 000 L (−31 kg CO₂e em vinte anos). A partir dos 5 000 L, o polietileno acrescenta mais carbono do que a água evitada retira.
+- **Económico.** O VAL é negativo em todos os volumes (os custos são ilustrativos, não são preços de mercado), e a menor perda está em 1 000 L. O custo nivelado da água (LCOW) desenha um U, com o mínimo em 3 000 L (15,65 €/m³). Nenhum volume recupera o investimento: o período de recuperação entra com a mesma penalização em todos e não pesa na escolha.
+- **Ambiental.** As emissões líquidas são mínimas em 2 000 L (−31 kg CO₂e em vinte anos). A partir dos 5 000 L, o polietileno acrescenta mais carbono do que a água evitada retira.
 - **Estrutural.** A massa a seco do sistema sobe com o volume, de 91 kg para 333 kg; o extravasamento desce, de 44,3 para 23,1 m³ por ano.
 
 ==Nenhum volume vence em todos os critérios.== Cada um tem o ótimo num ponto diferente da curva, e a escolha entre eles não é uma questão técnica com resposta única: é uma questão de prioridade, que quem decide tem de declarar. É essa a lacuna que o método multicritério preenche.
@@ -1474,15 +1475,15 @@ O programa ordena os volumes pelo TOPSIS sobre os oito critérios:
 
 O método funciona em quatro passos encadeados. Primeiro, normaliza a matriz de decisão, para que critérios medidos em unidades incomparáveis — percentagens, euros, quilogramas e anos — passem a ocupar a mesma escala. Depois, aplica os pesos declarados. Calcula então, para cada volume, a distância euclidiana à solução ideal, formada pelos melhores valores de cada critério, e à solução anti-ideal, formada pelos piores. Por fim, ordena os volumes pela proximidade relativa ao ideal, conforme a formulação da secção 2.10 (volume O método).
 
-**Os pesos têm dois níveis.** Cada eixo recebe um peso — 25% em cada um, por omissão — e o peso do eixo reparte-se pelos seus critérios segundo as *partes no eixo*, iguais por omissão. Com os quatro eixos iguais, os dois critérios técnicos e os dois estruturais valem 12,5% cada, os três económicos 8,3% cada e o ambiental 25%. No separador de decisão, os quatro pesos têm um controlo cada, e as partes ficam na linha «Partes no eixo», com o botão «Partes iguais»; na linha de comandos, são as opções `--weights` e `--criterion-shares` (secção 3.6 (volume Guias de uso)).
+**Os pesos têm dois níveis.** Cada eixo recebe um peso — 25% em cada um, por omissão — e o peso do eixo reparte-se pelos seus critérios segundo as *partes no eixo*, iguais por omissão. Com os quatro eixos iguais, os dois critérios técnicos e os dois estruturais valem 12,5% cada, os três económicos 8,3% cada e o ambiental 25%. No separador de decisão, cada eixo tem um cartão, com o peso do eixo em cima e, por baixo, as partes dos seus critérios; os botões «Partes iguais» e «Recalcular» ficam sob os quatro cartões. Na linha de comandos, são as opções `--weights` e `--criterion-shares` (secção 3.6 (volume Guias de uso)).
 
-Aplicado ao projeto do tutorial com os quatro eixos a 25% e partes iguais, o método indica **3 000 L**. A margem é mínima: 3 000 L ficam à frente de 2 000 L por 0,0004 de pontuação (secção 2.10 (volume O método)), uma diferença que nenhum dado de entrada sustenta. Para efeitos práticos, os dois volumes empatam.
+Aplicado ao projeto do tutorial com os quatro eixos a 25% e partes iguais, o método não separa um volume: **de 2 000 a 3 000 L, os resultados multicritério são semelhantes**. É a *faixa de escolha* do programa, que reúne os volumes cuja pontuação fica a até 5% da amplitude das pontuações, contados a partir da maior (secção 2.10 (volume O método)). A maior pontuação é a de 3 000 L, à frente de 2 000 L por 0,0004, uma diferença que nenhum dado de entrada sustenta. Relate a faixa, e não «o melhor volume».
 
 > **Três declarações que um estudo publicado tem de fazer.**
 >
 > A normalização do programa é uma **variante** de Hwang e Yoon: translada por `x − min(x)` antes da normalização vetorial, para admitir um VAL negativo. É uma escolha deliberada, e apresentá-la como TOPSIS canónico seria incorreto.
 >
-> O SMAA-VIKOR, disponível ao lado, sorteia oito pesos e devolve a probabilidade de cada volume ocupar cada posição. É a resposta certa quando não há consenso sobre os pesos.
+> O SMAA-VIKOR, disponível ao lado, sorteia oito pesos, com 25% esperado em cada eixo, e devolve a probabilidade de cada volume ocupar cada posição. É a resposta certa quando não há consenso sobre os pesos.
 >
 > As condições C1 e C2 de Opricovic, de vantagem aceitável e de estabilidade, **não estão implementadas**. A secção 2.10 (volume O método) detalha.
 
@@ -1492,29 +1493,32 @@ O separador de decisão apresenta a pontuação de cada volume candidato (Figura
 
 ![A pontuação multicritério de cada volume candidato](../figuras/fig51_programa_topsis.png)
 
-*Figura 20 — O gráfico do separador de decisão: a pontuação de proximidade ao ideal de cada volume candidato, com o vencedor destacado, para os quatro eixos a 25%. Pontuações próximas entre si significam alternativas equivalentes, e nesse caso a escolha passa a depender do peso declarado. Figura gerada pelo próprio programa.*
+*Figura 20 — O gráfico do separador de decisão: a pontuação de proximidade ao ideal de cada volume candidato, com o de maior pontuação destacado, para os quatro eixos a 25%. Pontuações próximas entre si significam alternativas equivalentes — é o que a faixa de escolha regista —, e a escolha entre elas depende do peso declarado. Figura gerada pelo próprio programa.*
 
 ---
 ### 4.9.3. O peso muda a resposta
 
-A tabela seguinte mostra o que acontece quando um eixo recebe 70% do peso e os outros três 10% cada, os perfis «Priorizar …» do separador de decisão.
+A tabela seguinte mostra o que acontece à faixa de escolha quando um eixo recebe 70% do peso e os outros três 10% cada, os perfis «Priorizar …» do separador de decisão. A última linha usa os pesos objetivos do CRITIC, calculados dos próprios resultados.
 
-<!-- tabela: **Tabela 41** — Volume escolhido pelo TOPSIS conforme o eixo com peso dominante (70% nele e 10% em cada um dos outros três), o segundo classificado e a diferença de pontuação entre os dois -->
-| Peso dominante | Volume | Segundo classificado | Diferença de pontuação |
-| :--- | ---: | ---: | ---: |
-| pesos iguais, 25% em cada eixo | 3 000 L | 2 000 L | 0,0004 |
-| técnico, 70% | 1 000 L | 2 000 L | 0,1005 |
-| económico, 70% | 3 000 L | 2 000 L | 0,0107 |
-| ambiental, 70% | 2 000 L | 3 000 L | 0,0018 |
-| estrutural, 70% | 4 000 L | 3 000 L | 0,0060 |
+<!-- tabela: **Tabela 41** — Faixa de escolha do TOPSIS conforme a ponderação — os quatro eixos iguais, 70% num eixo e 10% em cada um dos outros três, e os pesos objetivos do CRITIC —, com o volume de maior pontuação, o segundo classificado e a diferença de pontuação entre os dois -->
+| Ponderação | Faixa de escolha (até 5% da amplitude) | Maior pontuação | Segundo classificado | Diferença de pontuação |
+| :--- | ---: | ---: | ---: | ---: |
+| pesos iguais, 25% em cada eixo | 2 000 a 3 000 L | 3 000 L | 2 000 L | 0,0004 |
+| técnico, 70% | 1 000 L | 1 000 L | 2 000 L | 0,1005 |
+| económico, 70% | 2 000 a 4 000 L | 3 000 L | 2 000 L | 0,0107 |
+| ambiental, 70% | 1 000 a 3 000 L | 2 000 L | 3 000 L | 0,0018 |
+| estrutural, 70% | 3 000 a 4 000 L | 4 000 L | 3 000 L | 0,0060 |
+| pesos objetivos (CRITIC): técnico 33,8%, económico 23,0%, ambiental 11,5%, estrutural 31,7% | 4 000 a 5 000 L | 4 000 L | 5 000 L | 0,0033 |
 
-Com 70% no eixo técnico, a escolha **desce** para 1 000 L — o contrário do que o nome sugere. O eixo técnico já não mede só a água entregue: junta a fiabilidade, que sobe com o volume, à eficiência de armazenamento, que cai. Os dois puxam para extremos opostos, e a eficiência, que varia mais depressa nos volumes pequenos (de 7,39% para 4,45% ao dia entre 1 000 e 2 000 L), puxa com mais força. O critério técnico isolado — a maior fiabilidade — continua a apontar para 12 000 L, e o critério hidráulico da secção 4.4, pelo limiar de ganho marginal, para 5 000 L. São três perguntas técnicas diferentes: quanto da procura se satisfaz, quanto do volume construído trabalha, e onde o metro cúbico seguinte deixa de compensar.
+Com 70% no eixo técnico, a faixa **desce** para um só volume, 1 000 L — o contrário do que o nome sugere. O eixo técnico já não mede só a água entregue: junta a fiabilidade, que sobe com o volume, à eficiência de armazenamento, que cai. Os dois puxam para extremos opostos, e a eficiência, que varia mais depressa nos volumes pequenos (de 7,39% para 4,45% ao dia entre 1 000 e 2 000 L), puxa com mais força. O critério técnico isolado — a maior fiabilidade — continua a apontar para 12 000 L, e o critério hidráulico da secção 4.4, pelo limiar de ganho marginal, para 5 000 L. São três perguntas técnicas diferentes: quanto da procura se satisfaz, quanto do volume construído trabalha, e onde o metro cúbico seguinte deixa de compensar.
 
-Os outros eixos respondem como os seus critérios fazem esperar. Com 70% no económico, vence 3 000 L, o mínimo do LCOW; com 70% no ambiental, 2 000 L, o mínimo das emissões; com 70% no estrutural, 4 000 L, onde a massa que cresce e o extravasamento que desce se equilibram. Nas quatro ponderações da tabela sem o peso técnico dominante, o TOPSIS fica entre 2 000 e 4 000 L.
+Os outros eixos respondem como os seus critérios fazem esperar. Com 70% no económico, a faixa vai de 2 000 a 4 000 L, à volta do mínimo do LCOW em 3 000 L; com 70% no ambiental, de 1 000 a 3 000 L, à volta do mínimo das emissões em 2 000 L; com 70% no estrutural, de 3 000 a 4 000 L, onde a massa que cresce e o extravasamento que desce se equilibram. Nas quatro ponderações declaradas sem o peso técnico dominante, as faixas ficam entre 1 000 e 4 000 L, e nenhuma chega aos 5 000 L.
 
-O ordenamento multicritério escolhe um volume; não diz se se deve construir. Neste tutorial, todos os volumes têm VAL negativo e nenhum período de recuperação, com os custos ilustrativos, pelo que a dimensão financeira argumenta contra construir seja o que for. Se o projeto avançar, é pelas razões que os outros eixos apresentam ou por um fim que o fluxo de caixa não mede, e o relatório tem de o dizer.
+A última linha não vem de uma preferência declarada. O CRITIC (secção 2.10 (volume O método)) dá mais peso aos critérios que mais variam entre os volumes e que menos se parecem com os outros. No tutorial, a fiabilidade volumétrica e o extravasamento, que melhoram com o volume enquanto a eficiência, o VAL e a massa pioram, ficam com 20,4% cada; o período de recuperação, igual em todos os volumes, fica com zero. Somados, os eixos recebem 33,8% (técnico), 23,0% (económico), 11,5% (ambiental) e 31,7% (estrutural), e a faixa sobe para **4 000 a 5 000 L**, com a maior pontuação em 4 000 L. Os pesos do CRITIC não dizem que a água importa mais: dizem que, nestes sete volumes, é na água que as alternativas mais se distinguem. Com outro conjunto de volumes, seriam outros.
 
-> **Declare os pesos.** «Volume ótimo pelo TOPSIS» sem os quatro pesos de eixo e as partes no eixo é uma afirmação impossível de reproduzir. Dois artigos com pesos diferentes chegam a volumes diferentes, e ambos estão certos.
+O ordenamento multicritério delimita uma faixa de volumes; não diz se se deve construir. Neste tutorial, todos os volumes têm VAL negativo e nenhum período de recuperação, com os custos ilustrativos, pelo que a dimensão financeira argumenta contra construir seja o que for. Se o projeto avançar, é pelas razões que os outros eixos apresentam ou por um fim que o fluxo de caixa não mede, e o relatório tem de o dizer.
+
+> **Declare os pesos e a tolerância.** Relate a faixa de escolha, com os quatro pesos de eixo, as partes no eixo (ou os pesos do CRITIC, se os usou) e a tolerância. «Volume ótimo pelo TOPSIS», sem eles, é uma afirmação impossível de reproduzir. Dois artigos com pesos diferentes chegam a faixas diferentes, e ambos estão certos.
 
 ---
 
@@ -1522,20 +1526,20 @@ Uma solução de compromisso cede em alguma coisa, e convém saber em quê. O pr
 
 ![A proximidade de cada volume ao ótimo de cada critério](../figuras/fig52_programa_proximidade.png)
 
-*Figura 21 — O segundo gráfico do separador de decisão: o quanto cada volume se aproxima do melhor valor observado em cada um dos oito critérios (100% é o melhor, 0% o pior), com o volume eleito pelo TOPSIS marcado. O período de recuperação, igual em todos os volumes, fica nos 100%; a legenda usa os rótulos do programa, em que a fiabilidade volumétrica aparece como «Confiabilidade volumétrica». É a figura que mostra o que cada volume cede, e em que critério. Figura gerada pelo próprio programa.*
+*Figura 21 — O segundo gráfico do separador de decisão: o quanto cada volume se aproxima do melhor valor observado em cada um dos oito critérios (100% é o melhor, 0% o pior), com o volume de maior pontuação do TOPSIS marcado. O período de recuperação, igual em todos os volumes, fica nos 100%; a legenda usa os rótulos do programa, em que a fiabilidade volumétrica aparece como «Confiabilidade volumétrica». É a figura que mostra o que cada volume cede, e em que critério. Figura gerada pelo próprio programa.*
 
 ---
 ### 4.9.4. A recomendação do tutorial
 
-O tutorial mantém o reservatório de **5 000 L em polietileno**, o volume que o critério hidráulico da secção 4.4 indicou com o limiar de ganho marginal de 1 %/m³. O multicritério de oito critérios, com os quatro eixos iguais, indica um volume menor, 3 000 L. Manter os 5 000 L é uma escolha, e esta secção diz o que ela cede.
+O tutorial mantém o reservatório de **5 000 L em polietileno**, o volume que o critério hidráulico da secção 4.4 indicou com o limiar de ganho marginal de 1 %/m³. O multicritério de oito critérios, com os quatro eixos iguais, aponta uma faixa de volumes menores, de 2 000 a 3 000 L. Manter os 5 000 L é uma escolha, e esta secção diz o que ela cede.
 
-Na figura de proximidade, os 5 000 L ganham aos 3 000 L no que depende de mais água: a fiabilidade volumétrica sobe de 58,7% para 65,3%, e o extravasamento desce de 35,1 para 31,0 m³ por ano. Perdem em tudo o resto. A eficiência de armazenamento cai de 3,29% para 2,19% ao dia, o LCOW sobe de 15,65 para 16,22 €/m³, o VAL passa de −5 140 € para −6 053 € (ilustrativos), as emissões líquidas passam de −27 para +8 kg CO₂e, e a massa a seco sobe de 135 para 179 kg. Com os quatro eixos iguais, os 5 000 L ficam em quinto lugar entre sete.
+Na figura de proximidade, os 5 000 L ganham aos 3 000 L no que depende de mais água: a fiabilidade volumétrica sobe de 58,7% para 65,3%, e o extravasamento desce de 35,1 para 31,0 m³ por ano. Perdem em tudo o resto. A eficiência de armazenamento cai de 3,29% para 2,19% ao dia, o LCOW sobe de 15,65 para 16,22 €/m³, o VAL passa de −5 140 € para −6 053 € (ilustrativos), as emissões líquidas passam de −27 para +8 kg CO₂e, e a massa a seco sobe de 135 para 179 kg. Com os quatro eixos iguais, os 5 000 L ficam em quinto lugar entre sete.
 
-Os 3 000 L são a escolha defensável quando o estudo dá ao dinheiro, ao carbono e ao peso do sistema pelo menos tanto peso como à água, que é o que os pesos iguais declaram. São também a escolha natural quando o espaço ou a estrutura limitam o volume. Os 5 000 L defendem-se quando o objetivo declarado é a água — satisfazer mais procura e deitar menos fora —, aceitando um custo maior por metro cúbico e um sistema mais pesado.
+A faixa de 2 000 a 3 000 L é a escolha defensável quando o estudo dá ao dinheiro, ao carbono e ao peso do sistema pelo menos tanto peso como à água, que é o que os pesos iguais declaram. É também a escolha natural quando o espaço ou a estrutura limitam o volume. Os 5 000 L defendem-se quando o objetivo declarado é a água — satisfazer mais procura e deitar menos fora —, aceitando um custo maior por metro cúbico e um sistema mais pesado. Com os pesos do CRITIC, os 5 000 L entram na faixa; quem seguir esse caminho tem de dizer que esses pesos medem onde os volumes mais diferem, e não o que o projeto quer.
 
-Sob a incerteza dos pesos, nenhum dos dois se impõe. No SMAA-VIKOR, com cinco mil vetores de oito pesos sorteados, 5 000 L ficam em primeiro lugar em 22,2% dos sorteios, 3 000 L em 22,0% e 2 000 L em 19,3% (secção 2.10 (volume O método)). Abaixo de 40%, pela régua da secção 3.7 (volume Guias de uso), ==a escolha depende dos pesos, e o estudo tem de os declarar==, junto com a segunda opção.
+Sob a incerteza dos pesos, nenhuma das duas escolhas se impõe. No SMAA-VIKOR, com cinco mil vetores de oito pesos sorteados com 25% esperado em cada eixo, 3 000 L ficam em primeiro lugar em 24,1% dos sorteios, 5 000 L em 20,5% e 2 000 L em 18,2% (secção 2.10 (volume O método)). Abaixo de 40%, pela régua da secção 3.7 (volume Guias de uso), ==a escolha depende dos pesos, e o estudo tem de os declarar==, junto com a segunda opção.
 
-Na versão 0.1.0, com sete critérios, os 5 000 L venciam com pesos iguais, e o critério hidráulico e o multicritério concordavam. Os oito critérios deixam de contar três vezes a mesma água economizada e passam a pesar o volume ocioso, o custo por metro cúbico e a massa do sistema, e a concordância desapareceu. Ela nunca esteve garantida: é por isso que o tutorial fez o caminho longo em vez de parar na secção 4.4.
+Na versão 0.1.0, com sete critérios, os 5 000 L venciam com pesos iguais, e o critério hidráulico e o multicritério concordavam. Os oito critérios deixam de contar três vezes a mesma água economizada e passam a pesar o volume ocioso, o custo por metro cúbico e a massa do sistema, e a concordância desapareceu. Ela nunca esteve garantida: é por isso que o tutorial fez o caminho longo em vez de parar na secção 4.4.
 
 ---
 
@@ -1551,21 +1555,21 @@ Na versão 0.1.0, com sete critérios, os 5 000 L venciam com pesos iguais, e o 
 | moradores | 4 |
 | procura total | 600 L/dia |
 | fração atendível pela chuva | 28% |
-| reservatório inferior | 5 000 L, polietileno |
+| reservatório inferior | 5 000 L, polietileno |
 | arranjo de abastecimento | elevação para reservatório superior |
-| reservatório superior | 1 000 L, limiar de acionamento de 100 L |
+| reservatório superior | 1 000 L, limiar de acionamento de 100 L |
 | classe de qualidade | 1, cloragem por pastilhas |
 | descarte inicial | câmara de 300 L |
 | **potencial de economia de água potável** | **18,28%** |
 | dias de atendimento pleno | 64,3% |
 | água da chuva consumida | 40,1 m³/ano |
 | energia da elevação | 5,3 kWh/ano |
-| investimento (ilustrativo) | 6 900 € |
-| **valor atual líquido a 20 anos (ilustrativo)** | **−6 053 €** |
+| investimento (ilustrativo) | 6 900 € |
+| **valor atual líquido a 20 anos (ilustrativo)** | **−6 053 €** |
 | período de recuperação descontado | sem recuperação |
 | **emissões líquidas em 20 anos** | **+8 kg CO₂e** |
 | retorno do carbono | 20,4 anos |
-| **multicritério (quatro eixos a 25%, partes iguais)** | **3 000 L; o tutorial mantém 5 000 L** |
+| **multicritério (quatro eixos a 25%, partes iguais): faixa de escolha a 5%** | **2 000 a 3 000 L; o tutorial mantém 5 000 L** |
 
 Resta uma etapa, que é comunicar o resultado: um estudo que não é relatado de forma verificável não se distingue, para quem o lê, de um palpite bem apresentado. É o assunto da secção seguinte.
 
@@ -1635,6 +1639,8 @@ Um estudo feito no Triton que deixe de declarar qualquer dos itens abaixo não �
 
 - Se veio de uma varredura: **o limiar de ganho marginal adotado**. Sem ele, «volume ideal» não significa nada.
 - Se veio do multicritério: **os quatro pesos de eixo e as partes no eixo** (ou os oito pesos de critério), o conjunto de volumes candidatos e o método, TOPSIS ou SMAA-VIKOR.
+- **A faixa de escolha e a tolerância**, e não um volume só: «volumes de 2 000 a 3 000 L têm resultados multicritério semelhantes (tolerância de 5% da amplitude das pontuações)». O volume de maior pontuação vai como informação, ao lado da faixa. A faixa depende da grade de volumes avaliada, que também se declara.
+- Se usou os **pesos objetivos do CRITIC**: que os usou, e os pesos calculados, por critério ou por eixo. Saem dos resultados do próprio estudo e mudam com o conjunto de volumes avaliado.
 - Que a normalização do TOPSIS é uma **variante**, com translação por `x − min(x)`.
 
 #### 4.10.3.7. Análise económica
@@ -1666,7 +1672,7 @@ Um estudo feito no Triton que deixe de declarar qualquer dos itens abaixo não �
 
 Para o nosso projeto, o método ficaria assim:
 
-> A simulação foi conduzida no Triton 0.2.0, Edição Ibérica, com um modelo comportamental de passo diário (extravasamento calculado antes da retirada da procura, com a chuva do dia disponível para o consumo do dia, uma ordem intermédia entre YAS e YBS), sobre uma série de precipitação de 30 anos para Lisboa (Iberia01, município de Lisboa [PT-1106], 1986 a 2015; 10 957 dias, média de 746 mm/ano). Adotou-se uma área de captação de 150 m² em projeção horizontal, um coeficiente de 0,85, valor redondo para a eficiência de captação combinada, e um descarte das primeiras águas de 2,0 mm em todas as chuvadas, subtraído à lâmina diária. A procura total adotada foi de 600 L/dia (4 moradores, 150 L/hab·dia), com uma fração atendível pela água da chuva de 28%, correspondente ao autoclismo e aos usos exteriores. O volume de 5 000 L resultou do critério do ganho marginal com limiar de 1 %/m³. Uma análise multicritério TOPSIS com oito critérios em quatro eixos (técnico, económico, ambiental e estrutural), pesos de 25% por eixo e partes iguais no eixo, com normalização numa variante de Hwang e Yoon transladada por x − min(x), indicou 3 000 L entre sete volumes candidatos de 1 000 a 12 000 L; manteve-se o volume hidráulico, que satisfaz mais procura pluvial e extravasa menos, à custa de um custo nivelado da água e de uma massa maiores. Os pontos de uso são abastecidos por elevação para um reservatório superior de 1 000 L, com limiar de acionamento de 100 L, duas eletrobombas de 0,5 cv e o rendimento de motor predefinido do programa. A análise económica usou o tarifário de Lisboa em vigor desde 01/01/2026 (água da EPAL com o adicional da Câmara Municipal, saneamento e resíduos da Câmara), uma taxa de atualização de 0,4% ao mês, uma inflação de 0,2% ao mês, atualizações de 3% ao ano com intervalos de 12 meses e um período de 20 anos; todos os custos foram valores redondos ilustrativos, não são preços de mercado. A avaliação do ciclo de vida adotou a fronteira da água entregue, fatores de emissão ilustrativos de 0,40 kg CO₂e/kWh e 0,50 kg CO₂e/m³, um reservatório de polietileno e uma vida útil de 20 anos.
+> A simulação foi conduzida no Triton 0.2.0, Edição Ibérica, com um modelo comportamental de passo diário (extravasamento calculado antes da retirada da procura, com a chuva do dia disponível para o consumo do dia, uma ordem intermédia entre YAS e YBS), sobre uma série de precipitação de 30 anos para Lisboa (Iberia01, município de Lisboa [PT-1106], 1986 a 2015; 10 957 dias, média de 746 mm/ano). Adotou-se uma área de captação de 150 m² em projeção horizontal, um coeficiente de 0,85, valor redondo para a eficiência de captação combinada, e um descarte das primeiras águas de 2,0 mm em todas as chuvadas, subtraído à lâmina diária. A procura total adotada foi de 600 L/dia (4 moradores, 150 L/hab·dia), com uma fração atendível pela água da chuva de 28%, correspondente ao autoclismo e aos usos exteriores. O volume de 5 000 L resultou do critério do ganho marginal com limiar de 1 %/m³. Uma análise multicritério TOPSIS com oito critérios em quatro eixos (técnico, económico, ambiental e estrutural), pesos de 25% por eixo e partes iguais no eixo, com normalização numa variante de Hwang e Yoon transladada por x − min(x), deu uma faixa de escolha de 2 000 a 3 000 L entre sete volumes candidatos de 1 000 a 12 000 L (volumes com pontuação a até 5% da amplitude da maior); manteve-se o volume hidráulico, que satisfaz mais procura pluvial e extravasa menos, à custa de um custo nivelado da água e de uma massa maiores. Os pontos de uso são abastecidos por elevação para um reservatório superior de 1 000 L, com limiar de acionamento de 100 L, duas eletrobombas de 0,5 cv e o rendimento de motor predefinido do programa. A análise económica usou o tarifário de Lisboa em vigor desde 01/01/2026 (água da EPAL com o adicional da Câmara Municipal, saneamento e resíduos da Câmara), uma taxa de atualização de 0,4% ao mês, uma inflação de 0,2% ao mês, atualizações de 3% ao ano com intervalos de 12 meses e um período de 20 anos; todos os custos foram valores redondos ilustrativos, não são preços de mercado. A avaliação do ciclo de vida adotou a fronteira da água entregue, fatores de emissão ilustrativos de 0,40 kg CO₂e/kWh e 0,50 kg CO₂e/m³, um reservatório de polietileno e uma vida útil de 20 anos.
 
 São menos de quatrocentas palavras, e são a diferença entre um estudo que outro investigador consegue repetir e um número solto que ninguém pode verificar. A extensão é modesta perante o que se ganha: um método assim redigido responde antecipadamente à maior parte das perguntas que um revisor faria.
 
@@ -1769,6 +1775,12 @@ plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a procura pluv
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
 que tem no denominador a procura total da edificação.
 
+**CRITIC** (*criteria importance through intercriteria correlation*). Método de pesos objetivos
+de Diakoulaki, Mavrotas e Papayannakis (1995): cada critério pesa pelo contraste entre as
+alternativas e pela independência em relação aos outros critérios, calculados dos próprios
+resultados. No programa, uma opção de ponderação (`--weights critic`), e não o padrão; os pesos
+mudam com o conjunto de volumes avaliado e não exprimem a preferência de ninguém.
+
 **CSV** (*comma-separated values*). Formato de ficheiro de texto em que cada linha é um
 registo e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -1834,6 +1846,12 @@ com o volume e trava o sobredimensionamento. Não é a ocupação média da cist
 
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
+
+**Faixa de escolha** (*choice band*). Os volumes com resultado multicritério semelhante ao do
+volume de maior pontuação: aqueles cuja medida, normalizada entre a pior (0) e a melhor (1) dos
+volumes avaliados, fica a até a tolerância da melhor (por omissão, 5% da amplitude). Depende da
+tolerância e da grade de volumes avaliada; num estudo, relata-se a faixa com a tolerância, e não um
+volume só.
 
 **Fração atendível por água pluvial** (*non-potable demand share*, $f$). Percentual da procura
 total de água da edificação ($D_{tot}$) passível de suprimento por água de chuva ($f = D_{pl} / D_{tot}$).
@@ -1988,8 +2006,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
-vencer.
+pesos — no programa, oito, um por critério, com 25% esperado em cada eixo — e devolve a
+probabilidade de cada alternativa vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
@@ -2183,7 +2201,8 @@ atendível** e os usos que a compõem.
 **Descarte:** lâmina e modo; e a diferença de método, se comparar programas.
 
 **Volume:** critério de escolha — limiar de ganho marginal, ou os quatro pesos
-de eixo, as partes no eixo e os candidatos do multicritério.
+de eixo, as partes no eixo (ou os pesos do CRITIC, se os usou), os candidatos do
+multicritério e a faixa de escolha com a tolerância.
 
 **Economia:** concelho, entidade gestora, vigência da tabela, **regime de mínimo**,
 regra do saneamento, taxas de IVA de cada parcela, taxa de atualização, inflação, atualizações e período, e a moeda.

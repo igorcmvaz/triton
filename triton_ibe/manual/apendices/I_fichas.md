@@ -103,7 +103,8 @@ atendível** e os usos que a compõem.
 **Descarte:** lâmina e modo; e a diferença de método, se comparar programas.
 
 **Volume:** critério de escolha — limiar de ganho marginal, ou os quatro pesos
-de eixo, as partes no eixo e os candidatos do multicritério.
+de eixo, as partes no eixo (ou os pesos do CRITIC, se os usou), os candidatos do
+multicritério e a faixa de escolha com a tolerância.
 
 **Economia:** concelho, entidade gestora, vigência da tabela, **regime de mínimo**,
 regra do saneamento, taxas de IVA de cada parcela, taxa de atualização, inflação, atualizações e período, e a moeda.

@@ -34,6 +34,10 @@ and stability.
 **Lahdelma, R.; Hokkanen, J.; Salminen, P.** (1998), and **Tervonen, T.; Figueira, J.** (2008). SMAA
 and SMAA-2.
 
+**Diakoulaki, D.; Mavrotas, G.; Papayannakis, L.** (1995). Determining objective weights in multiple
+criteria problems: the CRITIC method. *Computers & Operations Research*, 22(7), 763–770.
+doi:10.1016/0305-0548(94)00059-H. The objective weights of the multi-criteria decision.
+
 **Walsh, R. P. D.; Lawler, D. M.** (1981). The seasonality index.
 
 **ETCCDI** — *Expert Team on Climate Change Detection and Indices*, of the WMO. The indices of climate

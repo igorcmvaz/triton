@@ -709,17 +709,30 @@ def tabela_multicriterio():
 
     global _CANDIDATOS_MULTICRITERIO
     _CANDIDATOS_MULTICRITERIO = cands
+    faixa = res.faixa_de_escolha()
     linhas += [
         "",
-        "| Dimension taken alone | Winning volume |",
+        "| Dimension taken alone, or the four together | Volume |",
         "| :--- | ---: |",
         f"| technical: highest volumetric reliability | {n(cands[res.technical_best_index].lower_tank_vol, 0)} L |",
         "| economic: shortest discounted payback, ties broken by the net saving "
         f"| {n(cands[res.financial_best_index].lower_tank_vol, 0)} L |",
         f"| environmental: lowest net life-cycle CO₂e | {n(cands[res.environmental_best_index].lower_tank_vol, 0)} L |",
-        f"| **compromise, TOPSIS with the four dimensions equal** | **{n(cands[res.best_index].lower_tank_vol, 0)} L** |",
+        f"| **the four dimensions equal: TOPSIS choice band, within {n(100 * faixa['tolerance'], 0)}% "
+        f"of the score range** | **{faixa_txt(faixa)}** |",
+        f"| the four dimensions equal: highest TOPSIS score | {n(faixa['best_volume_l'], 0)} L |",
     ]
     return NL.join(linhas)
+
+
+def faixa_txt(faixa):
+    """A faixa de escolha em texto: «2,000–3,000 L», «1,000 L» ou, com lacuna, «2,000 and 4,000 L»."""
+    vols = [n(v, 0) for v in faixa["volumes_l"]]
+    if len(vols) == 1:
+        return f"{vols[0]} L"
+    if faixa["contiguous"]:
+        return f"{vols[0]}–{vols[-1]} L"
+    return ", ".join(vols[:-1]) + f" and {vols[-1]} L"
 
 
 _CANDIDATOS_MULTICRITERIO = None
@@ -743,27 +756,52 @@ PESOS_SEM_EFICIENCIA = (
 )
 
 
+def _ordem_e_margem(cands, res):
+    """O volume de maior escore, o segundo e a margem entre os dois."""
+    ordem = sorted(range(len(cands)), key=lambda i: (-res.scores[i], cands[i].lower_tank_vol))
+    return ordem[0], ordem[1], res.scores[ordem[0]] - res.scores[ordem[1]]
+
+
 def _linha_de_pesos(cands, rotulo, pesos, partes=None):
     from triton.core.topsis import calculate_topsis_scores
     res = calculate_topsis_scores(cands, weights=pesos, parts=partes)
-    ordem = sorted(range(len(cands)), key=lambda i: (-res.scores[i], cands[i].lower_tank_vol))
-    margem = res.scores[ordem[0]] - res.scores[ordem[1]]
-    return (f"| {rotulo} | {n(cands[ordem[0]].lower_tank_vol, 0)} L "
-            f"| {n(cands[ordem[1]].lower_tank_vol, 0)} L | {n(margem, 3)} |")
+    primeiro, segundo, margem = _ordem_e_margem(cands, res)
+    return (f"| {rotulo} | {faixa_txt(res.faixa_de_escolha())} | {n(cands[primeiro].lower_tank_vol, 0)} L "
+            f"| {n(cands[segundo].lower_tank_vol, 0)} L | {n(margem, 3)} |")
+
+
+def _linha_de_eixos(cands, rotulo, pesos):
+    """Os pesos somados por eixo, a faixa e o maior escore (pesos declarados ou «critic»)."""
+    from triton.core.topsis import calculate_topsis_scores
+    res = calculate_topsis_scores(cands, weights=pesos)
+    w = np.asarray(res.criterion_weights, dtype=float)
+    eixos = (w[0] + w[1], w[2] + w[3] + w[4], w[5], w[6] + w[7])
+    primeiro, _, margem = _ordem_e_margem(cands, res)
+    return (f"| {rotulo} | " + " | ".join(f"{n(100 * x, 1)}%" for x in eixos)
+            + f" | {faixa_txt(res.faixa_de_escolha())} | {n(cands[primeiro].lower_tank_vol, 0)} L "
+            f"| {n(margem, 3)} |")
 
 
 def tabela_pesos():
-    """Capítulo 12: o volume escolhido pelo TOPSIS conforme o peso dominante, e sem a eficiência."""
+    """Capítulo 12: a faixa do TOPSIS conforme o peso dominante, sem a eficiência e com o CRITIC."""
+    from triton.core.topsis import PESOS_CRITIC
     if _CANDIDATOS_MULTICRITERIO is None:
         tabela_multicriterio()
     cands = _CANDIDATOS_MULTICRITERIO
-    L = ["| Dominant weight | Volume | Runner-up | Score margin |", "| :--- | ---: | ---: | ---: |"]
+    L = ["| Dominant weight | Choice band | Highest score | Runner-up | Score margin |",
+         "| :--- | ---: | ---: | ---: | ---: |"]
     for rotulo, pesos in PESOS_SENSIBILIDADE:
         L.append(_linha_de_pesos(cands, rotulo, pesos))
-    L += ["", "| Weights, with the storage-efficiency share at zero | Volume | Runner-up | Score margin |",
-          "| :--- | ---: | ---: | ---: |"]
+    L += ["", "| Weights, with the storage-efficiency share at zero | Choice band | Highest score | Runner-up "
+          "| Score margin |",
+          "| :--- | ---: | ---: | ---: | ---: |"]
     for rotulo, pesos in PESOS_SEM_EFICIENCIA:
         L.append(_linha_de_pesos(cands, rotulo, pesos, PARTES_SEM_EFICIENCIA))
+    L += ["", "| Weights | Technical | Economic | Environmental | Structural | Choice band | Highest score "
+          "| Score margin |",
+          "| :--- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+          _linha_de_eixos(cands, "declared, equal", (0.25, 0.25, 0.25, 0.25)),
+          _linha_de_eixos(cands, "objective, CRITIC", PESOS_CRITIC)]
     return NL.join(L)
 
 
@@ -887,6 +925,18 @@ def tabela_decisao():
         p = posicao[i]
         L.append(f"| {n(c.lower_tank_vol, 0)} L | {n(topsis.scores[i], 3)} | {p}{ordinal.get(p, 'th')} "
                  f"| {n(float(smaa.first_rank_probs[i]), 1)}% |")
+
+    # A faixa de escolha de cada método: os volumes a até 5% da amplitude do índice, contados do melhor.
+    from triton.core.mcdm_methods import run_promethee, run_vikor
+    vikor = run_vikor(cands, weights=None, v_param=0.5)
+    promethee = run_promethee(cands, weights=None)
+    L += ["", "| Method | Index | Choice band | Best index |", "| :--- | :--- | ---: | ---: |"]
+    for metodo, indice, faixa in (
+            ("TOPSIS", "closeness score, higher is better", topsis.faixa_de_escolha()),
+            ("VIKOR, v = 0.5", "Q, lower is better", vikor.faixa_de_escolha()),
+            ("PROMETHEE II, linear preference", "net flow Φ, higher is better", promethee.faixa_de_escolha()),
+            ("SMAA-VIKOR, 5,000 weight draws", "first-rank acceptability b¹", smaa.faixa_de_escolha())):
+        L.append(f"| {metodo} | {indice} | {faixa_txt(faixa)} | {n(faixa['best_volume_l'], 0)} L |")
     return NL.join(L)
 
 
@@ -981,7 +1031,8 @@ LEGENDAS = {
         'Effect of the concrete cistern volume on the net carbon emissions',
     ],
     'cap32_decisao.md': [
-        'TOPSIS closeness score with the four dimensions weighted equally and first-rank acceptability in SMAA-VIKOR, with 5,000 random vectors of eight criterion weights, for the tutorial volumes',
+        'TOPSIS closeness score with the four dimensions weighted equally and first-rank acceptability in SMAA-VIKOR, with 5,000 vectors of eight criterion weights drawn with 25% expected on each dimension, for the tutorial volumes',
+        'Choice band of each method for the tutorial volumes: the volumes whose index lies within 5% of the range of the index, counted from the best; TOPSIS, VIKOR and PROMETHEE II with the four dimensions weighted equally',
     ],
     'cap20_sensibilidade.md': [
         'Potential, net present value and payback of the final tutorial project with each assumption varied alone, from the low to the high value (costs are illustrative, not market prices)',
@@ -990,12 +1041,13 @@ LEGENDAS = {
         'Annual energy of six generic pressure pumps (illustrative curves, no brand) in the tutorial direct pressurisation, with the toilet flow limiting the pump flow',
     ],
     'cap12_pesos.md': [
-        'Volume chosen by TOPSIS according to the dimension given the dominant weight (70% on it, 10% on each of the other three), with the runner-up and the score margin between them',
-        'The same choice with the share of storage efficiency set to zero, so that the technical dimension measures volumetric reliability alone',
+        'TOPSIS choice band (the volumes within 5% of the score range, counted from the highest score) according to the dimension given the dominant weight (70% on it, 10% on each of the other three), with the highest score, the runner-up and the score margin between them',
+        'The same with the share of storage efficiency set to zero, so that the technical dimension measures volumetric reliability alone',
+        'Declared equal weights and the objective weights the CRITIC method computes from the seven volumes, summed per dimension, with the TOPSIS choice band each gives',
     ],
     'cap12_multicriterio.md': [
         'Multi-criteria decision matrix: the eight criteria of each candidate volume, as the program computes them (costs are illustrative, not market prices)',
-        'Winning volume under each dimension taken alone, and the TOPSIS compromise',
+        'Winning volume under each dimension taken alone, and the TOPSIS choice band with the four dimensions together',
     ],
     'cap14_cidades.md': [
         'The same tutorial project simulated in New York, London and Cape Town',

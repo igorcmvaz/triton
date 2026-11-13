@@ -101,6 +101,10 @@ class TopsisResult:
     criterion_keys: Tuple[str, ...] = CRITERION_KEYS
     criterion_labels: Tuple[str, ...] = CRITERION_LABELS
 
+    def faixa_de_escolha(self, tolerancia=None) -> Optional[Dict[str, Any]]:
+        """Volumes com escore TOPSIS semelhante ao maior (ver ``faixa_de_escolha``)."""
+        return faixa_de_escolha([c.lower_tank_vol for c in self.candidates], self.scores, True, tolerancia)
+
     @property
     def criterion_proximity_to_best(self) -> np.ndarray:
         """Proximidade por critério: 1 = ótimo observado; 0 = pior."""
@@ -316,6 +320,117 @@ build_decision_matrix = _decision_matrix
 extract_mcdm_matrix = _decision_matrix
 
 
+#: Pedido de pesos objetivos: no lugar dos pesos, a palavra «critic».
+PESOS_CRITIC = "critic"
+
+
+def eh_critic(pesos) -> bool:
+    """True quando os pesos pedidos são os do CRITIC (a palavra «critic», sem distinguir maiúsculas)."""
+    return isinstance(pesos, str) and pesos.strip().lower() == PESOS_CRITIC
+
+
+def pesos_critic(matriz, volumes=None) -> np.ndarray:
+    """Pesos objetivos pelo método CRITIC (Diakoulaki, Mavrotas e Papayannakis, 1995).
+
+    Cada critério é normalizado de 0 (pior valor observado) a 1 (melhor), no sentido do critério.
+    A informação do critério é Cⱼ = σⱼ · Σₖ (1 − rⱼₖ): o desvio-padrão σⱼ mede o contraste entre as
+    alternativas, e (1 − rⱼₖ) o quanto o critério difere dos demais (r é a correlação de Pearson).
+    O peso é Cⱼ / Σ C. Critério constante não informa nada e recebe peso zero.
+
+    Os pesos saem das alternativas com volume maior que zero, quando há ao menos duas: a alternativa
+    sem cisterna entra no TOPSIS com penalidades de LCOW e payback, e esses valores artificiais
+    inflariam o contraste. Sem contraste nenhum, os pesos ficam iguais.
+    """
+    M = np.asarray(matriz, dtype=float)
+    if volumes is not None:
+        vol = np.asarray(volumes, dtype=float)
+        if vol.shape[0] == M.shape[0] and int(np.count_nonzero(vol > 0)) >= 2:
+            M = M[vol > 0]
+    n, m = M.shape
+    if n < 2:
+        return np.ones(m, dtype=float) / m
+    lo = M.min(axis=0)
+    hi = M.max(axis=0)
+    amplitude = hi - lo
+    varia = amplitude > 1e-12 * np.maximum(1.0, np.abs(hi))
+    R = np.zeros_like(M)
+    for j in np.flatnonzero(varia):
+        if CRITERION_IS_BENEFIT[j]:
+            R[:, j] = (M[:, j] - lo[j]) / amplitude[j]
+        else:
+            R[:, j] = (hi[j] - M[:, j]) / amplitude[j]
+    sigma = R.std(axis=0)
+    corr = np.zeros((m, m), dtype=float)
+    idx = np.flatnonzero(varia)
+    if idx.size >= 2:
+        corr[np.ix_(idx, idx)] = np.nan_to_num(np.corrcoef(R[:, idx], rowvar=False))
+    np.fill_diagonal(corr, 1.0)
+    informacao = sigma * np.sum(1.0 - corr, axis=1)
+    total = float(np.sum(informacao))
+    if not np.isfinite(total) or total <= 0:
+        return np.ones(m, dtype=float) / m
+    return informacao / total
+
+
+def _pesos_da_decisao(weights, parts, matrix: np.ndarray, volumes) -> np.ndarray:
+    """Os oito pesos de critério: os declarados (eixos e partes, ou oito) ou os do CRITIC."""
+    if eh_critic(weights):
+        return pesos_critic(matrix, volumes)
+    if isinstance(weights, str):
+        raise ValueError(f"Pesos «{weights}» desconhecidos: use números ou «critic».")
+    return _criterion_weights(weights, parts)
+
+
+#: Tolerância padrão da faixa de escolha: 5% da amplitude dos escores, contados do maior.
+TOLERANCIA_FAIXA_PADRAO = 0.05
+
+
+def validar_tolerancia_da_faixa(tolerancia) -> float:
+    """A tolerância da faixa de escolha, de 0 a 1 (fração da amplitude dos escores)."""
+    t = TOLERANCIA_FAIXA_PADRAO if tolerancia is None else float(tolerancia)
+    if not np.isfinite(t) or t < 0.0 or t > 1.0:
+        raise ValueError("A tolerância da faixa de escolha deve ficar entre 0 e 1 (fração da amplitude dos escores).")
+    return t
+
+
+def faixa_de_escolha(volumes, escores, maior_melhor: bool = True, tolerancia=None) -> Optional[Dict[str, Any]]:
+    """Os volumes com resultado multicritério semelhante ao do maior escore.
+
+    Quando vários volumes pontuam quase igual, apontar um só como «o melhor» exagera a precisão do
+    método. A faixa reúne os volumes cujo escore, normalizado entre o pior (0) e o melhor (1) dos
+    volumes maiores que zero, fica a até ``tolerancia`` do melhor (padrão: 5% da amplitude). A mesma
+    regra vale para qualquer método: ``maior_melhor=False`` para o índice Q do VIKOR.
+
+    Devolve ``volumes_l`` (os volumes da faixa, em ordem), ``min_volume_l``, ``max_volume_l``,
+    ``best_volume_l`` (o de maior escore; empate, o menor volume), ``tolerance`` e ``contiguous``
+    (False quando algum volume avaliado entre o menor e o maior da faixa fica fora dela).
+    """
+    tol = validar_tolerancia_da_faixa(tolerancia)
+    v = np.asarray(volumes, dtype=float)
+    s = np.asarray(escores, dtype=float)
+    ok = (v > 0) & np.isfinite(s)
+    if not np.any(ok):
+        return None
+    vv = v[ok]
+    ss = s[ok] if maior_melhor else -s[ok]
+    lo, hi = float(np.min(ss)), float(np.max(ss))
+    amplitude = hi - lo
+    normalizado = (ss - lo) / amplitude if amplitude > 1e-12 else np.ones_like(ss)
+    dentro = normalizado >= 1.0 - tol - 1e-12
+    sel = np.sort(vv[dentro])
+    todos = np.sort(vv)
+    entre = todos[(todos >= sel[0]) & (todos <= sel[-1])]
+    melhor = float(vv[np.lexsort((vv, -ss))[0]])
+    return {
+        "tolerance": tol,
+        "volumes_l": [float(x) for x in sel],
+        "min_volume_l": float(sel[0]),
+        "max_volume_l": float(sel[-1]),
+        "best_volume_l": melhor,
+        "contiguous": bool(len(entre) == len(sel)),
+    }
+
+
 def calculate_topsis_scores(
     candidates: List[TopsisCandidate],
     weights: Optional[Sequence[float]] = None,
@@ -323,16 +438,17 @@ def calculate_topsis_scores(
 ) -> Optional[TopsisResult]:
     """Classifica alternativas pelos oito critérios técnicos/econômicos/ambientais/estruturais.
 
-    ``weights``: quatro pesos de dimensão (repartidos pelas ``parts``) ou oito pesos de critério.
-    ``parts``: oito partes no eixo; ``None`` usa ``PARTES_NO_EIXO_PADRAO``.
+    ``weights``: quatro pesos de dimensão (repartidos pelas ``parts``), oito pesos de critério ou
+    «critic» (pesos objetivos calculados da própria matriz; ver ``pesos_critic``).
+    ``parts``: oito partes no eixo; ``None`` usa ``PARTES_NO_EIXO_PADRAO`` (ignoradas com «critic»).
     """
     if not candidates:
         return None
 
     n = len(candidates)
-    criterion_weights = _criterion_weights(weights, parts)
     matrix = _decision_matrix(candidates)
     volumes = np.asarray([float(c.lower_tank_vol) for c in candidates])
+    criterion_weights = _pesos_da_decisao(weights, parts, matrix, volumes)
 
     # Candidatos com volume > 0 representam sistemas pluviais reais instaláveis
     pos_mask = volumes > 0

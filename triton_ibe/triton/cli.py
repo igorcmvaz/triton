@@ -64,7 +64,8 @@ from triton.core.parser import (
 )
 from triton.core.simulation import SingleTankSimulationResult, run_single_simulation, run_sweep_simulation
 from triton.core.topsis import (PARTES_NO_EIXO_PADRAO, PESOS_PADRAO, TopsisCandidate, calculate_topsis_scores, payback_do_criterio,
-                                validar_partes_no_eixo, CRITERION_IS_BENEFIT)
+                                validar_partes_no_eixo, CRITERION_IS_BENEFIT, PESOS_CRITIC, eh_critic,
+                                TOLERANCIA_FAIXA_PADRAO, validar_tolerancia_da_faixa)
 from triton.core.mcdm_methods import AMOSTRAS_SMAA_PADRAO, run_smaa_vikor
 from triton.core.system_weight import calculate_system_weight_from_config
 
@@ -139,14 +140,36 @@ def _partes_no_eixo(args: argparse.Namespace, analysis_config: Optional[Dict[str
     return tuple(from_project) if from_project else None
 
 
-def _parse_weights(raw: str) -> Tuple[float, ...]:
+def _pesos_lidos(valor: Any):
+    """Os pesos do arquivo de projeto: a palavra «critic» como está; números, em tupla."""
+    return PESOS_CRITIC if eh_critic(valor) else tuple(valor)
+
+
+def _parse_tolerancia(raw: str) -> float:
+    try:
+        return validar_tolerancia_da_faixa(float(str(raw).replace(",", ".")))
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(str(exc)) from exc
+
+
+def _tolerancia_da_faixa(args: argparse.Namespace, analysis_config: Optional[Dict[str, Any]]) -> Optional[float]:
+    """A tolerância da faixa de escolha: a da linha de comando, a do projeto ou ``None`` (5%)."""
+    dada = getattr(args, "score_band", None)
+    if dada is not None:
+        return dada
+    return (analysis_config or {}).get("topsis_score_band")
+
+
+def _parse_weights(raw: str):
+    if eh_critic(raw):
+        return PESOS_CRITIC
     try:
         values = tuple(float(value.strip()) for value in raw.split(","))
         if len(values) in (3, 4, 8) and all(value >= 0 for value in values) and sum(values) > 0:
             return values
     except ValueError:
         pass
-    raise argparse.ArgumentTypeError("Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito de critério, não negativos e separados por vírgula; a soma deve ser positiva. Os sete pesos do modelo anterior à 0.2.0 não valem mais.")
+    raise argparse.ArgumentTypeError(_t("Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural), oito de critério ou «critic» (pesos objetivos calculados dos resultados); os números, não negativos e separados por vírgula, com soma positiva. Os sete pesos do modelo anterior à 0.2.0 não valem mais."))
 
 
 def _positive_int(raw: str) -> int:
@@ -200,7 +223,9 @@ def _analysis_from_ui_state(ui_state: Dict[str, Any]) -> Dict[str, Any]:
     output: Dict[str, Any] = {}
     topsis = ui_state.get("topsis", {})
     if topsis:
-        if "structural_weight" in topsis:
+        if topsis.get("preset_key") == PESOS_CRITIC:
+            output["topsis_weights"] = PESOS_CRITIC
+        elif "structural_weight" in topsis:
             output["topsis_weights"] = [
                 _as_float(topsis.get("technical_weight"), 25.0),
                 _as_float(topsis.get("economic_weight"), 25.0),
@@ -378,15 +403,21 @@ def _validate_analysis_config(raw: Optional[Dict[str, Any]]) -> List[str]:
     raw = raw or {}
     errors: List[str] = []
     weights = raw.get("topsis_weights")
-    if weights is not None:
+    if weights is not None and not eh_critic(weights):
         if not isinstance(weights, list) or len(weights) not in (3, 4, 8):
-            errors.append("analysis.topsis_weights deve ser uma lista com quatro valores (eixos) ou oito (critérios)")
+            errors.append("analysis.topsis_weights deve ser uma lista com quatro valores (eixos) ou oito (critérios), ou «critic»")
         else:
             try:
                 if any(float(value) < 0 for value in weights) or sum(float(value) for value in weights) <= 0:
                     errors.append("analysis.topsis_weights deve conter valores não negativos com soma positiva")
             except (TypeError, ValueError):
                 errors.append("analysis.topsis_weights deve conter números")
+    banda = raw.get("topsis_score_band")
+    if banda is not None:
+        try:
+            validar_tolerancia_da_faixa(banda)
+        except (TypeError, ValueError) as exc:
+            errors.append(f"analysis.topsis_score_band: {exc}")
     shares = raw.get("topsis_criterion_shares")
     if shares is not None:
         try:
@@ -877,7 +908,8 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
                  weights: Tuple[float, ...] = PESOS_PADRAO,
                  environmental: Optional[Dict[str, Any]] = None, source: str = "",
                  weight_sensitivity: int = 0, seed: int = 42, smaa: bool = True,
-                 criterion_shares: Optional[Sequence[float]] = None) -> Dict[str, Any]:
+                 criterion_shares: Optional[Sequence[float]] = None,
+                 score_band: Optional[float] = None) -> Dict[str, Any]:
     """Executa a cadeia técnica → econômica → ambiental → TOPSIS de forma rastreável.
 
     ``smaa=False`` dispensa a aceitabilidade SMAA-VIKOR (20.000 vetores de pesos), que
@@ -962,14 +994,16 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
     topsis = calculate_topsis_scores(candidates, weights=weights, parts=criterion_shares)
     if topsis and weight_results and topsis.best_index < len(weight_results):
         output["system_weight"]["summary"] = weight_results[topsis.best_index].to_dict()
+    faixa_topsis = topsis.faixa_de_escolha(score_band) if topsis else None
     output["topsis"] = {
-        "weights": dict(zip(
+        "weights": ({"method": PESOS_CRITIC} if eh_critic(weights) else dict(zip(
             ("technical", "economic", "environmental", "structural") if len(weights) == 4
             else ("technical", "economic", "environmental") if len(weights) == 3
             else topsis.criterion_keys if topsis else (),
             weights
-        )),
-        "criterion_shares": [float(x) for x in validar_partes_no_eixo(criterion_shares)] if len(weights) in (3, 4) else None,
+        ))),
+        "criterion_shares": ([float(x) for x in validar_partes_no_eixo(criterion_shares)]
+                             if not eh_critic(weights) and len(weights) in (3, 4) else None),
         "criteria": [{
             "key": key, "label": label, "weight": float(weight),
             "direction": "maximize" if benefit else "minimize",
@@ -978,6 +1012,10 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
             CRITERION_IS_BENEFIT,
         )] if topsis else [],
         "best_volume_l": topsis.best_candidate.lower_tank_vol if topsis else None,
+        # Faixa de escolha: volumes de escore semelhante ao maior. É ela que se deve relatar, não um volume só.
+        "choice_band": faixa_topsis,
+        "choice_band_min_volume_l": faixa_topsis["min_volume_l"] if faixa_topsis else None,
+        "choice_band_max_volume_l": faixa_topsis["max_volume_l"] if faixa_topsis else None,
         "best_score": float(topsis.scores[topsis.best_index]) if topsis else None,
         "technical_best_volume_l": topsis.candidates[topsis.technical_best_index].lower_tank_vol if topsis else None,
         "economic_best_volume_l": topsis.candidates[topsis.financial_best_index].lower_tank_vol if topsis else None,
@@ -1010,6 +1048,7 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
             "seed": seed,
             "best_volume_l": smaa.best_candidate.lower_tank_vol,
             "best_acceptability_pct": float(smaa.first_rank_probs[smaa.best_index]),
+            "choice_band": smaa.faixa_de_escolha(score_band),
             "acceptabilities": [
                 {
                     "lower_tank_volume_l": cand.lower_tank_vol,
@@ -1021,7 +1060,8 @@ def run_analysis(cfg: TritonConfig, precip: Any, analysis_type: str = "technical
     if weight_sensitivity:
         rng = np.random.default_rng(seed)
         winners: Dict[str, int] = {}
-        alpha = (1.0,) * len(weights)
+        # Com «critic», a sensibilidade sorteia os quatro pesos de eixo (25% em média cada).
+        alpha = (1.0, 1.0, 1.0, 1.0) if eh_critic(weights) else (1.0,) * len(weights)
         for sampled_weights in rng.dirichlet(alpha, size=weight_sensitivity):
             sampled = calculate_topsis_scores(candidates, weights=tuple(sampled_weights), parts=criterion_shares)
             winner = f"{sampled.best_candidate.lower_tank_vol:.0f}"
@@ -1072,6 +1112,18 @@ def _html_da_fonte_da_chuva(report: Dict[str, Any]) -> str:
     return "".join(linhas)
 
 
+def _html_da_faixa(report: Dict[str, Any]) -> str:
+    """O parágrafo da faixa de escolha do TOPSIS, quando a análise a tem."""
+    faixa = (report.get("topsis") or {}).get("choice_band") or {}
+    if not faixa:
+        return ""
+    return ("<p><strong>" + _t("Faixa de escolha (TOPSIS):") + "</strong> "
+            + _t("volumes de {0} a {1} L têm escores semelhantes (até {2}% da amplitude, a partir do maior); maior escore em {3} L.").format(
+                f"{faixa['min_volume_l']:.0f}", f"{faixa['max_volume_l']:.0f}", f"{100 * faixa['tolerance']:.0f}",
+                f"{faixa['best_volume_l']:.0f}")
+            + "</p>")
+
+
 def _render_html(report: Dict[str, Any]) -> str:
     rows = _flat_rows(report)
     columns = sorted({key for row in rows for key in row})
@@ -1115,6 +1167,7 @@ def _render_html(report: Dict[str, Any]) -> str:
             f"<h1>{_marca.NOME} — relatório de análise</h1><p>{_t('Gerado:')} {report['generated_at_utc']}</p>"
             + (f"<p>{_t('Valores monetários em:')} {_simbolo(report)}</p>" if "economic" in report else "")
             + _html_da_fonte_da_chuva(report)
+            + _html_da_faixa(report)
             + html_sw
             + f"<h2 style='margin-top:24px;'>{_t('Matriz Consolidada de Alternativas')}</h2>"
             + f"<table><thead><tr>{header}</tr></thead><tbody>{body}</tbody></table>")
@@ -1153,7 +1206,13 @@ def _write_report(report: Dict[str, Any], output_format: str, output_file: Optio
             for al in sw.get("structural_alerts", []):
                 print(f"  ⚠️ {al}")
         if "topsis" in report:
-            print(f"TOPSIS: {report['topsis']['best_volume_l']:.0f} L | score {report['topsis']['best_score']:.3f}")
+            faixa = report["topsis"].get("choice_band") or {}
+            if faixa:
+                print(_t("TOPSIS: volumes de {0} a {1} L com escores semelhantes (até {2}% da amplitude, a partir do maior) | maior escore em {3} L ({4})").format(
+                    f"{faixa['min_volume_l']:.0f}", f"{faixa['max_volume_l']:.0f}", f"{100 * faixa['tolerance']:.0f}",
+                    f"{report['topsis']['best_volume_l']:.0f}", f"{report['topsis']['best_score']:.3f}"))
+            else:
+                print(f"TOPSIS: {report['topsis']['best_volume_l']:.0f} L | score {report['topsis']['best_score']:.3f}")
         if "smaa_vikor" in report:
             sv = report["smaa_vikor"]
             print(f"SMAA-VIKOR: {sv['best_volume_l']:.0f} L | {sv['best_acceptability_pct']:.1f}% {_t('em')} {sv['samples']} {_t('simulações')}")
@@ -1324,10 +1383,10 @@ def _run_project(args: argparse.Namespace) -> None:
     if errors:
         raise ValueError("Projeto inválido:\n- " + "\n- ".join(errors))
     analysis_config = bundle.get("analysis", {}) or {}
-    weights = args.weights or tuple(analysis_config.get("topsis_weights", PESOS_PADRAO))
+    weights = args.weights or _pesos_lidos(analysis_config.get("topsis_weights", PESOS_PADRAO))
     report = run_analysis(cfg, precipitation, args.analysis, args.volume, weights,
                           analysis_config.get("environmental", {}), bundle.get("source_path", args.file),
-                          args.weight_sensitivity, args.seed, criterion_shares=_partes_no_eixo(args, analysis_config))
+                          args.weight_sensitivity, args.seed, criterion_shares=_partes_no_eixo(args, analysis_config), score_band=_tolerancia_da_faixa(args, analysis_config))
     report["provenance"]["currency"] = _moeda_do_bundle(bundle)
     _write_report(report, args.format, args.output)
 
@@ -1361,9 +1420,9 @@ def _run_batch(args: argparse.Namespace) -> None:
             raise ValueError(f"Cenário '{scenario['scenario_name']}' inválido: {'; '.join(errors)}")
         report = run_analysis(
             cfg, precipitation, args.analysis,
-            weights=args.weights or tuple(base_analysis.get("topsis_weights", PESOS_PADRAO)),
+            weights=args.weights or _pesos_lidos(base_analysis.get("topsis_weights", PESOS_PADRAO)),
             environmental=base_analysis.get("environmental", {}), source=args.file,
-            weight_sensitivity=args.weight_sensitivity, seed=args.seed, criterion_shares=_partes_no_eixo(args, base_analysis),
+            weight_sensitivity=args.weight_sensitivity, seed=args.seed, criterion_shares=_partes_no_eixo(args, base_analysis), score_band=_tolerancia_da_faixa(args, base_analysis),
         )
         report["scenario_name"] = scenario["scenario_name"]
         report["provenance"]["currency"] = _moeda_do_bundle(base_bundle)
@@ -1532,10 +1591,10 @@ def _run_matrix(args: argparse.Namespace) -> None:
             cfg.start_date = start_date
             report = run_analysis(
                 cfg, precipitation, args.analysis,
-                weights=args.weights or tuple(analysis.get("topsis_weights", PESOS_PADRAO)),
+                weights=args.weights or _pesos_lidos(analysis.get("topsis_weights", PESOS_PADRAO)),
                 environmental=analysis.get("environmental", {}),
                 source=f"{premises['_path'].name} × {climates['_path'].name}",
-                weight_sensitivity=args.weight_sensitivity, seed=args.seed, criterion_shares=_partes_no_eixo(args, analysis),
+                weight_sensitivity=args.weight_sensitivity, seed=args.seed, criterion_shares=_partes_no_eixo(args, analysis), score_band=_tolerancia_da_faixa(args, analysis),
             )
             premise_id, climate_name = str(premise.get("id", "premissa")), str(climate.get("name", climate_id))
             context = {"premise_id": premise_id, "premise_name": str(premise.get("name", premise_id)),
@@ -1673,12 +1732,12 @@ def _run_project_matrix(args: argparse.Namespace) -> None:
                 errors = _validate_config(cfg, precipitation) + _validate_analysis_config(analysis_config)
                 if errors:
                     raise ValueError(f"Projeto '{project_path.name}' inválido: " + "; ".join(errors))
-                weights = args.weights or tuple(analysis_config.get("topsis_weights", PESOS_PADRAO))
+                weights = args.weights or _pesos_lidos(analysis_config.get("topsis_weights", PESOS_PADRAO))
                 report = run_analysis(
                     cfg, precipitation, args.analysis, weights=weights,
                     environmental=analysis_config.get("environmental", {}),
                     source=f"{project_path.name} × {rainfall_name} × f{factor_index:03d}",
-                    weight_sensitivity=args.weight_sensitivity, seed=args.seed + completed, criterion_shares=_partes_no_eixo(args, analysis_config),
+                    weight_sensitivity=args.weight_sensitivity, seed=args.seed + completed, criterion_shares=_partes_no_eixo(args, analysis_config), score_band=_tolerancia_da_faixa(args, analysis_config),
                 )
                 context = {
                     "scenario_id": f"{project_id}--{rainfall_name}--f{factor_index:03d}",
@@ -1886,7 +1945,7 @@ def _run_stochastic_study(args: argparse.Namespace) -> None:
         raise ValueError("Projeto inválido:\n- " + "\n- ".join(errors))
     analysis_cfg = bundle.get("analysis", {}) or {}
     parametros, amostras, semente = _parametros_estocasticos(bundle, cfg, args)
-    weights = args.weights or tuple(analysis_cfg.get("topsis_weights", PESOS_PADRAO))
+    weights = args.weights or _pesos_lidos(analysis_cfg.get("topsis_weights", PESOS_PADRAO))
 
     def progresso(feitas: int, total: int) -> None:
         if args.format == "text" and not args.quiet:
@@ -2051,7 +2110,7 @@ def _run_uncertainty(args: argparse.Namespace) -> None:
     if errors:
         raise ValueError("Projeto inválido:\n- " + "\n- ".join(errors))
     analysis_cfg = bundle.get("analysis", {}) or {}
-    weights = args.weights or tuple(analysis_cfg.get("topsis_weights", PESOS_PADRAO))
+    weights = args.weights or _pesos_lidos(analysis_cfg.get("topsis_weights", PESOS_PADRAO))
 
     # Sem volume explícito, a referência é o ótimo técnico do caso-base; isso
     # mede a robustez de uma decisão de projeto concreta, não de toda a varredura.
@@ -2073,7 +2132,7 @@ def _run_uncertainty(args: argparse.Namespace) -> None:
         report = run_analysis(
             scenario, precipitation * rainfall_factor, args.analysis, volume, weights,
             analysis_cfg.get("environmental", {}), bundle.get("source_path", args.file), 0, args.seed + index,
-            criterion_shares=_partes_no_eixo(args, analysis_cfg),
+            criterion_shares=_partes_no_eixo(args, analysis_cfg), score_band=_tolerancia_da_faixa(args, analysis_cfg),
         )
         technical = report["technical"]["alternatives"][0]
         row = {"sample": index + 1, "rainfall_factor": rainfall_factor, "area_m2": scenario.area,
@@ -2947,7 +3006,8 @@ def main() -> None:
         command_parser.add_argument("file", help="Projeto CSV legado, .triton ou JSON estruturado")
         command_parser.add_argument("--analysis", choices=ANALYSES, default=default_analysis)
         command_parser.add_argument("--volume", type=float, help="Força um volume de cisterna inferior (L)")
-        command_parser.add_argument("--weights", type=_parse_weights, help="Pesos TOPSIS: técnico,econômico,ambiental,estrutural (ou oito, um por critério)")
+        command_parser.add_argument("--weights", type=_parse_weights, help="Pesos TOPSIS: técnico,econômico,ambiental,estrutural, oito (um por critério) ou critic (objetivos, dos resultados)")
+        command_parser.add_argument("--score-band", type=_parse_tolerancia, help="Tolerância da faixa de escolha: volumes cujo escore fica a até esta fração da amplitude dos escores, contada do maior, são apresentados como equivalentes (0 a 1; padrão 0,05)")
         command_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
         command_parser.add_argument("--rainfall", help="Substitui a chuva do projeto por este arquivo")
         command_parser.add_argument("--local", metavar="CÓDIGO|NOME",
@@ -2991,6 +3051,7 @@ def main() -> None:
     matrix_parser.add_argument("climates", help="Catálogo JSON com schema triton-climate-catalog")
     matrix_parser.add_argument("--analysis", choices=ANALYSES, default="all")
     matrix_parser.add_argument("--weights", type=_parse_weights)
+    matrix_parser.add_argument("--score-band", type=_parse_tolerancia, help="Tolerância da faixa de escolha: volumes cujo escore fica a até esta fração da amplitude dos escores, contada do maior, são apresentados como equivalentes (0 a 1; padrão 0,05)")
     matrix_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     matrix_parser.add_argument("--weight-sensitivity", type=_positive_int, default=0)
     matrix_parser.add_argument("--seed", type=int, default=42)
@@ -3011,6 +3072,7 @@ def main() -> None:
                                        help="Procura projetos e séries também nas subpastas")
     project_matrix_parser.add_argument("--analysis", choices=ANALYSES, default="all")
     project_matrix_parser.add_argument("--weights", type=_parse_weights)
+    project_matrix_parser.add_argument("--score-band", type=_parse_tolerancia, help="Tolerância da faixa de escolha: volumes cujo escore fica a até esta fração da amplitude dos escores, contada do maior, são apresentados como equivalentes (0 a 1; padrão 0,05)")
     project_matrix_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     project_matrix_parser.add_argument("--weight-sensitivity", type=_positive_int, default=0)
     project_matrix_parser.add_argument("--seed", type=int, default=42)
@@ -3022,6 +3084,7 @@ def main() -> None:
     batch_parser.add_argument("--base", help="Projeto .triton/CSV com parâmetros econômicos e ambientais base")
     batch_parser.add_argument("--analysis", choices=ANALYSES, default="all")
     batch_parser.add_argument("--weights", type=_parse_weights)
+    batch_parser.add_argument("--score-band", type=_parse_tolerancia, help="Tolerância da faixa de escolha: volumes cujo escore fica a até esta fração da amplitude dos escores, contada do maior, são apresentados como equivalentes (0 a 1; padrão 0,05)")
     batch_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     batch_parser.add_argument("--format", choices=FORMATS, default="csv")
     batch_parser.add_argument("--output", help="Arquivo de saída")
@@ -3039,6 +3102,7 @@ def main() -> None:
     uncertainty_parser.add_argument("--demand-cv", type=float, default=10.0, help="CV percentual da demanda")
     uncertainty_parser.add_argument("--capex-cv", type=float, default=15.0, help="CV percentual de CAPEX")
     uncertainty_parser.add_argument("--weights", type=_parse_weights)
+    uncertainty_parser.add_argument("--score-band", type=_parse_tolerancia, help="Tolerância da faixa de escolha: volumes cujo escore fica a até esta fração da amplitude dos escores, contada do maior, são apresentados como equivalentes (0 a 1; padrão 0,05)")
     uncertainty_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     uncertainty_parser.add_argument("--set", dest="set_values", action="append", default=[], metavar="CAMPO=VALOR")
     uncertainty_parser.add_argument("--format", choices=("text", "json", "csv"), default="text")
@@ -3115,6 +3179,7 @@ def main() -> None:
                                    "cenário e recorte do projeto); «todos» usa os 19; «nenhum» desliga"))
     study_parser.add_argument("--daily-cv", type=float, help="Variação de um dia para o outro, em %% (padrão 0)")
     study_parser.add_argument("--weights", type=_parse_weights)
+    study_parser.add_argument("--score-band", type=_parse_tolerancia, help="Tolerância da faixa de escolha: volumes cujo escore fica a até esta fração da amplitude dos escores, contada do maior, são apresentados como equivalentes (0 a 1; padrão 0,05)")
     study_parser.add_argument("--criterion-shares", type=_parse_criterion_shares, help="Partes de cada critério dentro do seu eixo (8 valores: confiabilidade volumétrica, eficiência de armazenamento, economia líquida, LCOW, payback, CO2, massa a seco, extravasamento); padrão: 1,1,1,1,1,1,1,1")
     study_parser.add_argument("--set", dest="set_values", action="append", default=[], metavar="CAMPO=VALOR")
     study_parser.add_argument("--format", choices=("text", "json", "csv"), default="text")

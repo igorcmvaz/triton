@@ -574,7 +574,8 @@ Os nomes em `código` são os campos do ficheiro de projeto, listados no apêndi
 **Entradas**
 
 - um candidato por volume do varrimento, montado por `candidato_dos_resultados` com a simulação, a análise económica, o CO₂ de ciclo de vida e a massa a seco
-- quatro pesos de eixo e oito partes no eixo, ou oito pesos de critério
+- quatro pesos de eixo e oito partes no eixo, oito pesos de critério ou «critic» (pesos objetivos calculados dos resultados)
+- tolerância da faixa de escolha (por omissão, 5% da amplitude das pontuações)
 
 **Regras**
 
@@ -582,12 +583,14 @@ Os nomes em `código` são os campos do ficheiro de projeto, listados no apêndi
 2. O peso de cada eixo reparte-se pelos critérios do eixo segundo as partes no eixo. Três pesos de eixo (projetos até à 0.1.0) dão ao eixo estrutural a média dos três; sete valores são recusados.
 3. Quem não recupera o investimento recebe no período de recuperação o pior observado mais 10% (ao menos mais um ano e ao menos 20 anos); o volume zero recebe no LCOW o pior observado mais 10%.
 4. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VAL negativo. É variante deliberada, e precisa ser declarada como variante.
-5. O SMAA-VIKOR sorteia oito pesos e devolve as probabilidades de cada volume ocupar cada posição.
-6. As condições C1 e C2 de Opricovic não estão implementadas.
+5. Com «critic», os oito pesos saem do CRITIC (Diakoulaki, Mavrotas e Papayannakis, 1995), calculados dos volumes maiores que zero; as partes no eixo não se aplicam.
+6. O SMAA-VIKOR sorteia oito pesos, com 25% esperado em cada eixo, e devolve as probabilidades de cada volume ocupar cada posição.
+7. A faixa de escolha reúne os volumes cuja pontuação, normalizada entre a pior (0) e a melhor (1), fica a até a tolerância da melhor.
+8. As condições C1 e C2 de Opricovic não estão implementadas.
 
 **Saídas**
 
-- Ordenação dos volumes, distância ao ideal por critério, volume de compromisso
+- Ordenação dos volumes, distância ao ideal por critério, faixa de escolha e volume de maior pontuação
 
 **Exceção.** Candidato único devolve ordenação trivial. Critério constante entre candidatos não contribui para a distância.
 

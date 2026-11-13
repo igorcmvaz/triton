@@ -145,12 +145,18 @@ multi-criteria ranking. `--format` accepts `text`, `json`, `csv`, `html` and `xl
 **Declare the weights.** The ranking uses eight criteria on four axes: technical (volumetric
 reliability, storage efficiency), economic (net financial savings, levelised cost of water, discounted
 payback), environmental (life-cycle CO₂e) and structural (dry material mass, annual overflow).
-`--weights t,e,a,s` gives the four axis weights (25% each by default) or eight criterion weights;
+`--weights t,e,a,s` gives the four axis weights (25% each by default) or eight criterion weights, and
+`--weights critic` derives objective weights from the results by the CRITIC method;
 `--criterion-shares` gives eight shares that split each axis weight among its criteria (equal by default,
 `1,1,1,1,1,1,1,1`). Three axis weights, from projects and studies made up to version 0.1.0, are still
 accepted, with the structural axis taking their mean; seven values, from the old seven-criterion model, are
-refused. In the project file the same settings are `analysis.topsis_weights` and
+refused. In the project file the same settings are `analysis.topsis_weights` (or `"critic"`) and
 `analysis.topsis_criterion_shares`.
+
+**Report a band, not a single capacity.** When several capacities score alike, the output gives the choice
+band: the capacities whose score lies within 5% of the score range from the highest (`--score-band`, from 0 to
+1; `analysis.topsis_score_band` in the project file), with the highest-scoring capacity alongside. State the
+band and the tolerance in a study, together with the weights and the candidate capacities.
 
 **System weight.** `--analysis all` (or `--analysis system_weight`) also reports the dry mass, the water
 load and the operating load of the system, in kg and kN, in the basement or lower level, on the roof or upper

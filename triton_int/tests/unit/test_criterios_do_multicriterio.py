@@ -114,3 +114,128 @@ def test_alternativa_sem_cisterna_recebe_a_pior_lcow_e_o_pior_payback(chuva):
     assert m[0, col["lcow_brl_m3"]] > m[2, col["lcow_brl_m3"]]
     assert m[0, col["payback_years"]] > m[2, col["payback_years"]]
     assert calculate_topsis_scores(cands).best_candidate.lower_tank_vol > 0
+
+
+# ── SMAA e PROMETHEE (0.2.0) ─────────────────────────────────────────────────────────────────
+
+def _quatro_candidatos():
+    from triton.core.topsis import TopsisCandidate
+    dados = [(1000, 40, 900, 100, 12, 9, 70, 11, 60, 30), (2000, 50, 1200, 130, 11, 8, 85, 7, 80, 22),
+             (4000, 55, 800, 90, 13, 11, 95, 4, 120, 15), (8000, 57, -500, -50, 18, 0, 99, 2, 200, 11)]
+    return [TopsisCandidate(lower_tank_vol=v, water_saved_m3_yr=w, vpl_brl=n, co2_saved_kg_lifetime=c, lcow_brl_m3=l,
+                            discounted_payback_years=pb, volumetric_reliability_pct=r, storage_efficiency_pct=e,
+                            material_mass_kg=ms, overflow_m3_yr=o) for v, w, n, c, l, pb, r, e, ms, o in dados]
+
+
+def test_promethee_usual_nao_zera_os_fluxos():
+    from triton.core.mcda.mcdm_methods import run_promethee
+    fluxos = run_promethee(_quatro_candidatos(), preference_function="usual").net_flows
+    assert np.any(np.abs(fluxos) > 1e-9)
+    assert float(np.sum(fluxos)) == pytest.approx(0.0, abs=1e-12)
+
+
+def test_smaa_sorteia_25_por_cento_por_eixo_em_media():
+    from triton.core.mcda.mcdm_methods import _smaa_dirichlet_alpha
+    a = _smaa_dirichlet_alpha(8)
+    assert [a[0:2].sum(), a[2:5].sum(), a[5], a[6:8].sum()] == pytest.approx([2.0, 2.0, 2.0, 2.0])
+    # O peso esperado de cada critério é o padrão do TOPSIS
+    assert a / a.sum() == pytest.approx(pesos_dos_criterios())
+    assert np.array_equal(_smaa_dirichlet_alpha(5), np.ones(5))
+
+
+def test_smaa_topsis_usa_a_conta_do_topsis_do_programa():
+    from triton.core.mcda.mcdm_methods import _topsis_scores_kernel, run_smaa_analysis
+    cands = _quatro_candidatos()
+    m = _decision_matrix(cands)
+    desloc = m - m.min(axis=0)
+    norma = np.sqrt((desloc ** 2).sum(axis=0))
+    norma[norma == 0] = 1.0
+    w = np.array([0.2, 0.1, 0.15, 0.1, 0.1, 0.15, 0.1, 0.1])
+    esperado = calculate_topsis_scores(cands, weights=tuple(w)).scores
+    obtido = _topsis_scores_kernel(np.ascontiguousarray(desloc / norma), np.ascontiguousarray(CRITERION_IS_BENEFIT), w)
+    assert obtido == pytest.approx(esperado, abs=1e-12)
+    s = run_smaa_analysis(cands, num_samples=2000, engine="topsis", random_seed=7)
+    assert s.first_rank_probs.sum() == pytest.approx(100.0)
+    assert len(s.confidence_factors) == len(cands)
+    assert sum(s.get_central_dimension_weights(s.best_index)) == pytest.approx(1.0)
+
+
+# ── Pesos objetivos pelo CRITIC (Diakoulaki, Mavrotas e Papayannakis, 1995) ─────────────────────
+
+def test_critic_confere_com_a_formula():
+    from triton.core.topsis import pesos_critic
+    cands = _quatro_candidatos()
+    M = _decision_matrix(cands)
+    B = CRITERION_IS_BENEFIT
+    R = np.where(B, (M - M.min(0)) / (M.max(0) - M.min(0)), (M.max(0) - M) / (M.max(0) - M.min(0)))
+    C = R.std(0) * (1.0 - np.corrcoef(R, rowvar=False)).sum(1)
+    w = pesos_critic(M, [c.lower_tank_vol for c in cands])
+    assert w == pytest.approx(C / C.sum())
+    assert w.sum() == pytest.approx(1.0) and np.all(w >= 0)
+
+
+def test_critic_criterio_constante_pesa_zero_e_sem_contraste_os_pesos_ficam_iguais():
+    from triton.core.topsis import pesos_critic
+    M = np.array([[1.0, 5.0, 3.0, 2.0, 7.0, 1.0, 4.0, 9.0],
+                  [2.0, 5.0, 1.0, 4.0, 6.0, 3.0, 4.0, 7.0],
+                  [3.0, 5.0, 2.0, 1.0, 9.0, 2.0, 4.0, 8.0]])
+    w = pesos_critic(M)
+    assert w[1] == 0.0 and w[6] == 0.0
+    assert pesos_critic(np.ones((3, 8))) == pytest.approx(np.full(8, 1 / 8))
+
+
+def test_critic_vale_no_topsis_no_vikor_e_no_promethee_e_ignora_o_volume_zero():
+    from triton.core.mcda.mcdm_methods import run_promethee, run_vikor
+    from triton.core.topsis import TopsisCandidate, pesos_critic
+    cands = [TopsisCandidate(lower_tank_vol=0.0, water_saved_m3_yr=0.0, vpl_brl=0.0, co2_saved_kg_lifetime=0.0)] + _quatro_candidatos()
+    res = calculate_topsis_scores(cands, weights="critic")
+    sem_zero = pesos_critic(_decision_matrix(cands)[1:])
+    assert res.criterion_weights == pytest.approx(sem_zero)
+    assert run_vikor(cands, weights="CRITIC").best_candidate.lower_tank_vol > 0
+    assert run_promethee(cands, weights="critic").best_candidate.lower_tank_vol > 0
+    with pytest.raises(ValueError):
+        calculate_topsis_scores(cands, weights="entropia")
+
+
+def test_critic_na_linha_de_comando_e_no_estudo():
+    from triton import cli
+    assert cli._parse_weights("critic") == "critic"
+    assert cli._validate_analysis_config({"topsis_weights": "critic"}) == []
+    assert cli._pesos_lidos("Critic") == "critic" and cli._pesos_lidos([1, 1, 1, 1]) == (1, 1, 1, 1)
+    assert cli._analysis_from_ui_state({"topsis": {"preset_key": "critic"}})["topsis_weights"] == "critic"
+
+
+# ── Faixa de escolha: volumes de resultado semelhante, em vez de «o melhor volume» ─────────────────
+
+def test_faixa_de_escolha_reune_os_volumes_proximos_do_maior_escore():
+    from triton.core.topsis import faixa_de_escolha
+    v = [0, 1000, 2000, 3000, 4000, 5000, 8000, 12000]
+    s = [0.9, 0.653, 0.773, 0.754, 0.717, 0.668, 0.484, 0.31]   # o volume zero fica de fora
+    f = faixa_de_escolha(v, s)
+    assert (f["min_volume_l"], f["max_volume_l"], f["best_volume_l"]) == (2000.0, 3000.0, 2000.0)
+    assert f["contiguous"] and f["tolerance"] == 0.05
+    assert faixa_de_escolha(v, s, tolerancia=0.15)["max_volume_l"] == 4000.0
+    assert faixa_de_escolha(v, s, tolerancia=0.0)["volumes_l"] == [2000.0]
+    # Faixa com lacuna: 2.000 L fica fora entre dois volumes de dentro
+    lacuna = faixa_de_escolha([1000, 2000, 3000], [0.5, 0.2, 0.49])
+    assert lacuna["volumes_l"] == [1000.0, 3000.0] and not lacuna["contiguous"]
+    # Menor é melhor (índice Q do VIKOR)
+    assert faixa_de_escolha([1000, 2000, 3000], [0.0, 0.03, 1.0], maior_melhor=False)["volumes_l"] == [1000.0, 2000.0]
+    with pytest.raises(ValueError):
+        faixa_de_escolha(v, s, tolerancia=1.5)
+
+
+def test_faixa_de_escolha_sai_na_analise_e_nas_metricas_do_estudo():
+    from triton import cli
+    from triton.core.estudo import METRICAS
+    cfg = cli.configuracao_da_edicao()
+    cfg.area = 150.0
+    cfg.lower_tank_mode = 1
+    cfg.lower_tank_max = 6000.0
+    cfg.lower_tank_step = 1000.0
+    rel = cli.run_analysis(cfg, np.random.default_rng(2).gamma(0.4, 12.0, 730), "all", smaa=False, score_band=0.10)
+    t = rel["topsis"]
+    assert t["choice_band"]["tolerance"] == 0.10
+    assert t["choice_band_min_volume_l"] <= t["best_volume_l"] <= t["choice_band_max_volume_l"]
+    assert METRICAS["faixa_topsis_min_l"]["chave"] == "choice_band_min_volume_l"
+    assert cli._validate_analysis_config({"topsis_score_band": 2}) != []

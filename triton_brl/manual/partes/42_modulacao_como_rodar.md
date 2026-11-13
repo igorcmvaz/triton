@@ -8,7 +8,7 @@
 A ferramenta fica no fim da barra lateral, em **13. Modulação Probabilística**, nas duas
 edições. Ela parte do estudo que as etapas 1 a 4 descrevem — a mesma configuração que o
 programa grava no arquivo `.triton` —, com os pesos do TOPSIS (os quatro pesos de eixo e as partes no eixo) e as premissas
-ambientais da tela. Sem série de chuva carregada, a ferramenta avisa e não roda. Para começar, abra o
+ambientais da tela. Com o perfil do CRITIC, os pesos objetivos são recalculados em cada realização, dos resultados sorteados. Sem série de chuva carregada, a ferramenta avisa e não roda. Para começar, abra o
 caso `10_modulacao_tutorial.triton` ou o `11_modulacao_climbra.triton` (apêndice J): os
 dois chegam com a ferramenta montada, e basta clicar em **Simular**.
 

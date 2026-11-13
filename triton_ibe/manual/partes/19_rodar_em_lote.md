@@ -32,8 +32,8 @@ A varredura é o modo normal de trabalho, e não uma função avançada reservad
 projeto de aproveitamento pluvial. A secção {{n:7}} percorre uma varredura completa passo a
 passo, e a secção {{n:24}} formaliza como se constrói a grelha de volumes.
 
-O custo computacional é modesto e não justifica hesitação: uma varredura de 0 a 20 000 L com
-passo de 1 000 L corresponde a vinte e uma simulações de trinta anos cada, e conclui-se em poucos
+O custo computacional é modesto e não justifica hesitação: uma varredura de 0 a 20 000 L com
+passo de 1 000 L corresponde a vinte e uma simulações de trinta anos cada, e conclui-se em poucos
 segundos num computador comum.
 
 ---
@@ -47,11 +47,18 @@ A etapa **8. Decisão Multicritério** mostra, numa só tabela, cada volume da v
 - o carbono líquido no fim da vida útil e o retorno ambiental;
 - a pontuação TOPSIS e a aceitabilidade SMAA-VIKOR.
 
+Por baixo da tabela, a conclusão dá a **faixa de escolha** de cada método — «Faixa TOPSIS», «Faixa
+VIKOR / SMAA» e «Faixa PROMETHEE II» —, com o volume de maior pontuação ao lado: os volumes com
+resultados multicritério semelhantes, e não um vencedor (secção {{n:32}}).
+
 É a forma mais densa de comparar alternativas que o programa oferece. O **perfil de decisão**
 troca os quatro pesos de eixo — técnico, económico, ambiental e estrutural — e reordena a tabela
-no momento: «Equilibrado» dá 25% a cada eixo, e cada «Priorizar …» dá 70% a um eixo e 10% a cada
-um dos outros. A linha **Partes no eixo** reparte o peso de cada eixo pelos seus critérios, com o
-botão «Partes iguais» para voltar ao padrão. A secção {{n:32}} explica os oito critérios e os
+no momento: «Equilibrado» dá 25% a cada eixo, cada «Priorizar …» dá 70% a um eixo e 10% a cada
+um dos outros, e «Pesos objetivos (CRITIC), calculados dos resultados» calcula os pesos dos
+próprios resultados. Os pesos ficam em quatro **cartões**, um por eixo: o peso do eixo em cima e,
+por baixo, as **partes no eixo** dos seus critérios. Sob os cartões, o botão «Partes iguais» volta
+ao padrão, e «Recalcular» refaz a ordenação. Com o CRITIC, os cartões mostram, só para leitura, a
+soma por eixo dos pesos calculados, e as partes desaparecem. A secção {{n:32}} explica os oito critérios e os
 métodos por trás.
 
 ---
@@ -155,11 +162,22 @@ reservatório inferior, em litros; `--rainfall` substitui a série de chuva do p
 `--set CAMPO=VALOR` altera um campo do projeto e pode repetir-se; `--weights` informa os quatro
 pesos de eixo do multicritério, pela ordem técnico, económico, ambiental e estrutural (ou oito
 pesos, um por critério; três, de projetos anteriores à 0.2.0, ainda são aceites, com o eixo
-estrutural na média dos três); `--criterion-shares` informa as oito partes no eixo (por omissão,
-`1,1,1,1,1,1,1,1`); `--weight-sensitivity N` sorteia N vetores de pesos e indica a frequência com
-que cada volume vence; `--format` e `--output` definem o formato e o ficheiro de saída; e `--seed`
-fixa a semente das análises estocásticas, para que o resultado seja reprodutível. Sete valores em
-`--weights` ou em `--criterion-shares` são recusados: eram do modelo de sete critérios.
+estrutural na média dos três), ou a palavra `critic`, para os pesos objetivos do CRITIC, calculados
+dos resultados (secção {{n:32}}); `--criterion-shares` informa as oito partes no eixo (por omissão,
+`1,1,1,1,1,1,1,1`; não se aplicam com `critic`); `--score-band` dá a tolerância da faixa de
+escolha, de 0 a 1 (por omissão, 0,05: os volumes com pontuação a até 5% da amplitude da maior);
+`--weight-sensitivity N` sorteia N vetores de pesos (com `critic`, os quatro pesos de eixo) e
+indica a frequência com que cada volume vence; `--format` e `--output` definem o formato e o
+ficheiro de saída; e `--seed` fixa a semente das análises estocásticas, para que o resultado seja
+reprodutível. Sete valores em `--weights` ou em `--criterion-shares` são recusados: eram do modelo
+de sete critérios.
+
+No ficheiro de projeto, os mesmos dados ficam em `analysis.topsis_weights` (quatro ou oito valores,
+ou `"critic"`), `analysis.topsis_criterion_shares` e `analysis.topsis_score_band`. A saída de texto
+escreve a faixa do TOPSIS numa linha — «TOPSIS: volumes de A a B L com escores semelhantes (até 5%
+da amplitude, a partir do maior) | maior escore em X L» —, o HTML traz o parágrafo «Faixa de escolha
+(TOPSIS)», e o JSON as chaves `topsis.choice_band`, `choice_band_min_volume_l`,
+`choice_band_max_volume_l` e `smaa_vikor.choice_band`.
 
 `--analysis all` traz também o **peso do sistema** (`system_weight`): a massa a seco, a carga de
 água e a carga em operação, em quilogramas e em quilonewtons, no subsolo, na cobertura e nas
@@ -177,7 +195,7 @@ triton run 04_tutorial_varredura.triton --volume 5000 --format json --output r.j
 ```
 
 O ficheiro `r.json` regista a proveniência (projeto de origem, número de dias da série e data
-inicial) e, para o volume de 5 000 L, o potencial de poupança de 17,87%, com 62,7% de dias de
+inicial) e, para o volume de 5 000 L, o potencial de poupança de 17,87%, com 62,7% de dias de
 abastecimento pleno.
 
 O subcomando `uncertainty` sorteia, em cada amostra, a precipitação, a área de captação, a
@@ -185,8 +203,8 @@ procura e o investimento com uma distribuição de coeficiente de variação dec
 percentis de 5%, 50% e 95% do potencial de poupança e do valor atual líquido, com a probabilidade
 de o valor atual líquido ser positivo. Corra-o sobre o tutorial com um número modesto de amostras
 e uma `--seed` fixa, e leia os percentis do potencial como um intervalo, e não como um número
-único. Em Lisboa, o potencial do tutorial (17,87% a 5 000 L) está bem abaixo do teto de 28%, e a
-curva ainda sobe aos 20 000 L; por isso, uma variação da chuva ou da procura desloca o potencial
+único. Em Lisboa, o potencial do tutorial (17,87% a 5 000 L) está bem abaixo do teto de 28%, e a
+curva ainda sobe aos 20 000 L; por isso, uma variação da chuva ou da procura desloca o potencial
 mais do que deslocaria num sistema que já opera junto do teto. O valor atual líquido, negativo no
 tutorial com os custos ilustrativos da secção {{n:10}}, move-se em proporção ao investimento e ao
 tarifário. A modulação probabilística, descrita nos seus capítulos próprios, faz o mesmo trabalho
@@ -251,6 +269,8 @@ As tipologias (`escolar`, `comercial`, `residencial-unifamiliar`, `residencial-m
 A ação `consolidar` procura todos os `resultados.csv` sob as pastas indicadas (vários estudos, lotes, execuções repetidas) e grava `consolidado.csv` e `consolidado.md` na pasta de saída: uma linha por tipologia (`grupo`), caso e métrica, com `n`, mínimo, média, mediana e máximo dos valores dos casos concluídos (`status` ok). A unidade faz parte da chave do grupo, pelo que moedas diferentes nunca se misturam. Os números têm o mesmo formato do `resultados.csv` (ponto decimal, dez algarismos significativos); a tabela em Markdown segue `--idioma`. Se o pacote opcional `duckdb` estiver instalado (extra opcional `analise`, que não faz parte do instalador), é ele que lê e agrupa os ficheiros; sem ele a biblioteca padrão faz o mesmo, e os dois caminhos dão os mesmos bytes (`--motor csv` força o segundo; `--motor duckdb` exige o pacote).
 
 `estudo run` e `estudo lote` mostram o progresso na saída de erro. `--progresso simples` escreve uma linha por caso (`[i/N] id: ok (t s)`); `--progresso rich` desenha uma barra de progresso e precisa do pacote opcional `rich` (extra opcional `cli`; sem ele o programa avisa uma vez e usa `simples`); o padrão `auto` só usa `rich` se este estiver instalado e a saída de erro for um terminal. Os ficheiros de resultado são idênticos em bytes em qualquer modo, e `--quiet` desliga o progresso.
+
+Na secção `analise` do `estudo.json`, `pesos` aceita também `"critic"`, e `tolerancia_faixa` dá a tolerância da faixa de escolha (de 0 a 1; por omissão, 0,05). As métricas `faixa_topsis_min_l` e `faixa_topsis_max_l` levam a faixa do TOPSIS de cada caso para as tabelas do artigo: relate-as em vez de um volume só.
 
 O que cada secção do `estudo.json` contém, os apelidos das substituições (área de captação, demanda, utilizadores, fração, volume do reservatório e outros) e os ficheiros de saída estão no apêndice «Ficheiros, pastas e formatos». O exemplo `examples/estudos/residencial-unifamiliar-exemplo/` roda a moradia do tutorial em Lisboa, no Porto e no Funchal (`portugal/lisboa.triton`, `portugal/porto.triton`, `portugal/funchal.triton`): `triton estudo run examples\estudos\residencial-unifamiliar-exemplo\estudo.json --saida saida\exemplo`.
 

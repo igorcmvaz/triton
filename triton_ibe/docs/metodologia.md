@@ -214,12 +214,35 @@ Três pesos, de projetos e estudos até à 0.1.0, continuam aceites: o eixo estr
 pesos iguais continuam iguais. Sete valores, pesos ou partes do modelo antigo, são recusados com a mensagem «O
 multicritério da versão 0.2.0 tem oito critérios em quatro eixos, e os sete valores do modelo anterior não
 correspondem a eles. Informe quatro pesos de eixo (técnico, econômico, ambiental, estrutural) ou oito pesos de
-critério.» O TOPSIS, o VIKOR e o PROMETHEE II usam a mesma regra; o SMAA-VIKOR sorteia oito pesos no simplex e
-informa os pesos centrais agregados nos quatro eixos. Onde se declaram: no separador de decisão (quatro pesos,
-perfis «Equilibrado» e «Priorizar …», linha «Partes no eixo» com o botão «Partes iguais»); na linha de comandos
-(`--weights t,e,a,s` ou oito valores, `--criterion-shares` com oito); no ficheiro de projeto
+critério.» O TOPSIS, o VIKOR e o PROMETHEE II usam a mesma regra; o SMAA-VIKOR sorteia oito pesos numa
+Dirichlet com parâmetros (1, 1, 2/3, 2/3, 2/3, 2, 1, 1), com 25% esperado em cada eixo, e informa os pesos
+centrais agregados nos quatro eixos. Onde se declaram: no separador de decisão (um cartão por eixo, com o peso do
+eixo e, por baixo, as partes dos seus critérios; perfis «Equilibrado», «Priorizar …» e «📊 Pesos objetivos
+(CRITIC), calculados dos resultados»; botões «Partes iguais» e «⚡ Recalcular»); na linha de comandos
+(`--weights t,e,a,s`, oito valores ou `critic`, `--criterion-shares` com oito); no ficheiro de projeto
 (`analysis.topsis_weights`, `analysis.topsis_criterion_shares`); no estudo declarativo (`analise.pesos`,
 `analise.partes_no_eixo`).
+
+**Pesos objetivos (CRITIC).** Com `critic` no lugar dos pesos, o programa calcula-os pelo método de Diakoulaki,
+Mavrotas e Papayannakis (1995, *Computers & Operations Research* 22(7), 763–770,
+doi:10.1016/0305-0548(94)00059-H), em `triton.core.topsis.pesos_critic`: cada critério é normalizado de 0 (pior
+valor observado) a 1 (melhor), no sentido do critério; a informação é `Cj = σj · Σk (1 − rjk)`, com `σj` o
+desvio-padrão do critério normalizado e `rjk` a correlação de Pearson entre critérios; o peso é `wj = Cj / ΣC`.
+Critério constante pesa zero; sem contraste nenhum, pesos iguais. Os pesos saem das alternativas com volume
+maior que zero (a sem cisterna entra com penalizações de LCOW e payback, que inflariam o contraste) e
+recalculam-se a cada análise. Valem para TOPSIS, VIKOR e PROMETHEE II (as partes no eixo não se aplicam); o
+SMAA continua a sortear os pesos; na sensibilidade de pesos, sorteiam-se os quatro pesos de eixo. Mede o
+contraste e a independência dos critérios nos próprios resultados: os pesos mudam com o conjunto de volumes, não
+exprimem preferência de ninguém, e um critério que varia muito ganha peso mesmo que importe pouco. Não é o
+padrão.
+
+**Faixa de escolha.** `triton.core.topsis.faixa_de_escolha` reúne os volumes maiores que zero cuja medida,
+normalizada entre a pior (0) e a melhor (1) dos volumes avaliados, fica a até a tolerância da melhor (padrão
+`TOLERANCIA_FAIXA_PADRAO = 0.05`): a pontuação do TOPSIS, o índice Q do VIKOR (menor é melhor), o fluxo
+líquido do PROMETHEE II ou a aceitabilidade de primeiro lugar do SMAA. Informa também se a faixa é contígua e
+o volume de maior pontuação. A faixa depende da tolerância (`--score-band`, `analysis.topsis_score_band`,
+`analise.tolerancia_faixa`) e da grade de volumes avaliada, e não é um intervalo de confiança; relata-se com a
+tolerância, em vez de um volume só.
 
 **Peso do sistema.** `triton analyze … --analysis all` (ou `--analysis system_weight`) traz `system_weight`: a
 massa a seco, a carga de água e a carga em operação, em kg e kN, no subsolo ou nível inferior, na cobertura ou
@@ -233,7 +256,7 @@ Para permitir valores negativos sem uma correção condicional, cada coluna é t
 
 **Esta é uma variante declarada, não o TOPSIS canônico.** Hwang & Yoon (1981) normalizam pela norma euclidiana dos valores originais. Onde todos os valores de um critério são positivos e o mínimo é zero, as duas formas coincidem; onde há VPL negativo — o caso que motivou a mudança — divergem, e os escores não são comparáveis com os de uma implementação canônica sobre a mesma matriz.
 
-O VIKOR implementado em `triton/core/mcdm_methods.py` calcula `S`, `R` e `Q` conforme Opricovic & Tzeng (2004), mas **não aplica as condições C1 (vantagem aceitável) e C2 (estabilidade aceitável)**. O ranking é, portanto, uma ordenação por `Q`, e não a afirmação de que o primeiro colocado seja um compromisso estável. O SMAA-VIKOR segue Lahdelma & Salminen (2001), amostrando o simplex por Dirichlet simétrica; é implementação independente sobre NumPy, seguindo o desenho da biblioteca `crispyn` (licença MIT), que serve de base de comparação e não de origem do código.
+O VIKOR implementado em `triton/core/mcdm_methods.py` calcula `S`, `R` e `Q` conforme Opricovic & Tzeng (2004), mas **não aplica as condições C1 (vantagem aceitável) e C2 (estabilidade aceitável)**. O ranking é, portanto, uma ordenação por `Q`, e não a afirmação de que o primeiro colocado seja um compromisso estável. O SMAA-VIKOR segue Lahdelma & Salminen (2001), amostrando os pesos por uma Dirichlet com 25% esperado em cada eixo; é implementação independente sobre NumPy, seguindo o desenho da biblioteca `crispyn` (licença MIT), que serve de base de comparação e não de origem do código.
 
 Além do escore agregado, o programa calcula o afastamento independente dos pesos e o apresenta na interface como proximidade:
 

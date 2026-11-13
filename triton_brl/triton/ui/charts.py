@@ -651,7 +651,7 @@ class TOPSISComparisonChart(TritonBaseChart):
                 scores = [0.0] * n_bars
             y_label = tr("Aceitabilidade de 1º Lugar — SMAA-VIKOR (%)")
             val_fmt = lambda s: f"{s:.1f}%"
-            annot_best_label = tr("Ótimo SMAA-VIKOR")
+            annot_best_label = tr("Maior aceitabilidade SMAA-VIKOR")
             samples_str = milhar(f" ({res.num_simulations:,} simulações)") if hasattr(res, "num_simulations") else ""
             annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L ({scores[best_i]:.1f}%{samples_str})"
 
@@ -664,14 +664,14 @@ class TOPSISComparisonChart(TritonBaseChart):
             scores = [float(s) for s in getattr(res, "q_scores", [0.0]*n_bars)]
             y_label = tr("Índice de Compromisso VIKOR (Q — menor é melhor)")
             val_fmt = lambda s: f"{s:.2f}"
-            annot_best_label = tr("Ótimo VIKOR")
+            annot_best_label = tr("Menor Q (VIKOR)")
             annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L (Q = {scores[best_i]:.2f})"
             max_y = 1.20
         elif is_promethee:
             scores = [float(s) for s in getattr(res, "net_flows", [0.0]*n_bars)]
             y_label = tr("Fluxo Líquido de Superação — PROMETHEE II (Φ)")
             val_fmt = lambda s: f"{s:+.2f}"
-            annot_best_label = tr("Ótimo PROMETHEE II")
+            annot_best_label = tr("Maior fluxo (PROMETHEE II)")
             annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L (Φ = {scores[best_i]:+.2f})"
             min_y = -1.15
             max_y = 1.15
@@ -679,13 +679,28 @@ class TOPSISComparisonChart(TritonBaseChart):
             scores = [float(s) for s in getattr(res, "scores", [0.0]*n_bars)]
             y_label = tr("Escore TOPSIS")
             val_fmt = lambda s: f"{s:.2f}"
-            annot_best_label = tr("Ótimo TOPSIS")
+            annot_best_label = tr("Maior escore TOPSIS")
             annot_text = f"{annot_best_label}: {vols[best_i]:.0f} L ({scores[best_i]:.2f})"
             max_y = 1.20
+
+        # Faixa de escolha: volumes de resultado semelhante ao melhor (até 5% da amplitude). Vai na anotação
+        # e pinta as barras da faixa de verde-claro; o maior escore continua em verde.
+        faixa = res.faixa_de_escolha() if hasattr(res, "faixa_de_escolha") else None
+        na_faixa = set(float(v) for v in (faixa or {}).get("volumes_l", []))
+        if faixa and len(na_faixa) > 1:
+            if faixa.get("contiguous", True):
+                texto_faixa = f"{faixa['min_volume_l']:.0f}–{faixa['max_volume_l']:.0f} L"
+            else:
+                texto_faixa = ", ".join(f"{v:.0f}" for v in faixa["volumes_l"]) + " L"
+            annot_text = f"{tr('Faixa de escolha')}: {texto_faixa} · {annot_text}"
 
         if n_bars <= 15:
             # Gráfico de barras discreto para poucas alternativas
             bars = ax.bar(range(n_bars), scores, color='#6366f1', alpha=0.85, width=0.45, edgecolor='#4f46e5', linewidth=1.2)
+            for idx, b in enumerate(bars):
+                if idx != best_i and float(vols[idx]) in na_faixa:
+                    b.set_color('#86efac')
+                    b.set_edgecolor('#16a34a')
             if best_i < len(bars):
                 bars[best_i].set_color('#10b981')
                 bars[best_i].set_edgecolor('#059669')

@@ -870,6 +870,24 @@ REFERENCIAS: Dict[str, Referencia] = dict(
             ),
         ),
         _r(
+            chave="diakoulaki_mavrotas_papayannakis_1995",
+            autores="DIAKOULAKI, D.; MAVROTAS, G.; PAPAYANNAKIS, L.",
+            ano=1995,
+            titulo="Determining objective weights in multiple criteria problems: the CRITIC method",
+            veiculo="Computers & Operations Research",
+            detalhe="v. 22, n. 7, p. 763–770",
+            doi="10.1016/0305-0548(94)00059-h",
+            recuperado_por="openalex",
+            nota_pt=(
+                "Pesos objetivos pelo CRITIC: Cj = σj · Σk (1 − rjk), com σj o desvio-padrão do critério normalizado "
+                "e rjk a correlação entre critérios. É a opção «critic» de pesos do multicritério (0.2.0)."
+            ),
+            nota_en=(
+                "Objective weights by CRITIC: Cj = σj · Σk (1 − rjk), with σj the standard deviation of the normalised "
+                "criterion and rjk the correlation between criteria. It is the «critic» weight option (0.2.0)."
+            ),
+        ),
+        _r(
             chave="opricovic_tzeng_2007",
             autores="OPRICOVIC, S.; TZENG, G.-H.",
             ano=2007,
@@ -1140,6 +1158,7 @@ REFERENCIAS_POR_SECAO: Dict[str, Tuple[str, ...]] = {
         "tervonen_figueira_2007",
         "melville_shreeve_2016",
         "crispyn_2024",
+        "diakoulaki_mavrotas_papayannakis_1995",
     ),
     "telhados": ("marinoski_2020", "scolaro_ghisi_2025", "campisano_2017", "raimondi_2023"),
     "indices": ("zhang_2011", "walsh_lawler_1981", "inmet_bdmep", "kisakye_2018"),

@@ -1130,7 +1130,8 @@ Os nomes em `código` são os campos do ficheiro de projeto, listados no apêndi
 **Entradas**
 
 - um candidato por volume do varrimento, montado por `candidato_dos_resultados` com a simulação, a análise económica, o CO₂ de ciclo de vida e a massa a seco
-- quatro pesos de eixo e oito partes no eixo, ou oito pesos de critério
+- quatro pesos de eixo e oito partes no eixo, oito pesos de critério ou «critic» (pesos objetivos calculados dos resultados)
+- tolerância da faixa de escolha (por omissão, 5% da amplitude das pontuações)
 
 **Regras**
 
@@ -1138,12 +1139,14 @@ Os nomes em `código` são os campos do ficheiro de projeto, listados no apêndi
 2. O peso de cada eixo reparte-se pelos critérios do eixo segundo as partes no eixo. Três pesos de eixo (projetos até à 0.1.0) dão ao eixo estrutural a média dos três; sete valores são recusados.
 3. Quem não recupera o investimento recebe no período de recuperação o pior observado mais 10% (ao menos mais um ano e ao menos 20 anos); o volume zero recebe no LCOW o pior observado mais 10%.
 4. A normalização translada por `x − min(x)` **antes** da normalização vetorial de Hwang e Yoon, para admitir VAL negativo. É variante deliberada, e precisa ser declarada como variante.
-5. O SMAA-VIKOR sorteia oito pesos e devolve as probabilidades de cada volume ocupar cada posição.
-6. As condições C1 e C2 de Opricovic não estão implementadas.
+5. Com «critic», os oito pesos saem do CRITIC (Diakoulaki, Mavrotas e Papayannakis, 1995), calculados dos volumes maiores que zero; as partes no eixo não se aplicam.
+6. O SMAA-VIKOR sorteia oito pesos, com 25% esperado em cada eixo, e devolve as probabilidades de cada volume ocupar cada posição.
+7. A faixa de escolha reúne os volumes cuja pontuação, normalizada entre a pior (0) e a melhor (1), fica a até a tolerância da melhor.
+8. As condições C1 e C2 de Opricovic não estão implementadas.
 
 **Saídas**
 
-- Ordenação dos volumes, distância ao ideal por critério, volume de compromisso
+- Ordenação dos volumes, distância ao ideal por critério, faixa de escolha e volume de maior pontuação
 
 **Exceção.** Candidato único devolve ordenação trivial. Critério constante entre candidatos não contribui para a distância.
 
@@ -2029,7 +2032,7 @@ Usado por `triton estudo` (capítulo «Comparar muitos casos de uma vez»). Esqu
 | `padroes` | `substituicoes` e `clima` aplicados a todos os casos; o que o caso declara vence o padrão |
 | `casos` | lista; cada caso tem `id`, `nome`, `grupo` (por padrão, a tipologia), `projeto` (outro `.triton` para este caso), `clima` e `substituicoes` |
 | `clima` | `arquivo` (série diária de chuva, CSV), `data_inicio` (dd/mm/aaaa), `nome` e `fonte` (rótulos que vão para a procedência) |
-| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis`, `smaa_vikor` ou um volume em litros), `pesos` (quatro de eixo — técnico, económico, ambiental, estrutural — ou oito de critério; três, de estudos anteriores à 0.2.0, ainda aceites), `partes_no_eixo` (oito valores) e `semente` |
+| `analise` | `tipo` (`technical`, `economic`, `environmental`, `topsis` ou `all`), `volume` (`otimo_tecnico`, `topsis`, `smaa_vikor` ou um volume em litros), `pesos` (quatro de eixo — técnico, económico, ambiental, estrutural —, oito de critério ou `"critic"`, para os pesos objetivos do CRITIC; três, de estudos anteriores à 0.2.0, ainda aceites), `partes_no_eixo` (oito valores), `tolerancia_faixa` (a tolerância da faixa de escolha, de 0 a 1; por omissão, 0,05) e `semente` |
 | `saidas` | `formatos` (`csv`, `json`, `md`, `tex`, `xlsx`), `metricas`, `casas_decimais` (um inteiro ou uma por métrica), `idioma` (`auto`, `pt-BR`, `pt-PT`, `en`, `es`, `zh`), `milhar`, `legenda` e `orientacao` (`casos_nas_linhas` ou `metricas_nas_linhas`) |
 
 Chaves que começam por `_` são comentários e o programa as ignora. Campo vazio, `null` ou «XX» é «a preencher»: a validação o recusa e diz onde está. Uma chave desconhecida é erro, com a sugestão da mais parecida. `triton estudo esquema` imprime o JSON Schema do ficheiro, para completar e conferir no editor.
@@ -2076,7 +2079,7 @@ As saídas não levam caminho absoluto: os projetos aparecem com caminho relativ
 
 **Retomada e códigos de saída.** Numa pasta de saída que já tem resultados, `run` exige `--retomar` (pula os casos prontos e inalterados: a impressão digital do caso inclui o estudo, os ficheiros, a versão e a edição) ou `--sobrescrever` (refaz tudo). O código de saída é 0 se todos os casos foram calculados, 1 se algum caso terminou com erro (as saídas dos demais são gravadas e o caso com erro aparece com `status` `erro`) e 2 se o estudo ou os argumentos são inválidos.
 
-**Métricas.** O volume de cada caso é, por padrão, o ótimo técnico da varredura (`volume: "otimo_tecnico"`); com `"topsis"`, o primeiro do ranking; com um número, o volume fixo. As métricas disponíveis incluem `volume_l`, `economia_agua_potavel_pct`, `agua_pluvial_m3_ano`, `agua_potavel_m3_ano`, `extravasamento_m3_ano`, os dias com atendimento total, parcial e nulo, `capex`, `vpl`, `economia_anual_agua`, `opex_anual`, `tir_anual_pct`, `payback_descontado_meses`, `co2_liquido_vida_kg`, `indice_topsis` e `aceitabilidade_smaa_pct`, além das entradas do caso (`area_captacao_m2`, `usuarios`, `demanda_total_l_dia`, `chuva_media_anual_mm`). As métricas económicas pedem `analise.tipo` `economic` ou `all`; as ambientais, `environmental` ou `all`. Os nomes crus do relatório (`potable_savings_pct`) também valem. Valores monetários saem na moeda de cada projeto; se os casos têm moedas diferentes, o resumo avisa que não são comparáveis e o comparativo não os agrega. Com CAPEX igual a zero (custos não informados), o resumo avisa que VAL, TIR e payback não são resultados.
+**Métricas.** O volume de cada caso é, por padrão, o ótimo técnico da varredura (`volume: "otimo_tecnico"`); com `"topsis"`, o primeiro do ranking; com um número, o volume fixo. As métricas disponíveis incluem `volume_l`, `economia_agua_potavel_pct`, `agua_pluvial_m3_ano`, `agua_potavel_m3_ano`, `extravasamento_m3_ano`, os dias com atendimento total, parcial e nulo, `capex`, `vpl`, `economia_anual_agua`, `opex_anual`, `tir_anual_pct`, `payback_descontado_meses`, `co2_liquido_vida_kg`, `indice_topsis`, `faixa_topsis_min_l` e `faixa_topsis_max_l` (a faixa de escolha do TOPSIS) e `aceitabilidade_smaa_pct`, além das entradas do caso (`area_captacao_m2`, `usuarios`, `demanda_total_l_dia`, `chuva_media_anual_mm`). As métricas económicas pedem `analise.tipo` `economic` ou `all`; as ambientais, `environmental` ou `all`. Os nomes crus do relatório (`potable_savings_pct`) também valem. Valores monetários saem na moeda de cada projeto; se os casos têm moedas diferentes, o resumo avisa que não são comparáveis e o comparativo não os agrega. Com CAPEX igual a zero (custos não informados), o resumo avisa que VAL, TIR e payback não são resultados.
 
 **Texto com os números.** `triton estudo texto` substitui no seu modelo `.md` os marcadores cercados por chaves duplas (duas de cada lado; os exemplos abaixo vêm sem elas): `economia_agua_potavel_pct:caso-01` (o valor de um caso), `economia_agua_potavel_pct:@min`, `@max`, `@media`, `@mediana` (sobre os casos calculados; `@media(escolar)` restringe a um grupo), `n_casos` e, depois de uma barra vertical, as casas decimais (`vpl:caso-01|0`). Onde falta resultado o marcador vira «XX» e o comando lista as pendências (com `--estrito`, termina com código 1). Métrica desconhecida é erro.
 
@@ -2178,6 +2181,12 @@ plenamente ($V_{con,t} = D_{pl,t}$), parcialmente ou não atendeu a procura pluv
 ($C_v = \sum V_{con} / \sum D_{pl} = E_{pot} / f$). Não confundir com o potencial de economia,
 que tem no denominador a procura total da edificação.
 
+**CRITIC** (*criteria importance through intercriteria correlation*). Método de pesos objetivos
+de Diakoulaki, Mavrotas e Papayannakis (1995): cada critério pesa pelo contraste entre as
+alternativas e pela independência em relação aos outros critérios, calculados dos próprios
+resultados. No programa, uma opção de ponderação (`--weights critic`), e não o padrão; os pesos
+mudam com o conjunto de volumes avaliado e não exprimem a preferência de ninguém.
+
 **CSV** (*comma-separated values*). Formato de ficheiro de texto em que cada linha é um
 registo e as colunas são separadas por um caractere, tipicamente vírgula ou ponto e
 vírgula. É o formato das séries de precipitação.
@@ -2243,6 +2252,12 @@ com o volume e trava o sobredimensionamento. Não é a ocupação média da cist
 
 **Extravasamento** (*spillage*, *overflow*). Volume que excede a capacidade do reservatório
 e é conduzido pelo extravasor quando ele já está cheio.
+
+**Faixa de escolha** (*choice band*). Os volumes com resultado multicritério semelhante ao do
+volume de maior pontuação: aqueles cuja medida, normalizada entre a pior (0) e a melhor (1) dos
+volumes avaliados, fica a até a tolerância da melhor (por omissão, 5% da amplitude). Depende da
+tolerância e da grade de volumes avaliada; num estudo, relata-se a faixa com a tolerância, e não um
+volume só.
 
 **Fração atendível por água pluvial** (*non-potable demand share*, $f$). Percentual da procura
 total de água da edificação ($D_{tot}$) passível de suprimento por água de chuva ($f = D_{pl} / D_{tot}$).
@@ -2397,8 +2412,8 @@ resultado dessa fórmula.
 chuva é uniforme ao longo do ano.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Método que sorteia
-pesos — no programa, oito, um por critério — e devolve a probabilidade de cada alternativa
-vencer.
+pesos — no programa, oito, um por critério, com 25% esperado em cada eixo — e devolve a
+probabilidade de cada alternativa vencer.
 
 **SSP** (*shared socioeconomic pathways*). Trajetórias socioeconómicas partilhadas,
 que descrevem hipóteses coerentes de desenvolvimento global e as emissões correspondentes.
@@ -2527,6 +2542,10 @@ original do TOPSIS.
 **Opricovic, S.; Tzeng, G.-H.** O método VIKOR e as condições C1 e C2 de vantagem aceitável e estabilidade.
 
 **Lahdelma, R.; Hokkanen, J.; Salminen, P.** (1998), e **Tervonen, T.; Figueira, J.** (2008). SMAA e SMAA-2.
+
+**Diakoulaki, D.; Mavrotas, G.; Papayannakis, L.** (1995). Determining objective weights in multiple criteria
+problems: The CRITIC method. *Computers & Operations Research*, 22(7), 763–770. doi:10.1016/0305-0548(94)00059-H.
+Os pesos objetivos pelo CRITIC.
 
 **Walsh, R. P. D.; Lawler, D. M.** (1981). O índice de sazonalidade.
 
@@ -2816,7 +2835,8 @@ atendível** e os usos que a compõem.
 **Descarte:** lâmina e modo; e a diferença de método, se comparar programas.
 
 **Volume:** critério de escolha — limiar de ganho marginal, ou os quatro pesos
-de eixo, as partes no eixo e os candidatos do multicritério.
+de eixo, as partes no eixo (ou os pesos do CRITIC, se os usou), os candidatos do
+multicritério e a faixa de escolha com a tolerância.
 
 **Economia:** concelho, entidade gestora, vigência da tabela, **regime de mínimo**,
 regra do saneamento, taxas de IVA de cada parcela, taxa de atualização, inflação, atualizações e período, e a moeda.

@@ -65,7 +65,7 @@ Figura 1 — Decomposição da divergência média entre o programa e uma refer�
 
 ## Lista de tabelas
 
-Tabela 1 — Variáveis da Equação 52
+Tabela 1 — Variáveis da Equação 54
 
 Tabela 2 — Mensagens de validação física da entrada e a providência de cada uma
 
@@ -101,7 +101,7 @@ Tabela 16 — Itens previstos para a versão 2.0
 
 ## Lista de equações
 
-Equação 52 — Transformação da série para emular o Netuno 4
+Equação 54 — Transformação da série para emular o Netuno 4
 
 ---
 
@@ -200,11 +200,11 @@ A regra antiga emula-se transformando a série de precipitação de entrada, e n
 do balanço hídrico. Medir uma divergência com código modificado verificaria um programa que não é
 o distribuído ao utilizador.
 
-```equacao:emulacao:52
+```equacao:emulacao:54
 P′ = P + d_f se P ≥ d_f ; P′ = 0 caso contrário
 ```
 
-<!-- tabela: **Tabela 1** — Variáveis da Equação 52 -->
+<!-- tabela: **Tabela 1** — Variáveis da Equação 54 -->
 | Símbolo | Significado | Unidade |
 | :--- | :--- | :--- |
 | `P′` | precipitação transformada, a fornecer ao Triton | mm |
@@ -372,10 +372,16 @@ que declare no estudo o passo efetivamente utilizado, e não o passo originalmen
 | «Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural) ou 8 pesos de critério TOPSIS» | número de pesos diferente de 3, 4, 7 ou 8 | introduza um peso por eixo ou um por critério |
 | «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; o peso zero é válido e exclui o critério |
 | «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos a zero | atribua peso a pelo menos um critério |
+| «Pesos «…» desconhecidos: use números ou «critic».» | palavra no lugar dos pesos que não é `critic` | use números ou a palavra `critic`, para os pesos objetivos do CRITIC (secção 2.10 (volume O método)) |
+| «Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural), oito de critério ou «critic» (pesos objetivos calculados dos resultados); os números, não negativos e separados por vírgula, com soma positiva. Os sete pesos do modelo anterior à 0.2.0 não valem mais.» | valor de `--weights`, na linha de comandos, que não é `critic` nem três, quatro ou oito números válidos | escreva os pesos separados por vírgula, ou `--weights critic` |
+| «analysis.topsis_weights deve ser uma lista com quatro valores (eixos) ou oito (critérios), ou «critic»» | `analysis.topsis_weights`, no ficheiro de projeto, com outro número de valores | corrija a lista, ou escreva `"critic"` |
+| «analise.pesos: quatro números não negativos (técnico, económico, ambiental, estrutural), oito (um por critério) ou «critic», com soma positiva» | `analise.pesos`, no estudo declarativo, com valores inválidos | corrija a lista, ou escreva `"critic"` |
 | «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente um período de recuperação sem retorno | confira a alternativa indicada antes de decidir |
 | «Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios)» | número de partes no eixo diferente de oito | introduza uma parte por critério, pela ordem do separador de decisão |
 | «As partes no eixo devem ser finitas e não negativas» | parte vazia ou negativa | corrija; a parte zero é válida e tira o critério da conta |
 | «Ao menos um critério do eixo … deve ter parte maior que zero» | todos os critérios de um eixo com parte zero | dê parte a pelo menos um critério do eixo; para tirar o eixo da conta, ponha a zero o peso do eixo, e não as partes |
+| «A tolerância da faixa de escolha deve ficar entre 0 e 1 (fração da amplitude dos escores).» | `--score-band` ou `analysis.topsis_score_band` fora de 0 a 1, ou dado em percentagem | use a fração de 0 a 1: `0.05` para 5% (na linha de comandos, também `0,05`) |
+| «analise.tolerancia_faixa: número de 0 a 1» | `analise.tolerancia_faixa`, no estudo declarativo, fora de 0 a 1 | use a fração: `0.05` para 5% |
 
 ---
 
@@ -494,19 +500,21 @@ programa pelo repositório, pelo sítio ou pelo manual lê o mesmo registo.
 <!-- tabela: **Tabela 12** — **Tabela 99** — Panorama das versões publicadas -->
 | Versão | Data | O que trouxe | Correções que alteram resultados |
 | :--- | :--- | :--- | ---: |
-| **0.2.0** | 11 de novembro de 2026 | O multicritério passa de sete critérios em três eixos a oito critérios em quatro eixos — técnico, económico, ambiental e estrutural —, e o programa ganha a calculadora do peso do sistema. | 1 |
+| **0.2.0** | 11 de novembro de 2026 | O multicritério passa de sete critérios em três eixos a oito critérios em quatro eixos — técnico, económico, ambiental e estrutural —, relata uma faixa de volumes semelhantes em vez de um volume só e aceita pesos objetivos pelo CRITIC, e o programa ganha a calculadora do peso do sistema. | 1 |
 | **0.1.0** | 5 de novembro de 2026 | Primeira versão beta do Triton, com nome próprio para cada edição, no mesmo repositório e com a mesma numeração. | 0 |
 
 ---
 
 ### 6.3.3. Versão 0.2.0 (beta) — 11 de novembro de 2026
 
-> **Numa frase.** O multicritério passa de sete critérios em três eixos a oito critérios em quatro eixos — técnico, económico, ambiental e estrutural —, e o programa ganha a calculadora do peso do sistema.
+> **Numa frase.** O multicritério passa de sete critérios em três eixos a oito critérios em quatro eixos — técnico, económico, ambiental e estrutural —, relata uma faixa de volumes semelhantes em vez de um volume só e aceita pesos objetivos pelo CRITIC, e o programa ganha a calculadora do peso do sistema.
 
 #### 6.3.3.1. Novidades
 
 - **Oito critérios em quatro eixos.** Técnico: fiabilidade volumétrica (água de chuva consumida ÷ procura de água de chuva, em %) e eficiência de armazenamento (água de chuva entregue por dia ÷ volume da cisterna inferior, em %). Económico: economia financeira líquida (o VAL contra a linha de base sem cisterna), custo nivelado da água (LCOW, em €/m³) e período de recuperação descontado. Ambiental: CO₂e de ciclo de vida. Estrutural: massa a seco dos materiais e extravasamento anual. A secção 2.10 (volume O método) dá as definições e a fórmula do LCOW.
-- **Pesos em dois níveis.** Quatro pesos de eixo, 25% cada por omissão, repartidos pelos critérios de cada eixo segundo as partes no eixo, iguais por omissão; ou oito pesos diretos, um por critério. O separador de decisão tem os quatro pesos, os perfis «Equilibrado: 25% em cada eixo» e «Priorizar …» (70% num eixo e 10% em cada um dos outros, incluindo «Priorizar Leveza e Drenagem») e a linha «Partes no eixo», com o botão «Partes iguais». Na linha de comandos, `--weights` (quatro ou oito valores) e `--criterion-shares` (oito); no ficheiro de projeto, `analysis.topsis_weights` e `analysis.topsis_criterion_shares`; no estudo declarativo, `analise.pesos` e `analise.partes_no_eixo`. O TOPSIS, o VIKOR, o PROMETHEE II e o SMAA-VIKOR usam a mesma regra; o SMAA-VIKOR sorteia oito pesos e informa o peso central agregado nos quatro eixos.
+- **Pesos em dois níveis.** Quatro pesos de eixo, 25% cada por omissão, repartidos pelos critérios de cada eixo segundo as partes no eixo, iguais por omissão; ou oito pesos diretos, um por critério. O separador de decisão tem um cartão por eixo, com o peso do eixo em cima e as partes dos seus critérios por baixo, os perfis «Equilibrado: 25% em cada eixo» e «Priorizar …» (70% num eixo e 10% em cada um dos outros, incluindo «Priorizar Leveza e Drenagem») e os botões «Partes iguais» e «Recalcular». Na linha de comandos, `--weights` (quatro ou oito valores) e `--criterion-shares` (oito); no ficheiro de projeto, `analysis.topsis_weights` e `analysis.topsis_criterion_shares`; no estudo declarativo, `analise.pesos` e `analise.partes_no_eixo`. O TOPSIS, o VIKOR, o PROMETHEE II e o SMAA-VIKOR usam a mesma regra; o SMAA-VIKOR sorteia oito pesos, com 25% esperado em cada eixo, e informa o peso central agregado nos quatro eixos.
+- **Pesos objetivos pelo CRITIC.** Em vez de declarar os pesos, pode pedi-los aos resultados: o CRITIC (Diakoulaki, D.; Mavrotas, G.; Papayannakis, L., 1995. Determining objective weights in multiple criteria problems: The CRITIC method. *Computers & Operations Research*, 22(7), 763–770. doi:10.1016/0305-0548(94)00059-H) pesa cada critério pelo contraste entre os volumes e pela independência em relação aos outros critérios, calculados dos volumes maiores que zero a cada análise. Vale para o TOPSIS, o VIKOR e o PROMETHEE II; o SMAA continua a sortear os pesos. No separador de decisão, o perfil «Pesos objetivos (CRITIC), calculados dos resultados»; na linha de comandos, `--weights critic`; no ficheiro de projeto, `analysis.topsis_weights: "critic"`; no estudo declarativo, `analise.pesos: "critic"`. É uma escolha de método, e não o padrão.
+- **Faixa de escolha.** O multicritério deixa de apontar um volume como «o melhor» quando vários pontuam quase igual: relata os volumes cuja pontuação fica a até 5% da amplitude das pontuações, contados a partir da maior, e o volume de maior pontuação como informação. A regra vale para o TOPSIS, o VIKOR, o PROMETHEE II e o SMAA. A tolerância declara-se com `--score-band`, `analysis.topsis_score_band` ou `analise.tolerancia_faixa`; a faixa sai na conclusão do separador de decisão, no texto do terminal, no HTML, no JSON (`topsis.choice_band`) e, nos estudos, nas métricas `faixa_topsis_min_l` e `faixa_topsis_max_l`.
 - **Peso do sistema.** Massa a seco, carga de água e carga em operação, em quilogramas e quilonewtons, no subsolo, na cobertura e nas prumadas e rede: em `triton analyze --analysis all` (ou `--analysis system_weight`), no HTML, no XLSX e no texto do terminal. Um alerta pede confirmação com o projeto estrutural ou de fundações quando a carga passa um limiar de atenção do programa, que não vem de nenhuma norma.
 
 #### 6.3.3.2. Correções que alteram resultados
@@ -514,7 +522,7 @@ programa pelo repositório, pelo sítio ou pelo manual lê o mesmo registo.
 <!-- tabela: **Tabela 13** — Correções que alteram resultados na versão 0.2.0 -->
 | O que foi corrigido | Efeito no resultado |
 | :--- | :--- |
-| O multicritério tinha sete critérios em três eixos, e três deles — potencial de poupança, extravasamento e consumo de água potável — mediam a mesma água economizada. Passa a ter oito critérios em quatro eixos. | A ordenação do TOPSIS, do VIKOR, do PROMETHEE II e do SMAA-VIKOR muda, e com ela pode mudar o volume escolhido: no tutorial de Lisboa, com pesos iguais, o TOPSIS passa de 5 000 L para 3 000 L. Três pesos de eixo, de projetos e estudos até à 0.1.0, continuam aceites, e o eixo estrutural recebe a média dos três; sete pesos ou sete partes são recusados. Para reproduzir um estudo feito com a 0.1.0, use a 0.1.0 (DOI 10.5281/zenodo.23402916). |
+| O multicritério tinha sete critérios em três eixos, e três deles — potencial de poupança, extravasamento e consumo de água potável — mediam a mesma água economizada. Passa a ter oito critérios em quatro eixos, e o SMAA-VIKOR passa a sortear os oito pesos com 25% esperado em cada eixo, como o padrão do TOPSIS. | A ordenação do TOPSIS, do VIKOR, do PROMETHEE II e do SMAA-VIKOR muda, e com ela pode mudar o volume escolhido: no tutorial de Lisboa, com pesos iguais, a maior pontuação do TOPSIS passa de 5 000 L para 3 000 L, numa faixa de escolha de 2 000 a 3 000 L. As aceitabilidades do SMAA-VIKOR também mudam: no tutorial, o volume mais aceite é 3 000 L, em 24,1% dos sorteios. Três pesos de eixo, de projetos e estudos até à 0.1.0, continuam aceites, e o eixo estrutural recebe a média dos três; sete pesos ou sete partes são recusados. Para reproduzir um estudo feito com a 0.1.0, use a 0.1.0 (DOI 10.5281/zenodo.23402916). |
 
 #### 6.3.3.3. Correções que não alteram resultados
 
@@ -522,7 +530,7 @@ Nenhuma.
 
 #### 6.3.3.4. Documentação
 
-A secção 2.10 (volume O método) descreve os oito critérios, a fórmula do LCOW, a regra dos pesos e o peso do sistema; a secção 4.9 (volume Tutorial) refaz a decisão do tutorial com o modelo novo e diz o que a escolha dos 5 000 L cede; as secções 3.6 (volume Guias de uso) e 6.2 trazem as opções e as mensagens novas. Para citar, use o DOI de todas as versões, 10.5281/zenodo.23402915, que aponta sempre para a mais recente: a 0.2.0 ainda não tem DOI próprio.
+A secção 2.10 (volume O método) descreve os oito critérios, a fórmula do LCOW, a regra dos pesos, os pesos objetivos do CRITIC, a faixa de escolha e o peso do sistema; a secção 4.9 (volume Tutorial) refaz a decisão do tutorial com o modelo novo, em faixas de volumes, e diz o que a escolha dos 5 000 L cede; a secção 4.10 (volume Tutorial) pede a faixa e a tolerância no estudo publicado; as secções 3.6 (volume Guias de uso) e 6.2 trazem as opções e as mensagens novas. Para citar, use o DOI de todas as versões, 10.5281/zenodo.23402915, que aponta sempre para a mais recente: a 0.2.0 ainda não tem DOI próprio.
 
 ---
 
@@ -732,7 +740,7 @@ pendências do próprio programa, descrito na secção «Limitações conhecidas
 tarifários transcritos de Lisboa, do Porto e do Funchal, e estruturas introduzidas pelo utilizador,
 com escalões progressivos, partes fixas e atualização. **Balanço hídrico.** Simulação diária pela
 regra do Triton, com a YAS estrita, a YBS e o parâmetro φ de Fewkes (2000b) como opções para
-reservatório único. **Decisão.** Multicritério por TOPSIS e por SMAA-VIKOR, com oito critérios em quatro eixos (técnico, económico, ambiental e estrutural) e o peso do sistema. **Incerteza.**
+reservatório único. **Decisão.** Multicritério por TOPSIS e por SMAA-VIKOR, com oito critérios em quatro eixos (técnico, económico, ambiental e estrutural), pesos declarados ou objetivos (CRITIC), a faixa de escolha e o peso do sistema. **Incerteza.**
 Modulação probabilística das premissas (secção «O que é a modulação probabilística»).
 **Edição.** Portugal.
 

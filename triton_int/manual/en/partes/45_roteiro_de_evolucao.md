@@ -22,8 +22,8 @@ the economic parameters. The second is the program's own issue register, describ
 London and Cape Town. **Tariffs.** Entered by the user, with progressive blocks, fixed charges,
 allowances and escalation. **Water balance.** Daily simulation by the Triton rule, with strict YAS, YBS and the Fewkes
 (2000b) parameter φ as options for a single tank. **Decision.** Multi-criteria by TOPSIS and by
-SMAA-VIKOR, with eight criteria in four dimensions (technical, economic, environmental and structural)
-and declared criterion shares. **Weight of the system.** Dry mass, water load and operating load by
+SMAA-VIKOR, with eight criteria in four dimensions (technical, economic, environmental and structural),
+declared criterion shares or objective weights by CRITIC, and a choice band instead of a single volume. **Weight of the system.** Dry mass, water load and operating load by
 position, with attention thresholds of the program. **Uncertainty.** Probabilistic modulation of the assumptions (section «What probabilistic
 modulation is»). **Edition.** International.
 

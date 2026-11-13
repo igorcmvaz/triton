@@ -8,7 +8,7 @@ documents marked «(Portuguese)» exist only in Portuguese.
 | If you want to… | Read |
 | :--- | :--- |
 | install and run the program | [`../README.md`](../README.md) |
-| know what changed in version 0.2.0 (eight multi-criteria criteria in four dimensions, weight of the system) | [`NOTAS_DE_LANCAMENTO_0.2.0.md`](NOTAS_DE_LANCAMENTO_0.2.0.md); version 0.1.0: [`NOTAS_DE_LANCAMENTO_0.1.0.md`](NOTAS_DE_LANCAMENTO_0.1.0.md) |
+| know what changed in version 0.2.0 (eight multi-criteria criteria in four dimensions, objective weights by CRITIC, the choice band, weight of the system) | [`NOTAS_DE_LANCAMENTO_0.2.0.md`](NOTAS_DE_LANCAMENTO_0.2.0.md); version 0.1.0: [`NOTAS_DE_LANCAMENTO_0.1.0.md`](NOTAS_DE_LANCAMENTO_0.1.0.md) |
 | know what is specific to this edition | [`en/editions.md`](en/editions.md) |
 | understand the equations and the limits of the model | [`en/model.md`](en/model.md) |
 | know what was verified and what was not | [`en/verification.md`](en/verification.md) |

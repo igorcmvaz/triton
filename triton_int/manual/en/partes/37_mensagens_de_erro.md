@@ -130,13 +130,17 @@ declare in the study the step actually used, not the step originally requested.
 | «Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios).» (enter 8 shares, one per TOPSIS criterion, in the order of the criteria) | criterion shares with a number of values other than eight | enter eight shares in the order reliability, efficiency, net saving, LCOW, payback, CO₂, mass, overflow; the default is 1,1,1,1,1,1,1,1 |
 | «As partes no eixo devem ser finitas e não negativas.» (criterion shares must be finite and non-negative) | empty or negative share | correct it; a share of zero is valid and removes the criterion from the calculation |
 | «Ao menos um critério do eixo … deve ter parte maior que zero.» (at least one criterion of the … dimension must have a share greater than zero) | every criterion of a dimension with a share of zero | give a share to at least one criterion of the dimension named, or set the weight of that dimension to zero instead |
-| «analysis.topsis_weights deve ser uma lista com quatro valores (eixos) ou oito (critérios)» (analysis.topsis_weights must be a list of four values, dimensions, or eight, criteria) | weights of the wrong length in the project file read by the command line | correct the list in the project file |
+| «analysis.topsis_weights deve ser uma lista com quatro valores (eixos) ou oito (critérios), ou «critic»» (analysis.topsis_weights must be a list of four values, dimensions, or eight, criteria, or «critic») | weights of the wrong length in the project file read by the command line | correct the list in the project file, or write `"critic"` for objective weights |
 | «analysis.topsis_criterion_shares: …» | invalid criterion shares in the project file; the message continues with one of the share messages above | correct the list of eight shares in the project file |
+| «Pesos «X» desconhecidos: use números ou «critic».» (weights «X» unknown: use numbers or «critic») | a word other than `critic` where the weights go, in automation or in a file | write the weights as numbers, or `critic` for the objective weights of section {{n:32}} |
+| «Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural), oito de critério ou «critic» (pesos objetivos calculados dos resultados); os números, não negativos e separados por vírgula, com soma positiva. Os sete pesos do modelo anterior à 0.2.0 não valem mais.» (use four dimension weights, eight criterion weights or «critic», objective weights computed from the results; the numbers non-negative, separated by commas, with a positive sum; the seven weights of the model before 0.2.0 are no longer valid) | `--weights` on the command line with the wrong number of values, a negative or non-numeric value, or a zero sum | give four or eight non-negative numbers separated by commas, or `critic` |
+| «A tolerância da faixa de escolha deve ficar entre 0 e 1 (fração da amplitude dos escores).» (the tolerance of the choice band must lie between 0 and 1, a fraction of the score range) | `--score-band` or `analysis.topsis_score_band` below 0 or above 1; in the project file the message is preceded by «analysis.topsis_score_band:» | give a fraction, such as `0.05` for 5% of the score range |
 | «O critério TOPSIS … da alternativa N não é finito» (TOPSIS criterion … of alternative N is not finite) | undefined indicator in an alternative, typically a payback with no return | check the alternative indicated before deciding |
 
 The declarative study (section {{n:19}}) reports its own errors in English: `analise.pesos` must be four
-non-negative numbers (technical, economic, environmental, structural) or eight (one per criterion) with
-a positive sum, and `analise.partes_no_eixo` must be eight shares that pass the checks above.
+non-negative numbers (technical, economic, environmental, structural), eight (one per criterion) or
+«critic», with a positive sum; `analise.partes_no_eixo` must be eight shares that pass the checks above;
+and `analise.tolerancia_faixa` must be a number from 0 to 1.
 
 ---
 

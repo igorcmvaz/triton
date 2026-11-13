@@ -38,7 +38,8 @@ reproduced identically with the same seed.
 The time grows with the number of realisations, of volumes and of years of rainfall. Each
 realisation reruns the technical, economic, environmental and TOPSIS chain for every volume;
 the SMAA-VIKOR acceptability (section {{n:32}}), which draws twenty thousand weight vectors,
-is left out of the realisations, because the modulation only uses the TOPSIS winner. In the
+is left out of the realisations, because the modulation only uses the volume with the highest
+TOPSIS score. In the
 tutorial, with 21 volumes and thirty years of rainfall, the progress bar estimates the remaining
 time from the first realisations. The **Export (CSV + JSON)** button writes the samples, one
 line per realisation, and the full summary, with the seed and the distributions.

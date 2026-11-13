@@ -10,10 +10,11 @@
 | 8,000 | 99.25 | 2.08 | −US$ 5,098 | US$ 12.79 | no payback | −72 | 222 | 50.9 |
 | 12,000 | 99.84 | 1.40 | −US$ 7,269 | US$ 15.51 | no payback | 66 | 310 | 50.4 |
 
-<!-- tabela: Winning volume under each dimension taken alone, and the TOPSIS compromise -->
-| Dimension taken alone | Winning volume |
+<!-- tabela: Winning volume under each dimension taken alone, and the TOPSIS choice band with the four dimensions together -->
+| Dimension taken alone, or the four together | Volume |
 | :--- | ---: |
 | technical: highest volumetric reliability | 12,000 L |
 | economic: shortest discounted payback, ties broken by the net saving | 2,000 L |
 | environmental: lowest net life-cycle CO₂e | 2,000 L |
-| **compromise, TOPSIS with the four dimensions equal** | **2,000 L** |
+| **the four dimensions equal: TOPSIS choice band, within 5% of the score range** | **2,000–3,000 L** |
+| the four dimensions equal: highest TOPSIS score | 2,000 L |

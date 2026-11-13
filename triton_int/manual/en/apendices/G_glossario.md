@@ -33,9 +33,19 @@ used to size gutters.
 
 **CDD** (*consecutive dry days*). Longest sequence of consecutive days with rain below 1 mm.
 
+**Choice band**. In the multi-criteria decision, the volumes whose score, rescaled from the worst (0)
+to the best (1) of the volumes evaluated, lies within a tolerance of the best — 5% of the score range
+by default. The program reports it instead of a single «best volume»; it depends on the grid of
+volumes and on the tolerance, which a study must declare.
+
 **Criterion shares**. In the multi-criteria decision, how much of the weight of each dimension goes to
 each of its criteria. Only the proportion within the dimension matters; the default is equal shares,
 and a share of zero removes the criterion from the calculation.
+
+**CRITIC** (*criteria importance through intercriteria correlation*). Method of Diakoulaki, Mavrotas
+and Papayannakis (1995) that computes objective weights from the decision matrix: each criterion
+weighs by its contrast across the alternatives times its independence from the other criteria. The
+weights express no preference and change with the set of volumes evaluated.
 
 **CSV** (*comma-separated values*). Text file format in which each line is a record and the columns
 are separated by a character, typically a comma or a semicolon. It is the format of the
@@ -221,7 +231,8 @@ result of the exponential formula.
 year.
 
 **SMAA** (*stochastic multicriteria acceptability analysis*). Method that draws weights and returns
-the probability of each alternative winning.
+the probability of each alternative winning. In the program, the eight weights are drawn with 25%
+expected on each dimension.
 
 **SSP** (*shared socioeconomic pathways*). Coherent hypotheses of global development and the
 corresponding emissions. They are combined with the climate models to produce projections.

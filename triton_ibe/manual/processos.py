@@ -413,7 +413,9 @@ PROCESSOS = [
  "Separador Otimizador, com o varrimento pronto.",
  ["um candidato por volume do varrimento, montado por <code>candidato_dos_resultados</code> "
   "com a simulação, a análise económica, o CO₂ de ciclo de vida e a massa a seco",
-  "quatro pesos de eixo e oito partes no eixo, ou oito pesos de critério"],
+  "quatro pesos de eixo e oito partes no eixo, oito pesos de critério ou «critic» (pesos objetivos "
+  "calculados dos resultados)",
+  "tolerância da faixa de escolha (por omissão, 5% da amplitude das pontuações)"],
  ["Oito critérios em quatro eixos. Técnico: <b>maximizar</b> fiabilidade volumétrica e eficiência "
   "de armazenamento. Económico: <b>maximizar</b> VAL; <b>minimizar</b> LCOW e período de recuperação "
   "descontado. Ambiental: <b>minimizar</b> CO₂ de ciclo de vida. Estrutural: <b>minimizar</b> massa a "
@@ -425,10 +427,15 @@ PROCESSOS = [
   "A normalização translada por <code>x − min(x)</code> <b>antes</b> da normalização "
   "vetorial de Hwang e Yoon, para admitir VAL negativo. É variante deliberada, e precisa "
   "ser declarada como variante.",
-  "O SMAA-VIKOR sorteia oito pesos e devolve as probabilidades de cada volume ocupar cada posição.",
+  "Com «critic», os oito pesos saem do CRITIC (Diakoulaki, Mavrotas e Papayannakis, 1995), calculados "
+  "dos volumes maiores que zero; as partes no eixo não se aplicam.",
+  "O SMAA-VIKOR sorteia oito pesos, com 25% esperado em cada eixo, e devolve as probabilidades de "
+  "cada volume ocupar cada posição.",
+  "A faixa de escolha reúne os volumes cuja pontuação, normalizada entre a pior (0) e a melhor (1), fica "
+  "a até a tolerância da melhor.",
   "As condições C1 e C2 de Opricovic não estão implementadas."],
  [("topsis.py", "calculate_topsis_scores"), ("mcdm_methods.py", "run_vikor")],
- ["Ordenação dos volumes, distância ao ideal por critério, volume de compromisso"],
+ ["Ordenação dos volumes, distância ao ideal por critério, faixa de escolha e volume de maior pontuação"],
  "Candidato único devolve ordenação trivial. Critério constante entre candidatos não "
  "contribui para a distância.",
 ),

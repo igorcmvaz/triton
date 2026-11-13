@@ -135,8 +135,11 @@ triton analyze study.triton --analysis all --format xlsx --output results.xlsx
 This adds the economic analysis, the screening life-cycle assessment, the weight of the
 system and the multi-criteria ranking: eight criteria in four dimensions (technical, economic,
 environmental, structural). `--weights t,e,a,s` sets the four dimension weights (25% each by
-default) and `--criterion-shares` the eight criterion shares (default `1,1,1,1,1,1,1,1`); declare
-both in a study. `--format` accepts `text`, `json`, `csv`, `html` and `xlsx`; pass `--seed` whenever
+default), or `--weights critic` computes objective weights from the results (CRITIC), and
+`--criterion-shares` the eight criterion shares (default `1,1,1,1,1,1,1,1`); declare both in a study.
+The ranking is reported as a choice band — the volumes within 5% of the score range of the best,
+`--score-band` to change it — with the highest score as information; report the band and the
+tolerance, not a single volume. `--format` accepts `text`, `json`, `csv`, `html` and `xlsx`; pass `--seed` whenever
 the run involves sampling, so that the result is reproducible.
 
 ---

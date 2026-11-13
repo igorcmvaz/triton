@@ -123,8 +123,15 @@ deve ser lida com a análise de sensibilidade aos pesos ao lado.
 valor atual líquido negativo.
 
 **O resultado do TOPSIS depende do conjunto de candidatos.** O ideal e o anti-ideal saem dos
-volumes avaliados: no tutorial, sete candidatos elegem 3 000 L, e a varredura de 1 a 20 m³ elege
-1 000 L (secção {{n:32}}). Declare os candidatos junto com os pesos.
+volumes avaliados: no tutorial, sete candidatos dão a faixa de escolha de 2 000 a 3 000 L, e a
+varredura de 1 a 20 m³ só 1 000 L (secção {{n:32}}). Declare os candidatos junto com os pesos.
+
+**A faixa de escolha depende da tolerância e da grade.** Não é um intervalo de confiança: a
+tolerância, 5% da amplitude das pontuações por omissão, é uma declaração do estudo, e a faixa só
+contém volumes avaliados.
+
+**Os pesos do CRITIC dependem dos resultados.** Medem o contraste e a independência dos critérios
+no conjunto avaliado, e não a preferência de ninguém: mudam quando os candidatos mudam.
 
 **Os limiares do peso do sistema são do programa**, e não de norma: 500 kg na cobertura com o
 reservatório cheio, 1 500 L de reservatório superior e 3 000 kg de cisterna a seco servem para

@@ -125,10 +125,16 @@ que declare no estudo o passo efetivamente utilizado, e não o passo originalmen
 | «Informe 4 pesos de eixo (técnico, econômico, ambiental, estrutural) ou 8 pesos de critério TOPSIS» | número de pesos diferente de 3, 4, 7 ou 8 | introduza um peso por eixo ou um por critério |
 | «Os pesos TOPSIS devem ser finitos e não negativos» | peso vazio ou negativo | corrija; o peso zero é válido e exclui o critério |
 | «Ao menos um peso TOPSIS deve ser maior que zero» | todos os pesos a zero | atribua peso a pelo menos um critério |
+| «Pesos «…» desconhecidos: use números ou «critic».» | palavra no lugar dos pesos que não é `critic` | use números ou a palavra `critic`, para os pesos objetivos do CRITIC (secção {{n:32}}) |
+| «Use quatro pesos de eixo (técnico, econômico, ambiental, estrutural), oito de critério ou «critic» (pesos objetivos calculados dos resultados); os números, não negativos e separados por vírgula, com soma positiva. Os sete pesos do modelo anterior à 0.2.0 não valem mais.» | valor de `--weights`, na linha de comandos, que não é `critic` nem três, quatro ou oito números válidos | escreva os pesos separados por vírgula, ou `--weights critic` |
+| «analysis.topsis_weights deve ser uma lista com quatro valores (eixos) ou oito (critérios), ou «critic»» | `analysis.topsis_weights`, no ficheiro de projeto, com outro número de valores | corrija a lista, ou escreva `"critic"` |
+| «analise.pesos: quatro números não negativos (técnico, económico, ambiental, estrutural), oito (um por critério) ou «critic», com soma positiva» | `analise.pesos`, no estudo declarativo, com valores inválidos | corrija a lista, ou escreva `"critic"` |
 | «O critério TOPSIS … da alternativa N não é finito» | indicador indefinido numa alternativa, tipicamente um período de recuperação sem retorno | confira a alternativa indicada antes de decidir |
 | «Informe 8 partes, uma por critério TOPSIS (na ordem dos critérios)» | número de partes no eixo diferente de oito | introduza uma parte por critério, pela ordem do separador de decisão |
 | «As partes no eixo devem ser finitas e não negativas» | parte vazia ou negativa | corrija; a parte zero é válida e tira o critério da conta |
 | «Ao menos um critério do eixo … deve ter parte maior que zero» | todos os critérios de um eixo com parte zero | dê parte a pelo menos um critério do eixo; para tirar o eixo da conta, ponha a zero o peso do eixo, e não as partes |
+| «A tolerância da faixa de escolha deve ficar entre 0 e 1 (fração da amplitude dos escores).» | `--score-band` ou `analysis.topsis_score_band` fora de 0 a 1, ou dado em percentagem | use a fração de 0 a 1: `0.05` para 5% (na linha de comandos, também `0,05`) |
+| «analise.tolerancia_faixa: número de 0 a 1» | `analise.tolerancia_faixa`, no estudo declarativo, fora de 0 a 1 | use a fração: `0.05` para 5% |
 
 ---
 

@@ -78,9 +78,9 @@ def open_url_in_browser(url: str):
 #: contra os PDFs.
 #: As páginas dependem da edição (cada edição publica um manual): o literal fica igual nas três.
 PAGINAS_POR_EDICAO = {
-    "BRL": {_marca.MANUAL_COMPLETO_PT: 487},
-    "INT": {_marca.MANUAL_COMPLETO_EN: 305},
-    "IBE": {_marca.MANUAL_COMPLETO_PT: 316},
+    "BRL": {_marca.MANUAL_COMPLETO_PT: 491},
+    "INT": {_marca.MANUAL_COMPLETO_EN: 310},
+    "IBE": {_marca.MANUAL_COMPLETO_PT: 321},
 }
 PAGINAS_DO_MANUAL_COMPLETO = PAGINAS_POR_EDICAO.get(get_current_edition(), {})
 
@@ -830,19 +830,23 @@ class TabDocumentation(QWidget):
         if get_current_lang() != "pt":
             html = """
             <h2 style='color:#0284c7; margin-top:0;'>🏆 Multi-Criteria Decision Analysis: TOPSIS & SMAA-VIKOR</h2>
-            <p>Triton provides two complementary MCDA workflows: <b>TOPSIS</b> with declared/custom weight profiles, and <b>SMAA-VIKOR</b> with stochastic simulations across technical, economic, and environmental trade-offs.</p>
+            <p>Triton provides two complementary MCDA workflows: <b>TOPSIS</b> with declared/custom weight profiles, and <b>SMAA-VIKOR</b> with stochastic simulations across the technical, economic, environmental and structural trade-offs.</p>
 
             <h3 style='color:#0369a1;'>1. TOPSIS (Deterministic Distance-to-Ideal)</h3>
             <p><b>TOPSIS</b> (<i>Technique for Order Preference by Similarity to Ideal Solution</i> — Hwang & Yoon, 1981) ranks candidate cisterns based on their geometric Euclidean proximity to the ideal positive solution (A⁺) and distance from the ideal negative solution (A⁻):</p>
             <p><code>C<sub>i</sub> = D<sub>i</sub><sup>−</sup> / (D<sub>i</sub><sup>+</sup> + D<sub>i</sub><sup>−</sup>)</code></p>
             <p>The relative closeness score <i>C<sub>i</sub></i> varies between 0.00 and 1.00. The alternative with highest <i>C<sub>i</sub></i> is ranked #1.</p>
 
-            <h4 style='color:#0369a1; margin-top:12px;'>1.1 Equal Weights vs. Custom Weight Profiles</h4>
+            <h4 style='color:#0369a1; margin-top:12px;'>1.1 Dimension weights, profiles and objective weights (CRITIC)</h4>
             <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 10px 14px; margin: 8px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.5;'>
-                <p style='margin: 0 0 6px 0;'><b>• Equal Weights (Default Benchmark):</b> By default, TOPSIS assigns balanced 33.3% Technical, 33.3% Economic, and 33.4% Environmental weighting. This impartial baseline guarantees that no single dimension dominates without explicit stakeholder preference.</p>
-                <p style='margin: 0 0 6px 0;'><b>• Dedicated Presets:</b> Presets allow prioritizing Economic (80% Financial / 10% Tech / 10% Env), Environmental (80% Environmental / 10% Tech / 10% Fin), or Technical (80% Technical / 10% Fin / 10% Env).</p>
-                <p style='margin: 0;'><b>• Dynamic Real-Time Reactivity:</b> Adjusting weight spinboxes or presets triggers an immediate re-normalization of the decision matrix, recalculating scores, rankings, and the executive trade-off conclusion banner instantly.</p>
+                <p style='margin: 0 0 6px 0;'><b>• Equal weights (default — 25% per dimension):</b> Each of the four dimensions — technical, economic, environmental and structural — receives 25%, shared equally amongst its criteria. No dimension dominates without a declared preference.</p>
+                <p style='margin: 0 0 6px 0;'><b>• Ready-made profiles:</b> Prioritising one dimension gives it 70% and 10% to each of the other three (economic, environmental, technical or structural). In the custom mode, the four dimension cards take their own weights and the split amongst the criteria of each dimension.</p>
+                <p style='margin: 0 0 6px 0;'><b>• Objective weights (CRITIC):</b> The CRITIC method (Diakoulaki, Mavrotas &amp; Papayannakis, 1995) derives the weights from the results themselves: a criterion weighs more the larger its standard deviation and the less it correlates with the others, <code>C<sub>j</sub> = σ<sub>j</sub> Σ<sub>k</sub> (1 − r<sub>jk</sub>)</code>, normalised to sum to one. The weights change with each analysis and are shown per dimension.</p>
+                <p style='margin: 0;'><b>• Immediate update:</b> Changing a weight or a profile renormalises the decision matrix and recalculates scores, rankings, the choice band and the trade-off summary at once.</p>
             </div>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>1.2 Choice band</h4>
+            <p>Volumes whose scores are almost the same are, for practical purposes, equivalent. The result is therefore reported as a <b>choice band</b>: the volumes whose score, normalised between the worst (0) and the best (1), lies within 5% of the best. Triton reports 'volumes from X to Y L with similar scores' and, separately, the volume with the highest score; choosing within the band is left to the designer (space, construction cost, structure). The same rule applies to VIKOR (lowest Q), SMAA-VIKOR (first-rank acceptability) and PROMETHEE II (net flow).</p>
 
             <h3 style='color:#0369a1;'>2. VIKOR (Compromise Engine Run by SMAA)</h3>
             <p><b>VIKOR</b> (Opricovic & Tzeng, 2004) determines the <i>compromise solution</i> by balancing group utility (majority benefit S) and individual regret (worst single criterion R):</p>
@@ -854,7 +858,7 @@ class TabDocumentation(QWidget):
             <h3 style='color:#0369a1;'>3. SMAA-VIKOR (Stochastic Acceptability Analysis)</h3>
             <p>Combining <b>SMAA-2</b> (Lahdelma & Salminen, 2001) with <b>VIKOR</b> (as featured in the Python MCDA research library <code>crispyn</code>) removes the need for a single fixed profile: each simulation samples a weight vector and runs a new VIKOR ranking.</p>
             <ul>
-                <li><b>Weight-Free Stochastic Sampling:</b> Generates thousands of Monte Carlo weight vectors <code>w ~ Dirichlet(1)</code> across the entire preference simplex <code>Σ w<sub>j</sub> = 1</code>.</li>
+                <li><b>Weight-Free Stochastic Sampling:</b> Generates thousands of Monte Carlo weight vectors <code>w ~ Dirichlet(α)</code> on the preference simplex <code>Σ w<sub>j</sub> = 1</code>, with α set per dimension so that each of the four dimensions receives 25% in expectation (the default profile), rather than favouring the dimension with the most criteria.</li>
                 <li><b>First-Rank Acceptability Index (b<sub>i</sub><sup>1</sup>):</b> Probability (%) that candidate tank <i>i</i> achieves the #1 compromise rank under any random decision-maker preference.</li>
                 <li><b>Central Weight Vector (w<sub>i</sub><sup>c</sup>):</b> The typical centroid preference profile that justifies selecting alternative <i>i</i>.</li>
                 <li><b>Confidence Factor (p<sub>i</sub><sup>c</sup>):</b> Reliability probability that alternative <i>i</i> remains optimal when preferences are close to its central weight vector.</li>
@@ -889,12 +893,16 @@ class TabDocumentation(QWidget):
             </p>
             <p>O escore relativo de proximidade <i>C<sub>i</sub></i> varia de 0,00 a 1,00. A alternativa de maior score é classificada em 1º lugar (Rank #1).</p>
 
-            <h4 style='color:#0369a1; margin-top:12px;'>1.1 Pesos Iguais (Equilibrado) vs. Pesos Ponderados Personalizados</h4>
+            <h4 style='color:#0369a1; margin-top:12px;'>1.1 Pesos por eixo, perfis prontos e pesos objetivos (CRITIC)</h4>
             <div style='background-color: #f8fafc; border-left: 4px solid #0284c7; padding: 12px 16px; margin: 8px 0; border-radius: 0 6px 6px 0; font-size: 12.5px; line-height: 1.6;'>
-                <p style='margin: 0 0 6px 0;'><b>• Pesos Iguais (Perfil Padrão — 33,3% Técnico, 33,3% Econômico, 33,4% Ambiental):</b> Por padrão, o TOPSIS inicia com ponderação equitativa entre os três pilares da sustentabilidade, garantindo neutralidade técnica e impedindo que a dimensão econômica ou hídrica mascare os impactos ambientais.</p>
-                <p style='margin: 0 0 6px 0;'><b>• Presets Temáticos:</b> O projetista pode optar rapidamente por perfis pré-definidos: <i>Econômico</i> (80% Financeiro / 10% Técnico / 10% Ambiental), <i>Ambiental</i> (80% Ambiental / 10% Técnico / 10% Financeiro) ou <i>Técnico</i> (80% Técnico / 10% Financeiro / 10% Ambiental).</p>
-                <p style='margin: 0 0 6px 0;'><b>• Reatividade e Atualização Imediata:</b> Conforme o usuário digita ou altera qualquer peso nos campos numéricos, o Triton recalcula instantaneamente as distâncias euclidianas, atualiza o ranking da tabela, ajusta os gráficos de proximidade e reflete dinamicamente na conclusão textual se a recomendação decorre de <b>pesos iguais</b> ou dos <b>pesos ponderados específicos</b> adotados.</p>
+                <p style='margin: 0 0 6px 0;'><b>• Pesos iguais (padrão — 25% por eixo):</b> Cada um dos quatro eixos — técnico, econômico, ambiental e estrutural — recebe 25%, repartidos em partes iguais entre os seus critérios. Nenhuma dimensão domina sem uma preferência declarada.</p>
+                <p style='margin: 0 0 6px 0;'><b>• Perfis prontos:</b> Priorizar um eixo dá 70% a ele e 10% a cada um dos outros três (econômico, ambiental, técnico ou estrutural). No modo personalizado, os quatro cartões de eixo aceitam pesos próprios e a repartição entre os critérios de cada eixo.</p>
+                <p style='margin: 0 0 6px 0;'><b>• Pesos objetivos (CRITIC):</b> O método CRITIC (Diakoulaki, Mavrotas &amp; Papayannakis, 1995) calcula os pesos a partir dos próprios resultados: um critério pesa mais quanto maior o seu desvio-padrão e quanto menos ele se correlaciona com os demais, <code>C<sub>j</sub> = σ<sub>j</sub> Σ<sub>k</sub> (1 − r<sub>jk</sub>)</code>, normalizado para somar um. Os pesos mudam a cada análise e são mostrados por eixo.</p>
+                <p style='margin: 0;'><b>• Atualização imediata:</b> Ao mudar um peso ou um perfil, o Triton renormaliza a matriz de decisão e recalcula na hora os escores, o ranking, a faixa de escolha e a conclusão textual.</p>
             </div>
+
+            <h4 style='color:#0369a1; margin-top:12px;'>1.2 Faixa de escolha</h4>
+            <p>Volumes com escores quase iguais são, para efeitos práticos, equivalentes. Por isso o resultado sai como uma <b>faixa de escolha</b>: os volumes cujo escore, normalizado entre o pior (0) e o melhor (1), fica a até 5% do melhor. O Triton informa «volumes de X a Y L com escores semelhantes» e, à parte, o volume de maior escore; a escolha dentro da faixa cabe ao projetista (espaço, custo de obra, estrutura). A mesma regra vale para o VIKOR (menor Q), o SMAA-VIKOR (aceitabilidade de 1º lugar) e o PROMETHEE II (fluxo líquido).</p>
 
             <h3 style='color:#0369a1;'>2. VIKOR (Motor de Compromisso Executado pelo SMAA)</h3>
             <p>O <b>VIKOR</b> (Opricovic & Tzeng, 2004) identifica a <i>solução de compromisso</i> ponderando a utilidade coletiva da maioria (S) contra o arrependimento máximo individual (R):</p>
@@ -911,9 +919,9 @@ class TabDocumentation(QWidget):
             <p>Onde <code>v ∈ [0, 1]</code> é o parâmetro de estratégia de consenso (v = 0,50 consenso equilibrado; v &gt; 0,50 regra da maioria; v &lt; 0,50 aversão ao risco/veto individual).</p>
 
             <h3 style='color:#0369a1;'>3. SMAA-VIKOR (Análise Estocástica de Aceitabilidade de Compromisso)</h3>
-            <p>O modelo híbrido <b>SMAA-VIKOR</b> (baseado no algoritmo da biblioteca científica <code>crispyn</code> e em Lahdelma & Salminen, 2001) elimina a subjetividade de um perfil único: cada simulação de Monte Carlo sorteia um vetor de pesos uniforme no simplex e calcula um ranking VIKOR completo.</p>
+            <p>O modelo híbrido <b>SMAA-VIKOR</b> (baseado no algoritmo da biblioteca científica <code>crispyn</code> e em Lahdelma & Salminen, 2001) elimina a subjetividade de um perfil único: cada simulação de Monte Carlo sorteia um vetor de pesos no simplex e calcula um ranking VIKOR completo.</p>
             <ul style='font-size: 12.5px; line-height: 1.6; color: #334155;'>
-                <li><b>Exploração Estocástica do Espaço de Pesos:</b> Amostra milhares de combinações de pesos no <i>simplex</i> <code>Σ w<sub>j</sub> = 1</code> via distribuição de Dirichlet simétrica.</li>
+                <li><b>Exploração Estocástica do Espaço de Pesos:</b> Amostra milhares de combinações de pesos no <i>simplex</i> <code>Σ w<sub>j</sub> = 1</code> por uma distribuição de Dirichlet com parâmetros por eixo, que dá 25% esperados a cada um dos quatro eixos (o perfil padrão), em vez de favorecer o eixo com mais critérios.</li>
                 <li><b>Índice de Aceitabilidade de 1º Lugar (b<sub>i</sub><sup>1</sup>):</b> Probabilidade estatística (%) da cisterna <i>i</i> ser a solução de compromisso número 1 diante de qualquer preferência de decisor.</li>
                 <li><b>Vetor Central de Pesos (w<sub>i</sub><sup>c</sup>):</b> Vetor baricêntrico de preferências que justificaria a escolha daquela cisterna específica.</li>
                 <li><b>Fator de Confiança (p<sub>i</sub><sup>c</sup>):</b> Grau de estabilidade da alternativa quando as preferências reais do decisor gravitam em torno do seu vetor central.</li>

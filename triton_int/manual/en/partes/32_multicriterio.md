@@ -1,7 +1,8 @@
 # Multi-criteria decision
 
-> This section formalises the two ranking methods the program offers and declares three departures
-> from the canonical formulation that a published study needs to cite.
+> This section formalises the two ranking methods the program offers, the choice band it reports
+> instead of a single winner and the objective weights of the CRITIC method, and declares three
+> departures from the canonical formulation that a published study needs to cite.
 
 Multi-criteria analysis is the branch of operations research that deals with choosing between
 alternatives when the evaluation criteria disagree with one another and cannot be reduced to a
@@ -123,6 +124,38 @@ reference points and can change the ranking, a phenomenon known as rank reversal
 
 ---
 
+## A band, not a single volume
+
+Near the top of the curve, neighbouring volumes score almost alike. Naming the highest score «the
+best volume» then claims a precision the method does not have: the difference between first and
+second place is often smaller than the uncertainty of the costs and of the rain behind it. The
+program therefore reports a **choice band**: the volumes whose result is similar to the best.
+
+The rule is the same for every method. The scores of the volumes larger than zero — the alternative
+with no cistern stays out — are rescaled from 0, the worst, to 1, the best, and every volume at or
+above 1 − *t* enters the band, where *t* is the
+**tolerance**, 5% of the score range by default. The score is the closeness coefficient in TOPSIS,
+the index Q in VIKOR (lower is better, so the scale is inverted), the net flow in PROMETHEE II and
+the first-rank acceptability in SMAA. The program also reports whether the band is contiguous —
+whether some volume evaluated between its ends was left out — and which volume has the highest
+score. That volume is information, not a verdict.
+
+The band has three limits to state. It depends on the **grid**: a finer sweep puts more volumes in
+it, and a very poor alternative added to the set stretches the score range and can widen the band. It
+depends on the **tolerance**, which is a convention of the program and not a statistical test.
+And it applies to the weighted compromise only: the optimum of one dimension taken alone — the
+technical optimum by the marginal-gain threshold, the shortest payback, the lowest carbon — is
+still a single volume.
+
+> **Declare the band and the tolerance.** «Volumes from 2,000 to 3,000 L have similar TOPSIS
+> scores (within 5% of the score range)» can be checked; «the optimal volume is 2,000 L» overstates
+> the method. Report the band, the tolerance and the weights together.
+
+The tolerance is set in the command line, in the project file and in the declarative study
+(section {{n:19}}); the interface uses the default.
+
+---
+
 ## Three departures to declare
 
 The program's implementation departs from the canonical formulation in three points, all
@@ -157,6 +190,18 @@ not: what if the weights were different? Instead of requiring a set of weights d
 the method draws thousands of weight combinations and returns, for each alternative, the
 probability of it occupying each position of the ranking.
 
+The draws are not uniform over the eight criteria. A uniform draw would give each criterion 12.5%
+on average, and so 37.5% to the economic dimension, which has three criteria, and 12.5% to the
+environmental, which has one: the number of criteria would act as a hidden weight. The program
+draws the eight weights from a Dirichlet distribution whose parameters add up to 2 in each
+dimension — 1 and 1 for the two technical criteria, 2/3 for each of the three economic ones, 2 for
+the environmental one, 1 and 1 for the two structural ones. Each dimension then weighs 25% on
+average, and each criterion, on average, what the default weights of TOPSIS give it.
+
+The same draws can rank the volumes by TOPSIS instead of VIKOR (SMAA-TOPSIS), with the program's
+TOPSIS normalisation; it is available in automation (`run_smaa_analysis(…, engine="topsis")`) and
+in the interactive figure of the site. SMAA-VIKOR is the default everywhere else.
+
 Reading the result is direct and informative. A volume that wins in 80% of the draws is a robust
 recommendation, which does not depend on a specific weighting to hold. A volume that wins in 30% is
 a fragile recommendation, and the text of the study needs to say so instead of presenting the
@@ -176,25 +221,27 @@ only information supporting the recommendation ({{fig:fig23_smaa}}).
 
 ![The first-rank acceptability of each volume](../figuras/fig23_smaa.png)
 
-*Figure 99 — First-rank acceptability (b¹) of each candidate volume, obtained with five thousand weight vectors drawn on the simplex. The highlighted volume is the one that most often comes first, and the others share the rest.*
+*Figure 99 — First-rank acceptability (b¹) of each candidate volume, obtained with five thousand vectors of eight criterion weights drawn with 25% expected on each dimension. The highlighted volume is the one that most often comes first, and the others share the rest.*
 
 ### The tutorial, by both methods
 
-The table sets side by side the TOPSIS score, with the four dimensions weighted equally, and the
-SMAA-VIKOR first-rank acceptability, with five thousand vectors of eight criterion weights drawn,
-for the seven volumes of the tutorial in polyethylene with an upper tank. The investment and the
-carbon behind the scores are the illustrative figures of section {{n:10}} (illustrative, not a
-market price).
+The first table sets side by side the TOPSIS score, with the four dimensions weighted equally, and
+the SMAA-VIKOR first-rank acceptability, with five thousand vectors of eight criterion weights
+drawn, for the seven volumes of the tutorial in polyethylene with an upper tank. The second gives
+the choice band of each method. The investment and the carbon behind the scores are the
+illustrative figures of section {{n:10}} (illustrative, not a market price).
 
 <!-- inclui: _tabelas/cap32_decisao.md -->
 
-The two methods agree on the winner, 2,000 L, and disagree on the margin. TOPSIS separates first
-from second place, 3,000 L, by under two hundredths of score, a difference no input data supports.
-SMAA measures that fragility: 2,000 L wins in 39.2% of the draws, 3,000 L in 25.0%, 4,000 L in 18.2%
-and 1,000 L in 14.2%. By the yardstick of section {{n:20}}, a winner below 40% is a choice that
-depends on the weights, and the study should say so and declare 3,000 L and 4,000 L as the
-alternatives. The largest volumes, 8,000 L and 12,000 L, win in almost no draw: no plausible
-weighting recommends them, and that is also a result.
+The methods agree on where the answer lies and differ on how sharply they draw it. TOPSIS separates
+2,000 L from 3,000 L by under two hundredths of score, a difference no input data supports, and
+its band holds both; PROMETHEE II gives the same band. SMAA measures the fragility from the other
+side: 2,000 L wins in 39.6% of the draws, 3,000 L in 25.8%, 4,000 L in 17.7% and 1,000 L in 14.2%.
+Its band holds 2,000 L alone, because acceptability spreads the volumes further apart than the
+scores do, but that does not make 2,000 L robust: by the yardstick of section {{n:20}}, a winner
+below 40% is a choice that depends on the weights, and the study should say so and declare 3,000 L
+and 4,000 L as the alternatives. The largest volumes, 8,000 L and 12,000 L, win in almost no
+draw: no plausible weighting recommends them, and that is also a result.
 
 ---
 
@@ -219,8 +266,9 @@ w_j = W_d × s_j ÷ Σ s_k
 | `Σ s_k` | sum of the shares of the criteria `k` of the same dimension | dimensionless |
 
 Eight direct weights, one per criterion, are also accepted, and then the shares do not apply.
-VIKOR, PROMETHEE II and TOPSIS use the same rule. SMAA-VIKOR draws eight weights on the simplex,
-and gives the central weight vector of each volume per criterion and summed into the four dimensions.
+VIKOR, PROMETHEE II and TOPSIS use the same rule. SMAA-VIKOR takes no weights: it draws them, with
+25% expected on each dimension, and gives the central weight vector of each volume per criterion and
+summed into the four dimensions.
 
 **Weights from version 0.1.0.** Three weights — technical, economic, environmental, as projects and
 studies up to version 0.1.0 declared them — are still accepted: the structural dimension receives
@@ -233,21 +281,73 @@ eight new criteria. To reproduce a study made with version 0.1.0, use version 0.
 <!-- tabela: Where the multi-criteria weights and the criterion shares are declared -->
 | Where | Dimension weights | Criterion shares |
 | :--- | :--- | :--- |
-| decision tab | four boxes, Technical, Economic, Environmental and Structural, 25% each; the profiles «Balanced: 25% on each dimension» and «Prioritise …» with 70% on one dimension and 10% on each of the others | the «Criterion shares» row, with eight boxes (Reliability, Efficiency, Savings, LCOW, Payback, CO₂, Mass, Overflow) and the «Equal shares» button |
-| command line | `--weights t,e,a,s`, or eight values; three are still accepted | `--criterion-shares` with eight values, default `1,1,1,1,1,1,1,1` |
-| project file | `analysis.topsis_weights`, four or eight values | `analysis.topsis_criterion_shares`, eight values |
-| declarative study | `analise.pesos`, four or eight values; three are still accepted | `analise.partes_no_eixo`, eight values |
+| decision tab | one card per dimension, Technical, Economic, Environmental and Structural, with the dimension weight at the top, 25% each; the profiles «Balanced: 25% on each dimension», «Prioritise …» with 70% on one dimension and 10% on each of the others, and «Objective weights (CRITIC), computed from the results» | in each card, below the weight, the criterion shares of its criteria (Reliability and Efficiency; Savings, LCOW and Payback; CO₂; Mass and Overflow); below the cards, the «Equal shares» and «Recalculate» buttons |
+| command line | `--weights t,e,a,s`, or eight values, or `critic`; three are still accepted | `--criterion-shares` with eight values, default `1,1,1,1,1,1,1,1` |
+| project file | `analysis.topsis_weights`, four or eight values, or `"critic"` | `analysis.topsis_criterion_shares`, eight values |
+| declarative study | `analise.pesos`, four or eight values, or `"critic"`; three are still accepted | `analise.partes_no_eixo`, eight values |
 
 The choice of weights, however, is not technical: it is a statement of value, and therefore needs to
 appear in the text of the study, with the four dimension weights and the criterion shares. ==The statement «optimal volume by
 TOPSIS», without the weights, is impossible to reproduce,== and two studies with different weights
 reach different volumes without either of them being wrong.
 
-Three courses are defensible, and the choice between them depends on how much is known about the
+Four courses are defensible, and the choice between them depends on how much is known about the
 priorities of whoever decides. Equal weights, explicitly declared as an absence of preference, are
 the neutral position. Justified weights, with the reason for each one, are preferable when the
-priorities are known. And SMAA, reporting the range of results instead of a single winner, is the
-most complete course when there is no consensus.
+priorities are known. Objective weights, by the CRITIC method below, let the results set the
+weights when nobody wants to impose a preference. And SMAA, reporting the range of results instead
+of a single winner, is the most complete course when there is no consensus.
+
+---
+
+## Objective weights: CRITIC
+
+CRITIC — *CRiteria Importance Through Intercriteria Correlation*, proposed by Diakoulaki, Mavrotas
+and Papayannakis in 1995 — derives the weights from the decision matrix itself. A criterion
+weighs more when it separates the volumes strongly and when it says something the other criteria
+do not. Each criterion is first rescaled from 0, its worst value observed, to 1, its best, in its
+own direction of preference; then:
+
+```equacao:critic_informacao
+tex: C_{\mathrm{j}} = \sigma_{\mathrm{j}} \, \sum_{\mathrm{k}} \left( 1 - r_{\mathrm{jk}} \right)
+```
+
+```equacao:critic_pesos
+w_j = C_j ÷ Σ C_k
+```
+
+| Symbol | Meaning | Unit |
+| :--- | :--- | :--- |
+| `C_j` | information carried by criterion `j` | dimensionless |
+| `σ_j` | standard deviation of criterion `j` rescaled from 0 to 1, across the volumes: its contrast | dimensionless |
+| `r_jk` | Pearson correlation between the rescaled criteria `j` and `k`; `1 − r_jk` is how much `j` differs from `k` | dimensionless |
+| `w_j` | objective weight of criterion `j`, used in TOPSIS, VIKOR and PROMETHEE II | dimensionless |
+
+A criterion with the same value for every volume carries no information and weighs zero; if no
+criterion varies, the weights are equal. The weights come from the volumes larger than zero, because the
+alternative with no cistern enters with penalised LCOW and payback, which would inflate the
+contrast. They are recomputed from the results at every analysis, and the criterion shares do not
+apply. SMAA keeps drawing its own weights.
+
+**What CRITIC measures, and what it does not.** It measures contrast and independence in the
+results at hand, not importance to anyone. It fits a study with no consensus on the weights that
+does not want to impose a preference, and it is a useful check on declared weights. It has three
+limits. The weights change with the set of volumes evaluated: another grid gives other weights. They
+express nobody's preference, so «objective» means «computed from the data», not «correct». And a
+criterion that varies a lot across the volumes gains weight even if it matters little to the
+decision.
+
+In the tutorial (section {{n:12}}), the payback weighs nothing, because no volume pays back and the
+penalty is the same for all. Reliability and overflow, which move together with the volume and
+against most of the other criteria, take about a fifth of the weight each, and the technical and
+structural dimensions come out heavier than the economic and environmental ones.
+
+**Where CRITIC is chosen.** In the decision tab, the profile «Objective weights (CRITIC), computed
+from the results»: the weight box of each dimension card then shows, read-only, the computed weights
+summed over that dimension, and the criterion shares are hidden. On the command line, `--weights critic`; in the
+project file, `analysis.topsis_weights: "critic"`; in the declarative study, `analise.pesos:
+"critic"`. With `--weight-sensitivity`, the four dimension weights are drawn instead. A study that
+used CRITIC must say so and report the weights it computed (section {{n:13}}).
 
 ---
 
@@ -256,7 +356,8 @@ most complete course when there is no consensus.
 Besides the weighted ranking, the program identifies the winner of the technical, financial and
 environmental dimensions taken alone — the most reliable volume, the one with the shortest payback
 (ties broken by the net saving) and the one with the lowest life-cycle carbon — and reports the three
-separately. They are numbers worth
+separately. Each is a single volume: the choice band applies to the weighted ranking only. They are
+numbers worth
 publishing together, because each one answers a legitimate and different question.
 
 When the three coincide, the recommendation is strong and the decision needs no weighting. When

@@ -10,11 +10,12 @@
 | 8 000 | 99,8 | 2,10 | 4 245 | 37,02 | 14,6 | 59 | 222 | 126,0 |
 | 12 000 | 100,0 | 1,40 | 2 737 | 39,15 | 16,5 | 200 | 310 | 125,7 |
 
-<!-- tabela: Volume vencedor segundo cada critério isolado -->
-| Critério isolado | Volume que vence |
+<!-- tabela: Volume vencedor segundo cada critério isolado, e a faixa de escolha e o maior escore do TOPSIS com 25% em cada eixo -->
+| Critério | Volume |
 | :--- | ---: |
 | maior confiabilidade volumétrica | 12 000 L |
 | menor payback descontado, desempate pelo VPL | 2 000 L |
 | menor custo nivelado da água (LCOW) | 2 000 L |
 | menor CO₂e de ciclo de vida | 2 000 L |
-| **compromisso, 25% em cada eixo** | **2 000 L** |
+| **faixa de escolha do TOPSIS, 25% em cada eixo** | **2 000 a 3 000 L** |
+| maior escore do TOPSIS, 25% em cada eixo | 2 000 L |

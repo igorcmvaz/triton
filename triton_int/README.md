@@ -37,7 +37,9 @@ The regional editions share this engine and the version number, and add data for
   four dimensions: technical (volumetric reliability, storage efficiency), economic (net financial savings,
   levelised cost of water, discounted payback), environmental (life-cycle CO₂e) and structural (dry mass,
   annual overflow). Four dimension weights, 25% each by default, are shared among the criteria by the
-  criterion shares; `--weights t,e,a,s` and `--criterion-shares` on the command line.
+  criterion shares; `--weights t,e,a,s` and `--criterion-shares` on the command line, or `--weights critic`
+  for objective weights computed from the results by the CRITIC method. The result is a choice band — the
+  volumes whose score lies within 5% of the score range of the best (`--score-band`) — not a single volume.
 - **Outputs.** Executive report, environmental audit and technical dossier in PDF; spreadsheet, CAD
   (DXF) and BIM exports; 3D plant and glTF/HTML models of the piping.
 
@@ -50,9 +52,11 @@ examples.
 ## Status of version 0.2.0
 
 **New in 0.2.0.** The multi-criteria decision moves from seven criteria in three dimensions to eight
-criteria in four, and the program calculates the weight of the system. The volume chosen by the multi-criteria
-methods can change: three weights from version 0.1.0 are still accepted (the structural dimension receives their
-mean), seven are refused. To reproduce a study made with 0.1.0, use 0.1.0. See the
+criteria in four, and the program calculates the weight of the system. The weights can also be computed from the
+results by CRITIC, SMAA draws them with 25% expected on each dimension, and the methods report a choice band of
+volumes with similar scores instead of a single «best volume». The volumes the multi-criteria methods favour can
+change: three weights from version 0.1.0 are still accepted (the structural dimension receives their mean), seven
+are refused. To reproduce a study made with 0.1.0, use 0.1.0. See the
 [release notes](docs/NOTAS_DE_LANCAMENTO_0.2.0.md).
 
 **Ready.** The daily water balance, volume sweep, economics (block tariffs, NPV, IRR, payback, LCOW), life-cycle

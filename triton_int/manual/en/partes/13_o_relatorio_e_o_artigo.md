@@ -101,8 +101,13 @@ method.
   volume» means nothing.
 - If it came from multi-criteria: **the four dimension weights and the criterion shares**
   (or the eight criterion weights) and the method, TOPSIS or SMAA-VIKOR.
-- If the volume adopted is not the one the multi-criteria analysis indicated, **both
-  volumes**, and the criterion that decided.
+- If the weights came from **CRITIC**, say so and report the weights it computed, at least
+  summed per dimension: they belong to that set of volumes and do not carry over to another.
+- **The choice band and its tolerance**, not a single volume: «volumes from A to B L have
+  similar TOPSIS scores (within 5% of the score range)». The volume with the highest score
+  can follow as information.
+- If the volume adopted lies outside the band the multi-criteria analysis gave, **both**:
+  the volume and the band, and the criterion that decided.
 - The version of the program: the eight criteria are those of version 0.2.0, and a study
   made with version 0.1.0 used seven.
 - That the TOPSIS normalisation is a **variant** with a shift by `x − min(x)`.
@@ -151,8 +156,9 @@ For our project, the method would read like this:
 > from the marginal-gain criterion with a 1 %/m³ threshold. A TOPSIS multi-criteria
 > analysis with eight criteria in four dimensions (technical, economic, environmental and
 > structural, 25% each, with equal criterion shares), with normalisation in a variant of
-> Hwang and Yoon shifted by x − min(x), indicated 2,000 L instead; 4,000 L was kept for its
-> higher volumetric reliability and lower overflow, at a higher levelised cost of water.
+> Hwang and Yoon shifted by x − min(x), gave instead a choice band of 2,000 to 3,000 L
+> (volumes within 5% of the score range from the highest score, at 2,000 L); 4,000 L was kept
+> for its higher volumetric reliability and lower overflow, at a higher levelised cost of water.
 > The points of use are supplied by pumping to a 1,000 L upper tank,
 > with a 100 L trigger level, a 0.5 hp pump, a manometric head of 12 m and the program's
 > default motor efficiency. The economic analysis used the New York City Water Board
@@ -163,7 +169,7 @@ For our project, the method would read like this:
 > adopted the boundary of water delivered, illustrative emission factors of 0.40 kg
 > CO₂e/kWh and 0.50 kg CO₂e/m³, a polyethylene tank and a service life of 20 years.
 
-That is about two hundred and fifty words, and they are the difference between a study
+That is about three hundred and fifty words, and they are the difference between a study
 another researcher can repeat and a loose number nobody can check. The length is modest
 compared with what is gained: a method written this way answers in advance most of the
 questions a reviewer would ask.
