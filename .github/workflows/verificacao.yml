@@ -1,10 +1,15 @@
 name: Verificação
 
-# Um repositório, três edições (triton_brl, triton_int, triton_ibe). Cada edição roda a
-# própria suíte, na própria pasta. A suíte numérica roda sem a stack gráfica (ver
-# tests/conftest.py). A matriz com e sem `numba` existe porque o programa alterna entre
-# dois kernels de balanço hídrico conforme a biblioteca esteja instalada: sem ela, a
-# paridade entre eles só seria verificada sob demanda.
+# Um repositório, três edições (triton_brl, triton_int, triton_ibe). Os jobs vêm em três grupos,
+# pelo prefixo do nome:
+#
+#   Núcleo / …           a suíte numérica de cada edição, sem a stack gráfica (ver tests/conftest.py),
+#                        com e sem `numba` (o programa alterna entre dois kernels de balanço hídrico
+#                        conforme a biblioteca esteja instalada).
+#   Interface Linux / …  a suíte essencial da interface (tests/test_essencial_interface.py) com Qt, em
+#                        Ubuntu 22.04: a mesma base do AppImage, que precisa rodar em distribuições
+#                        com glibc 2.35 ou mais nova.
+#   Dados / …            a base CLIMBra versionada e o tamanho dos arquivos rastreados.
 
 on:
   push:
@@ -23,7 +28,7 @@ concurrency:
 
 jobs:
   nucleo:
-    name: ${{ matrix.dir }} (${{ matrix.kernel }}, Python ${{ matrix.python }})
+    name: Núcleo / ${{ matrix.dir }} (${{ matrix.kernel }}, Python ${{ matrix.python }})
     runs-on: ubuntu-latest
     # Limite folgado: a suíte leva de 3 a 15 minutos por job e uma fonte externa lenta
     # não pode prender a verificação por horas.
@@ -82,12 +87,68 @@ jobs:
       - name: Suíte de verificação
         run: python -m pytest -m "not replicacao and not rede" --durations=15
 
+  # A interface em Linux, sem tela (Qt offscreen). Ubuntu 22.04 de propósito: é a base do AppImage.
+  # As bibliotecas do apt são as que o Qt 6 (plataforma xcb) e o QtWebEngine (Chromium) pedem e que
+  # a imagem do runner não traz; fonts-noto-cjk cobre os textos em chinês.
+  interface-linux:
+    name: Interface Linux / ${{ matrix.dir }} (Ubuntu 22.04, Python 3.13)
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: ${{ matrix.dir }}
+    env:
+      TRITON_EDITION: ${{ fromJSON('{"triton_brl":"BRL","triton_int":"INT","triton_ibe":"IBE"}')[matrix.dir] }}
+      QT_QPA_PLATFORM: offscreen
+      QTWEBENGINE_CHROMIUM_FLAGS: --no-sandbox
+    strategy:
+      fail-fast: false
+      matrix:
+        dir: [triton_brl, triton_int, triton_ibe]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ${{ matrix.dir }}
+
+      - name: Bibliotecas do sistema para o Qt
+        working-directory: .
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends \
+            libegl1 libgl1 libxkbcommon0 libxkbcommon-x11-0 libxcb-cursor0 libxcb-icccm4 \
+            libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-shape0 \
+            libxcb-xinerama0 libxcb-xfixes0 libdbus-1-3 libfontconfig1 libnss3 libxcomposite1 \
+            libxdamage1 libxrandr2 libxtst6 libasound2 fonts-noto-cjk
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Instalar o programa e a interface
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install reportlab pypdf pytest
+
+      - name: Qt carrega no Linux
+        run: |
+          python - <<'PY'
+          from PySide6.QtWidgets import QApplication
+          import PySide6, PySide6.QtWebEngineWidgets  # noqa: F401
+          app = QApplication([])
+          print("PySide6", PySide6.__version__, "plataforma", app.platformName())
+          PY
+
+      - name: Suíte essencial da interface
+        run: python -m pytest tests/test_essencial_interface.py -p no:cacheprovider -rfE --durations=15
+
   # A base CLIMBra (um banco por modelo, data/climbra_<modelo>.db) está no Git. Este job confere que
   # os 19 arquivos estão íntegros (SHA-256 do manifesto data/climbra_partes.json, contagem de séries) e
   # que nenhum passa do limite do projeto (50 MiB; o do GitHub é 100 MiB). Sem script de apoio: é o
   # teste test_as_partes_reais_batem_com_o_manifesto, do mesmo arquivo que cobre o leitor das partes.
   base-climatica:
-    name: Base CLIMBra (BRL)
+    name: Dados / Base CLIMBra (BRL)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     defaults:
@@ -114,7 +175,7 @@ jobs:
   # Roda scripts/verificar_tamanhos.py, que imprime o resumo por pasta e falha se algum arquivo passar.
   # Checkout completo (sem sparse): o script mede os arquivos da árvore inteira, as três edições.
   tamanhos:
-    name: Tamanho dos arquivos rastreados
+    name: Dados / Tamanho dos arquivos rastreados
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
