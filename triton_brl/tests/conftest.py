@@ -294,5 +294,30 @@ def qapp():
 
     app = QApplication.instance()
     if app is None:
+        # Como no main.py: o QtWebEngine (pré-visualização e PDF dos laudos) exige o contexto OpenGL
+        # compartilhado, definido antes de a aplicação existir.
+        from PySide6.QtCore import QCoreApplication, Qt
+        QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
         app = QApplication(sys.argv)
     yield app
+    _encerrar_o_qt(app)
+
+
+def _encerrar_o_qt(app) -> None:
+    """Destrói as janelas e as páginas do QtWebEngine antes de o Python encerrar.
+
+    Uma sessão de testes cria centenas de janelas. No Linux, as que sobravam eram destruídas na
+    finalização do interpretador, depois do QApplication, e o processo caía com falha de
+    segmentação ou erro de barramento («shared QObject was deleted directly») com todos os testes
+    aprovados. O programa em uso não tem o problema: fecha a janela e sai com código 0.
+    """
+    import gc
+    from PySide6.QtCore import QCoreApplication, QEvent
+
+    for janela in app.topLevelWidgets():
+        janela.close()
+        janela.deleteLater()
+    for _ in range(3):
+        QCoreApplication.sendPostedEvents(None, QEvent.Type.DeferredDelete)
+        app.processEvents()
+        gc.collect()
